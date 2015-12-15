@@ -1,0 +1,4 @@
+- hosts: all
+  sudo: yes
+  roles:
+    - { role: nodesource.node, nodejs_version: '4.2' }
