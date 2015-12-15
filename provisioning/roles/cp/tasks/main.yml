@@ -1,2 +1,0 @@
-# - name: cd to project dir on login
-#   command: /bin/echo "cd /vagrant" >> /home/vagrant/.bashrc 
