@@ -10,8 +10,8 @@
 
 - name: setup postgres db
   sudo_user: postgres
-  postgresql_db: name=cp
+  postgresql_db: name=project-m
 
 - name: setup postgres
   sudo_user: postgres
-  postgresql_user: db=cp name=cp
+  postgresql_user: db=project-m name=project-m
