@@ -14,4 +14,4 @@
 
 - name: setup postgres
   sudo_user: postgres
-  postgresql_user: db=project-m name=project-m
+  postgresql_user: db=project-m name=project-m role_attr_flags=NOSUPERUSER,CREATEDB,LOGIN password=project-m priv=ALL
