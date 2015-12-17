@@ -2,11 +2,14 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Member = sequelize.define('Member', {
-      email: DataTypes.STRING,
-      primaryKey: true
+    email: {type: DataTypes.STRING, primaryKey: true},
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    dateOfBirth: DataTypes.DATE
   }, {
     classMethods: {
       associate: function(models) {
+        Member.hasMany(models.Address)
         // associations can be defined here
       }
     }
