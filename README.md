@@ -1,6 +1,6 @@
-#Project-M
+# Project-M
 
-##Dev setup
+## Dev setup
 
 0. Install [vagrant](https://www.vagrantup.com/downloads.html)
 0. Install [ansible](https://docs.ansible.com/ansible/intro_installation.html)
@@ -28,7 +28,18 @@
 
         ./node_modules/sequelize-cli/bin/sequelize db:migrate
 
-
 0. Happy hacking!
 
+## Optional setup
 
+### WebStorm
+
+0. Install [webstorm](https://www.jetbrains.com/webstorm/download/)
+
+0. Open preferences -> Languages and frameworks
+
+0. Change javascript to EXMAScript 6
+
+0. Setup run configuration to node and "javascript/file" to be bin/www
+
+0. Optionally install vagrant plugin
