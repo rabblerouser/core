@@ -1,6 +1,6 @@
-*** Project-M
+###Project-M
 
-** Dev setup
+##Dev setup
 
 0. Install [vagrant](https://www.vagrantup.com/downloads.html)
 0. Install [ansible](https://docs.ansible.com/ansible/intro_installation.html)
