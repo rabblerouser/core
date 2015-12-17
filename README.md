@@ -24,6 +24,10 @@
 
         npm install
 
+0. Migrate the database
+
+        ./node_modules/sequelize-cli/bin/sequelize db:migrate
+
 
 0. Happy hacking!
 
