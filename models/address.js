@@ -1,11 +1,14 @@
 'use strict';
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define('Address', {
-    country: DataTypes.STRING
+    country: DataTypes.STRING,
+    address: DataTypes.STRING,
+    suburb: DataTypes.STRING,
+    state: DataTypes.STRING,
+    postcode: {type: DataTypes.INTEGER, validate: {len: [4,4]}}
   }, {
     classMethods: {
-      associate: function(models) {
-        // associations can be defined here
+      associate: (models) => {
         Address.belongsTo(models.Member, {
           foreignKey: {
             allowNull: false

@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   var Member = sequelize.define('Member', {
     email: {type: DataTypes.STRING, primaryKey: true},
     firstName: DataTypes.STRING,
@@ -8,9 +8,9 @@ module.exports = function(sequelize, DataTypes) {
     dateOfBirth: DataTypes.DATE
   }, {
     classMethods: {
-      associate: function(models) {
-        Member.hasMany(models.Address)
-        // associations can be defined here
+      associate: (models) => {
+        Member.hasOne(models.Address, {as: 'residentialAddress'});
+        Member.hasOne(models.Address, {as: 'postalAddress'});
       }
     }
   });
