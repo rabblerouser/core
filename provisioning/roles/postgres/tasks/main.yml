@@ -15,3 +15,12 @@
 - name: setup postgres
   sudo_user: postgres
   postgresql_user: db=project-m name=project-m role_attr_flags=NOSUPERUSER,CREATEDB,LOGIN password=project-m priv=ALL
+
+- name: setup postgres db
+  sudo_user: postgres
+  postgresql_db: name=project-m_test
+
+- name: setup postgres
+  sudo_user: postgres
+  postgresql_user: db=project-m_test name=project-m priv=ALL
+
