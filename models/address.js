@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define('Address', {
     country: DataTypes.STRING,
@@ -9,11 +10,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: (models) => {
-        Address.belongsTo(models.Member, {
-          foreignKey: {
-            allowNull: false
-          }
-        });
       }
     }
   });

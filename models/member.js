@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: (models) => {
-        Member.hasOne(models.Address, {as: 'residentialAddress'});
-        Member.hasOne(models.Address, {as: 'postalAddress'});
+        models.Address.hasOne(Member, {foreignKey: "postalAddress"});
+        models.Address.hasOne(Member, {foreignKey: "residentialAddress"});
       }
     }
   });
