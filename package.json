@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "pretest": "NODE_ENV=test node_modules/sequelize-cli/bin/sequelize db:migrate",
+    "test": "NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -18,5 +20,8 @@
     "sequelize": "^3.14.2",
     "sequelize-cli": "^2.2.1",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1"
   }
 }
