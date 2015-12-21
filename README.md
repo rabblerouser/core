@@ -1,5 +1,7 @@
 # Project-M
 
+[![Build Status](https://snap-ci.com/ppau/project-m/branch/master/build_image)](https://snap-ci.com/ppau/project-m/branch/master)
+
 ## Dev setup
 
 0. Install [vagrant](https://www.vagrantup.com/downloads.html)
