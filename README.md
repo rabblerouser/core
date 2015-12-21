@@ -12,7 +12,7 @@
 
 0. Start the vagrant vm
 
-        vagrant up
+        vagrant up && vagrant provision
 
 0. Log onto the vm
 
