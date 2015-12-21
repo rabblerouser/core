@@ -1,16 +1,12 @@
 'use strict';
+
+require("../support/specHelper");
+
 var models = require("../../models"),
   Address = models.Address,
   Member = models.Member;
 
-
 describe("Member", () => {
-  beforeEach((done) => {
-    Address.truncate({cascade: true}).then(() => {
-      Member.truncate({cascade: true}).nodeify(done);
-    });
-  });
-
   it("persists in the database when created", (done) => {
     Address.create({
       address: "123 fake st",
