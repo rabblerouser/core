@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+  fieldset
+    legend Details of Applicant
+    form(method='post', action='')
+      label(for="email") Email
+      input(type="text", id="email")
+      label(for="name") Name
+      input(type="text", id="name")
+      label(for="address") Address
+      input(type="text", id="address")
+      label(for="dob") Date of Birth
+      input(type="text", id="dob")
+      label(for="phone") Phone Number
+      input(type="text", id="phone")
+      input(type="submit", value="Join Our Party")
