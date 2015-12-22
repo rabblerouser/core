@@ -11,7 +11,8 @@
         "password": "project-m",
         "database": "project-m_test",
         "host": "127.0.0.1",
-        "dialect": "postgresql"
+        "dialect": "postgresql",
+        "logging": false
     },
     "staging": {
         "use_env_variable": "DATABASE_URL"
