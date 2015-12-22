@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {type: DataTypes.STRING, primaryKey: true},
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    dateOfBirth: DataTypes.DATE
+    dateOfBirth: DataTypes.DATEONLY
   }, {
     classMethods: {
       associate: (models) => {
