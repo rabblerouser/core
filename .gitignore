@@ -6,3 +6,4 @@ pids
 node_modules
 npm-debug.log
 .vagrant
+.idea/
