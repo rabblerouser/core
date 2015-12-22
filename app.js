@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var sassMiddleware = require('node-sass-middleware');
+var neat = require('node-neat');
 var app = express();
 
 // view engine setup
@@ -22,7 +23,8 @@ app.use(sassMiddleware({
       src: path.join(__dirname, 'public'),
       dest: path.join(__dirname, 'public'),
       debug: true,
-      outputStyle: 'compressed'
+      outputStyle: 'compressed',
+      includePaths: neat.includePaths
     }), express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
