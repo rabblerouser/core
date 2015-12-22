@@ -15,6 +15,7 @@
     "express": "~4.13.1",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
+    "node-neat": "^1.7.2",
     "node-sass-middleware": "0.8.0",
     "pg": "^4.4.3",
     "pg-hstore": "^2.3.2",
@@ -23,7 +24,6 @@
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
-    "jasmine": "^2.4.1",
-    "node-neat": "^1.7.2"
+    "jasmine": "^2.4.1"
   }
 }
