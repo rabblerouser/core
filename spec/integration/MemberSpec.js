@@ -21,6 +21,7 @@ describe("Member", () => {
                 email: "test@test.com",
                 firstName: "Dark",
                 lastName: "Knight",
+                phoneNumber: "1234567890",
                 dateOfBirth: "2011-12-13",
                 residentialAddress: address.dataValues.id,
                 postalAddress: address.dataValues.id
@@ -32,6 +33,7 @@ describe("Member", () => {
                     expect(memberDataValues.firstName).toBe("Dark");
                     expect(memberDataValues.lastName).toBe("Knight");
                     expect(memberDataValues.email).toBe("test@test.com");
+                    expect(memberDataValues.phoneNumber).toBe("1234567890");
                     expect(moment(memberDataValues.dateOfBirth).format("YYYY-MM-DD")).toBe("2011-12-13");
 
                     done();
