@@ -1,21 +1,32 @@
 'use strict';
 
-const moment = require("moment");
-
 var models = require("../models"),
     Member = models.Member,
     Address = models.Address;
 
 
 var newMemberHandler = (req, res, next) => {
-    let newMember = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        dateOfBirth: Date.parse(req.body.dateOfBirth)
+    let newAddress = {
+        address: req.body.residentialAddress.address,
+        suburb: req.body.residentialAddress.suburb,
+        postcode: req.body.residentialAddress.postcode,
+        state: req.body.residentialAddress.state,
+        country: req.body.residentialAddress.country
     };
 
-    Member.create(newMember);
-    next();
+    Address.findOrCreate({where: newAddress, defaults: newAddress}).then((addressId) => {
+        let newMember = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            phoneNumber: req.body.phoneNumber,
+            dateOfBirth: Date.parse(req.body.dateOfBirth),
+            residentialAddress: addressId,
+            postalAddress: addressId
+        };
+        Member.create(newMember).then(next);
+    });
+
 };
 
 module.exports = {

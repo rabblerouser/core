@@ -1,6 +1,7 @@
 'use strict';
 
 const sinon = require("sinon");
+const Q = require("q");
 require("jasmine-sinon");
 
 var models = require("../../models"),
@@ -15,5 +16,6 @@ beforeEach((done) => {
 
 module.exports = {
     sinon: sinon,
-    models: models
+    models: models,
+    Q: Q
 };
