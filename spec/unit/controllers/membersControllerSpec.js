@@ -8,84 +8,103 @@ const specHelper = require("../../support/specHelper"),
 var membersController = require("../../../controllers/membersController");
 
 describe("membersController", () => {
-    let next,
-        newMemberHandler,
-        goodRequest,
-        addressStub, memberStub,
-        newAddress,
-        addressPromise, memberPromise;
+    describe("newMemberHandler", () => {
+        const addressId = 1;
 
-    beforeEach((done) => {
-        newMemberHandler = membersController.newMemberHandler;
-        memberStub = sinon.stub(models.Member, 'create');
-        addressStub = sinon.stub(models.Address, 'findOrCreate');
+        let next,
+            newMemberHandler,
+            goodRequest, res,
+            addressStub, memberStub, statusStub, responseJsonStub,
+            newAddress,
+            addressPromise, memberPromise;
 
-        newAddress = {
-            address: "221b Baker St",
-            suburb: "London",
-            country: "England",
-            state: "VIC",
-            postcode: "1234"
-        };
+        beforeEach((done) => {
+            newMemberHandler = membersController.newMemberHandler;
+            memberStub = sinon.stub(models.Member, 'create');
+            addressStub = sinon.stub(models.Address, 'findOrCreate');
 
-        goodRequest = {
-            body: {
-                firstName: "Sherlock",
-                lastName: "Holmes",
-                email: "sherlock@holmes.co.uk",
-                dateOfBirth: "22 December 1900",
-                phoneNumber: "0396291146",
-                residentialAddress: newAddress,
-                postalAddress: newAddress
-            }
-        };
+            newAddress = {
+                address: "221b Baker St",
+                suburb: "London",
+                country: "England",
+                state: "VIC",
+                postcode: "1234"
+            };
 
-        addressPromise = Q.defer();
-        addressStub
-            .withArgs({where: newAddress, defaults: newAddress})
-            .returns(addressPromise.promise);
-        memberPromise = Q.defer();
-        memberStub.returns(memberPromise.promise);
+            goodRequest = {
+                body: {
+                    firstName: "Sherlock",
+                    lastName: "Holmes",
+                    email: "sherlock@holmes.co.uk",
+                    dateOfBirth: "22 December 1900",
+                    phoneNumber: "0396291146",
+                    residentialAddress: newAddress,
+                    postalAddress: newAddress
+                }
+            };
 
-        next = () => {};
+            addressPromise = Q.defer();
+            addressPromise.resolve(addressId);
+            addressStub
+                .withArgs({where: newAddress, defaults: newAddress})
+                .returns(addressPromise.promise);
 
-        done();
-    });
+            memberPromise = Q.defer();
+            memberPromise.resolve();
+            memberStub.returns(memberPromise.promise);
 
-    afterEach((done) => {
-        models.Member.create.restore();
-        models.Address.findOrCreate.restore();
+            next = () => {};
+            statusStub = sinon.stub();
+            responseJsonStub = sinon.stub();
+            statusStub.returns({json: responseJsonStub});
+            res = {status: statusStub};
 
-        done();
-    });
-
-    it("calls next", (done) => {
-        next = sinon.stub();
-        newMemberHandler(goodRequest, {}, next);
-
-        addressPromise.resolve(1);
-        addressPromise.promise.then( () => {
-
-            memberPromise.resolve(1);
-            memberPromise.promise.then(() => {
-                expect(next).toHaveBeenCalled();
-            }).nodeify(done);
+            done();
         });
-    });
 
-    it("creates a new member", (done) => {
-        newMemberHandler(goodRequest, {}, next);
-        addressPromise.resolve(1);
-        addressPromise.promise.then(() => {
-            expect(models.Member.create).toHaveBeenCalledWith({
-                firstName: "Sherlock",
-                lastName: "Holmes",
-                email: "sherlock@holmes.co.uk",
-                dateOfBirth: Date.parse("22 December 1900"),
-                phoneNumber: "0396291146",
-                residentialAddress: 1,
-                postalAddress: 1
+        afterEach((done) => {
+            models.Member.create.restore();
+            models.Address.findOrCreate.restore();
+
+            done();
+        });
+
+        it("calls next", (done) => {
+            next = sinon.stub();
+            newMemberHandler(goodRequest, res, next);
+
+            addressPromise.promise.then(() => {
+                memberPromise.promise.then(() => {
+                    expect(next).toHaveBeenCalled();
+                }).nodeify(done);
             });
-        }).nodeify(done);
+        });
+
+        describe("when it receives a good request", () => {
+            it("creates a new member", (done) => {
+                newMemberHandler(goodRequest, res, next);
+                addressPromise.promise.then(() => {
+                    expect(models.Member.create).toHaveBeenCalledWith({
+                        firstName: "Sherlock",
+                        lastName: "Holmes",
+                        email: "sherlock@holmes.co.uk",
+                        dateOfBirth: Date.parse("22 December 1900"),
+                        phoneNumber: "0396291146",
+                        residentialAddress: addressId,
+                        postalAddress: addressId
+                    });
+                }).nodeify(done);
+            });
+
+            it("responds with success", (done) => {
+                newMemberHandler(goodRequest, res, next);
+                addressPromise.promise.then(() => {
+                    memberPromise.promise.then(() => {
+                        expect(res.status).toHaveBeenCalledWith(200);
+                        expect(responseJsonStub).toHaveBeenCalledWith(null);
+                    }).nodeify(done);
+                });
+            });
+        });
     });
 });

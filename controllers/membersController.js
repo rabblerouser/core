@@ -24,7 +24,10 @@ var newMemberHandler = (req, res, next) => {
             residentialAddress: addressId,
             postalAddress: addressId
         };
-        Member.create(newMember).then(next);
+        Member.create(newMember).then( () => {
+            res.status(200).json(null);
+            next();
+        });
     });
 
 };
