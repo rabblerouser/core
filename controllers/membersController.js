@@ -6,6 +6,11 @@ var models = require("../models"),
 
 
 var newMemberHandler = (req, res, next) => {
+    let dbError = (error) => {
+        res.status(500).json({error: error});
+        next();
+    };
+
     let newAddress = {
         address: req.body.residentialAddress.address,
         suburb: req.body.residentialAddress.suburb,
@@ -27,9 +32,10 @@ var newMemberHandler = (req, res, next) => {
         Member.create(newMember).then(() => {
             res.status(200).json(null);
             next();
-        });
-    });
+        }).catch(dbError);
+    }).catch(dbError);
 };
+
 
 module.exports = {
     newMemberHandler: newMemberHandler

@@ -1,9 +1,9 @@
 'use strict';
 
 const specHelper = require("../../support/specHelper"),
-    models = specHelper.models,
-    sinon = specHelper.sinon,
-    Q = specHelper.Q;
+      models = specHelper.models,
+      sinon = specHelper.sinon,
+      Q = specHelper.Q;
 
 var membersController = require("../../../controllers/membersController");
 
@@ -113,6 +113,48 @@ describe("membersController", () => {
                         expect(res.status).toHaveBeenCalledWith(200);
                         expect(responseJsonStub).toHaveBeenCalledWith(null);
                     }).nodeify(done);
+                });
+            });
+        });
+
+        describe("an error when saving the address to the databse", () => {
+            it("responds with a server error", (done) => {
+                let errorMessage = "Yes, we have no bananas.";
+                addressPromise.reject(errorMessage);
+
+                var subjectUnderTest = Q.fbind((goodRequest, res, next) => {
+                    return newMemberHandler(goodRequest, res, next);
+                });
+
+                subjectUnderTest(goodRequest, res, next).then(() => {
+                    addressPromise.promise.fail(() => {
+                        expect(models.Member.create).not.toHaveBeenCalled();
+                        expect(next).toHaveBeenCalled();
+                        expect(res.status).toHaveBeenCalledWith(500);
+                        expect(responseJsonStub).toHaveBeenCalledWith({error: errorMessage});
+                    }).nodeify(done);
+                });
+            });
+        });
+
+        describe("an error when saving the member to the databse", () => {
+            it("responds with a server error", (done) => {
+                let errorMessage = "Seriously, we still don't have any damn bananas.";
+                addressPromise.resolve(addressFromDb);
+                memberPromise.reject(errorMessage);
+
+                var subjectUnderTest = Q.fbind((goodRequest, res, next) => {
+                    return newMemberHandler(goodRequest, res, next);
+                });
+
+                subjectUnderTest(goodRequest, res, next).then(() => {
+                    addressPromise.promise.then(() => {
+                        memberPromise.promise.fail(() => {
+                            expect(next).toHaveBeenCalled();
+                            expect(res.status).toHaveBeenCalledWith(500);
+                            expect(responseJsonStub).toHaveBeenCalledWith({error: errorMessage});
+                        }).nodeify(done);
+                    });
                 });
             });
         });
