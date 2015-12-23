@@ -14,22 +14,21 @@ var newMemberHandler = (req, res, next) => {
         country: req.body.residentialAddress.country
     };
 
-    Address.findOrCreate({where: newAddress, defaults: newAddress}).then((addressId) => {
+    Address.findOrCreate({where: newAddress, defaults: newAddress}).then((addresses) => {
         let newMember = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
             phoneNumber: req.body.phoneNumber,
-            dateOfBirth: Date.parse(req.body.dateOfBirth),
-            residentialAddress: addressId,
-            postalAddress: addressId
+            dateOfBirth: req.body.dateOfBirth,
+            residentialAddress: addresses[0].dataValues.id,
+            postalAddress: addresses[0].dataValues.id
         };
-        Member.create(newMember).then( () => {
+        Member.create(newMember).then(() => {
             res.status(200).json(null);
             next();
         });
     });
-
 };
 
 module.exports = {

@@ -10,6 +10,13 @@ var membersController = require("../../../controllers/membersController");
 describe("membersController", () => {
     describe("newMemberHandler", () => {
         const addressId = 1;
+        const addressFromDb = [
+            {
+                dataValues: {
+                    id: addressId
+                }
+            }
+        ];
 
         let next,
             newMemberHandler,
@@ -44,16 +51,14 @@ describe("membersController", () => {
             };
 
             addressPromise = Q.defer();
-            addressPromise.resolve(addressId);
             addressStub
                 .withArgs({where: newAddress, defaults: newAddress})
                 .returns(addressPromise.promise);
 
             memberPromise = Q.defer();
-            memberPromise.resolve();
             memberStub.returns(memberPromise.promise);
 
-            next = () => {};
+            next = sinon.stub();
             statusStub = sinon.stub();
             responseJsonStub = sinon.stub();
             statusStub.returns({json: responseJsonStub});
@@ -69,18 +74,23 @@ describe("membersController", () => {
             done();
         });
 
-        it("calls next", (done) => {
-            next = sinon.stub();
-            newMemberHandler(goodRequest, res, next);
-
-            addressPromise.promise.then(() => {
-                memberPromise.promise.then(() => {
-                    expect(next).toHaveBeenCalled();
-                }).nodeify(done);
-            });
-        });
-
         describe("when it receives a good request", () => {
+            beforeEach((done) => {
+                addressPromise.resolve(addressFromDb);
+                memberPromise.resolve();
+                done();
+            });
+
+            it("calls next", (done) => {
+                newMemberHandler(goodRequest, res, next);
+
+                addressPromise.promise.then(() => {
+                    memberPromise.promise.then(() => {
+                        expect(next).toHaveBeenCalled();
+                    }).nodeify(done);
+                });
+            });
+
             it("creates a new member", (done) => {
                 newMemberHandler(goodRequest, res, next);
                 addressPromise.promise.then(() => {
@@ -88,7 +98,7 @@ describe("membersController", () => {
                         firstName: "Sherlock",
                         lastName: "Holmes",
                         email: "sherlock@holmes.co.uk",
-                        dateOfBirth: Date.parse("22 December 1900"),
+                        dateOfBirth: "22 December 1900",
                         phoneNumber: "0396291146",
                         residentialAddress: addressId,
                         postalAddress: addressId
