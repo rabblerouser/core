@@ -2,7 +2,8 @@
 
 var models = require("../models"),
     Member = models.Member,
-    Address = models.Address;
+    Address = models.Address,
+    memberService = require("../services/memberService");
 
 
 var newMemberHandler = (req, res, next) => {
@@ -27,25 +28,23 @@ var newMemberHandler = (req, res, next) => {
         country: req.body.postalAddress.country
     };
 
-    Address.findOrCreate({where: residentialAddress, defaults: residentialAddress}).then((residentialAddresses) => {
-        Address.findOrCreate({where: postalAddress, defaults: postalAddress}).then( (postalAddresses) => {
-            let newMember = {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                phoneNumber: req.body.phoneNumber,
-                dateOfBirth: req.body.dateOfBirth,
-                residentialAddress: residentialAddresses[0].dataValues.id,
-                postalAddress: postalAddresses[0].dataValues.id
-            };
-            Member.create(newMember).then(() => {
-                res.status(200).json(null);
-                next();
-            }).catch(dbError);
-        }).catch(dbError);
-    }).catch(dbError);
-};
+    let newMember = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        phoneNumber: req.body.phoneNumber,
+        dateOfBirth: req.body.dateOfBirth,
+        residentialAddress: residentialAddress,
+        postalAddress: postalAddress
+    };
 
+    memberService.createMember(newMember)
+        .then(() => {
+            res.status(200).json(null);
+            next();
+        })
+        .catch(dbError);
+};
 
 module.exports = {
     newMemberHandler: newMemberHandler
