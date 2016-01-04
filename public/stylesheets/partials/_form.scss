@@ -17,4 +17,34 @@
     color: $blue-darker;
   }
 
+  .info-box {
+    margin-top: 25px;
+    background-color: white;
+    border: 2px solid $green;
+    padding: 0px 15px;
+  }
+
+  .info-box-header {
+    color: $green;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid $green;
+    font-weight: bold;
+  }
+
+  .info-box-body {
+    padding: 15px 0px;
+    font-size: 12px;
+  }
+
+  input[type="radio"]{
+    margin-top: 15px;
+  }
+
+  input[type="submit"]{
+    margin-top: 15px;
+  }
+
+
+
 }

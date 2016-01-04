@@ -10,6 +10,10 @@ router.get('/members/new', function(req, res, next) {
   res.render('members/new', { title: 'New Member' });
 });
 
+router.get('/members/eligibility', function(req, res, next) {
+    res.render('members/eligibility', {title: 'Eligibility'});
+});
+
 router.post("/members", membersController.newMemberHandler);
 
 module.exports = router;
