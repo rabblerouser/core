@@ -41,7 +41,7 @@ div.container {
     text-align: center;
     width: 15%;
 
-    &::before {
+    &::after {
       background: $white;
       border: 5px solid $grey-light;
       border-radius: 50%;
@@ -58,11 +58,11 @@ div.container {
       z-index: 99;
     }
 
-    &::after {
+    &::before {
       background: $grey-light;
       content: '';
       height: 5px;
-      left: 50%;
+      left: -50%;
       position: absolute;
       top: -35px;
       width: 100%;
@@ -74,65 +74,67 @@ div.container {
     color: $blue-darker;
     font-weight: bold;
 
-    &::before {
+    &::after {
       background: $white;
       border: 5px solid $blue;
       color: $blue;
       z-index: 99999;
      }
+
+    &::before {
+      background: linear-gradient(to right, $green, $blue);
+    }
   }
 
   .visited {
     background: $white;
     color: $green-darker;
-    z-index: 99999;
 
-    &::before {
+    &::after {
       background: $white;
       border: 5px solid $green;
       color: $green;
       z-index: 99999;
     }
 
-    &::after {
+    &::before {
       background: $green;
-      content: '';
-      height: 5px;
-      left: 50%;
-      position: absolute;
-      top: -35px;
-      width: 100%;
-      z-index: 99;
     }
+  }
+}
+
+.active + .unvisited {
+  &::before {
+    background: linear-gradient(to right, $blue, $grey-light);
   }
 }
 
 li {
   &:nth-child(1) {
-    &::before {
+    &::after {
       content: '1';
+    }
+
+    &::before {
+      display: none;
     }
   }
 
   &:nth-child(2) {
-    &::before {
+    &::after {
       content: '2';
     }
   }
 
   &:nth-child(3) {
-    &::before {
+    &::after {
       content: '3';
     }
   }
 
   &:nth-child(4) {
-    &::before {
-      content: '4';
-    }
-
     &::after {
-      display: none;
+      content: '4';
     }
   }
 }
