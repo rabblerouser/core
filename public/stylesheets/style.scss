@@ -1,13 +1,12 @@
-@import "bourbon";
-@import "base/base";
-@import "partials/layout";
-@import "neat";
+@import 'bourbon';
+@import 'base/base';
+@import 'partials/layout';
+@import 'neat';
 
 $grey-light: #e9ebec;
 $grey-darker: #999898;
 $blue: #4da8d4;
-$blue-darker:#0073AE;
-
+$blue-darker:#0073ae;
 
 div.container {
   @include outer-container(100%);
@@ -35,9 +34,9 @@ div.container {
   .label {
     border: 5px solid $grey-light;
     border-radius: 50%;
+    color: $grey-darker;
     display: inline-block;
     font-size: 25px;
-    color: $grey-darker;
     font-weight: bold;
     height: 50px;
     width: 50px;
@@ -50,8 +49,8 @@ div.container {
     }
 
     &.active {
-      color: $blue;
       border: 5px solid $blue;
+      color: $blue;
     }
   }
 
