@@ -14,6 +14,17 @@ beforeEach((done) => {
     });
 });
 
+global.finishSupertest = (done) => {
+    return (err) => {
+        if (err) {
+            done.fail(err);
+        }
+        else {
+            done();
+        }
+    };
+};
+
 module.exports = {
     sinon: sinon,
     models: models,
