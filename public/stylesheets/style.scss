@@ -1,12 +1,9 @@
-@import 'bourbon';
-@import 'base/base';
-@import 'partials/layout';
-@import 'neat';
-
-$grey-light: #e9ebec;
-$grey-darker: #999898;
-$blue: #4da8d4;
-$blue-darker:#0073ae;
+@import "bourbon";
+@import "base/base";
+@import "partials/layout";
+@import "neat";
+@import "partials/local-variables";
+@import "partials/form";
 
 div.container {
   @include outer-container(100%);
