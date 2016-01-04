@@ -26,11 +26,31 @@
 
         npm install
 
-0. Migrate the database
+0. Run the tests
+
+        npm test
+
+0. Start the server
+
+        npm start
+
+
+### Utility scripts
+
+0. Migrate the database (run automatically as part and npm start or npm test)
 
         ./node_modules/sequelize-cli/bin/sequelize db:migrate
 
-0. Happy hacking!
+0. Run a specific test
+
+        NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js spec/integration/membersSpec.js
+
+0. Run smoke tests against an external target
+
+        NODE_ENV=test INSTANCE_URL=http://myinstance.mydomain.com node --harmony node_modules/jasmine/bin/jasmine.js spec/integration
+
+
+Happy hacking!
 
 ## Optional setup
 
