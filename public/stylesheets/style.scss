@@ -2,6 +2,7 @@
 @import "base/base";
 @import "partials/layout";
 @import "neat";
+@import "partials/index";
 
 div.container {
   @include outer-container(100%);
