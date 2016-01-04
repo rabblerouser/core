@@ -1,9 +1,6 @@
 'use strict';
 
-var models = require("../models"),
-    Member = models.Member,
-    Address = models.Address,
-    memberService = require("../services/memberService");
+var memberService = require("../services/memberService");
 
 
 var newMemberHandler = (req, res, next) => {

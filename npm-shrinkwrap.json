@@ -368,6 +368,11 @@
         }
       }
     },
+    "lodash": {
+      "version": "3.10.1",
+      "from": "lodash@*",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
+    },
     "moment": {
       "version": "2.11.0",
       "from": "moment@2.11.0",
