@@ -47,16 +47,26 @@ div.container {
       height: 5px;
       width: 130px;
     }
-
-    &.active {
-      border: 5px solid $blue;
-      color: $blue;
-    }
   }
 
   .description {
+    color: $grey-darker;
     display: block;
+    font-weight: bold;
+    margin-top: 3%;
     text-align: center;
+  }
+
+  &.active {
+
+    .label {
+      border: 5px solid $blue;
+      color: $blue;
+    }
+
+    .description {
+      color: $blue-darker;
+    }
   }
 }
 
