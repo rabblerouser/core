@@ -51,6 +51,6 @@ describe("/members", () => {
                 .send(member)
                 .expect(200, null)
                 .end(finishSupertest(done));
-        });
+        }, 10000);
     });
 });
