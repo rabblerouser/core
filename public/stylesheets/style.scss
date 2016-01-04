@@ -17,112 +17,122 @@ div.container {
   text-align: center;
 
   img {
-    width: 25%;
     margin-bottom: 20px;
+    width: 25%;
   }
 }
 
 .progress-bar {
-  white-space: nowrap;
   border-radius: 15px;
-  height: 15px;
-  margin: 0 auto;
+  margin: 50px auto;
   padding: 0;
   position: absolute;
+  white-space: nowrap;
   width: 100%;
 
-
   li {
+    color: $grey-darker;
     display: inline-block;
-    margin: 50px 0 0;
-    padding: 0;
-    text-align: center;
-    width: 19%;
-    color: #ccc;
     font-size: 16px;
     font-weight: 600;
+    list-style: none;
+    padding: 0;
     position: relative;
+    text-align: center;
+    width: 15%;
 
-    &:before {
+    &::before {
+      background: $white;
+      border: 5px solid $grey-light;
+      border-radius: 50%;
+      color: $grey-darker;
+      font-size: 16px;
+      font-weight: 600;
       height: 45px;
       left: 40%;
-      line-height: 45px;
+      line-height: 36px;
       position: absolute;
-      top: -65px;
+      text-align: center;
+      top: -55px;
       width: 45px;
       z-index: 99;
-      background: #ddd;
-      border-radius: 50%;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 700;
-      text-align: center;
     }
 
-    &:after {
-      content: "";
+    &::after {
+      background: $grey-light;
+      content: '';
       height: 5px;
-      width: 100%;
       left: 50%;
       position: absolute;
-      top: -45px;
+      top: -35px;
+      width: 100%;
       z-index: 0;
-      background: $grey-light;
-     }
+    }
+  }
 
-     &.active {
-      color: #8bc53f;
-      font-weight: bold;
-      &:before {
-        background: #8bc53f;
-        z-index: 99999;
-      }
-    }
-    &.visited {
-      color: #57aed1;
+  .active {
+    color: $blue-darker;
+    font-weight: bold;
+
+    &::before {
+      background: $white;
+      border: 5px solid $blue;
+      color: $blue;
       z-index: 99999;
-      background: none;
-      &:before {
-       background: #57aed1;
-        z-index: 99999;
-      }
-      &:after {
-        content: "";
-        height: 5px;
-        left: 50%;
-        position: absolute;
-        top: -45px;
-        width: 100%;
-        z-index: 99;
-        background: $blue;
-      }
+     }
+  }
+
+  .visited {
+    background: $white;
+    color: $green-darker;
+    z-index: 99999;
+
+    &::before {
+      background: $white;
+      border: 5px solid $green;
+      color: $green;
+      z-index: 99999;
     }
-    &:nth-child(1) {
-      &:before {
-        content: "1";
-      }
-    }
-     &:nth-child(2) {
-      &:before {
-        content: "2";
-      }
-    }
-    &:nth-child(3) {
-      &:before {
-        content: "3";
-      }
-    }
-     &:nth-child(4) {
-      &:before {
-        content: "4";
-      }
+
+    &::after {
+      background: $green;
+      content: '';
+      height: 5px;
+      left: 50%;
+      position: absolute;
+      top: -35px;
+      width: 100%;
+      z-index: 99;
     }
   }
 }
 
-.progress-bar li:last-of-type {
+li {
+  &:nth-child(1) {
+    &::before {
+      content: '1';
+    }
+  }
 
-  &::after {
-    display: none;
+  &:nth-child(2) {
+    &::before {
+      content: '2';
+    }
+  }
+
+  &:nth-child(3) {
+    &::before {
+      content: '3';
+    }
+  }
+
+  &:nth-child(4) {
+    &::before {
+      content: '4';
+    }
+
+    &::after {
+      display: none;
+    }
   }
 }
