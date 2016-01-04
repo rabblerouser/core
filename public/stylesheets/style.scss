@@ -2,8 +2,65 @@
 @import "base/base";
 @import "partials/layout";
 @import "neat";
-@import "partials/index";
+
+$grey-light: #e9ebec;
+$grey-darker: #999898;
+$blue: #4da8d4;
+$blue-darker:#0073AE;
+
 
 div.container {
   @include outer-container(100%);
+}
+
+.header {
+  text-align: center;
+
+  img {
+    width: 25%;
+  }
+
+  .progress-bar {
+    list-style: none;
+    list-style-image: none;
+    white-space: nowrap;
+  }
+}
+
+.step {
+  display: inline-block;
+  text-align: center;
+  width: 15%;
+
+  .label {
+    border: 5px solid $grey-light;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 25px;
+    color: $grey-darker;
+    font-weight: bold;
+    height: 50px;
+    width: 50px;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 5px;
+      width: 130px;
+    }
+
+    &.active {
+      color: $blue;
+      border: 5px solid $blue;
+    }
+  }
+
+  .description {
+    display: block;
+    text-align: center;
+  }
+}
+
+.progress-bar li:last-of-type .label::after {
+  display: none;
 }
