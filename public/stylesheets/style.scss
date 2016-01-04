@@ -1,72 +1,128 @@
-@import "bourbon";
-@import "base/base";
-@import "partials/layout";
-@import "neat";
-@import "partials/local-variables";
-@import "partials/form";
+@import 'bourbon';
+@import 'base/base';
+@import 'partials/layout';
+@import 'neat';
+@import 'partials/local-variables';
+@import 'partials/form';
 
 div.container {
   @include outer-container(100%);
 }
 
 .header {
+  font-family: 'Open Sans', sans-serif;
+  margin: 90px auto;
+  margin-top: 40px;
+  position: relative;
   text-align: center;
 
   img {
     width: 25%;
-  }
-
-  .progress-bar {
-    list-style: none;
-    list-style-image: none;
-    white-space: nowrap;
+    margin-bottom: 20px;
   }
 }
 
-.step {
-  display: inline-block;
-  text-align: center;
-  width: 15%;
+.progress-bar {
+  white-space: nowrap;
+  border-radius: 15px;
+  height: 15px;
+  margin: 0 auto;
+  padding: 0;
+  position: absolute;
+  width: 100%;
 
-  .label {
-    border: 5px solid $grey-light;
-    border-radius: 50%;
-    color: $grey-darker;
+
+  li {
     display: inline-block;
-    font-size: 25px;
-    font-weight: bold;
-    height: 50px;
-    width: 50px;
-
-    &::after {
-      content: '';
-      display: block;
-      height: 5px;
-      width: 130px;
-    }
-  }
-
-  .description {
-    color: $grey-darker;
-    display: block;
-    font-weight: bold;
-    margin-top: 3%;
+    margin: 50px 0 0;
+    padding: 0;
     text-align: center;
-  }
+    width: 19%;
+    color: #ccc;
+    font-size: 16px;
+    font-weight: 600;
+    position: relative;
 
-  &.active {
-
-    .label {
-      border: 5px solid $blue;
-      color: $blue;
+    &:before {
+      height: 45px;
+      left: 40%;
+      line-height: 45px;
+      position: absolute;
+      top: -65px;
+      width: 45px;
+      z-index: 99;
+      background: #ddd;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
     }
 
-    .description {
-      color: $blue-darker;
+    &:after {
+      content: "";
+      height: 5px;
+      width: 100%;
+      left: 50%;
+      position: absolute;
+      top: -45px;
+      z-index: 0;
+      background: $grey-light;
+     }
+
+     &.active {
+      color: #8bc53f;
+      font-weight: bold;
+      &:before {
+        background: #8bc53f;
+        z-index: 99999;
+      }
+    }
+    &.visited {
+      color: #57aed1;
+      z-index: 99999;
+      background: none;
+      &:before {
+       background: #57aed1;
+        z-index: 99999;
+      }
+      &:after {
+        content: "";
+        height: 5px;
+        left: 50%;
+        position: absolute;
+        top: -45px;
+        width: 100%;
+        z-index: 99;
+        background: $blue;
+      }
+    }
+    &:nth-child(1) {
+      &:before {
+        content: "1";
+      }
+    }
+     &:nth-child(2) {
+      &:before {
+        content: "2";
+      }
+    }
+    &:nth-child(3) {
+      &:before {
+        content: "3";
+      }
+    }
+     &:nth-child(4) {
+      &:before {
+        content: "4";
+      }
     }
   }
 }
 
-.progress-bar li:last-of-type .label::after {
-  display: none;
+.progress-bar li:last-of-type {
+
+  &::after {
+    display: none;
+  }
 }
