@@ -370,7 +370,7 @@
     },
     "lodash": {
       "version": "3.10.1",
-      "from": "lodash@*",
+      "from": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz",
       "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
     },
     "moment": {
@@ -4189,7 +4189,7 @@
     },
     "winston": {
       "version": "2.1.1",
-      "from": "winston@*",
+      "from": "winston@latest",
       "resolved": "https://registry.npmjs.org/winston/-/winston-2.1.1.tgz",
       "dependencies": {
         "async": {
