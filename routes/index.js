@@ -14,6 +14,10 @@ router.get('/members/eligibility', function(req, res, next) {
     res.render('members/eligibility', {title: 'Eligibility'});
 });
 
+router.get('/members/payment', function(req, res, next) {
+    res.render('members/payment', {title: 'Pay What You Want'});
+});
+
 router.post("/members", membersController.newMemberHandler);
 
 module.exports = router;

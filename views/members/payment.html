@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <div class="header">
+    <img src="/images/logo.svg">
+
+    <ul class="progress-bar">
+      <li class="visited">Eligibility</li>
+      <li class="visited">Details</li>
+      <li class="active">Pay What You Want</li>
+      <li class="unvisited">Finish</li>
+    </ul>
+  </div>
+<div class="container">
+    <div class="form-container">
+        <div class="form-header">
+            Pay What You Want
+        </div>
+        <div class="form-body">
+            <form action="/eligibility" method="post">
+              <div class="reminder">
+                <img src="/images/reminder.svg">
+                <div class="reminder-text">
+                  <p>Full Membership</p>
+                  <p>of Pirate Party Australia is currently</p>
+                  <p>Whatever you want!</p>
+                </div>
+              </div>
+
+              <div class="contribution">
+                <div class="sub-title">Membership Contribution</div>
+                <hr>
+                <div class="sub-description">Choose an amount</div>
+                <div class="contribution-amount">
+                  <div class="currency">$AUD</div>
+                  <input type="text" name="amount" id="amount">
+                </div>
+              </div>
+
+              <div class="payment-method">
+                <div class="sub-title">Choose a Payment Method</div>
+                <hr>
+                <div class="sub-description">Pay your selected amount</div>
+              </div>
+
+              <div class="navigation">
+                <input type="submit" value="Continue"/>
+                <p>or <a href="/members/new">go back</a></p>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

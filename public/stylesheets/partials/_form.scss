@@ -1,40 +1,42 @@
 
 .form-container {
-  max-width: 800px;
   margin: 25px auto;
+  max-width: 800px;
+
   .form-header {
     background-color: $blue-darker;
+    color: $white;
     font-size: 24px;
-    color: white;
-    padding-left: 25px;
+    font-weight: bold;
     height: 70px;
     line-height: 70px;
+    padding-left: 25px;
   }
 
   .form-body {
     background-color: $blue-light;
-    padding: 25px;
     color: $blue-darker;
+    padding: 25px;
   }
 
   .info-box {
-    margin-top: 25px;
-    background-color: white;
+    background-color: $white;
     border: 2px solid $green;
-    padding: 0px 15px;
+    margin-top: 25px;
+    padding: 0 15px;
   }
 
   .info-box-header {
+    border-bottom: 1px solid $green;
     color: $green;
+    font-weight: bold;
     height: 50px;
     line-height: 50px;
-    border-bottom: 1px solid $green;
-    font-weight: bold;
   }
 
   .info-box-body {
-    padding: 15px 0px;
     font-size: 12px;
+    padding: 15px 0;
   }
 
   input[type="radio"]{
@@ -44,7 +46,94 @@
   input[type="submit"]{
     margin-top: 15px;
   }
+}
+
+.sub-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.sub-description {
+  font-size: .8em;
+  font-style: italic;
+}
+
+hr {
+  border-bottom: 1px solid $blue;
+  margin: 0;
+}
+
+.reminder {
+  background: $white;
+  border: 3px solid $blue;
+  padding: 10px 15px;
+
+  img {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .reminder-text {
+    display: inline-block;
+    padding-left: 10px;
+    padding-top: 10px;
+    vertical-align: top;
 
 
+    p {
+      display: inline-block;
+      font-weight: bold;
 
+      &:nth-child(2) {
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.contribution {
+  margin-top: 35px;
+
+  .contribution-amount {
+    margin-top: 20px;
+  }
+
+  .currency {
+    background: $blue-darker;
+    color: $white;
+    display: inline-block;
+    font-weight: bold;
+    height: 34px;
+    vertical-align: middle;
+    width: 50px;
+  }
+
+  input[type="text"] {
+    display: inline-block;
+    margin: 0;
+    vertical-align: middle;
+    width: 100px;
+  }
+}
+
+.payment-method {
+  margin-top: 35px;
+}
+
+
+.navigation {
+  margin-top: 100px;
+
+  > * {
+    display: inline-block;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  p {
+    margin-bottom: 9px;
+    vertical-align: bottom;
+  }
 }
