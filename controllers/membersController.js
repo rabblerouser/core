@@ -3,10 +3,9 @@
 var memberService = require("../services/memberService");
 
 
-var newMemberHandler = (req, res, next) => {
+var newMemberHandler = (req, res) => {
     let dbError = (error) => {
         res.status(500).json({error: error});
-        next();
     };
 
     let residentialAddress = {
@@ -35,10 +34,9 @@ var newMemberHandler = (req, res, next) => {
         postalAddress: postalAddress
     };
 
-    memberService.createMember(newMember)
+    return memberService.createMember(newMember)
         .then(() => {
             res.status(200).render('members/success', {email: req.body.email});
-            next();
         })
         .catch(dbError);
 };

@@ -10,8 +10,7 @@ var membersController = require("../../../controllers/membersController");
 
 describe("membersController", () => {
     describe("newMemberHandler", () => {
-        let next,
-            newMemberHandler,
+        let newMemberHandler,
             goodRequest, res,
             statusStub, responseJsonStub,
             residentialAddress, postalAddress,
@@ -53,7 +52,6 @@ describe("membersController", () => {
                 .withArgs(goodRequest.body)
                 .returns(createMemberPromise.promise);
 
-            next = sinon.stub();
             statusStub = sinon.stub();
             responseJsonStub = sinon.stub();
             statusStub.returns({json: responseJsonStub});
@@ -81,23 +79,15 @@ describe("membersController", () => {
                 };
             });
 
-            it("calls next", (done) => {
-                newMemberHandler(goodRequest, res, next);
-
-                createMemberPromise.promise.finally(() => {
-                    expect(next).toHaveBeenCalled();
-                }).nodeify(done);
-            });
-
             it("creates a new member", (done) => {
-                newMemberHandler(goodRequest, res, next);
+                newMemberHandler(goodRequest, res);
                 createMemberPromise.promise.finally(() => {
                     expect(memberService.createMember).toHaveBeenCalledWith(expectedMemberCreateValues);
                 }).nodeify(done);
             });
 
             it("responds with success", (done) => {
-                newMemberHandler(goodRequest, res, next);
+                newMemberHandler(goodRequest, res);
 
                 createMemberPromise.promise.finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
@@ -111,10 +101,9 @@ describe("membersController", () => {
                 let errorMessage = "Seriously, we still don't have any damn bananas.";
                 createMemberPromise.reject(errorMessage);
 
-                newMemberHandler(goodRequest, res, next);
+                newMemberHandler(goodRequest, res);
 
                 createMemberPromise.promise.finally(() => {
-                    expect(next).toHaveBeenCalled();
                     expect(res.status).toHaveBeenCalledWith(500);
                     expect(responseJsonStub).toHaveBeenCalledWith({error: errorMessage});
                 }).nodeify(done);
