@@ -17,6 +17,32 @@
     background-color: $blue-light;
     color: $blue-darker;
     padding: 25px;
+
+    a {
+      color: $blue-darker;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    label {
+      font-size: .9em;
+      font-weight: normal;
+      margin-bottom: 0;
+    }
+
+    input[type="text"] {
+      border-color: $blue;
+      border-radius: 0;
+      width: 340px;
+    }
+
+    .personal-info {
+      margin-top: 35px;
+    }
+
+    .residential-address, .contact-details {
+      margin-top: 50px;
+    }
   }
 
   .info-box {
@@ -52,6 +78,7 @@
 .sub-description {
   font-size: .8em;
   font-style: italic;
+  margin-bottom: 25px;
 }
 
 hr {
@@ -68,14 +95,10 @@ hr {
     display: inline-block;
   }
 
-  img {
-    vertical-align: middle;
-  }
-
   .reminder-text {
     height: 45px;
-    line-height: 45px;
     padding-left: 10px;
+    width: 80%;
   }
 }
 
@@ -84,29 +107,29 @@ hr {
 
   .contribution-amount {
     margin-top: 20px;
-  }
 
-  .currency {
-    background: $blue-darker;
-    color: $white;
-    float: left;
-    font-weight: bold;
-    height: 36px;
-    line-height: 36px;
-    padding-left: 3px;
-    vertical-align: middle;
-    width: 50px;
-  }
+    .currency {
+      background: $blue-darker;
+      color: $white;
+      float: left;
+      font-weight: bold;
+      height: 36px;
+      line-height: 36px;
+      padding-left: 3px;
+      vertical-align: middle;
+      width: 50px;
+    }
 
-  input[type="text"] {
-    border-bottom-color: $blue;
-    border-left: 0;
-    border-radius: 0;
-    border-right-color: $blue;
-    border-top-color: $blue;
-    margin: 0;
-    vertical-align: middle;
-    width: 80px;
+    input[type="text"] {
+      border-bottom-color: $blue;
+      border-left: 0;
+      border-radius: 0;
+      border-right-color: $blue;
+      border-top-color: $blue;
+      margin: 0;
+      vertical-align: middle;
+      width: 80px;
+    }
   }
 }
 
@@ -116,15 +139,16 @@ hr {
 
 
 .navigation {
-  margin-top: 100px;
+  margin-top: 20px;
 
   > * {
     display: inline-block;
   }
 
-  a {
-    font-weight: bold;
-    text-decoration: underline;
+  input[type="submit"] {
+    background-color: $blue-darker;
+    border-radius: 0;
+    color: $white;
   }
 
   p {
