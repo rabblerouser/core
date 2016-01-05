@@ -54,7 +54,16 @@
               <input type="text" name="residentialAddress[suburb]" id="residentialAddress[suburb]"/>
               <div class="state-code">
                 <label for="residentialAddress[state]">State*</label>
-                <input type="text" name="residentialAddress[state]" id="residentialAddress[state]"/>
+                <select name="residentialAddress[state]" id="residentialAddress[state]">
+                  <option value="ACT">Australian Capital Territory</option>
+                  <option value="NSW">New South Wales</option>
+                  <option value="NT">Northern Territory</option>
+                  <option value="QLD">Queensland</option>
+                  <option value="SA">South Australia</option>
+                  <option value="TAS">Tasmania</option>
+                  <option value="VIC">Victoria</option>
+                  <option value="WA">Western Australia</option>
+                </select>
                 <label for="residentialAddress[postcode]">Postcode*</label>
                 <input type="text" name="residentialAddress[postcode]" id="residentialAddress[postcode]"/>
               </div>
