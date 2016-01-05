@@ -16,13 +16,17 @@ var newMemberHandler = (req, res) => {
         country: req.body.residentialAddress.country
     };
 
-    let postalAddress = {
-        address: req.body.postalAddress.address,
-        suburb: req.body.postalAddress.suburb,
-        postcode: req.body.postalAddress.postcode,
-        state: req.body.postalAddress.state,
-        country: req.body.postalAddress.country
-    };
+    if(!req.body.differentPostal){
+        var postalAddress = residentialAddress;
+    } else {
+        var postalAddress = {
+            address: req.body.postalAddress.address,
+            suburb: req.body.postalAddress.suburb,
+            postcode: req.body.postalAddress.postcode,
+            state: req.body.postalAddress.state,
+            country: req.body.postalAddress.country
+        };
+    }
 
     let newMember = {
         firstName: req.body.firstName,
@@ -33,6 +37,8 @@ var newMemberHandler = (req, res) => {
         residentialAddress: residentialAddress,
         postalAddress: postalAddress
     };
+
+    console.log(newMember);
 
     return memberService.createMember(newMember)
         .then(() => {

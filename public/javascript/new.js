@@ -8,7 +8,7 @@ $("input:radio[name='eligibility']").change(function() {
   $("#info-box").show();
 });
 
-$("input:checkbox[name='postal-address']").change(function() {
+$("input:checkbox[name='differentPostal']").change(function() {
   if($(this).is(':checked')){
     $("#postal-address").show();
   }
