@@ -49,7 +49,7 @@ describe("/members", () => {
                 .set("Content-Type", "application/json")
                 .set("Accept", "application/json")
                 .send(member)
-                .expect(200, null)
+                .expect(200, {})
                 .end(finishSupertest(done));
         }, 20000);
     });

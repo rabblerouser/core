@@ -101,7 +101,7 @@ describe("membersController", () => {
 
                 createMemberPromise.promise.finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
-                    expect(responseJsonStub).toHaveBeenCalledWith(null);
+                    expect(res.render).toHaveBeenCalledWith("members/success");
                 }).nodeify(done);
             });
         });
