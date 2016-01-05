@@ -4,6 +4,8 @@ const sinon = require("sinon");
 const Q = require("q");
 require("jasmine-sinon");
 
+var logger = require('../../lib/logger');
+
 var models = require("../../models"),
     Address = models.Address,
     Member = models.Member;
@@ -28,5 +30,6 @@ global.finishSupertest = (done) => {
 module.exports = {
     sinon: sinon,
     models: models,
-    Q: Q
+    Q: Q,
+    logger: logger
 };

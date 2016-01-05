@@ -4,7 +4,8 @@ const specHelper = require("../../support/specHelper"),
       models = specHelper.models,
       Member = models.Member,
       sinon = specHelper.sinon,
-      Q = specHelper.Q;
+      Q = specHelper.Q,
+      logger = specHelper.logger;
 
 var memberService = require("../../../services/memberService");
 
@@ -27,7 +28,7 @@ describe("memberService", () => {
             }
         ];
 
-        let memberStub, addressStub,
+        let memberStub, addressStub, loggerStub,
             residentialAddress, postalAddress,
             newMember, expectedNewMember,
             residentialAddressPromise, postalAddressPromise, memberPromise;
@@ -47,6 +48,7 @@ describe("memberService", () => {
         beforeEach(() => {
             memberStub = sinon.stub(models.Member, 'create');
             addressStub = sinon.stub(models.Address, 'findOrCreate');
+            loggerStub = sinon.stub(logger, 'info');
 
             residentialAddress = {
                 address: "221b Baker St",
@@ -83,6 +85,7 @@ describe("memberService", () => {
         afterEach(() => {
             models.Member.create.restore();
             models.Address.findOrCreate.restore();
+            loggerStub.restore();
         });
 
         it("creates a new member and address", (done) => {
@@ -93,6 +96,17 @@ describe("memberService", () => {
             memberService.createMember(newMember)
                 .then(() => {
                     expect(Member.create).toHaveBeenCalledWith(expectedNewMember);
+                }).nodeify(done);
+        });
+
+        it("logs the member sign up event", (done) => {
+            residentialAddressPromise.resolve(residentialAddressFromDb);
+            postalAddressPromise.resolve(postalAddressFromDb);
+            memberPromise.resolve();
+
+            memberService.createMember(newMember)
+                .then(() => {
+                    expect(logger.info).toHaveBeenCalledWith(newMember);
                 }).nodeify(done);
         });
 

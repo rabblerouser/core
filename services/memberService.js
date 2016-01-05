@@ -1,9 +1,10 @@
 'use strict';
 
 const Q = require('q'),
-      models = require('../models'),
-      Address = models.Address,
-      Member = models.Member;
+    models = require('../models'),
+    logger = require('../lib/logger'),
+    Address = models.Address,
+    Member = models.Member;
 
 var createMember = (newMember) => {
     return Q.all([
@@ -22,10 +23,10 @@ var createMember = (newMember) => {
             });
         })
         .then(Member.create.bind(Member))
+        .then(logger.info(newMember))
         .catch((error) => {
             return Q.reject(error);
         });
-
 };
 
 module.exports = {

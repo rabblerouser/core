@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var sassMiddleware = require('node-sass-middleware');
 var neat = require('node-neat');
-var winston = require('winston');
 var app = express();
 
 // view engine setup
@@ -29,16 +28,7 @@ app.use(sassMiddleware({
       includePaths: neat.includePaths
     }), express.static(path.join(__dirname, 'public')));
 
-var winstonLogger = new (winston.Logger)({
-    transports: [new (winston.transports.Console)()]
-});
-
 app.use('/', routes);
-
-app.post('/members', function (req, res, next) {
-    winstonLogger.info(req.body);
-    next();
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
