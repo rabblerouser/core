@@ -19,6 +19,10 @@ div.container {
   img {
     margin-bottom: 20px;
     width: 25%;
+
+    @include media($small-tablet-down){
+      width: 50%
+    }
   }
 }
 
@@ -67,6 +71,20 @@ div.container {
       top: -35px;
       width: 100%;
       z-index: 0;
+    }
+    @include media($mobile){
+      font-size: 10px;
+      width: 25%;
+      &::after {
+        left: 30%;
+      }
+    }
+    @include media($small-tablet){
+      font-size: 14px;
+      width: 20%;
+      &::after {
+        left: 30%;
+      }
     }
   }
 
