@@ -5,90 +5,23 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
-  <div class="header">
-    <img src="/images/logo.svg">
-
-    <ul class="progress-bar">
-      <li class="visited">Eligibility</li>
-      <li class="active">Details</li>
-      <li class="unvisited">Pay What You Want</li>
-      <li class="unvisited">Finish</li>
-    </ul>
-  </div>
-<div class="container">
-    <div class="form-container">
-        <div class="form-header">
-            Details
-        </div>
-        <div class="form-body">
-          <div class="reminder">
-            <img src="/images/reminder.svg">
-            <div class="reminder-text">
-              <p>This information will be used for the purposes of registering a political party with the Australian Electoral Commission. <a href="/">View our Privacy Policy.</a></p>
-            </div>
-          </div>
-          <form action="/members" method="post">
-            <div class="personal-info">
-              <div class="sub-title">Personal Information</div>
-              <hr>
-              <div class="sub-description">Please enter your details exactly as they would appear on the electoral roll.</div>
-
-              <label for="firstName">Given Name(s)*</label>
-              <input type="text" name="firstName" id="firstName"/>
-              <label for="lastName">Surname*</label>
-              <input type="text" name="lastName" id="lastName"/>
-              <label for="dateOfBirth">Date of Birth*</label>
-              <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="DD/MM/YYYY"/>
-              <label for="gender">Gender</label>
-              <input type="text" name="gender" id="gender"/>
-            </div>
-
-            <div class="residential-address">
-              <div class="sub-title">Residential Address</div>
-              <hr>
-              <div class="sub-description">Please enter the address that you are enrolled to vote from with the AEC.</div>
-
-              <label for="residentialAddress[address]">Address*</label>
-              <input type="text" name="residentialAddress[address]" id="residentialAddress[address]"/>
-              <label for="residentialAddress[suburb]">Suburb*</label>
-              <input type="text" name="residentialAddress[suburb]" id="residentialAddress[suburb]"/>
-              <div class="state-code">
-                <label for="residentialAddress[state]">State*</label>
-                <select name="residentialAddress[state]" id="residentialAddress[state]">
-                  <option value="ACT">Australian Capital Territory</option>
-                  <option value="NSW">New South Wales</option>
-                  <option value="NT">Northern Territory</option>
-                  <option value="QLD">Queensland</option>
-                  <option value="SA">South Australia</option>
-                  <option value="TAS">Tasmania</option>
-                  <option value="VIC">Victoria</option>
-                  <option value="WA">Western Australia</option>
-                </select>
-                <label for="residentialAddress[postcode]">Postcode*</label>
-                <input type="text" name="residentialAddress[postcode]" id="residentialAddress[postcode]"/>
-              </div>
-              <input type="radio" name="diff-address" value="enrolled">My residential address differs from my postal address.
-            </div>
-
-            <div class="contact-details">
-              <div class="sub-title">Contact Details</div>
-              <hr>
-              <div class="sub-description">Please enter your current email and phone number.</div>
-              <label for="email">Email*</label>
-              <input type="text" name="email" id="email"/>
-              <label for="phoneNumber">Phone number*</label>
-              <input type="text" name="phoneNumber" id="phoneNumber"/>
-              <label for="phoneNumber">Secondary Phone</label>
-              <input type="text" name="secondaryPhone" id="secondaryPhone"/>
-            </div>
-
-            <div class="navigation">
-              <input type="submit" value="Continue"/>
-              <p>or <a href="/members/eligibility">go back</a></p>
-            </div>
-          </form>
-      </div>
+    <div class="header">
+        <img src="/images/logo.svg">
+        <ul class="progress-bar">
+            <li class="visited">Eligibility</li>
+            <li class="active">Details</li>
+            <li class="unvisited">Pay What You Want</li>
+            <li class="unvisited">Finish</li>
+        </ul>
     </div>
-</div>
+    <div class="container">
+        <div class="form-container">
+            <%- include partials/eligibility.html %>
+            <%- include partials/details.html %>
+            <%- include partials/payment.html %>
+        </div>
+    </div>
 </body>
+<script src="/libraries/jquery-1.11.3.min.js"></script>
+<script src="/javascript/new.js"></script>
 </html>

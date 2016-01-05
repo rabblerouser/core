@@ -1,0 +1,39 @@
+<div class="form-container" id="payment-form">
+    <div class="form-header">
+        Pay What You Want
+    </div>
+    <div class="form-body">
+        <div class="reminder">
+            <img src="/images/reminder.svg">
+            <div class="reminder-text">
+                <p> <b>Full Membership</b> of Pirate Party Australia is currently <b>Whatever you want!</b></p>
+            </div>
+        </div>
+        <form action="/eligibility" method="post">
+            <div class="contribution">
+                <div class="sub-title">Membership Contribution</div>
+                <hr>
+                <div class="sub-description">Choose an amount.</div>
+                <div class="contribution-amount">
+                    <div class="currency">$AUD</div>
+                    <input type="text" name="amount" id="amount">
+                </div>
+            </div>
+
+            <div class="payment-method">
+                <div class="sub-title">Choose a Payment Method</div>
+                <hr>
+                <div class="sub-description">Pay your selected amount.</div>
+            </div>
+
+        </form>
+        <div class="navigation">
+            <input type="submit" value="Submit"/>
+
+            <p>or <a id="payment-go-back" >go back</a></p>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
