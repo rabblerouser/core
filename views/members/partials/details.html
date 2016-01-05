@@ -3,42 +3,62 @@
         Details
     </div>
     <div class="form-body">
-        <form action="/members" method="post">
-            <label for="firstName">First name</label>
-            <input type="text" name="firstName" id="firstName"/>
-            <label for="lastName">Last name</label>
-            <input type="text" name="lastName" id="lastName"/>
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email"/>
-            <label for="phoneNumber">Phone number</label>
-            <input type="text" name="phoneNumber" id="phoneNumber"/>
-            <label for="dateOfBirth">Date of Birth</label>
-            <input type="text" name="dateOfBirth" id="dateOfBirth"/>
-            Residential Address
-            <label for="residentialAddress[address]">Address</label>
-            <input type="text" name="residentialAddress[address]" id="residentialAddress[address]"/>
-            <label for="residentialAddress[suburb]">Suburb</label>
-            <input type="text" name="residentialAddress[suburb]" id="residentialAddress[suburb]"/>
-            <label for="residentialAddress[country]">Country</label>
-            <input type="text" name="residentialAddress[country]" id="residentialAddress[country]"/>
-            <label for="residentialAddress[state]">State</label>
-            <input type="text" name="residentialAddress[state]" id="residentialAddress[state]"/>
-            <label for="residentialAddress[postcode]">Postcode</label>
-            <input type="text" name="residentialAddress[postcode]" id="residentialAddress[postcode]"/>
-            Postal Address
-            <label for="postalAddress[address]">Address</label>
-            <input type="text" name="postalAddress[address]" id="postalAddress[address]"/>
-            <label for="postalAddress[suburb]">Suburb</label>
-            <input type="text" name="postalAddress[suburb]" id="postalAddress[suburb]"/>
-            <label for="postalAddress[country]">Country</label>
-            <input type="text" name="postalAddress[country]" id="postalAddress[country]"/>
-            <label for="postalAddress[state]">State</label>
-            <input type="text" name="postalAddress[state]" id="postalAddress[state]"/>
-            <label for="postalAddress[postcode]">Postcode</label>
-            <input type="text" name="postalAddress[postcode]" id="postalAddress[postcode]"/>
+      <div class="reminder">
+        <img src="/images/reminder.svg">
+        <div class="reminder-text">
+          <p>This information will be used for the purposes of registering a political party with the Australian Electoral Commission. <a href="/">View our Privacy Policy.</a></p>
+        </div>
+      </div>
+      <form action="/members" method="post">
+        <div class="personal-info">
+          <div class="sub-title">Personal Information</div>
+          <hr>
+          <div class="sub-description">Please enter your details exactly as they would appear on the electoral roll.</div>
 
-        </form>
-        <button class="hidden" id="details-continue-button">Continue</button>
-        <p>or <a class="hidden" id="details-go-back">go back</a></p>
+          <label for="firstName">Given Name(s)*</label>
+          <input type="text" name="firstName" id="firstName"/>
+          <label for="lastName">Surname*</label>
+          <input type="text" name="lastName" id="lastName"/>
+          <label for="dateOfBirth">Date of Birth*</label>
+          <input type="text" name="dateOfBirth" id="dateOfBirth" placeholder="DD/MM/YYYY"/>
+          <label for="gender">Gender</label>
+          <input type="text" name="gender" id="gender"/>
+        </div>
+
+        <div class="residential-address">
+          <div class="sub-title">Residential Address</div>
+          <hr>
+          <div class="sub-description">Please enter the address that you are enrolled to vote from with the AEC.</div>
+
+          <label for="residentialAddress[address]">Address*</label>
+          <input type="text" name="residentialAddress[address]" id="residentialAddress[address]"/>
+          <label for="residentialAddress[suburb]">Suburb*</label>
+          <input type="text" name="residentialAddress[suburb]" id="residentialAddress[suburb]"/>
+          <div class="state-code">
+            <label for="residentialAddress[state]">State*</label>
+            <input type="text" name="residentialAddress[state]" id="residentialAddress[state]"/>
+            <label for="residentialAddress[postcode]">Postcode*</label>
+            <input type="text" name="residentialAddress[postcode]" id="residentialAddress[postcode]"/>
+          </div>
+          <input type="checkbox" name="diff-address" value="enrolled">My residential address differs from my postal address.
+        </div>
+
+        <div class="contact-details">
+          <div class="sub-title">Contact Details</div>
+          <hr>
+          <div class="sub-description">Please enter your current email and phone number.</div>
+          <label for="email">Email*</label>
+          <input type="text" name="email" id="email"/>
+          <label for="phoneNumber">Phone number*</label>
+          <input type="text" name="phoneNumber" id="phoneNumber"/>
+          <label for="phoneNumber">Secondary Phone</label>
+          <input type="text" name="secondaryPhone" id="secondaryPhone"/>
+        </div>
+
+        <div class="navigation">
+          <input type="submit" value="Continue"id="details-continue-button"/>
+          <p>or <a href="/members/eligibility" id="details-go-back">go back</a></p>
+        </div>
+      </form>
     </div>
 </div>
