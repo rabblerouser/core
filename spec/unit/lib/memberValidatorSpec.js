@@ -1,5 +1,7 @@
 'use strict';
 
+const moment = require("moment");
+
 var _  = require("lodash");
 require("../../support/specHelper");
 
@@ -11,7 +13,7 @@ describe("memberValidator", () => {
                 "firstName": "Sherlock",
                 "lastName": "Holmes",
                 "email": `sherlock@holmes.co.uk`,
-                "dateOfBirth": "22 December 1900",
+                "dateOfBirth": "22/12/1900",
                 "phoneNumber": "0396291146",
                 "residentialAddress": {
                     "address": "222b Baker St",
@@ -95,12 +97,22 @@ describe("memberValidator", () => {
     });
 
     describe("isValidDateOfBirth", () => {
-        it("Should return true given a string with a dateOfBirth'", () => {
-            expect(memberValidator.isValidDate("22 December 1900")).toBe(true);
+        it("Should return true given a string with a dateOfBirth", () => {
+            expect(memberValidator.isValidDate("22/12/1900")).toBe(true);
         });
 
-        it("Should return false if dateOfBirth is not a real date", () => {
-            expect(memberValidator.isValidDate("222 December 1900")).toBe(false);
+        let testCases = [
+            null,
+            "",
+            "21 Dec 2015",
+            moment().add(7, 'days'),
+            "222/12/1900"
+        ];
+
+        testCases.forEach((input) => {
+            it(`Should return false given a ${input} dateOfBirth`, () => {
+                expect(memberValidator.isValidDate(input)).toBe(false);
+            });
         });
     });
 
