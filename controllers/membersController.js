@@ -37,7 +37,7 @@ var newMemberHandler = (req, res, next) => {
 
     memberService.createMember(newMember)
         .then(() => {
-            res.status(200).json(null);
+            res.status(200).render('members/success', {email: req.body.email});
             next();
         })
         .catch(dbError);

@@ -11,6 +11,7 @@ $("input:radio[name='eligibility']").change(function() {
 function showButtons(){
     $('#eligibility-continue-button').show();
     $('#details-continue-button').show();
+    $('#finished-close-button').show();
     $('#details-go-back').show();
     $('#payment-go-back').show();
 }
@@ -31,6 +32,13 @@ function showPaymentForm(){
     $('#eligibility-form').hide();
     $('#details-form').hide();
     $('#payment-form').show();
+}
+
+function showFinishedForm(){
+    $('#eligibility-form').hide();
+    $('#details-form').hide();
+    $('#payment-form').hide();
+    $('#finished-form').show();
 }
 
 $('#eligibility-continue-button').click(function(){
@@ -68,6 +76,9 @@ function checkUrlHash(){
         case '#eligibility':
             showEligibilityForm();
             break;
+        case '#finished':
+            showFinishedForm();
+            break;
         default:
             window.location.hash = "eligibility";
             showEligibilityForm();
@@ -95,6 +106,11 @@ function updateProgressHeader(stage){
             $('#progress-payment').attr('class','unvisited');
             $('#progress-finished').attr('class','unvisited');
             break;
+        case '#finished':
+            $('#progress-details').attr('class','visited');
+            $('#progress-eligibility').attr('class','visited');
+            $('#progress-payment').attr('class','visited');
+            $('#progress-finished').attr('class','active');
         default:
             break;
     }

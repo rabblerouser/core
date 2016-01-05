@@ -16,9 +16,12 @@
     </div>
     <div class="container">
         <div class="form-container">
+            <form action="/members" method="POST">
             <%- include partials/eligibility.html %>
             <%- include partials/details.html %>
             <%- include partials/payment.html %>
+            <%- include partials/finished.html %>
+            </form>
         </div>
     </div>
 </body>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finish</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="header">
+    <img src="/images/logo.svg">
+    <ul class="progress-bar">
+        <li class="visited" id="progress-eligibility">Eligibility</li>
+        <li class="visited" id="progress-details">Details</li>
+        <li class="visited" id="progress-payment">Pay What You Want</li>
+        <li class="active" id="progress-finished">Finish</li>
+    </ul>
+</div>
+<div class="container">
+    <div class="form-container">
+        <div class="form-container" id="finished-form">
+            <div class="form-header">
+                Finish
+            </div>
+            <div class="form-body">
+                <div class="sub-title">
+                    Congratulations
+                </div>
+                <hr><br>
+                <p>We have received your details and you are officially a member of the Pirate Party. You will soon receive an email confirmation at <%- email %>.</p>
+                <p>If you have changed your mind about the details you have provided, you can update them by clicking here.</p>
+
+                <button type="button" class="hidden" id="finished-close-button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
