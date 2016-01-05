@@ -101,18 +101,24 @@ hr {
   .currency {
     background: $blue-darker;
     color: $white;
-    display: inline-block;
+    float: left;
     font-weight: bold;
-    height: 34px;
+    height: 36px;
+    padding-left: 3px;
+    padding-top: 7px;
     vertical-align: middle;
     width: 50px;
   }
 
   input[type="text"] {
-    display: inline-block;
+    border-bottom-color: $blue;
+    border-left: 0;
+    border-radius: 0;
+    border-right-color: $blue;
+    border-top-color: $blue;
     margin: 0;
     vertical-align: middle;
-    width: 100px;
+    width: 80px;
   }
 }
 
