@@ -16,8 +16,10 @@ var createMember = (newMember) => {
                 firstName: newMember.firstName,
                 lastName: newMember.lastName,
                 email: newMember.email,
+                gender: newMember.gender,
                 dateOfBirth: newMember.dateOfBirth,
-                phoneNumber: newMember.phoneNumber,
+                primaryPhoneNumber: newMember.primaryPhoneNumber,
+                secondaryPhoneNumber: newMember.secondaryPhoneNumber,
                 residentialAddress: residentialAddress[0].dataValues.id,
                 postalAddress: postalAddress[0].dataValues.id
             });

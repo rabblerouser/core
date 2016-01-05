@@ -1,7 +1,6 @@
 'use strict';
 
 const specHelper = require("../../support/specHelper"),
-      models = specHelper.models,
       sinon = specHelper.sinon,
       Q = specHelper.Q,
       memberService = require("../../../services/memberService");
@@ -40,8 +39,10 @@ describe("membersController", () => {
                     firstName: "Sherlock",
                     lastName: "Holmes",
                     email: "sherlock@holmes.co.uk",
+                    gender: "detective genius",
                     dateOfBirth: "22 December 1900",
-                    phoneNumber: "0396291146",
+                    primaryPhoneNumber: "0396291146",
+                    secondaryPhoneNumber: "0394291146",
                     residentialAddress: residentialAddress,
                     postalAddress: postalAddress
                 }
@@ -72,8 +73,10 @@ describe("membersController", () => {
                     firstName: "Sherlock",
                     lastName: "Holmes",
                     email: "sherlock@holmes.co.uk",
+                    gender: "detective genius",
                     dateOfBirth: "22 December 1900",
-                    phoneNumber: "0396291146",
+                    primaryPhoneNumber: "0396291146",
+                    secondaryPhoneNumber: "0394291146",
                     residentialAddress: residentialAddress,
                     postalAddress: postalAddress
                 };

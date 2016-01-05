@@ -12,9 +12,11 @@ describe("memberValidator", () => {
         let validMember = {
                 "firstName": "Sherlock",
                 "lastName": "Holmes",
+                "gender": "horse radish",
                 "email": `sherlock@holmes.co.uk`,
                 "dateOfBirth": "22/12/1900",
-                "phoneNumber": "0396291146",
+                "primaryPhoneNumber": "0396291146",
+                "secondaryPhoneNumber": "0396291146",
                 "residentialAddress": {
                     "address": "222b Baker St",
                     "suburb": "London",
@@ -31,11 +33,18 @@ describe("memberValidator", () => {
                 }
         };
 
+        let optionalFields = ["secondaryPhoneNumber", "gender"];
+        let validMemberWithoutOptionalFields =  _.omit(validMember, optionalFields);
+
         it("should return true on valid member", () => {
             expect(memberValidator.isValid(validMember)).toBe(true);
         });
 
-        _.keys(validMember).forEach((key) => {
+        it("should return true on valid member without optional fields", () => {
+            expect(memberValidator.isValid(validMemberWithoutOptionalFields)).toBe(true);
+        });
+
+        _.keys(validMemberWithoutOptionalFields).forEach((key) => {
             it("should return false on member missing a " + key, () => {
                 expect(memberValidator.isValid(_.omit(validMember, key))).toBe(false);
             });
@@ -51,20 +60,37 @@ describe("memberValidator", () => {
             expect(memberValidator.isValidName("Flo the 1st")).toBe(true);
         });
 
-        it("Should return false if name is empty string", () => {
-            expect(memberValidator.isValidName("")).toBe(false);
+        [
+            "",
+            null,
+            "a".repeat(256),
+            "Flo the 1st<"
+        ].forEach((testCase) => {
+            it(`Should return false if name is ${testCase}`, () => {
+                expect(memberValidator.isValidName(testCase)).toBe(false);
+            });
+        });
+    });
+
+    describe("isValidGender", () => {
+        [
+            "aaa",
+            "Flo the 1st",
+            "",
+            null
+        ].forEach((testCase) => {
+            it(`Should return true if name is ${testCase}`, () => {
+                expect(memberValidator.isValidGender(testCase)).toBe(true);
+            });
         });
 
-        it("Should return false if name is null", () => {
-            expect(memberValidator.isValidName(null)).toBe(false);
-        });
-
-        it("Should return false if name is more than 255 characters", () => {
-            expect(memberValidator.isValidName("a".repeat(256))).toBe(false);
-        });
-
-        it("Should return false if name contains special characters", () => {
-            expect(memberValidator.isValidName("Flo the 1st<")).toBe(false);
+        [
+            "a".repeat(256),
+            "Flo the 1st<"
+        ].forEach((testCase) => {
+            it(`Should return false if name is ${testCase}`, () => {
+                expect(memberValidator.isValidGender(testCase)).toBe(false);
+            });
         });
     });
 
@@ -74,25 +100,47 @@ describe("memberValidator", () => {
         });
     });
 
-    describe("isValidPhoneNumber", () => {
-        it("Should return true given a string with a mobile phone number'", () => {
-            expect(memberValidator.isValidPhone("+61472817381")).toBe(true);
+    describe("isValidPrimaryPhoneNumber", () => {
+        [
+            "+61472817381",
+            "0328171381"
+        ].forEach((testCase) => {
+            it(`Should return true given a string with a mobile phone number ${testCase}`, () => {
+                expect(memberValidator.isValidPhone(testCase)).toBe(true);
+            });
         });
 
-        it("Should return true given a string with a home phone number'", () => {
-            expect(memberValidator.isValidPhone("0328171381")).toBe(true);
+        [
+            "",
+            null,
+            "04"+"1".repeat(9),
+            "+61"+"4".repeat(10)
+        ].forEach((testCase) => {
+            it(`Should return false if phone is ${testCase}`, () => {
+                expect(memberValidator.isValidPhone(testCase)).toBe(false);
+            });
+        });
+    });
+
+    describe("isValidSecondaryPhoneNumber", () => {
+        [
+            "+61472817381",
+            "0328171381",
+            "",
+            null
+        ].forEach((testCase) => {
+            it(`Should return true given a string with a mobile phone number ${testCase}`, () => {
+                expect(memberValidator.isValidOptionalPhone(testCase)).toBe(true);
+            });
         });
 
-        it("Should return false if phone is empty string", () => {
-            expect(memberValidator.isValidPhone("")).toBe(false);
-        });
-
-        it("Should return false if phone is null", () => {
-            expect(memberValidator.isValidPhone(null)).toBe(false);
-        });
-
-        it("Should return false if phone is more than 10 characters", () => {
-            expect(memberValidator.isValidPhone("04"+"1".repeat(9))).toBe(false);
+        [
+            "04"+"1".repeat(9),
+            "+61"+"4".repeat(10)
+        ].forEach((testCase) => {
+            it(`Should return false if phone is ${testCase}`, () => {
+                expect(memberValidator.isValidOptionalPhone(testCase)).toBe(false);
+            });
         });
     });
 
@@ -175,7 +223,5 @@ describe("memberValidator", () => {
             validAddress.state = null;
             expect(memberValidator.isValidAddress(validAddress)).toBe(false);
         });
-
-
     });
 });

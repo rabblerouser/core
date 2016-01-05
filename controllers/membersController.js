@@ -2,7 +2,6 @@
 
 var memberService = require("../services/memberService");
 
-
 var newMemberHandler = (req, res) => {
     let dbError = (error) => {
         res.status(500).json({error: error});
@@ -28,7 +27,9 @@ var newMemberHandler = (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        phoneNumber: req.body.phoneNumber,
+        gender: req.body.gender,
+        primaryPhoneNumber: req.body.primaryPhoneNumber,
+        secondaryPhoneNumber: req.body.secondaryPhoneNumber,
         dateOfBirth: req.body.dateOfBirth,
         residentialAddress: residentialAddress,
         postalAddress: postalAddress

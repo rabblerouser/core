@@ -37,9 +37,11 @@ describe("memberService", () => {
             return {
                 firstName: "Sherlock",
                 lastName: "Holmes",
+                gender: "horse radish",
                 email: "sherlock@holmes.co.uk",
                 dateOfBirth: "22 December 1900",
-                phoneNumber: "0396291146",
+                primaryPhoneNumber: "0396291146",
+                secondaryPhoneNumber: "0394291146",
                 residentialAddress: residentialAddress,
                 postalAddress: postalAddress
             };

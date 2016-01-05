@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     email: {type: DataTypes.STRING, primaryKey: true},
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING,
+    gender: DataTypes.STRING,
+    primaryPhoneNumber: DataTypes.STRING,
+    secondaryPhoneNumber: DataTypes.STRING,
     dateOfBirth: DataTypes.DATEONLY
   }, {
     classMethods: {

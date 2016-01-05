@@ -27,7 +27,9 @@ describe("/members", () => {
                 "lastName": "Holmes",
                 "email": `sherlock${memberSuffix}@holmes.co.uk`,
                 "dateOfBirth": "22 December 1900",
-                "phoneNumber": "0396291146",
+                "primaryPhoneNumber": "0396291146",
+                "secondaryPhoneNumber": null,
+                "gender": "horse radish",
                 "residentialAddress": {
                     "address": "222b Baker St",
                     "suburb": "London",
