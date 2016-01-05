@@ -42,10 +42,6 @@
   input[type="radio"]{
     margin-top: 15px;
   }
-
-  input[type="submit"]{
-    margin-top: 15px;
-  }
 }
 
 .sub-title {
@@ -71,15 +67,15 @@ hr {
   > * {
     display: inline-block;
   }
-  
+
   img {
     vertical-align: middle;
   }
 
   .reminder-text {
+    height: 45px;
+    line-height: 45px;
     padding-left: 10px;
-    padding-top: 10px;
-    vertical-align: top;
   }
 }
 
@@ -96,8 +92,8 @@ hr {
     float: left;
     font-weight: bold;
     height: 36px;
+    line-height: 36px;
     padding-left: 3px;
-    padding-top: 7px;
     vertical-align: middle;
     width: 50px;
   }
@@ -127,11 +123,13 @@ hr {
   }
 
   a {
+    font-weight: bold;
     text-decoration: underline;
   }
 
   p {
-    margin-bottom: 9px;
-    vertical-align: bottom;
+    height: 40px;
+    line-height: 40px;
+    margin: 0;
   }
 }
