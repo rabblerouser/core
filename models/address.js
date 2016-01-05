@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     suburb: DataTypes.STRING,
     state: DataTypes.STRING,
-    postcode: {type: DataTypes.INTEGER, validate: {len: [4,4]}}
+    postcode: {type: DataTypes.STRING, validate: {len: [4,4]}}
   }, {
     classMethods: {
       associate: (models) => {
