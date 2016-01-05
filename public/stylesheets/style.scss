@@ -24,6 +24,36 @@ div.container {
       width: 50%;
     }
   }
+
+  li {
+    &:nth-child(1) {
+      &::after {
+        content: '1';
+      }
+
+      &::before {
+        display: none;
+      }
+    }
+
+    &:nth-child(2) {
+      &::after {
+        content: '2';
+      }
+    }
+
+    &:nth-child(3) {
+      &::after {
+        content: '3';
+      }
+    }
+
+    &:nth-child(4) {
+      &::after {
+        content: '4';
+      }
+    }
+  }
 }
 
 .progress-bar {
@@ -128,36 +158,6 @@ div.container {
 .active + .unvisited {
   &::before {
     background: linear-gradient(to right, $blue, $grey-light);
-  }
-}
-
-li {
-  &:nth-child(1) {
-    &::after {
-      content: '1';
-    }
-
-    &::before {
-      display: none;
-    }
-  }
-
-  &:nth-child(2) {
-    &::after {
-      content: '2';
-    }
-  }
-
-  &:nth-child(3) {
-    &::after {
-      content: '3';
-    }
-  }
-
-  &:nth-child(4) {
-    &::after {
-      content: '4';
-    }
   }
 }
 

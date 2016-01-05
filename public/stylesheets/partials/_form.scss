@@ -63,6 +63,11 @@
   .info-box-body {
     font-size: 12px;
     padding: 15px 0;
+
+    ul {
+      list-style-type: inherit;
+      margin-left: 17px;
+    }
   }
 
   input[type="radio"]{

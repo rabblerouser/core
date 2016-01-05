@@ -4,6 +4,10 @@ $(document).ready(function(){
     updateProgressHeader(window.location.hash);
 });
 
+$("input:radio[name='eligibility']").change(function() {
+  $("#info-box").show();
+})
+
 function showButtons(){
     $('#eligibility-continue-button').show();
     $('#details-continue-button').show();
