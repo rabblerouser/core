@@ -36,18 +36,22 @@ describe("memberValidator", () => {
         let optionalFields = ["secondaryPhoneNumber", "gender"];
         let validMemberWithoutOptionalFields =  _.omit(validMember, optionalFields);
 
-        it("should return true on valid member", () => {
-            expect(memberValidator.isValid(validMember)).toBe(true);
+        it("should return empty array of errors on valid member", () => {
+            expect(memberValidator.isValid(validMember)).toEqual([]);
         });
 
-        it("should return true on valid member without optional fields", () => {
-            expect(memberValidator.isValid(validMemberWithoutOptionalFields)).toBe(true);
+        it("should return empty array of errors on valid member without optional fields", () => {
+            expect(memberValidator.isValid(validMemberWithoutOptionalFields)).toEqual([]);
         });
 
         _.keys(validMemberWithoutOptionalFields).forEach((key) => {
-            it("should return false on member missing a " + key, () => {
-                expect(memberValidator.isValid(_.omit(validMember, key))).toBe(false);
+            it("should return array with error " + key + " on member missing a " + key, () => {
+                expect(memberValidator.isValid(_.omit(validMember, key))).toEqual([key]);
             });
+        });
+
+        it("should return array of errors on null member", () => {
+            expect(memberValidator.isValid(null).length).not.toBe(0);
         });
     });
 
