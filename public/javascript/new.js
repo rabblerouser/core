@@ -6,7 +6,16 @@ $(document).ready(function(){
 
 $("input:radio[name='eligibility']").change(function() {
   $("#info-box").show();
-})
+});
+
+$("input:checkbox[name='postal-address']").change(function() {
+  if($(this).is(':checked')){
+    $("#postal-address").show();
+  }
+  else {
+    $("#postal-address").hide();
+  }
+});
 
 function showButtons(){
     $('#eligibility-continue-button').show();
