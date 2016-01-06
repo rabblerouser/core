@@ -97,6 +97,50 @@
   }
 }
 
+.sub-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.sub-description {
+  font-size: .8em;
+  font-style: italic;
+  margin-bottom: 25px;
+}
+
+hr {
+  border-bottom: 1px solid $blue;
+  margin: 0;
+}
+
+.validationErrors {
+  background: $white;
+  border: 3px solid $red;
+  padding: 10px 15px;
+  margin-top: 15px;
+
+  > * {
+    display: inline-block;
+  }
+
+  .validationErrors-text {
+    height: 45px;
+    padding-left: 10px;
+    width: 80%;
+  }
+
+  .validationErrors-text span {
+    color:$red;
+    font-weight:bold;
+    padding-bottom:10px;
+  }
+
+  .error{
+    font-size:.8em;
+    color: $red;
+  }
+}
+
 .reminder {
   background: $white;
   border: 3px solid $blue;
