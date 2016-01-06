@@ -18,6 +18,7 @@
     <div class="container">
         <div class="form-container">
             <form action="/members" method="POST">
+            <%- include partials/errors.html %>
             <%- include partials/eligibility.html %>
             <%- include partials/details.html %>
             <%- include partials/payment.html %>

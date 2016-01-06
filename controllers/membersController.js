@@ -5,7 +5,7 @@ var memberValidator = require("../lib/memberValidator");
 
 var newMemberHandler = (req, res) => {
     let dbError = (error) => {
-        res.status(500).json({error: error});
+        res.status(500).json({errors: [error]});
     };
 
     let residentialAddress = {
@@ -40,7 +40,7 @@ var newMemberHandler = (req, res) => {
     let validationErrors = memberValidator.isValid(newMember);
 
     if (validationErrors.length > 0) {
-        return res.status(400).json({error: validationErrors});
+        return res.status(400).render('members/new', {title: 'New Member', errors: validationErrors});
     }
 
     return memberService.createMember(newMember)

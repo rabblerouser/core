@@ -15,7 +15,7 @@ describe("membersController", () => {
             statusStub, responseJsonStub,
             residentialAddress, postalAddress,
             createMemberStub, createMemberPromise,
-            validateMemberStub;
+            validateMemberStub, renderStub, renderLocationStub;
 
         beforeEach(() => {
             newMemberHandler = membersController.newMemberHandler;
@@ -58,8 +58,10 @@ describe("membersController", () => {
 
             statusStub = sinon.stub();
             responseJsonStub = sinon.stub();
-            statusStub.returns({json: responseJsonStub});
-            res = {status: statusStub};
+            renderLocationStub = sinon.stub();
+            renderStub = sinon.stub();
+            statusStub.returns({render: renderLocationStub, json: responseJsonStub});
+            res = {status: statusStub, render: renderStub};
 
         });
 
@@ -100,7 +102,7 @@ describe("membersController", () => {
 
                 createMemberPromise.promise.finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
-                    expect(res.render).toHaveBeenCalledWith("members/success");
+                    expect(renderLocationStub).toHaveBeenCalledWith("members/success");
                 }).nodeify(done);
             });
         });
@@ -112,7 +114,7 @@ describe("membersController", () => {
 
                 expect(memberService.createMember).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
-                expect(responseJsonStub).toHaveBeenCalledWith({error: ["firstName"]});
+                expect(renderLocationStub).toHaveBeenCalledWith("members/new", {title: 'New Member', errors: ["firstName"]});
                 done();
             });
         });
@@ -126,7 +128,7 @@ describe("membersController", () => {
 
                 createMemberPromise.promise.finally(() => {
                     expect(res.status).toHaveBeenCalledWith(500);
-                    expect(responseJsonStub).toHaveBeenCalledWith({error: errorMessage});
+                    expect(responseJsonStub).toHaveBeenCalledWith({errors: [errorMessage]});
                 }).nodeify(done);
             });
         });
