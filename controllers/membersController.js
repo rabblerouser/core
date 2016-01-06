@@ -39,7 +39,7 @@ var newMemberHandler = (req, res) => {
     let validationErrors = memberValidator.isValid(newMember);
 
     if (validationErrors.length > 0) {
-        res.status(400).json({error: validationErrors});
+        return res.status(400).json({error: validationErrors});
     }
 
     return memberService.createMember(newMember)

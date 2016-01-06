@@ -108,8 +108,9 @@ describe("membersController", () => {
         describe("when validation fails", () => {
             it("responds with status 400",(done) => {
                 validateMemberStub.returns(["firstName"]);
-                newMemberHandler(goodRequest, res, next);
+                newMemberHandler(goodRequest, res);
 
+                expect(memberService.createMember).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
                 expect(responseJsonStub).toHaveBeenCalledWith({error: ["firstName"]});
                 done();
