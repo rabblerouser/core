@@ -33,7 +33,7 @@ describe("/members", () => {
                     "suburb": "London",
                     "country": "England",
                     "state": "VIC",
-                    "postcode": "1234"
+                    "postcode": "12<script>var potato=true;</script>34"
                 },
                 "postalAddress": {
                     "address": "303 collins st",
