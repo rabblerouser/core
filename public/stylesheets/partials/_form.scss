@@ -1,16 +1,15 @@
 
 .form-container {
-  margin: 25px auto;
+  margin:25px auto;
   max-width: 800px;
 
-  .form-header {
+  h1 {
     background-color: $blue-darker;
     color: $white;
-    font-size: 24px;
-    font-weight: bold;
-    height: 70px;
+    font-size: 1.5em;
     line-height: 70px;
-    padding-left: 25px;
+    padding-left: 1.5em;
+    margin:0;
   }
 
   .form-body {
