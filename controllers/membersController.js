@@ -1,6 +1,7 @@
 'use strict';
 
 var memberService = require("../services/memberService");
+var memberValidator = require("../lib/memberValidator");
 
 var newMemberHandler = (req, res) => {
     let dbError = (error) => {
@@ -34,6 +35,12 @@ var newMemberHandler = (req, res) => {
         residentialAddress: residentialAddress,
         postalAddress: postalAddress
     };
+
+    let validationErrors = memberValidator.isValid(newMember);
+
+    if (validationErrors.length > 0) {
+        res.status(400).json({error: validationErrors});
+    }
 
     return memberService.createMember(newMember)
         .then(() => {

@@ -5,7 +5,8 @@ const specHelper = require("../../support/specHelper"),
       Member = models.Member,
       sinon = specHelper.sinon,
       Q = specHelper.Q,
-      logger = specHelper.logger;
+      logger = specHelper.logger,
+      moment = require('moment');
 
 var memberService = require("../../../services/memberService");
 
@@ -13,6 +14,8 @@ describe("memberService", () => {
     describe("createMember", () => {
         const residentialAddressId = 1;
         const postalAddressId = 2;
+        const date = "22/12/1900";
+        const momentDate = moment("22/12/1900", "DD/MM/YYYY").toDate();
         const residentialAddressFromDb = [
             {
                 dataValues: {
@@ -33,19 +36,20 @@ describe("memberService", () => {
             newMember, expectedNewMember,
             residentialAddressPromise, postalAddressPromise, memberPromise;
 
-        let makeNewMember = (residentialAddress, postalAddress) => {
+        let makeNewMember = (residentialAddress, postalAddress, date) => {
             return {
                 firstName: "Sherlock",
                 lastName: "Holmes",
                 gender: "horse radish",
                 email: "sherlock@holmes.co.uk",
-                dateOfBirth: "22 December 1900",
+                dateOfBirth: date,
                 primaryPhoneNumber: "0396291146",
                 secondaryPhoneNumber: "0394291146",
                 residentialAddress: residentialAddress,
                 postalAddress: postalAddress
             };
         };
+
 
         beforeEach(() => {
             memberStub = sinon.stub(models.Member, 'create');
@@ -67,8 +71,11 @@ describe("memberService", () => {
                 postcode: "5678"
             };
 
-            newMember = makeNewMember(residentialAddress, postalAddress);
-            expectedNewMember = makeNewMember(residentialAddressId, postalAddressId);
+
+
+
+            newMember = makeNewMember(residentialAddress, postalAddress, date);
+            expectedNewMember = makeNewMember(residentialAddressId, postalAddressId, momentDate);
 
             residentialAddressPromise = Q.defer();
             addressStub
@@ -114,8 +121,8 @@ describe("memberService", () => {
 
         describe("when postal and residential address are identical", () => {
             it("set them both to same value", (done) => {
-                newMember = makeNewMember(residentialAddress, residentialAddress);
-                expectedNewMember = makeNewMember(residentialAddressId, residentialAddressId);
+                newMember = makeNewMember(residentialAddress, residentialAddress, date);
+                expectedNewMember = makeNewMember(residentialAddressId, residentialAddressId, momentDate);
 
                 residentialAddressPromise.resolve(residentialAddressFromDb);
                 postalAddressPromise.resolve(postalAddressFromDb);

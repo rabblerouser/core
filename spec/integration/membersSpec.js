@@ -26,7 +26,7 @@ describe("/members", () => {
                 "firstName": "Sherlock",
                 "lastName": "Holmes",
                 "email": `sherlock${memberSuffix}@holmes.co.uk`,
-                "dateOfBirth": "22 December 1900",
+                "dateOfBirth": "22/12/1900",
                 "primaryPhoneNumber": "0396291146",
                 "secondaryPhoneNumber": null,
                 "gender": "horse radish",

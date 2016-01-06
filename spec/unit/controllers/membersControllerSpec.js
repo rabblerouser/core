@@ -3,7 +3,8 @@
 const specHelper = require("../../support/specHelper"),
       sinon = specHelper.sinon,
       Q = specHelper.Q,
-      memberService = require("../../../services/memberService");
+      memberService = require("../../../services/memberService"),
+      memberValidator = require("../../../lib/memberValidator");
 
 var membersController = require("../../../controllers/membersController");
 
@@ -13,11 +14,13 @@ describe("membersController", () => {
             goodRequest, res,
             statusStub, responseJsonStub,
             residentialAddress, postalAddress,
-            createMemberStub, createMemberPromise;
+            createMemberStub, createMemberPromise,
+            validateMemberStub;
 
         beforeEach(() => {
             newMemberHandler = membersController.newMemberHandler;
             createMemberStub = sinon.stub(memberService, 'createMember');
+            validateMemberStub = sinon.stub(memberValidator, 'isValid');
 
             residentialAddress = {
                 address: "221b Baker St",
@@ -40,7 +43,7 @@ describe("membersController", () => {
                     lastName: "Holmes",
                     email: "sherlock@holmes.co.uk",
                     gender: "detective genius",
-                    dateOfBirth: "22 December 1900",
+                    dateOfBirth: "22/12/1900",
                     primaryPhoneNumber: "0396291146",
                     secondaryPhoneNumber: "0394291146",
                     residentialAddress: residentialAddress,
@@ -57,16 +60,19 @@ describe("membersController", () => {
             responseJsonStub = sinon.stub();
             statusStub.returns({json: responseJsonStub});
             res = {status: statusStub};
+
         });
 
         afterEach(() => {
             memberService.createMember.restore();
+            memberValidator.isValid.restore();
         });
 
         describe("when it receives a good request", () => {
             let expectedMemberCreateValues;
 
             beforeEach(() => {
+                validateMemberStub.returns([]);
                 createMemberPromise.resolve();
 
                 expectedMemberCreateValues = {
@@ -74,7 +80,7 @@ describe("membersController", () => {
                     lastName: "Holmes",
                     email: "sherlock@holmes.co.uk",
                     gender: "detective genius",
-                    dateOfBirth: "22 December 1900",
+                    dateOfBirth: "22/12/1900",
                     primaryPhoneNumber: "0396291146",
                     secondaryPhoneNumber: "0394291146",
                     residentialAddress: residentialAddress,
@@ -99,10 +105,21 @@ describe("membersController", () => {
             });
         });
 
+        describe("when validation fails", () => {
+            it("responds with status 400",(done) => {
+                validateMemberStub.returns(["firstName"]);
+                newMemberHandler(goodRequest, res, next);
+
+                expect(res.status).toHaveBeenCalledWith(400);
+                expect(responseJsonStub).toHaveBeenCalledWith({error: ["firstName"]});
+                done();
+            });
+        });
         describe("when creating the new member fails", () => {
             it("responds with a server error", (done) => {
                 let errorMessage = "Seriously, we still don't have any damn bananas.";
                 createMemberPromise.reject(errorMessage);
+                validateMemberStub.returns([]);
 
                 newMemberHandler(goodRequest, res);
 
