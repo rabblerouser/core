@@ -30,7 +30,7 @@ var newMemberHandler = (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email,
         gender: req.body.gender,
-        primaryPhoneNumber: req.body.primaryPhoneNumber,
+        primaryPhoneNumber: req.body.phoneNumber,
         secondaryPhoneNumber: req.body.secondaryPhoneNumber,
         dateOfBirth: req.body.dateOfBirth,
         residentialAddress: residentialAddress,
@@ -45,7 +45,7 @@ var newMemberHandler = (req, res) => {
 
     return memberService.createMember(newMember)
         .then(() => {
-            res.status(200).render('members/success', {email: req.body.email});
+            res.status(200).render('members/payment', {title: 'Payment', email: req.body.email});
         })
         .catch(dbError);
 };

@@ -58,12 +58,6 @@ $('#eligibility-continue-button').click(function(){
     updateProgressHeader(window.location.hash);
 });
 
-$('#details-continue-button').click(function () {
-    showPaymentForm();
-    window.location.hash = 'payment';
-    updateProgressHeader(window.location.hash);
-});
-
 $("#details-go-back").click(function(){
     showEligibilityForm();
     window.location.hash = 'eligibility';

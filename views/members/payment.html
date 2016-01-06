@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="header">
+    <img src="/images/logo.svg">
+    <ul class="progress-bar">
+        <li class="visited" id="progress-eligibility">Eligibility</li>
+        <li class="visited" id="progress-details">Details</li>
+        <li class="active" id="progress-payment">Pay What You Want</li>
+        <li class="unvisited" id="progress-finished">Finish</li>
+    </ul>
+</div>
+<div class="container">
+    <div class="form-container">
+        <form action="/members" method="POST">
+            <div id="payment-form">
+                <h1>Pay What You Want</h1>
+                <div class="form-body">
+                    <div class="reminder">
+                        <img src="/images/reminder.svg">
+                        <div class="reminder-text">
+                            <b>Full Membership</b> of Pirate Party Australia is currently <b>Whatever you want!</b>
+                        </div>
+                    </div>
+                    <div class="contribution">
+                        <div class="heading">
+                            <h2>Membership Contribution</h2>
+                            <i>Please enter a whole dollar value (minimum $0)</i>
+                        </div>
+                        <div class="contribution-amount">
+                            <div class="currency">$AUD</div>
+                            <input type="text" name="amount" id="amount">
+                            <input class="hidden" type="text" name="email" id="email" value="<%= email %>"/>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="heading">
+                            <h2>Choose a Payment Method</h2>
+                            <i>Pay your selected amount.</i>
+                        </div>
+                        <div class="field-group">
+                            <label>
+                                <input type="radio" name="payment-type" value="deposit">Direct Debit.
+                            </label>
+                            <label>
+                                <input type="radio" name="payment-type" value="cheque">Pay by Cheque.
+                            </label>
+                        </div>
+                    </div>
+                    <div class="navigation">
+                        <button type="button" id="payment-continue-button">Continue</button>
+                        <p>or <a id="payment-go-back" >go back</a></p>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+<script src="/libraries/jquery-1.11.3.min.js"></script>
+</html>
