@@ -21,7 +21,7 @@ div.container {
     margin-bottom: 20px;
     width: 25%;
 
-    @include media($small-tablet-down) {
+    @include media($tablet) {
       width: 50%;
     }
   }
@@ -85,7 +85,7 @@ div.container {
       }
     }
 
-    @include media($small-tablet) {
+    @include media($tablet) {
       font-size: 14px;
       width: 20%;
 

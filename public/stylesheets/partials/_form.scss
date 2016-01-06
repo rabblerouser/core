@@ -1,6 +1,13 @@
 .form-container {
+  @include media($desktop) {
+    max-width: 800px;
+  }
+
+  @include media($mobile) {
+    @include pad();
+  }
+
   margin:25px auto;
-  max-width: 800px;
 
   h1 {
     background-color: $blue-darker;
