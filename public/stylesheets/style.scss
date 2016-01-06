@@ -5,10 +5,6 @@
 @import 'partials/local-variables';
 @import 'partials/form';
 
-$visual-grid: true;
-$visual-grid-color: #E6F6FF;
-$visual-grid-opacity: 0.4;
-
 div.container {
   @include outer-container(100%);
 }
