@@ -20,6 +20,7 @@ $("input:checkbox[name='differentPostal']").change(function() {
 function showButtons(){
     $('#eligibility-continue-button').show();
     $('#details-continue-button').show();
+    $('#payment-continue-button').show();
     $('#finished-close-button').show();
     $('#details-go-back').show();
     $('#payment-go-back').show();
