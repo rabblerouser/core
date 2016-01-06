@@ -16,13 +16,14 @@ var newMemberHandler = (req, res) => {
         country: req.body.residentialAddress.country
     };
 
-    let postalAddress = {
-        address: req.body.postalAddress.address,
-        suburb: req.body.postalAddress.suburb,
-        postcode: req.body.postalAddress.postcode,
-        state: req.body.postalAddress.state,
-        country: req.body.postalAddress.country
-    };
+    let postalAddress = isPostalAddressEmpty(req.body.postalAddress) ? residentialAddress :
+        {
+            address: req.body.postalAddress.address,
+            suburb: req.body.postalAddress.suburb,
+            postcode: req.body.postalAddress.postcode,
+            state: req.body.postalAddress.state,
+            country: req.body.postalAddress.country
+        };
 
     let newMember = {
         firstName: req.body.firstName,
@@ -47,6 +48,13 @@ var newMemberHandler = (req, res) => {
             res.status(200).render('members/success', {email: req.body.email});
         })
         .catch(dbError);
+};
+
+function isPostalAddressEmpty(postalAddress){
+    return  postalAddress.address == "" &&
+            postalAddress.suburb == "" &&
+            postalAddress.postcode == "" &&
+            postalAddress.state == "";
 };
 
 module.exports = {
