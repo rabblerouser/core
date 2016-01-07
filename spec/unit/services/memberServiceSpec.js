@@ -54,7 +54,7 @@ describe("memberService", () => {
         beforeEach(() => {
             memberStub = sinon.stub(models.Member, 'create');
             addressStub = sinon.stub(models.Address, 'findOrCreate');
-            loggerStub = sinon.stub(logger, 'info');
+            loggerStub = sinon.stub(logger, 'logMemberSignUpEvent');
 
             residentialAddress = {
                 address: "221b Baker St",
@@ -115,7 +115,7 @@ describe("memberService", () => {
 
             memberService.createMember(newMember)
                 .then(() => {
-                    expect(logger.info).toHaveBeenCalledWith(newMember);
+                    expect(logger.logMemberSignUpEvent).toHaveBeenCalledWith(newMember);
                 }).nodeify(done);
         });
 

@@ -26,7 +26,7 @@ var createMember = (newMember) => {
             });
         })
         .then(Member.create.bind(Member))
-        .then(logger.info(newMember))
+        .then(logger.logMemberSignUpEvent(newMember))
         .catch((error) => {
             return Q.reject(error);
         });
