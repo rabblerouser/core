@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  var Address = sequelize.define('Invoice', {
+  var Invoice = sequelize.define('Invoice', {
     memberEmail: DataTypes.STRING,
     totalAmount: DataTypes.BIGINT,
     paymentDate:  DataTypes.DATEONLY,
@@ -13,5 +13,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  return Address;
+  return Invoice;
 };
