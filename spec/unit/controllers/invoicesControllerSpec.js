@@ -2,16 +2,19 @@
 
 const specHelper = require("../../support/specHelper"),
       sinon = specHelper.sinon,
-      Q = specHelper.Q,
-      invoiceService = require("../../../services/invoiceService")
+      Q = specHelper.Q
+
+var invoiceService = require("../../../services/invoiceService");
 
 var invoicesController = require("../../../controllers/invoicesController");
 
 describe("invoicesController", () => {
-    describe("newInvocieHandler", () => {
+    describe("newInvoiceHandler", () => {
         let newInvoiceHandler,
             goodRequest, res,
-            createInvoiceStub, createInvoicePromise;
+            statusStub, responseJsonStub,
+            createInvoiceStub, createInvoicePromise,
+            renderStub, renderLocationStub;
 
         beforeEach(() => {
             newInvoiceHandler = invoicesController.newInvoiceHandler;
@@ -19,8 +22,8 @@ describe("invoicesController", () => {
 
             goodRequest = {
                 body: {
-                    email: "sherlock@holmes.co.uk",
-                    amount: 60,
+                    memberEmail: "sherlock@holmes.co.uk",
+                    totalAmount: 60,
                     paymentType: 'deposit'
                 }
             };
@@ -30,7 +33,12 @@ describe("invoicesController", () => {
                 .withArgs(goodRequest.body)
                 .returns(createInvoicePromise.promise);
 
-            res = {};
+            statusStub = sinon.stub();
+            responseJsonStub = sinon.stub();
+            renderLocationStub = sinon.stub();
+            renderStub = sinon.stub();
+            statusStub.returns({render: renderLocationStub, json: responseJsonStub});
+            res = {status: statusStub, render: renderStub};
         });
 
         afterEach(() => {
@@ -52,8 +60,32 @@ describe("invoicesController", () => {
 
             it("creates a new invoice", (done) => {
                 newInvoiceHandler(goodRequest, res);
+
                 createInvoicePromise.promise.finally(() => {
                     expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
+                }).nodeify(done);
+            });
+
+            it("responds with success", (done) => {
+                newInvoiceHandler(goodRequest, res);
+
+                createInvoicePromise.promise.finally(() => {
+                    expect(res.status).toHaveBeenCalledWith(200);
+                    expect(renderLocationStub).toHaveBeenCalledWith("members/finish");
+                }).nodeify(done);
+            });
+        });
+
+        describe("when creating the new invoice fails", () => {
+            it("responds with a server error", (done) => {
+                let errorMessage = "Seriously, we still don't have any damn bananas.";
+                createInvoicePromise.reject(errorMessage);
+
+                newInvoiceHandler(goodRequest, res);
+
+                createInvoicePromise.promise.finally(() => {
+                    expect(res.status).toHaveBeenCalledWith(500);
+                    expect(responseJsonStub).toHaveBeenCalledWith({errors: [errorMessage]});
                 }).nodeify(done);
             });
         });

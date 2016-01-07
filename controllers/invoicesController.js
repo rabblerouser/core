@@ -7,13 +7,17 @@ var newInvoiceHandler = (req, res) => {
         res.status(500).json({errors: [error]});
     };
 
-    let newInvocie = {
-        memberEmail: req.body.email,
-        totalAmount: req.body.amount,
+    let newInvoice = {
+        memberEmail: req.body.memberEmail,
+        totalAmount: req.body.totalAmount,
         paymentType: req.body.paymentType
     };
 
-    return invoiceService.createInvoice(newInvocie);
+    return invoiceService.createInvoice(newInvoice)
+        .then(() => {
+            res.status(200).render('members/finish');
+        })
+        .catch(dbError);
 };
 
 module.exports = {
