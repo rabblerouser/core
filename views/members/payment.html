@@ -16,7 +16,7 @@
 </div>
 <div class="container">
     <div class="form-container">
-        <form action="/members" method="POST">
+        <form action="/invoices" method="POST">
             <div id="payment-form">
                 <h1>Pay What You Want</h1>
                 <div class="form-body">
@@ -33,8 +33,8 @@
                         </div>
                         <div class="contribution-amount">
                             <div class="currency">$AUD</div>
-                            <input type="text" name="amount" id="amount">
-                            <input class="hidden" type="text" name="email" id="email" value="<%= email %>"/>
+                            <input type="text" name="totalAmount" id="totalAmount">
+                            <input class="hidden" type="text" name="memberEmail" id="memberEmail" value="<%= email %>"/>
                         </div>
                     </div>
                     <div class="payment-method">
@@ -44,15 +44,15 @@
                         </div>
                         <div class="field-group">
                             <label>
-                                <input type="radio" name="payment-type" value="deposit">Direct Debit.
+                                <input type="radio" name="paymentType" value="deposit">Direct Debit.
                             </label>
                             <label>
-                                <input type="radio" name="payment-type" value="cheque">Pay by Cheque.
+                                <input type="radio" name="paymentType" value="cheque">Pay by Cheque.
                             </label>
                         </div>
                     </div>
                     <div class="navigation">
-                        <button type="button" id="payment-continue-button">Continue</button>
+                        <button type="submit" id="payment-continue-button">Continue</button>
                         <p>or <a id="payment-go-back" >go back</a></p>
                     </div>
                 </div>
