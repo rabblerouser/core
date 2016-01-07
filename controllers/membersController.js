@@ -30,7 +30,7 @@ var newMemberHandler = (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email,
         gender: req.body.gender,
-        primaryPhoneNumber: req.body.phoneNumber,
+        primaryPhoneNumber: req.body.primaryPhoneNumber,
         secondaryPhoneNumber: req.body.secondaryPhoneNumber,
         dateOfBirth: req.body.dateOfBirth,
         residentialAddress: residentialAddress,

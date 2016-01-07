@@ -102,7 +102,7 @@ describe("membersController", () => {
 
                 createMemberPromise.promise.finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
-                    expect(renderLocationStub).toHaveBeenCalledWith("members/success");
+                    expect(renderLocationStub).toHaveBeenCalledWith("members/payment");
                 }).nodeify(done);
             });
         });
