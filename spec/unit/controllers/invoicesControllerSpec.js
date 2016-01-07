@@ -71,7 +71,7 @@ describe("invoicesController", () => {
 
                 createInvoicePromise.promise.finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
-                    expect(renderLocationStub).toHaveBeenCalledWith("members/finish");
+                    expect(renderLocationStub).toHaveBeenCalledWith("members/success");
                 }).nodeify(done);
             });
         });
