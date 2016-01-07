@@ -15,7 +15,7 @@ var newInvoiceHandler = (req, res) => {
 
     return invoiceService.createInvoice(newInvoice)
         .then(() => {
-            res.status(200).render('members/finish');
+            res.status(200).render('members/success', {email: req.body.memberEmail});
         })
         .catch(dbError);
 };
