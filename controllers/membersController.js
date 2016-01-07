@@ -53,8 +53,7 @@ var newMemberHandler = (req, res) => {
 function isPostalAddressEmpty(postalAddress){
     return  postalAddress.address == "" &&
             postalAddress.suburb == "" &&
-            postalAddress.postcode == "" &&
-            postalAddress.state == "";
+            postalAddress.postcode == "";
 };
 
 module.exports = {

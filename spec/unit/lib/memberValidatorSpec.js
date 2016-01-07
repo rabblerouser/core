@@ -192,7 +192,6 @@ describe("memberValidator", () => {
 
             {state: null},
             {state: ""},
-            {state: "a".repeat(4)},
 
             {postcode: null},
             {postcode: ""},
