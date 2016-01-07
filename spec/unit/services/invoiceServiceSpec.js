@@ -53,5 +53,28 @@ describe('invoiceService', () => {
                 expect(Invoice.create).toHaveBeenCalledWith(expectedNewInvoice);
             }).nodeify(done);
     });
+
+    it("logs the invoice creation event", (done) => {
+        invoicePromise.resolve();
+
+        invoiceService.createInvoice(newInvoice)
+            .then(() => {
+                expect(logger.info).toHaveBeenCalledWith(newInvoice);
+            }).nodeify(done);
+    });
+
+    describe("an error when saving the invoice to the database", () => {
+        it("rejects the promise", (done) => {
+            let errorMessage = "Seriously, we still don't have any damn bananas.";
+            invoicePromise.reject(errorMessage);
+
+            let promise = invoiceService.createInvoice(newInvoice);
+
+            promise.finally(() => {
+                expect(promise.isRejected()).toBe(true);
+                done();
+            });
+        });
+    });
   });
 });
