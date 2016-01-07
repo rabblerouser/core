@@ -20,7 +20,7 @@ describe('invoiceService', () => {
 
     beforeEach(() => {
         invoiceStub = sinon.stub(models.Invoice, 'create');
-        loggerStub = sinon.stub(logger, 'info');
+        loggerStub = sinon.stub(logger, 'logNewInvoiceEvent');
 
         newInvoice = {
           memberEmail: "sherlock@holmes.co.uk",
@@ -59,7 +59,7 @@ describe('invoiceService', () => {
 
         invoiceService.createInvoice(newInvoice)
             .then(() => {
-                expect(logger.info).toHaveBeenCalledWith(newInvoice);
+                expect(logger.logNewInvoiceEvent).toHaveBeenCalledWith(newInvoice);
             }).nodeify(done);
     });
 

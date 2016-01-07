@@ -15,7 +15,7 @@ var createInvoice = (newInvoice) => {
     reference: ''
   })
     .then(Invoice.create.bind(Invoice))
-    .then(logger.info(newInvoice))
+    .then(logger.logNewInvoiceEvent(newInvoice))
     .catch((error) => {
         return Q.reject(error);
     });
