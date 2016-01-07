@@ -8,9 +8,11 @@ var logger = require('../../lib/logger');
 
 var models = require("../../models"),
     Address = models.Address,
-    Member = models.Member;
+    Member = models.Member,
+    Invoice = models.Invoice;
 
 beforeEach((done) => {
+    Invoice.truncate({cascade: true});
     Address.truncate({cascade: true}).then(() => {
         Member.truncate({cascade: true}).nodeify(done);
     });
