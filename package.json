@@ -34,6 +34,7 @@
     "jasmine": "^2.4.1",
     "jasmine-sinon": "^0.4.0",
     "sinon": "^1.17.2",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "supertest-as-promised": "^2.0.2"
   }
 }
