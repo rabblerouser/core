@@ -9,7 +9,7 @@ const Q = require('q'),
 var createInvoice = (newInvoice) => {
   return Q({
     memberEmail: newInvoice.memberEmail,
-    totalAmount: parseFloat(newInvoice.totalAmount) * 100,
+    totalAmountInCents: parseFloat(newInvoice.totalAmount) * 100,
     paymentDate: moment().format('L'),
     paymentType: newInvoice.paymentType,
     reference: ''

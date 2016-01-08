@@ -30,7 +30,7 @@ describe('invoiceService', () => {
 
         expectedNewInvoice = {
           memberEmail: "sherlock@holmes.co.uk",
-          totalAmount: 6000,
+          totalAmountInCents: 6000,
           paymentDate: moment().format('L'),
           paymentType: 'deposit',
           reference: ''

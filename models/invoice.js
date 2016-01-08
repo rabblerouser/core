@@ -3,7 +3,7 @@
 module.exports = (sequelize, DataTypes) => {
   var Invoice = sequelize.define('Invoice', {
     memberEmail: DataTypes.STRING,
-    totalAmount: DataTypes.BIGINT,
+    totalAmountInCents: DataTypes.BIGINT,
     paymentDate:  DataTypes.DATEONLY,
     paymentType: DataTypes.STRING,
     reference: DataTypes.STRING
