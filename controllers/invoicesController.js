@@ -7,11 +7,19 @@ var newInvoiceHandler = (req, res) => {
         res.status(500).json({errors: [error]});
     };
 
+    let validate = (invoice) => {
+      return /^[0-9]*(,?[0-9]+\.?)?[0-9]{0,2}$/.test(invoice.totalAmount);
+    };
+
     let newInvoice = {
         memberEmail: req.body.memberEmail,
         totalAmount: req.body.totalAmount,
         paymentType: req.body.paymentType
     };
+
+    if (!validate(newInvoice)) {
+        return res.status(400).render('members/payment', {title: 'Payment', errors: ["totalAmount"]});
+    }
 
     return invoiceService.createInvoice(newInvoice)
         .then(() => {

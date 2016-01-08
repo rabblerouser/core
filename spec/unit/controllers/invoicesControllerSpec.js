@@ -76,6 +76,29 @@ describe("invoicesController", () => {
             });
         });
 
+        describe("when validation fails", () => {
+            it("responds with status 400",(done) => {
+                let badRequest = {
+                    body: {
+                        memberEmail: "sherlock@holmes.co.uk",
+                        totalAmount: 'abd',
+                        paymentType: 'deposit'
+                    }
+                };
+
+                createInvoiceStub
+                    .withArgs(badRequest.body)
+                    .returns(createInvoicePromise.promise);
+
+                newInvoiceHandler(badRequest, res);
+
+                expect(invoiceService.createInvoice).not.toHaveBeenCalled();
+                expect(res.status).toHaveBeenCalledWith(400);
+                expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {title: 'Payment', errors: ["totalAmount"]});
+                done();
+            });
+        });
+
         describe("when creating the new invoice fails", () => {
             it("responds with a server error", (done) => {
                 let errorMessage = "Seriously, we still don't have any damn bananas.";
