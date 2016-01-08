@@ -94,7 +94,7 @@ describe("invoicesController", () => {
 
                 expect(invoiceService.createInvoice).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
-                expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {title: 'Payment', errors: ["totalAmount"]});
+                expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {title: 'Payment', errors: ["totalAmount"], email: "sherlock@holmes.co.uk"});
                 done();
             });
         });

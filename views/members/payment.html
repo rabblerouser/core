@@ -27,6 +27,9 @@
                             <b>Full Membership</b> of Pirate Party Australia is currently <b>Whatever you want!</b>
                         </div>
                     </div>
+
+                    <%- include ../members/partials/validationErrors.html %>
+
                     <div class="contribution">
                         <div class="heading">
                             <h2>Membership Contribution</h2>
@@ -45,7 +48,7 @@
                         </div>
                         <div class="field-group">
                             <label>
-                                <input type="radio" name="paymentType" value="deposit">Direct Debit.
+                                <input type="radio" name="paymentType" value="deposit" checked>Direct Debit.
                             </label>
                             <label>
                                 <input type="radio" name="paymentType" value="cheque">Pay by Cheque.

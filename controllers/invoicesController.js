@@ -18,7 +18,7 @@ var newInvoiceHandler = (req, res) => {
     };
 
     if (!validate(newInvoice)) {
-        return res.status(400).render('members/payment', {title: 'Payment', errors: ["totalAmount"]});
+        return res.status(400).render('members/payment', {title: 'Payment', errors: ["totalAmount"], email: req.body.memberEmail});
     }
 
     return invoiceService.createInvoice(newInvoice)
