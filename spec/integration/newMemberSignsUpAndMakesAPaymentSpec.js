@@ -9,21 +9,21 @@ it ("a new member successfully signs up and then makes a payment", (done) => {
     let app,
         memberSuffix;
 
-    let createNewInvoice = () => {
-        return request(app)
-            .post("/invoices")
-            .set("Content-Type", "application/json")
-            .set("Accept", "application/json")
-            .send(invoice)
-            .expect(200, {});
-    };
-
-    let createNewMember = () => {
+    let successfullyCreatingANewMemberShouldRepondWithA200 = () => {
         return request(app)
             .post("/members")
             .set("Content-Type", "application/json")
             .set("Accept", "application/json")
             .send(member)
+            .expect(200, {});
+    };
+
+    let successfullyCreatingANewInvoiceShouldRespondWithA200 = () => {
+        return request(app)
+            .post("/invoices")
+            .set("Content-Type", "application/json")
+            .set("Accept", "application/json")
+            .send(invoice)
             .expect(200, {});
     };
 
@@ -66,8 +66,8 @@ it ("a new member successfully signs up and then makes a payment", (done) => {
         "paymentType": "deposit"
     };
 
-    createNewMember()
-        .then(createNewInvoice)
+    successfullyCreatingANewMemberShouldRepondWithA200()
+        .then(successfullyCreatingANewInvoiceShouldRespondWithA200)
         .nodeify(done)
         .catch((err) => {
             done.fail(err);
