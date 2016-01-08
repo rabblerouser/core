@@ -5,11 +5,27 @@ var request = require("supertest-as-promised");
 const instance_url = process.env.INSTANCE_URL,
       specHelper = require("../support/specHelper");
 
-describe("create member and pay invoice", () => {
-
-  it ("create valid member and then create valid invoice.", (done) => {
+it ("a new member successfully signs up and then makes a payment", (done) => {
     let app,
         memberSuffix;
+
+    let createNewInvoice = () => {
+        return request(app)
+            .post("/invoices")
+            .set("Content-Type", "application/json")
+            .set("Accept", "application/json")
+            .send(invoice)
+            .expect(200, {});
+    };
+
+    let createNewMember = () => {
+        return request(app)
+            .post("/members")
+            .set("Content-Type", "application/json")
+            .set("Accept", "application/json")
+            .send(member)
+            .expect(200, {});
+    };
 
     if (instance_url) {
         app = instance_url;
@@ -45,25 +61,15 @@ describe("create member and pay invoice", () => {
     };
 
     let invoice = {
-      "memberEmail": `sherlock${memberSuffix}@holmes.co.uk`,
-      "totalAmount": "88.88",
-      "paymentType": "deposit"
+        "memberEmail": `sherlock${memberSuffix}@holmes.co.uk`,
+        "totalAmount": "88.88",
+        "paymentType": "deposit"
     };
 
-    request(app)
-        .post("/members")
-        .set("Content-Type", "application/json")
-        .set("Accept", "application/json")
-        .send(member)
-        .expect(200, {})
-        .then(function () {
-          return request(app)
-              .post("/invoices")
-              .set("Content-Type", "application/json")
-              .set("Accept", "application/json")
-              .send(invoice)
-              .expect(200, {});
-        })
-        .nodeify(done);
-      }, 20000);
-});
+    createNewMember()
+        .then(createNewInvoice)
+        .nodeify(done)
+        .catch((err) => {
+            done.fail(err);
+        });
+}, 20000);
