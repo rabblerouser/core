@@ -4,9 +4,6 @@
 - name: create app user
   user: name="{{ app_user }}" group="{{ app_user }}" system=yes
 
-- name: blah
-  debug: msg="wtf {{ app_user }} {{ repo_url }} {{ logs_dir }}"
-
 - name: check out app from version control
   git: repo="{{ repo_url }}" clone=yes version="{{ git_sha }}" dest="{{ app_path }}" force=yes
 
