@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -56,6 +56,12 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactDom = __webpack_require__(158);
+
+	var _form = __webpack_require__(159);
+
+	var _form2 = _interopRequireDefault(_form);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -64,30 +70,28 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Form = function (_Component) {
-	    _inherits(Form, _Component);
+	var App = function (_Component) {
+	    _inherits(App, _Component);
 
-	    function Form() {
-	        _classCallCheck(this, Form);
+	    function App() {
+	        _classCallCheck(this, App);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Form).apply(this, arguments));
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
 	    }
 
-	    _createClass(Form, [{
-	        key: "render",
+	    _createClass(App, [{
+	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement(
-	                "div",
-	                { id: "form" },
-	                "It works."
-	            );
+	            return _react2.default.createElement(_form2.default, null);
 	        }
 	    }]);
 
-	    return Form;
+	    return App;
 	}(_react.Component);
 
-	exports.default = Form;
+	exports.default = App;
+
+	(0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -19674,6 +19678,154 @@
 
 	module.exports = deprecated;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 158 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = __webpack_require__(3);
+
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _eligability = __webpack_require__(160);
+
+	var _eligability2 = _interopRequireDefault(_eligability);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Form = function (_Component) {
+	    _inherits(Form, _Component);
+
+	    function Form() {
+	        _classCallCheck(this, Form);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Form).apply(this, arguments));
+	    }
+
+	    _createClass(Form, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { id: 'form', className: 'form-container' },
+	                _react2.default.createElement(_eligability2.default, null)
+	            );
+	        }
+	    }]);
+
+	    return Form;
+	}(_react.Component);
+
+	exports.default = Form;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Eligability = function (_Component) {
+	    _inherits(Eligability, _Component);
+
+	    function Eligability() {
+	        _classCallCheck(this, Eligability);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Eligability).apply(this, arguments));
+	    }
+
+	    _createClass(Eligability, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "div",
+	                { id: "eligibility-form" },
+	                _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    _react2.default.createElement(
+	                        "h1",
+	                        null,
+	                        "Eligability"
+	                    ),
+	                    _react2.default.createElement(
+	                        "h6",
+	                        null,
+	                        "Which of the following options represents your circumstances? (Select one of the four.)"
+	                    ),
+	                    _react2.default.createElement(
+	                        "label",
+	                        null,
+	                        _react2.default.createElement("input", { type: "radio", value: "enrolled" }),
+	                        "I am enrolled to vote in Australia and I am not a member of any other Australian political party."
+	                    ),
+	                    _react2.default.createElement(
+	                        "label",
+	                        null,
+	                        _react2.default.createElement("input", { type: "radio", value: "resident" }),
+	                        "I am a permanent resident in Australia and I am not a member of any other Australian political party."
+	                    ),
+	                    _react2.default.createElement(
+	                        "label",
+	                        null,
+	                        _react2.default.createElement("input", { type: "radio", value: "member" }),
+	                        "I am a member of at least one other Australian political party and I wish to support the Pirate Party."
+	                    ),
+	                    _react2.default.createElement(
+	                        "label",
+	                        null,
+	                        _react2.default.createElement("input", { type: "radio", value: "international" }),
+	                        "I do not live in Australia and wish to be an international supporter."
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Eligability;
+	}(_react.Component);
+
+	exports.default = Eligability;
 
 /***/ }
 /******/ ]);

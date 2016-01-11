@@ -6,7 +6,7 @@ module.exports = {
     entry: [
         'webpack-dev-server/client?http://localhost:3000',
         'webpack/hot/only-dev-server',
-        './components/Form'
+        './components/App'
     ],
     output: {
         path: path.join(__dirname, 'dist'),
