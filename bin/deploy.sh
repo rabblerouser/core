@@ -9,4 +9,4 @@ set -e
 
 sudo yum install ansible
 
-ansible-playbook -i "#{HOST}," provisioning/prod.yml
+ansible-playbook --check --diff -i "#{HOST}," provisioning/prod.yml
