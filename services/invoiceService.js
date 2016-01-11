@@ -6,6 +6,8 @@ const Q = require('q'),
     moment = require('moment'),
     Invoice = models.Invoice;
 
+var stripe = require("stripe")("pk_test_4SqBME7pIDAKSWRft4OpviYK");
+
 var createInvoice = (newInvoice) => {
   return Q({
     memberEmail: newInvoice.memberEmail,
@@ -19,9 +21,23 @@ var createInvoice = (newInvoice) => {
     .catch((error) => {
         return Q.reject(error);
     });
+};
 
+var chargeCard = (stripeToken, totalAmount) => {
+  stripe.charges.create({
+    amount: parseFloat(totalAmount) * 100,
+    currency: "aud",
+    source: stripeToken,
+    description: "Example charge"
+  }, function(err, charge) {
+    if (err && err.type === 'StripeCardError') {
+      // The card has been declined
+      // TODO: Handle charge card error
+    }
+  });
 };
 
 module.exports = {
-    createInvoice: createInvoice
+    createInvoice: createInvoice,
+    chargeCard: chargeCard
 };

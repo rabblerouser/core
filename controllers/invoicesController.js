@@ -17,6 +17,8 @@ var newInvoiceHandler = (req, res) => {
         paymentType: req.body.paymentType
     };
 
+    invoiceService.chargeCard(req.body.stripeToken, req.body.totalAmount);
+
     if (!validate(newInvoice)) {
         return res.status(400).render('members/payment', {title: 'Payment', errors: ["totalAmount"], email: req.body.memberEmail});
     }

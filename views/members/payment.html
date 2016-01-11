@@ -4,6 +4,9 @@
     <title><%= title %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="/libraries/jquery-1.11.3.min.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="/javascript/payment.js"></script>
 </head>
 <body>
 <div class="header">
@@ -53,6 +56,7 @@
                             <label>
                                 <input type="radio" name="paymentType" value="cheque">Pay by Cheque.
                             </label>
+                            <button type="button" id="pay-by-credit-card-button">Pay by Credit/Debit Card</button>
                         </div>
                     </div>
                     <div class="navigation">
