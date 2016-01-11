@@ -72,4 +72,4 @@ it ("a new member successfully signs up and then makes a payment", (done) => {
         .catch((err) => {
             done.fail(err);
         });
-}, 20000);
+}, 60000);
