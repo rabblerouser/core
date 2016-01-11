@@ -34,6 +34,12 @@
 
         npm start
 
+### webpack
+
+0. npm install webpack -g
+
+0. webpack --progress --colors --watch
+
 
 ### Utility scripts
 
