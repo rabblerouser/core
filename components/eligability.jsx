@@ -3,8 +3,8 @@ import React, {Component} from 'react';
 export default class Eligability extends Component {
     render() {
         return <div id="eligibility-form">
-            <div>
-                <h1>Eligability</h1>
+            <h1>Eligability</h1>
+            <div className="form-body">
                 <h6>Which of the following options represents your circumstances? (Select one of the four.)</h6>
                 <label>
                     <input type="radio" value="enrolled" />
