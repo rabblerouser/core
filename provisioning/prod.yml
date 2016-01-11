@@ -1,7 +1,6 @@
 - hosts: all
   sudo: yes
   roles:
-    - { role: common }
     - { role: firewall }
     - { role: nodesource.node }
     - { role: postgres, db_password: "{{ lookup('env','DB_PASSWORD') }}" }
