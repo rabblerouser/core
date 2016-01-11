@@ -1,6 +1,3 @@
-- name: set locale
-  locale_gen: name={{ locale }} state=present
-
 - name: cd to synchronised directory (/vagrant) on login
   lineinfile: dest=/home/vagrant/.bashrc regexp="^cd /vagrant$" line="cd /vagrant"
 

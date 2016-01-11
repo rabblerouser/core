@@ -1,0 +1,2 @@
+- name: "set locale to {{ locale }}"
+  locale_gen: name={{ locale }} state=present

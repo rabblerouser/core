@@ -1,7 +1,0 @@
-- hosts: all
-  sudo: yes
-  roles:
-    - { role: nodesource.node }
-    - { role: postgres }
-    - { role: dev }
-    - { role: test }

@@ -1,0 +1,29 @@
+- name: install nginx
+  apt: name=nginx
+
+- name: create certificates directory
+  file: path=/etc/certificates state=directory owner=root group=root
+
+- name: generate dh params
+  command: openssl dhparam -out /etc/certificates/dhparams.pem 2048 creates=/etc/certificates/dhparams.pem
+  notify:
+    - restart nginx
+
+- name: upload nginx.conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf mode=0644 owner=root group=root
+  notify:
+    - restart nginx
+
+- name: upload nginx sites sites file
+  template: src=default.j2 dest=/etc/nginx/sites-enabled/default mode=0644 owner=root group=root
+  notify:
+    - restart nginx
+
+- name: check if certs have changed recently
+  command: "find {{ https_certs_dir }} -cmin -2"
+  ignore_errors: True
+  register: command_result
+
+- name: restart nginx
+  service: name=nginx state=restarted
+  when: command_result.stdout != ""

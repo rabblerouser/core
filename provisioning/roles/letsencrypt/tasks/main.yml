@@ -1,0 +1,14 @@
+- name: install dependencies
+  apt: name=git
+
+- name: install letsencrypt client
+  git: repo=https://github.com/letsencrypt/letsencrypt clone=yes dest=/opt/letsencrypt
+
+- name: open port 80
+  ufw: rule=allow port=80 proto=tcp
+
+- name: install a cert
+  shell: /opt/letsencrypt/letsencrypt-auto certonly --standalone --agree-tos --email {{ cert_contact_email }} -d {{ cert_domain }} --keep --standalone-supported-challenges http-01
+
+- name: close port 80
+  ufw: rule=allow port=80 proto=tcp delete=yes

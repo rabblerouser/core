@@ -1,3 +1,7 @@
 ---
 nodejs_version: '4.2'
 locale: 'en_AU.UTF-8'
+db_names:
+  - project-m
+db_user: project-m
+db_password: project-m

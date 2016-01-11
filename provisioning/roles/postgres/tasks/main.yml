@@ -1,19 +1,19 @@
-- name: install postgres 9.3
-  apt: name=postgresql-9.3
-  when: ansible_pkg_mgr == 'apt' 
+- include: apt.yml
+  when: ansible_pkg_mgr == 'apt'
 
-- name: install postgres 9.3
-  yum: name=postgresql-server
-  when: ansible_pkg_mgr == 'yum' 
-
-- name: install psycopg2
-  apt: name=python-psycopg2
-  when: ansible_pkg_mgr == 'apt' 
-
-- name: install psycopg2
-  yum: name=python-psycopg2
-  when: ansible_pkg_mgr == 'yum' 
+- include: yum.yml
+  when: ansible_pkg_mgr == 'yum'
 
 - name: setup postgres db
   sudo_user: postgres
-  postgresql_db: name=project-m
+  postgresql_db: name={{ item }}
+  with_items: "{{ db_names }}"
+
+- name: setup postgres users
+  sudo_user: postgres
+  postgresql_user: "name={{ db_user }} role_attr_flags=NOSUPERUSER,CREATEDB,LOGIN password={{ db_password }}"
+
+- name: setup project-m user permissions
+  sudo_user: postgres
+  postgresql_user: "db={{ item }} name={{ db_user }} priv=ALL"
+  with_items: "{{ db_names }}"

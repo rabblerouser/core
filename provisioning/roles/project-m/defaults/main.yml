@@ -1,0 +1,9 @@
+---
+repo_url: https://github.com/ppau/project-m.git
+git_sha: HEAD
+app_path: /opt/project-m
+app_user: project-m
+logs_dir: /var/log/project-m
+pids_dir: /var/run/project-m
+node_env: development
+db_password: secret
