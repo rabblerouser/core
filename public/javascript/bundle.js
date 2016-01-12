@@ -19735,12 +19735,15 @@
 	        _this.nextStep = _this.nextStep.bind(_this);
 	        _this.previousStep = _this.previousStep.bind(_this);
 	        _this.state = { step: 1 };
-	        _this.fieldValues = {
+	        _this.formValues = {
+	            eligibility: '',
 	            firstName: '',
 	            lastName: '',
 	            dateOfBirth: '',
-	            email: '',
 	            gender: '',
+	            email: '',
+	            primaryPhoneNumber: '',
+	            secondaryPhoneNumber: '',
 	            residentialAddress: {
 	                address: '',
 	                suburb: '',
@@ -19756,6 +19759,7 @@
 	                postcode: ''
 	            }
 	        };
+
 	        return _this;
 	    }
 
@@ -19770,25 +19774,20 @@
 	            this.setState({ step: this.state.step - 1 });
 	        }
 	    }, {
-	        key: 'saveValues',
-	        value: function saveValues() {
-	            var _this2 = this;
-
-	            return function (fields) {
-	                _this2.fieldValues = Object.assign({}, _this2.fieldValues, fields);
-	            };
+	        key: 'saveAndContinue',
+	        value: function saveAndContinue() {
+	            this.nextStep();
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            switch (this.state.step) {
 	                case 1:
-	                    return _react2.default.createElement(_eligibility2.default, { nextStep: this.nextStep,
-	                        saveValues: this.saveValues });
+	                    return _react2.default.createElement(_eligibility2.default, { nextStep: this.nextStep });
 	                case 2:
 	                    return _react2.default.createElement(_details2.default, { nextStep: this.nextStep,
 	                        previousStep: this.previousStep,
-	                        saveValues: this.saveValues });
+	                        formValues: this.formValues });
 	            }
 	        }
 	    }]);
@@ -20003,7 +20002,7 @@
 /* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -20026,19 +20025,264 @@
 	var Details = function (_Component) {
 	    _inherits(Details, _Component);
 
-	    function Details() {
+	    function Details(props) {
 	        _classCallCheck(this, Details);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Details).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Details).call(this, props));
+
+	        _this.submitDetails = _this.submitDetails.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(Details, [{
-	        key: 'render',
+	        key: "submitDetails",
+	        value: function submitDetails() {}
+	    }, {
+	        key: "render",
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'div',
+	                "div",
 	                null,
-	                'Details'
+	                _react2.default.createElement(
+	                    "div",
+	                    { id: "details-form" },
+	                    _react2.default.createElement(
+	                        "h1",
+	                        null,
+	                        "Details"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "form-body" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "reminder" },
+	                            _react2.default.createElement("img", { src: "/images/reminder.svg" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "reminder-text" },
+	                                "This information will be used for the purposes of registering a political party with the Australian Electoral Commission. ",
+	                                _react2.default.createElement(
+	                                    "a",
+	                                    { href: "/" },
+	                                    "View our Privacy Policy."
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "heading" },
+	                            _react2.default.createElement(
+	                                "h2",
+	                                null,
+	                                "Personal Information"
+	                            ),
+	                            _react2.default.createElement(
+	                                "i",
+	                                null,
+	                                "Please enter your details exactly as they would appear on the electoral roll."
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field-group" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "firstName" },
+	                                "Given Name(s)*"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.props.formValues.firstName, id: "firstName" }),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "lastName" },
+	                                "Surname*"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.lastName, id: "lastName" }),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "dateOfBirth" },
+	                                "Date of Birth*"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.dateOfBirth, id: "dateOfBirth", placeholder: "DD/MM/YYYY" }),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "gender" },
+	                                "Gender"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.gender, id: "gender" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "heading" },
+	                            _react2.default.createElement(
+	                                "h2",
+	                                null,
+	                                "Residential Address"
+	                            ),
+	                            _react2.default.createElement(
+	                                "i",
+	                                null,
+	                                "Please enter the address that you are enrolled to vote from with the AEC."
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field-group" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "residentialAddress[address]" },
+	                                "Address*"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.residentialAddress.address, id: "residentialAddress[address]" }),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "residentialAddress[suburb]" },
+	                                "Suburb*"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.residentialAddress.suburb, id: "residentialAddress[suburb]" }),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "residentialAddress[country]" },
+	                                "Country*"
+	                            ),
+	                            _react2.default.createElement("select", { defaultValue: this.props.formValues.residentialAddress.country, id: "residentialAddress[country]" }),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "state-code" },
+	                                _react2.default.createElement(
+	                                    "label",
+	                                    { "for": "residentialAddress[state]" },
+	                                    "State*"
+	                                ),
+	                                _react2.default.createElement("select", { defaultValue: this.props.formValues.residentialAddress.state, id: "residentialAddress[state]" }),
+	                                _react2.default.createElement(
+	                                    "label",
+	                                    { "for": "residentialAddress[postcode]" },
+	                                    "Postcode*"
+	                                ),
+	                                _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.residentialAddress.postcode,
+	                                    id: "residentialAddress[postcode]" })
+	                            ),
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                _react2.default.createElement("input", { type: "checkbox", defaultValue: this.props.formValues.differentPostal, id: "differentPostal", value: "true" }),
+	                                "My residential address differs from my postal address."
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { id: "postal-address" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "heading" },
+	                                _react2.default.createElement(
+	                                    "h2",
+	                                    null,
+	                                    "Postal Address"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "i",
+	                                    null,
+	                                    "Please enter the postal address."
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "field-group" },
+	                                _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.postalAddress.address, id: "postalAddress[address]" }),
+	                                _react2.default.createElement(
+	                                    "label",
+	                                    { "for": "postalAddress[suburb]" },
+	                                    "Suburb*"
+	                                ),
+	                                _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.postalAddress.suburb, id: "postalAddress[suburb]" }),
+	                                _react2.default.createElement(
+	                                    "label",
+	                                    { "for": "postalAddress[country]" },
+	                                    "Country*"
+	                                ),
+	                                _react2.default.createElement("select", { defaultValue: this.props.formValues.postalAddress.country, id: "postalAddress[country]" }),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "state-code" },
+	                                    _react2.default.createElement(
+	                                        "label",
+	                                        { "for": "postalAddress[state]" },
+	                                        "State*"
+	                                    ),
+	                                    _react2.default.createElement("select", { defaultValue: this.props.formValues.postalAddress.state, id: "postalAddress[state]" }),
+	                                    _react2.default.createElement(
+	                                        "label",
+	                                        { "for": "postalAddress[postcode]" },
+	                                        "Postcode*"
+	                                    ),
+	                                    _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.postalAddress.postcode, id: "postalAddress[postcode]" }),
+	                                    _react2.default.createElement(
+	                                        "label",
+	                                        { "for": "postalAddress[address]" },
+	                                        "Address*"
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "heading" },
+	                            _react2.default.createElement(
+	                                "h2",
+	                                null,
+	                                "Contact Details"
+	                            ),
+	                            _react2.default.createElement(
+	                                "i",
+	                                null,
+	                                "Please enter your current email and phone number."
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field-group" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "email" },
+	                                "Email*"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.email, id: "email" }),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "phoneNumber" },
+	                                "Phone number*"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.primaryPhoneNumber, id: "phoneNumber" }),
+	                            _react2.default.createElement(
+	                                "label",
+	                                { "for": "phoneNumber" },
+	                                "Secondary Phone"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", defaultValue: this.props.formValues.secondaryPhone, id: "secondaryPhone" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "navigation" },
+	                            _react2.default.createElement(
+	                                "button",
+	                                { type: "submit", className: "hidden", id: "details-continue-button" },
+	                                "Continue"
+	                            ),
+	                            _react2.default.createElement(
+	                                "p",
+	                                null,
+	                                "or ",
+	                                _react2.default.createElement(
+	                                    "a",
+	                                    { className: "hidden", id: "details-go-back" },
+	                                    "go back"
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
 	            );
 	        }
 	    }]);
