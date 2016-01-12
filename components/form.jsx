@@ -1,12 +1,34 @@
 import React, {Component} from 'react';
 import Eligibility from './eligibility.jsx';
+import Details from './details.jsx';
 
 export default class Form extends Component {
+    constructor(props) {
+        super(props);
+        this.nextStep = this.nextStep.bind(this);
+        this.previousStep = this.previousStep.bind(this);
+        this.state = { step: 1 };
+    }
+
+    nextStep() {
+        this.setState( { step: this.state.step + 1  } )
+    }
+
+    previousStep() {
+        this.setState( { step: this.state.step - 1  } )
+    }
+
+    saveAndContinue() {
+        this.nextStep();
+    }
+
     render() {
-        return (
-            <div id="form" className="form-container">
-                <Eligibility />
-            </div>
-        )
+        switch(this.state.step) {
+            case 1:
+            return <Eligibility nextStep={this.nextStep} />;
+            case 2:
+            return <Details nextStep={this.nextStep}
+                            previousStep={this.previousStep} />;
+        }
     }
 }

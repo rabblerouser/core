@@ -5,7 +5,9 @@ import Form from './form.jsx';
 export default class App extends Component {
     render() {
         return (
-            <Form />
+            <div id="form" className="form-container">
+                <Form />
+            </div>
         )
     }
 }
