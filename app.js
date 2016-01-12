@@ -10,6 +10,8 @@ var sassMiddleware = require('node-sass-middleware');
 var neat = require('node-neat');
 var app = express();
 
+const helmet = require('helmet');
+
 const env = process.env.NODE_ENV || 'development';
 const logFormat = () => {
     if (['developement', 'test'].indexOf(env) > -1) {
@@ -27,6 +29,7 @@ app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(helmet());
 app.use(logger(logFormat()));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
