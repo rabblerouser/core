@@ -27,7 +27,7 @@
 
 - name: install npm dependencies
   become_user: "{{ app_user}}"
-  command: npm install chdir="{{ app_path }}"
+  command: npm install --production chdir="{{ app_path }}"
 
 - name: re/start project-m
   service: name=project-m enabled=yes state=restarted
