@@ -1,8 +1,8 @@
 'use strict';
 
 const specHelper = require("../../support/specHelper"),
-      sinon = specHelper.sinon,
-      Q = specHelper.Q
+    sinon = specHelper.sinon,
+    Q = specHelper.Q;
 
 var invoiceService = require("../../../services/invoiceService");
 
@@ -59,25 +59,39 @@ describe("invoicesController", () => {
                 createInvoicePromise.resolve();
 
                 expectedInvoiceCreateValues = {
-                  memberEmail: "sherlock@holmes.co.uk",
-                  totalAmount: 60,
-                  paymentType: 'deposit'
+                    memberEmail: "sherlock@holmes.co.uk",
+                    totalAmount: 60,
+                    paymentType: 'deposit'
                 };
             });
 
-            it("creates a charge card", (done) => {
+            it("creates a charge card if stripe payment type", (done) => {
                 createInvoiceStub.returns(createInvoicePromise.promise);
 
-                chargeCardPromise.resolve();
+                chargeCardPromise.resolve({id: "123"});
 
                 goodRequest.body.paymentType = 'stripe';
                 goodRequest.body.stripeToken = {id: '1'};
                 expectedInvoiceCreateValues.paymentType = 'stripe';
+                expectedInvoiceCreateValues.reference = '123';
 
                 newInvoiceHandler(goodRequest, res);
 
                 chargeCardPromise.promise.finally(() => {
                     expect(invoiceService.chargeCard).toHaveBeenCalledWith({id: '1'}, 60);
+                    expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
+                }).nodeify(done);
+            });
+
+            it("doesn't creates a charge card if deposit payment type", (done) => {
+                createInvoiceStub.returns(createInvoicePromise.promise);
+
+                chargeCardPromise.resolve();
+
+                newInvoiceHandler(goodRequest, res);
+
+                chargeCardPromise.promise.finally(() => {
+                    expect(invoiceService.chargeCard).not.toHaveBeenCalled();
                     expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
                 }).nodeify(done);
             });
@@ -101,7 +115,7 @@ describe("invoicesController", () => {
         });
 
         describe("when validation fails", () => {
-            it("responds with status 400",(done) => {
+            it("responds with status 400", (done) => {
                 let badRequest = {
                     body: {
                         memberEmail: "sherlock@holmes.co.uk",
@@ -118,8 +132,29 @@ describe("invoicesController", () => {
 
                 expect(invoiceService.createInvoice).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
-                expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {title: 'Payment', errors: ["totalAmount"], email: "sherlock@holmes.co.uk"});
+                expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {
+                    title: 'Payment',
+                    errors: ["totalAmount"],
+                    email: "sherlock@holmes.co.uk"
+                });
                 done();
+            });
+        });
+
+        describe("when charging card fails", () => {
+            it("should return 400 (for now)", (done) => {
+                chargeCardPromise.reject("Could not handle payment");
+
+                goodRequest.body.paymentType = "stripe";
+                goodRequest.body.stripeToken = "token";
+
+                newInvoiceHandler(goodRequest, res);
+
+                chargeCardPromise.promise.finally(() => {
+                    expect(invoiceService.createInvoice).not.toHaveBeenCalled();
+                    expect(res.status).toHaveBeenCalledWith(400);
+                    expect(responseJsonStub).toHaveBeenCalledWith({errors: ["Failed to charge card"]});
+                }).nodeify(done);
             });
         });
 
