@@ -7,7 +7,7 @@ export default class Form extends Component {
         super(props);
         this.nextStep = this.nextStep.bind(this);
         this.previousStep = this.previousStep.bind(this);
-        this.state = {  step: 1};
+        this.state = {  step: 1 };
         this.formValues = {
                             eligibility: '',
                             firstName: '',
