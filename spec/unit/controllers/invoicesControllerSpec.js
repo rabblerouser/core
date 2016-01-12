@@ -14,11 +14,13 @@ describe("invoicesController", () => {
             goodRequest, res,
             statusStub, responseJsonStub,
             createInvoiceStub, createInvoicePromise,
+            chargeCardStub, chargeCardPromise,
             renderStub, renderLocationStub;
 
         beforeEach(() => {
             newInvoiceHandler = invoicesController.newInvoiceHandler;
             createInvoiceStub = sinon.stub(invoiceService, 'createInvoice');
+            chargeCardStub = sinon.stub(invoiceService, 'chargeCard');
 
             goodRequest = {
                 body: {
@@ -33,6 +35,10 @@ describe("invoicesController", () => {
                 .withArgs(goodRequest.body)
                 .returns(createInvoicePromise.promise);
 
+            chargeCardPromise = Q.defer();
+            chargeCardStub.returns(chargeCardPromise.promise);
+
+
             statusStub = sinon.stub();
             responseJsonStub = sinon.stub();
             renderLocationStub = sinon.stub();
@@ -43,6 +49,7 @@ describe("invoicesController", () => {
 
         afterEach(() => {
             invoiceService.createInvoice.restore();
+            invoiceService.chargeCard.restore();
         });
 
         describe("when it receives a good request", () => {
@@ -56,6 +63,23 @@ describe("invoicesController", () => {
                   totalAmount: 60,
                   paymentType: 'deposit'
                 };
+            });
+
+            it("creates a charge card", (done) => {
+                createInvoiceStub.returns(createInvoicePromise.promise);
+
+                chargeCardPromise.resolve();
+
+                goodRequest.body.paymentType = 'stripe';
+                goodRequest.body.stripeToken = {id: '1'};
+                expectedInvoiceCreateValues.paymentType = 'stripe';
+
+                newInvoiceHandler(goodRequest, res);
+
+                chargeCardPromise.promise.finally(() => {
+                    expect(invoiceService.chargeCard).toHaveBeenCalledWith({id: '1'}, 60);
+                    expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
+                }).nodeify(done);
             });
 
             it("creates a new invoice", (done) => {

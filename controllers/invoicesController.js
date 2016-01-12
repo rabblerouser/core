@@ -8,7 +8,7 @@ var newInvoiceHandler = (req, res) => {
     };
 
     let validate = (invoice) => {
-      return /^[0-9]*(,?[0-9]+\.?)?[0-9]{0,2}$/.test(invoice.totalAmount);
+        return /^[0-9]*(,?[0-9]+\.?)?[0-9]{0,2}$/.test(invoice.totalAmount);
     };
 
     let newInvoice = {
@@ -17,7 +17,17 @@ var newInvoiceHandler = (req, res) => {
         paymentType: req.body.paymentType
     };
 
-    invoiceService.chargeCard(req.body.stripeToken, req.body.totalAmount);
+    if (req.body.paymentType === "stripe") {
+        invoiceService.chargeCard(req.body.stripeToken, req.body.totalAmount)
+            .then(() => {
+                console.log("Charge card worked, yay");
+            })
+            .catch((error) => {
+                //TODO add test for error case
+                console.log("payment error" + error);
+                return res.status(500).json({errors: [error]});
+            });
+    }
 
     if (!validate(newInvoice)) {
         return res.status(400).render('members/payment', {title: 'Payment', errors: ["totalAmount"], email: req.body.memberEmail});

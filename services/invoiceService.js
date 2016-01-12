@@ -24,17 +24,13 @@ var createInvoice = (newInvoice) => {
 };
 
 var chargeCard = (stripeToken, totalAmount) => {
-  stripe.charges.create({
-    amount: parseFloat(totalAmount) * 100,
-    currency: "aud",
-    source: stripeToken,
-    description: "Example charge"
-  }, function(err, charge) {
-    if (err && err.type === 'StripeCardError') {
-      // The card has been declined
-      // TODO: Handle charge card error
-    }
-  });
+  return stripe.charges.create({
+        amount: parseFloat(totalAmount) * 100,
+        currency: "aud",
+        source: stripeToken,
+        description: "Example charge"
+      })
+      .then(logger.logNewChargeEvent(stripeToken));
 };
 
 module.exports = {
