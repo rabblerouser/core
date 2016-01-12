@@ -19735,6 +19735,27 @@
 	        _this.nextStep = _this.nextStep.bind(_this);
 	        _this.previousStep = _this.previousStep.bind(_this);
 	        _this.state = { step: 1 };
+	        _this.fieldValues = {
+	            firstName: '',
+	            lastName: '',
+	            dateOfBirth: '',
+	            email: '',
+	            gender: '',
+	            residentialAddress: {
+	                address: '',
+	                suburb: '',
+	                country: '',
+	                state: '',
+	                postcode: ''
+	            },
+	            postalAddress: {
+	                address: '',
+	                suburb: '',
+	                country: '',
+	                state: '',
+	                postcode: ''
+	            }
+	        };
 	        return _this;
 	    }
 
@@ -19749,19 +19770,25 @@
 	            this.setState({ step: this.state.step - 1 });
 	        }
 	    }, {
-	        key: 'saveAndContinue',
-	        value: function saveAndContinue() {
-	            this.nextStep();
+	        key: 'saveValues',
+	        value: function saveValues() {
+	            var _this2 = this;
+
+	            return function (fields) {
+	                _this2.fieldValues = Object.assign({}, _this2.fieldValues, fields);
+	            };
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            switch (this.state.step) {
 	                case 1:
-	                    return _react2.default.createElement(_eligibility2.default, { nextStep: this.nextStep });
+	                    return _react2.default.createElement(_eligibility2.default, { nextStep: this.nextStep,
+	                        saveValues: this.saveValues });
 	                case 2:
 	                    return _react2.default.createElement(_details2.default, { nextStep: this.nextStep,
-	                        previousStep: this.previousStep });
+	                        previousStep: this.previousStep,
+	                        saveValues: this.saveValues });
 	            }
 	        }
 	    }]);
