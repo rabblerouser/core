@@ -4172,6 +4172,23 @@
         }
       }
     },
+    "stripe": {
+      "version": "4.1.0",
+      "from": "stripe@latest",
+      "resolved": "https://registry.npmjs.org/stripe/-/stripe-4.1.0.tgz",
+      "dependencies": {
+        "bluebird": {
+          "version": "2.10.2",
+          "from": "bluebird@>=2.9.6 <3.0.0",
+          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.10.2.tgz"
+        },
+        "qs": {
+          "version": "2.4.2",
+          "from": "qs@>=2.4.1 <3.0.0",
+          "resolved": "https://registry.npmjs.org/qs/-/qs-2.4.2.tgz"
+        }
+      }
+    },
     "underscore": {
       "version": "1.8.3",
       "from": "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz",
