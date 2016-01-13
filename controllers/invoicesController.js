@@ -3,8 +3,6 @@
 var invoiceService = require("../services/invoiceService");
 
 var newInvoiceHandler = (req, res) => {
-
-
     let validate = (invoice) => {
         return /^[0-9]*(,?[0-9]+\.?)?[0-9]{0,2}$/.test(invoice.totalAmount);
     };
@@ -30,7 +28,6 @@ var newInvoiceHandler = (req, res) => {
     if (req.body.paymentType === "stripe" && req.body.stripeToken) {
         invoiceService.chargeCard(req.body.stripeToken, req.body.totalAmount)
             .then((charge) => {
-                //console.log(charge);
                 newInvoice.reference = charge.id;
                 console.log("Charge card worked, yay");
                 return createInvoice(newInvoice, res);

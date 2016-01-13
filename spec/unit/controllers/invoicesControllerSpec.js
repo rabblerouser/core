@@ -83,7 +83,7 @@ describe("invoicesController", () => {
                 }).nodeify(done);
             });
 
-            it("doesn't creates a charge card if deposit payment type", (done) => {
+            it("doesn't creates a charge card if not stripe payment type", (done) => {
                 createInvoiceStub.returns(createInvoicePromise.promise);
 
                 chargeCardPromise.resolve();
@@ -131,6 +131,7 @@ describe("invoicesController", () => {
                 newInvoiceHandler(badRequest, res);
 
                 expect(invoiceService.createInvoice).not.toHaveBeenCalled();
+                expect(invoiceService.chargeCard()).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
                 expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {
                     title: 'Payment',
