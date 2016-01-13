@@ -26,7 +26,7 @@ export class NewMemberForm extends Component {
                                 state: '',
                                 postcode: ''
                             },
-                            postalAddress : {
+                            postalAddress: {
                                 address: '',
                                 suburb: '',
                                 country: '',
