@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import Eligibility from './Eligibility.jsx';
 import Details from './Details.jsx';
 import Payment from './payment.jsx';
+import $ from 'jquery';
 
-export class NewMemberForm extends Component {
+export default class NewMemberForm extends Component {
     constructor(props) {
         super(props);
         this.nextStep = this.nextStep.bind(this);
@@ -46,8 +47,11 @@ export class NewMemberForm extends Component {
     }
 
     saveAndContinue(fieldValues) {
-        this.nextStep();
-        this.render();
+        $.ajax({
+            type: 'POST',
+            url: '/members',
+            data: fieldValues
+        });
     }
 
     render() {

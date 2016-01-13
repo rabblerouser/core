@@ -270,13 +270,12 @@ function populateStates( countryElementId, stateElementId ){
 	}
 
 	var stateElement = document.getElementById( stateElementId );
-	
 	stateElement.length=0;
 	stateElement.options[0] = new Option('Select State','');
 	stateElement.selectedIndex = 0;
-	
+
 	var state_arr = s_a[selectedCountryIndex].split("|");
-	
+
 	for (var i=0; i<state_arr.length; i++) {
 		stateElement.options[stateElement.length] = new Option(state_arr[i],state_arr[i]);
 	}
@@ -306,7 +305,13 @@ function populateCountries(countryElementId, stateElementId){
 	}
 }
 
-$(document).ready(function(){
+var init = function(){
 	populateCountries("residentialAddress[country]", "residentialAddress[state]");
 	populateCountries("postalAddress[country]", "postalAddress[state]");
-});
+}
+
+module.exports = {
+	init: init,
+	countries: country_arr,
+	states: s_a
+};
