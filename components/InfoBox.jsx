@@ -21,6 +21,6 @@ export default class InfoBox extends Component {
                     <li>Vote at Party Meetings, Congresses and Policy Formulation, Development and Adoption proceedings.</li>
                 </ul>
             </div>
-        </div>;
+        </div>
     }
 }

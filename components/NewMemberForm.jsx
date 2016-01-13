@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Eligibility from './Eligibility.jsx';
 import Details from './Details.jsx';
 
-export class NewMemberForm extends Component {
+export default class NewMemberForm extends Component {
     constructor(props) {
         super(props);
         this.nextStep = this.nextStep.bind(this);
