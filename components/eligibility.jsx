@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import InfoBox from './infobox.jsx';
+import InfoBox from './InfoBox.jsx';
 
 export default class Eligibility extends Component {
     constructor(props) {

@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import Eligibility from './eligibility.jsx';
-import Details from './details.jsx';
+import Eligibility from './Eligibility.jsx';
+import Details from './Details.jsx';
 
-export default class Form extends Component {
+export class NewMemberForm extends Component {
     constructor(props) {
         super(props);
         this.nextStep = this.nextStep.bind(this);
         this.previousStep = this.previousStep.bind(this);
-        this.state = {  step: 1 };
+        this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.state = { step: 1 };
         this.formValues = {
                             eligibility: '',
                             firstName: '',
@@ -43,18 +44,20 @@ export default class Form extends Component {
         this.setState( { step: this.state.step - 1  } )
     }
 
-    saveAndContinue() {
+    saveAndContinue(fieldValues) {
         this.nextStep();
+        this.render();
     }
 
     render() {
         switch(this.state.step) {
             case 1:
-            return <Eligibility nextStep={this.nextStep} />;
+                return <Eligibility nextStep={this.nextStep} />;
             case 2:
-            return <Details nextStep={this.nextStep}
-                            previousStep={this.previousStep}
-                            formValues={this.formValues}/>;
+                return <Details formValues={this.formValues}
+                                saveAndContinue={this.saveAndContinue} />;
+            case 3:
+                return <div>Step 3</div>
         }
     }
 }

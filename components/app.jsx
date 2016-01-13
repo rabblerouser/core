@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import Form from './form.jsx';
+import NewMemberForm from './NewMemberForm.jsx';
 
 export default class App extends Component {
     render() {
         return (
             <div id="form" className="form-container">
-                <Form />
+                <NewMemberForm />
             </div>
         )
     }
