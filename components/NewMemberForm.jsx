@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Eligibility from './Eligibility.jsx';
 import Details from './Details.jsx';
+import Payment from './payment.jsx';
 
 export class NewMemberForm extends Component {
     constructor(props) {
@@ -57,7 +58,7 @@ export class NewMemberForm extends Component {
                 return <Details formValues={this.formValues}
                                 saveAndContinue={this.saveAndContinue} />;
             case 3:
-                return <div>Step 3</div>
+                return <Payment email={"hello@wow.com"}/>;
         }
     }
 }
