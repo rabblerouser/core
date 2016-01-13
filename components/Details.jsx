@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import * as memberValidator from '../lib/memberValidator';
-import $ from 'jquery';
 import countrySelector from '../public/javascript/countries.js';
 
 export default class Details extends Component {
