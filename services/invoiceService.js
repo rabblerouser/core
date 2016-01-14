@@ -11,7 +11,7 @@ var stripe = require("stripe")("pk_test_4SqBME7pIDAKSWRft4OpviYK");
 var createInvoice = (newInvoice) => {
   return Q({
     memberEmail: newInvoice.memberEmail,
-    totalAmountInCents: parseFloat(newInvoice.totalAmount) * 100,
+    totalAmountInCents: newInvoice.totalAmount * 100,
     paymentDate: moment().format('L'),
     paymentType: newInvoice.paymentType,
     reference: ''

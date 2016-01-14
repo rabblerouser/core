@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
+import StripePayment from './StripePayment.jsx';
 
 export default class Payment extends Component {
     constructor(props) {
         super(props);
-        this.showStripePopup = this.showStripePopup.bind(this);
-
+        this.handleAmountChanged = this.handleAmountChanged.bind(this);
+        this.state = {amount : ''};
     }
 
-    showStripePopup() {
-        console.log("onclick happening");
-        e.preventDefault();
+    handleAmountChanged(event) {
+        this.setState({amount: event.target.value});
     }
 
     render() {
@@ -29,9 +29,7 @@ export default class Payment extends Component {
                     </div>
                     <div className="contribution-amount">
                         <div className="currency">$AUD</div>
-                        <input type="text" name="totalAmount" id="totalAmount"/>
-                        <input className="hidden" type="text" name="memberEmail" id="memberEmail"
-                               defaultValue={this.props.email}/>
+                        <input type="text" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
                     </div>
                 </div>
                 <div className="payment-method">
@@ -46,7 +44,8 @@ export default class Payment extends Component {
                         <label>
                             <input type="radio" name="paymentType" defaultValue="cheque"/>Cheque
                         </label>
-                        <button type="button" id="pay-by-credit-card-button" onClick={this.showStripePopup}>Credit/Debit Card</button>
+                        <StripePayment email={this.props.email}
+                                       amount={this.state.amount}/>
                     </div>
                 </div>
                 <div className="navigation">

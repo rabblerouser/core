@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Eligibility from './Eligibility.jsx';
 import Details from './Details.jsx';
-import Payment from './payment.jsx';
+import Payment from './Payment.jsx';
 import $ from 'jquery';
 
 export default class NewMemberForm extends Component {
@@ -11,7 +11,8 @@ export default class NewMemberForm extends Component {
         this.previousStep = this.previousStep.bind(this);
         this.saveSuccess = this.saveSuccess.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
-        this.state = { step: 1 };
+        this.render = this.render.bind(this);
+        this.state = { step: 1, email: '' };
         this.formValues = {
                             eligibility: '',
                             firstName: '',
@@ -52,6 +53,7 @@ export default class NewMemberForm extends Component {
     }
 
     saveAndContinue(fieldValues) {
+        this.setState({email: fieldValues.email});
         $.ajax({
             type: 'POST',
             url: '/members',
@@ -68,7 +70,7 @@ export default class NewMemberForm extends Component {
                 return <Details formValues={this.formValues}
                                 saveAndContinue={this.saveAndContinue} />;
             case 3:
-                return <Payment email={"hello@wow.com"}/>;
+                return <Payment email={this.state.email}/>;
         }
     }
 }

@@ -78,7 +78,7 @@ describe("invoicesController", () => {
                 newInvoiceHandler(goodRequest, res);
 
                 chargeCardPromise.promise.finally(() => {
-                    expect(invoiceService.chargeCard).toHaveBeenCalledWith({id: '1'}, 60);
+                    expect(invoiceService.chargeCard).toHaveBeenCalledWith('1', 60);
                     expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
                 }).nodeify(done);
             });
