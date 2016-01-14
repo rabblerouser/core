@@ -49,6 +49,7 @@
     "jasmine": "^2.4.1",
     "jasmine-sinon": "^0.4.0",
     "jest-cli": "^0.8.2",
+    "jquery": "^2.2.0",
     "jsx-loader": "^0.13.2",
     "react-addons-test-utils": "~0.14.0",
     "sinon": "^1.17.2",
@@ -69,7 +70,15 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/node_modules/"
     ],
-    "testFileExtensions": ["es6", "js"],
-    "moduleFileExtensions": ["js", "jsx", "json", "es6"]
+    "testFileExtensions": [
+      "es6",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "es6"
+    ]
   }
 }
