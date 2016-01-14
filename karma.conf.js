@@ -9,7 +9,7 @@ module.exports = function (config) {
             { pattern: 'webpack.test.config.js', watched: false }
         ],
         preprocessors: {
-            'webpack.test.config.js': ['webpack']
+            'webpack.test.config.js': ['webpack', 'sourcemap']
         },
         reporters: ['dots'],
         webpack: {
@@ -26,7 +26,8 @@ module.exports = function (config) {
                     }
                 ]
             },
-            watch: true
+            watch: true,
+            devtool: 'inline-source-map'
         },
         webpackServer: {
             noInfo: true
