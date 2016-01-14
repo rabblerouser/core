@@ -15,7 +15,7 @@ it ("a new member successfully signs up and then makes a payment", (done) => {
             .set("Content-Type", "application/json")
             .set("Accept", "application/json")
             .send(member)
-            .expect(200, {});
+            .expect(200, {email: `sherlock${memberSuffix}@holmes.co.uk`});
     };
 
     let successfullyCreatingANewInvoiceShouldRespondWithA200 = () => {

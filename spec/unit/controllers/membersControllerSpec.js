@@ -102,7 +102,7 @@ describe("membersController", () => {
 
                 createMemberPromise.promise.finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
-                    expect(renderLocationStub).toHaveBeenCalledWith("members/payment");
+                    expect(res.json).toHaveBeenCalledWith({email: 'sherlock@holmes.co.uk'});
                 }).nodeify(done);
             });
         });
@@ -114,7 +114,6 @@ describe("membersController", () => {
 
                 expect(memberService.createMember).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
-                expect(renderLocationStub).toHaveBeenCalledWith("members/new", {title: 'New Member', errors: ["firstName"]});
                 done();
             });
         });

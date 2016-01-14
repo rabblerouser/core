@@ -40,12 +40,12 @@ var newMemberHandler = (req, res) => {
     let validationErrors = memberValidator.isValid(newMember);
 
     if (validationErrors.length > 0) {
-        return res.status(400).render('members/new', {title: 'New Member', errors: validationErrors});
+        return res.status(400).json({ errors: validationErrors});
     }
 
     return memberService.createMember(newMember)
         .then(() => {
-            res.status(200).render('members/payment', {title: 'Payment', email: req.body.email});
+            res.status(200).json({ email: req.body.email});
         })
         .catch(dbError);
 };

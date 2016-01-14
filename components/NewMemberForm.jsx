@@ -9,6 +9,7 @@ export default class NewMemberForm extends Component {
         super(props);
         this.nextStep = this.nextStep.bind(this);
         this.previousStep = this.previousStep.bind(this);
+        this.saveSuccess = this.saveSuccess.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.state = { step: 1 };
         this.formValues = {
@@ -46,11 +47,16 @@ export default class NewMemberForm extends Component {
         this.setState( { step: this.state.step - 1  } )
     }
 
+    saveSuccess(data) {
+        this.nextStep();
+    }
+
     saveAndContinue(fieldValues) {
         $.ajax({
             type: 'POST',
             url: '/members',
-            data: fieldValues
+            data: fieldValues,
+            success: this.saveSuccess
         });
     }
 
