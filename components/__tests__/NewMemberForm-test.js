@@ -16,16 +16,28 @@ describe('NewMemberForm', () => {
     });
 
     it('initially shows the eligibility step', () => {
-        var eligibility = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, 'eligibility-form');
-        expect(TestUtils.isDOMComponent(eligibility)).toBeTruthy();
+        var heading = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, "h1");
+        expect(ReactDOM.findDOMNode(heading).textContent).toBe("Eligibility");
     });
 
-    describe('On the eligibility step', ()=> {
-        it('should transition to details on button click', () => {
+    describe('On the eligibility step', () => {
+        beforeEach(()=> {
             var continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
             TestUtils.Simulate.click(continueButton);
-            var details = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, 'details-form');
-            expect(TestUtils.isDOMComponent(details)).toBeTruthy();
+        });
+
+        it('should transition to details on button click', () => {
+            var heading = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, "h1");
+            expect(ReactDOM.findDOMNode(heading).textContent).toBe("Details");
+        });
+
+        describe('On the details step', () => {
+            it('should show an error message if the details were invalid', () => {
+                var continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
+                TestUtils.Simulate.click(continueButton);
+                var errors = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, "errors");
+                expect(ReactDOM.findDOMNode(errors).textContent).toMatch(/email/);
+            });
         });
     });
 });

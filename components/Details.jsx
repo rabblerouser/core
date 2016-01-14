@@ -51,9 +51,9 @@ export default class Details extends Component {
 
     render() {
         return (
-            <div className="details-form">
+            <div>
                 <h1>Details</h1>
-                <p className="error">{this.state.validationErrors}</p>
+                <p className="errors">{this.state.validationErrors}</p>
                 <div className="form-body">
                     <div className="reminder">
                         <img src="/images/reminder.svg"></img>
