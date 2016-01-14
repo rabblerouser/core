@@ -11,7 +11,8 @@ export default class Details extends Component {
     }
 
     componentDidMount() {
-        countrySelector.init();
+        countrySelector.populateCountries("residentialAddress[country]", "residentialAddress[state]");
+        countrySelector.populateCountries("postalAddress[country]", "postalAddress[state]");
     }
 
     submitDetails() {
@@ -50,7 +51,7 @@ export default class Details extends Component {
 
     render() {
         return (
-            <div id="details-form">
+            <div className="details-form">
                 <h1>Details</h1>
                 <p className="error">{this.state.validationErrors}</p>
                 <div className="form-body">

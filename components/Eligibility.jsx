@@ -13,7 +13,7 @@ export default class Eligibility extends Component {
     }
 
     render() {
-        return <div id="eligibility-form">
+        return <div className="eligibility-form">
             <h1>Eligibility</h1>
             <div className="form-body">
                 <h6>Which of the following options represents your circumstances? (Select one of the four.)</h6>

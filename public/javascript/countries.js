@@ -305,13 +305,8 @@ function populateCountries(countryElementId, stateElementId){
 	}
 }
 
-var init = function(){
-	populateCountries("residentialAddress[country]", "residentialAddress[state]");
-	populateCountries("postalAddress[country]", "postalAddress[state]");
-}
-
 module.exports = {
-	init: init,
+	populateCountries: populateCountries,
 	countries: country_arr,
 	states: s_a
 };
