@@ -40,20 +40,29 @@
 
 0. webpack --progress --colors --watch
 
+### Tests
 
-### Utility scripts
+0. Run server side tests
 
-0. Migrate the database (run automatically as part and npm start or npm test)
+        npm run jasmineTests
 
-        ./node_modules/sequelize-cli/bin/sequelize db:migrate
+0. Run client side tests
 
-0. Run a specific test
+        npm run componentTests
+
+0. Run a specific server side test
 
         NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js spec/integration/membersSpec.js
 
 0. Run smoke tests against an external target
 
         NODE_ENV=test INSTANCE_URL=http://myinstance.mydomain.com node --harmony node_modules/jasmine/bin/jasmine.js spec/integration
+
+### Utility scripts
+
+0. Migrate the database (run automatically as part and npm start or npm test)
+
+        ./node_modules/sequelize-cli/bin/sequelize db:migrate
 
 
 Happy hacking!
