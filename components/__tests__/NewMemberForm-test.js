@@ -1,10 +1,8 @@
-jest.dontMock('../NewMemberForm.jsx');
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
-import {NewMemberForm} from '../NewMemberForm.jsx';
+import NewMemberForm from '../NewMemberForm.jsx';
 
 describe('NewMemberForm', () => {
     it('should exist', () => {

@@ -4,7 +4,7 @@ import Details from './Details.jsx';
 import Payment from './payment.jsx';
 import $ from 'jquery';
 
-export class NewMemberForm extends Component {
+export default class NewMemberForm extends Component {
     constructor(props) {
         super(props);
         this.nextStep = this.nextStep.bind(this);

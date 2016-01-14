@@ -8,3 +8,4 @@ npm-debug.log
 .vagrant
 .idea/
 public/javascript
+.babel-cache

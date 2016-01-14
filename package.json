@@ -8,7 +8,7 @@
     "pretest": "NODE_ENV=test node_modules/sequelize-cli/bin/sequelize db:migrate",
     "test": "npm run jasmineTests && npm run componentTests",
     "jasmineTests": "NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js",
-    "componentTests": "NODE_ENV=test jest components"
+    "componentTests": "NODE_ENV=test node ./node_modules/karma-cli/bin/karma start"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -46,11 +46,18 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "babelify": "^7.2.0",
+    "core-js": "^2.0.3",
     "jasmine": "^2.4.1",
+    "jasmine-core": "^2.4.1",
     "jasmine-sinon": "^0.4.0",
-    "jest-cli": "^0.8.2",
-    "jquery": "^2.2.0",
     "jsx-loader": "^0.13.2",
+    "karma": "^0.13.19",
+    "karma-cli": "^0.1.2",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.3",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.7.0",
+    "phantomjs": "^1.9.19",
     "react-addons-test-utils": "~0.14.0",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0",
@@ -58,27 +65,5 @@
     "watchify": "^3.7.0",
     "webpack": "^1.12.11",
     "webpack-dev-server": "^1.14.1"
-  },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-dom",
-      "<rootDir>/node_modules/react-addons-test-utils",
-      "<rootDir>/node_modules/fbjs"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ],
-    "testFileExtensions": [
-      "es6",
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "es6"
-    ]
   }
 }

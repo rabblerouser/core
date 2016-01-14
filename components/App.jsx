@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {NewMemberForm} from './NewMemberForm.jsx';
+import NewMemberForm from './NewMemberForm.jsx';
 
 export default class App extends Component {
     render() {
