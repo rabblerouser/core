@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import MembershipType from './MembershipType.jsx';
 import Details from './Details.jsx';
-import Payment from './payment.jsx';
+import Payment from './Payment.jsx';
 import $ from 'jquery';
 
 export default class NewMemberForm extends Component {

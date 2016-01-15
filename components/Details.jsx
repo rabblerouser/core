@@ -68,13 +68,13 @@ export default class Details extends Component {
                     </div>
                     <div className="field-group">
                         <label htmlFor="firstName">Given Name(s)*</label>
-                        <input type="text" defaultValue={this.props.formValues.firstName} ref="firstName" id="firstName"/>
+                        <input type="text" defaultValue={this.props.formValues.firstName} ref="firstName" id="firstName" className="firstName" />
                         <label htmlFor="lastName">Surname*</label>
-                        <input type="text" defaultValue={this.props.formValues.lastName} ref="lastName" id="lastName"/>
+                        <input type="text" defaultValue={this.props.formValues.lastName} ref="lastName" id="lastName" className="lastName" />
                         <label htmlFor="dateOfBirth">Date of Birth*</label>
-                        <input type="text" defaultValue={this.props.formValues.dateOfBirth} ref="dateOfBirth" placeholder="DD/MM/YYYY" id="dateOfBirth"/>
+                        <input type="text" defaultValue={this.props.formValues.dateOfBirth} ref="dateOfBirth" placeholder="DD/MM/YYYY" id="dateOfBirth" className="dateOfBirth" />
                         <label htmlFor="gender">Gender</label>
-                        <input type="text" defaultValue={this.props.formValues.gender} ref="gender" id="gender" />
+                        <input type="text" defaultValue={this.props.formValues.gender} ref="gender" id="gender" className="gender" />
                     </div>
                     <div className="heading">
                         <h2>Residential Address</h2>
@@ -82,17 +82,17 @@ export default class Details extends Component {
                     </div>
                     <div className="field-group">
                         <label htmlFor="residentialAddress[address]">Address*</label>
-                        <input type="text" defaultValue={this.props.formValues.residentialAddress.address} ref="residentialAddress" id="residentialAddress" />
+                        <input type="text" defaultValue={this.props.formValues.residentialAddress.address} ref="residentialAddress" id="residentialAddress" className="residentialAddress" />
                         <label htmlFor="residentialAddress[suburb]">Suburb*</label>
-                        <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialSuburb" />
+                        <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialSuburb" className="residentialSuburb" />
                         <label htmlFor="residentialAddress[country]">Country*</label>
-                        <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry" id="residentialAddress[country]"></select>
+                        <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry" id="residentialAddress[country]" className="residentialCountry"></select>
 
                         <div className="state-code">
                             <label htmlFor="residentialAddress[state]">State*</label>
-                            <select defaultValue={this.props.formValues.residentialAddress.state} ref="residentialState" id="residentialAddress[state]"></select>
+                            <select defaultValue={this.props.formValues.residentialAddress.state} ref="residentialState" id="residentialAddress[state]" className="residentialState"></select>
                             <label htmlFor="residentialAddress[postcode]">Postcode*</label>
-                            <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode} ref="residentialPostcode" id="residentialPostcode"/>
+                            <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode} ref="residentialPostcode" id="residentialPostcode" className="residentialPostcode" />
                         </div>
                         <label>
                             <input type="checkbox" defaultValue={this.props.formValues.differentPostal} ref="differentPostal" value="true"/>
@@ -109,11 +109,13 @@ export default class Details extends Component {
                             <label htmlFor="postalAddress[suburb]">Suburb*</label>
                             <input type="text" defaultValue={this.props.formValues.postalAddress.suburb} ref="postalSuburb"/>
                             <label htmlFor="postalAddress[country]">Country*</label>
-                            <select defaultValue={this.props.formValues.postalAddress.country} ref="postalCountry" id="postalAddress[country]"></select>
+                            <select defaultValue={this.props.formValues.postalAddress.country} ref="postalCountry" id="postalAddress[country]">
+                            </select>
 
                             <div className="state-code">
                                 <label htmlFor="postalAddress[state]">State*</label>
-                                <select defaultValue={this.props.formValues.postalAddress.state} ref="postalState" id="postalAddress[state]"></select>
+                                <select defaultValue={this.props.formValues.postalAddress.state} ref="postalState" id="postalAddress[state]">
+                                </select>
                                 <label htmlFor="postalAddress[postcode]">Postcode*</label>
                                 <input type="text" defaultValue={this.props.formValues.postalAddress.postcode} ref="postalPostcode"/>
                                 <label htmlFor="postalAddress[address]">Address*</label>
@@ -126,11 +128,11 @@ export default class Details extends Component {
                     </div>
                     <div className="field-group">
                         <label htmlFor="email">Email*</label>
-                        <input type="text" defaultValue={this.props.formValues.email} ref="email" id="email"/>
+                        <input type="text" defaultValue={this.props.formValues.email} ref="email" id="email" className="email" />
                         <label htmlFor="phoneNumber">Phone number*</label>
-                        <input type="text" defaultValue={this.props.formValues.primaryPhoneNumber} ref="phoneNumber" id="primaryPhoneNumber"/>
+                        <input type="text" defaultValue={this.props.formValues.primaryPhoneNumber} ref="phoneNumber" id="primaryPhoneNumber" className="primaryPhoneNumber" />
                         <label htmlFor="phoneNumber">Secondary Phone</label>
-                        <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhone" id="secondaryPhone" />
+                        <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhone" id="secondaryPhone" className="secondaryPhone" />
                     </div>
                     <div className="navigation">
                         <button onClick={this.submitDetails} >Continue</button>
