@@ -2,8 +2,14 @@
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config.json')[env];
-const defaults = require('./config.json').default;
 
+const defaults = {
+    session: {
+        secret: "i'm a teapot",
+        proxy: true,
+        secureCookie: true
+    }
+}
 
 let sessionConfig = () => {
     let sessionOverrides = {};

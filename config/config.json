@@ -1,11 +1,4 @@
 {
-    "default": {
-        "session": {
-            "secret": "i'm a teapot",
-            "proxy": true,
-            "secureCookie": true
-        }
-    },
     "development": {
         "username": "project-m",
         "password": "project-m",
