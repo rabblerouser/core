@@ -7,7 +7,6 @@ const Q = require('q'),
     moment = require('moment'),
     Invoice = models.Invoice;
 
-var stripe = require("stripe")(stripeController.getSecretKey());
 
 var createInvoice = (newInvoice) => {
   return Q({
@@ -25,13 +24,8 @@ var createInvoice = (newInvoice) => {
 };
 
 var chargeCard = (stripeToken, totalAmount) => {
-  return stripe.charges.create({
-        amount: parseFloat(totalAmount) * 100,
-        currency: "aud",
-        source: stripeToken,
-        description: "Example charge"
-      })
-      .then(logger.logNewChargeEvent(stripeToken));
+    return stripeController.chargeCard(stripeToken, totalAmount)
+        .then(logger.logNewChargeEvent(stripeToken));
 };
 
 module.exports = {

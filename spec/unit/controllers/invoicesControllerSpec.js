@@ -140,6 +140,32 @@ describe("invoicesController", () => {
                 });
                 done();
             });
+
+            it("with a negative number, it rejects it", (done) => {
+                let badRequest = {
+                    body: {
+                        memberEmail: "sherlock@holmes.co.uk",
+                        totalAmount: "-11",
+                        paymentType: 'deposit'
+                    }
+                };
+
+                createInvoiceStub
+                    .withArgs(badRequest.body)
+                    .returns(createInvoicePromise.promise);
+
+                newInvoiceHandler(badRequest, res);
+
+                expect(invoiceService.createInvoice).not.toHaveBeenCalled();
+                expect(invoiceService.chargeCard()).not.toHaveBeenCalled();
+                expect(res.status).toHaveBeenCalledWith(400);
+                expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {
+                    title: 'Payment',
+                    errors: ["totalAmount"],
+                    email: "sherlock@holmes.co.uk"
+                });
+                done();
+            });
         });
 
         describe("when charging card fails", () => {

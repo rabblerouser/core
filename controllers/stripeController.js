@@ -36,8 +36,20 @@ var getPublicKey = () => {
     return undefined;
 };
 
+var stripe = require("stripe")(getSecretKey());
+
+var chargeCard = (stripeToken, totalAmount) => {
+    return stripe.charges.create({
+        amount: parseFloat(totalAmount) * 100,
+        currency: "aud",
+        source: stripeToken,
+        description: "Pirate party membership."
+    })
+};
+
 
 module.exports = {
     getPublicKey: getPublicKey,
-    getSecretKey: getSecretKey
+    getSecretKey: getSecretKey,
+    chargeCard: chargeCard
 };

@@ -27,6 +27,7 @@
         npm install
 
 0. Add stripe keys
+
         1. First option is to add stripe config file:
                 1. Make a file called stripe-config.json in /config file (see /config/strip-config.json.example for format)
                 2. Visit [stripe](https://dashboard.stripe.com/test/dashboard)

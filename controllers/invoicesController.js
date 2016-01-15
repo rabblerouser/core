@@ -29,7 +29,7 @@ var newInvoiceHandler = (req, res) => {
         invoiceService.chargeCard(req.body.stripeToken.id, req.body.totalAmount)
             .then((charge) => {
                 newInvoice.reference = charge.id;
-                console.log("Charge card worked, yay");
+                console.log("Successfully charged card!");
                 return createInvoice(newInvoice, res);
             })
             .catch((error) => {

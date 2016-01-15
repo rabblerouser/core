@@ -1,6 +1,7 @@
 "use strict";
 
 const specHelper = require("../../support/specHelper"),
+      stripeController = require("../../../controllers/stripeController"),
       models = specHelper.models,
       Invoice = models.Invoice,
       sinon = specHelper.sinon,
@@ -77,4 +78,45 @@ describe('invoiceService', () => {
         });
     });
   });
+
+    describe("Charge card", () => {
+        let stripeControllerStub, stripeChargePromise,
+            stripeToken="47", totalAmount = 123,
+            loggerStub;
+
+        beforeEach(() => {
+            stripeControllerStub = sinon.stub(stripeController, "chargeCard");
+            stripeChargePromise = Q.defer();
+            stripeControllerStub.returns(stripeChargePromise.promise);
+
+            loggerStub = sinon.stub(logger, 'logNewChargeEvent');
+        });
+
+        afterEach(() => {
+            stripeController.chargeCard.restore();
+            loggerStub.restore();
+        });
+
+        it("After charge, logger should log", (done) => {
+            stripeChargePromise.resolve();
+
+            let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+
+            promise.finally(() => {
+                expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
+                done();
+            });
+        });
+
+        it("If charge card fails, logger should still log", (done) => {
+            stripeChargePromise.reject();
+
+            let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+
+            promise.finally(() => {
+                expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
+                done();
+            });
+        });
+    });
 });
