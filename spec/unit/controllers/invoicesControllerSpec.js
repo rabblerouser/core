@@ -152,7 +152,7 @@ describe("invoicesController", () => {
                 newInvoiceHandler(goodRequest, res);
 
                 chargeCardPromise.promise.finally(() => {
-                    expect(invoiceService.createInvoice).not.toHaveBeenCalled();
+                    expect(invoiceService.createInvoice).toHaveBeenCalled();
                     expect(res.status).toHaveBeenCalledWith(400);
                     expect(responseJsonStub).toHaveBeenCalledWith({errors: ["Failed to charge card"]});
                 }).nodeify(done);

@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 var membersController = require('../controllers/membersController');
 var invoicesController = require('../controllers/invoicesController');
+var stripeController = require('../controllers/stripeController');
 
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
+    res.header('Stripe-Public-Key', stripeController.getPublicKey()).render('index', { title: 'Express' });
 });
 
 router.get('/members/new', function(req, res, next) {

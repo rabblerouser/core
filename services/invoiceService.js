@@ -3,10 +3,11 @@
 const Q = require('q'),
     models = require('../models'),
     logger = require('../lib/logger'),
+    stripeController = require('../controllers/stripeController'),
     moment = require('moment'),
     Invoice = models.Invoice;
 
-var stripe = require("stripe")("pk_test_4SqBME7pIDAKSWRft4OpviYK");
+var stripe = require("stripe")(stripeController.getSecretKey());
 
 var createInvoice = (newInvoice) => {
   return Q({

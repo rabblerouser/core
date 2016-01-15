@@ -26,6 +26,12 @@
 
         npm install
 
+0. Add stripe keys
+        1. Visit [stripe](https://dashboard.stripe.com/test/dashboard)
+        2. Click your account -> account settings
+        3. Click API keys
+        4. Copy the ones you wish to use into /config/stripe-config.json (for test and dev)
+
 0. Run the tests
 
         npm test

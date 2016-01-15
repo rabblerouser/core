@@ -9,3 +9,4 @@ npm-debug.log
 .idea/
 public/javascript
 .babel-cache
+config/stripe-config.json

@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 export default React.createClass({
     mixins: [ReactScriptLoaderMixin],
+    stripeDisabled: false,
     getScriptURL: function () {
         return 'https://checkout.stripe.com/checkout.js';
     },
@@ -15,8 +16,19 @@ export default React.createClass({
 
     onScriptLoaded: function () {
         if (!StripeButton.stripeHandler) {
+
+            var req = new XMLHttpRequest();
+            req.open('GET', document.location, false);
+            req.send(null);
+            var stripePublicKey = req.getResponseHeader('Stripe-Public-Key');
+            if (!stripePublicKey || stripePublicKey === "undefined") {
+                this.stripeDisabled = true;
+                this.forceUpdate();
+                return;
+            }
+
             StripeButton.stripeHandler = StripeCheckout.configure({
-                key: 'pk_test_4SqBME7pIDAKSWRft4OpviYK',
+                key: stripePublicKey,
                 image: '/images/logo.svg',
                 email: this.props.email,
                 token: function (token) {
@@ -32,9 +44,6 @@ export default React.createClass({
                     });
                 }.bind(this)
             });
-            if (this.hasPendingClick) {
-                this.showStripeDialog();
-            }
         }
     },
     showStripeDialog: function () {
@@ -51,13 +60,18 @@ export default React.createClass({
     onClick: function () {
         if (StripeButton.scriptDidError) {
             console.log('failed to load script');
+        } else if (this.stripeDisabled) {
+            console.log('Stripe has been disabled, could not find public key');
         } else if (StripeButton.stripeHandler) {
             this.showStripeDialog();
         }
     },
     render: function () {
-        return (
-            <button onClick={this.onClick}>Credit/Debit cardr</button>
-        );
+        if (this.stripeDisabled) {
+            console.log("stripe disabled");
+            return <button className="hidden" onClick={this.onClick}>Credit/Debit card</button>;
+        }
+        return <button onClick={this.onClick}>Credit/Debit card</button>;
+
     }
 });

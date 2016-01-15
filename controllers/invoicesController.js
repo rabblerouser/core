@@ -41,8 +41,6 @@ var newInvoiceHandler = (req, res) => {
 
 var createInvoice = (newInvoice, res) => {
     let dbError = (error) => {
-        console.log(error);
-        console.log("db error ^");
         res.status(500).json({errors: [error]});
     };
 
