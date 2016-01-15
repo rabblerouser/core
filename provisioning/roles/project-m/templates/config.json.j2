@@ -1,5 +1,12 @@
 
 {
+    "default": {
+        "session": {
+            "secret": "i'm a teapot",
+            "proxy": true,
+            "secureCookie": true
+        }
+    },
     "{{ node_env }}": {
         "username": "{{ db_user }}",
         "password": "{{ db_password }}",
