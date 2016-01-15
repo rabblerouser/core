@@ -6,12 +6,13 @@ export default class InfoBox extends Component {
     }
 
     render() {
-        return <div className="info-box" style={{display: this.props.display}}>
-            <div className="info-box-header">
-                Hooray! You are eligible for a Full Membership.
+        return <div className="info-box">
+            <div className="info-heading">
+                <h2>You are eligible for a Full Membership.</h2>
+                <i>What are the different membership types?</i>
             </div>
-            <div className="info-box-body">
-                You are entitled to:
+            <div className="info-body">
+                As an Australian citizen with no other political party, you are entitled to be a Full Member. As such, you can:
                 <ul>
                     <li>Be elected into a formal position within the party, at any level;</li>
                     <li>Where eligible, and approved by the nomination processes within this constitution, stand as a candidate in any election the party contests;</li>
@@ -20,6 +21,7 @@ export default class InfoBox extends Component {
                     <li>Where eligible, participate in working groups defined by the National Council or any organ of the Party; and</li>
                     <li>Vote at Party Meetings, Congresses and Policy Formulation, Development and Adoption proceedings.</li>
                 </ul>
+                As a Full Member, you can pay whatever you want to join (even $0!)
             </div>
         </div>
     }

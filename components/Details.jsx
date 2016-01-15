@@ -51,7 +51,7 @@ export default class Details extends Component {
 
     render() {
         return (
-            <div>
+            <fieldset>
                 <h1>Details</h1>
                 <p className="errors">{this.state.validationErrors}</p>
                 <div className="form-body">
@@ -136,7 +136,7 @@ export default class Details extends Component {
                         <button onClick={this.submitDetails} >Continue</button>
                     </div>
                 </div>
-            </div>
+            </fieldset>
         )
     };
 }

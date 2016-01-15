@@ -36,17 +36,23 @@
     padding-bottom: 2em;
   }
 
-  .form-body {
+  fieldset {
     @include fill-parent();
-    @include pad();
     @include clearfix();
+    @include pad(0px 0px 2em 0px);
 
+    border:none;
     background-color: $blue-light;
     color: $blue-darker;
+
+    .form-body {
+      @include pad(0px default default default);
+    }
 
     .field-group {
       @include media($desktop-width) {
         @include span-columns(6);
+        @include pad(0px 0px 2em 0px);
       }
     }
 
@@ -68,27 +74,35 @@
   }
 
   .info-box {
+    @include span-columns(12);
     background-color: $white;
     border: 2px solid $green;
     margin-top: 25px;
     padding: 0 15px;
-  }
 
-  .info-box-header {
-    border-bottom: 1px solid $green;
-    color: $green;
-    font-weight: bold;
-    height: 50px;
-    line-height: 50px;
-  }
+    .info-heading {
+      border-bottom: 1px solid $green;
+      color: $green;
+      font-weight: bold;
 
-  .info-box-body {
-    font-size: 12px;
-    padding: 15px 0;
+      h2 {
+        @include pad(default 0px 0px 0px);
+        margin:0px;
+      }
 
-    ul {
-      list-style-type: inherit;
-      margin-left: 17px;
+      i {
+        font-size: 0.7em;
+      }
+    }
+
+    .info-body {
+      font-size: 12px;
+      padding: 15px 0;
+
+      ul {
+        list-style-type: inherit;
+        margin-left: 17px;
+      }
     }
   }
 

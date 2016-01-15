@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Eligibility from './Eligibility.jsx';
+import MembershipType from './MembershipType.jsx';
 import Details from './Details.jsx';
-import Payment from './Payment.jsx';
+import Payment from './payment.jsx';
 import $ from 'jquery';
 
 export default class NewMemberForm extends Component {
@@ -11,9 +11,11 @@ export default class NewMemberForm extends Component {
         this.previousStep = this.previousStep.bind(this);
         this.saveSuccess = this.saveSuccess.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
-        this.render = this.render.bind(this);
-        this.state = { step: 1, email: '' };
+        this.state = { step: (this.props.initialState === undefined ? 1 : this.props.initialState) };
         this.formValues = {
+                            isEnrolled: '',
+                            residentialStatus: '',
+                            isMemberOfOtherParty: '',
                             eligibility: '',
                             firstName: '',
                             lastName: '',
@@ -53,7 +55,6 @@ export default class NewMemberForm extends Component {
     }
 
     saveAndContinue(fieldValues) {
-        this.setState({email: fieldValues.email});
         $.ajax({
             type: 'POST',
             url: '/members',
@@ -65,12 +66,13 @@ export default class NewMemberForm extends Component {
     render() {
         switch(this.state.step) {
             case 1:
-                return <Eligibility nextStep={this.nextStep} />;
+                return <MembershipType nextStep={this.nextStep}
+                                       formValues={this.formValues} />;
             case 2:
                 return <Details formValues={this.formValues}
                                 saveAndContinue={this.saveAndContinue} />;
             case 3:
-                return <Payment email={this.state.email}/>;
+                return <Payment email={"hello@wow.com"}/>;
         }
     }
 }
