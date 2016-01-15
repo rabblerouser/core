@@ -1,10 +1,21 @@
 {
+    "default": {
+        "session": {
+            "secret": "i'm a teapot",
+            "proxy": true,
+            "secureCookie": true
+        }
+    },
     "development": {
         "username": "project-m",
         "password": "project-m",
         "database": "project-m",
         "host": "127.0.0.1",
-        "dialect": "postgresql"
+        "dialect": "postgresql",
+        "session": {
+            "proxy": false,
+            "secureCookie": false
+        }
     },
     "test": {
         "username": "project-m",
@@ -12,9 +23,14 @@
         "database": "project-m_test",
         "host": "127.0.0.1",
         "dialect": "postgresql",
-        "logging": false
+        "logging": false,
+        "session": {
+            "proxy": false,
+            "secureCookie": false
+        }
     },
     "staging": {
-        "use_env_variable": "DATABASE_URL"
+        "use_env_variable": "DATABASE_URL",
+        "session_secret_env_variable": "SESSION_SECRET"
     }
 }

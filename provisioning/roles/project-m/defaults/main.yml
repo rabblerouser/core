@@ -7,3 +7,4 @@ logs_dir: /var/log/project-m
 pids_dir: /var/run/project-m
 node_env: development
 db_password: secret
+session_secret: "i'm a secret teapot"

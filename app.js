@@ -1,18 +1,25 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var expressSanitized = require('express-sanitized');
-var routes = require('./routes/index');
-var sassMiddleware = require('node-sass-middleware');
-var neat = require('node-neat');
-var app = express();
+'use strict';
 
-const helmet = require('helmet');
+const express = require('express'),
+      path = require('path'),
+      favicon = require('serve-favicon'),
+      logger = require('morgan'),
+      bodyParser = require('body-parser'),
+      expressSanitized = require('express-sanitized'),
+      helmet = require('helmet'),
+      routes = require('./routes/index'),
+      sassMiddleware = require('node-sass-middleware'),
+      session = require('express-session'),
+      neat = require('node-neat'),
+      app = express();
 
 const env = process.env.NODE_ENV || 'development';
+
+const SequelizeSessionStore = require('connect-session-sequelize')(session.Store);
+const db = require('./db/connection');
+const sessionStore = new SequelizeSessionStore({db: db});
+const sessionOpts = require('./config/configManager').session;
+
 const logFormat = () => {
     if (['developement', 'test'].indexOf(env) > -1) {
         return 'dev';
@@ -21,6 +28,11 @@ const logFormat = () => {
         return '[:date[iso]] :remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
     }
 };
+
+
+let initialiseApp = () => {
+    sessionStore.sync();
+}();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,7 +46,14 @@ app.use(logger(logFormat()));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitized());
-app.use(cookieParser());
+app.use(session({
+    secret: sessionOpts.secret,
+    store: sessionStore,
+    proxy: sessionOpts.proxy,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: sessionOpts.secureCookie }
+}));
 app.use(sassMiddleware({
     src: path.join(__dirname, 'public'),
     dest: path.join(__dirname, 'public'),

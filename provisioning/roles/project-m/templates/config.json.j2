@@ -5,6 +5,9 @@
         "password": "{{ db_password }}",
         "database": "project-m",
         "host": "127.0.0.1",
-        "dialect": "postgres"
+        "dialect": "postgres",
+        "session": {
+            "secret": "{{ session_secret }}"
+        }
     }
 }
