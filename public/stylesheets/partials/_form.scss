@@ -7,7 +7,7 @@
     @include pad();
   }
 
-  margin:25px auto;
+  margin: 25px auto;
 
   h1 {
     background-color: $blue-darker;
@@ -15,11 +15,12 @@
     font-size: 1.5em;
     line-height: 70px;
     padding-left: 1.5em;
-    margin:0;
+    margin: 0;
   }
 
   .heading {
     @include span-columns(12);
+    float: none;
 
     h2 {
       font-size: 1.2em;
@@ -32,8 +33,29 @@
       margin-bottom: 25px;
     }
 
-    padding-top: 2em;
-    padding-bottom: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  .declaration {
+    background: $white;
+    border: 3px solid $blue;
+    padding: 20px 25px;
+    font-size:14px;
+    margin-bottom: 15px;
+
+    > * {
+      display: inline-block;
+    }
+
+    .declaration-text {
+      color:#0073AE;
+    }
+
+    img {
+      width: 3em;
+      float: left;
+    }
   }
 
   fieldset {
@@ -106,7 +128,7 @@
     }
   }
 
-  input[type="radio"]{
+  input[type="radio"] {
     margin-top: 15px;
   }
 }
@@ -144,19 +166,19 @@ hr {
   }
 
   .validationErrors-text span {
-    color:$red;
-    font-weight:bold;
-    padding-bottom:10px;
+    color: $red;
+    font-weight: bold;
+    padding-bottom: 10px;
   }
 
-  .error{
-    font-size:.8em;
+  .error {
+    font-size: .8em;
     color: $red;
   }
 
   img {
-    width:3em;
-    float:left;
+    width: 3em;
+    float: left;
 
   }
 }
@@ -177,8 +199,8 @@ hr {
   }
 
   img {
-    width:3em;
-    float:left;
+    width: 3em;
+    float: left;
   }
 }
 
@@ -228,5 +250,5 @@ hr {
     margin: 0;
   }
 
-  padding-top:1em;
+  padding-top: 1em;
 }
