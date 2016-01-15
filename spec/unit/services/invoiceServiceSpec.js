@@ -13,6 +13,63 @@ var invoiceService = require("../../../services/invoiceService");
 
 describe('invoiceService', () => {
 
+    describe("Stripe", () => {
+
+      let loggerStub, createStub,
+          stripeToken, totalAmount,
+          expectedNewCharge, createPromise,
+          stripe;
+
+      beforeEach(() => {
+        createStub = sinon.stub();
+
+        stripe = require("stripe");
+        sinon.stub(stripe, 'Stripe')
+            .returns({charges: {create: createStub}});
+
+        loggerStub = sinon.stub(logger, 'logNewChargeEvent');
+
+        //re-load invoice service to using the stubs above.
+        invoiceService = require("../../../services/invoiceService");
+
+        stripeToken = "stripe_token";
+        totalAmount = 60;
+        expectedNewCharge = {
+              amount: 6000,
+              currency: "aud",
+              source: "stripe_token",
+              description: "Example charge"
+            }
+
+        createPromise = Q.defer();
+        createStub.returns(createPromise.promise);
+      });
+
+      afterEach(() => {
+          stripe.Stripe.restore();
+          loggerStub.restore();
+      });
+
+      it("Charge Credit Card", (done) => {
+          createPromise.resolve();
+
+          invoiceService.chargeCard(stripeToken, totalAmount)
+              .then(() => {
+                  expect(createStub).toHaveBeenCalledWith(expectedNewCharge);
+              }).nodeify(done);
+      });
+
+      it("logs the invoice creation event", (done) => {
+          createPromise.resolve();
+
+          invoiceService.chargeCard(stripeToken, totalAmount)
+              .then(() => {
+                  expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
+              }).nodeify(done);
+      });
+
+    });
+
   describe("createInvoice", () => {
 
     let invoiceStub, loggerStub,
