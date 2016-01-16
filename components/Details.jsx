@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Errors from './Errors.jsx';
 import * as memberValidator from '../lib/memberValidator';
 import countrySelector from '../public/javascript/countries.js';
 
@@ -7,7 +8,7 @@ export default class Details extends Component {
         super(props);
         this.submitDetails = this.submitDetails.bind(this);
         this.validator = memberValidator;
-        this.state = { };
+        this.state = { invalidFields: [] };
     }
 
     componentDidMount() {
@@ -42,9 +43,9 @@ export default class Details extends Component {
         if(!this.refs.differentPostal.checked) {
             fieldValues.postalAddress = fieldValues.residentialAddress;
         }
-        var validationErrors = this.validator.isValid(fieldValues);
-        if (validationErrors.length > 0) {
-            return this.setState({validationErrors: validationErrors });
+        var invalidFields = this.validator.isValid(fieldValues);
+        if (invalidFields.length > 0) {
+            return this.setState({invalidFields: invalidFields });
         }
         return this.props.saveAndContinue(fieldValues);
     }
@@ -53,7 +54,7 @@ export default class Details extends Component {
         return (
             <fieldset>
                 <h1>Details</h1>
-                <p className="errors">{this.state.validationErrors}</p>
+                <Errors invalidFields={this.state.invalidFields} />
                 <div className="form-body">
                     <div className="reminder">
                         <img src="/images/reminder.svg"></img>
