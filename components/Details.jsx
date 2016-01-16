@@ -82,20 +82,24 @@ export default class Details extends Component {
                     </div>
                     <div className="field-group">
                         <label htmlFor="residentialAddress[address]">Address*</label>
-                        <input type="text" defaultValue={this.props.formValues.residentialAddress.address} ref="residentialAddress" id="residentialAddress" className="residentialAddress" />
+                        <input type="text" defaultValue={this.props.formValues.residentialAddress.address} ref="residentialAddress" id="residentialAddress[address]" className="residentialAddress" />
                         <label htmlFor="residentialAddress[suburb]">Suburb*</label>
-                        <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialSuburb" className="residentialSuburb" />
+                        <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialAddress[suburb]" className="residentialSuburb" />
                         <label htmlFor="residentialAddress[country]">Country*</label>
-                        <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry" id="residentialAddress[country]" className="residentialCountry"></select>
+                        <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry" id="residentialAddress[country]" className="residentialCountry">
+                            <option value="Australia">Australia</option>
+                        </select>
 
                         <div className="state-code">
                             <label htmlFor="residentialAddress[state]">State*</label>
-                            <select defaultValue={this.props.formValues.residentialAddress.state} ref="residentialState" id="residentialAddress[state]" className="residentialState"></select>
+                            <select defaultValue={this.props.formValues.residentialAddress.state} ref="residentialState" id="residentialAddress[state]" className="residentialState">
+                                <option value="New South Wales">New South Wales</option>
+                            </select>
                             <label htmlFor="residentialAddress[postcode]">Postcode*</label>
-                            <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode} ref="residentialPostcode" id="residentialPostcode" className="residentialPostcode" />
+                            <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode} ref="residentialPostcode" id="residentialAddress[postcode]" className="residentialPostcode" />
                         </div>
                         <label>
-                            <input type="checkbox" defaultValue={this.props.formValues.differentPostal} ref="differentPostal" value="true"/>
+                            <input type="checkbox" defaultValue={this.props.formValues.differentPostal} ref="differentPostal" />
                             My residential address differs from my postal address.
                         </label>
                     </div>
@@ -105,9 +109,10 @@ export default class Details extends Component {
                             <i>Please enter the postal address.</i>
                         </div>
                         <div className="field-group">
-                            <input type="text" defaultValue={this.props.formValues.postalAddress.address} ref="postalAddress"/>
+                            <label htmlFor="postalAddress[address]">Address*</label>
+                            <input type="text" defaultValue={this.props.formValues.postalAddress.address} ref="postalAddress" id="postalAddress" />
                             <label htmlFor="postalAddress[suburb]">Suburb*</label>
-                            <input type="text" defaultValue={this.props.formValues.postalAddress.suburb} ref="postalSuburb"/>
+                            <input type="text" defaultValue={this.props.formValues.postalAddress.suburb} ref="postalSuburb" id="postalAddress[suburb]" />
                             <label htmlFor="postalAddress[country]">Country*</label>
                             <select defaultValue={this.props.formValues.postalAddress.country} ref="postalCountry" id="postalAddress[country]">
                             </select>
@@ -117,8 +122,7 @@ export default class Details extends Component {
                                 <select defaultValue={this.props.formValues.postalAddress.state} ref="postalState" id="postalAddress[state]">
                                 </select>
                                 <label htmlFor="postalAddress[postcode]">Postcode*</label>
-                                <input type="text" defaultValue={this.props.formValues.postalAddress.postcode} ref="postalPostcode"/>
-                                <label htmlFor="postalAddress[address]">Address*</label>
+                                <input type="text" defaultValue={this.props.formValues.postalAddress.postcode} ref="postalPostcode" id="postalAddress[postcode]" />
                             </div>
                         </div>
                     </div>
@@ -135,7 +139,7 @@ export default class Details extends Component {
                         <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhone" id="secondaryPhone" className="secondaryPhone" />
                     </div>
                     <div className="navigation">
-                        <button onClick={this.submitDetails} >Continue</button>
+                        <button onClick={this.submitDetails}>Continue</button>
                     </div>
                 </div>
             </fieldset>

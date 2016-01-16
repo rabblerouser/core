@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import populateCountries from '../../public/javascript/countries.js';
 import NewMemberForm from '../NewMemberForm.jsx';
 import MembershipType from '../MembershipType.jsx';
 import Details from '../Details.jsx';
+import populateCountries from '../../public/javascript/countries.js';
+import $ from 'jquery';
 
 describe('NewMemberForm', () => {
     beforeEach(() => {
         spyOn(populateCountries, 'populateCountries');
+        spyOn($, 'ajax').and.callFake((req) => {
+            req.success();
+        });
     });
 
     let newMemberForm = TestUtils.renderIntoDocument(<NewMemberForm />);
@@ -46,7 +50,7 @@ describe('NewMemberForm', () => {
                 expect(ReactDOM.findDOMNode(errors).textContent).toMatch(/email/);
             });
 
-            xit('should transition to payment on button click if the details entered were valid', () => {
+            it('should transition to payment on button click if the details entered were valid', () => {
                 var inputDetails = {
                     firstName: 'x',
                     lastName: 'x',
@@ -65,7 +69,7 @@ describe('NewMemberForm', () => {
                 });
 
                 var selectDetails = {
-                    residentialState: 'NSW',
+                    residentialState: 'New South Wales',
                     residentialCountry: 'Australia'
                 };
 
