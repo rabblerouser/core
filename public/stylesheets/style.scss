@@ -9,17 +9,14 @@ div.container {
   @include outer-container(100%);
 }
 
-
-
 .header {
   font-family: 'Open Sans', sans-serif;
-  margin: 40px auto 115px;
+  margin: 37px auto 111px;
   position: relative;
   text-align: center;
 
   img {
-    margin-bottom: 20px;
-    width: 25%;
+    height: 72px;
 
     @include media($tablet) {
       width: 50%;
@@ -65,7 +62,7 @@ div.container {
 
 .progress-bar {
   border-radius: 15px;
-  margin: 50px auto;
+  margin: 67px auto;
   padding: 0;
   position: absolute;
   white-space: nowrap;
@@ -74,13 +71,13 @@ div.container {
   li {
     color: $grey-darker;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     list-style: none;
     padding: 0;
     position: relative;
     text-align: center;
-    width: 15%;
+    width: 18%;
 
     @include media($mobile) {
       font-size: 10px;
@@ -102,17 +99,17 @@ div.container {
 
     &::after {
       background: $white;
-      border: 5px solid $grey-light;
+      border: 4px solid $grey-light;
       border-radius: 50%;
       color: $grey-darker;
       font-size: 16px;
       font-weight: 600;
       height: 45px;
-      left: 40%;
+      left: 33%;
       line-height: 36px;
       position: absolute;
       text-align: center;
-      top: -55px;
+      top: -52px;
       width: 45px;
       z-index: 99;
     }
@@ -120,10 +117,10 @@ div.container {
     &::before {
       background: $grey-light;
       content: '';
-      height: 5px;
+      height: 4px;
       left: -50%;
       position: absolute;
-      top: -35px;
+      top: -30px;
       width: 100%;
       z-index: 0;
     }
