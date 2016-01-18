@@ -14,7 +14,7 @@ var createInvoice = (newInvoice) => {
     totalAmountInCents: newInvoice.totalAmount * 100,
     paymentDate: moment().format('L'),
     paymentType: newInvoice.paymentType,
-    reference: ''
+    reference: newInvoice.reference
   })
     .then(Invoice.create.bind(Invoice))
     .then(logger.logNewInvoiceEvent(newInvoice))

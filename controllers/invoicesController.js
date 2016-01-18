@@ -10,7 +10,8 @@ var newInvoiceHandler = (req, res) => {
     let newInvoice = {
         memberEmail: req.body.memberEmail,
         totalAmount: req.body.totalAmount,
-        paymentType: req.body.paymentType
+        paymentType: req.body.paymentType,
+        reference: ''
     };
 
 
@@ -29,7 +30,6 @@ var newInvoiceHandler = (req, res) => {
         invoiceService.chargeCard(req.body.stripeToken.id, req.body.totalAmount)
             .then((charge) => {
                 newInvoice.reference = charge.id;
-                console.log("Successfully charged card!");
                 return createInvoice(newInvoice, res);
             })
             .catch((error) => {

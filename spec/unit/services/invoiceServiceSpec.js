@@ -27,6 +27,7 @@ describe('invoiceService', () => {
           memberEmail: "sherlock@holmes.co.uk",
           totalAmount: 60,
           paymentType: 'deposit',
+          reference: ''
         };
 
         expectedNewInvoice = {

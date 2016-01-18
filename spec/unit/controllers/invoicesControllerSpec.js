@@ -15,6 +15,7 @@ describe("invoicesController", () => {
             statusStub, responseJsonStub,
             createInvoiceStub, createInvoicePromise,
             chargeCardStub, chargeCardPromise,
+            expectedInvoiceCreateValues,
             renderStub, renderLocationStub;
 
         beforeEach(() => {
@@ -30,9 +31,16 @@ describe("invoicesController", () => {
                 }
             };
 
+            expectedInvoiceCreateValues = {
+                memberEmail: "sherlock@holmes.co.uk",
+                totalAmount: 60,
+                paymentType: 'deposit',
+                reference: ''
+            };
+
             createInvoicePromise = Q.defer();
             createInvoiceStub
-                .withArgs(goodRequest.body)
+                .withArgs(expectedInvoiceCreateValues)
                 .returns(createInvoicePromise.promise);
 
             chargeCardPromise = Q.defer();
@@ -53,16 +61,9 @@ describe("invoicesController", () => {
         });
 
         describe("when it receives a good request", () => {
-            let expectedInvoiceCreateValues;
 
             beforeEach(() => {
                 createInvoicePromise.resolve();
-
-                expectedInvoiceCreateValues = {
-                    memberEmail: "sherlock@holmes.co.uk",
-                    totalAmount: 60,
-                    paymentType: 'deposit'
-                };
             });
 
             it("creates a charge card if stripe payment type", (done) => {
@@ -175,10 +176,12 @@ describe("invoicesController", () => {
                 goodRequest.body.paymentType = "stripe";
                 goodRequest.body.stripeToken = "token";
 
+                expectedInvoiceCreateValues.paymentType = "stripe";
+
                 newInvoiceHandler(goodRequest, res);
 
                 chargeCardPromise.promise.finally(() => {
-                    expect(invoiceService.createInvoice).toHaveBeenCalled();
+                    expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
                     expect(res.status).toHaveBeenCalledWith(400);
                     expect(responseJsonStub).toHaveBeenCalledWith({errors: ["Failed to charge card"]});
                 }).nodeify(done);
