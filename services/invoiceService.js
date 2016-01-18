@@ -25,7 +25,10 @@ var createInvoice = (newInvoice) => {
 
 var chargeCard = (stripeToken, totalAmount) => {
     return stripeHandler.chargeCard(stripeToken, totalAmount)
-        .tap(logger.logNewChargeEvent(stripeToken))
+        .tap(() => {
+          logger.logNewChargeEvent(stripeToken);
+          return Q.resolve();
+        })
         .catch((error)=>{
           logger.logNewFailedCharge(stripeToken,error);
           return Q.reject("Failed to charge card");

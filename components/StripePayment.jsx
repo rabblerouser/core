@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import Errors from './Errors.jsx';
 var scriptLoader = require('load-script').bind(this);
 
 export default class StripePayment extends Component {
@@ -49,7 +51,13 @@ export default class StripePayment extends Component {
                                 totalAmount: parseFloat(this.props.amount),
                                 paymentType: 'stripe',
                                 stripeToken: token
-                            }
+                            },
+                            success: function (value) {
+                                this.props.callback([], true);
+                            }.bind(this),
+                            error: function(request, status, error) {
+                                this.props.callback([error], false);
+                            }.bind(this)
                         });
                     }.bind(this)
                 });
@@ -71,6 +79,10 @@ export default class StripePayment extends Component {
     };
 
     onClick() {
+      if(this.props.amount <= 1) {
+        this.props.callback(["Can not use card for less than $1"], false);
+        return;
+      }
         if (this.scriptDidError) {
             console.log('failed to load script');
         } else if (this.stripeDisabled) {

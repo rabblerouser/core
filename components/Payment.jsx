@@ -1,21 +1,34 @@
 import React, {Component} from 'react';
 import StripePayment from './StripePayment.jsx';
+import Errors from './Errors.jsx';
 
 export default class Payment extends Component {
     constructor(props) {
         super(props);
         this.handleAmountChanged = this.handleAmountChanged.bind(this);
-        this.state = {amount : ''};
+        this.onPaymentReturned = this.onPaymentReturned.bind(this);
+        this.state = {amount : '', invalidFields: [] };
     }
 
     handleAmountChanged(event) {
-        this.setState({amount: event.target.value});
+        this.setState({amount: event.target.value, invalidFields: []});
+    }
+
+    onPaymentReturned(failure, success) {
+      if(failure) {
+        this.setState({invalidFields: failure});
+      }
+      else {
+        console.log("go to next page");
+        //go to next page
+      }
     }
 
     render() {
         return <fieldset>
             <h1>Pay What You Want</h1>
             <div className="form-body">
+                <Errors invalidFields={this.state.invalidFields} />
                 <div className="reminder">
                     <img src="/images/reminder.svg"/>
                     <div className="reminder-text">
@@ -42,7 +55,8 @@ export default class Payment extends Component {
                         <input type="radio" name="paymentType" defaultValue="cheque"/>Cheque
                     </label>
                     <StripePayment email={this.props.email}
-                                   amount={this.state.amount} />
+                                   amount={this.state.amount}
+                                   callback={this.onPaymentReturned} />
                 </div>
                 <div className="navigation">
                     <button type="button" id="payment-continue-button" onClick={this.props.nextStep}>Continue</button>

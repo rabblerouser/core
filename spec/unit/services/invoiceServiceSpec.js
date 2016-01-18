@@ -118,6 +118,7 @@ describe('invoiceService', () => {
 
           promise.finally(() => {
               expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
+              expect(logger.logNewFailedCharge).not.toHaveBeenCalled();
               done();
           });
       });
