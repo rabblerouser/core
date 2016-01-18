@@ -1,12 +1,21 @@
 import React, {Component} from 'react';
 
 export default class ConfirmDetails extends Component {
-    construct() {
+    constructor(props) {
+        super(props);
+        this.getFullAddress = this.getFullAddress.bind(this);
+    }
 
+    getFullAddress(addressObj){
+        return addressObj.address + ', '
+            + addressObj.suburb + ', '
+            + addressObj.state + ', '
+            + addressObj.country + ', '
+            + addressObj.postcode;
     }
 
     render() {
-        return <div>
+        return <fieldset>
             <h1>Confirm</h1>
 
             <div className="form-body">
@@ -42,19 +51,19 @@ export default class ConfirmDetails extends Component {
                 </div>
                 <div className="declaration">
                     <div className="declaration-text">
-                        <b> Name: </b> Placeholder Name <br/>
-                        <b> DOB: </b> 04/10/1988 <br/>
-                        <b> Gender: </b> placeholder gender<br/>
-                        <b> Residential Address: </b> 123 Placeholder St, NSW, Australia, 2000 <br/>
-                        <b> Postal Address: </b> 123 SameAsAbove, NSW, Australia, 2000 <br/>
-                        <b> Email: </b> placeholder@email.com <br/>
-                        <b> Phone: </b> 0412 345 678 <br/>
+                        <b> Name: </b> {this.props.formValues.firstName} {this.props.formValues.lastName} <br/>
+                        <b> DOB: </b> {this.props.formValues.dateOfBirth} <br/>
+                        <b> Gender: </b> {this.props.formValues.gender} <br/>
+                        <b> Residential Address: </b> {this.getFullAddress(this.props.formValues.residentialAddress)} <br/>
+                        <b> Postal Address: </b> {this.getFullAddress(this.props.formValues.postalAddress)} <br/>
+                        <b> Email: </b> {this.props.formValues.email} <br/>
+                        <b> Phone: </b> {this.props.formValues.primaryPhoneNumber} <br/>
                     </div>
                 </div>
+                <div className="navigation">
+                    <button onClick={this.props.nextStep}>Continue</button>
+                </div>
             </div>
-            <div className="navigation">
-                <button onClick={this.props.nextStep}>Continue</button>
-            </div>
-        </div>
+        </fieldset>
     }
 }

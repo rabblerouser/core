@@ -20,7 +20,6 @@
 
   .heading {
     @include span-columns(12);
-    float: none;
 
     h2 {
       font-size: 1.2em;
@@ -38,6 +37,8 @@
   }
 
   .declaration {
+    float: left;
+    width: 100%;
     background: $white;
     border: 3px solid $blue;
     padding: 20px 25px;

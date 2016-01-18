@@ -15,7 +15,7 @@ it ("a new member successfully signs up and then makes a payment", (done) => {
             .set("Content-Type", "application/json")
             .set("Accept", "application/json")
             .send(member)
-            .expect(200, {email: `sherlock${memberSuffix}@holmes.co.uk`});
+            .expect(200, {newMember: member});
     };
 
     let successfullyCreatingANewInvoiceShouldRespondWithA200 = () => {
@@ -49,7 +49,7 @@ it ("a new member successfully signs up and then makes a payment", (done) => {
             "suburb": "London",
             "country": "England",
             "state": "VIC",
-            "postcode": "12<script>var potato=true;</script>34"
+            "postcode": "1234"
         },
         "postalAddress": {
             "address": "303 collins st",

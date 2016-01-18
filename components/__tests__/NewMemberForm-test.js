@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import NewMemberForm from '../NewMemberForm.jsx';
 import MembershipType from '../MembershipType.jsx';
+import ConfirmDetails from '../ConfirmDetails.jsx';
 import Details from '../Details.jsx';
 import populateCountries from '../../public/javascript/countries.js';
 import $ from 'jquery';
@@ -49,40 +50,7 @@ describe('NewMemberForm', () => {
                 var errors = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, "errors");
                 expect(ReactDOM.findDOMNode(errors).textContent).toMatch(/email/);
             });
-
-            it('should transition to payment on button click if the details entered were valid', () => {
-                var inputDetails = {
-                    firstName: 'x',
-                    lastName: 'x',
-                    dateOfBirth: '01/01/1950',
-                    gender: 'potato',
-                    email: 'xyz@abc.com',
-                    primaryPhoneNumber: '0416555555',
-                    residentialAddress: '100 Road Street',
-                    residentialSuburb: 'Surry Hills',
-                    residentialPostcode: '2000'
-                };
-
-                _.keys(inputDetails).forEach((key) => {
-                    var field = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, key);
-                    field.value = inputDetails[key];
-                });
-
-                var selectDetails = {
-                    residentialState: 'New South Wales',
-                    residentialCountry: 'Australia'
-                };
-
-                _.keys(selectDetails).forEach((key) => {
-                    var field = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, key);
-                    TestUtils.Simulate.change(field, { target: { value: selectDetails[key] } });
-                });
-
-                let continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
-                TestUtils.Simulate.click(continueButton);
-                var heading = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, "h1");
-                expect(ReactDOM.findDOMNode(heading).textContent).toBe("Pay What You Want");
-            });
+            
         });
     });
 });

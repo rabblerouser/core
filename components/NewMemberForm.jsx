@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import MembershipType from './MembershipType.jsx';
 import Details from './Details.jsx';
 import Payment from './Payment.jsx';
+import ConfirmDetails from './ConfirmDetails.jsx';
 import $ from 'jquery';
 
 export default class NewMemberForm extends Component {
@@ -51,6 +52,7 @@ export default class NewMemberForm extends Component {
     }
 
     saveSuccess(data) {
+        this.formValues = data.newMember;
         this.nextStep();
     }
 
@@ -72,7 +74,11 @@ export default class NewMemberForm extends Component {
                 return <Details formValues={this.formValues}
                                 saveAndContinue={this.saveAndContinue} />;
             case 3:
-                return <Payment email={"hello@wow.com"}/>;
+                return <ConfirmDetails formValues={this.formValues}
+                                        nextStep={this.nextStep} />;
+            case 4:
+                return <Payment email={this.formValues.email}
+                                previousStep={this.previousStep} />
         }
     }
 }
