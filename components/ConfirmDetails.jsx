@@ -16,7 +16,7 @@ export default class ConfirmDetails extends Component {
 
     render() {
         return <fieldset>
-            <h1>Confirm</h1>
+            <h1 className="form-title">Confirm</h1>
 
             <div className="form-body">
                 <div className="heading">

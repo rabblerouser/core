@@ -24,7 +24,7 @@ export default class Payment extends Component {
 
     render() {
         return <fieldset>
-            <h1>Pay What You Want</h1>
+            <h1 className="form-title">Pay What You Want</h1>
             <div className="form-body">
                 <Errors invalidFields={this.state.invalidFields} />
                 <div className="reminder">

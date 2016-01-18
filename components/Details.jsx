@@ -53,7 +53,7 @@ export default class Details extends Component {
     render() {
         return (
             <fieldset>
-                <h1>Details</h1>
+                <h1 className="form-title">Details</h1>
                 <Errors invalidFields={this.state.invalidFields} />
                 <div className="form-body">
                     <div className="reminder">
