@@ -3,7 +3,7 @@
 const Q = require('q'),
     models = require('../models'),
     logger = require('../lib/logger'),
-    stripeController = require('../controllers/stripeController'),
+    stripeHandler = require('../lib/stripeHandler'),
     moment = require('moment'),
     Invoice = models.Invoice;
 
@@ -24,8 +24,9 @@ var createInvoice = (newInvoice) => {
 };
 
 var chargeCard = (stripeToken, totalAmount) => {
-    return stripeController.chargeCard(stripeToken, totalAmount)
-        .then(logger.logNewChargeEvent(stripeToken));
+    return stripeHandler.chargeCard(stripeToken, totalAmount)
+        .tap(logger.logNewChargeEvent(stripeToken))
+        .catch(logger.logNewFailedCharge(stripeToken));
 };
 
 module.exports = {

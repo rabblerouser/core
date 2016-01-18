@@ -1,7 +1,7 @@
 "use strict";
 
 const specHelper = require("../../support/specHelper"),
-      stripeController = require("../../../controllers/stripeController"),
+      stripeHandler = require("../../../lib/stripeHandler"),
       models = specHelper.models,
       Invoice = models.Invoice,
       sinon = specHelper.sinon,
@@ -12,63 +12,6 @@ const specHelper = require("../../support/specHelper"),
 var invoiceService = require("../../../services/invoiceService");
 
 describe('invoiceService', () => {
-
-    describe("Stripe", () => {
-
-      let loggerStub, createStub,
-          stripeToken, totalAmount,
-          expectedNewCharge, createPromise,
-          stripe;
-
-      beforeEach(() => {
-        createStub = sinon.stub();
-
-        stripe = require("stripe");
-        sinon.stub(stripe, 'Stripe')
-            .returns({charges: {create: createStub}});
-
-        loggerStub = sinon.stub(logger, 'logNewChargeEvent');
-
-        //re-load invoice service to using the stubs above.
-        invoiceService = require("../../../services/invoiceService");
-
-        stripeToken = "stripe_token";
-        totalAmount = 60;
-        expectedNewCharge = {
-              amount: 6000,
-              currency: "aud",
-              source: "stripe_token",
-              description: "Example charge"
-            }
-
-        createPromise = Q.defer();
-        createStub.returns(createPromise.promise);
-      });
-
-      afterEach(() => {
-          stripe.Stripe.restore();
-          loggerStub.restore();
-      });
-
-      it("Charge Credit Card", (done) => {
-          createPromise.resolve();
-
-          invoiceService.chargeCard(stripeToken, totalAmount)
-              .then(() => {
-                  expect(createStub).toHaveBeenCalledWith(expectedNewCharge);
-              }).nodeify(done);
-      });
-
-      it("logs the invoice creation event", (done) => {
-          createPromise.resolve();
-
-          invoiceService.chargeCard(stripeToken, totalAmount)
-              .then(() => {
-                  expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
-              }).nodeify(done);
-      });
-
-    });
 
   describe("createInvoice", () => {
 
@@ -137,21 +80,34 @@ describe('invoiceService', () => {
   });
 
     describe("Charge card", () => {
-        let stripeControllerStub, stripeChargePromise,
+        let stripeHandlerStub, stripeChargePromise,
             stripeToken="47", totalAmount = 123,
-            loggerStub;
+            loggerStub, failedLoggerStub;
 
         beforeEach(() => {
-            stripeControllerStub = sinon.stub(stripeController, "chargeCard");
+            stripeHandlerStub = sinon.stub(stripeHandler, "chargeCard");
             stripeChargePromise = Q.defer();
-            stripeControllerStub.returns(stripeChargePromise.promise);
+            stripeHandlerStub.returns(stripeChargePromise.promise);
 
             loggerStub = sinon.stub(logger, 'logNewChargeEvent');
+            failedLoggerStub = sinon.stub(logger, 'logNewFailedCharge');
         });
 
         afterEach(() => {
-            stripeController.chargeCard.restore();
+            stripeHandler.chargeCard.restore();
             loggerStub.restore();
+            failedLoggerStub.restore();
+        });
+
+        it("should call charge card handler to charge the card", (done) => {
+            stripeChargePromise.resolve();
+
+            let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+
+            promise.finally(() => {
+                expect(stripeHandler.chargeCard).toHaveBeenCalledWith(stripeToken, totalAmount);
+                done();
+            });
         });
 
         it("After charge, logger should log", (done) => {
@@ -165,13 +121,13 @@ describe('invoiceService', () => {
             });
         });
 
-        it("If charge card fails, logger should still log", (done) => {
+        it("If charge card fails, logger should log failed event", (done) => {
             stripeChargePromise.reject();
 
             let promise = invoiceService.chargeCard(stripeToken, totalAmount);
 
             promise.finally(() => {
-                expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
+                expect(logger.logNewFailedCharge).toHaveBeenCalledWith(stripeToken);
                 done();
             });
         });
