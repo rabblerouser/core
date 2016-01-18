@@ -96,6 +96,6 @@ export default class NewMemberForm extends Component {
             <ProgressBar progress={this.state.step} />
             {this.getForm()}
           </div>
-        )
+        );
     }
 }
