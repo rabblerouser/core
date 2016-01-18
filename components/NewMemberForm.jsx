@@ -3,6 +3,7 @@ import MembershipType from './MembershipType.jsx';
 import Details from './Details.jsx';
 import Payment from './Payment.jsx';
 import ConfirmDetails from './ConfirmDetails.jsx';
+import ProgressBar from './ProgressBar.jsx';
 import $ from 'jquery';
 
 export default class NewMemberForm extends Component {
@@ -12,6 +13,7 @@ export default class NewMemberForm extends Component {
         this.previousStep = this.previousStep.bind(this);
         this.saveSuccess = this.saveSuccess.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.getForm = this.getForm.bind(this);
         this.state = { step: (this.props.initialState === undefined ? 1 : this.props.initialState) };
         this.formValues = {
                             isEnrolled: '',
@@ -65,20 +67,29 @@ export default class NewMemberForm extends Component {
         });
     }
 
+    getForm() {
+      switch(this.state.step) {
+          case 1:
+              return <MembershipType nextStep={this.nextStep}
+                                     formValues={this.formValues} />;
+          case 2:
+              return <Details formValues={this.formValues}
+                              saveAndContinue={this.saveAndContinue} />;
+          case 3:
+              return <ConfirmDetails formValues={this.formValues}
+                                      nextStep={this.nextStep} />;
+          case 4:
+              return <Payment email={this.formValues.email}
+                              previousStep={this.previousStep} />
+      };
+    }
+
     render() {
-        switch(this.state.step) {
-            case 1:
-                return <MembershipType nextStep={this.nextStep}
-                                       formValues={this.formValues} />;
-            case 2:
-                return <Details formValues={this.formValues}
-                                saveAndContinue={this.saveAndContinue} />;
-            case 3:
-                return <ConfirmDetails formValues={this.formValues}
-                                        nextStep={this.nextStep} />;
-            case 4:
-                return <Payment email={this.formValues.email}
-                                previousStep={this.previousStep} />
-        }
+        return (
+          <div>
+            <ProgressBar progress={this.state.step} />
+            {this.getForm()}
+          </div>
+        )
     }
 }

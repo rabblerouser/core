@@ -54,6 +54,12 @@ div.container {
         content: '4';
       }
     }
+
+    &:nth-child(5) {
+      &::after {
+        content: '5';
+      }
+    }
   }
 }
 
