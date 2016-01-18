@@ -14,13 +14,12 @@ export default class Payment extends Component {
         this.setState({amount: event.target.value, invalidFields: []});
     }
 
-    onPaymentReturned(failure, success) {
-      if(failure) {
-        this.setState({invalidFields: failure});
+    onPaymentReturned(failure, isSuccess) {
+      if(isSuccess) {
+        this.props.nextStep();
       }
       else {
-        console.log("go to next page");
-        //go to next page
+        this.setState({invalidFields: failure});
       }
     }
 
@@ -59,7 +58,7 @@ export default class Payment extends Component {
                                    callback={this.onPaymentReturned} />
                 </div>
                 <div className="navigation">
-                    <button type="button" id="payment-continue-button" onClick={this.props.nextStep}>Continue</button>
+                    <button type="button" onClick={this.props.nextStep} id="payment-continue-button">Continue</button>
                     <p>or <a id="payment-go-back">go back</a></p>
                 </div>
             </div>
