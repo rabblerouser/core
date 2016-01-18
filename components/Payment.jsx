@@ -45,7 +45,7 @@ export default class Payment extends Component {
                                    amount={this.state.amount} />
                 </div>
                 <div className="navigation">
-                    <button type="button" id="payment-continue-button">Continue</button>
+                    <button type="button" id="payment-continue-button" onClick={this.props.nextStep}>Continue</button>
                     <p>or <a id="payment-go-back">go back</a></p>
                 </div>
             </div>

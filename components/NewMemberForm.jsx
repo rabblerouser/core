@@ -4,6 +4,7 @@ import Details from './Details.jsx';
 import Payment from './Payment.jsx';
 import ConfirmDetails from './ConfirmDetails.jsx';
 import ProgressBar from './ProgressBar.jsx';
+import Finished from './Finished.jsx';
 import $ from 'jquery';
 
 export default class NewMemberForm extends Component {
@@ -77,11 +78,16 @@ export default class NewMemberForm extends Component {
                               saveAndContinue={this.saveAndContinue} />;
           case 3:
               return <ConfirmDetails formValues={this.formValues}
-                                      nextStep={this.nextStep} />;
+                                    nextStep={this.nextStep}
+                                    previousStep={this.previousStep} />;
           case 4:
               return <Payment email={this.formValues.email}
-                              previousStep={this.previousStep} />
-      };
+                              previousStep={this.previousStep}
+                              nextStep={this.nextStep} />;
+          case 5:
+              return <Finished email={this.formValues.email}
+                                nextStep={this.nextStep} />;
+      }
     }
 
     render() {
