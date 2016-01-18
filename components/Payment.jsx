@@ -14,12 +14,11 @@ export default class Payment extends Component {
         this.setState({amount: event.target.value, invalidFields: []});
     }
 
-    onPaymentReturned(failure, isSuccess) {
-      if(isSuccess) {
+    onPaymentReturned(error, wasSuccess) {
+      if(wasSuccess) {
         this.props.nextStep();
-      }
-      else {
-        this.setState({invalidFields: failure});
+      } else {
+        this.setState({invalidFields: error});
       }
     }
 
