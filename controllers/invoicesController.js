@@ -30,10 +30,11 @@ var newInvoiceHandler = (req, res) => {
         invoiceService.chargeCard(req.body.stripeToken.id, req.body.totalAmount)
             .then((charge) => {
                 newInvoice.reference = charge.id;
+                res.status(200);
                 return createInvoice(newInvoice, res);
             })
             .catch((error) => {
-                res.status(400).json({errors: ["Failed to charge card"]});
+                res.status(400).json({errors: error});
                 return createInvoice(newInvoice, res);
             });
     }

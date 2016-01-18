@@ -183,7 +183,7 @@ describe("invoicesController", () => {
                 chargeCardPromise.promise.finally(() => {
                     expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
                     expect(res.status).toHaveBeenCalledWith(400);
-                    expect(responseJsonStub).toHaveBeenCalledWith({errors: ["Failed to charge card"]});
+                    expect(responseJsonStub).toHaveBeenCalledWith({errors: "Could not handle payment"});
                 }).nodeify(done);
             });
         });

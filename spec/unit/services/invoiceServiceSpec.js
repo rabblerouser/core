@@ -80,57 +80,59 @@ describe('invoiceService', () => {
     });
   });
 
-    describe("Charge card", () => {
-        let stripeHandlerStub, stripeChargePromise,
-            stripeToken="47", totalAmount = 123,
-            loggerStub, failedLoggerStub;
+  describe("Charge card", () => {
+      let stripeHandlerStub, stripeChargePromise,
+          stripeToken="47", totalAmount = 123,
+          loggerStub, failedLoggerStub;
 
-        beforeEach(() => {
-            stripeHandlerStub = sinon.stub(stripeHandler, "chargeCard");
-            stripeChargePromise = Q.defer();
-            stripeHandlerStub.returns(stripeChargePromise.promise);
+      beforeEach(() => {
+          stripeHandlerStub = sinon.stub(stripeHandler, "chargeCard");
+          stripeChargePromise = Q.defer();
+          stripeHandlerStub.returns(stripeChargePromise.promise);
 
-            loggerStub = sinon.stub(logger, 'logNewChargeEvent');
-            failedLoggerStub = sinon.stub(logger, 'logNewFailedCharge');
-        });
+          loggerStub = sinon.stub(logger, 'logNewChargeEvent');
+          failedLoggerStub = sinon.stub(logger, 'logNewFailedCharge');
+      });
 
-        afterEach(() => {
-            stripeHandler.chargeCard.restore();
-            loggerStub.restore();
-            failedLoggerStub.restore();
-        });
+      afterEach(() => {
+          stripeHandler.chargeCard.restore();
+          loggerStub.restore();
+          failedLoggerStub.restore();
+      });
 
-        it("should call charge card handler to charge the card", (done) => {
-            stripeChargePromise.resolve();
+      it("should call charge card handler to charge the card", (done) => {
+          stripeChargePromise.resolve();
 
-            let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+          let promise = invoiceService.chargeCard(stripeToken, totalAmount);
 
-            promise.finally(() => {
-                expect(stripeHandler.chargeCard).toHaveBeenCalledWith(stripeToken, totalAmount);
-                done();
-            });
-        });
+          promise.finally(() => {
+              expect(stripeHandler.chargeCard).toHaveBeenCalledWith(stripeToken, totalAmount);
+              done();
+          });
+      });
 
-        it("After charge, logger should log", (done) => {
-            stripeChargePromise.resolve();
+      it("After charge, logger should log", (done) => {
+          stripeChargePromise.resolve();
 
-            let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+          let promise = invoiceService.chargeCard(stripeToken, totalAmount);
 
-            promise.finally(() => {
-                expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
-                done();
-            });
-        });
+          promise.finally(() => {
+              expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
+              done();
+          });
+      });
 
-        it("If charge card fails, logger should log failed event", (done) => {
-            stripeChargePromise.reject();
+      it("If charge card fails, logger should log failed event", (done) => {
+          let errorMessage = "Charge card failed with Stripe!";
+          stripeChargePromise.reject(errorMessage);
 
-            let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+          let promise = invoiceService.chargeCard(stripeToken, totalAmount);
 
-            promise.finally(() => {
-                expect(logger.logNewFailedCharge).toHaveBeenCalledWith(stripeToken);
-                done();
-            });
-        });
-    });
+          promise.finally(() => {
+              expect(promise.isRejected()).toBe(true);
+              expect(logger.logNewFailedCharge).toHaveBeenCalledWith(stripeToken, errorMessage);
+              done();
+          });
+      });
+  });
 });
