@@ -9,31 +9,43 @@
 
   margin: 25px auto;
 
-  h1 {
-    background-color: $blue-darker;
+  .form-title {
+    background: $blue-darker;
     color: $white;
-    font-size: 1.5em;
-    line-height: 70px;
-    padding-left: 1.5em;
-    margin: 0;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    height: 76px;
+    line-height: 76px;
+    margin-bottom: 0;
+    padding-left: 36px;
+  }
+
+  .sub-title {
+    border-bottom: 1px solid $blue;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 20px;
+    line-height: 26px;
+    margin-bottom: 0;
+    padding-bottom: 6px;
+  }
+
+  .sub-description {
+    font-size: 14px;
+    font-style: italic;
+    line-height: 20px;
+    padding-top: 6px;
   }
 
   .heading {
     @include span-columns(12);
 
-    h2 {
-      font-size: 1.2em;
-      border-bottom: 1px solid $blue;
-      margin-bottom: 0;
-    }
+    padding: 30px 0;
 
     i {
       font-size: .8em;
       margin-bottom: 25px;
     }
-
-    padding-top: 1em;
-    padding-bottom: 1em;
   }
 
   .declaration {
@@ -69,7 +81,7 @@
     color: $blue-darker;
 
     .form-body {
-      @include pad(0px default default default);
+      @include pad(0 36px default 36px);
     }
 
     .field-group {
@@ -132,17 +144,6 @@
   input[type="radio"] {
     margin-top: 15px;
   }
-}
-
-.sub-title {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-.sub-description {
-  font-size: .8em;
-  font-style: italic;
-  margin-bottom: 25px;
 }
 
 hr {

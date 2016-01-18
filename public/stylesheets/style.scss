@@ -4,13 +4,14 @@
 @import 'neat';
 @import 'partials/local-variables';
 @import 'partials/form';
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic);
 
 div.container {
   @include outer-container(100%);
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .header {
-  font-family: 'Open Sans', sans-serif;
   margin: 37px auto 111px;
   position: relative;
   text-align: center;

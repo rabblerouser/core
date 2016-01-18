@@ -18,11 +18,11 @@ export default class MembershipType extends Component {
 
     render() {
         return <fieldset>
-            <h1>Membership Type</h1>
+            <h1 className="form-title">Membership Type</h1>
             <div className="form-body">
                 <div className="heading">
-                    <h2>Answer the following questions</h2>
-                    <i>We will use your answers to determine which Pirate Party membership suits you best.</i>
+                    <h2 className="sub-title">Answer the following questions</h2>
+                    <div className="sub-description">We will use your answers to determine which Pirate Party membership suits you best.</div>
                 </div>
                 <div className="field-group">
                     <h3>Are you enrolled to vote in Australia?</h3>
