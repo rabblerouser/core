@@ -83,11 +83,16 @@ export default class NewMemberForm extends Component {
           case 4:
               return <Payment email={this.formValues.email}
                               previousStep={this.previousStep}
+<<<<<<< 3d0c4f52ae881d370ffdbc85f9cf52387ff318ff
                               nextStep={this.nextStep} />;
           case 5:
               return <Finished email={this.formValues.email}
                                 nextStep={this.nextStep} />;
       }
+=======
+                              nextStep={this.nextStep} />
+      };
+>>>>>>> Fixed bug in rounding, submit stripe now continues ot next page
     }
 
     render() {

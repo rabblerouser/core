@@ -48,7 +48,7 @@ export default class StripePayment extends Component {
                             url: '/invoices',
                             data: {
                                 memberEmail: this.props.email,
-                                totalAmount: parseFloat(this.props.amount) - (this.props.amount %100),
+                                totalAmount: Math.floor(parseFloat(this.props.amount)),
                                 paymentType: 'stripe',
                                 stripeToken: token
                             },
@@ -70,7 +70,7 @@ export default class StripePayment extends Component {
             name: 'Pirate Party',
             description: 'membership application',
             //The server expects to be sent in cents, however users expect in dollars
-            amount: (Math.floor(parseFloat(this.props.amount))) * 100
+            amount: Math.floor(parseFloat(this.props.amount)) * 100
         });
     };
 
@@ -79,10 +79,11 @@ export default class StripePayment extends Component {
     };
 
     onClick() {
-      if(this.props.amount < 1) {
-        this.props.callback(["Can not use card for less than $1"], false);
-        return;
-      }
+        if(this.props.amount < 1) {
+          this.props.callback(["Can not use card for less than $1"], false);
+          return;
+        }
+
         if (this.scriptDidError) {
             console.log('failed to load script');
         } else if (this.stripeDisabled) {
