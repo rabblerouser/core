@@ -27,7 +27,9 @@ var newInvoiceHandler = (req, res) => {
         return createInvoice(newInvoice, res);
     }
     if (req.body.paymentType === "stripe" && req.body.stripeToken) {
-        invoiceService.chargeCard(req.body.stripeToken.id, req.body.totalAmount)
+        newInvoice.totalAmount = Math.floor(req.body.totalAmount);
+
+        invoiceService.chargeCard(req.body.stripeToken.id, newInvoice.totalAmount)
             .then((charge) => {
                 newInvoice.reference = charge.id;
                 res.status(200);

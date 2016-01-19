@@ -26,14 +26,14 @@ describe("invoicesController", () => {
             goodRequest = {
                 body: {
                     memberEmail: "sherlock@holmes.co.uk",
-                    totalAmount: 60,
+                    totalAmount: 60.1,
                     paymentType: 'deposit'
                 }
             };
 
             expectedInvoiceCreateValues = {
                 memberEmail: "sherlock@holmes.co.uk",
-                totalAmount: 60,
+                totalAmount: 60.1,
                 paymentType: 'deposit',
                 reference: ''
             };
@@ -75,6 +75,7 @@ describe("invoicesController", () => {
                 goodRequest.body.stripeToken = {id: '1'};
                 expectedInvoiceCreateValues.paymentType = 'stripe';
                 expectedInvoiceCreateValues.reference = '123';
+                expectedInvoiceCreateValues.totalAmount = 60;
 
                 newInvoiceHandler(goodRequest, res);
 
@@ -177,6 +178,7 @@ describe("invoicesController", () => {
                 goodRequest.body.stripeToken = "token";
 
                 expectedInvoiceCreateValues.paymentType = "stripe";
+                expectedInvoiceCreateValues.totalAmount = 60;
 
                 newInvoiceHandler(goodRequest, res);
 
