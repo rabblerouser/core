@@ -20,7 +20,7 @@ export default class ConfirmDetails extends Component {
 
             <div className="form-body">
                 <div className="heading">
-                    <h2>Declaration </h2>
+                    <h2 className="sub-title">Declaration </h2>
                     <i> Read the following and click the checkbox below.</i>
                 </div>
                 <div className="declaration">
@@ -40,13 +40,13 @@ export default class ConfirmDetails extends Component {
 
                     </div>
                 </div>
-                <label>
+                <label className="confirmationLabel">
                     <input type="checkbox" name="circumstance" ref="resident"/>
                     I confirm that I am enrolled to vote in federal elections and consent to my information being sent
                     to the Australia Electoral Commission.*
                 </label>
                 <div className="heading">
-                    <h2>Check Your Details</h2>
+                    <h2 className="sub-title">Check Your Details</h2>
                     <i>Please enter all the data you have entered is correct. It is a serious offence to make a false declaration.</i>
                 </div>
                 <div className="declaration">
@@ -61,8 +61,8 @@ export default class ConfirmDetails extends Component {
                     </div>
                 </div>
                 <div className="navigation">
-                    <button onClick={this.props.nextStep}>Continue</button>
-                    <p>or <a id="payment-go-back" onClick={this.props.previousStep}>go back</a></p>
+                    <button onClick={this.props.nextStep}>My details are correct</button>
+                    <p>or <a id="payment-go-back" onClick={this.props.previousStep}>go back to change your details</a></p>
                 </div>
             </div>
         </fieldset>

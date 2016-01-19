@@ -64,7 +64,7 @@ export default class Details extends Component {
                         </div>
                     </div>
                     <div className="heading">
-                        <h2>Personal Information</h2>
+                        <h2 className="sub-title"> Personal Information</h2>
                         <i>Please enter your details exactly as they would appear on the electoral roll.</i>
                     </div>
                     <div className="field-group">
@@ -78,7 +78,7 @@ export default class Details extends Component {
                         <input type="text" defaultValue={this.props.formValues.gender} ref="gender" id="gender" className="gender" />
                     </div>
                     <div className="heading">
-                        <h2>Residential Address</h2>
+                        <h2 className="sub-title"> Residential Address</h2>
                         <i>Please enter the address that you are enrolled to vote from with the AEC.</i>
                     </div>
                     <div className="field-group">
@@ -106,7 +106,7 @@ export default class Details extends Component {
                     </div>
                     <div id="postal-address">
                         <div className="heading">
-                            <h2>Postal Address</h2>
+                            <h2 className="sub-title"> Postal Address</h2>
                             <i>Please enter the postal address.</i>
                         </div>
                         <div className="field-group">
@@ -128,7 +128,7 @@ export default class Details extends Component {
                         </div>
                     </div>
                     <div className="heading">
-                        <h2>Contact Details</h2>
+                        <h2 className="sub-title"> Contact Details</h2>
                         <i>Please enter your current email and phone number.</i>
                     </div>
                     <div className="field-group">

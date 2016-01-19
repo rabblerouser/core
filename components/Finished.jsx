@@ -7,11 +7,11 @@ export default class ConfirmDetails extends Component {
 
     render() {
         return <fieldset>
-            <h1>Finish</h1>
+            <h1 className="form-title">Finish</h1>
 
             <div className="form-body">
                 <div className="heading">
-                    <h2>Thank You </h2>
+                    <h2 className="sub-title"> Thank You </h2>
                 </div>
                 <label>
                     <p>We have received your details.</p>

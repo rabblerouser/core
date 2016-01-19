@@ -17,7 +17,7 @@
     font-weight: bold;
     height: 76px;
     line-height: 76px;
-    margin-bottom: 0;
+    margin-bottom: 30px;
     padding-left: 36px;
   }
 
@@ -40,10 +40,10 @@
   .heading {
     @include span-columns(12);
 
-    padding: 30px 0;
+    padding-bottom: 30px;
 
     i {
-      font-size: .8em;
+      font-size: 14px;
       margin-bottom: 25px;
     }
   }
@@ -66,15 +66,19 @@
     }
 
     img {
-      width: 3em;
+      width: 48px;
       float: left;
     }
+  }
+
+  .confirmationLabel {
+    margin-bottom: 30px;
   }
 
   fieldset {
     @include fill-parent();
     @include clearfix();
-    @include pad(0px 0px 2em 0px);
+    @include pad(0px 0px 32px 0px);
 
     border:none;
     background-color: $blue-light;
@@ -87,7 +91,8 @@
     .field-group {
       @include media($desktop-width) {
         @include span-columns(6);
-        @include pad(0px 0px 2em 0px);
+        @include pad(0px 0px 32px 0px);
+        width: 100%;
       }
     }
 
@@ -100,6 +105,7 @@
     label {
       font-weight: normal;
       margin-bottom: 0;
+      font-size: 14px;
     }
 
     input[type="text"] {
@@ -107,6 +113,10 @@
       border-radius: 0;
     }
   }
+
+h3 {
+  margin: 0;
+}
 
   .info-box {
     @include span-columns(12);
@@ -126,7 +136,7 @@
       }
 
       i {
-        font-size: 0.7em;
+        font-size: 10px;
       }
     }
 
@@ -144,6 +154,10 @@
   input[type="radio"] {
     margin-top: 15px;
   }
+}
+
+input[type="text"] {
+  width: 48%;
 }
 
 hr {
@@ -174,12 +188,13 @@ hr {
   }
 
   .errors {
+    font-size: 14px;
     color: $red;
     font-size: .8em;
   }
 
   img {
-    width: 3em;
+    width: 48px;
     float: left;
 
   }
@@ -189,7 +204,7 @@ hr {
   background: $white;
   border: 3px solid $blue;
   padding: 10px 15px;
-  margin-top: 28px;
+  margin-bottom: 30px;
 
   > * {
     display: inline-block;
@@ -199,38 +214,40 @@ hr {
     height: 45px;
     padding-left: 10px;
     width: 80%;
+    font-size: 14px;
+    vertical-align: middle;
+    display: table-cell;
   }
 
   img {
-    width: 3em;
+    width: 48px;
     float: left;
   }
 }
 
-.contribution {
-  .contribution-amount {
-    .currency {
-      background: $blue-darker;
-      color: $white;
-      float: left;
-      font-weight: bold;
-      height: 36px;
-      line-height: 36px;
-      padding-left: 3px;
-      vertical-align: middle;
-      width: 50px;
-    }
+.contribution-amount {
+  .currency {
+    background: $blue-darker;
+    color: $white;
+    float: left;
+    font-weight: bold;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 3px;
+    vertical-align: middle;
+    width: 50px;
+  }
 
-    input[type="text"] {
-      border-bottom-color: $blue;
-      border-left: 0;
-      border-radius: 0;
-      border-right-color: $blue;
-      border-top-color: $blue;
-      margin: 0;
-      vertical-align: middle;
-      width: 80px;
-    }
+  input[type="text"] {
+    border-bottom-color: $blue;
+    border-left: 0;
+    border-radius: 0;
+    border-right-color: $blue;
+    border-top-color: $blue;
+    margin: 0;
+    vertical-align: middle;
+    width: 80px;
+    margin-bottom: 30px;
   }
 }
 
@@ -245,6 +262,7 @@ hr {
     background-color: $blue-darker;
     border-radius: 0;
     color: $white;
+    margin-right: 6px;
   }
 
   p {
@@ -252,6 +270,4 @@ hr {
     line-height: 40px;
     margin: 0;
   }
-
-  padding-top: 1em;
 }

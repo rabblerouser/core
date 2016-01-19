@@ -8,7 +8,7 @@ export default class InfoBox extends Component {
     render() {
         return <div className="info-box">
             <div className="info-heading">
-                <h2>You are eligible for a Full Membership.</h2>
+                <h2 className="sub-title"> You are eligible for a Full Membership.</h2>
                 <i>What are the different membership types?</i>
             </div>
             <div className="info-body">

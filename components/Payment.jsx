@@ -34,7 +34,7 @@ export default class Payment extends Component {
                     </div>
                 </div>
                 <div className="heading">
-                    <h2>Membership Contribution</h2>
+                    <h2 className="sub-title"> Membership Contribution</h2>
                     <i>Please enter a whole dollar value (minimum $0)</i>
                 </div>
                 <div className="contribution-amount">
@@ -42,7 +42,7 @@ export default class Payment extends Component {
                     <input type="text" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
                 </div>
                 <div className="heading">
-                    <h2>Choose a Payment Method</h2>
+                    <h2 className="sub-title"> Choose a Payment Method</h2>
                     <i>Pay your selected amount.</i>
                 </div>
                 <div className="field-group">
