@@ -17,7 +17,7 @@ export default class MembershipType extends Component {
     }
 
     render() {
-        return <fieldset>
+        return (<fieldset>
             <h1 className="form-title">Membership Type</h1>
             <div className="form-body">
                 <div className="heading">
@@ -70,6 +70,6 @@ export default class MembershipType extends Component {
                     <button onClick={this.props.nextStep}>Continue</button>
                 </div>
             </div>
-        </fieldset>
+        </fieldset>)
     }
 }
