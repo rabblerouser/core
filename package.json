@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "webpack --progress --colors",
+    "postinstall": "webpack --config ./webpack.config.js --progress --colors",
     "prestart": "node_modules/sequelize-cli/bin/sequelize db:migrate",
     "start": "node ./bin/www",
     "pretest": "NODE_ENV=test node_modules/sequelize-cli/bin/sequelize db:migrate",
