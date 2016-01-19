@@ -25,6 +25,9 @@
 - name: upload config
   template: src=config.json.j2 dest="{{ app_path }}/config/config.json" mode=0600
 
+- name: upload stripe-config
+  template: src=stripe-config.json.j2 dest="{{ app_path }}/config/stripe-config.json" mode=0600
+
 - name: install npm dependencies
   become_user: "{{ app_user}}"
   command: npm install --production chdir="{{ app_path }}"
