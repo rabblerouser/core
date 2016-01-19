@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 9876, host: 9876
 
   config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
+    v.memory = 1512
   end
 
   config.vm.provision "ansible" do |ansible|
