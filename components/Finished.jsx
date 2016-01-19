@@ -21,7 +21,9 @@ export default class ConfirmDetails extends Component {
                     <p>If you don’t receive it, please contact us at membership@pirateparty.org.au </p>
                 </label>
                 <div className="navigation">
-                    <button onClick={this.props.nextStep}>Close</button>
+                    <a href='/'>
+                        <button>Back To The Website</button>
+                    </a>
                 </div>
             </div>
         </fieldset>
