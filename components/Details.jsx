@@ -7,8 +7,18 @@ export default class Details extends Component {
     constructor(props) {
         super(props);
         this.submitDetails = this.submitDetails.bind(this);
+        this.handlePostalAddress = this.handlePostalAddress.bind(this);
         this.validator = memberValidator;
-        this.state = { invalidFields: [] };
+        this.state = { invalidFields: [],
+                       showPostalAddress: false };
+    }
+
+    handlePostalAddress() {
+      if (this.refs.differentPostal.checked){
+        this.setState( { showPostalAddress: true } );
+      } else {
+        this.setState( { showPostalAddress: false } );
+      }
     }
 
     componentDidMount() {
@@ -100,11 +110,11 @@ export default class Details extends Component {
                             <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode} ref="residentialPostcode" id="residentialAddress[postcode]" className="residentialPostcode" />
                         </div>
                         <label>
-                            <input type="checkbox" defaultValue={this.props.formValues.differentPostal} ref="differentPostal" />
+                            <input type="checkbox" onChange={this.handlePostalAddress} defaultValue={this.props.formValues.differentPostal} ref="differentPostal" value="Yes"/>
                             My residential address differs from my postal address.
                         </label>
                     </div>
-                    <div id="postal-address">
+                    <div id="postal-address" className={(() => { return this.state.showPostalAddress ? '' : 'hidden';})()}>
                         <div className="heading">
                             <h2 className="sub-title"> Postal Address</h2>
                             <i>Please enter the postal address.</i>
