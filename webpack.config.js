@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = {
     entry: './components/App.jsx',
     output: {
@@ -23,5 +25,8 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({minimize: true})
+    ]
 };
