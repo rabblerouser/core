@@ -62,7 +62,7 @@ export default class ConfirmDetails extends Component {
                 </div>
                 <div className="navigation">
                     <button onClick={this.props.nextStep}>My details are correct</button>
-                    <p>or <a id="payment-go-back" onClick={this.props.previousStep}>go back to change your details</a></p>
+                    <p>or <a id="go-back" onClick={this.props.previousStep}>go back to change your details</a></p>
                 </div>
             </div>
         </fieldset>

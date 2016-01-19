@@ -151,6 +151,7 @@ export default class Details extends Component {
                     </div>
                     <div className="navigation">
                         <button onClick={this.submitDetails}>Continue</button>
+                        <p>or <a id="go-back" onClick={this.props.previousStep}>go back</a></p>
                     </div>
                 </div>
             </fieldset>

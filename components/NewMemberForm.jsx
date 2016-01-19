@@ -75,7 +75,8 @@ export default class NewMemberForm extends Component {
                                      formValues={this.formValues} />;
           case 2:
               return <Details formValues={this.formValues}
-                              saveAndContinue={this.saveAndContinue} />;
+                              saveAndContinue={this.saveAndContinue}
+                              previousStep={this.previousStep} />;
           case 3:
               return <ConfirmDetails formValues={this.formValues}
                                     nextStep={this.nextStep}
