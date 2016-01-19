@@ -38,6 +38,7 @@
     "stripe": "^4.1.0",
     "underscore": "^1.8.3",
     "validator": "^4.4.0",
+    "webpack": "^1.12.11",
     "winston": "^2.1.1"
   },
   "devDependencies": {
@@ -66,7 +67,6 @@
     "supertest": "^1.1.0",
     "supertest-as-promised": "^2.0.2",
     "watchify": "^3.7.0",
-    "webpack": "^1.12.11",
     "webpack-dev-server": "^1.14.1"
   },
   "jest": {
