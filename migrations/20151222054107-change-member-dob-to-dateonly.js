@@ -8,8 +8,10 @@ module.exports = {
     },
 
     down: function (queryInterface, Sequelize, done) {
-        queryInterface.changeColumn("Members", "dateOfBirth", {
-            type: Sequelize.DATE
-        }).nodefiy(done);
+        Sequelize.Promise.all([
+            queryInterface.changeColumn("Members", "dateOfBirth", {
+                type: Sequelize.DATE
+            })
+        ]).nodeify(done);
     }
 };

@@ -9,6 +9,8 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize, done) {
-    queryInterface.removeColumn("Members", "phoneNumber").nodefiy(done);
+      Sequelize.Promise.all([
+          queryInterface.removeColumn("Members", "phoneNumber")
+      ]).nodeify(done);
   }
 };
