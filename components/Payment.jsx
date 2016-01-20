@@ -8,6 +8,8 @@ export default class Payment extends Component {
         super(props);
         this.handleAmountChanged = this.handleAmountChanged.bind(this);
         this.handlePaymentTypeChanged = this.handlePaymentTypeChanged.bind(this);
+        this.processStripePayment = this.processStripePayment.bind(this);
+        this.processDebitOrChequePayment = this.processDebitOrChequePayment.bind(this);
         this.processPayment = this.processPayment.bind(this);
         this.state = {amount : '', invalidFields: [], paymentType: ''};
     }
@@ -20,26 +22,48 @@ export default class Payment extends Component {
       this.setState({paymentType: event.target.value});
     }
 
-    processPayment() {
-        if(this.state.amount < 1) {
-          this.setState({invalidFields:["Can not use card for less than $1"]});
-          return;
-        }
+    processStripePayment() {
+      let stripeReference = this.refs.stripePayment;
 
-        if(this.state.paymentType === 'creditOrDebitCard') {
-          let stripeReference = this.refs.stripePayment;
-          if (stripeReference.stripeDidError) {
-              console.log('failed to load script');
-          } else if (stripeReference.stripeDisabled) {
-              console.log('Stripe has been disabled, could not find public key');
-          } else if (stripeReference) {
-              stripeReference.showStripeDialog();
+      if (stripeReference.stripeDidError) {
+          console.log('failed to load script');
+      } else if (stripeReference.stripeDisabled) {
+          console.log('Stripe has been disabled, could not find public key');
+      } else if (stripeReference) {
+          stripeReference.showStripeDialog();
+      }
+    }
+
+    processDebitOrChequePayment() {
+      $.ajax({
+              type: 'POST',
+              url: '/invoices',
+              data: {
+              memberEmail: this.props.email,
+              totalAmount: Math.floor(parseFloat(this.state.amount)),
+              paymentType: this.state.paymentType
+          },
+          success: function (value) {
+              this.props.nextStep();
+          }.bind(this),
+          error: function(request, status, error) {
+              this.setState({invalidFields: error});
+          }.bind(this)
+      });
+    }
+
+    processPayment() {
+        if (this.state.paymentType === 'creditOrDebitCard') {
+          if (this.state.amount < 1 || this.state.amount === '') {
+            this.setState({invalidFields:["Can not use card for less than $1"]});
+            return;
           }
-        } else if(this.state.paymentType === 'deposit' || this.state.paymentType === 'cheque')  {
-          this.props.nextStep();
+          this.processStripePayment();
+        } else if (this.state.paymentType === 'deposit' || this.state.paymentType === 'cheque')  {
+          this.processDebitOrChequePayment();
         }
         else {
-          console.log("select one, we should put an validation msg for this");
+          this.setState({invalidFields:["Please Select the Payment Type!"]});
         }
     };
 
