@@ -4,7 +4,8 @@ module.exports = {
   up: function (queryInterface, Sequelize, done) {
     queryInterface.addColumn("Invoices", "paymentStatus", {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 'Pending'
     }).nodeify(done);
   },
 
