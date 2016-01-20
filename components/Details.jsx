@@ -67,8 +67,8 @@ export default class Details extends Component {
         return (
             <fieldset>
                 <h1 className="form-title">Details</h1>
-                <Errors invalidFields={this.state.invalidFields} />
                 <div className="form-body">
+                    <Errors invalidFields={this.state.invalidFields} />
                     <div className="reminder">
                         <img src="/images/reminder.svg"></img>
                         <div className="reminder-text">
