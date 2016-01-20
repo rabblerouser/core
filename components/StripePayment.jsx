@@ -31,7 +31,7 @@ export default class StripePayment extends Component {
         scriptLoader('https://checkout.stripe.com/checkout.js', function (err, script) {
             if (!this.stripeHandler) {
                 if(err) {
-                    this.props.setState({stripeDidError: true});
+                    this.stripeDidError = true;
                     return;
                 }
                 var req = new XMLHttpRequest();

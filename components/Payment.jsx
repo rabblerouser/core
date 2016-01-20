@@ -9,7 +9,7 @@ export default class Payment extends Component {
         this.handleAmountChanged = this.handleAmountChanged.bind(this);
         this.handlePaymentTypeChanged = this.handlePaymentTypeChanged.bind(this);
         this.processPayment = this.processPayment.bind(this);
-        this.state = {amount : '', invalidFields: [], paymentType: '', stripeDidError: false, stripeDisabled: false};
+        this.state = {amount : '', invalidFields: [], paymentType: ''};
     }
 
     handleAmountChanged(event) {

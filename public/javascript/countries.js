@@ -323,8 +323,6 @@ function setStateAddress(stateElementId, stateName) {
 		for(var i=0; i<options.length; i++) {
 			if(options[i].value === stateName) {
 				options[i].defaultSelected = true;
-				console.log("default set");
-				console.log(stateName);
 			}
 		}
 }
