@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     totalAmountInCents: DataTypes.BIGINT,
     paymentDate:  DataTypes.DATEONLY,
     paymentType: DataTypes.STRING,
-    reference: DataTypes.STRING
+    reference: DataTypes.STRING,
+    paymentStatus: DataTypes.STRING
   }, {
     classMethods: {
       associate: (models) => {

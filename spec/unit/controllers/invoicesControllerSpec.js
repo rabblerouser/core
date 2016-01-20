@@ -75,6 +75,7 @@ describe("invoicesController", () => {
                 goodRequest.body.stripeToken = {id: '1'};
                 expectedInvoiceCreateValues.paymentType = 'stripe';
                 expectedInvoiceCreateValues.reference = '123';
+                expectedInvoiceCreateValues.paymentStatus = 'Paid';
                 expectedInvoiceCreateValues.totalAmount = 60;
 
                 newInvoiceHandler(goodRequest, res);
@@ -178,6 +179,7 @@ describe("invoicesController", () => {
                 goodRequest.body.stripeToken = "token";
 
                 expectedInvoiceCreateValues.paymentType = "stripe";
+                expectedInvoiceCreateValues.paymentStatus = "Rejected";
                 expectedInvoiceCreateValues.totalAmount = 60;
 
                 newInvoiceHandler(goodRequest, res);

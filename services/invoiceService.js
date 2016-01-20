@@ -9,13 +9,16 @@ const Q = require('q'),
 
 
 var createInvoice = (newInvoice) => {
-  return Q({
+  var invoice = {
     memberEmail: newInvoice.memberEmail,
     totalAmountInCents: newInvoice.totalAmount * 100,
     paymentDate: moment().format('L'),
     paymentType: newInvoice.paymentType,
-    reference: newInvoice.reference
-  })
+    reference: newInvoice.reference,
+    paymentStatus: newInvoice.paymentStatus === undefined ? 'Pending' : newInvoice.paymentStatus
+  };
+
+  return Q(invoice)
     .then(Invoice.create.bind(Invoice))
     .then(logger.logNewInvoiceEvent(newInvoice))
     .catch((error) => {

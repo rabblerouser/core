@@ -35,7 +35,8 @@ describe('invoiceService', () => {
           totalAmountInCents: 6000,
           paymentDate: moment().format('L'),
           paymentType: 'deposit',
-          reference: ''
+          reference: '',
+          paymentStatus: 'Pending'
         };
 
         invoicePromise = Q.defer();
@@ -47,8 +48,19 @@ describe('invoiceService', () => {
         loggerStub.restore();
     });
 
-    it("creates a new invoice", (done) => {
+    it("creates a new invoice for pending Payment", (done) => {
         invoicePromise.resolve();
+
+        invoiceService.createInvoice(newInvoice)
+            .then(() => {
+                expect(Invoice.create).toHaveBeenCalledWith(expectedNewInvoice);
+            }).nodeify(done);
+    });
+
+    it("creates a new invoice for paid Payment", (done) => {
+        invoicePromise.resolve();
+        newInvoice.paymentStatus = 'Paid';
+        expectedNewInvoice.paymentStatus = 'Paid';
 
         invoiceService.createInvoice(newInvoice)
             .then(() => {
