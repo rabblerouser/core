@@ -179,7 +179,7 @@ describe("invoicesController", () => {
                 goodRequest.body.stripeToken = "token";
 
                 expectedInvoiceCreateValues.paymentType = "stripe";
-                expectedInvoiceCreateValues.paymentStatus = "Rejected";
+                expectedInvoiceCreateValues.paymentStatus = "Pending";
                 expectedInvoiceCreateValues.totalAmount = 60;
 
                 newInvoiceHandler(goodRequest, res);

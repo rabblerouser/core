@@ -37,7 +37,7 @@ var newInvoiceHandler = (req, res) => {
                 return createInvoice(newInvoice, res);
             })
             .catch((error) => {
-                newInvoice.paymentStatus = 'Rejected';
+                newInvoice.paymentStatus = 'Pending';
                 res.status(400).json({errors: error});
                 return createInvoice(newInvoice, res);
             });
