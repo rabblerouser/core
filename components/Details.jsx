@@ -64,9 +64,6 @@ export default class Details extends Component {
     }
 
     render() {
-      console.log(this.props.formValues.residentialAddress.country);
-      console.log("^^^^ country");
-      console.log(this.props.formValues.residentialAddress.state);
         return (
             <fieldset>
                 <h1 className="form-title">Details</h1>

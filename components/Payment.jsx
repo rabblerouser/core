@@ -1,21 +1,15 @@
 import React, {Component} from 'react';
 import Errors from './Errors.jsx';
+import StripePayment from './StripePayment.jsx';
 import $ from 'jquery';
-var scriptLoader = require('load-script');
 
 export default class Payment extends Component {
     constructor(props) {
         super(props);
-        this.stripeHandler = null;
-        this.loadStripe();
-
-        this.loadStripe = this.loadStripe.bind(this);
         this.handleAmountChanged = this.handleAmountChanged.bind(this);
         this.handlePaymentTypeChanged = this.handlePaymentTypeChanged.bind(this);
-        this.showStripeDialog = this.showStripeDialog.bind(this);
         this.processPayment = this.processPayment.bind(this);
         this.state = {amount : '', invalidFields: [], paymentType: '', stripeDidError: false, stripeDisabled: false};
-
     }
 
     handleAmountChanged(event) {
@@ -33,69 +27,20 @@ export default class Payment extends Component {
         }
 
         if(this.state.paymentType === 'creditOrDebitCard') {
-          if (this.state.stripeDidError) {
+          let stripeReference = this.refs.stripePayment;
+          if (stripeReference.stripeDidError) {
               console.log('failed to load script');
-          } else if (this.state.stripeDisabled) {
+          } else if (stripeReference.stripeDisabled) {
               console.log('Stripe has been disabled, could not find public key');
-          } else if (this.stripeHandler) {
-              this.showStripeDialog();
+          } else if (stripeReference) {
+              stripeReference.showStripeDialog();
           }
-        } else {
+        } else if(this.state.paymentType === 'deposit' || this.state.paymentType === 'cheque')  {
           this.props.nextStep();
         }
-    };
-
-    showStripeDialog() {
-        this.stripeHandler.open({
-            name: 'Pirate Party',
-            description: 'membership application',
-            //The server expects to be sent in cents, however users expect in dollars
-            amount: Math.floor(parseFloat(this.props.amount)) * 100
-        });
-    };
-
-    loadStripe() {
-        scriptLoader('https://checkout.stripe.com/checkout.js', function (err, script) {
-            if (!this.stripeHandler) {
-                if(err) {
-                    this.setState({stripeDidError: true});
-                    return;
-                }
-                var req = new XMLHttpRequest();
-                req.open('GET', document.location, false);
-                req.send(null);
-                var stripePublicKey = req.getResponseHeader('Stripe-Public-Key');
-                if (!stripePublicKey || stripePublicKey === "undefined") {
-                    this.setState({stripeDisabled: true});
-                    this.forceUpdate();
-                    return;
-                }
-
-                this.stripeHandler = StripeCheckout.configure({
-                    key: stripePublicKey,
-                    image: '/images/logo.svg',
-                    email: this.props.email,
-                    token: function (token) {
-                        $.ajax({
-                            type: 'POST',
-                            url: '/invoices',
-                            data: {
-                                memberEmail: this.props.email,
-                                totalAmount: Math.floor(parseFloat(this.state.amount)),
-                                paymentType: 'stripe',
-                                stripeToken: token
-                            },
-                            success: function (value) {
-                                this.props.nextStep();
-                            }.bind(this),
-                            error: function(request, status, error) {
-                                this.setState({invalidFields: error});
-                            }.bind(this)
-                        });
-                    }.bind(this)
-                });
-            }
-        }.bind(this));
+        else {
+          console.log("select one, we should put an validation msg for this");
+        }
     };
 
     render() {
@@ -128,9 +73,11 @@ export default class Payment extends Component {
                     <label>
                         <input type="radio" name="paymentType" value="cheque" onChange={this.handlePaymentTypeChanged}/>Cheque
                     </label>
-                    <label className={(() => { return this.state.stripeDisabled ? 'hidden' : ''})()}>
-                        <input type="radio" name="paymentType" value="creditOrDebitCard" onChange={this.handlePaymentTypeChanged}/>Credit/Debit card
-                    </label>
+                        <StripePayment  ref="stripePayment"
+                                        onChange={this.handlePaymentTypeChanged}
+                                        setState={this.setState}
+                                        email={this.props.email}
+                                        amount={this.state.amount}/>
                 </div>
                 <div className="navigation">
                     <button type="button" id="payment-continue-button" onClick={this.processPayment}>Continue</button>
