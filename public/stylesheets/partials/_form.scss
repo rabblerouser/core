@@ -12,7 +12,6 @@
   .form-title {
     background: $blue-darker;
     color: $white;
-    font-family: 'Noto Sans', sans-serif;
     font-size: 24px;
     font-weight: bold;
     height: 76px;
@@ -23,7 +22,6 @@
 
   .sub-title {
     border-bottom: 1px solid $blue;
-    font-family: 'Noto Sans', sans-serif;
     font-size: 20px;
     line-height: 26px;
     margin-bottom: 0;
@@ -231,8 +229,8 @@ hr {
     color: $white;
     float: left;
     font-weight: bold;
-    height: 36px;
-    line-height: 36px;
+    height: 40px;
+    line-height: 40px;
     padding-left: 3px;
     vertical-align: middle;
     width: 50px;

@@ -1,5 +1,8 @@
 // Typography
-$base-font-family: $helvetica;
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic);
+
+$helvetic: 'Noto Sans', sans-serif;
+$base-font-family: $helvetic;
 $heading-font-family: $base-font-family;
 
 // Font Sizes
