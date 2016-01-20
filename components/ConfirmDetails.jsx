@@ -24,7 +24,7 @@ export default class ConfirmDetails extends Component {
             this.props.postAndContinue(this.props.formValues);
         }
         else {
-            this.setState({errors:["Please confirm your details and click the checkbox before continueing."]});
+            this.setState({errors:["Please confirm your details and click the checkbox before continuing."]});
         }
     }
 
