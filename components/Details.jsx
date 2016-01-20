@@ -24,6 +24,9 @@ export default class Details extends Component {
     componentDidMount() {
         countrySelector.populateCountries("residentialAddress[country]", "residentialAddress[state]");
         countrySelector.populateCountries("postalAddress[country]", "postalAddress[state]");
+
+        countrySelector.setCountryAddress("residentialAddress[country]", this.props.formValues.residentialAddress.country, "residentialAddress[state]", this.props.formValues.residentialAddress.state);
+        countrySelector.setCountryAddress("postalAddress[country]", this.props.formValues.postalAddress.country, "postalAddress[state]", this.props.formValues.postalAddress.state);
     }
 
     submitDetails() {
@@ -61,6 +64,9 @@ export default class Details extends Component {
     }
 
     render() {
+      console.log(this.props.formValues.residentialAddress.country);
+      console.log("^^^^ country");
+      console.log(this.props.formValues.residentialAddress.state);
         return (
             <fieldset>
                 <h1 className="form-title">Details</h1>
@@ -98,7 +104,6 @@ export default class Details extends Component {
                         <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialAddress[suburb]" className="residentialSuburb" />
                         <label htmlFor="residentialAddress[country]">Country*</label>
                         <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry" id="residentialAddress[country]" className="residentialCountry">
-                            <option value="Australia">Australia</option>
                         </select>
 
                         <div className="state-code">

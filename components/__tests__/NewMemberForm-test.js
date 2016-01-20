@@ -11,6 +11,7 @@ import $ from 'jquery';
 describe('NewMemberForm', () => {
     beforeEach(() => {
         spyOn(populateCountries, 'populateCountries');
+        spyOn(populateCountries, 'setCountryAddress');
         spyOn($, 'ajax').and.callFake((req) => {
             req.success();
         });
@@ -50,7 +51,6 @@ describe('NewMemberForm', () => {
                 var errors = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, "errors");
                 expect(ReactDOM.findDOMNode(errors).textContent).toMatch(/email/);
             });
-            
         });
     });
 });

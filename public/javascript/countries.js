@@ -305,8 +305,33 @@ function populateCountries(countryElementId, stateElementId){
 	}
 }
 
+function setCountryAddress(countryElementId, countryName, stateElementId, stateName) {
+		var countryElement = document.getElementById(countryElementId);
+		var options = countryElement.options;
+		for(var i=0; i<options.length; i++) {
+			if(options[i].value === countryName) {
+				options[i].defaultSelected = true;
+					populateStates(countryElementId, stateElementId);
+					setStateAddress(stateElementId, stateName);
+			}
+		}
+}
+
+function setStateAddress(stateElementId, stateName) {
+		var stateElement = document.getElementById(stateElementId);
+		var options = stateElement.options;
+		for(var i=0; i<options.length; i++) {
+			if(options[i].value === stateName) {
+				options[i].defaultSelected = true;
+				console.log("default set");
+				console.log(stateName);
+			}
+		}
+}
+
 module.exports = {
 	populateCountries: populateCountries,
+	setCountryAddress: setCountryAddress,
 	countries: country_arr,
 	states: s_a
 };
