@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import Errors from './Errors.jsx';
 
 export default class ConfirmDetails extends Component {
     constructor(props) {
         super(props);
         this.getFullAddress = this.getFullAddress.bind(this);
         this.submitMember = this.submitMember.bind(this);
+        this.state = {
+            errors: []
+        };
     }
 
     getFullAddress(addressObj){
@@ -16,11 +20,11 @@ export default class ConfirmDetails extends Component {
     }
 
     submitMember() {
-        if(this.refs.resident.checked) {
+        if(this.refs.declarationConfirmation.checked) {
             this.props.postAndContinue(this.props.formValues);
         }
         else {
-          console.log("Please tick the box, need to show this validation");
+            this.setState({errors:["Please confirm your details and click the checkbox before continueing."]});
         }
     }
 
@@ -29,6 +33,7 @@ export default class ConfirmDetails extends Component {
             <h1 className="form-title">Confirm</h1>
 
             <div className="form-body">
+                <Errors invalidFields={this.state.errors} />
                 <div className="heading">
                     <h2 className="sub-title">Declaration </h2>
                     <i> Read the following and click the checkbox below.</i>
@@ -51,7 +56,7 @@ export default class ConfirmDetails extends Component {
                     </div>
                 </div>
                 <label className="confirmationLabel">
-                    <input type="checkbox" name="circumstance" ref="resident"/>
+                    <input type="checkbox" name="circumstance" ref="declarationConfirmation"/>
                     I confirm that I am enrolled to vote in federal elections and consent to my information being sent
                     to the Australia Electoral Commission.*
                 </label>

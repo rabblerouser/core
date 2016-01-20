@@ -7,7 +7,7 @@ export default class Errors extends Component {
     }
 
     getClass(invalidaFields) {
-      return invalidaFields.length > 1 ? "validationErrors" : "hidden";
+      return invalidaFields.length >= 1 ? "validationErrors" : "hidden";
     }
 
     render() {
