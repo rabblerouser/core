@@ -134,7 +134,6 @@ export default class Payment extends Component {
                 </div>
                 <div className="navigation">
                     <button type="button" id="payment-continue-button" onClick={this.processPayment}>Continue</button>
-                    <p>or <a id="go-back" onClick={this.props.previousStep}>go back</a></p>
                 </div>
             </div>
         </fieldset>)

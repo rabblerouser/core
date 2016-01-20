@@ -12,7 +12,7 @@ export default class NewMemberForm extends Component {
         super(props);
         this.nextStep = this.nextStep.bind(this);
         this.previousStep = this.previousStep.bind(this);
-        this.saveSuccess = this.saveSuccess.bind(this);
+        this.postAndContinue = this.postAndContinue.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.getForm = this.getForm.bind(this);
         this.state = { step: (this.props.initialState === undefined ? 1 : this.props.initialState) };
@@ -54,18 +54,18 @@ export default class NewMemberForm extends Component {
         this.setState( { step: this.state.step - 1  } )
     }
 
-    saveSuccess(data) {
-        this.formValues = data.newMember;
-        this.nextStep();
+    saveAndContinue(fieldValues) {
+      this.formValues = fieldValues;
+      this.nextStep();
     }
 
-    saveAndContinue(fieldValues) {
-        $.ajax({
-            type: 'POST',
-            url: '/members',
-            data: fieldValues,
-            success: this.saveSuccess
-        });
+    postAndContinue(fieldValues) {
+      $.ajax({
+          type: 'POST',
+          url: '/members',
+          data: fieldValues,
+          success: this.nextStep
+      });
     }
 
     getForm() {
@@ -79,7 +79,7 @@ export default class NewMemberForm extends Component {
                               previousStep={this.previousStep} />;
           case 3:
               return <ConfirmDetails formValues={this.formValues}
-                                    nextStep={this.nextStep}
+                                    postAndContinue={this.postAndContinue}
                                     previousStep={this.previousStep} />;
           case 4:
               return <Payment email={this.formValues.email}

@@ -4,6 +4,7 @@ export default class ConfirmDetails extends Component {
     constructor(props) {
         super(props);
         this.getFullAddress = this.getFullAddress.bind(this);
+        this.submitMember = this.submitMember.bind(this);
     }
 
     getFullAddress(addressObj){
@@ -12,6 +13,15 @@ export default class ConfirmDetails extends Component {
             + addressObj.state + ', '
             + addressObj.country + ', '
             + addressObj.postcode;
+    }
+
+    submitMember() {
+        if(this.refs.resident.checked) {
+            this.props.postAndContinue(this.props.formValues);
+        }
+        else {
+          console.log("Please tick the box, need to show this validation");
+        }
     }
 
     render() {
@@ -61,7 +71,7 @@ export default class ConfirmDetails extends Component {
                     </div>
                 </div>
                 <div className="navigation">
-                    <button onClick={this.props.nextStep}>My details are correct</button>
+                    <button onClick={this.submitMember}>My details are correct</button>
                     <p>or <a id="go-back" onClick={this.props.previousStep}>go back to change your details</a></p>
                 </div>
             </div>
