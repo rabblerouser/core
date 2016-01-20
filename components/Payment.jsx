@@ -77,7 +77,8 @@ export default class Payment extends Component {
                                         onChange={this.handlePaymentTypeChanged}
                                         setState={this.setState}
                                         email={this.props.email}
-                                        amount={this.state.amount}/>
+                                        amount={this.state.amount}
+                                        nextStep={this.props.nextStep}/>
                 </div>
                 <div className="navigation">
                     <button type="button" id="payment-continue-button" onClick={this.processPayment}>Continue</button>
