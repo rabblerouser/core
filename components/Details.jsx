@@ -48,6 +48,7 @@ export default class Details extends Component {
 
     submitDetails() {
         var fieldValues = {
+            membershipType: this.props.membershipType,
             firstName: this.refs.firstName.value,
             lastName: this.refs.lastName.value,
             dateOfBirth: this.refs.dateOfBirth.value,

@@ -47,7 +47,8 @@ describe("membersController", () => {
                     primaryPhoneNumber: "0396291146",
                     secondaryPhoneNumber: "0394291146",
                     residentialAddress: residentialAddress,
-                    postalAddress: postalAddress
+                    postalAddress: postalAddress,
+                    membershipType: "full"
                 }
             };
 
@@ -86,7 +87,8 @@ describe("membersController", () => {
                     primaryPhoneNumber: "0396291146",
                     secondaryPhoneNumber: "0394291146",
                     residentialAddress: residentialAddress,
-                    postalAddress: postalAddress
+                    postalAddress: postalAddress,
+                    membershipType: "full"
                 };
             });
 

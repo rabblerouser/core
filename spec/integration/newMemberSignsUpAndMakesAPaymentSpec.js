@@ -57,7 +57,8 @@ it ("a new member successfully signs up and then makes a payment", (done) => {
             "country": "australia",
             "state": "VIC",
             "postcode": "3000"
-        }
+        },
+        membershipType: "full"
     };
 
     let invoice = {

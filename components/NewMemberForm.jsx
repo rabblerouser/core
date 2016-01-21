@@ -18,6 +18,7 @@ export default class NewMemberForm extends Component {
         this.getForm = this.getForm.bind(this);
         this.state = { step: (this.props.initialState === undefined ? 1 : this.props.initialState) };
         this.formValues = {
+                            membershipType: '',
                             isEnrolled: '',
                             residentialStatus: '',
                             isMemberOfOtherParty: '',

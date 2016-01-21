@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     gender: DataTypes.STRING,
     primaryPhoneNumber: DataTypes.STRING,
     secondaryPhoneNumber: DataTypes.STRING,
-    dateOfBirth: DataTypes.DATEONLY
+    dateOfBirth: DataTypes.DATEONLY,
+    membershipType: DataTypes.STRING
   }, {
     classMethods: {
       associate: (models) => {

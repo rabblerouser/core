@@ -46,10 +46,10 @@ describe("memberService", () => {
                 primaryPhoneNumber: "0396291146",
                 secondaryPhoneNumber: "0394291146",
                 residentialAddress: residentialAddress,
-                postalAddress: postalAddress
+                postalAddress: postalAddress,
+                membershipType: "full"
             };
         };
-
 
         beforeEach(() => {
             memberStub = sinon.stub(models.Member, 'create');
@@ -70,9 +70,6 @@ describe("memberService", () => {
                 state: "NM",
                 postcode: "5678"
             };
-
-
-
 
             newMember = makeNewMember(residentialAddress, postalAddress, date);
             expectedNewMember = makeNewMember(residentialAddressId, postalAddressId, momentDate);

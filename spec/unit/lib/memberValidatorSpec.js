@@ -30,7 +30,8 @@ describe("memberValidator", () => {
                     "country": "australia",
                     "state": "VIC",
                     "postcode": "3000"
-                }
+                },
+                membershipType: "full"
         };
 
         let optionalFields = ["secondaryPhoneNumber", "gender"];
@@ -225,6 +226,36 @@ describe("memberValidator", () => {
         it("Should return false given an address with no state'", () => {
             validAddress.state = null;
             expect(memberValidator.isValidAddress(validAddress)).toBe(false);
+        });
+    });
+
+    describe("isValidMembershipType", () => {
+        it("Should return true if type is full", () => {
+            expect(memberValidator.isValidMembershipType("full")).toBe(true);
+        });
+
+        it("Should return true if type is permanentResident", () => {
+            expect(memberValidator.isValidMembershipType("permanentResident")).toBe(true);
+        });
+
+        it("Should return true if type is full", () => {
+            expect(memberValidator.isValidMembershipType("supporter")).toBe(true);
+        });
+
+        it("Should return true if type is full", () => {
+            expect(memberValidator.isValidMembershipType("internationalSupporter")).toBe(true);
+        });
+
+        [
+            "",
+            null,
+            "a".repeat(256),
+            "Flo the 1st<",
+            "fulla"
+        ].forEach((testCase) => {
+            it(`Should return false if type is ${testCase}`, () => {
+                expect(memberValidator.isValidMembershipType(testCase)).toBe(false);
+            });
         });
     });
 });

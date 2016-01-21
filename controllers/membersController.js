@@ -34,7 +34,8 @@ var newMemberHandler = (req, res) => {
         secondaryPhoneNumber: req.body.secondaryPhoneNumber,
         dateOfBirth: req.body.dateOfBirth,
         residentialAddress: residentialAddress,
-        postalAddress: postalAddress
+        postalAddress: postalAddress,
+        membershipType: req.body.membershipType
     };
 
     let validationErrors = memberValidator.isValid(newMember);

@@ -22,7 +22,8 @@ var createMember = (newMember) => {
                 primaryPhoneNumber: newMember.primaryPhoneNumber,
                 secondaryPhoneNumber: newMember.secondaryPhoneNumber,
                 residentialAddress: residentialAddress[0].dataValues.id,
-                postalAddress: postalAddress[0].dataValues.id
+                postalAddress: postalAddress[0].dataValues.id,
+                membershipType: newMember.membershipType
             });
         })
         .then(Member.create.bind(Member))
