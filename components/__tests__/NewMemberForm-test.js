@@ -33,47 +33,48 @@ describe('NewMemberForm', () => {
       let citizenshipNotAnsweredError = 'Which of these applies to you?';
       let politicalPartyNotAnsweredError = 'Are you a member of another Australian political party?';
 
+      let isEnrolled, isCitizen, isMemberOfOtherParty;
+
+      beforeEach(() => {
+           isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
+           isCitizen = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'residentialStatus');
+           isMemberOfOtherParty = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isMemberOfOtherParty');
+      })
+
         it('should show error if not all questions are answered', () => {
             let continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
-            var isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
             isEnrolled[0].checked = true;
             TestUtils.Simulate.click(continueButton);
             var errors = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, "errors");
             expect(ReactDOM.findDOMNode(errors).textContent).toMatch(citizenshipNotAnsweredError);
         });
 
-        it('should show the information about the type of membership that the user is eligible for', () => {
-            var isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
-            var isCitizen = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'residentialStatus');
-            var isMemberOfOtherParty = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isMemberOfOtherParty');
-            var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
-
-            expect(infoHeading).toEqual([]);
-
+        it('Validation error should go away when all fields filled', () => {
+            let continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
+            var errors = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, "errors");
             isEnrolled[0].checked = true;
-            TestUtils.Simulate.change(isEnrolled[0]);
-            infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
-            expect(infoHeading).toEqual([]);
-
             isCitizen[0].checked = true;
-            TestUtils.Simulate.change(isCitizen[0]);
-            infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
-            expect(infoHeading).toEqual([]);
+            TestUtils.Simulate.click(continueButton);
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch(politicalPartyNotAnsweredError);
 
             isMemberOfOtherParty[0].checked = true;
-            TestUtils.Simulate.change(isMemberOfOtherParty[0]);
-            infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
+            errors = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, "errors");
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch('');
+        });
+
+        it('should show the information about the type of membership that the user is eligible for', () => {    
+            TestUtils.Simulate.change(isEnrolled[0]);
+            var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
             expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a Full Membership./);
         });
 
         it('should transition to details on button click when all questions answered', () => {
             let continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
-            var isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
+
             isEnrolled[0].checked = true;
-            var isCitizen = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'residentialStatus');
             isCitizen[0].checked = true;
-            var isMemberOfOtherParty = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isMemberOfOtherParty');
             isMemberOfOtherParty[0].checked = true;
+
             TestUtils.Simulate.click(continueButton);
             var heading = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, "h1");
             expect(ReactDOM.findDOMNode(heading).textContent).toBe("Details");
