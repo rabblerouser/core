@@ -9,13 +9,18 @@ var logger = require('../../lib/logger');
 var models = require("../../models"),
     Address = models.Address,
     Member = models.Member,
-    Invoice = models.Invoice;
+    Invoice = models.Invoice,
+    AdminUser = models.AdminUser;
+
 
 beforeEach((done) => {
-    Invoice.truncate({cascade: true});
-    Address.truncate({cascade: true}).then(() => {
-        Member.truncate({cascade: true}).nodeify(done);
-    });
+    Invoice.truncate({cascade: true}).then(() => {
+        return Address.truncate({cascade: true});
+    }).then(() => {
+        return Member.truncate({cascade: true});
+    }).then(() => {
+        return AdminUser.truncate();
+    }).nodeify(done);
 });
 
 module.exports = {
