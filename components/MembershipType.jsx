@@ -8,30 +8,54 @@ export default class MembershipType extends Component {
         this.showInfoBox = this.showInfoBox.bind(this);
         this.allQuestionsAnswered = this.allQuestionsAnswered.bind(this);
         this.validateQuestionsAnswered = this.validateQuestionsAnswered.bind(this);
+        this.hasAnsweredEnrolledToVote = this.hasAnsweredEnrolledToVote.bind(this);
+        this.hasAnsweredCitizenship = this.hasAnsweredCitizenship.bind(this);
+        this.hasAnsweredPartyMember = this.hasAnsweredPartyMember.bind(this);
+
         this.state = {
             showInfoBox: false,
-            errors: []
+            errors: [],
+            membershipType: ""
          };
     }
 
     validateQuestionsAnswered() {
         if(this.allQuestionsAnswered()) {
-            this.props.nextStep();
+            this.props.nextStep(this.state.membershipType);
         } else {
-            this.setState({ errors: ["Please answer all questions."]});
+          let errors = [];
+          if(!this.hasAnsweredEnrolledToVote()) {
+            errors.push("Are you enrolled to vote in Australia?")
+          }
+          if(!this.hasAnsweredCitizenship()) {
+            errors.push("Which of these applies to you?")
+          }
+          if(!this.hasAnsweredPartyMember()) {
+            errors.push("Are you a member of another Australian political party?")
+          }
+            this.setState({ errors: errors});
         }
     }
 
+    hasAnsweredEnrolledToVote() {
+      return this.refs.isEnrolledYes.checked || this.refs.isEnrolledNo.checked;
+    }
+
+    hasAnsweredCitizenship() {
+      return this.refs.citizen.checked || this.refs.permanentResident.checked || this.refs.internationalCitizen.checked;
+    }
+
+    hasAnsweredPartyMember() {
+      return this.refs.yes.checked || this.refs.no.checked ;
+    }
+
     allQuestionsAnswered() {
-      var enrolledToVote = this.refs.isEnrolledYes.checked || this.refs.isEnrolledNo.checked;
-      var citizenship = this.refs.citizen.checked || this.refs.permanentResident.checked || this.refs.internationalCitizen.checked;
-      var partyMember = this.refs.yes.checked || this.refs.no.checked ;
-      return enrolledToVote && citizenship && partyMember;
+      return this.hasAnsweredEnrolledToVote() && this.hasAnsweredCitizenship() && this.hasAnsweredPartyMember();
     }
 
     showInfoBox() {
         if(this.allQuestionsAnswered()) {
-            this.setState( { showInfoBox: true } );
+            this.setState( { errors: [], showInfoBox: true, membershipType: "full"} );
         }
     }
 
@@ -39,7 +63,7 @@ export default class MembershipType extends Component {
         return (<fieldset>
             <h1 className="form-title">Membership Type</h1>
             <div className="form-body">
-                <Errors invalidFields={this.state.errors} />
+                <Errors invalidFields={this.state.errors}/>
                 <div className="heading">
                     <h2 className="sub-title">Answer the following questions</h2>
                     <div className="sub-description">We will use your answers to determine which Pirate Party membership suits you best.</div>

@@ -120,21 +120,36 @@ h3 {
     @include span-columns(12);
     background-color: $white;
     border: 2px solid $green;
-    margin-top: 25px;
+    margin-bottom: 25px;
     padding: 0 15px;
 
     .info-heading {
       border-bottom: 1px solid $green;
       color: $green;
       font-weight: bold;
+      padding-bottom: 5px;
 
       h2 {
         @include pad(default 0px 0px 0px);
         margin:0px;
       }
 
-      i {
+      a {
+        color: $green;
         font-size: 10px;
+        font-weight: normal;
+        font-style: italic;
+
+        .circled {
+          border-radius: 100%;
+
+          background: $green;
+          text-align: center;
+          padding-left: 3px;
+          padding-right: 4px;
+          color: $white;
+          font-size: 8px;
+        }
       }
     }
 
@@ -145,6 +160,12 @@ h3 {
       ul {
         list-style-type: inherit;
         margin-left: 17px;
+        padding-bottom: 10px;
+        padding-top: 5px;
+      }
+
+      li {
+        margin-top: 5px;
       }
     }
   }

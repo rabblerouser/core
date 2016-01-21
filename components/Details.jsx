@@ -7,6 +7,8 @@ export default class Details extends Component {
     constructor(props) {
         super(props);
         this.submitDetails = this.submitDetails.bind(this);
+        this.getPersonalInformationSubtitletext = this.getPersonalInformationSubtitletext.bind(this);
+        this.getResidentialAddressSubtitleText = this.getResidentialAddressSubtitleText.bind(this);
         this.handlePostalAddress = this.handlePostalAddress.bind(this);
         this.validator = memberValidator;
         this.state = { invalidFields: [],
@@ -28,6 +30,21 @@ export default class Details extends Component {
         countrySelector.setCountryAddress("residentialAddress[country]", this.props.formValues.residentialAddress.country, "residentialAddress[state]", this.props.formValues.residentialAddress.state);
         countrySelector.setCountryAddress("postalAddress[country]", this.props.formValues.postalAddress.country, "postalAddress[state]", this.props.formValues.postalAddress.state);
     }
+
+    getPersonalInformationSubtitletext() {
+      if(this.props.membershipType === "full") {
+        return "Please enter your details exactly as they would appear on the electoral roll.";
+      }
+      return "Please enter your details";
+    }
+
+    getResidentialAddressSubtitleText() {
+      if(this.props.membershipType === "full") {
+        return "Please enter the address that you are enrolled to vote from.";
+      }
+      return "Please enter your address";
+    }
+
 
     submitDetails() {
         var fieldValues = {
@@ -72,13 +89,12 @@ export default class Details extends Component {
                     <div className="reminder">
                         <img src="/images/reminder.svg"></img>
                         <div className="reminder-text">
-                            This information will be used for the purposes of registering a political party with the
-                            Australian Electoral Commission. <a href="/">View our Privacy Policy.</a>
+                            The information provided in this form may be used for the purpose of ensuring that the Pirate Party can register or remain registered as a political party in Australia, and its states and territories. <a href="/">View our Privacy Policy.</a>
                         </div>
                     </div>
                     <div className="heading">
                         <h2 className="sub-title"> Personal Information</h2>
-                        <i>Please enter your details exactly as they would appear on the electoral roll.</i>
+                        <i>{this.getPersonalInformationSubtitletext()}</i>
                     </div>
                     <div className="field-group">
                         <label htmlFor="firstName">Given Name(s)*</label>
@@ -92,7 +108,7 @@ export default class Details extends Component {
                     </div>
                     <div className="heading">
                         <h2 className="sub-title"> Residential Address</h2>
-                        <i>Please enter the address that you are enrolled to vote from with the AEC.</i>
+                        <i>{this.getResidentialAddressSubtitleText()}</i>
                     </div>
                     <div className="field-group">
                         <label htmlFor="residentialAddress[address]">Address*</label>
