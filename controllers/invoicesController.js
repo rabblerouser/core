@@ -16,7 +16,7 @@ var newInvoiceHandler = (req, res) => {
     if (validationErrors.length > 0) {
         return res.status(400).json({ errors: validationErrors});
     }
-    
+
     if (req.body.paymentType === "stripe" && req.body.stripeToken) {
         newInvoice.totalAmount = Math.floor(req.body.totalAmount);
 
@@ -33,6 +33,7 @@ var newInvoiceHandler = (req, res) => {
                 return createInvoice(newInvoice, res);
             });
     } else {
+        res.status(200);
         return createInvoice(newInvoice, res);
     }
 };

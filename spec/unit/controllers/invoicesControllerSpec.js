@@ -48,7 +48,6 @@ describe("invoicesController", () => {
             chargeCardPromise = Q.defer();
             chargeCardStub.returns(chargeCardPromise.promise);
 
-
             statusStub = sinon.stub();
             responseJsonStub = sinon.stub();
             renderLocationStub = sinon.stub();
@@ -71,8 +70,6 @@ describe("invoicesController", () => {
             });
 
             it("creates a charge card if stripe payment type", (done) => {
-                createInvoiceStub.returns(createInvoicePromise.promise);
-
                 chargeCardPromise.resolve({id: "123"});
 
                 goodRequest.body.paymentType = 'stripe';
@@ -91,22 +88,10 @@ describe("invoicesController", () => {
             });
 
             it("doesn't creates a charge card if not stripe payment type", (done) => {
-                createInvoiceStub.returns(createInvoicePromise.promise);
-
-                chargeCardPromise.resolve();
-
-                newInvoiceHandler(goodRequest, res);
-
-                chargeCardPromise.promise.finally(() => {
-                    expect(invoiceService.chargeCard).not.toHaveBeenCalled();
-                    expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
-                }).nodeify(done);
-            });
-
-            it("creates a new invoice", (done) => {
                 newInvoiceHandler(goodRequest, res);
 
                 createInvoicePromise.promise.finally(() => {
+                    expect(invoiceService.chargeCard).not.toHaveBeenCalled();
                     expect(invoiceService.createInvoice).toHaveBeenCalledWith(expectedInvoiceCreateValues);
                 }).nodeify(done);
             });
