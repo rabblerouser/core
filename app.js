@@ -11,38 +11,23 @@ const express = require('express'),
       sassMiddleware = require('node-sass-middleware'),
       session = require('express-session'),
       neat = require('node-neat'),
-      app = express();
+      app = express(),
+      configManager = require("./config/configManager"),
+      SequelizeSessionStore = require('connect-session-sequelize')(session.Store),
+      db = require('./db/connection'),
+      sessionStore = new SequelizeSessionStore({db: db}),
+      sessionOpts = configManager.session,
+      env = process.env.NODE_ENV || 'development';
 
-const env = process.env.NODE_ENV || 'development';
+sessionStore.sync();
 
-const SequelizeSessionStore = require('connect-session-sequelize')(session.Store);
-const db = require('./db/connection');
-const sessionStore = new SequelizeSessionStore({db: db});
-const sessionOpts = require('./config/configManager').session;
-
-const logFormat = () => {
-    if (['developement', 'test'].indexOf(env) > -1) {
-        return 'dev';
-    }
-    else {
-        return '[:date[iso]] :remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
-    }
-};
-
-
-let initialiseApp = () => {
-    sessionStore.sync();
-}();
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use(helmet());
-app.use(logger(logFormat()));
+app.use(logger(configManager.logFormat));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitized());
@@ -65,7 +50,7 @@ app.use(sassMiddleware({
 app.use('/', routes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -76,7 +61,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use((err, req, res, next) => {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -87,7 +72,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
