@@ -29,6 +29,15 @@ describe('NewMemberForm', () => {
     });
 
     describe('On the membership type step', () => {
+        it('should show error if not all questions are answered', () => {
+            let continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
+            var isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
+            isEnrolled[0].checked = true;
+            TestUtils.Simulate.click(continueButton);
+            var errors = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, "errors");
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch('Please answer all questions.');
+        });
+
         it('should show the information about the type of membership that the user is eligible for', () => {
             var isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
             var isCitizen = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'residentialStatus');
@@ -51,15 +60,6 @@ describe('NewMemberForm', () => {
             TestUtils.Simulate.change(isMemberOfOtherParty[0]);
             infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
             expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are eligible for a Full Membership./);
-        });
-
-        it('should show error if not all questions are answered', () => {
-            let continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
-            var isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
-            isEnrolled[0].checked = true;
-            TestUtils.Simulate.click(continueButton);
-            var errors = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, "errors");
-            expect(ReactDOM.findDOMNode(errors).textContent).toMatch('Please answer all questions.');
         });
 
         it('should transition to details on button click when all questions answered', () => {
