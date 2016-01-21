@@ -37,8 +37,14 @@ describe('NewMemberForm', () => {
             expect(ReactDOM.findDOMNode(infoHeading).textContent).toMatch(/You are eligible for a Full Membership./);
         });
 
-        it('should transition to details on button click', () => {
+        it('should transition to details on button click when all questions answered', () => {
             let continueButton = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'button');
+            var isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
+            isEnrolled[0].checked = true;
+            var isCitizen = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'residentialStatus');
+            isCitizen[0].checked = true;
+            var isMemberOfOtherParty = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isMemberOfOtherParty');
+            isMemberOfOtherParty[0].checked = true;
             TestUtils.Simulate.click(continueButton);
             var heading = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, "h1");
             expect(ReactDOM.findDOMNode(heading).textContent).toBe("Details");
