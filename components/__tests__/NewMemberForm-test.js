@@ -31,10 +31,26 @@ describe('NewMemberForm', () => {
     describe('On the membership type step', () => {
         it('should show the information about the type of membership that the user is eligible for', () => {
             var isEnrolled = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isEnrolled');
+            var isCitizen = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'residentialStatus');
+            var isMemberOfOtherParty = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'isMemberOfOtherParty');
+            var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
+
+            expect(infoHeading).toEqual([]);
+
             isEnrolled[0].checked = true;
             TestUtils.Simulate.change(isEnrolled[0]);
-            var infoHeading = TestUtils.findRenderedDOMComponentWithClass(newMemberForm, 'info-heading');
-            expect(ReactDOM.findDOMNode(infoHeading).textContent).toMatch(/You are eligible for a Full Membership./);
+            infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
+            expect(infoHeading).toEqual([]);
+
+            isCitizen[0].checked = true;
+            TestUtils.Simulate.change(isCitizen[0]);
+            infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
+            expect(infoHeading).toEqual([]);
+
+            isMemberOfOtherParty[0].checked = true;
+            TestUtils.Simulate.change(isMemberOfOtherParty[0]);
+            infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(newMemberForm, 'info-heading');
+            expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are eligible for a Full Membership./);
         });
 
         it('should show error if not all questions are answered', () => {

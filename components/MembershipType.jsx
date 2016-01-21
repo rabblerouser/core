@@ -6,6 +6,7 @@ export default class MembershipType extends Component {
     constructor(props) {
         super(props);
         this.showInfoBox = this.showInfoBox.bind(this);
+        this.allQuestionsAnswered = this.allQuestionsAnswered.bind(this);
         this.validateQuestionsAnswered = this.validateQuestionsAnswered.bind(this);
         this.state = {
             showInfoBox: false,
@@ -14,18 +15,22 @@ export default class MembershipType extends Component {
     }
 
     validateQuestionsAnswered() {
-        var enrolledToVote = this.refs.isEnrolledYes.checked || this.refs.isEnrolledNo.checked;
-        var citizenship = this.refs.citizen.checked || this.refs.permanentResident.checked || this.refs.internationalCitizen.checked;
-        var partyMember = this.refs.yes.checked || this.refs.no.checked ;
-        if(enrolledToVote && citizenship && partyMember){
+        if(this.allQuestionsAnswered()) {
             this.props.nextStep();
         } else {
             this.setState({ errors: ["Please answer all questions."]});
         }
     }
 
+    allQuestionsAnswered() {
+      var enrolledToVote = this.refs.isEnrolledYes.checked || this.refs.isEnrolledNo.checked;
+      var citizenship = this.refs.citizen.checked || this.refs.permanentResident.checked || this.refs.internationalCitizen.checked;
+      var partyMember = this.refs.yes.checked || this.refs.no.checked ;
+      return enrolledToVote && citizenship && partyMember;
+    }
+
     showInfoBox() {
-        if(this.refs.isEnrolledYes) {
+        if(this.allQuestionsAnswered()) {
             this.setState( { showInfoBox: true } );
         }
     }
@@ -41,11 +46,11 @@ export default class MembershipType extends Component {
                 </div>
                 <div className="field-group">
                     <h3>Are you enrolled to vote in Australia?</h3>
-                    <label htmlFor="yes" onClick={this.showInfoBox}>
+                    <label htmlFor="Yes" onClick={this.showInfoBox}>
                         <input onChange={this.showInfoBox} type="radio" name="isEnrolled" className="isEnrolled" ref="isEnrolledYes" id="Yes" value="Yes" />
                         Yes
                     </label>
-                    <label htmlFor="no" onClick={this.showInfoBox}>
+                    <label htmlFor="No" onClick={this.showInfoBox}>
                         <input onChange={this.showInfoBox} type="radio" name="isEnrolled" className="isEnrolled" ref="isEnrolledNo" id="No" value="No" />
                         No
                     </label>
