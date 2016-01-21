@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import Errors from './Errors.jsx';
 import StripePayment from './StripePayment.jsx';
+import * as paymentValidator from '../lib/paymentValidator';
 import $ from 'jquery';
 
 export default class Payment extends Component {
     constructor(props) {
         super(props);
+        this.validator = paymentValidator;
         this.handleAmountChanged = this.handleAmountChanged.bind(this);
         this.handlePaymentTypeChanged = this.handlePaymentTypeChanged.bind(this);
         this.processStripePayment = this.processStripePayment.bind(this);
-        this.processDebitOrChequePayment = this.processDebitOrChequePayment.bind(this);
+        this.processOtherPayment = this.processOtherPayment.bind(this);
         this.processPayment = this.processPayment.bind(this);
         this.state = {amount : '', invalidFields: [], paymentType: ''};
     }
@@ -34,7 +36,7 @@ export default class Payment extends Component {
       }
     }
 
-    processDebitOrChequePayment() {
+    processOtherPayment() {
       $.ajax({
               type: 'POST',
               url: '/invoices',
@@ -53,17 +55,20 @@ export default class Payment extends Component {
     }
 
     processPayment() {
-        if (this.state.paymentType === 'creditOrDebitCard') {
-          if (this.state.amount < 1 || this.state.amount === '') {
-            this.setState({invalidFields:["Can not use card for less than $1"]});
-            return;
-          }
-          this.processStripePayment();
-        } else if (this.state.paymentType === 'deposit' || this.state.paymentType === 'cheque')  {
-          this.processDebitOrChequePayment();
+        var fieldValues = {
+            memberEmail: this.props.email,
+            totalAmount: this.state.paymentType === 'noContribute' ? 1 : this.state.amount,
+            paymentType: this.state.paymentType };
+
+        var invalidFields = this.validator.isValid(fieldValues);
+        if (invalidFields.length > 0) {
+            return this.setState({invalidFields: invalidFields });
         }
-        else {
-          this.setState({invalidFields:["Please Select the Payment Type!"]});
+
+        if (this.state.paymentType === 'creditOrDebitCard') {
+          this.processStripePayment();
+        } else {
+          this.processOtherPayment();
         }
     };
 
@@ -79,30 +84,38 @@ export default class Payment extends Component {
                     </div>
                 </div>
                 <div className="heading">
-                    <h2 className="sub-title"> Membership Contribution</h2>
-                    <i>Please enter a whole dollar value (minimum $0)</i>
-                </div>
-                <div className="contribution-amount">
-                    <div className="currency">$AUD</div>
-                    <input type="text" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
-                </div>
-                <div className="heading">
                     <h2 className="sub-title"> Choose a Payment Method</h2>
                     <i>Pay your selected amount.</i>
                 </div>
                 <div className="field-group">
                     <label>
-                        <input type="radio" name="paymentType" value="deposit" onChange={this.handlePaymentTypeChanged}/>Direct Debit
+                        <input type="radio" name="paymentType" value="paypal" onChange={this.handlePaymentTypeChanged}/>PayPal
+                    </label>
+                    <StripePayment  ref="stripePayment"
+                                    onChange={this.handlePaymentTypeChanged}
+                                    setState={this.setState}
+                                    email={this.props.email}
+                                    amount={this.state.amount}
+                                    nextStep={this.props.nextStep}/>
+                    <label>
+                        <input type="radio" name="paymentType" value="deposit" onChange={this.handlePaymentTypeChanged}/>Direct Deposit
                     </label>
                     <label>
                         <input type="radio" name="paymentType" value="cheque" onChange={this.handlePaymentTypeChanged}/>Cheque
                     </label>
-                        <StripePayment  ref="stripePayment"
-                                        onChange={this.handlePaymentTypeChanged}
-                                        setState={this.setState}
-                                        email={this.props.email}
-                                        amount={this.state.amount}
-                                        nextStep={this.props.nextStep}/>
+                    <label>
+                        <input type="radio" name="paymentType" value="noContribute" onChange={this.handlePaymentTypeChanged}/>I do not want to contribute.
+                    </label>
+                </div>
+                <div className={(() => { return this.state.paymentType==='noContribute' ? 'hidden' : ''})()}>
+                  <div className="heading">
+                      <h2 className="sub-title"> Membership Contribution</h2>
+                      <i>Please enter an amount.</i>
+                  </div>
+                  <div className="contribution-amount">
+                      <div className="currency">$AUD</div>
+                      <input type="text" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
+                  </div>
                 </div>
                 <div className="navigation">
                     <button type="button" id="payment-continue-button" onClick={this.processPayment}>Continue</button>

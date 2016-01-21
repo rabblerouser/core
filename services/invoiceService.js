@@ -14,8 +14,8 @@ var createInvoice = (newInvoice) => {
     totalAmountInCents: newInvoice.totalAmount * 100,
     paymentDate: moment().format('L'),
     paymentType: newInvoice.paymentType,
-    reference: newInvoice.reference,
-    paymentStatus: newInvoice.paymentStatus === undefined ? 'Pending' : newInvoice.paymentStatus
+    reference: newInvoice.reference || '',
+    paymentStatus: newInvoice.paymentStatus || 'Pending'
   };
 
   return Q(invoice)

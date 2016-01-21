@@ -4,7 +4,8 @@ const specHelper = require("../../support/specHelper"),
     sinon = specHelper.sinon,
     Q = specHelper.Q;
 
-var invoiceService = require("../../../services/invoiceService");
+var invoiceService = require("../../../services/invoiceService"),
+    paymentValidator = require("../../../lib/paymentValidator");
 
 var invoicesController = require("../../../controllers/invoicesController");
 
@@ -15,6 +16,7 @@ describe("invoicesController", () => {
             statusStub, responseJsonStub,
             createInvoiceStub, createInvoicePromise,
             chargeCardStub, chargeCardPromise,
+            validatePaymentStub,
             expectedInvoiceCreateValues,
             renderStub, renderLocationStub;
 
@@ -22,6 +24,7 @@ describe("invoicesController", () => {
             newInvoiceHandler = invoicesController.newInvoiceHandler;
             createInvoiceStub = sinon.stub(invoiceService, 'createInvoice');
             chargeCardStub = sinon.stub(invoiceService, 'chargeCard');
+            validatePaymentStub = sinon.stub(paymentValidator, 'isValid');
 
             goodRequest = {
                 body: {
@@ -35,7 +38,6 @@ describe("invoicesController", () => {
                 memberEmail: "sherlock@holmes.co.uk",
                 totalAmount: 60.1,
                 paymentType: 'deposit',
-                reference: ''
             };
 
             createInvoicePromise = Q.defer();
@@ -58,11 +60,13 @@ describe("invoicesController", () => {
         afterEach(() => {
             invoiceService.createInvoice.restore();
             invoiceService.chargeCard.restore();
+            paymentValidator.isValid.restore();
         });
 
         describe("when it receives a good request", () => {
 
             beforeEach(() => {
+                validatePaymentStub.returns([]);
                 createInvoicePromise.resolve();
             });
 
@@ -118,60 +122,19 @@ describe("invoicesController", () => {
 
         describe("when validation fails", () => {
             it("responds with status 400", (done) => {
-                let badRequest = {
-                    body: {
-                        memberEmail: "sherlock@holmes.co.uk",
-                        totalAmount: 'abd',
-                        paymentType: 'deposit'
-                    }
-                };
-
-                createInvoiceStub
-                    .withArgs(badRequest.body)
-                    .returns(createInvoicePromise.promise);
-
-                newInvoiceHandler(badRequest, res);
+                validatePaymentStub.returns(["totalAmount"]);
+                newInvoiceHandler(goodRequest, res);
 
                 expect(invoiceService.createInvoice).not.toHaveBeenCalled();
                 expect(invoiceService.chargeCard()).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
-                expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {
-                    title: 'Payment',
-                    errors: ["totalAmount"],
-                    email: "sherlock@holmes.co.uk"
-                });
-                done();
-            });
-
-            it("with a negative number, it rejects it", (done) => {
-                let badRequest = {
-                    body: {
-                        memberEmail: "sherlock@holmes.co.uk",
-                        totalAmount: "-11",
-                        paymentType: 'deposit'
-                    }
-                };
-
-                createInvoiceStub
-                    .withArgs(badRequest.body)
-                    .returns(createInvoicePromise.promise);
-
-                newInvoiceHandler(badRequest, res);
-
-                expect(invoiceService.createInvoice).not.toHaveBeenCalled();
-                expect(invoiceService.chargeCard()).not.toHaveBeenCalled();
-                expect(res.status).toHaveBeenCalledWith(400);
-                expect(renderLocationStub).toHaveBeenCalledWith("members/payment", {
-                    title: 'Payment',
-                    errors: ["totalAmount"],
-                    email: "sherlock@holmes.co.uk"
-                });
                 done();
             });
         });
 
         describe("when charging card fails", () => {
             it("should return 400 (for now)", (done) => {
+                validatePaymentStub.returns([]);
                 chargeCardPromise.reject("Could not handle payment");
 
                 goodRequest.body.paymentType = "stripe";
@@ -193,6 +156,7 @@ describe("invoicesController", () => {
 
         describe("when creating the new invoice fails", () => {
             it("responds with a server error", (done) => {
+                validatePaymentStub.returns([]);
                 let errorMessage = "Seriously, we still don't have any damn bananas.";
                 createInvoicePromise.reject(errorMessage);
 
