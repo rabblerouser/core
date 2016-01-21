@@ -10,6 +10,8 @@ const express = require('express'),
       routes = require('./routes/index'),
       sassMiddleware = require('node-sass-middleware'),
       session = require('express-session'),
+      passport = require('passport'),
+      passportConfig = require("./config/passport"),
       neat = require('node-neat'),
       app = express(),
       configManager = require("./config/configManager"),
@@ -39,6 +41,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: { secure: sessionOpts.secureCookie }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(sassMiddleware({
     src: path.join(__dirname, 'public'),
     dest: path.join(__dirname, 'public'),
