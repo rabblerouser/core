@@ -36,6 +36,8 @@
     "node-neat": "^1.7.2",
     "node-sass-middleware": "0.8.0",
     "node-uuid": "^1.4.7",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "pg": "^4.4.3",
     "pg-hstore": "^2.3.2",
     "q": "^1.4.1",
@@ -52,7 +54,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^5.0.0-beta6",
-    "babel-jest": "^6.0.1",
     "core-js": "^2.0.3",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
@@ -71,27 +72,5 @@
     "supertest-as-promised": "^2.0.2",
     "watchify": "^3.7.0",
     "webpack-dev-server": "^1.14.1"
-  },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-dom",
-      "<rootDir>/node_modules/react-addons-test-utils",
-      "<rootDir>/node_modules/fbjs"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ],
-    "testFileExtensions": [
-      "es6",
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "es6"
-    ]
   }
 }
