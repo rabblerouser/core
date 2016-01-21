@@ -30,7 +30,6 @@ var chargeCard = (stripeToken, totalAmount) => {
     return stripeHandler.chargeCard(stripeToken, totalAmount)
         .tap(() => {
           logger.logNewChargeEvent(stripeToken);
-          return Q.resolve();
         })
         .catch((error)=>{
           logger.logNewFailedCharge(stripeToken,error);

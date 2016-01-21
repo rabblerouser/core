@@ -24,6 +24,7 @@ var newInvoiceHandler = (req, res) => {
     }
 
     if (newInvoice.paymentType === "deposit" || newInvoice.paymentType === "cheque") {
+        res.status(200);
         return createInvoice(newInvoice, res);
     }
     if (req.body.paymentType === "stripe" && req.body.stripeToken) {
@@ -51,7 +52,7 @@ var createInvoice = (newInvoice, res) => {
 
     return invoiceService.createInvoice(newInvoice)
         .then(() => {
-            res.status(200).render('members/success', {email: newInvoice.memberEmail});
+            return res.end();
         })
         .catch(dbError);
 };
