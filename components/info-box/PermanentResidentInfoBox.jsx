@@ -20,7 +20,7 @@ export default class PermanentResidentInfoBox extends Component {
                     <li>Participate in the decision making process;</li>
                     <li>Vote at Party Meetings, Congresses and Policy Formulation, Development and Adoption proceedings.</li>
                 </ul>
-                As a Permanent resident member, you can pay whatever you want to join (even $0!)
+                As a Permanent Resident, you can pay whatever you want to join (even $0!)
             </div>
         </div>
     }
