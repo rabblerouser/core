@@ -39,13 +39,128 @@ describe('Membership type step', () => {
         expect(ReactDOM.findDOMNode(errors).textContent).toMatch('');
     });
 
-    it('should show the information about the type of membership that the user is eligible for', () => {
-        isCitizen[0].checked = true;
-        isMemberOfOtherParty[0].checked = true;
-        isEnrolled[0].checked = true;
-        TestUtils.Simulate.change(isEnrolled[0]);
-        var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
-        expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a Full Membership./);
+    describe('full membership', () => {
+      it('should be shown given: yes, citizen, no', () => {
+          isEnrolled[0].checked = true;
+          isCitizen[0].checked = true;
+          isMemberOfOtherParty[1].checked = true;
+          TestUtils.Simulate.change(isMemberOfOtherParty[1]);
+          var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
+          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a Full Membership./);
+      });
+    });
+
+    describe('permanent resident membership', () => {
+      it('should be shown given: no, permanentResident, no', () => {
+          isEnrolled[1].checked = true;
+          isCitizen[1].checked = true;
+          isMemberOfOtherParty[1].checked = true;
+          TestUtils.Simulate.change(isMemberOfOtherParty[1]);
+          var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
+          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a Permanent Resident Membership./);
+      });
+    });
+
+    describe('supporter membership', () => {
+      it('should be shown given: no, permanentResident, yes', () => {
+          isEnrolled[1].checked = true;
+          isCitizen[1].checked = true;
+          isMemberOfOtherParty[0].checked = true;
+          TestUtils.Simulate.change(isMemberOfOtherParty[0]);
+          var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
+          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a Supporter Membership./);
+      });
+
+      it('should be shown given: yes, citizen, yes', () => {
+          isEnrolled[0].checked = true;
+          isCitizen[0].checked = true;
+          isMemberOfOtherParty[0].checked = true;
+          TestUtils.Simulate.change(isMemberOfOtherParty[0]);
+          var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
+          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a Supporter Membership./);
+      });
+    });
+// Only Australian citizens can be enrolled to vote in Australian
+// Australian citizens must be enrolled to become a member
+    describe('international supporter membership', () => {
+      it('should be shown given: no, international, yes', () => {
+          isEnrolled[1].checked = true;
+          isCitizen[2].checked = true;
+          isMemberOfOtherParty[0].checked = true;
+          TestUtils.Simulate.change(isMemberOfOtherParty[0]);
+          var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
+          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a International Supporter Membership./);
+      });
+
+      it('should be shown given: no, international, no', () => {
+          isEnrolled[1].checked = true;
+          isCitizen[2].checked = true;
+          isMemberOfOtherParty[1].checked = true;
+          TestUtils.Simulate.change(isMemberOfOtherParty[1]);
+          var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
+          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a International Supporter Membership./);
+      });
+    });
+
+    describe('invalid membership type', () => {
+      let citizensOnlyErrorMessage = "Only Australian citizens can be enrolled to vote in Australia"
+      describe(citizensOnlyErrorMessage, () => {
+        it('error should be shown given: yes, permanentResident, yes', () => {
+            isEnrolled[0].checked = true;
+            isCitizen[1].checked = true;
+            isMemberOfOtherParty[0].checked = true;
+            TestUtils.Simulate.change(isMemberOfOtherParty[0]);
+            var errors = TestUtils.findRenderedDOMComponentWithClass(membershipTypeForm, "errors");
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch(citizensOnlyErrorMessage);
+          });
+
+        it('error should be shown given: no, permanentResident, no', () => {
+            isEnrolled[0].checked = true;
+            isCitizen[1].checked = true;
+            isMemberOfOtherParty[1].checked = true;
+            TestUtils.Simulate.change(isMemberOfOtherParty[1]);
+            var errors = TestUtils.findRenderedDOMComponentWithClass(membershipTypeForm, "errors");
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch(citizensOnlyErrorMessage);
+          });
+
+        it('error should be shown given: yes, international, yes', () => {
+            isEnrolled[0].checked = true;
+            isCitizen[2].checked = true;
+            isMemberOfOtherParty[0].checked = true;
+            TestUtils.Simulate.change(isMemberOfOtherParty[0]);
+            var errors = TestUtils.findRenderedDOMComponentWithClass(membershipTypeForm, "errors");
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch(citizensOnlyErrorMessage);
+          });
+
+        it('error should be shown given: yes, international, no', () => {
+            isEnrolled[0].checked = true;
+            isCitizen[2].checked = true;
+            isMemberOfOtherParty[1].checked = true;
+            TestUtils.Simulate.change(isMemberOfOtherParty[1]);
+            var errors = TestUtils.findRenderedDOMComponentWithClass(membershipTypeForm, "errors");
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch(citizensOnlyErrorMessage);
+          });
+      });
+      let mustBeEnrolledErrorMessage = 'Australian citizens must be enrolled to become a member'
+      describe(mustBeEnrolledErrorMessage, () => {
+        it('error should be shown given: no, citizen, no', () => {
+            isEnrolled[1].checked = true;
+            isCitizen[0].checked = true;
+            isMemberOfOtherParty[1].checked = true;
+            TestUtils.Simulate.change(isMemberOfOtherParty[1]);
+            var errors = TestUtils.findRenderedDOMComponentWithClass(membershipTypeForm, "errors");
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch(mustBeEnrolledErrorMessage);
+          });
+
+        it('error should be shown given: no, citizen, yes', () => {
+            isEnrolled[1].checked = true;
+            isCitizen[0].checked = true;
+            isMemberOfOtherParty[0].checked = true;
+            TestUtils.Simulate.change(isMemberOfOtherParty[0]);
+            var errors = TestUtils.findRenderedDOMComponentWithClass(membershipTypeForm, "errors");
+            expect(ReactDOM.findDOMNode(errors).textContent).toMatch(mustBeEnrolledErrorMessage);
+        });
+      });
     });
 
     it('should transition to details on button click when all questions answered', () => {
@@ -57,6 +172,6 @@ describe('Membership type step', () => {
         TestUtils.Simulate.change(isEnrolled[0]);
 
         TestUtils.Simulate.click(continueButton);
-        expect(setMembershipType).toHaveBeenCalledWith("full");
+        expect(setMembershipType).toHaveBeenCalledWith("supporter");
     });
 });

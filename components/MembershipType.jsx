@@ -7,6 +7,7 @@ export default class MembershipType extends Component {
         super(props);
         this.showInfoBox = this.showInfoBox.bind(this);
         this.allQuestionsAnswered = this.allQuestionsAnswered.bind(this);
+        this.calculateMembershipType = this.calculateMembershipType.bind(this);
         this.validateQuestionsAnswered = this.validateQuestionsAnswered.bind(this);
         this.hasAnsweredEnrolledToVote = this.hasAnsweredEnrolledToVote.bind(this);
         this.hasAnsweredCitizenship = this.hasAnsweredCitizenship.bind(this);
@@ -19,21 +20,58 @@ export default class MembershipType extends Component {
          };
     }
 
+    calculateMembershipType() {
+        const full = "full";
+        const permanentResident = "permanentResident";
+        const supporter = "supporter";
+        const internationalSupporter = "internationalSupporter";
+        this.setState({membershipType: "", errors: [], showInfoBox: false});
+
+        if (this.refs.isEnrolledYes.checked) {
+            if(this.refs.citizen.checked) {
+                if(this.refs.yes.checked) {
+                    this.setState({membershipType: supporter, showInfoBox: true});
+                } else {
+                    this.setState({membershipType: full, showInfoBox: true});
+                }
+            } else {
+                this.setState({errors: ["Only Australian citizens can be enrolled to vote in Australia"],
+                              showInfoBox: false});
+            }
+        }
+        else if(this.refs.isEnrolledNo.checked) {
+            if(this.refs.citizen.checked) {
+                this.setState({errors:["Australian citizens must be enrolled to become a member"],
+                              showInfoBox: false});
+            } else if(this.refs.permanentResident.checked) {
+                if(this.refs.yes.checked ) {
+                    this.setState({membershipType: supporter, showInfoBox: true});
+                } else {
+                    this.setState({membershipType: permanentResident, showInfoBox: true});
+                }
+            } else if(this.refs.internationalCitizen.checked) {
+                    this.setState({membershipType: internationalSupporter, showInfoBox: true});
+            }
+        }
+    }
+
     validateQuestionsAnswered() {
-        if(this.allQuestionsAnswered()) {
+        if(this.allQuestionsAnswered() && this.state.membershipType) {
             this.props.nextStep(this.state.membershipType);
         } else {
           let errors = [];
           if(!this.hasAnsweredEnrolledToVote()) {
-            errors.push("Are you enrolled to vote in Australia?")
+            errors.push("Are you enrolled to vote in Australia?");
           }
           if(!this.hasAnsweredCitizenship()) {
-            errors.push("Which of these applies to you?")
+            errors.push("Which of these applies to you?");
           }
           if(!this.hasAnsweredPartyMember()) {
-            errors.push("Are you a member of another Australian political party?")
+            errors.push("Are you a member of another Australian political party?");
           }
-            this.setState({ errors: errors});
+          if(errors.length != 0 ){
+              this.setState({ errors: errors});
+          }
         }
     }
 
@@ -55,7 +93,7 @@ export default class MembershipType extends Component {
 
     showInfoBox() {
         if(this.allQuestionsAnswered()) {
-            this.setState( { errors: [], showInfoBox: true, membershipType: "full"} );
+            this.calculateMembershipType();
         }
     }
 
@@ -107,7 +145,7 @@ export default class MembershipType extends Component {
                 </div>
                 {(() => {
                     if (this.state.showInfoBox) {
-                       return <InfoBox />;
+                       return <InfoBox membershipType={this.state.membershipType}/>;
                     }
                 })()}
                 <div className="navigation">

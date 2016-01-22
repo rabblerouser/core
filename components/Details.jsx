@@ -114,7 +114,7 @@ export default class Details extends Component {
                     <div className="field-group">
                         <label htmlFor="residentialAddress[address]">Address*</label>
                         <input type="text" defaultValue={this.props.formValues.residentialAddress.address} ref="residentialAddress" id="residentialAddress[address]" className="residentialAddress" />
-                        <label htmlFor="residentialAddress[suburb]">Suburb*</label>
+                        <label htmlFor="residentialAddress[suburb]">Suburb/City*</label>
                         <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialAddress[suburb]" className="residentialSuburb" />
                         <label htmlFor="residentialAddress[country]">Country*</label>
                         <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry" id="residentialAddress[country]" className="residentialCountry">
