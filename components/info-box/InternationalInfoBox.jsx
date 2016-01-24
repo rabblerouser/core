@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export default class InternationalSupporterInfoBox extends Component {
+export default class InternationalInfoBox extends Component {
     constructor(props) {
         super(props);
         this.render = this.render.bind(this);
@@ -8,7 +8,7 @@ export default class InternationalSupporterInfoBox extends Component {
     render() {
         return <div className="info-box">
             <div className="info-heading">
-                <h3>You are entitled to a International Supporter Membership.</h3>
+                <h3>You are entitled to a International Membership.</h3>
                 <a href="https://pirateparty.org.au/constitution/#4.2"><span className="circled">?</span>  What are the different membership types?</a>
             </div>
             <div className="info-body">

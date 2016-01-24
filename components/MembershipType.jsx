@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import InfoBox from './InfoBox.jsx';
+import InfoBox from './info-box/InfoBox.jsx';
 import Errors from "./Errors.jsx";
 
 export default class MembershipType extends Component {

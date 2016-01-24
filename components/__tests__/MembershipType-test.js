@@ -89,7 +89,7 @@ describe('Membership type step', () => {
           isMemberOfOtherParty[0].checked = true;
           TestUtils.Simulate.change(isMemberOfOtherParty[0]);
           var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
-          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a International Supporter Membership./);
+          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a International Membership./);
       });
 
       it('should be shown given: no, international, no', () => {
@@ -98,7 +98,7 @@ describe('Membership type step', () => {
           isMemberOfOtherParty[1].checked = true;
           TestUtils.Simulate.change(isMemberOfOtherParty[1]);
           var infoHeading = TestUtils.scryRenderedDOMComponentsWithClass(membershipTypeForm, 'info-heading');
-          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a International Supporter Membership./);
+          expect(ReactDOM.findDOMNode(infoHeading[0]).textContent).toMatch(/You are entitled to a International Membership./);
       });
     });
 
