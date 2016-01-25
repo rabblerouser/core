@@ -64,7 +64,10 @@ it ("a new member successfully signs up and then makes a payment", (done) => {
     let invoice = {
         "memberEmail": `sherlock${memberSuffix}@holmes.co.uk`,
         "totalAmount": "88.88",
-        "paymentType": "deposit"
+        "paymentType": "deposit",
+        "invoiceId": "999",
+        "uuid": "1234",
+        "membershipType": "full"
     };
 
     successfullyCreatingANewMemberShouldRepondWithA200()

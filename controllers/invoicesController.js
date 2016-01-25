@@ -8,7 +8,10 @@ var newInvoiceHandler = (req, res) => {
     let newInvoice = {
         memberEmail: req.body.memberEmail,
         totalAmount: req.body.paymentType === 'noContribute' ? 1 : req.body.totalAmount,
-        paymentType: req.body.paymentType
+        paymentType: req.body.paymentType,
+        invoiceId: req.body.invoiceId,
+        uuid: req.body.uuid,
+        membershipType: req.body.membershipType
     };
 
     let validationErrors = paymentValidator.isValid(newInvoice);

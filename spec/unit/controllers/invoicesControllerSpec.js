@@ -30,7 +30,10 @@ describe("invoicesController", () => {
                 body: {
                     memberEmail: "sherlock@holmes.co.uk",
                     totalAmount: 60.1,
-                    paymentType: 'deposit'
+                    paymentType: 'deposit',
+                    invoiceId: "1",
+                    uuid: "1234",
+                    membershipType: "full"
                 }
             };
 
@@ -38,6 +41,9 @@ describe("invoicesController", () => {
                 memberEmail: "sherlock@holmes.co.uk",
                 totalAmount: 60.1,
                 paymentType: 'deposit',
+                invoiceId: "1",
+                uuid: "1234",
+                membershipType: "full"
             };
 
             createInvoicePromise = Q.defer();
