@@ -21,7 +21,7 @@ export default class StripePayment extends Component {
     showStripeDialog() {
       this.stripeHandler.open({
           name: 'Pirate Party',
-          description: 'membership application',
+          description: 'Membership application',
           //The server expects to be sent in cents, however users expect in dollars
           amount: Math.floor(parseFloat(this.props.amount)) * 100
         });
