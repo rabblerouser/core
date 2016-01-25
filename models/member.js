@@ -1,6 +1,6 @@
 'use strict';
 
-const uuid = require("node-uuid");
+const uuid = require('node-uuid');
 
 module.exports = (sequelize, DataTypes) => {
     var Member = sequelize.define('Member', {
@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         classMethods: {
             associate: (models) => {
-                models.Address.hasOne(Member, {foreignKey: "postalAddress"});
-                models.Address.hasOne(Member, {foreignKey: "residentialAddress"});
+                models.Address.hasOne(Member, {foreignKey: 'postalAddress'});
+                models.Address.hasOne(Member, {foreignKey: 'residentialAddress'});
             }
         }
     });
