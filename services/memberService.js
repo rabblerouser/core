@@ -13,21 +13,21 @@ var createMember = (newMember) => {
             Q(Address.findOrCreate({where: newMember.postalAddress, defaults: newMember.postalAddress}))
         ])
         .spread((residentialAddress, postalAddress) => {
-            return Q({
+            return {
                 firstName: newMember.firstName,
                 lastName: newMember.lastName,
                 email: newMember.email,
                 gender: newMember.gender,
-                dateOfBirth: moment(newMember.dateOfBirth, "DD/MM/YYYY").toDate(),
+                dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
                 primaryPhoneNumber: newMember.primaryPhoneNumber,
                 secondaryPhoneNumber: newMember.secondaryPhoneNumber,
                 residentialAddress: residentialAddress[0].dataValues.id,
                 postalAddress: postalAddress[0].dataValues.id,
                 membershipType: newMember.membershipType
-            });
+            };
         })
         .then(Member.create.bind(Member))
-        .then(logger.logMemberSignUpEvent(newMember))
+        .tap(dbResult => logger.logMemberSignUpEvent(dbResult.dataValues))
         .catch((error) => {
             return Q.reject(error);
         });

@@ -31,7 +31,7 @@ describe("memberService", () => {
             }
         ];
 
-        let memberStub, addressStub, loggerStub,
+        let createMemberStub, addressStub, loggerStub,
             residentialAddress, postalAddress,
             newMember, expectedNewMember,
             residentialAddressPromise, postalAddressPromise, memberPromise;
@@ -52,7 +52,7 @@ describe("memberService", () => {
         };
 
         beforeEach(() => {
-            memberStub = sinon.stub(models.Member, 'create');
+            createMemberStub = sinon.stub(models.Member, 'create');
             addressStub = sinon.stub(models.Address, 'findOrCreate');
             loggerStub = sinon.stub(logger, 'logMemberSignUpEvent');
 
@@ -85,7 +85,7 @@ describe("memberService", () => {
                 .returns(postalAddressPromise.promise);
 
             memberPromise = Q.defer();
-            memberStub.returns(memberPromise.promise);
+            createMemberStub.returns(memberPromise.promise);
         });
 
         afterEach(() => {
@@ -100,7 +100,7 @@ describe("memberService", () => {
             memberPromise.resolve();
 
             memberService.createMember(newMember)
-                .then(() => {
+                .finally(() => {
                     expect(Member.create).toHaveBeenCalledWith(expectedNewMember);
                 }).nodeify(done);
         });
@@ -108,11 +108,16 @@ describe("memberService", () => {
         it("logs the member sign up event", (done) => {
             residentialAddressPromise.resolve(residentialAddressFromDb);
             postalAddressPromise.resolve(postalAddressFromDb);
-            memberPromise.resolve();
+
+            let createdMemberFromDb = {
+              dataValues : expectedNewMember
+            };
+
+            memberPromise.resolve(createdMemberFromDb);
 
             memberService.createMember(newMember)
-                .then(() => {
-                    expect(logger.logMemberSignUpEvent).toHaveBeenCalledWith(newMember);
+                .finally(() => {
+                    expect(logger.logMemberSignUpEvent).toHaveBeenCalledWith(expectedNewMember);
                 }).nodeify(done);
         });
 
@@ -126,7 +131,7 @@ describe("memberService", () => {
                 memberPromise.resolve();
 
                 memberService.createMember(newMember)
-                    .then(() => {
+                    .finally(() => {
                         expect(Member.create).toHaveBeenCalledWith(expectedNewMember);
                     }).nodeify(done);
             });
