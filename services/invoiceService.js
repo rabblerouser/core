@@ -21,7 +21,7 @@ var updateInvoice = (invoiceId, newInvoice) => {
 
     return Q(invoice)
         .then(()=>{ return Invoice.update(invoice, { where: {id: invoiceId} }) })
-        .tap(logger.logUpdateInvoiceEvent(invoiceId, invoice));
+        .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, invoice)});
 }
 
 var createNewInvoice = (newInvoice) => {
@@ -36,7 +36,7 @@ var createNewInvoice = (newInvoice) => {
 
     return Q(invoice)
         .then(Invoice.create.bind(Invoice))
-        .tap(logger.logNewInvoiceEvent(invoice));
+        .tap(()=>{logger.logNewInvoiceEvent(invoice)});
 }
 
 
@@ -45,10 +45,10 @@ var createInvoice = (newInvoice) => {
         .then(()=>{ return Invoice.findById(newInvoice.invoiceId)})
         .then((invoice) => {
             if (invoice) {
-                updateInvoice(invoice.id, newInvoice);
+                return updateInvoice(invoice.id, newInvoice);
             }
             else {
-                createNewInvoice(newInvoice);
+                return createNewInvoice(newInvoice);
             }
         })
         .catch((error) => {
@@ -76,7 +76,24 @@ var chargeCard = (stripeToken, totalAmount) => {
         });
 };
 
+var createEmptyInvoice = (memberEmail, reference) => {
+    return Q({
+          memberEmail: memberEmail,
+          totalAmountInCents: '',
+          paymentDate: '',
+          paymentType: '',
+          reference: reference,
+          paymentStatus: ''
+        })
+        .then(Invoice.create.bind(Invoice))
+        .tap(()=>{logger.logCreateEmptyInvoiceEvent(memberEmail, reference)})
+        .catch((error) => {
+          return Q.reject(error);
+        });
+}
+
 module.exports = {
     createInvoice: createInvoice,
-    chargeCard: chargeCard
+    chargeCard: chargeCard,
+    createEmptyInvoice: createEmptyInvoice
 };

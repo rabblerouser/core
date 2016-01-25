@@ -17,7 +17,8 @@ describe('invoiceService', () => {
         findInvoiceStub, newInvoiceloggerStub,
         updateInvoiceloggerStub, newInvoice,
         expectedNewInvoice, createInvoicePromise,
-        updateInvoicePromise, findInvoicePromise;
+        updateInvoicePromise, findInvoicePromise,
+        createEmptyInvoiceloggerStub, memberEmail, reference;;
 
     beforeEach(() => {
         createInvoiceStub = sinon.stub(models.Invoice, 'create');
@@ -25,6 +26,7 @@ describe('invoiceService', () => {
         findInvoiceStub = sinon.stub(models.Invoice, 'findById');
         newInvoiceloggerStub = sinon.stub(logger, 'logNewInvoiceEvent');
         updateInvoiceloggerStub = sinon.stub(logger, 'logUpdateInvoiceEvent');
+        createEmptyInvoiceloggerStub = sinon.stub(logger, 'logCreateEmptyInvoiceEvent');
 
         newInvoice = {
           memberEmail: "sherlock@holmes.co.uk",
@@ -35,6 +37,9 @@ describe('invoiceService', () => {
         };
 
         expectedNewInvoice = {};
+
+        memberEmail = "sherlock@holmes.co.uk";
+        reference = "FUL1234";
 
         createInvoicePromise = Q.defer();
         createInvoiceStub.returns(createInvoicePromise.promise);
@@ -52,6 +57,7 @@ describe('invoiceService', () => {
         models.Invoice.findById.restore();
         newInvoiceloggerStub.restore();
         updateInvoiceloggerStub.restore();
+        createEmptyInvoiceloggerStub.restore();
     });
 
     describe("create new invoice", () => {
@@ -59,10 +65,10 @@ describe('invoiceService', () => {
           expectedNewInvoice = {
             memberEmail: "sherlock@holmes.co.uk",
             totalAmountInCents: 6000,
-            paymentType: "deposit",
             paymentDate: moment().format('L'),
-            paymentStatus: "Pending",
-            reference: "FUL1234"
+            paymentType: "deposit",
+            reference: "FUL1234",
+            paymentStatus: "Pending"
           };
         });
 
@@ -81,12 +87,13 @@ describe('invoiceService', () => {
 
         it("logs the invoice creation event", (done) => {
           findInvoicePromise.resolve();
-          createInvoicePromise.resolve();
+          createInvoicePromise.resolve(expectedNewInvoice);
 
           invoiceService.createInvoice(newInvoice)
-              .then(() => {
+              .finally(() => {
                   expect(logger.logNewInvoiceEvent).toHaveBeenCalledWith(expectedNewInvoice);
-              }).nodeify(done);
+              })
+              .nodeify(done);
         });
     });
 
@@ -142,7 +149,7 @@ describe('invoiceService', () => {
           updateInvoicePromise.resolve();
 
           invoiceService.createInvoice(newInvoice)
-              .then(() => {
+              .finally(() => {
                   expect(logger.logUpdateInvoiceEvent).toHaveBeenCalledWith(1, expectedNewInvoice);
               }).nodeify(done);
         });
@@ -205,6 +212,37 @@ describe('invoiceService', () => {
         });
     });
 
+    describe("create empty invoice", () => {
+        beforeEach(() => {
+            expectedNewInvoice = {
+                memberEmail: memberEmail,
+                totalAmountInCents: '',
+                paymentDate: '',
+                paymentType: '',
+                reference: reference,
+                paymentStatus: ''
+            };
+        });
+
+        it ("with member email and reference number", (done) => {
+            createInvoicePromise.resolve();
+
+            invoiceService.createEmptyInvoice(memberEmail, reference)
+                .then(() => {
+                    expect(Invoice.create).toHaveBeenCalledWith(expectedNewInvoice);
+                }).nodeify(done);
+        });
+
+        it("logs the create new invoice event", (done) => {
+            createInvoicePromise.resolve();
+
+            invoiceService.createEmptyInvoice(memberEmail, reference)
+                .finally(() => {
+                    expect(logger.logCreateEmptyInvoiceEvent).toHaveBeenCalledWith(memberEmail, reference);
+                }).nodeify(done);
+        });
+    });
+
     describe("an error when find invoice", () => {
         it("rejects the promise", (done) => {
             let errorMessage = "Seriously, we still don't have any damn bananas.";
@@ -219,18 +257,47 @@ describe('invoiceService', () => {
         });
     });
 
-    // describe("an error when create invoice", () => {
-    //     it("rejects the promise", (done) => {
-    //         let errorMessage = "Seriously, we still don't have any damn bananas.";
-    //         findInvoicePromise.resolve();
-    //         createInvoicePromise.reject(errorMessage);
-    //
-    //         let promise = invoiceService.createInvoice(newInvoice);
-    //
-    //         promise.finally(() => {
-    //             expect(promise.isRejected()).toBe(true);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe("an error when create invoice", () => {
+        it("rejects the promise", (done) => {
+            let errorMessage = "Seriously, we still don't have any damn bananas.";
+            findInvoicePromise.resolve();
+            createInvoicePromise.reject(errorMessage);
+
+            let promise = invoiceService.createInvoice(newInvoice);
+
+            promise.finally(() => {
+                expect(promise.isRejected()).toBe(true);
+                done();
+            });
+        });
+    });
+
+    describe("an error when update invoice", () => {
+        it("rejects the promise", (done) => {
+            let errorMessage = "Seriously, we still don't have any damn bananas.";
+            findInvoicePromise.resolve(newInvoice);
+            updateInvoicePromise.reject(errorMessage);
+
+            let promise = invoiceService.createInvoice(newInvoice);
+
+            promise.finally(() => {
+                expect(promise.isRejected()).toBe(true);
+                done();
+            });
+        });
+    });
+
+    describe("an error when create empty invoice", () => {
+        it("rejects the promise", (done) => {
+            let errorMessage = "Seriously, we still don't have any damn bananas.";
+            createInvoicePromise.reject(errorMessage);
+
+            let promise = invoiceService.createEmptyInvoice(memberEmail, reference);
+
+            promise.finally(() => {
+                expect(promise.isRejected()).toBe(true);
+                done();
+            });
+        });
+    });
 });
