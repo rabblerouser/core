@@ -67,4 +67,50 @@ describe("paymentValidator", () => {
             expect(paymentValidator.isValidEmail("aaa@attt.com")).toBe(true);
         });
     });
+
+    describe("isValidId", () => {
+        it("Should return true given a numberic id", () => {
+            expect(paymentValidator.isValidId('1')).toBe(true);
+        });
+
+        [
+            "",
+            null,
+            'string'
+        ].forEach((testCase) => {
+            it(`Should return false if id is ${testCase}`, () => {
+                expect(paymentValidator.isValidId(testCase)).toBe(false);
+            });
+        });
+    });
+
+    describe("isValidUUID", () => {
+        it("Should return true given a string", () => {
+            expect(paymentValidator.isValidUUID('id1234')).toBe(true);
+        });
+
+        [
+            "",
+            null
+        ].forEach((testCase) => {
+            it(`Should return false if id is ${testCase}`, () => {
+                expect(paymentValidator.isValidUUID(testCase)).toBe(false);
+            });
+        });
+    });
+
+    describe("isValidMembershipType", () => {
+        it("Should return true given a string", () => {
+            expect(paymentValidator.isValidMembershipType('full')).toBe(true);
+        });
+
+        [
+            "",
+            null
+        ].forEach((testCase) => {
+            it(`Should return false if id is ${testCase}`, () => {
+                expect(paymentValidator.isValidMembershipType(testCase)).toBe(false);
+            });
+        });
+    });
 });
