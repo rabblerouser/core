@@ -11,6 +11,7 @@ export default class Details extends Component {
         this.getResidentialAddressSubtitleText = this.getResidentialAddressSubtitleText.bind(this);
         this.handlePostalAddress = this.handlePostalAddress.bind(this);
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
+        this.validationErrorClass = this.validationErrorClass.bind(this);
         this.validator = memberValidator;
         this.state = {
             invalidFields: [],
@@ -78,6 +79,13 @@ export default class Details extends Component {
         return "Please enter your address";
     }
 
+    validationErrorClass(fieldName) {
+        if(_.indexOf(this.state.invalidFields, fieldName) > -1){
+            return 'invalid';
+        }
+        return ;
+    }
+
 
     submitDetails() {
         var fieldValues = {
@@ -138,16 +146,16 @@ export default class Details extends Component {
                         <i>{this.getPersonalInformationSubtitletext()}</i>
                     </div>
                     <div className="field-group">
-                        <label htmlFor="firstName">Given Name(s)*</label>
+                        <label htmlFor="firstName" className={this.validationErrorClass('firstName')}>Given Name(s)*</label>
                         <input type="text" defaultValue={this.props.formValues.firstName} ref="firstName" id="firstName"
                                className="firstName" />
-                        <label htmlFor="lastName">Surname*</label>
+                        <label htmlFor="lastName" className={this.validationErrorClass('lastName')}>Surname*</label>
                         <input type="text" defaultValue={this.props.formValues.lastName} ref="lastName" id="lastName"
                                className="lastName"/>
-                        <label htmlFor="dateOfBirth">Date of Birth*</label>
+                        <label htmlFor="dateOfBirth" className={this.validationErrorClass('dateOfBirth')}>Date of Birth*</label>
                         <input type="text" defaultValue={this.props.formValues.dateOfBirth} ref="dateOfBirth"
                                placeholder="DD/MM/YYYY" id="dateOfBirth" className="dateOfBirth"/>
-                        <label htmlFor="gender">Gender</label>
+                        <label htmlFor="gender" className={this.validationErrorClass('gender')}>Gender</label>
                         <input type="text" defaultValue={this.props.formValues.gender} ref="gender" id="gender"
                                className="gender"/>
                     </div>
@@ -156,22 +164,22 @@ export default class Details extends Component {
                         <i>{this.getResidentialAddressSubtitleText()}</i>
                     </div>
                     <div className="field-group">
-                        <label htmlFor="residentialAddress[address]">Address*</label>
+                        <label htmlFor="residentialAddress[address]" className={this.validationErrorClass('residentialAddress')}>Address*</label>
                         <input type="text" defaultValue={this.props.formValues.residentialAddress.address} ref="residentialAddress" id="residentialAddress[address]" className="residentialAddress" />
-                        <label htmlFor="residentialAddress[suburb]">Suburb/City*</label>
+                        <label htmlFor="residentialAddress[suburb]" className={this.validationErrorClass('residentialSuburb')}>Suburb/City*</label>
                         <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialAddress[suburb]" className="residentialSuburb" />
-                        <label htmlFor="residentialAddress[country]">Country*</label>
+                        <label htmlFor="residentialAddress[country]" className={this.validationErrorClass('residentialCountry')}>Country*</label>
                         <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry"
                                 id="residentialAddress[country]" className="residentialCountry">
                         </select>
 
                         <div className="state-code">
-                            <label htmlFor="residentialAddress[state]">State*</label>
+                            <label htmlFor="residentialAddress[state]" className={this.validationErrorClass('residentialState')}>State*</label>
                             <select defaultValue={this.props.formValues.residentialAddress.state} ref="residentialState"
                                     id="residentialAddress[state]" className="residentialState">
                                 <option value="New South Wales">New South Wales</option>
                             </select>
-                            <label htmlFor="residentialAddress[postcode]">Postcode*</label>
+                            <label htmlFor="residentialAddress[postcode]" className={this.validationErrorClass('residentialPostcode')}>Postcode*</label>
                             <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode}
                                    ref="residentialPostcode" id="residentialAddress[postcode]"
                                    className="residentialPostcode"/>
@@ -190,23 +198,23 @@ export default class Details extends Component {
                             <i>Please enter the postal address.</i>
                         </div>
                         <div className="field-group">
-                            <label htmlFor="postalAddress[address]">Address*</label>
+                            <label htmlFor="postalAddress[address]" className={this.validationErrorClass('postalAddress')}>Address*</label>
                             <input type="text" defaultValue={this.props.formValues.postalAddress.address}
                                    ref="postalAddress" id="postalAddress"/>
-                            <label htmlFor="postalAddress[suburb]">Suburb*</label>
+                            <label htmlFor="postalAddress[suburb]" className={this.validationErrorClass('postalSuburb')}>Suburb*</label>
                             <input type="text" defaultValue={this.props.formValues.postalAddress.suburb}
                                    ref="postalSuburb" id="postalAddress[suburb]"/>
-                            <label htmlFor="postalAddress[country]">Country*</label>
+                            <label htmlFor="postalAddress[country]" className={this.validationErrorClass('postalCountry')}>Country*</label>
                             <select defaultValue={this.props.formValues.postalAddress.country} ref="postalCountry"
                                     id="postalAddress[country]">
                             </select>
 
                             <div className="state-code">
-                                <label htmlFor="postalAddress[state]">State*</label>
+                                <label htmlFor="postalAddress[state]" className={this.validationErrorClass('postalState')}>State*</label>
                                 <select defaultValue={this.props.formValues.postalAddress.state} ref="postalState"
                                         id="postalAddress[state]">
                                 </select>
-                                <label htmlFor="postalAddress[postcode]">Postcode*</label>
+                                <label htmlFor="postalAddress[postcode]" className={this.validationErrorClass('postalPostcode')}>Postcode*</label>
                                 <input type="text" defaultValue={this.props.formValues.postalAddress.postcode}
                                        ref="postalPostcode" id="postalAddress[postcode]"/>
                             </div>
@@ -217,13 +225,13 @@ export default class Details extends Component {
                         <i>Please enter your current email and phone number.</i>
                     </div>
                     <div className="field-group">
-                        <label htmlFor="email">Email*</label>
+                        <label htmlFor="email" className={this.validationErrorClass('email')}>Email*</label>
                         <input type="text" defaultValue={this.props.formValues.email} ref="email" id="email"
                                className="email"/>
-                        <label htmlFor="phoneNumber">Phone number*</label>
+                        <label htmlFor="phoneNumber" className={this.validationErrorClass('primaryPhoneNumber')}>Phone number*</label>
                         <input type="text" defaultValue={this.props.formValues.primaryPhoneNumber} ref="phoneNumber"
                                id="primaryPhoneNumber" className="primaryPhoneNumber"/>
-                        <label htmlFor="phoneNumber">Secondary Phone</label>
+                        <label htmlFor="phoneNumber" className={this.validationErrorClass('secondaryPhoneNumber')}>Secondary Phone</label>
                         <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhone"
                                id="secondaryPhone" className="secondaryPhone"/>
                     </div>
