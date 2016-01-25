@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         primaryPhoneNumber: DataTypes.STRING,
         secondaryPhoneNumber: DataTypes.STRING,
         dateOfBirth: DataTypes.DATEONLY,
-        membershipType: DataTypes.STRING
+        membershipType: DataTypes.STRING,
+        verified: { type : DataTypes.BOOLEAN , allowNull : false , defaultValue : false }
     }, {
         classMethods: {
             associate: (models) => {

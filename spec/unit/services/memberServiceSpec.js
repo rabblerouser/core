@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const specHelper = require("../../support/specHelper"),
+const specHelper = require('../../support/specHelper'),
       models = specHelper.models,
       Member = models.Member,
       sinon = specHelper.sinon,
@@ -8,14 +8,37 @@ const specHelper = require("../../support/specHelper"),
       logger = specHelper.logger,
       moment = require('moment');
 
-var memberService = require("../../../services/memberService");
+var memberService = require('../../../services/memberService');
 
-describe("memberService", () => {
-    describe("createMember", () => {
+function fakeNewMember(residentialAddress, postalAddress, date) {
+  return {
+            firstName: 'Sherlock',
+            lastName: 'Holmes',
+            gender: 'horse radish',
+            email: 'sherlock@holmes.co.uk',
+            dateOfBirth: date,
+            primaryPhoneNumber: '0396291146',
+            secondaryPhoneNumber: '0394291146',
+            residentialAddress: residentialAddress,
+            postalAddress: postalAddress,
+            membershipType: 'full'
+        };
+}
+
+function getExpectedNewMember(residentialAddressId, postalAddressId, dateOfBirth) {
+  let momentDate = moment(dateOfBirth, 'DD/MM/YYYY').toDate();
+
+  let member = fakeNewMember(residentialAddressId, postalAddressId, momentDate);
+  member.verified = false;
+
+  return member;
+}
+
+describe('memberService', () => {
+    describe('createMember', () => {
         const residentialAddressId = 1;
         const postalAddressId = 2;
-        const date = "22/12/1900";
-        const momentDate = moment("22/12/1900", "DD/MM/YYYY").toDate();
+        const date = '22/12/1900';
         const residentialAddressFromDb = [
             {
                 dataValues: {
@@ -33,23 +56,8 @@ describe("memberService", () => {
 
         let createMemberStub, addressStub, loggerStub,
             residentialAddress, postalAddress,
-            newMember, expectedNewMember,
+            newMember, expectedNewMember, createdMemberFromDb,
             residentialAddressPromise, postalAddressPromise, memberPromise;
-
-        let makeNewMember = (residentialAddress, postalAddress, date) => {
-            return {
-                firstName: "Sherlock",
-                lastName: "Holmes",
-                gender: "horse radish",
-                email: "sherlock@holmes.co.uk",
-                dateOfBirth: date,
-                primaryPhoneNumber: "0396291146",
-                secondaryPhoneNumber: "0394291146",
-                residentialAddress: residentialAddress,
-                postalAddress: postalAddress,
-                membershipType: "full"
-            };
-        };
 
         beforeEach(() => {
             createMemberStub = sinon.stub(models.Member, 'create');
@@ -57,22 +65,25 @@ describe("memberService", () => {
             loggerStub = sinon.stub(logger, 'logMemberSignUpEvent');
 
             residentialAddress = {
-                address: "221b Baker St",
-                suburb: "London",
-                country: "England",
-                state: "VIC",
-                postcode: "1234"
+                address: '221b Baker St',
+                suburb: 'London',
+                country: 'England',
+                state: 'VIC',
+                postcode: '1234'
             };
             postalAddress = {
-                address: "47 I dont want your spam St",
-                suburb: "Moriarty",
-                country: "USA",
-                state: "NM",
-                postcode: "5678"
+                address: '47 I dont want your spam St',
+                suburb: 'Moriarty',
+                country: 'USA',
+                state: 'NM',
+                postcode: '5678'
             };
 
-            newMember = makeNewMember(residentialAddress, postalAddress, date);
-            expectedNewMember = makeNewMember(residentialAddressId, postalAddressId, momentDate);
+            newMember = fakeNewMember(residentialAddress, postalAddress, date);
+            expectedNewMember = getExpectedNewMember(residentialAddressId, postalAddressId, date);
+            createdMemberFromDb = {
+              dataValues : expectedNewMember
+            };
 
             residentialAddressPromise = Q.defer();
             addressStub
@@ -94,10 +105,10 @@ describe("memberService", () => {
             loggerStub.restore();
         });
 
-        it("creates a new member and address", (done) => {
+        it('creates a new member and address', (done) => {
             residentialAddressPromise.resolve(residentialAddressFromDb);
             postalAddressPromise.resolve(postalAddressFromDb);
-            memberPromise.resolve();
+            memberPromise.resolve(createdMemberFromDb);
 
             memberService.createMember(newMember)
                 .finally(() => {
@@ -105,13 +116,9 @@ describe("memberService", () => {
                 }).nodeify(done);
         });
 
-        it("logs the member sign up event", (done) => {
+        it('logs the member sign up event', (done) => {
             residentialAddressPromise.resolve(residentialAddressFromDb);
             postalAddressPromise.resolve(postalAddressFromDb);
-
-            let createdMemberFromDb = {
-              dataValues : expectedNewMember
-            };
 
             memberPromise.resolve(createdMemberFromDb);
 
@@ -121,14 +128,14 @@ describe("memberService", () => {
                 }).nodeify(done);
         });
 
-        describe("when postal and residential address are identical", () => {
-            it("set them both to same value", (done) => {
-                newMember = makeNewMember(residentialAddress, residentialAddress, date);
-                expectedNewMember = makeNewMember(residentialAddressId, residentialAddressId, momentDate);
+        describe('when postal and residential address are identical', () => {
+            it('set them both to same value', (done) => {
+                newMember = fakeNewMember(residentialAddress, residentialAddress, date);
+                expectedNewMember = getExpectedNewMember(residentialAddressId, residentialAddressId, date);
 
                 residentialAddressPromise.resolve(residentialAddressFromDb);
                 postalAddressPromise.resolve(postalAddressFromDb);
-                memberPromise.resolve();
+                memberPromise.resolve(createdMemberFromDb);
 
                 memberService.createMember(newMember)
                     .finally(() => {
@@ -137,9 +144,9 @@ describe("memberService", () => {
             });
         });
 
-        describe("an error when saving the residential address to the database", () => {
-            it("responds with a server error", (done) => {
-                let errorMessage = "Yes, we have no bananas.";
+        describe('an error when saving the residential address to the database', () => {
+            it('responds with a server error', (done) => {
+                let errorMessage = 'Yes, we have no bananas.';
                 residentialAddressPromise.reject(errorMessage);
 
                 let promise = memberService.createMember(newMember);
@@ -152,9 +159,9 @@ describe("memberService", () => {
             });
         });
 
-        describe("an error when saving the postal address to the databse", () => {
-            it("responds with a server error", (done) => {
-                let errorMessage = "Yes, we have no horses.";
+        describe('an error when saving the postal address to the databse', () => {
+            it('responds with a server error', (done) => {
+                let errorMessage = 'Yes, we have no horses.';
                 residentialAddressPromise.resolve(residentialAddressFromDb);
                 postalAddressPromise.reject(errorMessage);
 
@@ -168,9 +175,9 @@ describe("memberService", () => {
             });
         });
 
-        describe("an error when saving the member to the database", () => {
-            it("rejects the promise", (done) => {
-                let errorMessage = "Seriously, we still don't have any damn bananas.";
+        describe('an error when saving the member to the database', () => {
+            it('rejects the promise', (done) => {
+                let errorMessage = 'Seriously, we still don\'t have any damn bananas.';
                 residentialAddressPromise.resolve(residentialAddressFromDb);
                 postalAddressPromise.resolve(postalAddressFromDb);
                 memberPromise.reject(errorMessage);
