@@ -45,12 +45,6 @@ describe("memberValidator", () => {
             expect(memberValidator.isValid(validMemberWithoutOptionalFields)).toEqual([]);
         });
 
-        _.keys(validMemberWithoutOptionalFields).forEach((key) => {
-            it("should return array with error " + key + " on member missing a " + key, () => {
-                expect(memberValidator.isValid(_.omit(validMember, key))).toEqual([key]);
-            });
-        });
-
         it("should return array of errors on null member", () => {
             expect(memberValidator.isValid(null).length).not.toBe(0);
         });
@@ -206,26 +200,26 @@ describe("memberValidator", () => {
         ].forEach((failingTestScenario) => {
             it("Should return false if given " + JSON.stringify(failingTestScenario), () => {
                 expect(memberValidator.isValidAddress(
-                    _.merge(validAddress, failingTestScenario))).toBe(false);
+                    _.merge(validAddress, failingTestScenario)).length).not.toBe(0);
             });
         });
 
-        it("Should return true given an address object'", () => {
-            expect(memberValidator.isValidAddress(validAddress)).toBe(true);
+        it("Should return empty array given an address object'", () => {
+            expect(memberValidator.isValidAddress(validAddress).length).toBe(0);
         });
 
-        it("Should return true given an address object with postcode as int'", () => {
+        it("Should return empty array given an address object with postcode as int'", () => {
             validAddress.postcode = 1234;
-            expect(memberValidator.isValidAddress(validAddress)).toBe(true);
+            expect(memberValidator.isValidAddress(validAddress).length).toBe(0);
         });
 
-        it("Should return false if address is null", () => {
-            expect(memberValidator.isValidAddress(null)).toBe(false);
+        it("Should return array of errors if address is null", () => {
+            expect(memberValidator.isValidAddress(null).length).not.toBe(0);
         });
 
-        it("Should return false given an address with no state'", () => {
+        it("Should return array with 1 error given an address with no state'", () => {
             validAddress.state = null;
-            expect(memberValidator.isValidAddress(validAddress)).toBe(false);
+            expect(memberValidator.isValidAddress(validAddress).length).toBe(1);
         });
     });
 
