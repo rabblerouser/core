@@ -11,3 +11,4 @@ public/javascript
 .babel-cache
 config/stripe-config.json
 public/stylesheets/style.css
+db/dumps
