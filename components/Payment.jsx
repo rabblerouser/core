@@ -10,10 +10,27 @@ export default class Payment extends Component {
         this.validator = paymentValidator;
         this.handleAmountChanged = this.handleAmountChanged.bind(this);
         this.handlePaymentTypeChanged = this.handlePaymentTypeChanged.bind(this);
+        this.handleValidationErrors = this.handleValidationErrors.bind(this);
         this.processStripePayment = this.processStripePayment.bind(this);
         this.processOtherPayment = this.processOtherPayment.bind(this);
         this.processPayment = this.processPayment.bind(this);
-        this.state = {amount : '', invalidFields: [], paymentType: ''};
+        this.state = {amount : '', invalidFields: [], errorMessages: [], paymentType: ''};
+    }
+
+    handleValidationErrors(invalidFields){
+        var errors = [];
+        let errorMessages = {
+            totalAmount: "Total Amount: Must be a positive integer greater then 0 (zero). No letters or symbols allowed.",
+            paymentType: "Payment Type: Please select a payment type.",
+            memberEmail: "Valid email not provided"
+        };
+
+        _.forEach(invalidFields, function(error){
+            errors.push(errorMessages[error]);
+        });
+
+        this.setState({errorMessages: errors});
+        this.setState({invalidFields: invalidFields});
     }
 
     handleAmountChanged(event) {
@@ -49,7 +66,7 @@ export default class Payment extends Component {
               this.props.nextStep();
           }.bind(this),
           error: function(request, status, error) {
-              this.setState({invalidFields: error});
+              this.handleValidationErrors(error);
           }.bind(this)
       });
     }
@@ -62,7 +79,7 @@ export default class Payment extends Component {
 
         var invalidFields = this.validator.isValid(fieldValues);
         if (invalidFields.length > 0) {
-            return this.setState({invalidFields: invalidFields });
+            return this.handleValidationErrors(invalidFields);
         }
 
         if (this.state.paymentType === 'creditOrDebitCard') {
@@ -76,7 +93,7 @@ export default class Payment extends Component {
         return (<fieldset>
             <h1 className="form-title">Pay What You Want</h1>
             <div className="form-body">
-                <Errors invalidFields={this.state.invalidFields} />
+                <Errors invalidFields={this.state.errorMessages} />
                 <div className="reminder">
                     <img src="/images/reminder.svg"/>
                     <div className="reminder-text">
