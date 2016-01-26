@@ -298,5 +298,92 @@ describe('invoiceService', () => {
                 done();
             });
         });
+  });
+
+  describe("Charge card", () => {
+      let stripeHandlerStub, stripeChargePromise,
+          stripeToken="47", totalAmount = 123,
+          loggerStub, failedLoggerStub;
+
+      beforeEach(() => {
+          stripeHandlerStub = sinon.stub(stripeHandler, "chargeCard");
+          stripeChargePromise = Q.defer();
+          stripeHandlerStub.returns(stripeChargePromise.promise);
+
+          loggerStub = sinon.stub(logger, 'logNewChargeEvent');
+          failedLoggerStub = sinon.stub(logger, 'logNewFailedCharge');
+      });
+
+      afterEach(() => {
+          stripeHandler.chargeCard.restore();
+          loggerStub.restore();
+          failedLoggerStub.restore();
+      });
+
+      it("should call charge card handler to charge the card", (done) => {
+          stripeChargePromise.resolve();
+
+          let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+
+          promise.finally(() => {
+              expect(stripeHandler.chargeCard).toHaveBeenCalledWith(stripeToken, totalAmount);
+              done();
+          });
+      });
+
+      it("After charge, logger should log", (done) => {
+          stripeChargePromise.resolve();
+
+          let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+
+          promise.finally(() => {
+              expect(logger.logNewChargeEvent).toHaveBeenCalledWith(stripeToken);
+              expect(logger.logNewFailedCharge).not.toHaveBeenCalled();
+              done();
+          });
+      });
+
+      it("If charge card fails, logger should log failed event", (done) => {
+          let errorMessage = "Charge card failed with Stripe!";
+          stripeChargePromise.reject(errorMessage);
+
+          let promise = invoiceService.chargeCard(stripeToken, totalAmount);
+
+          promise.finally(() => {
+              expect(promise.isRejected()).toBe(true);
+              expect(logger.logNewFailedCharge).toHaveBeenCalledWith(stripeToken, errorMessage);
+              done();
+          });
+      });
+  });
+
+  describe('paypalChargeSuccess', () => {
+      let updateLoggerStub, failedUpdateLoggerStub,
+      invoiceStub, invoicePromise;
+
+      beforeEach( () => {
+          updateLoggerStub = sinon.stub(logger, 'logNewPaypalUpdate');
+          failedUpdateLoggerStub = sinon.stub(logger, 'logNewFailedPaypalUpdate');
+          invoiceStub = sinon.stub(models.Invoice, 'update');
+          invoicePromise = Q.defer();
+          invoiceStub.returns(invoicePromise.promise);
+      });
+
+      afterEach( () => {
+          updateLoggerStub.restore();
+          failedUpdateLoggerStub.restore();
+          invoiceStub.restore();
+      });
+
+      it('should call the error logger when no matching invoice Id in database' , () => {
+          invoicePromise.resolve([0]);
+
+          let promise = invoiceService.paypalChargeSuccess(23, 1);
+
+          promise.finally(() => {
+              expect(updateLoggerStub).toHaveBeenCalled();
+              expect(failedUpdateLoggerStub).toHaveBeenCalled();
+          });
+      });
     });
 });
