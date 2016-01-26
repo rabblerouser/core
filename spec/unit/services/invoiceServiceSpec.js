@@ -216,8 +216,8 @@ describe('invoiceService', () => {
         beforeEach(() => {
             expectedNewInvoice = {
                 memberEmail: memberEmail,
-                totalAmountInCents: '',
-                paymentDate: '',
+                totalAmountInCents: 0,
+                paymentDate: moment().format('L'),
                 paymentType: '',
                 reference: reference,
                 paymentStatus: ''

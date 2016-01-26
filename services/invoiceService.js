@@ -79,8 +79,8 @@ var chargeCard = (stripeToken, totalAmount) => {
 var createEmptyInvoice = (memberEmail, reference) => {
     return Q({
           memberEmail: memberEmail,
-          totalAmountInCents: '',
-          paymentDate: '',
+          totalAmountInCents: 0,
+          paymentDate: moment().format('L'),
           paymentType: '',
           reference: reference,
           paymentStatus: ''
