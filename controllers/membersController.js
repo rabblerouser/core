@@ -1,6 +1,7 @@
 'use strict';
 
 var memberService = require("../services/memberService");
+var invoiceService = require('../services/invoiceService');
 var memberValidator = require("../lib/memberValidator");
 
 var newMemberHandler = (req, res) => {
@@ -45,11 +46,27 @@ var newMemberHandler = (req, res) => {
     }
 
     return memberService.createMember(newMember)
-        .then(() => {
-            res.status(200).json({ newMember: newMember});
+        .then((dbResult)=> {
+            res.status(200).json({newMember: newMember, invoiceId: dbResult.dataValues.id});
+            return createEmptyInvoice(dbResult.dataValues, res);
         })
         .catch(dbError);
 };
+
+var createEmptyInvoice = (member, res) => {
+    let dbError = (error) => {
+        res.status(500).json({errors: [error]});
+    };
+
+    var reference = member.membershipType.substring(0,3).toUpperCase() + member.id;
+
+    return invoiceService.createEmptyInvoice(member.email, reference)
+        .then(() => {
+            return res.end();
+        })
+        .catch(dbError);
+};
+
 
 function isPostalAddressEmpty(postalAddress){
     return  postalAddress.address == "" &&

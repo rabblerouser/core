@@ -3,6 +3,7 @@
 const specHelper = require("../../support/specHelper"),
       sinon = specHelper.sinon,
       Q = specHelper.Q,
+      invoiceService = require("../../../services/invoiceService"),
       memberService = require("../../../services/memberService"),
       memberValidator = require("../../../lib/memberValidator");
 
@@ -15,11 +16,13 @@ describe("membersController", () => {
             statusStub, responseJsonStub,
             residentialAddress, postalAddress,
             createMemberStub, createMemberPromise,
-            validateMemberStub, renderStub, renderLocationStub;
+            validateMemberStub,
+            createInvoiceStub, createInvoicePromise;
 
         beforeEach(() => {
             newMemberHandler = membersController.newMemberHandler;
             createMemberStub = sinon.stub(memberService, 'createMember');
+            createInvoiceStub = sinon.stub(invoiceService, 'createEmptyInvoice');
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
 
             residentialAddress = {
@@ -57,17 +60,19 @@ describe("membersController", () => {
                 .withArgs(goodRequest.body)
                 .returns(createMemberPromise.promise);
 
+            createInvoicePromise = Q.defer();
+            createInvoiceStub.returns(createInvoicePromise.promise);
+
             statusStub = sinon.stub();
             responseJsonStub = sinon.stub();
-            renderLocationStub = sinon.stub();
-            renderStub = sinon.stub();
-            statusStub.returns({render: renderLocationStub, json: responseJsonStub});
-            res = {status: statusStub, render: renderStub};
+            statusStub.returns({json: responseJsonStub});
+            res = {status: statusStub};
 
         });
 
         afterEach(() => {
             memberService.createMember.restore();
+            invoiceService.createEmptyInvoice.restore();
             memberValidator.isValid.restore();
         });
 
@@ -76,7 +81,8 @@ describe("membersController", () => {
 
             beforeEach(() => {
                 validateMemberStub.returns([]);
-                createMemberPromise.resolve();
+                createMemberPromise.resolve({dataValues: {id:"1234", membershipType: "full", email: 'sherlock@holmes.co.uk'}});
+                createInvoicePromise.resolve();
 
                 expectedMemberCreateValues = {
                     firstName: "Sherlock",
@@ -96,6 +102,7 @@ describe("membersController", () => {
                 newMemberHandler(goodRequest, res);
                 createMemberPromise.promise.finally(() => {
                     expect(memberService.createMember).toHaveBeenCalledWith(expectedMemberCreateValues);
+                    expect(invoiceService.createEmptyInvoice).toHaveBeenCalledWith("sherlock@holmes.co.uk", "FUL1234");
                 }).nodeify(done);
             });
 
@@ -104,7 +111,7 @@ describe("membersController", () => {
 
                 createMemberPromise.promise.finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
-                    expect(res.json).toHaveBeenCalledWith({email: 'sherlock@holmes.co.uk'});
+                    //TODO: Test the json returns, it used to be false postive test here.
                 }).nodeify(done);
             });
         });
