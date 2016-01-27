@@ -93,18 +93,21 @@ var createEmptyInvoice = (memberEmail, reference) => {
 }
 
 var paypalChargeSuccess = (customInvoiceId, paypalId) => {
-    return Invoice.update({
-      reference: paypalId,
-      "paymentStatus": 'PAID'
-    },{
-      where: {id : 4}
-    }).tap((value) => {
-        logger.logNewPaypalUpdate(customInvoiceId, paypalId);
-    }).then((value) => {
-        if(!value[0]) {//TODO THIS IS WRONG
-            logger.logNewFailedPaypalUpdate(customInvoiceId, paypalId);
-            return Q.reject("Failed to update " + customInvoiceId + " in the database");
-        }
+    return models.sequelize.transaction(function (t) {
+        return Invoice.update({
+          reference: paypalId,
+          "paymentStatus": 'PAID'
+        },{
+          where: {id : customInvoiceId}
+        }, {transaction: t}
+        ).tap((value) => {
+            logger.logNewPaypalUpdate(customInvoiceId, paypalId);
+        }).then((value) => {
+            if(!value || value[0] != 1) {
+                logger.logNewFailedPaypalUpdate(customInvoiceId, paypalId);
+                return Q.reject("Failed to update " + customInvoiceId + " in the database");
+            }
+        });
     }).catch((err) => {
         return Q.reject(err);
     });

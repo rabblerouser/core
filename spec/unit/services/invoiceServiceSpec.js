@@ -375,7 +375,19 @@ describe('invoiceService', () => {
           invoiceStub.restore();
       });
 
-      it('should call the error logger when no matching invoice Id in database' , () => {
+      it('should not call the error logger when finds matching invoice in db' , (done) => {
+          invoicePromise.resolve([1]);
+
+          let promise = invoiceService.paypalChargeSuccess(23, 1);
+
+          promise.finally(() => {
+              expect(updateLoggerStub).toHaveBeenCalled();
+              expect(failedUpdateLoggerStub).not.toHaveBeenCalled();
+              expect(promise.isResolved()).toBe(true);
+          }).nodeify(done);
+      });
+
+      it('should call the error logger when no matching invoice id in database' , (done) => {
           invoicePromise.resolve([0]);
 
           let promise = invoiceService.paypalChargeSuccess(23, 1);
@@ -383,7 +395,20 @@ describe('invoiceService', () => {
           promise.finally(() => {
               expect(updateLoggerStub).toHaveBeenCalled();
               expect(failedUpdateLoggerStub).toHaveBeenCalled();
-          });
+              expect(promise.isRejected()).toBe(true);
+          }).nodeify(done);
+      });
+
+      it('should call the error logger when no multiple matching invoice id in database' , (done) => {
+          invoicePromise.resolve([2]);
+
+          let promise = invoiceService.paypalChargeSuccess(23, 1);
+
+          promise.finally(() => {
+              expect(updateLoggerStub).toHaveBeenCalled();
+              expect(failedUpdateLoggerStub).toHaveBeenCalled();
+              expect(promise.isRejected()).toBe(true);
+          }).nodeify(done);
       });
     });
 });
