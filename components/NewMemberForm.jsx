@@ -45,6 +45,11 @@ export default class NewMemberForm extends Component {
                                 postcode: ''
                             }
                         };
+        this.memberAndInvoice = {
+          uuid: '',
+          membershipType: '',
+          invoiceId: ''
+        };
 
     }
 
@@ -71,7 +76,12 @@ export default class NewMemberForm extends Component {
           type: 'POST',
           url: '/members',
           data: fieldValues,
-          success: this.nextStep
+          success: function(value) {
+              this.memberAndInvoice.uuid = value.newMember.id;
+              this.memberAndInvoice.membershipType = value.newMember.membershipType;
+              this.memberAndInvoice.invoiceId = value.invoiceId;
+              this.nextStep();
+          }.bind(this)
       });
     }
 
@@ -91,6 +101,7 @@ export default class NewMemberForm extends Component {
                                     previousStep={this.previousStep} />;
           case 4:
               return <Payment email={this.formValues.email}
+                              memberAndInvoice={this.memberAndInvoice}
                               previousStep={this.previousStep}
                               nextStep={this.nextStep} />;
           case 5:

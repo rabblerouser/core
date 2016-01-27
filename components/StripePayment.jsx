@@ -56,7 +56,10 @@ export default class StripePayment extends Component {
                             memberEmail: this.props.email,
                             totalAmount: Math.floor(parseFloat(this.props.amount)),
                             paymentType: 'stripe',
-                            stripeToken: token
+                            stripeToken: token,
+                            uuid: this.props.memberAndInvoice.uuid,
+                            membershipType: this.props.memberAndInvoice.membershipType,
+                            invoiceId: this.props.memberAndInvoice.invoiceId
                         },
                         success: function (value) {
                             this.props.nextStep();

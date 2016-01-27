@@ -53,15 +53,11 @@ export default class Payment extends Component {
       }
     }
 
-    processOtherPayment() {
+    processOtherPayment(fieldValues) {
       $.ajax({
               type: 'POST',
               url: '/invoices',
-              data: {
-              memberEmail: this.props.email,
-              totalAmount: Math.floor(parseFloat(this.state.amount)),
-              paymentType: this.state.paymentType
-          },
+              data: fieldValues,
           success: function (value) {
               this.props.nextStep();
           }.bind(this),
@@ -74,8 +70,11 @@ export default class Payment extends Component {
     processPayment() {
         var fieldValues = {
             memberEmail: this.props.email,
-            totalAmount: this.state.paymentType === 'noContribute' ? 1 : this.state.amount,
-            paymentType: this.state.paymentType };
+            totalAmount: this.state.paymentType === 'noContribute' ? 1 : Math.floor(parseFloat(this.state.amount)),
+            paymentType: this.state.paymentType,
+            uuid: this.props.memberAndInvoice.uuid,
+            membershipType: this.props.memberAndInvoice.membershipType,
+            invoiceId: this.props.memberAndInvoice.invoiceId };
 
         var invalidFields = this.validator.isValid(fieldValues);
         if (invalidFields.length > 0) {
@@ -85,7 +84,7 @@ export default class Payment extends Component {
         if (this.state.paymentType === 'creditOrDebitCard') {
           this.processStripePayment();
         } else {
-          this.processOtherPayment();
+          this.processOtherPayment(fieldValues);
         }
     };
 
@@ -113,6 +112,7 @@ export default class Payment extends Component {
                                     setState={this.setState}
                                     email={this.props.email}
                                     amount={this.state.amount}
+                                    memberAndInvoice={this.props.memberAndInvoice}
                                     nextStep={this.props.nextStep}/>
                     <label>
                         <input type="radio" name="paymentType" value="deposit" onChange={this.handlePaymentTypeChanged}/>Direct Deposit
