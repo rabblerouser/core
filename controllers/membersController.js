@@ -49,13 +49,17 @@ var newMemberHandler = (req, res) => {
         return res.status(400).json({ errors: validationErrors});
     }
 
+    var returnValues = {};
+
     return memberService.createMember(newMember)
         .then((createdMember)=> {
             var reference = newMember.membershipType.substring(0,3).toUpperCase() + createdMember.dataValues.id;
+            returnValues.newMember = createdMember.dataValues;
             return invoiceService.createEmptyInvoice(newMember.email, reference)
         })
         .then((createdInvoice)=> {
-            res.status(200).json({newMember: newMember, invoiceId: createdInvoice.dataValues.id});
+            returnValues.invoiceId = createdInvoice.dataValues.id;
+            res.status(200).json(returnValues);
         })
         .catch(dbError);
 };

@@ -39,10 +39,11 @@ describe("User Flow", () => {
         "memberEmail": `sherlock${memberSuffix}@holmes.co.uk`,
         "totalAmount": "88.88",
         "paymentType": "deposit",
-        "invoiceId": createdInoviceId,
+        "invoiceId": '',
         "uuid": "1234",
         "membershipType": "full"
     };
+
 
     let hasNewMemberAndInvoiceId = (res) => {
         if (!('newMember' in res.body)) throw new Error("missing created member");
@@ -106,6 +107,8 @@ describe("User Flow", () => {
     }, 60000);
 
     it ("a new member successfully signs up and then makes a payment", (done) => {
+      invoice.invoiceId = createdInoviceId;
+      
       successfullyCreatingANewMemberShouldRepondWithA200()
           .then(successfullyCreateInvoiceShouldRespondWithA200)
           .nodeify(done)
