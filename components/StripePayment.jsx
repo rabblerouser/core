@@ -77,7 +77,7 @@ export default class StripePayment extends Component {
   render() {
       if (this.stripeDisabled) {
           console.log("stripe disabled");
-          return;
+          return null;
       }
 
       return <label>
