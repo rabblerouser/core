@@ -1,6 +1,6 @@
 'use strict';
 
-const Q = require("Q"),
+const Q = require("q"),
     models = require('../models'),
     logger = require('../lib/logger'),
     stripeHandler = require('../lib/stripeHandler'),
