@@ -7,8 +7,7 @@ const specHelper = require("../../support/specHelper"),
       sinon = specHelper.sinon,
       Q = specHelper.Q,
       logger = specHelper.logger,
-      moment = require('moment'),
-      _ = require('lodash');
+      moment = require('moment');
 
 var invoiceService = require("../../../services/invoiceService");
 
@@ -109,8 +108,8 @@ describe('invoiceService', () => {
             paymentStatus: "Pending",
           };
 
-          foundInvoice = _.cloneDeep(newInvoice);
-          foundInvoice.id = 1;
+          foundInvoice = {dataValues: newInvoice};
+          foundInvoice.dataValues.id = 1;
         });
 
         it ("update the exisiting invoice", (done) => {

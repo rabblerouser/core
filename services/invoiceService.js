@@ -45,7 +45,7 @@ var createInvoice = (newInvoice) => {
         .then(()=>{ return Invoice.findById(newInvoice.invoiceId)})
         .then((invoice) => {
             if (invoice) {
-                return updateInvoice(invoice.id, newInvoice);
+                return updateInvoice(invoice.dataValues.id, newInvoice);
             }
             else {
                 return createNewInvoice(newInvoice);
