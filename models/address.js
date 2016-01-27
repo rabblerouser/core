@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: (models) => {
+          Address.hasOne(models.Member, {foreignKey: "postalAddressId"});
+          Address.hasOne(models.Member, {foreignKey: "residentialAddressId"});
       }
     }
   });

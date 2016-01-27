@@ -21,8 +21,8 @@ function setupMember(newMember) {
         dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
         primaryPhoneNumber: newMember.primaryPhoneNumber,
         secondaryPhoneNumber: newMember.secondaryPhoneNumber,
-        residentialAddress: residentialAddress[0].dataValues.id,
-        postalAddress: postalAddress[0].dataValues.id,
+        residentialAddressId: residentialAddress[0].dataValues.id,
+        postalAddressId: postalAddress[0].dataValues.id,
         membershipType: newMember.membershipType,
         verified: false
     };

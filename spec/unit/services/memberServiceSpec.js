@@ -26,12 +26,19 @@ function fakeNewMember(residentialAddress, postalAddress, date) {
 }
 
 function getExpectedNewMember(residentialAddressId, postalAddressId, dateOfBirth) {
-  let momentDate = moment(dateOfBirth, 'DD/MM/YYYY').toDate();
+    let momentDate = moment(dateOfBirth, 'DD/MM/YYYY').toDate();
 
-  let member = fakeNewMember(residentialAddressId, postalAddressId, momentDate);
-  member.verified = false;
+    let member = fakeNewMember(residentialAddressId, postalAddressId, momentDate);
 
-  return member;
+    member.residentialAddressId = member.residentialAddress;
+    delete(member.residentialAddress);
+
+    member.postalAddressId = member.postalAddress;
+    delete(member.postalAddress);
+
+    member.verified = false;
+
+    return member;
 }
 
 describe('memberService', () => {

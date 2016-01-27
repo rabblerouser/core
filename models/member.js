@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         classMethods: {
             associate: (models) => {
-                models.Address.hasOne(Member, {foreignKey: 'postalAddress'});
-                models.Address.hasOne(Member, {foreignKey: 'residentialAddress'});
+                Member.belongsTo(models.Address, { as: "postalAddress", foreignKey: "postalAddressId" });
+                Member.belongsTo(models.Address, { as: "residentialAddress", foreignKey: "residentialAddressId"});
             }
         }
     });
