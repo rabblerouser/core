@@ -47,6 +47,42 @@ let createMember = (newMember) => {
           .tap(logEvent);
 };
 
+var updateMember = (member) => {
+
+    return Q.all([
+        Q(Member.find({where: {email: member.email}})),
+        Q(Address.findOrCreate({where: member.residentialAddress, defaults: member.residentialAddress})),
+        Q(Address.findOrCreate({where: member.postalAddress, defaults: member.postalAddress}))
+    ])
+        .spread((user, residentialAddress, postalAddress) => {
+            if(!user){
+                return Q.reject('Error: User email does not exist');
+            }
+            return {
+                firstName: member.firstName,
+                lastName: member.lastName,
+                email: member.email,
+                gender: member.gender,
+                dateOfBirth: moment(member.dateOfBirth, 'DD/MM/YYYY').toDate(),
+                primaryPhoneNumber: member.primaryPhoneNumber,
+                secondaryPhoneNumber: member.secondaryPhoneNumber,
+                residentialAddress: residentialAddress[0].dataValues.id,
+                postalAddress: postalAddress[0].dataValues.id,
+                membershipType: member.membershipType
+            };
+        })
+        .then(function(updatedMember){
+            return Member.update(updatedMember, {where: {email: member.email}})
+        })
+        .tap(function(a){
+            logger.logMemberSignUpEvent(a);
+        })
+        .catch((error) => {
+            return Q.reject(error);
+        });
+};
+
 module.exports = {
-    createMember: createMember
+    createMember: createMember,
+    updateMember: updateMember
 };
