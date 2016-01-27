@@ -7,31 +7,44 @@ const Q = require('q'),
     Address = models.Address,
     Member = models.Member;
 
-var createMember = (newMember) => {
-    return Q.all([
-            Q(Address.findOrCreate({where: newMember.residentialAddress, defaults: newMember.residentialAddress})),
-            Q(Address.findOrCreate({where: newMember.postalAddress, defaults: newMember.postalAddress}))
-        ])
-        .spread((residentialAddress, postalAddress) => {
-            return {
-                firstName: newMember.firstName,
-                lastName: newMember.lastName,
-                email: newMember.email,
-                gender: newMember.gender,
-                dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
-                primaryPhoneNumber: newMember.primaryPhoneNumber,
-                secondaryPhoneNumber: newMember.secondaryPhoneNumber,
-                residentialAddress: residentialAddress[0].dataValues.id,
-                postalAddress: postalAddress[0].dataValues.id,
-                membershipType: newMember.membershipType,
-                verified: false
-            };
-        })
-        .then(Member.create.bind(Member))
-        .tap(dbResult => logger.logMemberSignUpEvent(dbResult.dataValues))
-        .catch((error) => {
-            return Q.reject(error);
-        });
+function save(member) {
+  return Member.create.bind(Member)(member);
+}
+
+function setupMember(newMember) {
+  return function (residentialAddress, postalAddress) {
+    return {
+        firstName: newMember.firstName,
+        lastName: newMember.lastName,
+        email: newMember.email,
+        gender: newMember.gender,
+        dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
+        primaryPhoneNumber: newMember.primaryPhoneNumber,
+        secondaryPhoneNumber: newMember.secondaryPhoneNumber,
+        residentialAddress: residentialAddress[0].dataValues.id,
+        postalAddress: postalAddress[0].dataValues.id,
+        membershipType: newMember.membershipType,
+        verified: false
+    };
+  };
+}
+
+function logEvent(saveResult) {
+  logger.logMemberSignUpEvent(saveResult.dataValues);
+}
+
+function getMemberAddresses(newMember) {
+  return [
+    Q(Address.findOrCreate({where: newMember.residentialAddress, defaults: newMember.residentialAddress})),
+    Q(Address.findOrCreate({where: newMember.postalAddress, defaults: newMember.postalAddress}))
+  ];
+}
+
+let createMember = (newMember) => {
+    return Q.all(getMemberAddresses(newMember))
+          .spread(setupMember(newMember))
+          .then(save)
+          .tap(logEvent);
 };
 
 module.exports = {
