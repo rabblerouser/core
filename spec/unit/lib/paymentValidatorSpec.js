@@ -12,7 +12,10 @@ describe("paymentValidator", () => {
         let validPayment = {
                 "memberEmail": "sherlock@holmes.co.uk",
                 "totalAmount": "100",
-                "paymentType": "cheque"
+                "paymentType": "cheque",
+                "uuid": '1234',
+                "membershipType": "full",
+                "invoiceId": '1'
         };
 
         it("should return empty array of errors on valid payment", () => {
@@ -71,6 +74,7 @@ describe("paymentValidator", () => {
     describe("isValidId", () => {
         it("Should return true given a numberic id", () => {
             expect(paymentValidator.isValidId('1')).toBe(true);
+            expect(paymentValidator.isValidId(1)).toBe(true);
         });
 
         [
@@ -87,6 +91,7 @@ describe("paymentValidator", () => {
     describe("isValidUUID", () => {
         it("Should return true given a string", () => {
             expect(paymentValidator.isValidUUID('id1234')).toBe(true);
+            expect(paymentValidator.isValidUUID(1234)).toBe(true);
         });
 
         [
