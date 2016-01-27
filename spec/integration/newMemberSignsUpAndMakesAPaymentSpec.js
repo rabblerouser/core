@@ -8,53 +8,20 @@ const instance_url = process.env.INSTANCE_URL,
 describe("User Flow", () => {
     let app,
         memberSuffix,
-        createdInoviceId;
-
-    let member = {
-        "firstName": "Sherlock",
-        "lastName": "Holmes",
-        "email": `sherlock${memberSuffix}@holmes.co.uk`,
-        "dateOfBirth": "22/12/1900",
-        "primaryPhoneNumber": "0396291146",
-        "secondaryPhoneNumber": null,
-        "gender": "horse radish",
-        "residentialAddress": {
-            "address": "222b Baker St",
-            "suburb": "London",
-            "country": "England",
-            "state": "VIC",
-            "postcode": "1234"
-        },
-        "postalAddress": {
-            "address": "303 collins st",
-            "suburb": "melbourne",
-            "country": "australia",
-            "state": "VIC",
-            "postcode": "3000"
-        },
-        "membershipType": "full"
-    };
-
-    let invoice = {
-        "memberEmail": `sherlock${memberSuffix}@holmes.co.uk`,
-        "totalAmount": "88.88",
-        "paymentType": "deposit",
-        "invoiceId": '',
-        "uuid": "1234",
-        "membershipType": "full"
-    };
-
+        createdInoviceId,
+        member,
+        invoice;
 
     let hasNewMemberAndInvoiceId = (res) => {
         if (!('newMember' in res.body)) throw new Error("missing created member");
         if (!('invoiceId' in res.body)) throw new Error("missing invoiceId");
         createdInoviceId = res.body.invoiceId;
-    }
+    };
 
     let hasErrors = (res) => {
         if (!('errors' in res.body)) throw new Error("missing errors");
         if (res.body.errors[0].name !== 'SequelizeUniqueConstraintError') throw new Error("Wrong error message!");
-    }
+    };
 
     let successfullyCreatingANewMemberShouldRepondWithA200 = () => {
         return request(app)
@@ -85,6 +52,43 @@ describe("User Flow", () => {
             .expect(200);
     };
 
+    let makeMemberWithEmail = email => {
+        return {
+            "firstName": "Sherlock",
+            "lastName": "Holmes",
+            "email": email,
+            "dateOfBirth": "22/12/1900",
+            "primaryPhoneNumber": "0396291146",
+            "secondaryPhoneNumber": null,
+            "gender": "horse radish",
+            "residentialAddress": {
+                "address": "222b Baker St",
+                "suburb": "London",
+                "country": "England",
+                "state": "VIC",
+                "postcode": "1234"
+            },
+            "postalAddress": {
+                "address": "303 collins st",
+                "suburb": "melbourne",
+                "country": "australia",
+                "state": "VIC",
+                "postcode": "3000"
+            },
+            "membershipType": "full"
+        };
+    };
+
+    let makeInvoiceForMember = memberEmail => {
+        return {
+            "memberEmail": memberEmail,
+            "totalAmount": "88.88",
+            "paymentType": "deposit",
+            "invoiceId": '',
+            "uuid": "1234",
+            "membershipType": "full"
+        };
+    };
 
     beforeEach(() => {
         if (instance_url) {
@@ -95,6 +99,11 @@ describe("User Flow", () => {
             app = require("../../app");
             memberSuffix = "";
         }
+
+        let email = `sherlock${memberSuffix}@holmes.co.uk`;
+
+        member = makeMemberWithEmail(email);
+        invoice = makeInvoiceForMember(email);
     });
 
     it ("member sign up with duplicate email should fail", (done) => {
@@ -108,7 +117,7 @@ describe("User Flow", () => {
 
     it ("a new member successfully signs up and then makes a payment", (done) => {
       invoice.invoiceId = createdInoviceId;
-      
+
       successfullyCreatingANewMemberShouldRepondWithA200()
           .then(successfullyCreateInvoiceShouldRespondWithA200)
           .nodeify(done)
