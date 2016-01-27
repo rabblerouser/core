@@ -103,7 +103,7 @@ export default class MembershipType extends Component {
             <div className="form-body">
                 <Errors invalidFields={this.state.errors}/>
                 <div className="heading">
-                    <h2 className="sub-title">Answer the following questions</h2>
+                    <h2 className="sub-title">What is your current situation?</h2>
                     <div className="sub-description">We will use your answers to determine which Pirate Party membership suits you best.</div>
                 </div>
                 <div className="field-group">

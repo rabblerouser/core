@@ -12,7 +12,6 @@ export default class Errors extends Component {
 
     render() {
        return (<div className={this.getClass(this.props.invalidFields)}>
-                 <img src="/images/cross.svg" />
                  <div className="validationErrors-text">
                     <span>Please check the following fields:</span>
                     <ul className="errors">

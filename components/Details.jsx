@@ -31,22 +31,22 @@ export default class Details extends Component {
     handleValidationErrors(validationErrors) {
         var errors = [];
         let errorMessages = {
-            firstName: "First Name: Please enter a valid first name. No numbers or symbols allowed.",
-            lastName: "Last Name: Please enter a valid last name. No numbers or symbols allowed.",
-            dateOfBirth: "Date Of Birth: Date of birth must be in format DD/MM/YYY and be over 16 years of age.",
+            firstName: "First Name: Please enter your first name. No numbers or symbols allowed.",
+            lastName: "Last Name: Please enter your last name. No numbers or symbols allowed.",
+            dateOfBirth: "Date of Birth: Date of birth must be in format DD/MM/YYYY and you must be over 16 years of age.",
             email: "Email: Please enter a valid email address i.e. valid@email.com",
-            primaryPhoneNumber: "Number: Phone number must begin with a '0' or '+61' and be 9-10 digits in length.",
-            secondaryPhoneNumber: "Number: Phone number must begin with a '0' or '+61' and be 9-10 digits in length.",
-            residentialAddress: "Residential Address: Please enter an address",
-            residentialState: "Residential State: Please select a state from the dropdown menu.",
-            residentialCountry: "Residential Country: Please select a country from the dropdown menu.",
-            residentialPostcode: "Residential Postcode: Please enter a postcode. Must be 4 digits in length and using only numbers.",
+            primaryPhoneNumber: "Phone Number: Must begin with a '0' or '+61' and be 9-10 digits in length.",
+            secondaryPhoneNumber: "Secondary Phone Number: Must begin with a '0' or '+61' and be 9-10 digits in length.",
+            residentialAddress: "Residential Address: Please enter your address.",
+            residentialState: "Residential State: Please select your state from the dropdown menu.",
+            residentialCountry: "Residential Country: Please select your country from the dropdown menu.",
+            residentialPostcode: "Residential Postcode: Please enter your postcode. Must be 4 digits in length and only use numbers.",
             residentialSuburb: "Residential Suburb: Please enter a suburb.",
-            postalAddress: "Postal Address: Please enter an address",
-            postalState: "Postal State: Please select a state from the dropdown menu.",
-            postalCountry: "Postal Country: Please select a country from the dropdown menu.",
-            postalPostcode: "Postal Postcode: Please enter a postcode. Must be 4 digits in length and using only numbers.",
-            postalSuburb: "Postal Suburb: Please enter a suburb."
+            postalAddress: "Postal Address: Please enter your address.",
+            postalState: "Postal State: Please select your state from the dropdown menu.",
+            postalCountry: "Postal Country: Please select your country from the dropdown menu.",
+            postalPostcode: "Postal Postcode: Please enter your postcode. Must be 4 digits in length and only use numbers.",
+            postalSuburb: "Postal Suburb: Please enter your suburb."
         };
 
         _.forEach(validationErrors, function(error){
@@ -69,14 +69,14 @@ export default class Details extends Component {
         if (this.props.membershipType === "full") {
             return "Please enter your details exactly as they would appear on the electoral roll.";
         }
-        return "Please enter your details";
+        return "Please enter your details.";
     }
 
     getResidentialAddressSubtitleText() {
         if (this.props.membershipType === "full") {
             return "Please enter the address that you are enrolled to vote from.";
         }
-        return "Please enter your address";
+        return "Please enter your address.";
     }
 
     validationErrorClass(fieldName) {
@@ -188,7 +188,7 @@ export default class Details extends Component {
                             <input type="checkbox" onChange={this.handlePostalAddress}
                                    defaultValue={this.props.formValues.differentPostal} ref="differentPostal"
                                    value="Yes"/>
-                            My residential address differs from my postal address.
+                            My postal address is <b>different</b>.
                         </label>
                     </div>
                     <div id="postal-address"

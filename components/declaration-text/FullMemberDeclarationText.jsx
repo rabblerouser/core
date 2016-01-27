@@ -6,7 +6,7 @@ export default class FullMemberDeclarationText extends Component {
     }
     render() {
         return   <div className="declaration-text">
-            <p>I wish to become a member of Pirate Party Australia. I have read and understand the <b><a href="#">Pirate Party
+            <p>I wish to become a member of Pirate Party Australia. I have read and understand the <b><a href="https://pirateparty.org.au/constitution/" target="_blank">Pirate Party
             Australia Constitution</a></b> and agree with its platform and principles, and will to the best of my
             ability work to uphold and promote them. </p>
 
@@ -17,7 +17,7 @@ export default class FullMemberDeclarationText extends Component {
             <p>I consent to this form being forwarded to the Australia Electoral Commission (AEC) in support of
             the party’s application for registration as a political party.</p>
 
-            <b><a href="#">If you are not enrolled to vote, click here.</a></b>
+            <b><a href="http://www.aec.gov.au/enrol/" target="_blank">If you are not enrolled to vote, click here.</a></b>
 
           </div>
     }
