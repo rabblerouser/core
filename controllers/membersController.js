@@ -1,8 +1,12 @@
 'use strict';
 
+const models = require('../models'),
+      Promise = models.Sequelize.Promise;
+
 var memberService = require("../services/memberService");
 var invoiceService = require('../services/invoiceService');
 var memberValidator = require("../lib/memberValidator");
+
 
 var newMemberHandler = (req, res) => {
     let dbError = (error) => {
@@ -46,23 +50,12 @@ var newMemberHandler = (req, res) => {
     }
 
     return memberService.createMember(newMember)
-        .then((dbResult)=> {
-            res.status(200).json({newMember: newMember, invoiceId: dbResult.dataValues.id});
-            return createEmptyInvoice(dbResult.dataValues, res);
+        .then((createdMember)=> {
+            var reference = newMember.membershipType.substring(0,3).toUpperCase() + createdMember.dataValues.id;
+            return invoiceService.createEmptyInvoice(newMember.email, reference)
         })
-        .catch(dbError);
-};
-
-var createEmptyInvoice = (member, res) => {
-    let dbError = (error) => {
-        res.status(500).json({errors: [error]});
-    };
-
-    var reference = member.membershipType.substring(0,3).toUpperCase() + member.id;
-
-    return invoiceService.createEmptyInvoice(member.email, reference)
-        .then(() => {
-            return res.end();
+        .then((createdInvoice)=> {
+            res.status(200).json({newMember: newMember, invoiceId: createdInvoice.dataValues.id});
         })
         .catch(dbError);
 };

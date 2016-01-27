@@ -82,7 +82,7 @@ describe("membersController", () => {
             beforeEach(() => {
                 validateMemberStub.returns([]);
                 createMemberPromise.resolve({dataValues: {id:"1234", membershipType: "full", email: 'sherlock@holmes.co.uk'}});
-                createInvoicePromise.resolve();
+                createInvoicePromise.resolve({dataValues: {id:"1"}});
 
                 expectedMemberCreateValues = {
                     firstName: "Sherlock",
@@ -105,15 +105,6 @@ describe("membersController", () => {
                     expect(invoiceService.createEmptyInvoice).toHaveBeenCalledWith("sherlock@holmes.co.uk", "FUL1234");
                 }).nodeify(done);
             });
-
-            it("responds with success", (done) => {
-                newMemberHandler(goodRequest, res);
-
-                createMemberPromise.promise.finally(() => {
-                    expect(res.status).toHaveBeenCalledWith(200);
-                    //TODO: Test the json returns, it used to be false postive test here.
-                }).nodeify(done);
-            });
         });
 
         describe("when validation fails", () => {
@@ -124,20 +115,6 @@ describe("membersController", () => {
                 expect(memberService.createMember).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
                 done();
-            });
-        });
-        describe("when creating the new member fails", () => {
-            it("responds with a server error", (done) => {
-                let errorMessage = "Seriously, we still don't have any damn bananas.";
-                createMemberPromise.reject(errorMessage);
-                validateMemberStub.returns([]);
-
-                newMemberHandler(goodRequest, res);
-
-                createMemberPromise.promise.finally(() => {
-                    expect(res.status).toHaveBeenCalledWith(500);
-                    expect(responseJsonStub).toHaveBeenCalledWith({errors: [errorMessage]});
-                }).nodeify(done);
             });
         });
     });
