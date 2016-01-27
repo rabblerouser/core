@@ -119,7 +119,7 @@ describe('memberService', () => {
 
             memberService.createMember(newMember)
                 .finally(() => {
-                    expect(Member.create).toHaveBeenCalledWith(expectedNewMember);
+                    expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining(expectedNewMember));
                 }).nodeify(done);
         });
 
@@ -146,7 +146,7 @@ describe('memberService', () => {
 
                 memberService.createMember(newMember)
                     .finally(() => {
-                        expect(Member.create).toHaveBeenCalledWith(expectedNewMember);
+                        expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining(expectedNewMember));
                     }).nodeify(done);
             });
         });

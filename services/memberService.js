@@ -5,7 +5,13 @@ const Q = require('q'),
     logger = require('../lib/logger'),
     moment = require('moment'),
     Address = models.Address,
-    Member = models.Member;
+    Member = models.Member,
+    crypto = require('crypto');
+
+function createVerificationHash() {
+  let randomSeed = Math.random(1, 5000).toString();
+  return crypto.createHash('sha256').update(randomSeed).digest('hex');
+}
 
 function save(member) {
   return Member.create.bind(Member)(member);
@@ -24,7 +30,8 @@ function setupMember(newMember) {
         residentialAddressId: residentialAddress[0].dataValues.id,
         postalAddressId: postalAddress[0].dataValues.id,
         membershipType: newMember.membershipType,
-        verified: false
+        verified: false,
+        verificationHash: createVerificationHash()
     };
   };
 }
