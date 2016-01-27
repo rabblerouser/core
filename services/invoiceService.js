@@ -1,6 +1,6 @@
 'use strict';
 
-const Q = require("q"),
+const Q = require('q'),
     models = require('../models'),
     logger = require('../lib/logger'),
     stripeHandler = require('../lib/stripeHandler'),
@@ -13,18 +13,27 @@ var updateInvoice = (invoiceId, newInvoice) => {
       paymentDate: moment().format('L'),
       paymentType: newInvoice.paymentType,
       paymentStatus: newInvoice.paymentStatus || 'Pending'
-    }
+    };
 
-    if (newInvoice.paymentType == "stripe") {
+    if (newInvoice.paymentType === 'stripe') {
       invoice.reference = newInvoice.reference;
     }
 
     return Q(invoice)
-        .then(()=>{ return Invoice.update(invoice, { where: {id: invoiceId} }) })
-        .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, invoice)});
+        .then(()=>{ return Invoice.update(invoice, { where: {id: invoiceId} }); })
+        .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, invoice);});
+};
+
+function getReferenceNumber(newInvoice) {
+  if (newInvoice.paymentType === 'stripe' || newInvoice.paymentType === 'paypal'){
+      return newInvoice.reference;
+  }
+  else {
+      return newInvoice.membershipType.substring(0,3).toUpperCase() + newInvoice.uuid;
+  }
 }
 
-var createNewInvoice = (newInvoice) => {
+function createNewInvoice(newInvoice) {
     var invoice = {
       memberEmail: newInvoice.memberEmail,
       totalAmountInCents: newInvoice.totalAmount * 100,
@@ -32,11 +41,11 @@ var createNewInvoice = (newInvoice) => {
       paymentType: newInvoice.paymentType,
       reference: getReferenceNumber(newInvoice),
       paymentStatus: newInvoice.paymentStatus || 'Pending'
-    }
+    };
 
     return Q(invoice)
         .then(Invoice.create.bind(Invoice))
-        .tap(()=>{logger.logNewInvoiceEvent(invoice)});
+        .tap(()=>{logger.logNewInvoiceEvent(invoice);});
 }
 
 
@@ -56,14 +65,7 @@ var createInvoice = (newInvoice) => {
         });
 };
 
-var getReferenceNumber = (newInvoice) => {
-  if (newInvoice.paymentType === "stripe" || newInvoice.paymentType === "paypal"){
-      return newInvoice.reference;
-  }
-  else {
-      return newInvoice.membershipType.substring(0,3).toUpperCase() + newInvoice.uuid;
-  }
-}
+
 
 var chargeCard = (stripeToken, totalAmount) => {
     return stripeHandler.chargeCard(stripeToken, totalAmount)
@@ -72,7 +74,7 @@ var chargeCard = (stripeToken, totalAmount) => {
         })
         .catch((error)=>{
           logger.logNewFailedCharge(stripeToken,error);
-          return Q.reject("Failed to charge card");
+          return Q.reject('Failed to charge card');
         });
 };
 
@@ -86,28 +88,37 @@ var createEmptyInvoice = (memberEmail, reference) => {
           paymentStatus: ''
         })
         .then(Invoice.create.bind(Invoice))
-        .tap(()=>{logger.logCreateEmptyInvoiceEvent(memberEmail, reference)})
+        .tap(()=>{logger.logCreateEmptyInvoiceEvent(memberEmail, reference);})
         .catch((error) => {
           return Q.reject(error);
         });
-}
+};
+
+
+
+
 
 var paypalChargeSuccess = (customInvoiceId, paypalId) => {
+  function checkResultOfUpdate(value) {
+      if(!value || value[0] !== 1) {
+          logger.logNewFailedPaypalUpdate(customInvoiceId, paypalId);
+          return Q.reject('Failed to update ' + customInvoiceId + ' in the database');
+    }
+  }
+
+  function logUpdate() {
+      logger.logNewPaypalUpdate(customInvoiceId, paypalId);
+  }
+
     return models.sequelize.transaction(function (t) {
         return Invoice.update({
           reference: paypalId,
-          "paymentStatus": 'PAID'
+          'paymentStatus': 'PAID'
         },{
           where: {id : customInvoiceId}
         }, {transaction: t}
-        ).tap((value) => {
-            logger.logNewPaypalUpdate(customInvoiceId, paypalId);
-        }).then((value) => {
-            if(!value || value[0] != 1) {
-                logger.logNewFailedPaypalUpdate(customInvoiceId, paypalId);
-                return Q.reject("Failed to update " + customInvoiceId + " in the database");
-            }
-        });
+      ).tap(logUpdate)
+      .then(checkResultOfUpdate);
     }).catch((err) => {
         return Q.reject(err);
     });
