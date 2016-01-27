@@ -118,7 +118,8 @@ describe('memberService', () => {
             memberPromise.resolve(createdMemberFromDb);
 
             memberService.createMember(newMember)
-                .finally(() => {
+                .finally((createdMember) => {
+                    expect(createdMember.firstName).toEqual(expectedNewMember.firstName);
                     expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining(expectedNewMember));
                 }).nodeify(done);
         });
