@@ -57,7 +57,7 @@ var createInvoice = (newInvoice) => {
 };
 
 var getReferenceNumber = (newInvoice) => {
-  if (newInvoice.paymentType === "stripe"){
+  if (newInvoice.paymentType === "stripe" || newInvoice.paymentType === "paypal"){
       return newInvoice.reference;
   }
   else {

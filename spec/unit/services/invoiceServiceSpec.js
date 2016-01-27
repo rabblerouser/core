@@ -358,25 +358,20 @@ describe('invoiceService', () => {
   });
 
   describe('paypalChargeSuccess', () => {
-      let updateLoggerStub, failedUpdateLoggerStub,
-      invoiceStub, invoicePromise;
+      let updateLoggerStub, failedUpdateLoggerStub;
 
       beforeEach( () => {
           updateLoggerStub = sinon.stub(logger, 'logNewPaypalUpdate');
           failedUpdateLoggerStub = sinon.stub(logger, 'logNewFailedPaypalUpdate');
-          invoiceStub = sinon.stub(models.Invoice, 'update');
-          invoicePromise = Q.defer();
-          invoiceStub.returns(invoicePromise.promise);
       });
 
       afterEach( () => {
           updateLoggerStub.restore();
           failedUpdateLoggerStub.restore();
-          invoiceStub.restore();
       });
 
       it('should not call the error logger when finds matching invoice in db' , (done) => {
-          invoicePromise.resolve([1]);
+          updateInvoicePromise.resolve([1]);
 
           let promise = invoiceService.paypalChargeSuccess(23, 1);
 
@@ -388,7 +383,7 @@ describe('invoiceService', () => {
       });
 
       it('should call the error logger when no matching invoice id in database' , (done) => {
-          invoicePromise.resolve([0]);
+          updateInvoicePromise.resolve([0]);
 
           let promise = invoiceService.paypalChargeSuccess(23, 1);
 
@@ -400,7 +395,7 @@ describe('invoiceService', () => {
       });
 
       it('should call the error logger when no multiple matching invoice id in database' , (done) => {
-          invoicePromise.resolve([2]);
+          updateInvoicePromise.resolve([2]);
 
           let promise = invoiceService.paypalChargeSuccess(23, 1);
 
