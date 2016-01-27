@@ -92,7 +92,43 @@ var updateMember = (member) => {
         });
 };
 
+let transformMember = member => {
+    let newMemberRoot = member.dataValues;
+    let newResidentialAddressRoot = member.dataValues.residentialAddress.dataValues;
+    return Object.assign({}, newMemberRoot, { residentialAddress: newResidentialAddressRoot });
+};
+
+let transformMembers = memberQueryResult => {
+    return memberQueryResult.map(transformMember);
+};
+
+let handleError = (error) => {
+    logger.logError(error);
+    return models.Sequelize.Promise.reject('An error has occurred while fetching members');
+};
+
+let list = () => {
+    let query = {
+        include: [{
+            model: Address,
+            as: "residentialAddress",
+            attributes: ["postcode", "state", "country"]
+        }],
+        attributes: [
+            "firstName",
+            "lastName",
+            "membershipType",
+            "verified"
+        ]
+    };
+
+    return Member.findAll(query)
+        .then(transformMembers)
+        .catch(handleError);
+};
+
 module.exports = {
     createMember: createMember,
-    updateMember: updateMember
+    updateMember: updateMember,
+    list: list
 };

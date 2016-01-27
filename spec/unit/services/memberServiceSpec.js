@@ -204,4 +204,78 @@ describe('memberService', () => {
             });
         });
     });
+
+    describe('list', () => {
+        let member,
+            residentialAddress,
+            expectedMemberQuery,
+            findQueryResult,
+            Promise = models.Sequelize.Promise;
+
+
+        beforeEach(() => {
+            residentialAddress = {
+                postcode: 1234,
+                state: 'VIC',
+                country: 'Australia'
+            };
+            member = {
+                firstName: 'Sherlock',
+                lastName: 'Halmes',
+                membershipType: 'full',
+                verified: false,
+                residentialAddress: residentialAddress
+            };
+
+             expectedMemberQuery = {
+                include: [{
+                    model: models.Address,
+                    as: 'residentialAddress',
+                    attributes: ['postcode', 'state', 'country']
+                }],
+                attributes: [
+                    'firstName',
+                    'lastName',
+                    'membershipType',
+                    'verified'
+                ]
+            };
+
+             findQueryResult = [{
+                dataValues: Object.assign({}, member, {
+                    residentialAddress: {
+                        dataValues: residentialAddress
+                    }
+                })
+            }];
+
+            sinon.stub(models.Member, 'findAll');
+            sinon.stub(logger, 'logError');
+        });
+
+        afterEach(() => {
+            models.Member.findAll.restore();
+            logger.logError.restore();
+        });
+
+        it('resolves with a list of raw members', (done) => {
+            models.Member.findAll
+                .withArgs(expectedMemberQuery)
+                .returns(Promise.resolve(findQueryResult));
+
+            memberService.list().then((result) => {
+                expect(result).toEqual([member]);
+            }).nodeify(done);
+        });
+
+        it('logs an error if there is an error, and ensures the promise is rejected', (done) => {
+            models.Member.findAll
+                .returns(Promise.reject('bad bad bad'));
+
+            memberService.list().catch((error) => {
+                expect(logger.logError).toHaveBeenCalledWith('bad bad bad');
+                expect(error).toEqual('An error has occurred while fetching members');
+            }).nodeify(done);
+        });
+    });
 });
