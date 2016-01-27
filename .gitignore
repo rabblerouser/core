@@ -6,6 +6,7 @@ pids
 node_modules
 npm-debug.log
 .vagrant
+.DS_Store
 .idea/
 public/javascript
 .babel-cache
