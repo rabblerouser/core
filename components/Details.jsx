@@ -138,7 +138,7 @@ export default class Details extends Component {
                         <div className="reminder-text">
                             The information provided in this form may be used for the purpose of ensuring that the
                             Pirate Party can register or remain registered as a political party in Australia, and its
-                            states and territories. <a href="/">View our Privacy Policy.</a>
+                            states and territories. <a href="https://pirateparty.org.au/privacy/" target="_blank">View our Privacy Policy.</a>
                         </div>
                     </div>
                     <div className="heading">
