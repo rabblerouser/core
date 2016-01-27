@@ -51,7 +51,10 @@ let createMember = (newMember) => {
     return Q.all(getMemberAddresses(newMember))
           .spread(setupMember(newMember))
           .then(save)
-          .tap(logEvent);
+          .tap(logEvent)
+          .then((savedMember) => {
+            return  savedMember.dataValues;
+          });
 };
 
 var updateMember = (member) => {

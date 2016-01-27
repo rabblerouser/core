@@ -81,8 +81,8 @@ describe("membersController", () => {
 
             beforeEach(() => {
                 validateMemberStub.returns([]);
-                createMemberPromise.resolve({dataValues: {id:"1234", membershipType: "full", email: 'sherlock@holmes.co.uk'}});
-                createInvoicePromise.resolve({dataValues: {id:"1"}});
+                createMemberPromise.resolve({id:"1234", membershipType: "full", email: 'sherlock@holmes.co.uk'});
+                createInvoicePromise.resolve({id:"1"});
 
                 expectedMemberCreateValues = {
                     firstName: "Sherlock",
