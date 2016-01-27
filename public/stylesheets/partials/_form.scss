@@ -303,4 +303,10 @@ hr {
 
 .invalid {
   color: #CC4756;
+  > input {
+    border-color: #cc4756 !important;
+  }
+  > select {
+    border-color: #cc4756 !important;
+  }
 }
