@@ -45,6 +45,7 @@ describe('memberService', () => {
     describe('createMember', () => {
         const residentialAddressId = 1;
         const postalAddressId = 2;
+        const randomNewMemberId = 1;
         const date = '22/12/1900';
         const residentialAddressFromDb = [
             {
@@ -91,6 +92,8 @@ describe('memberService', () => {
             createdMemberFromDb = {
               dataValues : expectedNewMember
             };
+            createdMemberFromDb.dataValues.id = randomNewMemberId;
+
 
             residentialAddressPromise = Q.defer();
             addressStub
@@ -120,6 +123,8 @@ describe('memberService', () => {
             memberService.createMember(newMember)
                 .finally((createdMember) => {
                     expect(createdMember.firstName).toEqual(expectedNewMember.firstName);
+                    expect(createdMember.id).toEqual(randomNewMemberId);
+
                     expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining(expectedNewMember));
                 }).nodeify(done);
         });
