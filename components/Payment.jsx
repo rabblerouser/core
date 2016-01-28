@@ -17,16 +17,20 @@ export default class Payment extends Component {
         this.state = {amount : '', invalidFields: [], errorMessages: [], paymentType: ''};
     }
 
-    handleValidationErrors(invalidFields){
+    handleValidationErrors(errorFields){
+        var invalidFields = errorFields;
         var errors = [];
         let errorMessages = {
-            totalAmount: "Total Amount: Must be a positive integer greater then 0 (zero). No letters or symbols allowed.",
-            paymentType: "Payment Type: Please select a payment type.",
-            memberEmail: "Valid email not provided"
+            totalAmount: "If you wish to contribute, the minimum is $1.",
+            paymentType: "Please select a payment type."
         };
 
+        if(_.indexOf(invalidFields, 'paymentType') > -1){
+            invalidFields = ['paymentType'];
+        }
+
         _.forEach(invalidFields, function(error){
-            errors.push(errorMessages[error]);
+            errors.push(errorMessages[error] || error);
         });
 
         this.setState({errorMessages: errors});
@@ -38,7 +42,10 @@ export default class Payment extends Component {
     }
 
     handlePaymentTypeChanged(event) {
-      this.setState({paymentType: event.target.value});
+        if(_.indexOf(this.state.invalidFields, "paymentType") > -1){
+            this.handleValidationErrors(_.pull(this.state.invalidFields, 'paymentType'));
+        }
+        this.setState({paymentType: event.target.value});
     }
 
     processStripePayment() {
