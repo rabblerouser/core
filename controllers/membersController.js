@@ -54,10 +54,31 @@ function invoiceReference(member) {
   return member.membershipType.substring(0,3).toUpperCase() + member.id;
 }
 
-let newMemberHandler = (req, res) => {
-    let dbError = (error) => {
-        res.status(500).json({errors: [error]});
+function createEmptyInvoice(createdMember) {
+  return invoiceService.createEmptyInvoice(createdMember.email, invoiceReference(createdMember))
+  .then((emptyInvoice) => {
+    return {
+      invoiceId: emptyInvoice.id,
+      newMember: {
+        email: createdMember.email
+      }
     };
+  });
+}
+
+function sendResponseToUser(res) {
+  return function(data) {
+    res.status(200).json(data);
+  };
+}
+
+function handleError(res) {
+  return function(error) {
+    res.status(500).json({errors: [error]});
+  };
+}
+
+let newMemberHandler = (req, res) => {
 
     let newMember = setupNewMember(req);
 
@@ -67,18 +88,10 @@ let newMemberHandler = (req, res) => {
         return res.status(400).json({ errors: validationErrors});
     }
 
-    let returnValues = {};
-
     return memberService.createMember(newMember)
-        .then((createdMember)=> {
-            returnValues.newMember = createdMember;
-            return invoiceService.createEmptyInvoice(newMember.email, invoiceReference(createdMember));
-        })
-        .then((createdInvoice)=> {
-            returnValues.invoiceId = createdInvoice.dataValues.id;
-            res.status(200).json(returnValues);
-        })
-        .catch(dbError);
+    .then(createEmptyInvoice)
+    .tap(sendResponseToUser(res))
+    .catch(handleError(res));
 };
 
 module.exports = {

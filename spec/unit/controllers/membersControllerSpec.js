@@ -1,16 +1,16 @@
 'use strict';
 
-const specHelper = require("../../support/specHelper"),
+const specHelper = require('../../support/specHelper'),
       sinon = specHelper.sinon,
       Q = specHelper.Q,
-      invoiceService = require("../../../services/invoiceService"),
-      memberService = require("../../../services/memberService"),
-      memberValidator = require("../../../lib/memberValidator");
+      invoiceService = require('../../../services/invoiceService'),
+      memberService = require('../../../services/memberService'),
+      memberValidator = require('../../../lib/memberValidator');
 
-var membersController = require("../../../controllers/membersController");
+var membersController = require('../../../controllers/membersController');
 
-describe("membersController", () => {
-    describe("newMemberHandler", () => {
+describe('membersController', () => {
+    describe('newMemberHandler', () => {
         let newMemberHandler,
             goodRequest, res,
             statusStub, responseJsonStub,
@@ -26,32 +26,32 @@ describe("membersController", () => {
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
 
             residentialAddress = {
-                address: "221b Baker St",
-                suburb: "London",
-                country: "England",
-                state: "VIC",
-                postcode: "1234"
+                address: '221b Baker St',
+                suburb: 'London',
+                country: 'England',
+                state: 'VIC',
+                postcode: '1234'
             };
             postalAddress = {
-                address: "47 I dont want your spam St",
-                suburb: "Moriarty",
-                country: "USA",
-                state: "NM",
-                postcode: "5678"
+                address: '47 I dont want your spam St',
+                suburb: 'Moriarty',
+                country: 'USA',
+                state: 'NM',
+                postcode: '5678'
             };
 
             goodRequest = {
                 body: {
-                    firstName: "Sherlock",
-                    lastName: "Holmes",
-                    email: "sherlock@holmes.co.uk",
-                    gender: "detective genius",
-                    dateOfBirth: "22/12/1900",
-                    primaryPhoneNumber: "0396291146",
-                    secondaryPhoneNumber: "0394291146",
+                    firstName: 'Sherlock',
+                    lastName: 'Holmes',
+                    email: 'sherlock@holmes.co.uk',
+                    gender: 'detective genius',
+                    dateOfBirth: '22/12/1900',
+                    primaryPhoneNumber: '0396291146',
+                    secondaryPhoneNumber: '0394291146',
                     residentialAddress: residentialAddress,
                     postalAddress: postalAddress,
-                    membershipType: "full"
+                    membershipType: 'full'
                 }
             };
 
@@ -76,40 +76,43 @@ describe("membersController", () => {
             memberValidator.isValid.restore();
         });
 
-        describe("when it receives a good request", () => {
+        describe('when it receives a good request', () => {
             let expectedMemberCreateValues;
 
             beforeEach(() => {
                 validateMemberStub.returns([]);
-                createMemberPromise.resolve({id:"1234", membershipType: "full", email: 'sherlock@holmes.co.uk'});
-                createInvoicePromise.resolve({id:"1"});
+                createMemberPromise.resolve({id:'1234', membershipType: 'full', email: 'sherlock@holmes.co.uk'});
+                createInvoicePromise.resolve({id:'1'});
 
                 expectedMemberCreateValues = {
-                    firstName: "Sherlock",
-                    lastName: "Holmes",
-                    email: "sherlock@holmes.co.uk",
-                    gender: "detective genius",
-                    dateOfBirth: "22/12/1900",
-                    primaryPhoneNumber: "0396291146",
-                    secondaryPhoneNumber: "0394291146",
+                    firstName: 'Sherlock',
+                    lastName: 'Holmes',
+                    email: 'sherlock@holmes.co.uk',
+                    gender: 'detective genius',
+                    dateOfBirth: '22/12/1900',
+                    primaryPhoneNumber: '0396291146',
+                    secondaryPhoneNumber: '0394291146',
                     residentialAddress: residentialAddress,
                     postalAddress: postalAddress,
-                    membershipType: "full"
+                    membershipType: 'full'
                 };
             });
 
-            it("creates a new member", (done) => {
-                newMemberHandler(goodRequest, res);
-                createMemberPromise.promise.finally(() => {
-                    expect(memberService.createMember).toHaveBeenCalledWith(expectedMemberCreateValues);
-                    expect(invoiceService.createEmptyInvoice).toHaveBeenCalledWith("sherlock@holmes.co.uk", "FUL1234");
+            it('creates a new member', (done) => {
+                let res = { status: sinon.stub()};
+                res.status.returns({ json: sinon.spy()});
+
+                newMemberHandler(goodRequest, res)
+                .finally(() => {
+                    expect(res.status).toHaveBeenCalledWith(200);
+                    expect(res.status().json).toHaveBeenCalledWith({invoiceId: '1', newMember: {email: 'sherlock@holmes.co.uk'}});
                 }).nodeify(done);
             });
         });
 
-        describe("when validation fails", () => {
-            it("responds with status 400",(done) => {
-                validateMemberStub.returns(["firstName"]);
+        describe('when validation fails', () => {
+            it('responds with status 400',(done) => {
+                validateMemberStub.returns(['firstName']);
                 newMemberHandler(goodRequest, res);
 
                 expect(memberService.createMember).not.toHaveBeenCalled();
