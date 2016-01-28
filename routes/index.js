@@ -9,7 +9,11 @@ var stripeHandler = require('../lib/stripeHandler');
 var paypalHandler = require('../lib/paypalHandler');
 
 router.get('/', function(req, res, next) {
-    res.header('Stripe-Public-Key', stripeHandler.getPublicKey()).render('index', { title: 'Express' });
+    res.header({
+      'Stripe-Public-Key': stripeHandler.getPublicKey(),
+      'Paypal-Server-Url': paypalHandler.getServerUrl(),
+      'Paypal-Return-Url': paypalHandler.getReturnUrl()
+    }).render('index', { title: 'Express' });
 });
 
 router.get('/members/new', function(req, res, next) {

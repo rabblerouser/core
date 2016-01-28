@@ -4,15 +4,39 @@ import $ from 'jquery';
 import Errors from './Errors.jsx';
 var scriptLoader = require('load-script').bind(this);
 
-export default class StripePayment extends Component {
+export default class PaypalPayment extends Component {
     constructor(props) {
         super(props);
-        this.paypalDisabled = false;
+        this.paypalDisabled = true;
         this.paypalHandler = null;
         this.checkout = this.checkout.bind(this);
         this.render = this.render.bind(this);
 
+        this.loadPaypal();
+
     }
+
+    loadPaypal() {
+        var req = new XMLHttpRequest();
+        req.open('GET', document.location, false);
+        req.onreadystatechange = function() {
+          console.log(req.getAllResponseHeaders());
+          this.paypalServerUrl = req.getResponseHeader('Paypal-Server-Url');
+          this.paypalReturnUrl = req.getResponseHeader('Paypal-Return-Url');
+
+          if (!this.paypalServerUrl || this.paypalServerUrl === "undefined" ||
+              !this.paypalReturnUrl || this.paypalReturnUrl === "undefined") {
+              this.paypalDisabled = true;
+              this.forceUpdate();
+              return;
+          }
+          this.forceUpdate();
+          this.paypalDisabled = false;
+        }.bind(this);
+        req.send(null);
+
+    }
+
     checkout(amount) {
       document.getElementById("paymentAmount").value = amount;
       document.getElementById("paypalForm").submit();
@@ -21,13 +45,13 @@ export default class StripePayment extends Component {
   render() {
       if (this.paypalDisabled) {
           console.log("paypal disabled");
-          return;
+          return null;
       }
 
       return <label>
           <input type="radio" name="paymentType" value="paypal" onChange={this.props.onChange}/>
           PayPal
-          <form className="hidden" id="paypalForm" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <form className="hidden" id="paypalForm" action={this.paypalServerUrl} method="post" target="_top">
               <input type="hidden" name="cmd" value="_xclick"/>
               <input type="hidden" name="business" value="cdodd@thoughtworks.com"/>
               <input type="hidden" name="lc" value="AU"/>
@@ -40,7 +64,7 @@ export default class StripePayment extends Component {
               <input type="hidden" name="bn" value="PP-BuyNowBF:btn_paynowCC_LG.gif:NonHostedGuest"/>
               <input type="hidden" src="https://www.paypalobjects.com/en_AU/i/btn/btn_paynowCC_LG.gif" border="0" id="paypalSubmit" alt="PayPal — The safer, easier way to pay online."/>
               <img alt="" border="0" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1"/>
-              <input type="hidden" name="return" value="https://www.testing-project-m.herokuapp.com"/>
+              <input type="hidden" name="return" value={this.paypalReturnUrl}/>
           </form>
         </label>;
   };
