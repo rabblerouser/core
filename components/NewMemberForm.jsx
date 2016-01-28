@@ -6,6 +6,7 @@ import ConfirmDetails from './ConfirmDetails.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import Finished from './Finished.jsx';
 import $ from 'jquery';
+let windowLocationUtil = require('../lib/windowLocationUtil.js');
 
 export default class NewMemberForm extends Component {
     constructor(props) {
@@ -16,7 +17,9 @@ export default class NewMemberForm extends Component {
         this.postAndContinue = this.postAndContinue.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.getForm = this.getForm.bind(this);
-        this.state = { step: (this.props.initialState === undefined ? 1 : this.props.initialState) };
+
+        let startingState = this.checkIfPaypalFinishStep() ? 5 : 1;
+        this.state = { step: (this.props.initialState === undefined ? startingState : this.props.initialState) };
         this.formValues = {
                             membershipType: '',
                             isEnrolled: '',
@@ -54,11 +57,11 @@ export default class NewMemberForm extends Component {
     }
 
     nextStep() {
-        this.setState( { step: this.state.step + 1  } )
+        this.setState( { step: this.state.step + 1  } );
     }
 
     previousStep() {
-        this.setState( { step: this.state.step - 1  } )
+        this.setState( { step: this.state.step - 1  } );
     }
 
     setMembershipType(type) {
@@ -85,12 +88,11 @@ export default class NewMemberForm extends Component {
       });
     }
 
-    getForm() {
-      let paypalFinishStep = window.location.search.includes('?tx=');
-      if (paypalFinishStep){
-          this.setState({step: 5});
-      }
+    checkIfPaypalFinishStep() {
+      return windowLocationUtil.getQueryParameters().indexOf('?tx=') !== -1;
+    }
 
+    getForm() {
       switch(this.state.step) {
           case 1:
               return <MembershipType nextStep={this.setMembershipType}
@@ -112,7 +114,7 @@ export default class NewMemberForm extends Component {
           case 5:
               return <Finished email={this.formValues.email}
                                 nextStep={this.nextStep}
-                                paypalFinish={paypalFinishStep} />;
+                                paypalFinish={this.checkIfPaypalFinishStep()} />;
       };
     }
 
