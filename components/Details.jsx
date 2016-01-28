@@ -23,14 +23,6 @@ export default class Details extends Component {
         };
     }
 
-    getPostCodeLabel(country) {
-        if (country === 'Australia') {
-            return 'Postcode*';
-        } else {
-            return 'Postcode/ZIP Code*';
-        }
-    }
-
     handleCountryChange(event) {
         if (event.target.id == 'residentialAddress[country]') {
             if (this.refs.residentialCountry.value !== 'Australia') {
@@ -230,7 +222,7 @@ export default class Details extends Component {
                                     <option value="New South Wales">New South Wales</option>
                                 </select>
                             </label>
-                            <label htmlFor="residentialAddress[postcode]" className={this.validationErrorClass('residentialPostcode')}>{this.getPostCodeLabel(this.state.residentialCountry)}
+                            <label htmlFor="residentialAddress[postcode]" className={this.validationErrorClass('residentialPostcode')}>Postcode/ZIP Code <span className="mandatoryField">* </span>
                                 <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode}
                                        ref="residentialPostcode" id="residentialAddress[postcode]"
                                        className="residentialPostcode"/>
@@ -270,7 +262,7 @@ export default class Details extends Component {
                                             id="postalAddress[state]">
                                     </select>
                                 </label>
-                                <label htmlFor="postalAddress[postcode]" className={this.validationErrorClass('postalPostcode')}>{this.getPostCodeLabel(this.state.postalCountry)}
+                                <label htmlFor="postalAddress[postcode]" className={this.validationErrorClass('postalPostcode')}>Postcode/ZIP Code <span className="mandatoryField">* </span>
                                     <input type="text" defaultValue={this.props.formValues.postalAddress.postcode}
                                            ref="postalPostcode" id="postalAddress[postcode]"/>
                                 </label>
