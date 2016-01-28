@@ -53,7 +53,7 @@ export default class PaypalPayment extends Component {
           PayPal
           <form className="hidden" id="paypalForm" action={this.paypalServerUrl} method="post" target="_top">
               <input type="hidden" name="cmd" value="_xclick"/>
-              <input type="hidden" name="business" value="cdodd@thoughtworks.com"/>
+              <input type="hidden" name="business" value="paypal@pirateparty.org.au"/>
               <input type="hidden" name="lc" value="AU"/>
               <input type="hidden" name="item_name" value="Pirate Party membership"/>
               <input type="hidden" name="item_number" value="1"/>
