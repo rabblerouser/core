@@ -12,12 +12,41 @@ export default class Details extends Component {
         this.handlePostalAddress = this.handlePostalAddress.bind(this);
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
         this.validationErrorClass = this.validationErrorClass.bind(this);
+        this.handleCountryChange = this.handleCountryChange.bind(this);
         this.validator = memberValidator;
         this.state = {
             invalidFields: [],
             errorMessages: [],
-            showPostalAddress: false
+            showPostalAddress: false,
+            residentialCountry: 'Australia',
+            postalCountry: 'Australia'
         };
+    }
+
+    getPostCodeLabel(country) {
+        if (country === 'Australia') {
+            return 'Postcode*';
+        } else {
+            return 'Postcode/ZIP Code*';
+        }
+    }
+
+    handleCountryChange(event) {
+        if (event.target.id == 'residentialAddress[country]') {
+            if (this.refs.residentialCountry.value !== 'Australia') {
+                this.setState({residentialCountry: 'International'});
+            } else {
+                this.setState({residentialCountry: 'Australia'});
+            }
+        }
+
+        if (event.target.id == 'postalAddress[country]') {
+            if (this.refs.postalCountry.value !== 'Australia') {
+                this.setState({postalCountry: 'International'});
+            } else {
+                this.setState({postalCountry: 'Australia'});
+            }
+        }
     }
 
     handlePostalAddress() {
@@ -35,6 +64,14 @@ export default class Details extends Component {
             invalidFields = _.filter(validationErrors, (error) => !_.startsWith(error, 'postal'));
         }
 
+        function getPostCodeErrorMessage(country) {
+            if (country !== "Australia") {
+                return "Must not be longer than 16 digits.";
+            } else {
+                return "Must be 4 digits in length and only use numbers.";
+            }
+        }
+
         var errors = [];
         let errorMessages = {
             firstName: "First Name: Please enter your first name. No numbers or symbols allowed.",
@@ -46,12 +83,12 @@ export default class Details extends Component {
             residentialAddress: "Residential Address: Please enter your address.",
             residentialState: "Residential State: Please select your state from the dropdown menu.",
             residentialCountry: "Residential Country: Please select your country from the dropdown menu.",
-            residentialPostcode: "Residential Postcode: Please enter your postcode. Must be 4 digits in length and only use numbers.",
+            residentialPostcode: "Residential Postcode: Please enter your postcode. " + getPostCodeErrorMessage(this.refs.residentialCountry.value),
             residentialSuburb: "Residential Suburb: Please enter a suburb.",
             postalAddress: "Postal Address: Please enter your address.",
             postalState: "Postal State: Please select your state from the dropdown menu.",
             postalCountry: "Postal Country: Please select your country from the dropdown menu.",
-            postalPostcode: "Postal Postcode: Please enter your postcode. Must be 4 digits in length and only use numbers.",
+            postalPostcode: "Postal Postcode: Please enter your postcode. " + getPostCodeErrorMessage(this.refs.postalCountry.value),
             postalSuburb: "Postal Suburb: Please enter your suburb."
         };
 
@@ -183,7 +220,7 @@ export default class Details extends Component {
                         </label>
                         <label htmlFor="residentialAddress[country]" className={this.validationErrorClass('residentialCountry')}>Country*
                             <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry"
-                                    id="residentialAddress[country]" className="residentialCountry">
+                                    id="residentialAddress[country]" className="residentialCountry" onChange={this.handleCountryChange}>
                             </select>
                         </label>
                         <div className="state-code">
@@ -193,7 +230,7 @@ export default class Details extends Component {
                                     <option value="New South Wales">New South Wales</option>
                                 </select>
                             </label>
-                            <label htmlFor="residentialAddress[postcode]" className={this.validationErrorClass('residentialPostcode')}>Postcode*
+                            <label htmlFor="residentialAddress[postcode]" className={this.validationErrorClass('residentialPostcode')}>{this.getPostCodeLabel(this.state.residentialCountry)}
                                 <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode}
                                        ref="residentialPostcode" id="residentialAddress[postcode]"
                                        className="residentialPostcode"/>
@@ -223,7 +260,7 @@ export default class Details extends Component {
                             </label>
                             <label htmlFor="postalAddress[country]" className={this.validationErrorClass('postalCountry')}>Country*
                                 <select defaultValue={this.props.formValues.postalAddress.country} ref="postalCountry"
-                                        id="postalAddress[country]">
+                                        id="postalAddress[country]" onChange={this.handleCountryChange}>
                                 </select>
                             </label>
 
@@ -233,7 +270,7 @@ export default class Details extends Component {
                                             id="postalAddress[state]">
                                     </select>
                                 </label>
-                                <label htmlFor="postalAddress[postcode]" className={this.validationErrorClass('postalPostcode')}>Postcode*
+                                <label htmlFor="postalAddress[postcode]" className={this.validationErrorClass('postalPostcode')}>{this.getPostCodeLabel(this.state.postalCountry)}
                                     <input type="text" defaultValue={this.props.formValues.postalAddress.postcode}
                                            ref="postalPostcode" id="postalAddress[postcode]"/>
                                 </label>

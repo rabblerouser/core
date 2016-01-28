@@ -22,12 +22,12 @@ describe("memberValidator", () => {
                     "suburb": "London",
                     "country": "England",
                     "state": "VIC",
-                    "postcode": "1234"
+                    "postcode": ".-0123string"
                 },
                 "postalAddress": {
                     "address": "303 collins st",
                     "suburb": "melbourne",
-                    "country": "australia",
+                    "country": "Australia",
                     "state": "VIC",
                     "postcode": "3000"
                 },
@@ -170,7 +170,7 @@ describe("memberValidator", () => {
             validAddress = {
                 address: "221b Baker St",
                 suburb: "London",
-                country: "England",
+                country: "Australia",
                 state: "VIC",
                 postcode: "1234"
             }
@@ -188,12 +188,6 @@ describe("memberValidator", () => {
             {state: null},
             {state: ""},
 
-            {postcode: null},
-            {postcode: ""},
-            {postcode: "abdt"},
-            {postcode: "-123"},
-            {postcode: "1".repeat(5)},
-
             {country: null},
             {country: ""},
             {country: "a".repeat(256)}
@@ -208,8 +202,14 @@ describe("memberValidator", () => {
             expect(memberValidator.isValidAddress(validAddress).length).toBe(0);
         });
 
-        it("Should return empty array given an address object with postcode as int'", () => {
+        it("Should return empty array given an address object with postcode as int for Australian address", () => {
             validAddress.postcode = 1234;
+            expect(memberValidator.isValidAddress(validAddress).length).toBe(0);
+        });
+
+        it("Should return empty array given an address object with postcode as int for international address", () => {
+            validAddress.country = "England";
+            validAddress.postcode = 12345678;
             expect(memberValidator.isValidAddress(validAddress).length).toBe(0);
         });
 
@@ -220,6 +220,31 @@ describe("memberValidator", () => {
         it("Should return array with 1 error given an address with no state'", () => {
             validAddress.state = null;
             expect(memberValidator.isValidAddress(validAddress).length).toBe(1);
+        });
+
+        [
+            null,
+            "",
+            "-123",
+            "abdt",
+            "1".repeat(5),
+        ].forEach((failingTestScenario) => {
+            it("For Australia Address, Should return false if given postcode:" + failingTestScenario, ()=> {
+                validAddress.postcode = failingTestScenario;
+                expect(memberValidator.isValidAddress(validAddress).length).not.toBe(0);
+            });
+        });
+
+        [
+            null,
+            "",
+            "1".repeat(17),
+        ].forEach((failingTestScenario) => {
+            it("For International Address, Should return false if given postcode:" + failingTestScenario, ()=> {
+                validAddress.country = "England";
+                validAddress.postcode = failingTestScenario;
+                expect(memberValidator.isValidAddress(validAddress).length).not.toBe(0);
+            });
         });
     });
 
