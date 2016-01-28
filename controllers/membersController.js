@@ -1,8 +1,9 @@
 'use strict';
 
-var memberService = require('../services/memberService');
-var invoiceService = require('../services/invoiceService');
-var memberValidator = require('../lib/memberValidator');
+let memberService = require('../services/memberService');
+let invoiceService = require('../services/invoiceService');
+let memberValidator = require('../lib/memberValidator');
+
 
 function isPostalAddressEmpty(postalAddress){
   return  postalAddress.address === '' &&
@@ -53,7 +54,7 @@ function invoiceReference(member) {
   return member.membershipType.substring(0,3).toUpperCase() + member.id;
 }
 
-var newMemberHandler = (req, res) => {
+let newMemberHandler = (req, res) => {
     let dbError = (error) => {
         res.status(500).json({errors: [error]});
     };
@@ -66,7 +67,7 @@ var newMemberHandler = (req, res) => {
         return res.status(400).json({ errors: validationErrors});
     }
 
-    var returnValues = {};
+    let returnValues = {};
 
     return memberService.createMember(newMember)
         .then((createdMember)=> {
