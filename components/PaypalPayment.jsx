@@ -23,9 +23,11 @@ export default class PaypalPayment extends Component {
           console.log(req.getAllResponseHeaders());
           this.paypalServerUrl = req.getResponseHeader('Paypal-Server-Url');
           this.paypalReturnUrl = req.getResponseHeader('Paypal-Return-Url');
+          this.paypalEmail = req.getResponseHeader('Paypal-Email');
 
           if (!this.paypalServerUrl || this.paypalServerUrl === "undefined" ||
-              !this.paypalReturnUrl || this.paypalReturnUrl === "undefined") {
+              !this.paypalReturnUrl || this.paypalReturnUrl === "undefined" ||
+              !this.paypalEmail || this.paypalEmail === "undefined") {
               this.paypalDisabled = true;
               this.forceUpdate();
               return;
@@ -53,7 +55,7 @@ export default class PaypalPayment extends Component {
           PayPal
           <form className="hidden" id="paypalForm" action={this.paypalServerUrl} method="post" target="_top">
               <input type="hidden" name="cmd" value="_xclick"/>
-              <input type="hidden" name="business" value="paypal@pirateparty.org.au"/>
+              <input type="hidden" name="business" value={this.paypalEmail}/>
               <input type="hidden" name="lc" value="AU"/>
               <input type="hidden" name="item_name" value="Pirate Party membership"/>
               <input type="hidden" name="item_number" value="1"/>
