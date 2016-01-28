@@ -40,7 +40,7 @@ describe('Details step', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(confirmDetailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.findRenderedDOMComponentWithClass(confirmDetailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors).textContent).toMatch(/Please confirm your details and click the checkbox before continuing./);
+        expect(ReactDOM.findDOMNode(errors).textContent).toMatch(/Please click the declaration checkbox and check that your details are correct before continuing./);
     });
 
     it('should show full member confirmation text', () => {

@@ -27,7 +27,7 @@ export default class ConfirmDetails extends Component {
             this.props.postAndContinue(this.props.formValues);
         }
         else {
-            this.setState({errors:["Please confirm your details and click the checkbox before continuing."]});
+            this.setState({errors:["Please click the declaration checkbox and check that your details are correct before continuing."]});
         }
     }
 
@@ -51,7 +51,7 @@ export default class ConfirmDetails extends Component {
                 <div className="declaration">
                   {this.getDeclaration()}
                 </div>
-                <label className="confirmationLabel">
+                <label className={this.state.errors.length > 0 ? "invalid" : ""}>
                     <input type="checkbox" name="circumstance" ref="declarationConfirmation"/>
                     I confirm that I am enrolled to vote in federal elections and consent to my information being sent
                     to the Australia Electoral Commission.<span className="mandatoryField">* </span>
