@@ -9,6 +9,9 @@ export default class App extends Component {
             <div id="form" className="form-container">
                 <NewMemberForm />
             </div>
+            <div className="footer">
+                <a href="https://pirateparty.org.au/privacy/" target="_blank">Privacy Policy</a>
+            </div>
           </div>
         )
     }

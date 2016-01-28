@@ -9,6 +9,17 @@
 div.container {
   @include outer-container(100%);
   font-family: 'Noto Sans', sans-serif;
+
+  .footer {
+    font-size: 14px;
+    font-style: italic;
+    line-height: 19px;
+    text-align: center;
+
+    a {
+      text-decoration: underline;
+    }
+  }
 }
 
 .header {
