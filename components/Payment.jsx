@@ -107,8 +107,8 @@ export default class Payment extends Component {
                     </div>
                 </div>
                 <div className="heading">
-                    <h2 className="sub-title"> Choose a Payment Method</h2>
-                    <i>Pay your selected amount.</i>
+                    <h2 className="sub-title">How would you like to contribute? <span className="mandatoryField2">* </span></h2>
+                    <i>Choose from the options below.</i>
                 </div>
                 <div className="field-group">
                     <label>

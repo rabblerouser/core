@@ -107,7 +107,7 @@ export default class MembershipType extends Component {
                     <div className="sub-description">We will use your answers to determine which Pirate Party membership suits you best.</div>
                 </div>
                 <div className="field-group">
-                    <h3>Are you enrolled to vote in Australia?</h3>
+                    <h3>Are you enrolled to vote in Australia? <span className="mandatoryField">* </span></h3>
                     <label htmlFor="Yes" onClick={this.showInfoBox}>
                         <input onChange={this.showInfoBox} type="radio" name="isEnrolled" className="isEnrolled" ref="isEnrolledYes" id="Yes" value="Yes" />
                         Yes
@@ -118,7 +118,7 @@ export default class MembershipType extends Component {
                     </label>
                 </div>
                 <div className="field-group">
-                    <h3>Which of these applies to you?</h3>
+                    <h3>Which of these applies to you? <span className="mandatoryField">* </span></h3>
                     <label htmlFor="citizen" onClick={this.showInfoBox}>
                         <input onChange={this.showInfoBox} value="I am an Australian citizen." type="radio" name="residentialStatus" className="residentialStatus" ref="citizen" id="citizen" />
                         I am an Australian citizen.
@@ -133,7 +133,7 @@ export default class MembershipType extends Component {
                     </label>
                 </div>
                 <div className="field-group">
-                    <h3>Are you a member of another Australian political party?</h3>
+                    <h3>Are you a member of another Australian political party? <span className="mandatoryField">* </span></h3>
                     <label htmlFor="yesOp" onClick={this.showInfoBox}>
                         <input onChange={this.showInfoBox} value="Yes" defaultChecked="" type="radio" name="isMemberOfOtherParty" className="isMemberOfOtherParty" ref="yes" id="yesOp" />
                         Yes
