@@ -66,6 +66,7 @@
     "karma-phantomjs-launcher": "^0.2.3",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
+    "nodemailer": "^2.0.0",
     "phantomjs": "^1.9.19",
     "react-addons-test-utils": "~0.14.0",
     "sinon": "^1.17.2",
