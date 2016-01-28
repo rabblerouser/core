@@ -20,7 +20,7 @@ export default class FullMemberInfoBox extends Component {
                     <li>Participate in the decision making process;</li>
                     <li>Vote at Party Meetings, Congresses and Policy Formulation, Development and Adoption proceedings.</li>
                 </ul>
-                As a Full Member, you can pay whatever you want to join (even $0!)
+                As a Full Member, you can pay <b>whatever you want</b> to join (even $0!)
             </div>
         </div>
     }

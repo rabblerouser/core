@@ -17,7 +17,7 @@ export default class InternationalInfoBox extends Component {
                     <li>Participate in the decision making process;</li>
                     <li>Communicate and submit policy and constitutional amendment proposals.</li>
                 </ul>
-                As an International Member, you can pay whatever you want to join (even $0!)
+                As an International Member, you can pay <b>whatever you want</b> to join (even $0!)
             </div>
         </div>
     }

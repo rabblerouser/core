@@ -12,12 +12,12 @@ export default class SupporterInfoBox extends Component {
                 <a href="https://pirateparty.org.au/constitution/#4.2"><span className="circled">?</span>  What are the different membership types?</a>
             </div>
             <div className="info-body">
-                Supporters are not eligible to vote, but they can:
+                As members of another political party, Supporters are not eligible to vote at Pirate Party affairs, but they can:
                 <ul>
                     <li>Participate in the decision making process;</li>
                     <li>Communicate and submit policy and constitutional amendment proposals.</li>
                 </ul>
-                As a Supporter, you can pay whatever you want to join (even $0!)
+                As a Supporter, you can pay <b>whatever you want</b> to join (even $0!)
             </div>
         </div>
     }

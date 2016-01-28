@@ -16,7 +16,7 @@
     font-weight: bold;
     height: 76px;
     line-height: 76px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     padding-left: 36px;
   }
 
@@ -38,13 +38,18 @@
   .heading {
     @include span-columns(12);
 
-    padding-bottom: 30px;
+    padding-top: 20px;
+    padding-bottom: 10px;
 
     i {
       font-size: 14px;
       margin-bottom: 25px;
     }
   }
+    
+    #payments{
+        padding-top: 0 !important;
+    }
 
   .declaration {
     float: left;
@@ -53,7 +58,8 @@
     border: 3px solid $blue;
     padding: 20px 25px;
     font-size:14px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    margin-top: 10px;
 
     > * {
       display: inline-block;
@@ -68,6 +74,11 @@
       float: left;
     }
   }
+    
+    
+    #checkbox_declaration{
+        margin-bottom:15px;
+    }
 
   .confirmationLabel {
     margin-bottom: 40px;
@@ -101,7 +112,7 @@
     .field-group {
       @include media($desktop-width) {
         @include span-columns(6);
-        @include pad(0px 0px 32px 0px);
+        @include pad(15px 0px 20px 0px);
         width: 100%;
       }
     }
@@ -283,7 +294,8 @@ hr {
   background: $white;
   border: 3px solid $blue;
   padding: 10px 15px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+  margin-top: 25px;
 
   > * {
     display: inline-block;
@@ -344,6 +356,7 @@ hr {
     margin-right: 6px;
     padding-top: 15px;
     padding-bottom: 15px;
+    margin-top: 10px;
   }
     
    button:hover{

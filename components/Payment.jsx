@@ -110,7 +110,7 @@ export default class Payment extends Component {
                     <h2 className="sub-title">How would you like to contribute? <span className="mandatoryField2">* </span></h2>
                     <i>Choose from the options below.</i>
                 </div>
-                <div className="field-group">
+                <div className="field-group" id="payments">
                     <label>
                         <input type="radio" name="paymentType" value="paypal" onChange={this.handlePaymentTypeChanged}/>PayPal
                     </label>
