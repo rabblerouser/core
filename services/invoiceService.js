@@ -48,7 +48,6 @@ function createNewInvoice(newInvoice) {
         .tap(()=>{logger.logNewInvoiceEvent(invoice);});
 }
 
-
 var createInvoice = (newInvoice) => {
     return Q(newInvoice)
         .then(()=>{ return Invoice.findById(newInvoice.invoiceId)})
@@ -64,8 +63,6 @@ var createInvoice = (newInvoice) => {
             return Q.reject(error);
         });
 };
-
-
 
 var chargeCard = (stripeToken, totalAmount) => {
     return stripeHandler.chargeCard(stripeToken, totalAmount)
@@ -94,21 +91,17 @@ var createEmptyInvoice = (memberEmail, reference) => {
         });
 };
 
-
-
-
-
 var paypalChargeSuccess = (customInvoiceId, paypalId) => {
-  function checkResultOfUpdate(value) {
-      if(!value || value[0] !== 1) {
-          logger.logNewFailedPaypalUpdate(customInvoiceId, paypalId);
-          return Q.reject('Failed to update ' + customInvoiceId + ' in the database');
+    function checkResultOfUpdate(value) {
+        if(!value || value[0] !== 1) {
+            logger.logNewFailedPaypalUpdate(customInvoiceId, paypalId);
+            return Q.reject('Failed to update ' + customInvoiceId + ' in the database');
+        }
     }
-  }
 
-  function logUpdate() {
-      logger.logNewPaypalUpdate(customInvoiceId, paypalId);
-  }
+    function logUpdate() {
+        logger.logNewPaypalUpdate(customInvoiceId, paypalId);
+    }
 
     return models.sequelize.transaction(function (t) {
         return Invoice.update({
@@ -116,9 +109,9 @@ var paypalChargeSuccess = (customInvoiceId, paypalId) => {
           'paymentStatus': 'PAID'
         },{
           where: {id : customInvoiceId}
-        }, {transaction: t}
-      ).tap(logUpdate)
-      .then(checkResultOfUpdate);
+        }, {transaction: t})
+        .tap(logUpdate)
+        .then(checkResultOfUpdate);
     }).catch((err) => {
         return Q.reject(err);
     });
