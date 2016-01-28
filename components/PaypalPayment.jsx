@@ -40,7 +40,7 @@ export default class StripePayment extends Component {
               <input type="hidden" name="bn" value="PP-BuyNowBF:btn_paynowCC_LG.gif:NonHostedGuest"/>
               <input type="hidden" src="https://www.paypalobjects.com/en_AU/i/btn/btn_paynowCC_LG.gif" border="0" id="paypalSubmit" alt="PayPal — The safer, easier way to pay online."/>
               <img alt="" border="0" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1"/>
-              <input type="hidden" name="return" value="http://localhost:3000"/>
+              <input type="hidden" name="return" value="https://www.testing-project-m.herokuapp.com"/>
           </form>
         </label>;
   };

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import PaypalFinish from './PaypalFinish.jsx';
 
-export default class ConfirmDetails extends Component {
+export default class Finished extends Component {
     constructor(props) {
         super(props);
     }
@@ -11,14 +12,15 @@ export default class ConfirmDetails extends Component {
 
             <div className="form-body">
                 <div className="heading">
-                    <h2 className="sub-title"> Thank You </h2>
+                    <h2 className="sub-title"> We have received your details. </h2>
                 </div>
-                <label>
-                    <p>We have received your details.</p>
 
-                    <p>You will soon receive a verification email at {this.props.email}. Please click on the link in the email so that your membership can be verified.</p>
+                <label>
+                    <p>You will soon receive a verification email. To confirm your membership, please click on the link provided in the email.</p>
 
                     <p>If you don’t receive it, please contact us at membership@pirateparty.org.au </p>
+
+                    {this.props.paypalFinish ? <PaypalFinish /> : null}
                 </label>
                 <div className="navigation">
                     <a href='/'>

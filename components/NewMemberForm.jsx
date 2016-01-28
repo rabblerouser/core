@@ -86,6 +86,11 @@ export default class NewMemberForm extends Component {
     }
 
     getForm() {
+      let paypalFinishStep = window.location.search.includes('?tx=');
+      if (paypalFinishStep){
+          this.setState({step: 5});
+      }
+
       switch(this.state.step) {
           case 1:
               return <MembershipType nextStep={this.setMembershipType}
@@ -106,7 +111,8 @@ export default class NewMemberForm extends Component {
                               nextStep={this.nextStep} />;
           case 5:
               return <Finished email={this.formValues.email}
-                                nextStep={this.nextStep} />;
+                                nextStep={this.nextStep}
+                                paypalFinish={paypalFinishStep} />;
       };
     }
 
