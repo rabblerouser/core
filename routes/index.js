@@ -9,12 +9,9 @@ var stripeHandler = require('../lib/stripeHandler');
 var paypalHandler = require('../lib/paypalHandler');
 
 router.get('/', function(req, res) {
-    res.header({
-      'Stripe-Public-Key': stripeHandler.getPublicKey(),
-      'Paypal-Server-Url': paypalHandler.getServerUrl(),
-      'Paypal-Return-Url': paypalHandler.getReturnUrl(),
-      'Paypal-Email': paypalHandler.getPaypalEmail()
-    }).render('index', { title: 'Pirate Party Membership' });
+    let stripeHeader = {'Stripe-Public-Key': stripeHandler.getPublicKey()};
+    let headers = Object.assign({}, stripeHeader, paypalHandler.getPaypalHeaders());
+    res.header(headers).render('index', { title: 'Pirate Party Membership' });
 });
 
 router.get('/members/new', function(req, res) {
