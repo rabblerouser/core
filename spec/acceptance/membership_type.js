@@ -36,17 +36,16 @@ casper.on('page.initialized', function() {
                 return fBound;
             };
         }
-        console.log("RegExp.prototype.bind has been polyfilled")
+        console.log("RegExp.prototype.bind has been polyfilled");
     });
-})
+});
 
 casper.test.begin('Test the project-m-staging', 6, function suite(test) {
     casper.start('https://project-m-staging.herokuapp.com/', function() {
-        test.assertTitle("Express"); // the title should not be express - we need to change it
-        this.capture('screenshots/screenshot-start.png')
+        test.assertTitle("Pirate Party Membership");
         var js = this.evaluate(function() {
-		        return document;
-	      });
+            return document;
+        });
         this.echo('Here is the DOM: ' + js.all[0].outerHTML);
     });
 
@@ -60,7 +59,6 @@ casper.test.begin('Test the project-m-staging', 6, function suite(test) {
         this.click('input[name="residentialStatus"][value="I am an Australian citizen."]');
         this.click('input[name="isMemberOfOtherParty"][value="Yes"]');
 
-        this.capture('screenshots/screenshot-validation.png')
         test.assertExist('div.validationErrors');
     });
 
@@ -68,16 +66,14 @@ casper.test.begin('Test the project-m-staging', 6, function suite(test) {
     casper.then(function() {
         this.click('input[name="isEnrolled"][value="Yes"]');
 
-        this.capture('screenshots/screenshot-info-box.png')
         test.assertExist('div.info-box');
-        test.assertSelectorHasText('h3[data-reactid=".0.0.0.1.1.5.0.0"]', 'You are entitled to a Supporter Membership.'); //呀，这么简单。。。要哭了都，整了一晚上。。
+        test.assertSelectorHasText('h3', 'You are entitled to a Supporter Membership.');
     });
 
     //test for jump to second page
     casper.then(function() {
-        this.click('button[data-reactid=".0.0.0.1.1.6.0"]')
+        this.click('button');
         casper.then(function() {
-            this.capture('screenshots/screenshot-click.png')
             test.assertSelectorHasText('h1.form-title', 'Details');  //find the title
         });
     });
