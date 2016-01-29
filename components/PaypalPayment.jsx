@@ -13,12 +13,20 @@ export default class PaypalPayment extends Component {
         this.checkout = this.checkout.bind(this);
         this.render = this.render.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.updateDisabled = this.updateDisabled.bind(this);
 
         this.loadPaypal();
 
     }
+
     componentDidMount () {
         this.setState({mounted: true});
+    }
+
+    updateDisabled(toTrue) {
+        if(this.state.mounted) {
+            this.forceUpdate();
+        }
     }
 
     loadPaypal() {
@@ -34,11 +42,11 @@ export default class PaypalPayment extends Component {
               !this.paypalEmail || this.paypalEmail === 'undefined') {
               this.paypalDisabled = true;
               console.log('paypal disabled');
-              if(this.state.mounted) {
-                  this.forceUpdate();
-              }
+              this.updateDisabled();
               return;
           }
+          this.paypalDisabled = false;
+          this.updateDisabled();
         }.bind(this);
         req.send(null);
     }
