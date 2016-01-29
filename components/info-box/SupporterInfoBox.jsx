@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import MembershipTypeExplanation from './MembershipTypeExplanation.jsx';
 
 export default class SupporterInfoBox extends Component {
     constructor(props) {
@@ -6,10 +7,10 @@ export default class SupporterInfoBox extends Component {
         this.render = this.render.bind(this);
     }
     render() {
-        return <div className="info-box">
+        return (<div className="info-box">
             <div className="info-heading">
                 <h3>You are entitled to a Supporter Membership. </h3>
-                <a href="https://pirateparty.org.au/constitution/#4.2"><span className="circled">?</span>  What are the different membership types?</a>
+                <MembershipTypeExplanation />
             </div>
             <div className="info-body">
                 As members of another political party, Supporters are not eligible to vote at Pirate Party affairs, but they can:
@@ -19,6 +20,6 @@ export default class SupporterInfoBox extends Component {
                 </ul>
                 As a Supporter, you can pay <b>whatever you want</b> to join (even $0!)
             </div>
-        </div>
+        </div>)
     }
 }

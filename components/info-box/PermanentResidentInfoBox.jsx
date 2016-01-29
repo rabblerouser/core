@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import MembershipTypeExplanation from './MembershipTypeExplanation.jsx';
 
 export default class PermanentResidentInfoBox extends Component {
     constructor(props) {
@@ -6,10 +7,10 @@ export default class PermanentResidentInfoBox extends Component {
         this.render = this.render.bind(this);
     }
     render() {
-        return <div className="info-box">
+        return (<div className="info-box">
             <div className="info-heading">
                 <h3>You are entitled to a Permanent Resident Membership.</h3>
-                <a href="https://pirateparty.org.au/constitution/#4.2"><span className="circled">?</span>  What are the different membership types?</a>
+                <MembershipTypeExplanation />
             </div>
             <div className="info-body">
               Permanent residents can do the following, except where unable to exercise those privileges which cannot be granted due to relevant federal, state or territory legislation:
@@ -22,6 +23,6 @@ export default class PermanentResidentInfoBox extends Component {
                 </ul>
                 As a Permanent Resident, you can pay <b>whatever you want</b> to join (even $0!)
             </div>
-        </div>
+        </div>)
     }
 }
