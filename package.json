@@ -22,6 +22,7 @@
     "babelify": "^7.2.0",
     "bcryptjs": "https://registry.npmjs.org/bcryptjs/-/bcryptjs-2.3.0.tgz",
     "body-parser": "~1.13.2",
+    "config": "^1.19.0",
     "connect-session-sequelize": "^3.0.0",
     "debug": "~2.2.0",
     "ejs": "^2.3.4",
