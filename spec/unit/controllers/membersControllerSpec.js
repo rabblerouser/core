@@ -5,6 +5,7 @@ const specHelper = require('../../support/specHelper'),
       Q = specHelper.Q,
       invoiceService = require('../../../services/invoiceService'),
       memberService = require('../../../services/memberService'),
+      messagingService = require('../../../services/messagingService'),
       memberValidator = require('../../../lib/memberValidator');
 
 var membersController = require('../../../controllers/membersController');
@@ -13,17 +14,18 @@ describe('membersController', () => {
     describe('newMemberHandler', () => {
         let newMemberHandler,
             goodRequest, res,
-            statusStub, responseJsonStub,
             residentialAddress, postalAddress,
             createMemberStub, createMemberPromise,
-            validateMemberStub,
-            createInvoiceStub, createInvoicePromise;
+            validateMemberStub, sendVerificationEmailPromise,
+            createInvoiceStub, createInvoicePromise,
+            sendVerificationEmailStub;
 
         beforeEach(() => {
             newMemberHandler = membersController.newMemberHandler;
             createMemberStub = sinon.stub(memberService, 'createMember');
             createInvoiceStub = sinon.stub(invoiceService, 'createEmptyInvoice');
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
+            sendVerificationEmailStub = sinon.stub(messagingService, 'sendVerificationEmail');
 
             residentialAddress = {
                 address: '221b Baker St',
@@ -63,26 +65,28 @@ describe('membersController', () => {
             createInvoicePromise = Q.defer();
             createInvoiceStub.returns(createInvoicePromise.promise);
 
-            statusStub = sinon.stub();
-            responseJsonStub = sinon.stub();
-            statusStub.returns({json: responseJsonStub});
-            res = {status: statusStub};
+            sendVerificationEmailPromise = Q.defer();
+            sendVerificationEmailStub.returns(sendVerificationEmailPromise.promise);
 
+            res = {status: sinon.stub().returns({json: sinon.spy()})};
         });
 
         afterEach(() => {
             memberService.createMember.restore();
             invoiceService.createEmptyInvoice.restore();
             memberValidator.isValid.restore();
+            messagingService.sendVerificationEmail.restore();
         });
 
         describe('when it receives a good request', () => {
             let expectedMemberCreateValues;
+            let createdMember = {id:'1234', membershipType: 'full', email: 'sherlock@holmes.co.uk'};
 
             beforeEach(() => {
                 validateMemberStub.returns([]);
-                createMemberPromise.resolve({id:'1234', membershipType: 'full', email: 'sherlock@holmes.co.uk'});
+                createMemberPromise.resolve(createdMember);
                 createInvoicePromise.resolve({id:'1'});
+                sendVerificationEmailPromise.resolve();
 
                 expectedMemberCreateValues = {
                     firstName: 'Sherlock',
@@ -99,13 +103,11 @@ describe('membersController', () => {
             });
 
             it('creates a new member', (done) => {
-                let res = { status: sinon.stub()};
-                res.status.returns({ json: sinon.spy()});
-
                 newMemberHandler(goodRequest, res)
                 .finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
-                    expect(res.status().json).toHaveBeenCalledWith({invoiceId: '1', newMember: {email: 'sherlock@holmes.co.uk'}});
+                    expect(res.status().json).toHaveBeenCalledWith({invoiceId: '1', newMember: {email: createdMember.email}});
+                    expect(messagingService.sendVerificationEmail).toHaveBeenCalledWith(createdMember);
                 }).nodeify(done);
             });
         });

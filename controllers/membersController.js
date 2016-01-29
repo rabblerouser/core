@@ -3,7 +3,8 @@
 let memberService = require('../services/memberService');
 let invoiceService = require('../services/invoiceService');
 let memberValidator = require('../lib/memberValidator');
-
+let messagingService = require('../services/messagingService');
+let logger = require('../lib/logger');
 
 function isPostalAddressEmpty(postalAddress){
   return  postalAddress.address === '' &&
@@ -54,21 +55,31 @@ function invoiceReference(member) {
   return member.membershipType.substring(0,3).toUpperCase() + member.id;
 }
 
+function sendVerificationEmailOffline(data) {
+  messagingService.sendVerificationEmail(data.member)
+  .tap(logger.logVerificationEmailSent)
+  .catch(logger.logError);
+}
+
 function createEmptyInvoice(createdMember) {
   return invoiceService.createEmptyInvoice(createdMember.email, invoiceReference(createdMember))
   .then((emptyInvoice) => {
     return {
-      invoiceId: emptyInvoice.id,
-      newMember: {
-        email: createdMember.email
-      }
+      invoice: emptyInvoice,
+      member: createdMember
     };
   });
 }
 
 function sendResponseToUser(res) {
   return function(data) {
-    res.status(200).json(data);
+    let responseForUser = {
+      invoiceId: data.invoice.id,
+      newMember: {
+        email: data.member.email
+      }
+    };
+    res.status(200).json(responseForUser);
   };
 }
 
@@ -91,6 +102,7 @@ let newMemberHandler = (req, res) => {
     return memberService.createMember(newMember)
     .then(createEmptyInvoice)
     .tap(sendResponseToUser(res))
+    .tap(sendVerificationEmailOffline)
     .catch(handleError(res));
 };
 
