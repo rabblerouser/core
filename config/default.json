@@ -1,5 +1,5 @@
 {
   "email": {
-    "sendMemberVerificationEnabled": false
+    "sendMemberVerificationEnabled": true
   }
 }

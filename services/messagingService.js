@@ -1,7 +1,7 @@
 'use strict';
 
 let emailUtil = require('../lib/emailUtil');
-let sendVerificationEmailEnabled = require('config').get('email.sendMemberVerificationEnabled');
+let config = require('config');
 let logger = require('../lib/logger');
 
 function logAndRethrow(error) {
@@ -10,8 +10,7 @@ function logAndRethrow(error) {
 }
 
 function sendVerificationEmail(member) {
-
-  if (!sendVerificationEmailEnabled) {
+  if (!config.get('email.sendMemberVerificationEnabled')) {
     return member;
   }
 
