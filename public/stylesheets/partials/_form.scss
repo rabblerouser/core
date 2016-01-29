@@ -163,9 +163,10 @@ h3 {
 
       a {
         color: $green;
+        cursor: pointer;
         font-size: 10px;
-        font-weight: normal;
         font-style: italic;
+        font-weight: normal;
 
         .circled {
           border-radius: 100%;
@@ -377,5 +378,67 @@ hr {
   }
   > select {
     border-color: #cc4756 !important;
+  }
+}
+
+.modal-header {
+  background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
+  max-width: 391px;
+
+  .close-button {
+    height: 24px;
+  }
+
+  .box-header {
+    border-bottom: 1px solid #CCC;
+    padding-bottom: 19px;
+    text-align: center;
+
+    h2 {
+      color: #000;
+      font-size: 23px;
+      line-height: 29px;
+      margin-bottom: 0;
+      text-shadow: "0px 1px 1px #FFFFFF";
+    }
+
+    h3 {
+      color: #666;
+      font-size: 17px;
+      letter-spacing: .2px;
+      line-height: 22px;
+      margin-bottom: 0;
+      text-shadow: "0px 1px 1px #fff";
+    }
+
+    .logo{
+      height: 87px;
+    }
+  }
+}
+
+.box-column {
+  background: #F5F5F5;
+  border-bottom: 1px solid #ECEBEB;
+  max-width: 391px;
+  padding: 0 30px;
+  text-align: center;
+
+  h3 {
+    color: #0073AE;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    margin-bottom: 0;
+    padding-top: 25px;
+  }
+
+  h4 {
+    color: #008BC0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 19px;
+    margin-bottom: 0;
+    padding-bottom: 23px;
   }
 }
