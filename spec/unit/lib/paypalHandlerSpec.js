@@ -9,7 +9,7 @@ const specHelper = require('../../support/specHelper'),
       paypalIpn = require('paypal-ipn'),
       logger = require('../../../lib/logger');
 
-describe('paypalHandler', () => {
+xdescribe('paypalHandler', () => {
     let ipnStub, req, res, chargeSuccessStub, statusStub, endStub,
     invalidRequestLoggerStub, paypalVerifyFailedLoggerStub, chargeSuccesPromise;
     let receiverEmail = paypalHandler.getPaypalEmail();
