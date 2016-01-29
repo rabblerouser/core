@@ -234,6 +234,7 @@ describe('memberService', () => {
                     attributes: ['postcode', 'state', 'country']
                 }],
                 attributes: [
+                    'id',
                     'firstName',
                     'lastName',
                     'membershipType',

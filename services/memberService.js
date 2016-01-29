@@ -111,14 +111,15 @@ let list = () => {
     let query = {
         include: [{
             model: Address,
-            as: "residentialAddress",
-            attributes: ["postcode", "state", "country"]
+            as: 'residentialAddress',
+            attributes: ['postcode', 'state', 'country']
         }],
         attributes: [
-            "firstName",
-            "lastName",
-            "membershipType",
-            "verified"
+            'id',
+            'firstName',
+            'lastName',
+            'membershipType',
+            'verified'
         ]
     };
 
