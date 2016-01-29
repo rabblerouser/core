@@ -194,7 +194,7 @@ export default class Details extends Component {
                             <input type="text" defaultValue={this.props.formValues.dateOfBirth} ref="dateOfBirth"
                                    placeholder="DD/MM/YYYY" id="dateOfBirth" className="dateOfBirth"/>
                         </label>
-                        <label htmlFor="gender" className={this.validationErrorClass('gender')}>Gender
+                        <label htmlFor="gender" className={this.validationErrorClass('gender')}>Gender <i>(optional)</i>
                             <input type="text" defaultValue={this.props.formValues.gender} ref="gender" id="gender"
                                    className="gender"/>
                         </label>
@@ -282,14 +282,14 @@ export default class Details extends Component {
                             <input type="text" defaultValue={this.props.formValues.primaryPhoneNumber} ref="phoneNumber"
                                    id="primaryPhoneNumber" className="primaryPhoneNumber"/>
                         </label>
-                        <label htmlFor="phoneNumber" className={this.validationErrorClass('secondaryPhoneNumber')}>Secondary Phone
+                        <label htmlFor="phoneNumber" className={this.validationErrorClass('secondaryPhoneNumber')}>Secondary Phone <i>(optional)</i>
                             <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhone"
                                    id="secondaryPhone" className="secondaryPhone"/>
                         </label>
                     </div>
                     <div className="navigation">
                         <button onClick={this.submitDetails}>Continue</button>
-                        <p>or <a id="go-back" onClick={this.props.previousStep}>go back</a></p>
+                        <p>or <a id="go-back" onClick={this.props.previousStep} href="#">go back</a></p>
                     </div>
                 </div>
             </fieldset>

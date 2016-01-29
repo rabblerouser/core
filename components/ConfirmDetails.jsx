@@ -53,8 +53,8 @@ export default class ConfirmDetails extends Component {
                 </div>
                 <label className={this.state.errors.length > 0 ? "invalid" : ""} id="checkbox_declaration">
                     <input type="checkbox" name="circumstance" ref="declarationConfirmation"/>
-                    I confirm that I am enrolled to vote in federal elections and consent to my information being sent
-                    to the Australia Electoral Commission.<span className="mandatoryField">* </span>
+                    <b>I confirm that I am enrolled to vote in federal elections and consent to my information being sent
+                    to the Australian Electoral Commission.</b><span className="mandatoryField">* </span>
                 </label>
                 <div className="heading">
                     <h2 className="sub-title">Check Your Details</h2>
@@ -73,7 +73,7 @@ export default class ConfirmDetails extends Component {
                 </div>
                 <div className="navigation">
                     <button onClick={this.submitMember}>My details are correct</button>
-                    <p>or <a onClick={this.props.previousStep}>go back to change your details</a></p>
+                    <p>or <a onClick={this.props.previousStep} href="#">go back to change your details</a></p>
                 </div>
             </div>
         </fieldset>

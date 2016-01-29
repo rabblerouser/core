@@ -7,7 +7,7 @@
     @include pad();
   }
 
-  margin: 25px auto;
+  margin: 10px auto;
 
   .form-title {
     background: $blue-darker;
@@ -58,7 +58,7 @@
     border: 3px solid $blue;
     padding: 20px 25px;
     font-size:14px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     margin-top: 10px;
 
     > * {
@@ -381,6 +381,15 @@ hr {
   }
 }
 
+
+.footer a {
+    color: #0073ae;
+    padding-bottom: 30px;
+}
+
+.footer a:hover {
+    color: #008bc0;
+}
 .modal-header {
   background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
   max-width: 391px;
