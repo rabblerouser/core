@@ -7,46 +7,49 @@ var scriptLoader = require('load-script').bind(this);
 export default class PaypalPayment extends Component {
     constructor(props) {
         super(props);
+        this.state = {mounted: false};
         this.paypalDisabled = true;
         this.paypalHandler = null;
         this.checkout = this.checkout.bind(this);
         this.render = this.render.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
 
         this.loadPaypal();
 
+    }
+    componentDidMount () {
+        this.setState({mounted: true});
     }
 
     loadPaypal() {
         var req = new XMLHttpRequest();
         req.open('GET', document.location, false);
         req.onreadystatechange = function() {
-          console.log(req.getAllResponseHeaders());
           this.paypalServerUrl = req.getResponseHeader('Paypal-Server-Url');
           this.paypalReturnUrl = req.getResponseHeader('Paypal-Return-Url');
           this.paypalEmail = req.getResponseHeader('Paypal-Email');
 
-          if (!this.paypalServerUrl || this.paypalServerUrl === "undefined" ||
-              !this.paypalReturnUrl || this.paypalReturnUrl === "undefined" ||
-              !this.paypalEmail || this.paypalEmail === "undefined") {
+          if (!this.paypalServerUrl || this.paypalServerUrl === 'undefined' ||
+              !this.paypalReturnUrl || this.paypalReturnUrl === 'undefined' ||
+              !this.paypalEmail || this.paypalEmail === 'undefined') {
               this.paypalDisabled = true;
-              this.forceUpdate();
+              console.log('paypal disabled');
+              if(this.state.mounted) {
+                  this.forceUpdate();
+              }
               return;
           }
-          this.forceUpdate();
-          this.paypalDisabled = false;
         }.bind(this);
         req.send(null);
-
     }
 
     checkout(amount) {
-      document.getElementById("paymentAmount").value = amount;
-      document.getElementById("paypalForm").submit();
-  };
+      document.getElementById('paymentAmount').value = amount;
+      document.getElementById('paypalForm').submit();
+    }
 
   render() {
       if (this.paypalDisabled) {
-          console.log("paypal disabled");
           return null;
       }
 
