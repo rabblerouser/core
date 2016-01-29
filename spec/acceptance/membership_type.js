@@ -40,7 +40,7 @@ casper.on('page.initialized', function() {
     });
 });
 
-casper.test.begin('Test the project-m-staging', 6, function suite(test) {
+casper.test.begin('Test the project-m-staging', 8, function suite(test) {
     casper.start('https://project-m-staging.herokuapp.com/', function() {
         test.assertTitle("Pirate Party Membership");
         var js = this.evaluate(function() {
@@ -54,7 +54,7 @@ casper.test.begin('Test the project-m-staging', 6, function suite(test) {
     });
 
     casper.then(function () {
-        //test for error
+        //test for not enrolled to vote in Australia
         this.click('input[name="isEnrolled"][value="No"]');
         this.click('input[name="residentialStatus"][value="I am an Australian citizen."]');
         this.click('input[name="isMemberOfOtherParty"][value="Yes"]');
@@ -62,7 +62,7 @@ casper.test.begin('Test the project-m-staging', 6, function suite(test) {
         test.assertExist('div.validationErrors');
     });
 
-    // test for correct
+     // test for supporter membership
     casper.then(function() {
         this.click('input[name="isEnrolled"][value="Yes"]');
 
@@ -70,6 +70,13 @@ casper.test.begin('Test the project-m-staging', 6, function suite(test) {
         test.assertSelectorHasText('h3', 'You are entitled to a Supporter Membership.');
     });
 
+    //test for full membership
+    casper.then(function() {
+        this.click('input[name="isMemberOfOtherParty"][value="No"]');
+
+        test.assertExist('div.info-box');
+        test.assertSelectorHasText('h3', 'You are entitled to a Full Membership.');
+    })
     //test for jump to second page
     casper.then(function() {
         this.click('button');
@@ -77,7 +84,6 @@ casper.test.begin('Test the project-m-staging', 6, function suite(test) {
             test.assertSelectorHasText('h1.form-title', 'Details');  //find the title
         });
     });
-
 
     casper.run(function () {
         test.done();
