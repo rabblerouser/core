@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import MembershipType from './MembershipType.jsx';
 import Details from './Details.jsx';
 import Payment from './Payment.jsx';
@@ -16,6 +17,7 @@ export default class NewMemberForm extends Component {
         this.setMembershipType = this.setMembershipType.bind(this);
         this.postAndContinue = this.postAndContinue.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.getForm = this.getForm.bind(this);
 
         let startingState = this.checkIfPaypalFinishStep() ? 5 : 1;
@@ -54,6 +56,10 @@ export default class NewMemberForm extends Component {
           invoiceId: ''
         };
 
+    }
+
+    componentDidUpdate() {
+        ReactDOM.findDOMNode(this).scrollIntoView();
     }
 
     nextStep() {

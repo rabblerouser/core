@@ -5,7 +5,13 @@ export default class PermanentResidentInfoBox extends Component {
     constructor(props) {
         super(props);
         this.render = this.render.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
+
+    componentDidMount() {
+        this.props.didUpdate(true);
+    }
+
     render() {
         return (<div className="info-box">
             <div className="info-heading">
