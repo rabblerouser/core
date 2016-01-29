@@ -62,7 +62,7 @@
 
 0. Run server side tests
 
-        npm run jasmineTests
+        npm run serverTests
 
 0. Run client side tests
 
