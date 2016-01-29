@@ -9,8 +9,7 @@ var stripeHandler = require('../lib/stripeHandler');
 var paypalHandler = require('../lib/paypalHandler');
 
 router.get('/', function(req, res) {
-    let stripeHeader = {'Stripe-Public-Key': stripeHandler.getPublicKey()};
-    let headers = Object.assign({}, stripeHeader, paypalHandler.getPaypalHeaders());
+    let headers = Object.assign({}, stripeHandler.getStripeHeaders(), paypalHandler.getPaypalHeaders());
     res.header(headers).render('index', { title: 'Pirate Party Membership' });
 });
 
