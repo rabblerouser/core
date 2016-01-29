@@ -38,14 +38,43 @@ describe('Details step', () => {
         spyOn(populateCountries, 'setCountryAddress');
 
         detailsForm = TestUtils.renderIntoDocument(<Details
-                                membershipType="full"
+                                membershipType='full'
                                 formValues={defaultFormValues}/>);
     });
 
-    it('should show an error message if the details entered were invalid', () => {
+    it('should show list of invalid fields if the details entered were invalid', () => {
+        let expectedErrors = 'First NameLast NameEmailPhone NumberDate of BirthResidential AddressResidential SuburbResidential PostcodeResidential Country';
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
-        var errors = TestUtils.findRenderedDOMComponentWithClass(detailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors).textContent).toMatch(/email/);
+        var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
+        expect(ReactDOM.findDOMNode(errors[0]).textContent).toMatch(expectedErrors);
+    });
+
+    it('should show first name error message if it wasn\'t filled in', () => {
+        let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
+        TestUtils.Simulate.click(continueButton);
+        var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
+        expect(ReactDOM.findDOMNode(errors[1]).textContent).toMatch(/first name/);
+    });
+
+    it('should show last name error message if it wasn\'t filled in', () => {
+        let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
+        TestUtils.Simulate.click(continueButton);
+        var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
+        expect(ReactDOM.findDOMNode(errors[2]).textContent).toMatch(/last name/);
+    });
+
+    it('should show date of birth error message if it wasn\'t filled in', () => {
+        let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
+        TestUtils.Simulate.click(continueButton);
+        var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
+        expect(ReactDOM.findDOMNode(errors[3]).textContent).toMatch(/Must be in the format/);
+    });
+
+    it('should show email error message if it wasn\'t filled in', () => {
+        let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
+        TestUtils.Simulate.click(continueButton);
+        var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
+        expect(ReactDOM.findDOMNode(errors[4]).textContent).toMatch(/Please enter your address./);
     });
 });

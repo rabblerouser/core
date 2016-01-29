@@ -46,7 +46,7 @@
       margin-bottom: 25px;
     }
   }
-    
+
     #payments{
         padding-top: 0 !important;
     }
@@ -74,8 +74,8 @@
       float: left;
     }
   }
-    
-    
+
+
     #checkbox_declaration{
         margin-bottom:15px;
     }
@@ -89,7 +89,7 @@
     font-size: 14px;
     font-weight: bold;
   }
-    
+
   .mandatoryField2 {
     color: $red;
     font-size: 20px;
@@ -122,9 +122,9 @@
       font-weight: bold;
       text-decoration: underline;
     }
-      
+
     a:hover{
-       color: #4da8d4;   
+       color: #4da8d4;
     }
 
     label {
@@ -178,16 +178,16 @@ h3 {
           font-size: 8px;
         }
       }
-        
+
         a:hover{
             color: #9be29b;
-            
+
             .circled {
                 background: #8bd68b;
             }
         }
-        
-        
+
+
     }
 
     .info-body {
@@ -359,9 +359,9 @@ hr {
     padding-bottom: 15px;
     margin-top: 10px;
   }
-    
+
    button:hover{
-    background-color: #4da8d4;    
+    background-color: #4da8d4;
   }
 
   p {
@@ -372,12 +372,17 @@ hr {
 }
 
 .invalid {
-  color: #CC4756;
+  // color: #CC4756;
   > input {
     border-color: #cc4756 !important;
   }
   > select {
     border-color: #cc4756 !important;
+  }
+  .errors {
+    color: #CC4756;
+    font-size: 11px;
+    font-style: italic;
   }
 }
 

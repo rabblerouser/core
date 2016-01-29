@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Errors from './Errors.jsx';
+import InlineError from './InlineError.jsx';
 import * as memberValidator from '../lib/memberValidator';
 import countrySelector from '../public/javascript/countries.js';
 
@@ -12,19 +13,40 @@ export default class Details extends Component {
         this.handlePostalAddress = this.handlePostalAddress.bind(this);
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
         this.validationErrorClass = this.validationErrorClass.bind(this);
+        this.isValidationError = this.isValidationError.bind(this);
         this.handleCountryChange = this.handleCountryChange.bind(this);
+        this.render = this.render.bind(this);
         this.validator = memberValidator;
         this.state = {
             invalidFields: [],
-            errorMessages: [],
+            errorNames: [],
             showPostalAddress: false,
             residentialCountry: 'Australia',
             postalCountry: 'Australia'
         };
+
+        this.errorTypes = {
+          firstName: {name: 'First Name', message: 'Please enter your first name. No numbers or symbols allowed.'},
+          lastName: {name: 'Last Name', message: 'Please enter your last name. No numbers or symbols allowed.'},
+          dateOfBirth: {name: 'Date of Birth', message: 'Must be in the format DD/MM/YYYY and you must be over 16 years of age.'},
+          email: {name: 'Email', message: 'Please enter a valid email address i.e. valid@email.com'},
+          primaryPhoneNumber: {name: 'Phone Number', message: 'Must begin with a \'0\' or \'+61\' and be 9-10 digits in length.'},
+          secondaryPhoneNumber: {name: 'Secondary Phone Number', message: 'Must begin with a \'0\' or \'+61\' and be 9-10 digits in length.'},
+          residentialAddress: {name: 'Residential Address', message: 'Please enter your address.'},
+          residentialState: {name: 'Residential State', message: 'Please select your state from the dropdown menu.'},
+          residentialCountry: {name: 'Residential Country', message: 'Please select your country from the dropdown menu.'},
+          residentialPostcode: {name: 'Residential Postcode', message: 'Please enter your postcode/zip code. Must not be longer than 16 digits.'},
+          residentialSuburb: {name: 'Residential Suburb', message: 'Please enter your suburb/city.'},
+          postalAddress: {name: 'Postal Address', message: 'Please enter your address.'},
+          postalState: {name: 'Postal State', message: 'Please select your state from the dropdown menu.'},
+          postalCountry: {name: 'Postal Country', message: 'Please select your country from the dropdown menu.'},
+          postalPostcode: {name: 'Postal Postcode', message: 'Please enter your postcode/zip code. Must not be longer than 16 digits.'},
+          postalSuburb: {name: 'Postal Suburb', message: 'Please enter your suburb/city.'},
+        };
     }
 
     handleCountryChange(event) {
-        if (event.target.id == 'residentialAddress[country]') {
+        if (event.target.id === 'residentialAddress[country]') {
             if (this.refs.residentialCountry.value !== 'Australia') {
                 this.setState({residentialCountry: 'International'});
             } else {
@@ -32,7 +54,7 @@ export default class Details extends Component {
             }
         }
 
-        if (event.target.id == 'postalAddress[country]') {
+        if (event.target.id === 'postalAddress[country]') {
             if (this.refs.postalCountry.value !== 'Australia') {
                 this.setState({postalCountry: 'International'});
             } else {
@@ -56,67 +78,44 @@ export default class Details extends Component {
             invalidFields = _.filter(validationErrors, (error) => !_.startsWith(error, 'postal'));
         }
 
-        function getPostCodeErrorMessage(country) {
-            if (country !== "Australia") {
-                return "Must not be longer than 16 digits.";
-            } else {
-                return "Must be 4 digits in length and only use numbers.";
-            }
-        }
-
         var errors = [];
-        let errorMessages = {
-            firstName: "First Name: Please enter your first name. No numbers or symbols allowed.",
-            lastName: "Last Name: Please enter your last name. No numbers or symbols allowed.",
-            dateOfBirth: "Date of Birth: Date of birth must be in format DD/MM/YYYY and you must be over 16 years of age.",
-            email: "Email: Please enter a valid email address i.e. valid@email.com",
-            primaryPhoneNumber: "Phone Number: Must begin with a '0' or '+61' and be 9-10 digits in length.",
-            secondaryPhoneNumber: "Secondary Phone Number: Must begin with a '0' or '+61' and be 9-10 digits in length.",
-            residentialAddress: "Residential Address: Please enter your address.",
-            residentialState: "Residential State: Please select your state from the dropdown menu.",
-            residentialCountry: "Residential Country: Please select your country from the dropdown menu.",
-            residentialPostcode: "Residential Postcode: Please enter your postcode. " + getPostCodeErrorMessage(this.refs.residentialCountry.value),
-            residentialSuburb: "Residential Suburb: Please enter a suburb.",
-            postalAddress: "Postal Address: Please enter your address.",
-            postalState: "Postal State: Please select your state from the dropdown menu.",
-            postalCountry: "Postal Country: Please select your country from the dropdown menu.",
-            postalPostcode: "Postal Postcode: Please enter your postcode. " + getPostCodeErrorMessage(this.refs.postalCountry.value),
-            postalSuburb: "Postal Suburb: Please enter your suburb."
-        };
 
         _.forEach(invalidFields, function(error){
-            errors.push(errorMessages[error]);
-        });
+            errors.push(this.errorTypes[error].name);
+        }.bind(this));
 
         this.setState({invalidFields: invalidFields});
-        this.setState({errorMessages: errors});
-
+        this.setState({errorNames: errors});
     }
 
     componentDidMount() {
-        countrySelector.populateCountries("residentialAddress[country]", "residentialAddress[state]");
-        countrySelector.populateCountries("postalAddress[country]", "postalAddress[state]");
+        countrySelector.populateCountries('residentialAddress[country]', 'residentialAddress[state]');
+        countrySelector.populateCountries('postalAddress[country]', 'postalAddress[state]');
 
-        countrySelector.setCountryAddress("residentialAddress[country]", this.props.formValues.residentialAddress.country, "residentialAddress[state]", this.props.formValues.residentialAddress.state);
-        countrySelector.setCountryAddress("postalAddress[country]", this.props.formValues.postalAddress.country, "postalAddress[state]", this.props.formValues.postalAddress.state);
+        countrySelector.setCountryAddress('residentialAddress[country]', this.props.formValues.residentialAddress.country, 'residentialAddress[state]', this.props.formValues.residentialAddress.state);
+        countrySelector.setCountryAddress('postalAddress[country]', this.props.formValues.postalAddress.country, 'postalAddress[state]', this.props.formValues.postalAddress.state);
     }
 
     getPersonalInformationSubtitletext() {
-        if (this.props.membershipType === "full") {
-            return "Please enter your details exactly as they would appear on the electoral roll.";
+        if (this.props.membershipType === 'full') {
+            return 'Please enter your details exactly as they would appear on the electoral roll.';
         }
-        return "Please enter your details.";
+        return 'Please enter your details.';
     }
 
     getResidentialAddressSubtitleText() {
-        if (this.props.membershipType === "full") {
-            return "Please enter the address that you are enrolled to vote from.";
+        if (this.props.membershipType === 'full') {
+            return 'Please enter the address that you are enrolled to vote from.';
         }
-        return "Please enter your address.";
+        return 'Please enter your address.';
+    }
+
+    isValidationError(fieldName) {
+      return _.indexOf(this.state.invalidFields, fieldName) > -1;
     }
 
     validationErrorClass(fieldName) {
-        if(_.indexOf(this.state.invalidFields, fieldName) > -1){
+        if(this.isValidationError(fieldName)){
             return 'invalid';
         }
         return ;
@@ -166,7 +165,7 @@ export default class Details extends Component {
                 <h1 className="form-title">Details</h1>
 
                 <div className="form-body">
-                    <Errors invalidFields={this.state.errorMessages}/>
+                    <Errors invalidFields={this.state.errorNames}/>
 
                     <div className="reminder">
                         <img src="/images/reminder.svg"></img>
@@ -183,18 +182,24 @@ export default class Details extends Component {
                     </div>
                     <div className="field-group">
                         <label htmlFor="firstName" className={this.validationErrorClass('firstName')}>Given Name(s) <span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('firstName')}
+                                          errorMessage={this.errorTypes['firstName'].message} />
                             <input type="text" defaultValue={this.props.formValues.firstName} ref="firstName" id="firstName"
                                    className="firstName" />
                         </label>
                         <label htmlFor="lastName" className={this.validationErrorClass('lastName')}>Surname <span className="mandatoryField">* </span>
-                            <input type="text" defaultValue={this.props.formValues.lastName} ref="lastName" id="lastName"
+                          <InlineError isError={this.isValidationError('lastName')}
+                                        errorMessage={this.errorTypes['lastName'].message} />
+                          <input type="text" defaultValue={this.props.formValues.lastName} ref="lastName" id="lastName"
                                    className="lastName"/>
                         </label>
                         <label htmlFor="dateOfBirth" className={this.validationErrorClass('dateOfBirth')}>Date of Birth <span className="mandatoryField">* </span>
-                            <input type="text" defaultValue={this.props.formValues.dateOfBirth} ref="dateOfBirth"
+                          <InlineError isError={this.isValidationError('dateOfBirth')}
+                                        errorMessage={this.errorTypes['dateOfBirth'].message} />
+                          <input type="text" defaultValue={this.props.formValues.dateOfBirth} ref="dateOfBirth"
                                    placeholder="DD/MM/YYYY" id="dateOfBirth" className="dateOfBirth"/>
                         </label>
-                        <label htmlFor="gender" className={this.validationErrorClass('gender')}>Gender <i>(optional)</i>
+                        <label htmlFor="gender">Gender <i>(optional)</i>
                             <input type="text" defaultValue={this.props.formValues.gender} ref="gender" id="gender"
                                    className="gender"/>
                         </label>
@@ -205,24 +210,34 @@ export default class Details extends Component {
                     </div>
                     <div className="field-group">
                         <label htmlFor="residentialAddress[address]" className={this.validationErrorClass('residentialAddress')}>Address <span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('residentialAddress')}
+                                          errorMessage={this.errorTypes['residentialAddress'].message} />
                             <input type="text" defaultValue={this.props.formValues.residentialAddress.address} ref="residentialAddress" id="residentialAddress[address]" className="residentialAddress" />
                         </label>
                         <label htmlFor="residentialAddress[suburb]" className={this.validationErrorClass('residentialSuburb')}>Suburb/City <span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('residentialSuburb')}
+                                          errorMessage={this.errorTypes['residentialSuburb'].message} />
                             <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialAddress[suburb]" className="residentialSuburb" />
                         </label>
                         <label htmlFor="residentialAddress[country]" className={this.validationErrorClass('residentialCountry')}>Country <span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('residentialCountry')}
+                                          errorMessage={this.errorTypes['residentialCountry'].message} />
                             <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry"
                                     id="residentialAddress[country]" className="residentialCountry" onChange={this.handleCountryChange}>
                             </select>
                         </label>
                         <div className="state-code">
                             <label htmlFor="residentialAddress[state]" className={this.validationErrorClass('residentialState')}>State <span className="mandatoryField">* </span>
+                                <InlineError isError={this.isValidationError('residentialState')}
+                                              errorMessage={this.errorTypes['residentialState'].message} />
                                 <select defaultValue={this.props.formValues.residentialAddress.state} ref="residentialState"
                                         id="residentialAddress[state]" className="residentialState">
                                     <option value="New South Wales">New South Wales</option>
                                 </select>
                             </label>
                             <label htmlFor="residentialAddress[postcode]" className={this.validationErrorClass('residentialPostcode')}>Postcode/ZIP Code <span className="mandatoryField">* </span>
+                                <InlineError isError={this.isValidationError('residentialPostcode')}
+                                              errorMessage={this.errorTypes['residentialPostcode'].message} />
                                 <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode}
                                        ref="residentialPostcode" id="residentialAddress[postcode]"
                                        className="residentialPostcode"/>
@@ -243,14 +258,20 @@ export default class Details extends Component {
                         </div>
                         <div className="field-group">
                             <label htmlFor="postalAddress[address]" className={this.validationErrorClass('postalAddress')}>Address <span className="mandatoryField">* </span>
+                                <InlineError isError={this.isValidationError('postalAddress')}
+                                              errorMessage={this.errorTypes['postalAddress'].message} />
                                 <input type="text" defaultValue={this.props.formValues.postalAddress.address}
                                        ref="postalAddress" id="postalAddress"/>
                             </label>
                             <label htmlFor="postalAddress[suburb]" className={this.validationErrorClass('postalSuburb')}>Suburb <span className="mandatoryField">* </span>
+                                <InlineError isError={this.isValidationError('postalSuburb')}
+                                              errorMessage={this.errorTypes['postalSuburb'].message} />
                                 <input type="text" defaultValue={this.props.formValues.postalAddress.suburb}
                                        ref="postalSuburb" id="postalAddress[suburb]"/>
                             </label>
                             <label htmlFor="postalAddress[country]" className={this.validationErrorClass('postalCountry')}>Country <span className="mandatoryField">* </span>
+                                <InlineError isError={this.isValidationError('postalCountry')}
+                                              errorMessage={this.errorTypes['postalCountry'].message} />
                                 <select defaultValue={this.props.formValues.postalAddress.country} ref="postalCountry"
                                         id="postalAddress[country]" onChange={this.handleCountryChange}>
                                 </select>
@@ -258,11 +279,15 @@ export default class Details extends Component {
 
                             <div className="state-code">
                                 <label htmlFor="postalAddress[state]" className={this.validationErrorClass('postalState')}>State <span className="mandatoryField">* </span>
+                                    <InlineError isError={this.isValidationError('postalState')}
+                                                  errorMessage={this.errorTypes['postalState'].message} />
                                     <select defaultValue={this.props.formValues.postalAddress.state} ref="postalState"
                                             id="postalAddress[state]">
                                     </select>
                                 </label>
                                 <label htmlFor="postalAddress[postcode]" className={this.validationErrorClass('postalPostcode')}>Postcode/ZIP Code <span className="mandatoryField">* </span>
+                                    <InlineError isError={this.isValidationError('postalPostcode')}
+                                                  errorMessage={this.errorTypes['postalPostcode'].message} />
                                     <input type="text" defaultValue={this.props.formValues.postalAddress.postcode}
                                            ref="postalPostcode" id="postalAddress[postcode]"/>
                                 </label>
@@ -275,14 +300,20 @@ export default class Details extends Component {
                     </div>
                     <div className="field-group">
                         <label htmlFor="email" className={this.validationErrorClass('email')}>Email <span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('email')}
+                                          errorMessage={this.errorTypes['email'].message} />
                             <input type="text" defaultValue={this.props.formValues.email} ref="email" id="email"
                                    className="email"/>
                         </label>
                         <label htmlFor="phoneNumber" className={this.validationErrorClass('primaryPhoneNumber')}>Phone number <span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('primaryPhoneNumber')}
+                                          errorMessage={this.errorTypes['primaryPhoneNumber'].message} />
                             <input type="text" defaultValue={this.props.formValues.primaryPhoneNumber} ref="phoneNumber"
                                    id="primaryPhoneNumber" className="primaryPhoneNumber"/>
                         </label>
                         <label htmlFor="phoneNumber" className={this.validationErrorClass('secondaryPhoneNumber')}>Secondary Phone <i>(optional)</i>
+                            <InlineError isError={this.isValidationError('secondaryPhoneNumber')}
+                                          errorMessage={this.errorTypes['secondaryPhoneNumber'].message} />
                             <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhone"
                                    id="secondaryPhone" className="secondaryPhone"/>
                         </label>
