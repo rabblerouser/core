@@ -3,6 +3,7 @@
 let emailUtil = require('../lib/emailUtil');
 let config = require('config');
 let logger = require('../lib/logger');
+let Q = require('q');
 
 function logAndRethrow(error) {
   logger.logError(error.stack, 'sending verification email');
@@ -11,7 +12,7 @@ function logAndRethrow(error) {
 
 function sendVerificationEmail(member) {
   if (!config.get('email.sendMemberVerificationEnabled')) {
-    return member;
+    return Q.resolve(member);
   }
 
 //should be moved to a separate file.

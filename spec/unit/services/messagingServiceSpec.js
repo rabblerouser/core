@@ -2,6 +2,7 @@
 let specHelper = require('../../support/specHelper');
 let Q = specHelper.Q;
 let emailUtil = require('../../../lib/emailUtil');
+let logger = require('../../../lib/logger');
 let messagingService = require('../../../services/messagingService');
 let sinon = require('sinon');
 let member = {email: 'sherlock@holmes.co.uk', verificationHash: 'shhhaaaaaa'};
@@ -9,19 +10,26 @@ let config = require('config');
 
 describe('messagingService', () => {
   describe('sendVerificationEmail', () => {
-    let emailUiltStub = sinon.stub(emailUtil, 'sendHtmlEmail');
+    let emailUiltStub;
     let emailPromise;
-    let configStub = sinon.stub(config, 'get');
+    let configStub;
+    let loggerSpy;
 
     beforeEach(() => {
-      emailPromise = Q.defer();
-      emailUiltStub.returns(emailPromise.promise);
+      loggerSpy = sinon.spy(logger, 'logError');
+
+      configStub = sinon.stub(config, 'get');
       configStub.withArgs('email.sendMemberVerificationEnabled').returns(true);
+
+      emailPromise = Q.defer();
+      emailUiltStub = sinon.stub(emailUtil, 'sendHtmlEmail');
+      emailUiltStub.returns(emailPromise.promise);
     });
 
     afterEach(() => {
       emailUtil.sendHtmlEmail.restore();
       config.get.restore();
+      logger.logError.restore();
     });
 
     it('sends the email to the member', (done) => {
@@ -36,8 +44,26 @@ describe('messagingService', () => {
       .nodeify(done);
     });
 
-    it('throws an error when something unexpected happens');
+    it('throws an error when something unexpected happens', (done) => {
+      emailPromise.reject('wrong password');
 
-    it('does not send an error if disabled in configuration');
+      messagingService.sendVerificationEmail(member)
+      .catch((error) => {
+        expect(error).not.toBeNull();
+        expect(logger.logError).toHaveBeenCalled();
+      })
+      .nodeify(done);
+    });
+
+    it('does not send an email if disabled in configuration', (done) => {
+      configStub.withArgs('email.sendMemberVerificationEnabled').returns(false);
+
+      messagingService.sendVerificationEmail(member)
+      .finally(() => {
+        expect(emailUtil.sendHtmlEmail).not.toHaveBeenCalled();
+        expect(loggerSpy).not.toHaveBeenCalled();
+      })
+      .nodeify(done);
+    });
   });
 });
