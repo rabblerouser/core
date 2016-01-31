@@ -13,8 +13,6 @@ describe("paymentValidator", () => {
                 "memberEmail": "sherlock@holmes.co.uk",
                 "totalAmount": "100",
                 "paymentType": "cheque",
-                "uuid": '1234',
-                "membershipType": "full",
                 "invoiceId": '1'
         };
 
@@ -84,37 +82,6 @@ describe("paymentValidator", () => {
         ].forEach((testCase) => {
             it(`Should return false if id is ${testCase}`, () => {
                 expect(paymentValidator.isValidId(testCase)).toBe(false);
-            });
-        });
-    });
-
-    describe("isValidUUID", () => {
-        it("Should return true given a string", () => {
-            expect(paymentValidator.isValidUUID('id1234')).toBe(true);
-            expect(paymentValidator.isValidUUID(1234)).toBe(true);
-        });
-
-        [
-            "",
-            null
-        ].forEach((testCase) => {
-            it(`Should return false if id is ${testCase}`, () => {
-                expect(paymentValidator.isValidUUID(testCase)).toBe(false);
-            });
-        });
-    });
-
-    describe("isValidMembershipType", () => {
-        it("Should return true given a string", () => {
-            expect(paymentValidator.isValidMembershipType('full')).toBe(true);
-        });
-
-        [
-            "",
-            null
-        ].forEach((testCase) => {
-            it(`Should return false if id is ${testCase}`, () => {
-                expect(paymentValidator.isValidMembershipType(testCase)).toBe(false);
             });
         });
     });
