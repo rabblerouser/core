@@ -61,7 +61,7 @@ describe("invoicesController", () => {
         describe("when it receives a good request", () => {
             it("responds with success", (done) => {
                 validatePaymentStub.returns([]);
-                payForInvoicePromise.resolve({dataValues: {id:1, reference:'FUL123'}});
+                payForInvoicePromise.resolve();
 
                 newInvoiceHandler(goodRequest, res)
                     .finally(() => {

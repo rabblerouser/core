@@ -24,11 +24,8 @@ var newInvoiceHandler = (req, res) => {
 };
 
 function sendResponseToUser(res) {
-    return function(data) {
-        let responseForUser = {
-            reference: data.dataValues.reference
-        };
-        res.status(200).json(responseForUser);
+    return function() {
+        res.status(200).json();
     }
 }
 
