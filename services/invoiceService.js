@@ -21,7 +21,7 @@ function updatePaymentForInvoice(newInvoice) {
 
     return Q(updateFields)
         .then(updateInvoice(newInvoice.id))
-        .tap(logger.logUpdateInvoiceEvent);
+        .tap(()=>{logger.logUpdateInvoiceEvent(newInvoice.id, updateFields)});
 }
 
 var createEmptyInvoice = (memberEmail, membershipType) => {
@@ -49,7 +49,7 @@ function updateInvoiceReference(membershipType) {
 
         return Q(updateFields)
             .then(updateInvoice(invoiceId))
-            .tap(logger.logUpdateInvoiceEvent);
+            .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, updateFields)});
     }
 }
 
