@@ -63,7 +63,9 @@ describe('membersController', () => {
                 .returns(createMemberPromise.promise);
 
             createInvoicePromise = Q.defer();
-            createInvoiceStub.returns(createInvoicePromise.promise);
+            createInvoiceStub
+                .withArgs(goodRequest.body.email, goodRequest.body.membershipType)
+                .returns(createInvoicePromise.promise);
 
             sendVerificationEmailPromise = Q.defer();
             sendVerificationEmailStub.returns(sendVerificationEmailPromise.promise);

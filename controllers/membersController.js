@@ -62,7 +62,7 @@ function sendVerificationEmailOffline(data) {
 }
 
 function createEmptyInvoice(createdMember) {
-  return invoiceService.createEmptyInvoice(createdMember.email, invoiceReference(createdMember))
+  return invoiceService.createEmptyInvoice(createdMember.email, createdMember.membershipType)
   .then((emptyInvoice) => {
     return {
       invoice: emptyInvoice,
