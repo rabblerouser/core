@@ -9,9 +9,7 @@ var newInvoiceHandler = (req, res) => {
         memberEmail: req.body.memberEmail,
         totalAmount: req.body.paymentType === 'noContribute' ? 1 : req.body.totalAmount,
         paymentType: req.body.paymentType,
-        invoiceId: req.body.invoiceId,
-        uuid: req.body.uuid,
-        membershipType: req.body.membershipType
+        stripeToken: req.body.stripeToken
     };
 
     let validationErrors = paymentValidator.isValid(newInvoice);
@@ -20,38 +18,25 @@ var newInvoiceHandler = (req, res) => {
         return res.status(400).json({ errors: validationErrors});
     }
 
-    if (req.body.paymentType === "stripe" && req.body.stripeToken) {
-        newInvoice.totalAmount = Math.floor(req.body.totalAmount);
+    return invoiceService.payForInvoice(req.body.invoiceId, newInvoice)
+        .then(sendResponseToUser(res))
+        .catch(handleError(res));
+};
 
-        invoiceService.chargeCard(req.body.stripeToken.id, newInvoice.totalAmount)
-            .then((charge) => {
-                newInvoice.reference = charge.id;
-                newInvoice.paymentStatus = 'Paid';
-                res.status(200);
-                return createInvoice(newInvoice, res);
-            })
-            .catch((error) => {
-                newInvoice.paymentStatus = 'Pending';
-                res.status(400).json({errors: error});
-                return createInvoice(newInvoice, res);
-            });
-    } else {
-        res.status(200);
-        return createInvoice(newInvoice, res);
+function sendResponseToUser(res) {
+    return function(data) {
+        let responseForUser = {
+            reference: data.dataValues.reference
+        };
+        res.status(200).json(responseForUser);
     }
-};
+}
 
-var createInvoice = (newInvoice, res) => {
-    let dbError = (error) => {
+function handleError(res) {
+    return function(error) {
         res.status(500).json({errors: [error]});
-    };
-
-    return invoiceService.createInvoice(newInvoice)
-        .then(() => {
-            return res.end();
-        })
-        .catch(dbError);
-};
+    }
+}
 
 module.exports = {
     newInvoiceHandler: newInvoiceHandler
