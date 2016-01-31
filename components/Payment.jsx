@@ -23,8 +23,8 @@ export default class Payment extends Component {
         var invalidFields = errorFields;
         var errors = [];
         let errorMessages = {
-            totalAmount: "If you wish to contribute, the minimum is $1.",
-            paymentType: "Please select a payment type."
+            totalAmount: 'If you wish to contribute, the minimum is $1.',
+            paymentType: 'Please select a payment type.'
         };
 
         if(_.indexOf(invalidFields, 'paymentType') > -1){
@@ -44,7 +44,7 @@ export default class Payment extends Component {
     }
 
     handlePaymentTypeChanged(event) {
-        if(_.indexOf(this.state.invalidFields, "paymentType") > -1){
+        if(_.indexOf(this.state.invalidFields, 'paymentType') > -1){
             this.handleValidationErrors(_.pull(this.state.invalidFields, 'paymentType'));
         }
         this.setState({paymentType: event.target.value});
@@ -114,7 +114,7 @@ export default class Payment extends Component {
         } else {
           this.processOtherPayment(fieldValues);
         }
-    };
+    }
 
     render() {
         return (<fieldset>
