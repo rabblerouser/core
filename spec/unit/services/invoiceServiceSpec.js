@@ -31,11 +31,11 @@ describe('invoiceService', () => {
             paymentType: "deposit",
             paymentDate: moment().format('L'),
             paymentStatus: "Pending",
-            id: 1
+            invoiceId: 1
         };
 
         expectedInvoice = {
-            id: 1,
+            invoiceId: 1,
             reference: 'FUL1'
         };
 

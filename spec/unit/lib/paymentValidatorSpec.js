@@ -12,7 +12,7 @@ describe("paymentValidator", () => {
         let validPayment = {
                 "totalAmount": "100",
                 "paymentType": "cheque",
-                "id": '1'
+                "invoiceId": '1'
         };
 
         it("should return empty array of errors on valid payment", () => {

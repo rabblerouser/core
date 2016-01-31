@@ -9,7 +9,7 @@ var newInvoiceHandler = (req, res) => {
         totalAmount: req.body.paymentType === 'noContribute' ? 1 : req.body.totalAmount,
         paymentType: req.body.paymentType,
         stripeToken: req.body.stripeToken,
-        id: req.body.invoiceId
+        invoiceId: req.body.invoiceId
     };
 
     let validationErrors = paymentValidator.isValid(newInvoice);

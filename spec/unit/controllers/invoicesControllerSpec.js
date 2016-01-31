@@ -37,7 +37,7 @@ describe("invoicesController", () => {
                 totalAmount: 60.1,
                 paymentType: 'stripe',
                 stripeToken: 'token',
-                id: 1
+                invoiceId: 1
             };
 
             payForInvoicePromise = Q.defer();
