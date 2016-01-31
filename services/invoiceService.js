@@ -7,7 +7,7 @@ const Q = require('q'),
     moment = require('moment'),
     Invoice = models.Invoice;
 
-function updatePaymentForInvoice(invoiceId, newInvoice) {
+function updatePaymentForInvoice(newInvoice) {
     var updateFields = {
       totalAmountInCents: newInvoice.totalAmount * 100,
       paymentDate: moment().format('L'),
@@ -20,7 +20,7 @@ function updatePaymentForInvoice(invoiceId, newInvoice) {
     }
 
     return Q(updateFields)
-        .then(updateInvoice(invoiceId))
+        .then(updateInvoice(newInvoice.id))
         .tap(logger.logUpdateInvoiceEvent);
 }
 
@@ -70,19 +70,19 @@ function chargeCard(stripeToken, totalAmount) {
         });
 }
 
-var payForInvoice = (invoiceId, newInvoice) => {
+var payForInvoice = (newInvoice) => {
     if (newInvoice.paymentType === "stripe") {
         return chargeCard(newInvoice.stripeToken, newInvoice.totalAmount)
             .then((charge) => {
                 newInvoice.paymentStatus = "PAID";
                 newInvoice.transactionId = charge.id;
-                return updatePaymentForInvoice(invoiceId, newInvoice);
+                return updatePaymentForInvoice(newInvoice);
             })
             .catch((error) => {
                 return Q.reject(error);
             })
     } else {
-        return updatePaymentForInvoice(invoiceId, newInvoice)
+        return updatePaymentForInvoice(newInvoice)
             .catch((error) => {
                 return Q.reject(error);
             });

@@ -37,12 +37,13 @@ describe("invoicesController", () => {
                 memberEmail: "sherlock@holmes.co.uk",
                 totalAmount: 60.1,
                 paymentType: 'stripe',
-                stripeToken: 'token'
+                stripeToken: 'token',
+                id: 1
             };
 
             payForInvoicePromise = Q.defer();
             payForInvoiceStub
-                .withArgs(1, expectedInvoiceValues)
+                .withArgs(expectedInvoiceValues)
                 .returns(payForInvoicePromise.promise);
 
             statusStub = sinon.stub();

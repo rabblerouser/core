@@ -9,7 +9,8 @@ var newInvoiceHandler = (req, res) => {
         memberEmail: req.body.memberEmail,
         totalAmount: req.body.paymentType === 'noContribute' ? 1 : req.body.totalAmount,
         paymentType: req.body.paymentType,
-        stripeToken: req.body.stripeToken
+        stripeToken: req.body.stripeToken,
+        id: req.body.invoiceId
     };
 
     let validationErrors = paymentValidator.isValid(newInvoice);
@@ -18,7 +19,7 @@ var newInvoiceHandler = (req, res) => {
         return res.status(400).json({ errors: validationErrors});
     }
 
-    return invoiceService.payForInvoice(req.body.invoiceId, newInvoice)
+    return invoiceService.payForInvoice(newInvoice)
         .then(sendResponseToUser(res))
         .catch(handleError(res));
 };

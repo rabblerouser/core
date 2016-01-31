@@ -31,7 +31,8 @@ describe('invoiceService', () => {
             totalAmount: 60,
             paymentType: "deposit",
             paymentDate: moment().format('L'),
-            paymentStatus: "Pending"
+            paymentStatus: "Pending",
+            id: 1
         };
 
         expectedInvoice = {
@@ -87,7 +88,6 @@ describe('invoiceService', () => {
 
                     expect(Invoice.create).toHaveBeenCalledWith(emptyInvoice);
                     expect(Invoice.update).toHaveBeenCalledWith({ reference: 'FUL1' }, { where: {id: 1} });
-
                 }).nodeify(done);
         });
 
@@ -129,12 +129,6 @@ describe('invoiceService', () => {
     });
 
     describe("pay for invoice", () => {
-        let invoiceId;
-
-        beforeEach(() => {
-           invoiceId = 1;
-        });
-
         describe("Credit Card/Debit Card Payment", () => {
             let stripeHandlerStub, stripeChargePromise,
             stripeToken, totalAmount,
@@ -167,7 +161,7 @@ describe('invoiceService', () => {
                 stripeChargePromise.resolve();
                 updateInvoicePromise.resolve({dataValues: expectedInvoice});
 
-                invoiceService.payForInvoice(invoiceId, newInvoice)
+                invoiceService.payForInvoice(newInvoice)
                     .finally(() => {
                         expect(stripeHandler.chargeCard).toHaveBeenCalledWith(newInvoice.stripeToken, newInvoice.totalAmount);
                         done();
@@ -178,7 +172,7 @@ describe('invoiceService', () => {
                 stripeChargePromise.resolve();
                 updateInvoicePromise.resolve({dataValues: expectedInvoice});
 
-                let promise = invoiceService.payForInvoice(invoiceId, newInvoice);
+                let promise = invoiceService.payForInvoice(newInvoice);
 
                 promise.finally(() => {
                     expect(logger.logNewChargeEvent).toHaveBeenCalledWith(newInvoice.stripeToken);
@@ -191,7 +185,7 @@ describe('invoiceService', () => {
                 let errorMessage = "Charge card failed with Stripe!";
                 stripeChargePromise.reject(errorMessage);
 
-                let promise = invoiceService.payForInvoice(invoiceId, newInvoice);
+                let promise = invoiceService.payForInvoice(newInvoice);
 
                 promise.finally(() => {
                     expect(promise.isRejected()).toBe(true);
@@ -212,7 +206,7 @@ describe('invoiceService', () => {
                 stripeChargePromise.resolve({id:'trans_1'});
                 updateInvoicePromise.resolve({dataValues: expectedInvoice});
 
-                invoiceService.payForInvoice(invoiceId, newInvoice)
+                invoiceService.payForInvoice(newInvoice)
                     .then((updatedInvoice) => {
                         expect(updatedInvoice.dataValues.id).toEqual(expectedInvoice.id);
                         expect(updatedInvoice.dataValues.reference).toEqual(expectedInvoice.reference);
@@ -233,7 +227,7 @@ describe('invoiceService', () => {
 
                 updateInvoicePromise.resolve({dataValues: expectedInvoice});
 
-                invoiceService.payForInvoice(invoiceId, newInvoice)
+                invoiceService.payForInvoice(newInvoice)
                     .then((updatedInvoice) => {
                         expect(updatedInvoice.dataValues.id).toEqual(expectedInvoice.id);
                         expect(updatedInvoice.dataValues.reference).toEqual(expectedInvoice.reference);
@@ -246,7 +240,7 @@ describe('invoiceService', () => {
         it("logs update invoice event", (done) => {
             updateInvoicePromise.resolve({dataValues: expectedInvoice});
 
-            invoiceService.payForInvoice(invoiceId, newInvoice)
+            invoiceService.payForInvoice(newInvoice)
                 .finally(() => {
                     expect(logger.logUpdateInvoiceEvent).toHaveBeenCalledWith({dataValues: expectedInvoice});
                 }).nodeify(done);
@@ -256,7 +250,7 @@ describe('invoiceService', () => {
             let errorMessage = "Seriously, we still don't have any damn bananas.";
             updateInvoicePromise.reject(errorMessage);
 
-            let promise =  invoiceService.payForInvoice(invoiceId, newInvoice);
+            let promise =  invoiceService.payForInvoice(newInvoice);
 
             promise.finally(() => {
                 expect(promise.isRejected()).toBe(true);
