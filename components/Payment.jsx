@@ -76,7 +76,7 @@ export default class Payment extends Component {
               success: function (value) {
               },
               error: function(request, status, error) {
-                  this.handleValidationErrors(error);
+                  this.setState({errorMessages: error});
               }.bind(this)
           });
       }
@@ -98,12 +98,9 @@ export default class Payment extends Component {
 
     processPayment() {
         var fieldValues = {
-            memberEmail: this.props.email,
             totalAmount: this.state.paymentType === 'noContribute' ? 1 : Math.floor(parseFloat(this.state.amount)),
             paymentType: this.state.paymentType,
-            uuid: this.props.memberAndInvoice.uuid,
-            membershipType: this.props.memberAndInvoice.membershipType,
-            invoiceId: this.props.memberAndInvoice.invoiceId };
+            invoiceId: this.props.invoiceId };
 
         var invalidFields = this.validator.isValid(fieldValues);
         if (invalidFields.length > 0) {
@@ -146,7 +143,7 @@ export default class Payment extends Component {
                                     setState={this.setState}
                                     email={this.props.email}
                                     amount={this.state.amount}
-                                    memberAndInvoice={this.props.memberAndInvoice}
+                                    invoiceId={this.props.invoiceId}
                                     nextStep={this.props.nextStep}/>
                     <label>
                         <input type="radio" name="paymentType" value="deposit" onChange={this.handlePaymentTypeChanged}/>Direct Deposit

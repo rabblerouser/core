@@ -25,7 +25,7 @@ var newInvoiceHandler = (req, res) => {
 
 function sendResponseToUser(res) {
     return function() {
-        res.status(200).json();
+        res.status(200).json({});
     }
 }
 
