@@ -7,8 +7,8 @@ const Q = require('q'),
     moment = require('moment'),
     Invoice = models.Invoice;
 
-var updateInvoice = (invoiceId, newInvoice) => {
-    var invoice = {
+function updatePaymentForInvoice(invoiceId, newInvoice) {
+    var updateFields = {
       totalAmountInCents: newInvoice.totalAmount * 100,
       paymentDate: moment().format('L'),
       paymentType: newInvoice.paymentType,
@@ -16,79 +16,77 @@ var updateInvoice = (invoiceId, newInvoice) => {
     };
 
     if (newInvoice.paymentType === 'stripe') {
-      invoice.reference = newInvoice.reference;
+      updateFields.transactionId = newInvoice.transactionId;
     }
 
-    return Q(invoice)
-        .then(()=>{ return Invoice.update(invoice, { where: {id: invoiceId} }); })
-        .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, invoice);});
-};
-
-function getReferenceNumber(newInvoice) {
-  if (newInvoice.paymentType === 'stripe' || newInvoice.paymentType === 'paypal'){
-      return newInvoice.reference;
-  }
-  else {
-      return newInvoice.membershipType.substring(0,3).toUpperCase() + newInvoice.uuid;
-  }
+    return Q(updateFields)
+        .then(updateInvoice(invoiceId))
+        .tap(logger.logUpdateInvoiceEvent);
 }
 
-function createNewInvoice(newInvoice) {
-    var invoice = {
-      memberEmail: newInvoice.memberEmail,
-      totalAmountInCents: newInvoice.totalAmount * 100,
-      paymentDate: moment().format('L'),
-      paymentType: newInvoice.paymentType,
-      reference: getReferenceNumber(newInvoice),
-      paymentStatus: newInvoice.paymentStatus || 'Pending'
-    };
-
-    return Q(invoice)
-        .then(Invoice.create.bind(Invoice))
-        .tap(()=>{logger.logNewInvoiceEvent(invoice);});
-}
-
-var createInvoice = (newInvoice) => {
-    return Q(newInvoice)
-        .then(()=>{ return Invoice.findById(newInvoice.invoiceId)})
-        .then((invoice) => {
-            if (invoice) {
-                return updateInvoice(invoice.dataValues.id, newInvoice);
-            }
-            else {
-                return createNewInvoice(newInvoice);
-            }
-        })
-        .catch((error) => {
-            return Q.reject(error);
-        });
-};
-
-var chargeCard = (stripeToken, totalAmount) => {
-    return stripeHandler.chargeCard(stripeToken, totalAmount)
-        .tap(() => {
-          logger.logNewChargeEvent(stripeToken);
-        })
-        .catch((error)=>{
-          logger.logNewFailedCharge(stripeToken,error);
-          return Q.reject('Failed to charge card');
-        });
-};
-
-var createEmptyInvoice = (memberEmail, reference) => {
+var createEmptyInvoice = (memberEmail, membershipType) => {
     return Q({
           memberEmail: memberEmail,
           totalAmountInCents: 0,
           paymentDate: moment().format('L'),
           paymentType: '',
-          reference: reference,
-          paymentStatus: ''
+          reference: ''
         })
         .then(Invoice.create.bind(Invoice))
-        .tap(()=>{logger.logCreateEmptyInvoiceEvent(memberEmail, reference);})
+        .tap(logger.logCreateEmptyInvoiceEvent)
+        .then(updateInvoiceReference(membershipType))
         .catch((error) => {
           return Q.reject(error);
         });
+};
+
+function updateInvoiceReference(membershipType) {
+    return function(data) {
+        let invoiceId = data.dataValues.id;
+        let updateFields = {
+            reference: membershipType.substring(0,3).toUpperCase() + invoiceId
+        };
+
+        return Q(updateFields)
+            .then(updateInvoice(invoiceId))
+            .tap(logger.logUpdateInvoiceEvent);
+    }
+}
+
+function updateInvoice(invoiceId) {
+    return function(updateFields) {
+        return Invoice.update(updateFields, { where: {id: invoiceId} });
+    }
+}
+
+function chargeCard(stripeToken, totalAmount) {
+    return stripeHandler.chargeCard(stripeToken, totalAmount)
+        .tap(() => {
+            logger.logNewChargeEvent(stripeToken);
+        })
+        .catch((error)=>{
+            logger.logNewFailedCharge(stripeToken,error);
+            return Q.reject('Failed to charge card');
+        });
+}
+
+var payForInvoice = (invoiceId, newInvoice) => {
+    if (newInvoice.paymentType === "stripe") {
+        return chargeCard(newInvoice.stripeToken, newInvoice.totalAmount)
+            .then((charge) => {
+                newInvoice.paymentStatus = "PAID";
+                newInvoice.transactionId = charge.id;
+                return updatePaymentForInvoice(invoiceId, newInvoice);
+            })
+            .catch((error) => {
+                return Q.reject(error);
+            })
+    } else {
+        return updatePaymentForInvoice(invoiceId, newInvoice)
+            .catch((error) => {
+                return Q.reject(error);
+            });
+    }
 };
 
 var paypalChargeSuccess = (customInvoiceId, paypalId) => {
@@ -105,7 +103,7 @@ var paypalChargeSuccess = (customInvoiceId, paypalId) => {
 
     return models.sequelize.transaction(function (t) {
         return Invoice.update({
-          reference: paypalId,
+          transactionId: paypalId,
           'paymentStatus': 'PAID'
         },{
           where: {id : customInvoiceId}
@@ -118,8 +116,7 @@ var paypalChargeSuccess = (customInvoiceId, paypalId) => {
 };
 
 module.exports = {
-    createInvoice: createInvoice,
-    chargeCard: chargeCard,
+    payForInvoice: payForInvoice,
     createEmptyInvoice: createEmptyInvoice,
     paypalChargeSuccess: paypalChargeSuccess
 };
