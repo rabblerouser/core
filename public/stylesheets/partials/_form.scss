@@ -1,6 +1,12 @@
 .form-container {
-  @include media($desktop) {
+   @include media($desktop) {
     max-width: 800px;
+       
+  }
+    
+  @include media($tablet) {
+      max-width: 800px;
+      @include pad();
   }
 
   @include media($mobile) {

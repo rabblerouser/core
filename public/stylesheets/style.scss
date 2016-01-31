@@ -23,7 +23,7 @@ div.container {
 }
 
 .header {
-  margin: 37px auto 111px;
+  margin-top: 37px;
   position: relative;
   text-align: center;
 
@@ -73,58 +73,49 @@ div.container {
 }
 
 .progress-bar {
-  border-radius: 15px;
-  margin: 67px auto;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 100%;
+  margin-top: 67px;
+  text-align:center;
+ 
+
 
   li {
     color: $grey-darker;
     display: inline-block;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
-    list-style: none;
-    padding: 0;
     position: relative;
-    text-align: center;
-    width: 18%;
-
+    width: 20%;
+   
+         
+      
     @include media($mobile) {
       font-size: 10px;
-      width: 25%;
-
-      &::after {
-        left: 30%;
-      }
+      
     }
+      
+     
+      @include media($tablet) {
+      font-size: 11px;
 
-    @include media($tablet) {
-      font-size: 14px;
-      width: 20%;
+    } 
 
-      &::after {
-        left: 30%;
-      }
-    }
-
-    &::after {
+          &::after {
       background: $white;
       border: 4px solid $grey-light;
       border-radius: 50%;
       color: $grey-darker;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
-      height: 45px;
-      left: 33%;
-      line-height: 36px;
+      height: 42px;
+      line-height: 34px;
       position: absolute;
-      text-align: center;
+      margin-left: -20px;
       top: -52px;
-      width: 45px;
+      width: 42px;
       z-index: 99;
+      display: inline-block;         
     }
+
 
     &::before {
       background: $grey-light;
@@ -135,8 +126,11 @@ div.container {
       top: -30px;
       width: 100%;
       z-index: 0;
+      margin: auto;
+      
     }
   }
+    
 
   .active {
     color: $blue-darker;
