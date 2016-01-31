@@ -40,7 +40,7 @@ casper.on('page.initialized', function() {
     });
 });
 
-casper.test.begin('Test the project-m-staging', 10, function suite(test) {
+casper.test.begin('Test the project-m-staging', 16, function suite(test) {
     casper.start('https://project-m-staging.herokuapp.com/', function() {
         test.assertTitle("Pirate Party Membership");
         var js = this.evaluate(function() {
@@ -87,6 +87,30 @@ casper.test.begin('Test the project-m-staging', 10, function suite(test) {
 
         test.assertExist('div.info-box');
         test.assertSelectorHasText('h3', 'You are entitled to a Full Membership.');
+    });
+
+    //test for permanent resident membership type
+    casper.then(function() {
+       this.click('input[name="isEnrolled"][value="No"]');
+       this.click('input[name="residentialStatus"][value="I have a Permanent Resident visa."]');
+
+       test.assertExist('div.info-box');
+       test.assertSelectorHasText('h3', 'You are entitled to a Permanent Resident Membership.');
+    });
+
+    //test for international membership type
+    casper.then(function() {
+       this.click('input[name="residentialStatus"][value="I am an international citizen or have a Temporary visa."]');
+
+       test.assertExist('div.info-box');
+       test.assertSelectorHasText('h3', 'You are entitled to an International Membership.');
+    });
+
+    casper.then(function() {
+       this.click('input[name="isMemberOfOtherParty"][value="No"]');
+
+       test.assertExist('div.info-box');
+       test.assertSelectorHasText('h3', 'You are entitled to an International Membership.');
     });
 
     //test for jump to second page
