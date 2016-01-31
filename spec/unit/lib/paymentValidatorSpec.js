@@ -10,10 +10,9 @@ var paymentValidator = require("../../../lib/paymentValidator");
 describe("paymentValidator", () => {
     describe("isValid", () => {
         let validPayment = {
-                "memberEmail": "sherlock@holmes.co.uk",
                 "totalAmount": "100",
                 "paymentType": "cheque",
-                "invoiceId": '1'
+                "id": '1'
         };
 
         it("should return empty array of errors on valid payment", () => {

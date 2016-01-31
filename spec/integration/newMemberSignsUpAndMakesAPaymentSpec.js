@@ -3,24 +3,29 @@
 var request = require("supertest-as-promised");
 
 const instance_url = process.env.INSTANCE_URL,
-      specHelper = require("../support/specHelper");
+    specHelper = require("../support/specHelper");
 
 describe("User Flow", () => {
     let app,
         memberSuffix,
-        createdInoviceId,
-        member,
-        invoice;
+        createdInvoiceId,
+        member;
 
     let hasNewMemberAndInvoiceId = (res) => {
         if (!('newMember' in res.body)) throw new Error("missing created member");
         if (!('invoiceId' in res.body)) throw new Error("missing invoiceId");
-        createdInoviceId = res.body.invoiceId;
+        createdInvoiceId = res.body.invoiceId;
     };
 
     let hasErrors = (res) => {
         if (!('errors' in res.body)) throw new Error("missing errors");
         if (res.body.errors[0].name !== 'SequelizeUniqueConstraintError') throw new Error("Wrong error message!");
+    };
+
+    let invoice = {
+        "totalAmount": "88.88",
+        "paymentType": "deposit",
+        "invoiceId": ''
     };
 
     let successfullyCreatingANewMemberShouldRepondWithA200 = () => {
@@ -34,16 +39,18 @@ describe("User Flow", () => {
     };
 
     let postMemberWithExistEmailShouldRespondWithA500 = () => {
-      return request(app)
-          .post("/members")
-          .set("Content-Type", "application/json")
-          .set("Accept", "application/json")
-          .send(member)
-          .expect(500)
-          .expect(hasErrors);
+        return request(app)
+            .post("/members")
+            .set("Content-Type", "application/json")
+            .set("Accept", "application/json")
+            .send(member)
+            .expect(500)
+            .expect(hasErrors);
     };
 
     let successfullyCreateInvoiceShouldRespondWithA200 = () => {
+        invoice.invoiceId = createdInvoiceId;
+
         return request(app)
             .post("/invoices")
             .set("Content-Type", "application/json")
@@ -79,17 +86,6 @@ describe("User Flow", () => {
         };
     };
 
-    let makeInvoiceForMember = memberEmail => {
-        return {
-            "memberEmail": memberEmail,
-            "totalAmount": "88.88",
-            "paymentType": "deposit",
-            "invoiceId": '',
-            "uuid": "1234",
-            "membershipType": "full"
-        };
-    };
-
     beforeEach(() => {
         if (instance_url) {
             app = instance_url;
@@ -103,7 +99,6 @@ describe("User Flow", () => {
         let email = `sherlock${memberSuffix}@holmes.co.uk`;
 
         member = makeMemberWithEmail(email);
-        invoice = makeInvoiceForMember(email);
     });
 
     it ("member sign up with duplicate email should fail", (done) => {
@@ -116,13 +111,11 @@ describe("User Flow", () => {
     }, 60000);
 
     it ("a new member successfully signs up and then makes a payment", (done) => {
-      invoice.invoiceId = createdInoviceId;
-
-      successfullyCreatingANewMemberShouldRepondWithA200()
-          .then(successfullyCreateInvoiceShouldRespondWithA200)
-          .nodeify(done)
-          .catch((err) => {
-              done.fail(err);
-          });
+        successfullyCreatingANewMemberShouldRepondWithA200()
+            .then(successfullyCreateInvoiceShouldRespondWithA200)
+            .nodeify(done)
+            .catch((err) => {
+                done.fail(err);
+            });
     }, 60000);
 });
