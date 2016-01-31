@@ -21,14 +21,14 @@ describe("stripeHandler", () => {
 
     stripeHandler = require("../../../lib/stripeHandler");
 
-    stripeToken = "stripe_token";
+    stripeToken = {id:1};
     totalAmount = 60;
     expectedNewCharge = {
           amount: 6000,
           currency: "aud",
-          source: "stripe_token",
+          source: 1,
           description: "Pirate party membership."
-        }
+        };
 
     createPromise = Q.defer();
     createStub.returns(createPromise.promise);
