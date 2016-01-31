@@ -65,7 +65,7 @@ function createEmptyInvoice(createdMember) {
   return invoiceService.createEmptyInvoice(createdMember.email, createdMember.membershipType)
   .then((emptyInvoice) => {
     return {
-      invoice: emptyInvoice.dataValues,
+      invoice: emptyInvoice,
       member: createdMember
     };
   });

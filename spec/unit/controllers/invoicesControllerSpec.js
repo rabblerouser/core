@@ -34,7 +34,6 @@ describe("invoicesController", () => {
             };
 
             expectedInvoiceValues = {
-                memberEmail: "sherlock@holmes.co.uk",
                 totalAmount: 60.1,
                 paymentType: 'stripe',
                 stripeToken: 'token',

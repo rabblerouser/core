@@ -49,7 +49,8 @@ function updateInvoiceReference(membershipType) {
 
         return Q(updateFields)
             .then(updateInvoice(invoiceId))
-            .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, updateFields)});
+            .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, updateFields)})
+            .then(()=>{return {id: invoiceId}});
     }
 }
 
