@@ -6,7 +6,6 @@ var paymentValidator = require("../lib/paymentValidator");
 var newInvoiceHandler = (req, res) => {
 
     let newInvoice = {
-        memberEmail: req.body.memberEmail,
         totalAmount: req.body.paymentType === 'noContribute' ? 1 : req.body.totalAmount,
         paymentType: req.body.paymentType,
         stripeToken: req.body.stripeToken,

@@ -63,12 +63,6 @@ describe("paymentValidator", () => {
         });
     });
 
-    describe("isValidEmail", () => {
-        it("Should return true given a string with an '@' and a '.'", () => {
-            expect(paymentValidator.isValidEmail("aaa@attt.com")).toBe(true);
-        });
-    });
-
     describe("isValidId", () => {
         it("Should return true given a numberic id", () => {
             expect(paymentValidator.isValidId('1')).toBe(true);

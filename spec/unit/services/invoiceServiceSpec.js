@@ -27,7 +27,6 @@ describe('invoiceService', () => {
         createEmptyInvoiceloggerStub = sinon.stub(logger, 'logCreateEmptyInvoiceEvent');
 
         newInvoice = {
-            memberEmail: "sherlock@holmes.co.uk",
             totalAmount: 60,
             paymentType: "deposit",
             paymentDate: moment().format('L'),
@@ -98,7 +97,7 @@ describe('invoiceService', () => {
             invoiceService.createEmptyInvoice(memberEmail, membershipType)
                 .finally(() => {
                     expect(logger.logCreateEmptyInvoiceEvent).toHaveBeenCalledWith(createdEmptyInvoice);
-                    expect(logger.logUpdateInvoiceEvent).toHaveBeenCalledWith(updatedInovice);
+                    expect(logger.logUpdateInvoiceEvent).toHaveBeenCalledWith(1, {reference: 'FUL1'});
                 }).nodeify(done);
         });
 
@@ -238,11 +237,18 @@ describe('invoiceService', () => {
         });
 
         it("logs update invoice event", (done) => {
+            let invoice = {
+                totalAmountInCents: 6000,
+                paymentDate: moment().format('L'),
+                paymentType: 'deposit',
+                paymentStatus: 'Pending'
+            };
+
             updateInvoicePromise.resolve({dataValues: expectedInvoice});
 
             invoiceService.payForInvoice(newInvoice)
                 .finally(() => {
-                    expect(logger.logUpdateInvoiceEvent).toHaveBeenCalledWith({dataValues: expectedInvoice});
+                    expect(logger.logUpdateInvoiceEvent).toHaveBeenCalledWith(1, invoice);
                 }).nodeify(done);
         });
 
