@@ -87,7 +87,7 @@ describe('membersController', () => {
             beforeEach(() => {
                 validateMemberStub.returns([]);
                 createMemberPromise.resolve(createdMember);
-                createInvoicePromise.resolve({id:'1'});
+                createInvoicePromise.resolve({dataValues: {id:'1'}});
                 sendVerificationEmailPromise.resolve();
 
                 expectedMemberCreateValues = {
