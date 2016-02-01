@@ -5,6 +5,7 @@ let invoiceService = require('../services/invoiceService');
 let memberValidator = require('../lib/memberValidator');
 let messagingService = require('../services/messagingService');
 let logger = require('../lib/logger');
+let Q = require('q');
 
 function isPostalAddressEmpty(postalAddress){
   return  postalAddress.address === '' &&
@@ -107,6 +108,12 @@ let newMemberHandler = (req, res) => {
     .catch(handleError(res));
 };
 
+function verify(req, res) {
+  res.redirect('/verified');
+  return Q.resolve('Does nothing');
+}
+
 module.exports = {
-    newMemberHandler: newMemberHandler
+    newMemberHandler: newMemberHandler,
+    verify: verify
 };

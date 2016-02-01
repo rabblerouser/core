@@ -11,6 +11,7 @@ const specHelper = require('../../support/specHelper'),
 var membersController = require('../../../controllers/membersController');
 
 describe('membersController', () => {
+
     describe('newMemberHandler', () => {
         let newMemberHandler,
             goodRequest, res,
@@ -26,6 +27,7 @@ describe('membersController', () => {
             createInvoiceStub = sinon.stub(invoiceService, 'createEmptyInvoice');
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
             sendVerificationEmailStub = sinon.stub(messagingService, 'sendVerificationEmail');
+            res = {status: sinon.stub().returns({json: sinon.spy()})};
 
             residentialAddress = {
                 address: '221b Baker St',
@@ -69,8 +71,6 @@ describe('membersController', () => {
 
             sendVerificationEmailPromise = Q.defer();
             sendVerificationEmailStub.returns(sendVerificationEmailPromise.promise);
-
-            res = {status: sinon.stub().returns({json: sinon.spy()})};
         });
 
         afterEach(() => {
@@ -124,5 +124,39 @@ describe('membersController', () => {
                 done();
             });
         });
+    });
+
+    describe('verify', () => {
+      let res, req;
+      // let verificationStub;
+
+      beforeEach(() => {
+        req = {};
+        res = {
+          redirect: sinon.spy(),
+          render: sinon.spy()
+        };
+
+        // verificationStub = sinon.stub(memberService, 'verify');
+      });
+
+      afterEach(() => {
+
+      });
+
+      it('should return 400 when no account id or hash provided', () => {
+
+      });
+
+      it('redirect to /verified when account successfully verified', () => {
+        membersController.verify(req, res)
+        .finally(() => {
+          expect(res.redirect).toHaveBeenCalledWith('/verified');
+        });
+      });
+
+      it('should return a static website with an error message when account not verified', () => {
+
+      });
     });
 });
