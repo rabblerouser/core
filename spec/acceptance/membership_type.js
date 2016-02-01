@@ -121,6 +121,36 @@ casper.test.begin('Test the project-m-staging', 16, function suite(test) {
         });
     });
 
+
+// Details page tests
+
+    //Residential Address Only
+
+    casper.then(function() {
+      this.sendKeys('input[id=firstName]', 'Connor');
+      this.sendKeys('input[id=lastName]', 'Melbourne');
+      this.sendKeys('input[id=dateOfBirth]', '12/08/2014');
+      this.sendKeys('input[id="residentialAddress[address]"]', 'Laboriosam at inventore unde quo iure adipisicing ut voluptas sed soluta ut');
+      this.sendKeys('input[id="residentialAddress[suburb]"]', 'Incidunt modi necessitatibus rem vitae modi eiusmod voluptatem numquam corporis laboriosam consequatur Eos reprehenderit');
+      this.evaluate(function () {
+        return document.getElementById("residentialAddress[country]").selectedIndex = 38;
+      });
+
+      this.evaluate(function () {
+        return document.getElementById("residentialAddress[state]").selectedIndex = 1;
+      });
+
+      this.sendKeys('input[id="residentialAddress[postcode]"]', '35191');
+      this.sendKeys('input[id=email]', 'qoku@gmail.com');
+      this.sendKeys('input[id=primaryPhoneNumber]', '0412345678');
+
+      this.click('button');
+
+      casper.then(function() {
+          this.capture('screenshots/screenshot-click.png');
+          test.assertSelectorHasText('h1.form-title', 'Confirm');
+      });
+    });
     casper.run(function () {
         test.done();
     });
