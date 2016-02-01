@@ -4,6 +4,7 @@ const Q = require('q'),
     models = require('../models'),
     logger = require('../lib/logger'),
     stripeHandler = require('../lib/stripeHandler'),
+    ChargeCardError = require('../errors/ChargeCardError'),
     moment = require('moment'),
     Invoice = models.Invoice;
 
@@ -67,26 +68,24 @@ function chargeCard(stripeToken, totalAmount) {
         })
         .catch((error)=>{
             logger.logNewFailedCharge(stripeToken,error);
-            return Q.reject('Failed to charge card');
+            throw new ChargeCardError("Failed to charge card!");
         });
+}
+
+function updateStripePaymentForInvoice(newInvoice) {
+    return function(charge) {
+        newInvoice.paymentStatus = "PAID";
+        newInvoice.transactionId = charge.id;
+        return updatePaymentForInvoice(newInvoice);
+    }
 }
 
 var payForInvoice = (newInvoice) => {
     if (newInvoice.paymentType === "stripe") {
         return chargeCard(newInvoice.stripeToken, newInvoice.totalAmount)
-            .then((charge) => {
-                newInvoice.paymentStatus = "PAID";
-                newInvoice.transactionId = charge.id;
-                return updatePaymentForInvoice(newInvoice);
-            })
-            .catch((error) => {
-                return Q.reject(error);
-            })
+            .then(updateStripePaymentForInvoice(newInvoice));
     } else {
-        return updatePaymentForInvoice(newInvoice)
-            .catch((error) => {
-                return Q.reject(error);
-            });
+        return updatePaymentForInvoice(newInvoice);
     }
 };
 

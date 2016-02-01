@@ -180,19 +180,6 @@ describe('invoiceService', () => {
                 });
             });
 
-            it("If charge card fails, logger should log failed event", (done) => {
-                let errorMessage = "Charge card failed with Stripe!";
-                stripeChargePromise.reject(errorMessage);
-
-                let promise = invoiceService.payForInvoice(newInvoice);
-
-                promise.finally(() => {
-                    expect(promise.isRejected()).toBe(true);
-                    expect(logger.logNewFailedCharge).toHaveBeenCalledWith(newInvoice.stripeToken, errorMessage);
-                    done();
-                });
-            });
-
             it ("update stripe reference with passed in values", (done) => {
                 let invoice = {
                     totalAmountInCents: 6000,
@@ -213,6 +200,33 @@ describe('invoiceService', () => {
                         expect(Invoice.update).toHaveBeenCalledWith(invoice, {where: {id: 1}});
                     }).nodeify(done);
             });
+
+            it("If charge card fails, logger should log failed event", (done) => {
+                let errorMessage = "Charge card failed with Stripe!";
+                stripeChargePromise.reject(errorMessage);
+
+                let promise = invoiceService.payForInvoice(newInvoice);
+
+                promise.finally(() => {
+                    expect(promise.isRejected()).toBe(true);
+                    expect(logger.logNewFailedCharge).toHaveBeenCalledWith(newInvoice.stripeToken, errorMessage);
+                    done();
+                });
+            });
+
+            it("If charge card fails, should reject promise with charg card error", (done) => {
+                let errorMessage = "Charge card failed with Stripe!";
+                stripeChargePromise.reject(errorMessage);
+
+                let promise = invoiceService.payForInvoice(newInvoice);
+
+                promise.catch((error) => {
+                    expect(error.name).toEqual('ChargeCardError');
+                    expect(error.message).toEqual('Failed to charge card!');
+                    done();
+                });
+            });
+
         });
 
         describe("Direct debit, cheque, and no contribute payment", () => {
