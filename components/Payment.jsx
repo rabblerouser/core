@@ -44,9 +44,7 @@ export default class Payment extends Component {
     }
 
     handlePaymentTypeChanged(event) {
-        // if(_.indexOf(this.state.invalidFields, 'paymentType') > -1){
-            this.handleValidationErrors(_.pull(this.state.invalidFields, 'paymentType'), false);
-        // }
+        this.handleValidationErrors(_.pull(this.state.invalidFields, 'paymentType'), false);
         this.setState({paymentType: event.target.value});
     }
 
@@ -136,7 +134,7 @@ export default class Payment extends Component {
                     <PaypalPayment ref="paypalPayment"
                                     onChange={this.handlePaymentTypeChanged}
                                     amount={this.state.amount}
-                                    memberAndInvoice={this.props.memberAndInvoice}
+                                    invoiceId={this.props.invoiceId}
                                     nextStep={this.props.nextStep}/>
 
                     <StripePayment  ref="stripePayment"

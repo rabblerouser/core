@@ -78,6 +78,7 @@ export default class PaypalPayment extends Component {
               <input type="hidden" src="https://www.paypalobjects.com/en_AU/i/btn/btn_paynowCC_LG.gif" border="0" id="paypalSubmit" alt="PayPal — The safer, easier way to pay online."/>
               <img alt="" border="0" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1"/>
               <input type="hidden" name="return" value={this.paypalReturnUrl}/>
+              <input type="hidden" name="custom" value={this.props.invoiceId}/>
           </form>
         </label>;
   };
