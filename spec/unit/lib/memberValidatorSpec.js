@@ -190,7 +190,8 @@ describe("memberValidator", () => {
 
             {country: null},
             {country: ""},
-            {country: "a".repeat(256)}
+            {country: "a".repeat(256)},
+            {country: "Select Country"}
         ].forEach((failingTestScenario) => {
             it("Should return false if given " + JSON.stringify(failingTestScenario), () => {
                 expect(memberValidator.isValidAddress(

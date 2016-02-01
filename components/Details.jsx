@@ -84,8 +84,7 @@ export default class Details extends Component {
             errors.push(this.errorTypes[error].name);
         }.bind(this));
 
-        this.setState({invalidFields: invalidFields});
-        this.setState({errorNames: errors});
+        this.setState({invalidFields: invalidFields, errorNames: errors});
     }
 
     componentDidMount() {
@@ -165,7 +164,8 @@ export default class Details extends Component {
                 <h1 className="form-title">Details</h1>
 
                 <div className="form-body">
-                    <Errors invalidFields={this.state.errorNames}/>
+                    <Errors invalidFields={this.state.errorNames}
+                            scrollToError={true}/>
 
                     <div className="reminder">
                         <img src="/images/reminder.svg"></img>
