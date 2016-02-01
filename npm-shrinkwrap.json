@@ -190,7 +190,7 @@
           "dependencies": {
             "core-js": {
               "version": "1.2.6",
-              "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+              "from": "core-js@>=1.0.0 <2.0.0",
               "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
             }
           }
@@ -202,7 +202,7 @@
           "dependencies": {
             "core-js": {
               "version": "1.2.6",
-              "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+              "from": "core-js@>=1.0.0 <2.0.0",
               "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
             },
             "home-or-tmp": {
@@ -334,7 +334,7 @@
         },
         "json5": {
           "version": "0.4.0",
-          "from": "https://registry.npmjs.org/json5/-/json5-0.4.0.tgz",
+          "from": "json5@>=0.4.0 <0.5.0",
           "resolved": "https://registry.npmjs.org/json5/-/json5-0.4.0.tgz"
         },
         "minimatch": {
@@ -400,7 +400,7 @@
       "dependencies": {
         "loader-utils": {
           "version": "0.2.12",
-          "from": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.12.tgz",
+          "from": "loader-utils@>=0.2.5 <0.3.0",
           "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.12.tgz",
           "dependencies": {
             "big.js": {
@@ -451,7 +451,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -470,7 +470,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -795,7 +795,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -814,7 +814,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -833,7 +833,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -1026,7 +1026,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -1238,7 +1238,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -1404,7 +1404,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -1883,7 +1883,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -1902,7 +1902,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2073,7 +2073,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2246,7 +2246,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2294,7 +2294,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2313,7 +2313,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2513,7 +2513,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2532,7 +2532,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2715,7 +2715,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2734,7 +2734,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -2900,7 +2900,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3071,7 +3071,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3254,7 +3254,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3273,7 +3273,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3292,7 +3292,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3311,7 +3311,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3330,7 +3330,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3503,7 +3503,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3534,7 +3534,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3558,7 +3558,7 @@
               "dependencies": {
                 "core-js": {
                   "version": "1.2.6",
-                  "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                  "from": "core-js@>=1.0.0 <2.0.0",
                   "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                 }
               }
@@ -3746,7 +3746,7 @@
                   "dependencies": {
                     "core-js": {
                       "version": "1.2.6",
-                      "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                      "from": "core-js@>=1.0.0 <2.0.0",
                       "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                     }
                   }
@@ -3770,7 +3770,7 @@
                   "dependencies": {
                     "core-js": {
                       "version": "1.2.6",
-                      "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                      "from": "core-js@>=1.0.0 <2.0.0",
                       "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                     }
                   }
@@ -4384,7 +4384,7 @@
                   "dependencies": {
                     "core-js": {
                       "version": "1.2.6",
-                      "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                      "from": "core-js@>=1.0.0 <2.0.0",
                       "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                     }
                   }
@@ -4408,7 +4408,7 @@
                   "dependencies": {
                     "core-js": {
                       "version": "1.2.6",
-                      "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                      "from": "core-js@>=1.0.0 <2.0.0",
                       "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                     }
                   }
@@ -4432,7 +4432,7 @@
                       "dependencies": {
                         "core-js": {
                           "version": "1.2.6",
-                          "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                          "from": "core-js@>=1.0.0 <2.0.0",
                           "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                         }
                       }
@@ -4456,7 +4456,7 @@
                       "dependencies": {
                         "core-js": {
                           "version": "1.2.6",
-                          "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                          "from": "core-js@>=1.0.0 <2.0.0",
                           "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                         }
                       }
@@ -4668,7 +4668,7 @@
                           "dependencies": {
                             "core-js": {
                               "version": "1.2.6",
-                              "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                              "from": "core-js@>=1.0.0 <2.0.0",
                               "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                             }
                           }
@@ -4988,7 +4988,7 @@
                           "dependencies": {
                             "core-js": {
                               "version": "1.2.6",
-                              "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
+                              "from": "core-js@>=1.0.0 <2.0.0",
                               "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
                             }
                           }
@@ -5129,12 +5129,12 @@
     },
     "config": {
       "version": "1.19.0",
-      "from": "https://registry.npmjs.org/config/-/config-1.19.0.tgz",
+      "from": "config@latest",
       "resolved": "https://registry.npmjs.org/config/-/config-1.19.0.tgz",
       "dependencies": {
         "json5": {
           "version": "0.4.0",
-          "from": "https://registry.npmjs.org/json5/-/json5-0.4.0.tgz",
+          "from": "json5@0.4.0",
           "resolved": "https://registry.npmjs.org/json5/-/json5-0.4.0.tgz"
         }
       }
@@ -7522,29 +7522,29 @@
     },
     "passport": {
       "version": "0.3.2",
-      "from": "passport@latest",
+      "from": "https://registry.npmjs.org/passport/-/passport-0.3.2.tgz",
       "resolved": "https://registry.npmjs.org/passport/-/passport-0.3.2.tgz",
       "dependencies": {
         "passport-strategy": {
           "version": "1.0.0",
-          "from": "passport-strategy@>=1.0.0 <2.0.0",
+          "from": "https://registry.npmjs.org/passport-strategy/-/passport-strategy-1.0.0.tgz",
           "resolved": "https://registry.npmjs.org/passport-strategy/-/passport-strategy-1.0.0.tgz"
         },
         "pause": {
           "version": "0.0.1",
-          "from": "pause@0.0.1",
+          "from": "https://registry.npmjs.org/pause/-/pause-0.0.1.tgz",
           "resolved": "https://registry.npmjs.org/pause/-/pause-0.0.1.tgz"
         }
       }
     },
     "passport-local": {
       "version": "1.0.0",
-      "from": "passport-local@latest",
+      "from": "https://registry.npmjs.org/passport-local/-/passport-local-1.0.0.tgz",
       "resolved": "https://registry.npmjs.org/passport-local/-/passport-local-1.0.0.tgz",
       "dependencies": {
         "passport-strategy": {
           "version": "1.0.0",
-          "from": "passport-strategy@>=1.0.0 <2.0.0",
+          "from": "https://registry.npmjs.org/passport-strategy/-/passport-strategy-1.0.0.tgz",
           "resolved": "https://registry.npmjs.org/passport-strategy/-/passport-strategy-1.0.0.tgz"
         }
       }
@@ -7656,42 +7656,42 @@
     },
     "react": {
       "version": "0.14.7",
-      "from": "react@0.14.7",
+      "from": "https://registry.npmjs.org/react/-/react-0.14.7.tgz",
       "resolved": "https://registry.npmjs.org/react/-/react-0.14.7.tgz",
       "dependencies": {
         "envify": {
           "version": "3.4.0",
-          "from": "envify@>=3.0.0 <4.0.0",
+          "from": "https://registry.npmjs.org/envify/-/envify-3.4.0.tgz",
           "resolved": "https://registry.npmjs.org/envify/-/envify-3.4.0.tgz",
           "dependencies": {
             "through": {
               "version": "2.3.8",
-              "from": "through@>=2.3.4 <2.4.0",
+              "from": "https://registry.npmjs.org/through/-/through-2.3.8.tgz",
               "resolved": "https://registry.npmjs.org/through/-/through-2.3.8.tgz"
             },
             "jstransform": {
               "version": "10.1.0",
-              "from": "jstransform@>=10.0.1 <11.0.0",
+              "from": "https://registry.npmjs.org/jstransform/-/jstransform-10.1.0.tgz",
               "resolved": "https://registry.npmjs.org/jstransform/-/jstransform-10.1.0.tgz",
               "dependencies": {
                 "base62": {
                   "version": "0.1.1",
-                  "from": "base62@0.1.1",
+                  "from": "https://registry.npmjs.org/base62/-/base62-0.1.1.tgz",
                   "resolved": "https://registry.npmjs.org/base62/-/base62-0.1.1.tgz"
                 },
                 "esprima-fb": {
                   "version": "13001.1001.0-dev-harmony-fb",
-                  "from": "esprima-fb@13001.1001.0-dev-harmony-fb",
+                  "from": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-13001.1001.0-dev-harmony-fb.tgz",
                   "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-13001.1001.0-dev-harmony-fb.tgz"
                 },
                 "source-map": {
                   "version": "0.1.31",
-                  "from": "source-map@0.1.31",
+                  "from": "https://registry.npmjs.org/source-map/-/source-map-0.1.31.tgz",
                   "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.1.31.tgz",
                   "dependencies": {
                     "amdefine": {
                       "version": "1.0.0",
-                      "from": "amdefine@>=0.0.4",
+                      "from": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz",
                       "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
                     }
                   }
@@ -7702,46 +7702,46 @@
         },
         "fbjs": {
           "version": "0.6.1",
-          "from": "fbjs@>=0.6.1 <0.7.0",
+          "from": "https://registry.npmjs.org/fbjs/-/fbjs-0.6.1.tgz",
           "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.6.1.tgz",
           "dependencies": {
             "core-js": {
               "version": "1.2.6",
-              "from": "core-js@>=1.0.0 <2.0.0",
+              "from": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz",
               "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
             },
             "loose-envify": {
               "version": "1.1.0",
-              "from": "loose-envify@>=1.0.0 <2.0.0",
+              "from": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.1.0.tgz",
               "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.1.0.tgz",
               "dependencies": {
                 "js-tokens": {
                   "version": "1.0.2",
-                  "from": "js-tokens@>=1.0.1 <2.0.0",
+                  "from": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.2.tgz",
                   "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.2.tgz"
                 }
               }
             },
             "promise": {
               "version": "7.1.1",
-              "from": "promise@>=7.0.3 <8.0.0",
+              "from": "https://registry.npmjs.org/promise/-/promise-7.1.1.tgz",
               "resolved": "https://registry.npmjs.org/promise/-/promise-7.1.1.tgz",
               "dependencies": {
                 "asap": {
                   "version": "2.0.3",
-                  "from": "asap@>=2.0.3 <2.1.0",
+                  "from": "https://registry.npmjs.org/asap/-/asap-2.0.3.tgz",
                   "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.3.tgz"
                 }
               }
             },
             "ua-parser-js": {
               "version": "0.7.10",
-              "from": "ua-parser-js@>=0.7.9 <0.8.0",
+              "from": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.10.tgz",
               "resolved": "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.10.tgz"
             },
             "whatwg-fetch": {
               "version": "0.9.0",
-              "from": "whatwg-fetch@>=0.9.0 <0.10.0",
+              "from": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz",
               "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz"
             }
           }
@@ -7750,7 +7750,7 @@
     },
     "react-dom": {
       "version": "0.14.7",
-      "from": "react-dom@0.14.7",
+      "from": "https://registry.npmjs.org/react-dom/-/react-dom-0.14.7.tgz",
       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-0.14.7.tgz"
     },
     "react-modal": {
