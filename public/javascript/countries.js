@@ -261,18 +261,23 @@ s_a[251]="Central|Copperbelt|Eastern|Luapula|Lusaka|North-Western|Northern|South
 s_a[252]="Bulawayo|Harare|ManicalandMashonaland Central|Mashonaland East|Mashonaland West|Masvingo|Matabeleland North|Matabeleland South|Midlands";
 
 
-function populateStates( countryElementId, stateElementId ){
+function populateStates( countryIndex, stateElementId ){
 
-	var selectedCountryIndex = document.getElementById( countryElementId ).selectedIndex;
-
-	if(selectedCountryIndex == 0){
-		selectedCountryIndex = defaultStatesId;
-	}
-
+	var selectedCountryIndex = countryIndex;
 	var stateElement = document.getElementById( stateElementId );
+
 	stateElement.length=0;
 	stateElement.options[0] = new Option('Select State','');
 	stateElement.selectedIndex = 0;
+
+
+	if(selectedCountryIndex == defaultCountryId){
+			selectedCountryIndex = defaultStatesId;
+	}
+
+	if(selectedCountryIndex === 0 ) {
+			return;
+	}
 
 	var state_arr = s_a[selectedCountryIndex].split("|");
 
@@ -291,7 +296,7 @@ function populateCountries(countryElementId, stateElementId){
 		var countryOption = new Option(country_arr[i],country_arr[i]);
 		if(i == defaultCountryId){
 			countryOption.setAttribute("selected", "selected");
-			populateStates(countryElementId, stateElementId);
+			populateStates(defaultCountryId, stateElementId);
 		}
 		countryElement.options[countryElement.length] = countryOption;
 	}
@@ -300,7 +305,7 @@ function populateCountries(countryElementId, stateElementId){
 
 	if( stateElementId ){
 		countryElement.onchange = function(){
-			populateStates( countryElementId, stateElementId );
+			populateStates( document.getElementById( countryElementId ).selectedIndex, stateElementId );
 		};
 	}
 }
@@ -311,7 +316,7 @@ function setCountryAddress(countryElementId, countryName, stateElementId, stateN
 		for(var i=0; i<options.length; i++) {
 			if(options[i].value === countryName) {
 				options[i].defaultSelected = true;
-					populateStates(countryElementId, stateElementId);
+					populateStates(document.getElementById( countryElementId ).selectedIndex, stateElementId);
 					setStateAddress(stateElementId, stateName);
 			}
 		}
