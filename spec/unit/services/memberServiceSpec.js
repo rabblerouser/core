@@ -10,6 +10,21 @@ const specHelper = require('../../support/specHelper'),
 
 var memberService = require('../../../services/memberService');
 
+function getUpdatedMember(residentialAddress, postalAddress, date) {
+    return {
+        firstName: 'Shurley',
+        lastName: 'Temple',
+        gender: 'rabbit carrot',
+        email: 'sherlock@holmes.co.uk',
+        dateOfBirth: date,
+        primaryPhoneNumber: '0396291146',
+        secondaryPhoneNumber: '0394291146',
+        residentialAddress: residentialAddress,
+        postalAddress: postalAddress,
+        membershipType: 'full'
+    };
+}
+
 function fakeNewMember(residentialAddress, postalAddress, date) {
   return {
             firstName: 'Sherlock',
@@ -321,6 +336,101 @@ describe('memberService', () => {
         .nodeify(done);
       });
 
-      it('should throw and error if email and hash dont match');
+    });
+    
+    describe('update member', () => {
+        const residentialAddressId = 1;
+        const postalAddressId = 2;
+        const date = '22/12/1900';
+        const residentialAddressFromDb = [
+            {
+                dataValues: {
+                    id: residentialAddressId
+                }
+            }
+        ];
+        const postalAddressFromDb = [
+            {
+                dataValues: {
+                    id: postalAddressId
+                }
+            }
+        ];
+
+        let updateMemberStub, addressStub, loggerStub, findUserStub,
+            residentialAddress, postalAddress, updateMemberPromise,
+            currentMember, updatedMember,
+            residentialAddressPromise, postalAddressPromise;
+
+        beforeEach(() => {
+            updateMemberStub = sinon.stub(models.Member, 'update');
+            addressStub = sinon.stub(models.Address, 'findOrCreate');
+            findUserStub = sinon.stub(models.Member, 'find');
+            loggerStub = sinon.stub(logger, 'logMemberSignUpEvent');
+
+            residentialAddress = {
+                address: '221b Baker St',
+                suburb: 'London',
+                country: 'England',
+                state: 'VIC',
+                postcode: '1234'
+            };
+            postalAddress = {
+                address: '47 I dont want your spam St',
+                suburb: 'Moriarty',
+                country: 'USA',
+                state: 'NM',
+                postcode: '5678'
+            };
+
+            currentMember = getExpectedNewMember(residentialAddress, postalAddress, date);
+            updatedMember = getUpdatedMember(residentialAddress, postalAddress, date);
+
+            residentialAddressPromise = Q.defer();
+            addressStub
+                .withArgs({where: residentialAddress, defaults: residentialAddress})
+                .returns(residentialAddressPromise.promise);
+
+            postalAddressPromise = Q.defer();
+            addressStub
+                .withArgs({where: postalAddress, defaults: postalAddress})
+                .returns(postalAddressPromise.promise);
+
+            updateMemberPromise = Q.defer();
+            updateMemberStub.returns(updateMemberPromise.promise);
+        });
+
+        afterEach(() => {
+            models.Address.findOrCreate.restore();
+            models.Member.find.restore();
+            models.Member.update.restore();
+            loggerStub.restore();
+        });
+
+        it('successfully updates users details using email', (done) => {
+            residentialAddressPromise.resolve(residentialAddressFromDb);
+            postalAddressPromise.resolve(postalAddressFromDb);
+            Member.find
+                .withArgs({where: {email: 'sherlock@holmes.co.uk'}})
+                .returns(Promise.resolve(currentMember));
+            updateMemberPromise.resolve(updatedMember);
+
+            memberService.updateMember(updatedMember, {where: {email: 'sherlock@holmes.co.uk'}}).then((result) => {
+                console.log('this is result', result);
+                expect(models.Member.update).toHaveBeenCalled();
+                expect(result.lastName).toEqual('Temple');
+            })
+                .nodeify(done);
+        });
+
+        it('throws error and rejects promise if email does not exist', (done) => {
+            Member.find
+                .withArgs({where: {email: 'sherlock@holmes.co.uk'}})
+                .returns(Promise.reject("email not found"));
+
+            memberService.updateMember(updatedMember, {where: {email: 'fakeyfakey@something.com'}}).catch((error) => {
+                expect(error).toEqual('email not found');
+            }).nodeify(done);
+        });
     });
 });
