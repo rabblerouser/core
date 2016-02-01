@@ -3,6 +3,7 @@ import Errors from './Errors.jsx';
 import StripePayment from './StripePayment.jsx';
 import PaypalPayment from './PaypalPayment.jsx';
 import * as paymentValidator from '../lib/paymentValidator';
+import PaymentInfo from './payment-info-box/PaymentInfo.jsx';
 import $ from 'jquery';
 
 export default class Payment extends Component {
@@ -156,14 +157,15 @@ export default class Payment extends Component {
                     </label>
                 </div>
                 <div className={(() => { return this.state.paymentType==='noContribute' ? 'hidden' : ''})()}>
-                  <div className="heading">
-                      <h2 className="sub-title"> Membership Contribution</h2>
-                      <i>Please enter an amount.</i>
-                  </div>
-                  <div className="contribution-amount">
-                      <div className="currency">$AUD</div>
-                      <input type="text" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
-                  </div>
+                    <div className="heading">
+                        <h2 className="sub-title"> Membership Contribution</h2>
+                        <i>Please enter an amount.</i>
+                    </div>
+                    <div className="contribution-amount">
+                        <div className="currency">$AUD</div>
+                        <input type="text" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
+                    </div>
+                    <PaymentInfo paymentType={this.state.paymentType}/>
                 </div>
                 <div className="navigation">
                     <button type="button" id="payment-continue-button" onClick={this.processPayment}>Continue</button>
