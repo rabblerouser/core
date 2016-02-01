@@ -128,7 +128,8 @@ describe('membersController', () => {
 
     describe('verify', () => {
       let res, req;
-      // let verificationStub;
+      let verificationStub;
+      let verificationPromise;
 
       beforeEach(() => {
         req = {};
@@ -138,11 +139,12 @@ describe('membersController', () => {
           sendStatus: sinon.spy()
         };
 
-        // verificationStub = sinon.stub(memberService, 'verify');
+        verificationPromise = Q.defer();
+        verificationStub = sinon.stub(memberService, 'verify').returns(verificationPromise.promise);
       });
 
       afterEach(() => {
-
+        memberService.verify.restore();
       });
 
       it('should return 400 when the email is not well formed', (done) => {
@@ -174,6 +176,8 @@ describe('membersController', () => {
       });
 
       it('redirect to /verified when account successfully verified', (done) => {
+        verificationPromise.resolve({email: 'sherlock@holmes.co.uk', verified: true});
+
         req = {
           params: {
             email: 'sherlock@holmes.co.uk',

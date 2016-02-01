@@ -113,11 +113,16 @@ function verify(req, res) {
   let hash = req.params.hash;
 
   if (!(memberValidator.isValidEmail(email) && memberValidator.isValidVerificationHash(hash))) {
+    logger.logError('[member-verification-failed]', {email: email, hash: hash});
     res.sendStatus(400);
+    return Q.reject('Invalid Input');
   }
 
-  res.redirect('/verified');
-  return Q.resolve('Does nothing');
+  return memberService.verify(email, hash)
+  .then(() => {
+    res.redirect('/verified');
+  })
+  .catch(handleError);
 }
 
 module.exports = {

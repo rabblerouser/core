@@ -128,8 +128,13 @@ let list = () => {
         .catch(handleError);
 };
 
+function verify(email, hash) {
+  return Q.resolve({});
+}
+
 module.exports = {
     createMember: createMember,
     updateMember: updateMember,
-    list: list
+    list: list,
+    verify: verify
 };
