@@ -8,21 +8,21 @@ const Q = require('q'),
     moment = require('moment'),
     Invoice = models.Invoice;
 
-function updatePaymentForInvoice(newInvoice) {
+function updatePaymentForInvoice(invoice) {
     var updateFields = {
-      totalAmountInCents: newInvoice.totalAmount * 100,
+      totalAmountInCents: invoice.totalAmount * 100,
       paymentDate: moment().format('L'),
-      paymentType: newInvoice.paymentType,
-      paymentStatus: newInvoice.paymentStatus || 'Pending'
+      paymentType: invoice.paymentType,
+      paymentStatus: invoice.paymentStatus || 'Pending'
     };
 
-    if (newInvoice.paymentType === 'stripe') {
-      updateFields.transactionId = newInvoice.transactionId;
+    if (invoice.paymentType === 'stripe') {
+      updateFields.transactionId = invoice.transactionId;
     }
 
     return Q(updateFields)
-        .then(updateInvoice(newInvoice.invoiceId))
-        .tap(()=>{logger.logUpdateInvoiceEvent(newInvoice.invoiceId, updateFields)});
+        .then(updateInvoice(invoice.invoiceId))
+        .tap(()=>{logger.logUpdateInvoiceEvent(invoice.invoiceId, updateFields)});
 }
 
 var createEmptyInvoice = (memberEmail, membershipType) => {
@@ -72,20 +72,20 @@ function chargeCard(stripeToken, totalAmount) {
         });
 }
 
-function updateStripePaymentForInvoice(newInvoice) {
+function updateStripePaymentForInvoice(invoice) {
     return function(charge) {
-        newInvoice.paymentStatus = "PAID";
-        newInvoice.transactionId = charge.id;
-        return updatePaymentForInvoice(newInvoice);
+        invoice.paymentStatus = "PAID";
+        invoice.transactionId = charge.id;
+        return updatePaymentForInvoice(invoice);
     }
 }
 
-var payForInvoice = (newInvoice) => {
-    if (newInvoice.paymentType === "stripe") {
-        return chargeCard(newInvoice.stripeToken, newInvoice.totalAmount)
-            .then(updateStripePaymentForInvoice(newInvoice));
+var payForInvoice = (invoice) => {
+    if (invoice.paymentType === "stripe") {
+        return chargeCard(invoice.stripeToken, invoice.totalAmount)
+            .then(updateStripePaymentForInvoice(invoice));
     } else {
-        return updatePaymentForInvoice(newInvoice);
+        return updatePaymentForInvoice(invoice);
     }
 };
 
