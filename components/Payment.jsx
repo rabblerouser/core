@@ -17,10 +17,10 @@ export default class Payment extends Component {
         this.processPaypalPayment = this.processPaypalPayment.bind(this);
         this.processOtherPayment = this.processOtherPayment.bind(this);
         this.processPayment = this.processPayment.bind(this);
-        this.state = {amount : '', invalidFields: [], errorMessages: [], paymentType: ''};
+        this.state = {amount : '', invalidFields: [], errorMessages: [], paymentType: '', scrollToError: true};
     }
 
-    handleValidationErrors(errorFields){
+    handleValidationErrors(errorFields, scrollToError){
         var invalidFields = errorFields;
         var errors = [];
         let errorMessages = {
@@ -36,8 +36,7 @@ export default class Payment extends Component {
             errors.push(errorMessages[error] || error);
         });
 
-        this.setState({errorMessages: errors});
-        this.setState({invalidFields: invalidFields});
+        this.setState({errorMessages: errors, invalidFields: invalidFields, scrollToError: scrollToError});
     }
 
     handleAmountChanged(event) {
@@ -45,9 +44,9 @@ export default class Payment extends Component {
     }
 
     handlePaymentTypeChanged(event) {
-        if(_.indexOf(this.state.invalidFields, 'paymentType') > -1){
-            this.handleValidationErrors(_.pull(this.state.invalidFields, 'paymentType'));
-        }
+        // if(_.indexOf(this.state.invalidFields, 'paymentType') > -1){
+            this.handleValidationErrors(_.pull(this.state.invalidFields, 'paymentType'), false);
+        // }
         this.setState({paymentType: event.target.value});
     }
 
@@ -99,13 +98,13 @@ export default class Payment extends Component {
 
     processPayment() {
         var fieldValues = {
-            totalAmount: this.state.paymentType === 'noContribute' ? 1 : Math.floor(parseFloat(this.state.amount)),
+            totalAmount: this.state.paymentType === 'noContribute' ? 1 : Math.floor(Number(this.state.amount)),
             paymentType: this.state.paymentType,
             invoiceId: this.props.invoiceId };
 
         var invalidFields = this.validator.isValid(fieldValues);
         if (invalidFields.length > 0) {
-            return this.handleValidationErrors(invalidFields);
+            return this.handleValidationErrors(invalidFields, true);
         }
 
         if (this.state.paymentType === 'creditOrDebitCard') {
@@ -121,7 +120,8 @@ export default class Payment extends Component {
         return (<fieldset>
             <h1 className="form-title">Pay What You Want</h1>
             <div className="form-body">
-                <Errors invalidFields={this.state.errorMessages} />
+                <Errors invalidFields={this.state.errorMessages}
+                        scrollToError={this.state.scrollToError}/>
                 <div className="reminder">
                     <img src="/images/reminder.svg"/>
                     <div className="reminder-text">

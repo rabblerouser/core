@@ -6,7 +6,6 @@ export default class Errors extends Component {
         super(props);
         this.getClass = this.getClass.bind(this);
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
-                // this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     getClass(invalidaFields) {
@@ -14,12 +13,10 @@ export default class Errors extends Component {
     }
 
     componentDidUpdate() {
-        ReactDOM.findDOMNode(this).scrollIntoView(false);
+        if(this.props.scrollToError) {
+            ReactDOM.findDOMNode(this).scrollIntoView(false);
+        }
     }
-    //
-    // componentDidMount() {
-    //     ReactDOM.findDOMNode(this).scrollIntoView(false);
-    // }
 
     render() {
         return (<div className={this.getClass(this.props.invalidFields)}>
