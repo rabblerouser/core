@@ -2,6 +2,8 @@
 
 var invoiceService = require("../services/invoiceService");
 var paymentValidator = require("../lib/paymentValidator");
+var ChargeCardError = require('../errors/ChargeCardError');
+var logger = require('../lib/logger');
 
 var newInvoiceHandler = (req, res) => {
 
@@ -31,7 +33,12 @@ function sendResponseToUser(res) {
 
 function handleError(res) {
     return function(error) {
-        res.status(500).json({errors: [error]});
+        if (error instanceof ChargeCardError) {
+            res.status(400).json({errors: error.message})
+        } else {
+            logger.logError(error, "Internal Server Error");
+            res.status(500).json({errors: "Internal Server Error"});
+        }
     }
 }
 

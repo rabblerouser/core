@@ -5,6 +5,7 @@ const Q = require("q");
 require("jasmine-sinon");
 
 var logger = require('../../lib/logger');
+var ChargeCardError = require('../../errors/ChargeCardError');
 
 var models = require("../../models"),
     Address = models.Address,
@@ -27,5 +28,6 @@ module.exports = {
     sinon: sinon,
     models: models,
     Q: Q,
-    logger: logger
+    logger: logger,
+    ChargeCardError: ChargeCardError
 };

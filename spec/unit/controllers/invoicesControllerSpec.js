@@ -4,7 +4,9 @@ const specHelper = require("../../support/specHelper"),
     sinon = specHelper.sinon,
     Q = specHelper.Q,
     invoiceService = require("../../../services/invoiceService"),
-    paymentValidator = require("../../../lib/paymentValidator");
+    paymentValidator = require("../../../lib/paymentValidator"),
+    logger = specHelper.logger,
+    ChargeCardError = specHelper.ChargeCardError;
 
 var invoicesController = require("../../../controllers/invoicesController");
 
@@ -15,13 +17,14 @@ describe("invoicesController", () => {
             statusStub, responseJsonStub,
             payForInvoiceStub, payForInvoicePromise,
             validatePaymentStub,
-            expectedInvoiceValues,
+            expectedInvoiceValues, loggerStub,
             renderStub, renderLocationStub;
 
         beforeEach(() => {
             newInvoiceHandler = invoicesController.newInvoiceHandler;
             payForInvoiceStub = sinon.stub(invoiceService, 'payForInvoice');
             validatePaymentStub = sinon.stub(paymentValidator, 'isValid');
+            loggerStub = sinon.stub(logger, 'logError');
 
             goodRequest = {
                 body: {
@@ -56,6 +59,7 @@ describe("invoicesController", () => {
         afterEach(() => {
             invoiceService.payForInvoice.restore();
             paymentValidator.isValid.restore();
+            logger.logError.restore();
         });
 
         describe("when it receives a good request", () => {
@@ -87,12 +91,27 @@ describe("invoicesController", () => {
                 let errorMessage = "Seriously, we still don't have any damn bananas.";
                 payForInvoicePromise.reject(errorMessage);
 
-                newInvoiceHandler(goodRequest, res);
+                newInvoiceHandler(goodRequest, res)
+                    .finally(() => {
+                        expect(logger.logError).toHaveBeenCalled();
+                        expect(res.status).toHaveBeenCalledWith(500);
+                        expect(responseJsonStub).toHaveBeenCalledWith({errors: "Internal Server Error"});
+                    }).nodeify(done);
+            });
 
-                payForInvoicePromise.promise.finally(() => {
-                    expect(res.status).toHaveBeenCalledWith(500);
-                    expect(responseJsonStub).toHaveBeenCalledWith({errors: [errorMessage]});
-                }).nodeify(done);
+            it("responds with a bad request if charge card failed", (done) => {
+                validatePaymentStub.returns([]);
+                let errorMessage = "Seriously, we still don't have any damn bananas.";
+                let error = new ChargeCardError(errorMessage);
+
+                payForInvoicePromise.reject(error);
+
+                newInvoiceHandler(goodRequest, res)
+                    .finally(() => {
+                        expect(logger.logError).not.toHaveBeenCalled();
+                        expect(res.status).toHaveBeenCalledWith(400);
+                        expect(responseJsonStub).toHaveBeenCalledWith({errors: errorMessage});
+                    }).nodeify(done);
             });
         });
     });
