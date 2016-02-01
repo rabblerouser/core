@@ -14,7 +14,6 @@ export default class Details extends Component {
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
         this.validationErrorClass = this.validationErrorClass.bind(this);
         this.isValidationError = this.isValidationError.bind(this);
-        this.handleCountryChange = this.handleCountryChange.bind(this);
         this.render = this.render.bind(this);
         this.validator = memberValidator;
         this.state = {
@@ -45,24 +44,6 @@ export default class Details extends Component {
         };
     }
 
-    handleCountryChange(event) {
-        if (event.target.id === 'residentialAddress[country]') {
-            if (this.refs.residentialCountry.value !== 'Australia') {
-                this.setState({residentialCountry: 'International'});
-            } else {
-                this.setState({residentialCountry: 'Australia'});
-            }
-        }
-
-        if (event.target.id === 'postalAddress[country]') {
-            if (this.refs.postalCountry.value !== 'Australia') {
-                this.setState({postalCountry: 'International'});
-            } else {
-                this.setState({postalCountry: 'Australia'});
-            }
-        }
-    }
-
     handlePostalAddress() {
         if (this.refs.differentPostal.checked) {
             this.setState({showPostalAddress: true});
@@ -71,7 +52,7 @@ export default class Details extends Component {
         }
     }
 
-    handleValidationErrors(validationErrors) {
+    handleValidationErrors(validationErrors, scrollToError) {
         let invalidFields = validationErrors;
 
         if(!this.refs.differentPostal.checked){
@@ -84,7 +65,7 @@ export default class Details extends Component {
             errors.push(this.errorTypes[error].name);
         }.bind(this));
 
-        this.setState({invalidFields: invalidFields, errorNames: errors});
+        this.setState({invalidFields: invalidFields, errorNames: errors, scrollToError: scrollToError});
     }
 
     componentDidMount() {
@@ -146,13 +127,13 @@ export default class Details extends Component {
                 postcode: this.refs.postalPostcode.value
             }
         };
-        console.log(fieldValues.residentialAddress.country);
+
         if (!this.refs.differentPostal.checked) {
             fieldValues.postalAddress = fieldValues.residentialAddress;
         }
         var validationErrors = this.validator.isValid(fieldValues);
         if (validationErrors.length > 0) {
-            this.handleValidationErrors(validationErrors);
+            this.handleValidationErrors(validationErrors, true);
             return;
         }
         return this.props.saveAndContinue(fieldValues);
@@ -165,7 +146,7 @@ export default class Details extends Component {
 
                 <div className="form-body">
                     <Errors invalidFields={this.state.errorNames}
-                            scrollToError={true}/>
+                            scrollToError={this.state.scrollToError}/>
 
                     <div className="reminder">
                         <img src="/images/reminder.svg"></img>
@@ -223,7 +204,7 @@ export default class Details extends Component {
                             <InlineError isError={this.isValidationError('residentialCountry')}
                                           errorMessage={this.errorTypes['residentialCountry'].message} />
                             <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry"
-                                    id="residentialAddress[country]" className="residentialCountry" onChange={this.handleCountryChange}>
+                                    id="residentialAddress[country]" className="residentialCountry">
                             </select>
                         </label>
                         <div className="state-code">
@@ -273,7 +254,7 @@ export default class Details extends Component {
                                 <InlineError isError={this.isValidationError('postalCountry')}
                                               errorMessage={this.errorTypes['postalCountry'].message} />
                                 <select defaultValue={this.props.formValues.postalAddress.country} ref="postalCountry"
-                                        id="postalAddress[country]" onChange={this.handleCountryChange}>
+                                        id="postalAddress[country]">
                                 </select>
                             </label>
 
