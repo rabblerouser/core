@@ -122,7 +122,7 @@ function verify(req, res) {
   .then(() => {
     res.redirect('/verified');
   })
-  .catch(handleError);
+  .catch(handleError(res));
 }
 
 module.exports = {
