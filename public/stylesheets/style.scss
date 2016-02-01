@@ -23,7 +23,7 @@ div.container {
 }
 
 .header {
-  margin-top: 37px;
+  margin-top: 25px;
   position: relative;
   text-align: center;
 
@@ -72,8 +72,9 @@ div.container {
   }
 }
 
+
 .progress-bar {
-  margin-top: 67px;
+  margin-top: 58px;
   text-align:center;
  
 
@@ -90,16 +91,14 @@ div.container {
       
     @include media($mobile) {
       font-size: 10px;
-      
     }
       
      
-      @include media($tablet) {
+    @include media($tablet) {
       font-size: 11px;
-
     } 
 
-          &::after {
+    &::after {
       background: $white;
       border: 4px solid $grey-light;
       border-radius: 50%;
@@ -127,7 +126,6 @@ div.container {
       width: 100%;
       z-index: 0;
       margin: auto;
-      
     }
   }
     

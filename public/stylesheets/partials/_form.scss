@@ -1,63 +1,96 @@
+
 .form-container {
-   @include media($desktop) {
+    @include media($desktop) {
     max-width: 800px;
-       
-  }
+}    
+
+    @include media($mobile) {
+        @include pad();  
+    }
+
+    margin: 10px auto;
+
+    .form-title {
+        background: $blue-darker;
+        color: $white;
+        font-size: 24px;
+        font-weight: bold;
+        height: 76px;
+        line-height: 76px;
+        margin-bottom: 10px;
+        padding-left: 36px;
+        
+        @include media($mobile) {
+            font-size: 20px;
+            height: 65px;
+            line-height: 65px;
+            margin-bottom: 0;
+        }
+    }
+
+    .sub-title {
+        border-bottom: 1px solid $blue;
+        font-size: 20px;
+        line-height: 26px;
+        margin-bottom: 0;
+        padding-bottom: 6px;
+        
+        @include media($mobile) {
+            font-size: 17px;
+            padding-bottom: 3px;
+        }
+    }
+
+    .sub-description {
+        font-size: 14px;
+        font-style: italic;
+        line-height: 20px;
+        padding-top: 6px;
+        
+        @include media($mobile) {
+            font-size: 12px;
+            line-height: 18px;
+        }
+    }
+
+    .heading {
+        @include span-columns(12);
+
+        padding-top: 20px;
+        padding-bottom: 10px;
+        
+        @include media($mobile) {
+            padding-bottom: 20px;
+        }
+        
+
+        i {
+            font-size: 14px;
+            margin-bottom: 25px;
+            
+            @include media($mobile) {
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+        }
+    }
     
-  @include media($tablet) {
-      max-width: 800px;
-      @include pad();
-  }
-
-  @include media($mobile) {
-    @include pad();
-  }
-
-  margin: 10px auto;
-
-  .form-title {
-    background: $blue-darker;
-    color: $white;
-    font-size: 24px;
-    font-weight: bold;
-    height: 76px;
-    line-height: 76px;
-    margin-bottom: 10px;
-    padding-left: 36px;
-  }
-
-  .sub-title {
-    border-bottom: 1px solid $blue;
-    font-size: 20px;
-    line-height: 26px;
-    margin-bottom: 0;
-    padding-bottom: 6px;
-  }
-
-  .sub-description {
-    font-size: 14px;
-    font-style: italic;
-    line-height: 20px;
-    padding-top: 6px;
-  }
-
-  .heading {
-    @include span-columns(12);
-
-    padding-top: 20px;
-    padding-bottom: 10px;
-
-    i {
-      font-size: 14px;
-      margin-bottom: 25px;
+    span {
+        @include media($mobile) {
+            font-size: 12px;  
+        }  
     }
-  }
+    
+}
 
-    #payments{
-        padding-top: 0 !important;
-    }
 
-  .declaration {
+
+#payments {
+    padding-top: 0 !important;
+}
+
+
+.declaration {
     float: left;
     width: 100%;
     background: $white;
@@ -79,30 +112,46 @@
       width: 48px;
       float: left;
     }
-  }
+    
+    @include media($mobile) {
+        font-size: 12px;  
+    } 
+}
 
 
-    #checkbox_declaration{
-        margin-bottom:15px;
-    }
+#checkbox_declaration{
+    margin-bottom:15px;
+}
 
-  .confirmationLabel {
+
+.confirmationLabel {
     margin-bottom: 40px;
-  }
+}
 
-  .mandatoryField {
+
+.mandatoryField {
     color: $red;
     font-size: 14px;
     font-weight: bold;
-  }
+    
+    @include media($mobile) {
+        font-size: 12px;  
+    } 
+}
 
-  .mandatoryField2 {
+
+.mandatoryField2 {
     color: $red;
     font-size: 20px;
     font-weight: bold;
-  }
+    
+    @include media($mobile) {
+        font-size: 17px;  
+    } 
+}
 
-  fieldset {
+
+fieldset {
     @include fill-parent();
     @include clearfix();
     @include pad(0px 0px 32px 0px);
@@ -112,62 +161,80 @@
     color: $blue-darker;
 
     .form-body {
-      @include pad(0 36px default 36px);
+        @include pad(0 36px default 36px);
     }
 
     .field-group {
-      @include media($desktop-width) {
-        @include span-columns(6);
-        @include pad(15px 0px 20px 0px);
-        width: 100%;
-      }
+            @include span-columns(6);
+            @include pad(15px 0px 20px 0px);
+            width: 100%;
+        
+            @include media($mobile) {
+                @include pad(10px 0px 13px 0px); 
+            } 
+     
     }
 
     a {
-      color: $blue-darker;
-      font-weight: bold;
-      text-decoration: underline;
+        color: $blue-darker;
+        font-weight: bold;
+        text-decoration: underline;
     }
 
     a:hover{
-       color: #4da8d4;
+        color: #4da8d4;
     }
 
     label {
-      font-weight: normal;
-      margin-bottom: 0;
-      font-size: 14px;
+        font-weight: normal;
+        margin-bottom: 0;
+        font-size: 14px;
+        
+        @include media($mobile) {
+            font-size: 12px;
+        } 
     }
 
     input[type="text"] {
-      border-color: $blue;
-      border-radius: 0;
+        border-color: $blue;
+        border-radius: 0;
     }
-  }
+}
+
 
 h3 {
   margin: 0;
 }
 
-  .info-box {
+
+.info-box {
     @include span-columns(12);
     background-color: $white;
     border: 2px solid $green;
     margin-bottom: 25px;
     padding: 0 15px;
+    
 
     .info-heading {
-      border-bottom: 1px solid $green;
-      color: $green;
-      font-weight: bold;
-      padding-bottom: 5px;
+        border-bottom: 1px solid $green;
+        color: $green;
+        font-weight: bold;
+        padding-bottom: 5px;
+        
+        @include media($mobile) {
+            padding-top:10px;
+            font-size:16px;
+        } 
+    
+        
 
-      h3 {
+    h3 {
         @include pad(default 0px 0px 0px);
         margin:0px;
-      }
+    }
+        
 
-      a {
+    a {
         color: $green;
         cursor: pointer;
         font-size: 10px;
@@ -175,15 +242,15 @@ h3 {
         font-weight: normal;
 
         .circled {
-          border-radius: 100%;
-          background: $green;
-          text-align: center;
-          padding-left: 3px;
-          padding-right: 4px;
-          color: $white;
-          font-size: 8px;
+            border-radius: 100%;
+            background: $green;
+            text-align: center;
+            padding-left: 3px;
+            padding-right: 4px;
+            color: $white;
+            font-size: 8px;
         }
-      }
+    }
 
         a:hover{
             color: #9be29b;
@@ -197,15 +264,15 @@ h3 {
     }
 
     .info-body {
-      font-size: 12px;
-      padding: 15px 0;
+        font-size: 12px;
+        padding: 15px 0;
 
-      ul{
-        list-style-type: inherit;
-        margin-left: 17px;
-        padding-bottom: 10px;
-        padding-top: 5px;
-      }
+        ul{
+            list-style-type: inherit;
+            margin-left: 17px;
+            padding-bottom: 10px;
+            padding-top: 5px;
+        }
 
       li {
         margin-top: 5px;
@@ -214,13 +281,14 @@ h3 {
       strong {
         color: $green;
       }
-    }
-  }
 
-  input[type="radio"] {
-    margin-top: 15px;
-  }
+    }
 }
+
+input[type="radio"] {
+    margin-top: 15px;
+}
+
 
 select {
     width: 100%;
@@ -260,15 +328,15 @@ input[type="text"], select {
 
 
 hr {
-  border-bottom: 1px solid $blue;
-  margin: 0;
+    border-bottom: 1px solid $blue;
+    margin: 0;
 }
 
 .validationErrors {
-  background: $white;
-  border: 3px solid $red;
-  padding: 10px 15px;
-  margin: 15px 0px;
+    background: $white;
+    border: 3px solid $red;
+    padding: 10px 15px;
+    margin: 15px 0px;
 
   > * {
     display: inline-block;
@@ -297,64 +365,64 @@ hr {
   img {
     width: 48px;
     float: left;
-
   }
 }
 
 .reminder {
-  background: $white;
-  border: 3px solid $blue;
-  padding: 10px 15px;
-  margin-bottom: 10px;
-  margin-top: 25px;
+    background: $white;
+    border: 3px solid $blue;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    margin-top: 25px;
 
-  > * {
-    display: inline-block;
-  }
+    > * {
+        display: inline-block;
+    }
 
-  .reminder-text {
-    height: 45px;
-    padding-left: 10px;
-    width: 80%;
-    font-size: 14px;
-    vertical-align: middle;
-    display: table-cell;
-  }
+    .reminder-text {
+        height: 45px;
+        padding-left: 10px;
+        width: 80%;
+        font-size: 14px;
+        vertical-align: middle;
+        display: table-cell;
+    }
 
-  img {
-    width: 48px;
-    float: left;
-  }
+    img {
+        width: 48px;
+        float: left;
+    }
 }
 
 .contribution-amount {
-  .currency {
-    background: $blue-darker;
-    color: $white;
-    float: left;
-    font-weight: bold;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 3px;
-    vertical-align: middle;
-    width: 50px;
-  }
+    
+    .currency {
+        background: $blue-darker;
+        color: $white;
+        float: left;
+        font-weight: bold;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 3px;
+        vertical-align: middle;
+        width: 50px;
+    }
 
-  input[type="text"] {
-    border-bottom-color: $blue;
-    border-left: 0;
-    border-radius: 0;
-    border-right-color: $blue;
-    border-top-color: $blue;
-    margin: 0;
-    vertical-align: middle;
-    width: 80px;
-    margin-bottom: 30px;
-  }
+    input[type="text"] {
+        border-bottom-color: $blue;
+        border-left: 0;
+        border-radius: 0;
+        border-right-color: $blue;
+        border-top-color: $blue;
+        margin: 0;
+        vertical-align: middle;
+        width: 80px;
+        margin-bottom: 30px;
+    }
 }
 
 .navigation {
-  @include span-columns(12);
+    @include span-columns(12);
 
   > * {
     display: inline-block;
@@ -381,6 +449,7 @@ hr {
   }
 }
 
+
 .invalid {
   // color: #CC4756;
   > input {
@@ -396,7 +465,6 @@ hr {
   }
 }
 
-
 .footer a {
     color: #0073ae;
     padding-bottom: 30px;
@@ -405,48 +473,49 @@ hr {
 .footer a:hover {
     color: #008bc0;
 }
+
 .modal-header {
-  background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
-  max-width: 391px;
+    background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
+    max-width: 391px;
 
-  .close-button {
-    height: 24px;
-  }
-
-  .box-header {
-    border-bottom: 1px solid #CCC;
-    padding-bottom: 19px;
-    text-align: center;
-
-    h2 {
-      color: #000;
-      font-size: 23px;
-      line-height: 29px;
-      margin-bottom: 0;
-      text-shadow: "0px 1px 1px #FFFFFF";
+    .close-button {
+         height: 24px;
     }
 
-    h3 {
-      color: #666;
-      font-size: 17px;
-      letter-spacing: .2px;
-      line-height: 22px;
-      margin-bottom: 0;
-      text-shadow: "0px 1px 1px #fff";
-    }
+    .box-header {
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 19px;
+        text-align: center;
 
-    .logo{
-      height: 87px;
+        h2 {
+            color: #000;
+            font-size: 23px;
+            line-height: 29px;
+            margin-bottom: 0;
+            text-shadow: "0px 1px 1px #FFFFFF";
+        }
+
+        h3 {
+            color: #666;
+            font-size: 17px;
+            letter-spacing: .2px;
+            line-height: 22px;
+            margin-bottom: 0;
+            text-shadow: "0px 1px 1px #fff";
+        }
+
+        .logo{
+            height: 87px;
+        }
     }
-  }
 }
 
 .box-column {
-  background: #F5F5F5;
-  border-bottom: 1px solid #ECEBEB;
-  max-width: 391px;
-  padding: 0 30px;
-  text-align: center;
+    background: #F5F5F5;
+    border-bottom: 1px solid #ECEBEB;
+    max-width: 391px;
+    padding: 0 30px;
+    text-align: center;
 
   h3 {
     color: #0073AE;
