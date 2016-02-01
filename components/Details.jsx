@@ -146,7 +146,7 @@ export default class Details extends Component {
                 postcode: this.refs.postalPostcode.value
             }
         };
-
+        console.log(fieldValues.residentialAddress.country);
         if (!this.refs.differentPostal.checked) {
             fieldValues.postalAddress = fieldValues.residentialAddress;
         }
