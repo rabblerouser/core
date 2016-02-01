@@ -20,7 +20,7 @@ function updatePaymentForInvoice(newInvoice) {
     }
 
     return Q(updateFields)
-        .then(updateInvoice(newInvoice.id))
+        .then(updateInvoice(newInvoice.invoiceId))
         .tap(()=>{logger.logUpdateInvoiceEvent(newInvoice.invoiceId, updateFields)});
 }
 

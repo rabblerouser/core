@@ -210,7 +210,7 @@ describe('invoiceService', () => {
                         expect(updatedInvoice.dataValues.id).toEqual(expectedInvoice.id);
                         expect(updatedInvoice.dataValues.reference).toEqual(expectedInvoice.reference);
 
-                        expect(Invoice.update).toHaveBeenCalledWith(invoice);
+                        expect(Invoice.update).toHaveBeenCalledWith(invoice, {where: {id: 1}});
                     }).nodeify(done);
             });
         });
@@ -231,7 +231,7 @@ describe('invoiceService', () => {
                         expect(updatedInvoice.dataValues.id).toEqual(expectedInvoice.id);
                         expect(updatedInvoice.dataValues.reference).toEqual(expectedInvoice.reference);
 
-                        expect(Invoice.update).toHaveBeenCalledWith(invoice);
+                        expect(Invoice.update).toHaveBeenCalledWith(invoice, {where: {id: 1}});
                     }).nodeify(done);
             });
         });
