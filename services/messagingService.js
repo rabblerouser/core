@@ -16,15 +16,15 @@ function sendVerificationEmail(member) {
   }
 
 //should be moved to a separate file.
-  const text = `Hello, \m
+  const text = `Hello, <br>
 
-  Thank you for your membership application to the Pirate Party. \n
+  Thank you for your membership application to the Pirate Party. <br>
 
-  You're almost done! The last step is to verify your membership by clicking on the link below. \n
+  You're almost done! The last step is to verify your membership by clicking on the link below. <br>
 
-  <a href="${config.app.url}/members/verify/${member.email}/${member.verificationHash}"'> \n
+  <a href="${config.app.url}/members/verify/${member.email}/${member.verificationHash}">Verify Account</a> <br>
 
-  Best,\n
+  Best,<br>
 
   The Pirate Party`;
 
