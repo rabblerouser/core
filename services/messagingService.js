@@ -22,7 +22,7 @@ function sendVerificationEmail(member) {
 
   You're almost done! The last step is to verify your membership by clicking on the link below. \n
 
-  <a href="https://validateThis/${member.hash}"'> \n
+  <a href="${config.app.url}/members/verify/${member.email}/${member.verificationHash}"'> \n
 
   Best,\n
 
