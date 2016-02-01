@@ -3,7 +3,6 @@
 var express = require('express');
 var router = express.Router();
 var membersController = require('../controllers/membersController');
-var updateMemberController = require('../controllers/updateMemberController');
 var invoicesController = require('../controllers/invoicesController');
 var stripeHandler = require('../lib/stripeHandler');
 var paypalHandler = require('../lib/paypalHandler');
@@ -26,7 +25,7 @@ router.get('/verified', function(req, res) {
     res.render('account-verified', { title: 'Pirate Party Membership' });
 });
 
-router.post('/members/update', updateMemberController.updateMemberHandler);
+router.post('/members/update', membersController.updateMemberHandler);
 router.post('/invoices', invoicesController.newInvoiceHandler);
 
 module.exports = router;

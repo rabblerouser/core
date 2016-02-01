@@ -108,6 +108,23 @@ let newMemberHandler = (req, res) => {
     .catch(handleError(res));
 };
 
+var updateMemberHandler = (req, res) => {
+
+    let newMember = setupNewMember(req);
+
+    let validationErrors = memberValidator.isValid(newMember);
+
+    if (validationErrors.length > 0) {
+        return res.status(400).json({ errors: validationErrors});
+    }
+
+    return memberService.updateMember(newMember)
+        .then((result) => {
+            res.status(200).json({ newMember: result});
+        })
+        .catch(handleError(res));
+};
+
 function verify(req, res) {
   let email = req.params.email;
   let hash = req.params.hash;
@@ -127,5 +144,6 @@ function verify(req, res) {
 
 module.exports = {
     newMemberHandler: newMemberHandler,
+    updateMemberHandler: updateMemberHandler,
     verify: verify
 };

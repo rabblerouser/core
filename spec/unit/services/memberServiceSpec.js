@@ -416,7 +416,6 @@ describe('memberService', () => {
             updateMemberPromise.resolve(updatedMember);
 
             memberService.updateMember(updatedMember, {where: {email: 'sherlock@holmes.co.uk'}}).then((result) => {
-                console.log('this is result', result);
                 expect(models.Member.update).toHaveBeenCalled();
                 expect(result.lastName).toEqual('Temple');
             })
