@@ -15,7 +15,7 @@ var models = require('../../models'),
     AdminUser = models.AdminUser;
 
 var terminalReporter = new reporters.TerminalReporter({
-    verbosity: 3,
+    verbosity: 1,
     color: true,
     showStack: true
 });
