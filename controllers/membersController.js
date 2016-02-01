@@ -109,6 +109,13 @@ let newMemberHandler = (req, res) => {
 };
 
 function verify(req, res) {
+  let email = req.params.email;
+  let hash = req.params.hash;
+
+  if (!(memberValidator.isValidEmail(email) && memberValidator.isValidVerificationHash(hash))) {
+    res.sendStatus(400);
+  }
+
   res.redirect('/verified');
   return Q.resolve('Does nothing');
 }

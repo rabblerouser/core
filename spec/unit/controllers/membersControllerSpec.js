@@ -134,7 +134,8 @@ describe('membersController', () => {
         req = {};
         res = {
           redirect: sinon.spy(),
-          render: sinon.spy()
+          render: sinon.spy(),
+          sendStatus: sinon.spy()
         };
 
         // verificationStub = sinon.stub(memberService, 'verify');
@@ -144,19 +145,48 @@ describe('membersController', () => {
 
       });
 
-      it('should return 400 when no account id or hash provided', () => {
+      it('should return 400 when the email is not well formed', (done) => {
+        req = {
+          params: {
+            email: 'thisIsWrong',
+            hash: 'e3b37adf9f3b6629155f48be36e9fb320ef2e04c027af3577b8002067f288610'
+          }
+        };
 
+        membersController.verify(req, res)
+        .finally(() => {
+          expect(res.sendStatus).toHaveBeenCalledWith(400);
+        }).nodeify(done);
       });
 
-      it('redirect to /verified when account successfully verified', () => {
+      it('should return 400 when the hash is not valid', (done) => {
+        req = {
+          params: {
+            email: 'sherlock@holmes.co.uk',
+            hash: 'ZZZZZooooWrong'
+          }
+        };
+
+        membersController.verify(req, res)
+        .finally(() => {
+          expect(res.sendStatus).toHaveBeenCalledWith(400);
+        }).nodeify(done);
+      });
+
+      it('redirect to /verified when account successfully verified', (done) => {
+        req = {
+          params: {
+            email: 'sherlock@holmes.co.uk',
+            hash: 'e3b37adf9f3b6629155f48be36e9fb320ef2e04c027af3577b8002067f288610'
+          }
+        };
+
         membersController.verify(req, res)
         .finally(() => {
           expect(res.redirect).toHaveBeenCalledWith('/verified');
-        });
+        }).nodeify(done);
       });
 
-      it('should return a static website with an error message when account not verified', () => {
-
-      });
+      it('should return a static website with an error message when account not verified');
     });
 });
