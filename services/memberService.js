@@ -128,8 +128,40 @@ let list = () => {
         .catch(handleError);
 };
 
+function findForVerification(email, hash) {
+  var query = {
+    where: {email: email, verificationHash: hash},
+    attributes: ['id', 'email', 'verified']
+  };
+
+  return Q(Member.findOne(query))
+        .then((result) => {
+          if (!result) {
+            throw new Error(`Match not found for email:${email} and hash:${hash}`);
+          }
+          return result;
+        });
+}
+
+function markAsVerified(member) {
+  if (!member.dataValues.verified) {
+    return member.update({verified: true})
+    .then((result) => {
+      return result.dataValues;
+    });
+  }
+
+  return member;
+}
+
 function verify(email, hash) {
-  return Q.resolve({});
+  return findForVerification(email, hash)
+    .then(markAsVerified)
+    .tap((verifiedMember) => logger.logInfoEvent('[member-verification-event]', verifiedMember))
+    .catch((error) => {
+      logger.logError('[member-verification-failed]', {error: error});
+      throw new Error('Account could not be verified');
+    });
 }
 
 module.exports = {

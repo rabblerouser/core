@@ -279,4 +279,48 @@ describe('memberService', () => {
             }).nodeify(done);
         });
     });
+
+    describe('verify', () => {
+      let findOneStub;
+      let findOnePromise;
+
+      beforeEach(() => {
+        findOnePromise = Q.defer();
+        findOneStub = sinon.stub(models.Member, 'findOne').returns(findOnePromise);
+      });
+
+      afterEach(() => {
+        models.Member.findOne.restore();
+      });
+
+      it('should verify the member if email and hash match', (done) => {
+        let email = 'sherlock@holmes.co.uk';
+        let hash = 'e3b37adf9f3b6629155f48be36e9fb320ef2e04c027af3577b8002067f288610';
+
+        findOnePromise.resolve({email: 'sherlock@holmes.co.uk', verified: false, id: '1'});
+
+        memberService.verify(email, hash)
+        .then((member) => {
+          expect(member.email).toEqual('sherlock@holmes.co.uk');
+          expect(models.Member, 'findOne').toHaveBeenCalled();
+        })
+        .nodeify(done);
+      });
+
+      it('should not verify the member if already verified', (done) => {
+        let email = 'sherlock@holmes.co.uk';
+        let hash = 'e3b37adf9f3b6629155f48be36e9fb320ef2e04c027af3577b8002067f288610';
+
+        findOnePromise.resolve({email: 'sherlock@holmes.co.uk', verified: true, id: '1'});
+
+        memberService.verify(email, hash)
+        .then((member) => {
+          expect(member.email).toEqual('sherlock@holmes.co.uk');
+          expect(models.Member, 'findOne').not.toHaveBeenCalled();
+        })
+        .nodeify(done);
+      });
+
+      it('should throw and error if email and hash dont match');
+    });
 });
