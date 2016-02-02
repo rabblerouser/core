@@ -295,7 +295,7 @@ export default class Details extends Component {
                         <label htmlFor="secondaryPhoneNumber" className={this.validationErrorClass('secondaryPhoneNumber')}>Secondary Phone <i>(optional)</i>
                             <InlineError isError={this.isValidationError('secondaryPhoneNumber')}
                                           errorMessage={this.errorTypes['secondaryPhoneNumber'].message} />
-                            <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhoneNumber"
+                                        <input type="text" defaultValue={this.props.formValues.secondaryPhoneNumber} ref="secondaryPhoneNumber"
                                    id="secondaryPhoneNumber" className="secondaryPhoneNumber"/>
                         </label>
                     </div>
