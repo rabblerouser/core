@@ -6,23 +6,37 @@ const Q = require('q'),
     stripeHandler = require('../lib/stripeHandler'),
     ChargeCardError = require('../errors/ChargeCardError'),
     moment = require('moment'),
+    _ = require('lodash'),
     Invoice = models.Invoice;
 
-function updatePaymentForInvoice(invoice) {
-    var updateFields = {
-      totalAmountInCents: invoice.totalAmount * 100,
-      paymentDate: moment().format('L'),
-      paymentType: invoice.paymentType,
-      paymentStatus: invoice.paymentStatus || 'Pending'
-    };
+function findInvoice(invoiceId) {
+    return Q(Invoice.findOne({where: {id: invoiceId}}))
+        .then((result) => {
+            if (_.isEmpty(result)) {
+                throw new Error(`Invoice not found for Id: ${invoiceId}`);
+            }
+            return result.dataValues.id;
+        });
+}
 
-    if (invoice.paymentType === 'stripe') {
-      updateFields.transactionId = invoice.transactionId;
+function updateInvoiceReference(membershipType) {
+    return function(data) {
+        let invoiceId = data.dataValues.id;
+        let updateFields = {
+            reference: membershipType.substring(0,3).toUpperCase() + invoiceId
+        };
+
+        return findInvoice(invoiceId)
+            .then(updateInvoice(updateFields))
+            .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, updateFields)})
+            .then(()=>{return {id: invoiceId}});
     }
+}
 
-    return Q(updateFields)
-        .then(updateInvoice(invoice.invoiceId))
-        .tap(()=>{logger.logUpdateInvoiceEvent(invoice.invoiceId, updateFields)});
+function updateInvoice(updateFields) {
+    return function(invoiceId) {
+        return Invoice.update(updateFields, { where: {id: invoiceId} });
+    }
 }
 
 var createEmptyInvoice = (memberEmail, membershipType) => {
@@ -35,31 +49,8 @@ var createEmptyInvoice = (memberEmail, membershipType) => {
         })
         .then(Invoice.create.bind(Invoice))
         .tap(logger.logCreateEmptyInvoiceEvent)
-        .then(updateInvoiceReference(membershipType))
-        .catch((error) => {
-          return Q.reject(error);
-        });
+        .then(updateInvoiceReference(membershipType));
 };
-
-function updateInvoiceReference(membershipType) {
-    return function(data) {
-        let invoiceId = data.dataValues.id;
-        let updateFields = {
-            reference: membershipType.substring(0,3).toUpperCase() + invoiceId
-        };
-
-        return Q(updateFields)
-            .then(updateInvoice(invoiceId))
-            .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, updateFields)})
-            .then(()=>{return {id: invoiceId}});
-    }
-}
-
-function updateInvoice(invoiceId) {
-    return function(updateFields) {
-        return Invoice.update(updateFields, { where: {id: invoiceId} });
-    }
-}
 
 function chargeCard(stripeToken, totalAmount) {
     return stripeHandler.chargeCard(stripeToken, totalAmount)
@@ -80,12 +71,29 @@ function updateStripePaymentForInvoice(invoice) {
     }
 }
 
+function updatePaymentForInvoice(invoice) {
+    var updateFields = {
+        totalAmountInCents: invoice.totalAmount * 100,
+        paymentDate: moment().format('L'),
+        paymentType: invoice.paymentType,
+        paymentStatus: invoice.paymentStatus || 'Pending'
+    };
+
+    if (invoice.paymentType === 'stripe') {
+        updateFields.transactionId = invoice.transactionId;
+    }
+
+    return findInvoice(invoice.invoiceId)
+        .then(updateInvoice(updateFields))
+        .tap(()=>{logger.logUpdateInvoiceEvent(invoice.invoiceId, updateFields)});
+}
+
 var payForInvoice = (invoice) => {
     if (invoice.paymentType === "stripe") {
         return chargeCard(invoice.stripeToken, invoice.totalAmount)
-            .then(updateStripePaymentForInvoice(invoice));
+            .then(updateStripePaymentForInvoice(invoice))
     } else {
-        return updatePaymentForInvoice(invoice);
+        return updatePaymentForInvoice(invoice)
     }
 };
 
