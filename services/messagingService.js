@@ -41,6 +41,7 @@ function sendVerificationEmail(member) {
       message: result
     };
   })
+  .tap(logger.logVerificationEmailSent)
   .catch(logAndRethrow);
 }
 

@@ -52,13 +52,8 @@ function setupNewMember(req) {
   };
 }
 
-function invoiceReference(member) {
-  return member.membershipType.substring(0,3).toUpperCase() + member.id;
-}
-
 function sendVerificationEmailOffline(data) {
   messagingService.sendVerificationEmail(data.member)
-  .tap(logger.logVerificationEmailSent)
   .catch(logger.logError);
 }
 
