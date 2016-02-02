@@ -43,7 +43,8 @@ export default class ConfirmDetails extends Component {
             <h1 className="form-title">Confirm</h1>
 
             <div className="form-body">
-                <Errors invalidFields={this.state.errors} />
+                <Errors invalidFields={this.state.errors}
+                        scrollToError={true}/>
                 <div className="heading">
                     <h2 className="sub-title">Declaration </h2>
                     <i> Read the following and click the checkbox below.</i>
