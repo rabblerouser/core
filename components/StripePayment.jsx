@@ -9,7 +9,6 @@ export default class StripePayment extends Component {
         super(props);
         this.stripeDisabled = false;
         this.stripeHandler = null;
-        this.scriptDidError = false;
         this.loadStripe();
 
         this.loadStripe = this.loadStripe.bind(this);
@@ -51,7 +50,7 @@ export default class StripePayment extends Component {
                     token: function (token) {
                         $.ajax({
                             type: 'POST',
-                            url: '/invoices',
+                            url: '/invoices/update',
                             data: {
                             memberEmail: this.props.email,
                             totalAmount: Math.floor(parseFloat(this.props.amount)),
@@ -63,7 +62,7 @@ export default class StripePayment extends Component {
                             this.props.nextStep();
                         }.bind(this),
                         error: function(request, status, error) {
-                            this.props.setState({invalidFields: error});
+                            this.props.setState({errorMessages: error});
                         }.bind(this)
                     });
                 }.bind(this)

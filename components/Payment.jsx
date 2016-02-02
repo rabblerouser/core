@@ -83,13 +83,13 @@ export default class Payment extends Component {
     processOtherPayment(fieldValues) {
       $.ajax({
               type: 'POST',
-              url: '/invoices',
+              url: '/invoices/update',
               data: fieldValues,
           success: function (value) {
               this.props.nextStep();
           }.bind(this),
           error: function(request, status, error) {
-              this.handleValidationErrors(error);
+              this.setState({errorMessages: [error]});
           }.bind(this)
       });
     }
