@@ -62,7 +62,7 @@ export default class StripePayment extends Component {
                             this.props.nextStep();
                         }.bind(this),
                         error: function(request, status, error) {
-                            this.props.setState({errorMessages: error});
+                            this.props.updateErrors(error);
                         }.bind(this)
                     });
                 }.bind(this)

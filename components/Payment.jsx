@@ -17,6 +17,7 @@ export default class Payment extends Component {
         this.processPaypalPayment = this.processPaypalPayment.bind(this);
         this.processOtherPayment = this.processOtherPayment.bind(this);
         this.processPayment = this.processPayment.bind(this);
+        this.updateErrorMessage = this.updateErrorMessage.bind(this);
         this.state = {amount : '', invalidFields: [], errorMessages: [], paymentType: '', scrollToError: true};
     }
 
@@ -37,6 +38,10 @@ export default class Payment extends Component {
         });
 
         this.setState({errorMessages: errors, invalidFields: invalidFields, scrollToError: scrollToError});
+    }
+
+    updateErrorMessage(errorMessages) {
+        this.setState({errorMessages: [errorMessages]});
     }
 
     handleAmountChanged(event) {
@@ -74,7 +79,7 @@ export default class Payment extends Component {
               success: function (value) {
               },
               error: function(request, status, error) {
-                  this.setState({errorMessages: error});
+                  this.setState({errorMessages: [error]});
               }.bind(this)
           });
       }
@@ -139,7 +144,7 @@ export default class Payment extends Component {
 
                     <StripePayment  ref="stripePayment"
                                     onChange={this.handlePaymentTypeChanged}
-                                    setState={this.setState}
+                                    updateErrors={this.updateErrorMessage}
                                     email={this.props.email}
                                     amount={this.state.amount}
                                     invoiceId={this.props.invoiceId}
