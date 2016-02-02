@@ -134,7 +134,7 @@ function findForVerification(email, hash) {
     attributes: ['id', 'email', 'verified']
   };
 
-  return Q(Member.findOne(query))
+  return Member.findOne(query)
         .then((result) => {
           if (!result) {
             throw new Error(`Match not found for email:${email} and hash:${hash}`);
@@ -151,7 +151,7 @@ function markAsVerified(member) {
     });
   }
 
-  return member;
+  return member.dataValues;
 }
 
 function verify(email, hash) {

@@ -298,10 +298,15 @@ describe('memberService', () => {
     describe('verify', () => {
       let findOneStub;
       let findOnePromise;
+      let updateMemberPromise;
+      let updateMemberStub;
 
       beforeEach(() => {
         findOnePromise = Q.defer();
-        findOneStub = sinon.stub(models.Member, 'findOne').returns(findOnePromise);
+        findOneStub = sinon.stub(models.Member, 'findOne').returns(findOnePromise.promise);
+
+        updateMemberPromise = Q.defer();
+        updateMemberStub = sinon.stub().returns(updateMemberPromise.promise);
       });
 
       afterEach(() => {
@@ -312,28 +317,38 @@ describe('memberService', () => {
         let email = 'sherlock@holmes.co.uk';
         let hash = 'e3b37adf9f3b6629155f48be36e9fb320ef2e04c027af3577b8002067f288610';
 
-        findOnePromise.resolve({email: 'sherlock@holmes.co.uk', verified: false, id: '1'});
+        updateMemberPromise.resolve({dataValues: {email: 'sherlock@holmes.co.uk', verified: true, id: '1'}});
+
+        let memberToVerify = {dataValues: {email: 'sherlock@holmes.co.uk', verified: false, id: '1'}, update: updateMemberStub};
+        findOnePromise.resolve(memberToVerify);
 
         memberService.verify(email, hash)
         .then((member) => {
           expect(member.email).toEqual('sherlock@holmes.co.uk');
-          expect(models.Member, 'findOne').toHaveBeenCalled();
         })
-        .nodeify(done);
+        .finally(() => {
+          expect(findOneStub).toHaveBeenCalled();
+          expect(updateMemberStub).toHaveBeenCalled();
+          done();
+        })
+        .catch(done);
       });
 
       it('should not verify the member if already verified', (done) => {
         let email = 'sherlock@holmes.co.uk';
         let hash = 'e3b37adf9f3b6629155f48be36e9fb320ef2e04c027af3577b8002067f288610';
 
-        findOnePromise.resolve({email: 'sherlock@holmes.co.uk', verified: true, id: '1'});
+        findOnePromise.resolve({dataValues: {email: 'sherlock@holmes.co.uk', verified: true, id: '1'}});
 
         memberService.verify(email, hash)
         .then((member) => {
           expect(member.email).toEqual('sherlock@holmes.co.uk');
-          expect(models.Member, 'findOne').not.toHaveBeenCalled();
         })
-        .nodeify(done);
+        .finally(() => {
+          expect(models.Member, 'findOne').not.toHaveBeenCalled();
+          done();
+        })
+        .catch(done);
       });
 
     });
