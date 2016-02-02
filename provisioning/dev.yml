@@ -3,5 +3,6 @@
   roles:
     - { role: common }
     - { role: nodesource.node }
+    - { role: sendmail}
     - { role: postgres, db_names: ["project-m", "project-m_test"] }
     - { role: vagrant }
