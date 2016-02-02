@@ -93,9 +93,9 @@ describe("invoicesController", () => {
 
                 updateInvoiceHandler(goodRequest, res)
                     .finally(() => {
-                        expect(logger.logError).toHaveBeenCalled();
+                        expect(logger.logError).toHaveBeenCalledWith('invoicesController');
                         expect(res.status).toHaveBeenCalledWith(500);
-                        expect(responseJsonStub).toHaveBeenCalledWith({errors: "Internal Server Error"});
+                        expect(responseJsonStub).toHaveBeenCalledWith({errors: "An error has occurred internally."});
                     }).nodeify(done);
             });
 

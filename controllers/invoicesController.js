@@ -36,8 +36,8 @@ function handleError(res) {
         if (error instanceof ChargeCardError) {
             res.status(400).json({errors: error.message})
         } else {
-            logger.logError(error, "Internal Server Error");
-            res.status(500).json({errors: "Internal Server Error"});
+            logger.logError('invoicesController', error);
+            res.status(500).json({errors: "An error has occurred internally."});
         }
     }
 }
