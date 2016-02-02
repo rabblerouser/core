@@ -151,7 +151,7 @@ describe('membersController', () => {
         req = {
           params: {
             email: 'thisIsWrong',
-            hash: 'e3b37adf9f3b6629155f48be36e9fb320ef2e04c027af3577b8002067f288610'
+            hash: '1d225bd0-57b5-4b87-90fc-f76ddc997e57'
           }
         };
 
@@ -181,7 +181,7 @@ describe('membersController', () => {
         req = {
           params: {
             email: 'sherlock@holmes.co.uk',
-            hash: 'e3b37adf9f3b6629155f48be36e9fb320ef2e04c027af3577b8002067f288610'
+            hash: '1d225bd0-57b5-4b87-90fc-f76ddc997e57'
           }
         };
 

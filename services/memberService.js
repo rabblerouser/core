@@ -6,11 +6,10 @@ const Q = require('q'),
     moment = require('moment'),
     Address = models.Address,
     Member = models.Member,
-    crypto = require('crypto');
+    uuid = require('node-uuid');
 
 function createVerificationHash() {
-  let randomSeed = Math.random(1, 5000).toString();
-  return crypto.createHash('sha256').update(randomSeed).digest('hex');
+  return uuid.v4();
 }
 
 function save(member) {
