@@ -106,8 +106,10 @@ describe("memberValidator", () => {
             "0428171331",
             "04-2817-133-1",
             "04 2817 1331",
-            "555-555-5555",
-            "(555)555-5555"
+            "+1555-555-5555",
+            "+1(555)555-5555",
+            "+65 2345 7908",
+            "+18-1111-1111111"
         ].forEach((testCase) => {
             it(`Should return true given a string with a mobile phone number ${testCase}`, () => {
                 expect(memberValidator.isValidPhone(testCase)).toBe(true);
@@ -117,6 +119,7 @@ describe("memberValidator", () => {
         [
             "",
             null,
+            "words?",
             "04",
             "+61"+"4".repeat(3)
         ].forEach((testCase) => {
@@ -133,8 +136,8 @@ describe("memberValidator", () => {
           "0428171331",
           "04-2817-133-1",
           "04 2817 1331",
-          "555-555-5555",
-          "(555)555-5555",
+          "+1555-555-5555",
+          "+1(555)555-5555",
             "",
             null
         ].forEach((testCase) => {

@@ -111,7 +111,7 @@ export default class Details extends Component {
             gender: this.refs.gender.value,
             email: this.refs.email.value,
             primaryPhoneNumber: this.refs.phoneNumber.value,
-            secondaryPhone: this.refs.secondaryPhone.value,
+            secondaryPhoneNumber: this.refs.secondaryPhoneNumber.value,
             residentialAddress: {
                 address: this.refs.residentialAddress.value,
                 suburb: this.refs.residentialSuburb.value,
@@ -292,11 +292,11 @@ export default class Details extends Component {
                             <input type="text" defaultValue={this.props.formValues.primaryPhoneNumber} ref="phoneNumber"
                                    id="primaryPhoneNumber" className="primaryPhoneNumber"/>
                         </label>
-                        <label htmlFor="phoneNumber" className={this.validationErrorClass('secondaryPhoneNumber')}>Secondary Phone <i>(optional)</i>
+                        <label htmlFor="secondaryPhoneNumber" className={this.validationErrorClass('secondaryPhoneNumber')}>Secondary Phone <i>(optional)</i>
                             <InlineError isError={this.isValidationError('secondaryPhoneNumber')}
                                           errorMessage={this.errorTypes['secondaryPhoneNumber'].message} />
-                            <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhone"
-                                   id="secondaryPhone" className="secondaryPhone"/>
+                            <input type="text" defaultValue={this.props.formValues.secondaryPhone} ref="secondaryPhoneNumber"
+                                   id="secondaryPhoneNumber" className="secondaryPhoneNumber"/>
                         </label>
                     </div>
                     <div className="navigation">
