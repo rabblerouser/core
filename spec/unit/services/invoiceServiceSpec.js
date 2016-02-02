@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-const specHelper = require("../../support/specHelper"),
-    stripeHandler = require("../../../lib/stripeHandler"),
+const specHelper = require('../../support/specHelper'),
+    stripeHandler = require('../../../lib/stripeHandler'),
     models = specHelper.models,
     Invoice = models.Invoice,
     sinon = specHelper.sinon,
@@ -9,7 +9,7 @@ const specHelper = require("../../support/specHelper"),
     logger = specHelper.logger,
     moment = require('moment');
 
-var invoiceService = require("../../../services/invoiceService");
+var invoiceService = require('../../../services/invoiceService');
 
 describe('invoiceService', () => {
     let createInvoiceStub, updateInvoiceStub,
@@ -33,9 +33,9 @@ describe('invoiceService', () => {
 
         newInvoice = {
             totalAmount: 60,
-            paymentType: "deposit",
+            paymentType: 'deposit',
             paymentDate: moment().format('L'),
-            paymentStatus: "Pending",
+            paymentStatus: 'Pending',
             invoiceId: invoiceId
         };
 
@@ -46,8 +46,8 @@ describe('invoiceService', () => {
 
         createdEmptyInvoice = {dataValues: {id: 1}};
 
-        memberEmail = "sherlock@holmes.co.uk";
-        reference = "FUL1234";
+        memberEmail = 'sherlock@holmes.co.uk';
+        reference = 'FUL1234';
 
         createInvoicePromise = Q.defer();
         createInvoiceStub.returns(createInvoicePromise.promise);
@@ -69,7 +69,7 @@ describe('invoiceService', () => {
         errorLoggerStub.restore();
     });
 
-    describe("create empty invoice", () => {
+    describe('create empty invoice', () => {
         let membershipType,
             updatedInovice, emptyInvoice;
 
@@ -82,11 +82,11 @@ describe('invoiceService', () => {
                 reference: ''
             };
 
-            membershipType = "full";
+            membershipType = 'full';
             updatedInovice = {dataValues: expectedInvoice};
         });
 
-        it ("with member email and membershipType, then update the reference", (done) => {
+        it ('with member email and membershipType, then update the reference', (done) => {
             createInvoicePromise.resolve(createdEmptyInvoice);
             findInvoicePromise.resolve(createdEmptyInvoice);
             updateInvoicePromise.resolve(updatedInovice);
@@ -97,7 +97,7 @@ describe('invoiceService', () => {
                 }).nodeify(done);
         });
 
-        it("logs the create empty invoice event", (done) => {
+        it('logs the create empty invoice event', (done) => {
             createInvoicePromise.resolve(createdEmptyInvoice);
             findInvoicePromise.resolve(createdEmptyInvoice);
             updateInvoicePromise.resolve(updatedInovice);
@@ -109,7 +109,7 @@ describe('invoiceService', () => {
                 }).nodeify(done);
         });
 
-        it("logs the error when create empty invoice failed", (done) => {
+        it('logs the error when create empty invoice failed', (done) => {
             createInvoicePromise.resolve(createdEmptyInvoice);
             findInvoicePromise.resolve({});
 
@@ -122,8 +122,8 @@ describe('invoiceService', () => {
         });
 
         describe('reject the promise when', () => {
-            it("create empty invoice failed", (done) => {
-                let errorMessage = "Seriously, we still don't have any damn bananas.";
+            it('create empty invoice failed', (done) => {
+                let errorMessage = 'Seriously, we still don\'t have any damn bananas.';
                 createInvoicePromise.reject(errorMessage);
 
                 let promise = invoiceService.createEmptyInvoice(memberEmail, membershipType);
@@ -133,8 +133,8 @@ describe('invoiceService', () => {
                 }).nodeify(done);
             });
 
-            it("find invoice failed", (done) => {
-                let errorMessage = "Seriously, we still don't have any damn bananas.";
+            it('find invoice failed', (done) => {
+                let errorMessage = 'Seriously, we still don\'t have any damn bananas.';
                 createInvoicePromise.resolve(createdEmptyInvoice);
                 findInvoicePromise.reject(errorMessage);
 
@@ -145,7 +145,7 @@ describe('invoiceService', () => {
                 }).nodeify(done);
             });
 
-            it("invoice not found", (done) => {
+            it('invoice not found', (done) => {
                 createInvoicePromise.resolve(createdEmptyInvoice);
                 findInvoicePromise.resolve({});
 
@@ -156,8 +156,8 @@ describe('invoiceService', () => {
                 }).nodeify(done);
             });
 
-            it("update invoice failed", (done) => {
-                let errorMessage = "Seriously, we still don't have any damn bananas.";
+            it('update invoice failed', (done) => {
+                let errorMessage = 'Seriously, we still don\'t have any damn bananas.';
                 createInvoicePromise.resolve(createdEmptyInvoice);
                 findInvoicePromise.resolve(invoiceId);
                 updateInvoicePromise.reject(errorMessage);
@@ -171,8 +171,8 @@ describe('invoiceService', () => {
         });
     });
 
-    describe("pay for invoice", () => {
-        describe("Credit Card/Debit Card Payment", () => {
+    describe('pay for invoice', () => {
+        describe('Credit Card/Debit Card Payment', () => {
             let stripeHandlerStub, stripeChargePromise,
             stripeToken, totalAmount,
             loggerStub, failedLoggerStub;
@@ -183,10 +183,10 @@ describe('invoiceService', () => {
                 newInvoice.transactionId = 'trans_1';
                 newInvoice.stripeToken = 'token';
 
-                stripeToken="47";
+                stripeToken='47';
                 totalAmount = 123;
 
-                stripeHandlerStub = sinon.stub(stripeHandler, "chargeCard");
+                stripeHandlerStub = sinon.stub(stripeHandler, 'chargeCard');
                 stripeChargePromise = Q.defer();
                 stripeHandlerStub.returns(stripeChargePromise.promise);
 
@@ -200,7 +200,7 @@ describe('invoiceService', () => {
                 failedLoggerStub.restore();
             });
 
-            it("should call charge card handler to charge the card", (done) => {
+            it('should call charge card handler to charge the card', (done) => {
                 stripeChargePromise.resolve();
                 findInvoicePromise.resolve(createdEmptyInvoice);
                 updateInvoicePromise.resolve({dataValues: expectedInvoice});
@@ -212,7 +212,7 @@ describe('invoiceService', () => {
                     });
             });
 
-            it("After charge, logger should log", (done) => {
+            it('After charge, logger should log', (done) => {
                 stripeChargePromise.resolve();
                 findInvoicePromise.resolve(createdEmptyInvoice);
                 updateInvoicePromise.resolve({dataValues: expectedInvoice});
@@ -226,7 +226,7 @@ describe('invoiceService', () => {
                 });
             });
 
-            it ("update stripe reference with passed in values", (done) => {
+            it('update stripe reference with passed in values', (done) => {
                 let invoice = {
                     totalAmountInCents: 6000,
                     paymentDate: moment().format('L'),
@@ -248,8 +248,8 @@ describe('invoiceService', () => {
                     }).nodeify(done);
             });
 
-            it("If charge card fails, logger should log failed event", (done) => {
-                let errorMessage = "Charge card failed with Stripe!";
+            it('If charge card fails, logger should log failed event', (done) => {
+                let errorMessage = 'Charge card failed with Stripe!';
                 stripeChargePromise.reject(errorMessage);
 
                 let promise = invoiceService.payForInvoice(newInvoice);
@@ -261,8 +261,8 @@ describe('invoiceService', () => {
                 });
             });
 
-            it("If charge card fails, should reject promise with charg card error", (done) => {
-                let errorMessage = "Charge card failed with Stripe!";
+            it('If charge card fails, should reject promise with charg card error', (done) => {
+                let errorMessage = 'Charge card failed with Stripe!';
                 stripeChargePromise.reject(errorMessage);
 
                 let promise = invoiceService.payForInvoice(newInvoice);
@@ -275,8 +275,8 @@ describe('invoiceService', () => {
             });
         });
 
-        describe("Direct debit, cheque, and no contribute payment", () => {
-            it ("update the exisiting invoice", (done) => {
+        describe('Direct debit, cheque, and no contribute payment', () => {
+            it('update the exisiting invoice', (done) => {
                 let invoice = {
                     totalAmountInCents: 6000,
                     paymentDate: moment().format('L'),
@@ -297,7 +297,7 @@ describe('invoiceService', () => {
             });
         });
 
-        it("logs update invoice event", (done) => {
+        it('logs update invoice event', (done) => {
             let invoice = {
                 totalAmountInCents: 6000,
                 paymentDate: moment().format('L'),
@@ -314,8 +314,8 @@ describe('invoiceService', () => {
                 }).nodeify(done);
         });
 
-        it("rejects the promise when update invoice failed, and log the error", (done) => {
-            let errorMessage = "Seriously, we still don't have any damn bananas.";
+        it('rejects the promise when update invoice failed, and log the error', (done) => {
+            let errorMessage = 'Seriously, we still don\'t have any damn bananas.';
             findInvoicePromise.resolve(createdEmptyInvoice);
             updateInvoicePromise.reject(errorMessage);
 
@@ -327,7 +327,7 @@ describe('invoiceService', () => {
             }).nodeify(done);
         });
 
-        it("rejects the promise when find invoice failed, and log the error", (done) => {
+        it('rejects the promise when find invoice failed, and log the error', (done) => {
             findInvoicePromise.resolve({});
 
             let promise =  invoiceService.payForInvoice(newInvoice);
@@ -389,7 +389,3 @@ describe('invoiceService', () => {
         });
       });
 });
-
-
-
-

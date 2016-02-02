@@ -19,6 +19,12 @@ function findInvoice(invoiceId) {
         });
 }
 
+function updateInvoice(updateFields) {
+    return function(invoiceId) {
+        return Invoice.update(updateFields, { where: {id: invoiceId} });
+    };
+}
+
 function updateInvoiceReference(membershipType) {
     return function(data) {
         let invoiceId = data.dataValues.id;
@@ -28,15 +34,9 @@ function updateInvoiceReference(membershipType) {
 
         return findInvoice(invoiceId)
             .then(updateInvoice(updateFields))
-            .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, updateFields)})
-            .then(()=>{return {id: invoiceId}});
-    }
-}
-
-function updateInvoice(updateFields) {
-    return function(invoiceId) {
-        return Invoice.update(updateFields, { where: {id: invoiceId} });
-    }
+            .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, updateFields);})
+            .then(()=>{return {id: invoiceId};});
+    };
 }
 
 let handleError = (error) => {
@@ -65,16 +65,8 @@ function chargeCard(stripeToken, totalAmount) {
         })
         .catch((error)=>{
             logger.logNewFailedCharge(stripeToken,error);
-            throw new ChargeCardError("Failed to charge card!");
+            throw new ChargeCardError('Failed to charge card!');
         });
-}
-
-function updateStripePaymentForInvoice(invoice) {
-    return function(charge) {
-        invoice.paymentStatus = "PAID";
-        invoice.transactionId = charge.id;
-        return updatePaymentForInvoice(invoice);
-    }
 }
 
 function updatePaymentForInvoice(invoice) {
@@ -91,15 +83,23 @@ function updatePaymentForInvoice(invoice) {
 
     return findInvoice(invoice.invoiceId)
         .then(updateInvoice(updateFields))
-        .tap(()=>{logger.logUpdateInvoiceEvent(invoice.invoiceId, updateFields)});
+        .tap(()=>{logger.logUpdateInvoiceEvent(invoice.invoiceId, updateFields);});
+}
+
+function updateStripePaymentForInvoice(invoice) {
+    return function(charge) {
+        invoice.paymentStatus = 'PAID';
+        invoice.transactionId = charge.id;
+        return updatePaymentForInvoice(invoice);
+    };
 }
 
 var payForInvoice = (invoice) => {
-    if (invoice.paymentType === "stripe") {
+    if (invoice.paymentType === 'stripe') {
         return chargeCard(invoice.stripeToken, invoice.totalAmount)
-            .then(updateStripePaymentForInvoice(invoice))
+            .then(updateStripePaymentForInvoice(invoice));
     } else {
-        return updatePaymentForInvoice(invoice)
+        return updatePaymentForInvoice(invoice);
     }
 };
 
