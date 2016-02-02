@@ -52,7 +52,7 @@ describe("User Flow", () => {
         invoice.invoiceId = createdInvoiceId;
 
         return request(app)
-            .post("/invoices")
+            .post("/invoices/update")
             .set("Content-Type", "application/json")
             .set("Accept", "application/json")
             .send(invoice)

@@ -69,7 +69,7 @@ export default class Payment extends Component {
           paypalReference.checkout(this.state.amount);
           $.ajax({
                   type: 'POST',
-                  url: '/invoices',
+                  url: '/invoices/update',
                   data: fieldValues,
               success: function (value) {
               },

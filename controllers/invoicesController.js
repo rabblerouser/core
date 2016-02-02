@@ -5,7 +5,7 @@ var paymentValidator = require("../lib/paymentValidator");
 var ChargeCardError = require('../errors/ChargeCardError');
 var logger = require('../lib/logger');
 
-var newInvoiceHandler = (req, res) => {
+var updateInvoiceHandler = (req, res) => {
 
     let newInvoice = {
         totalAmount: req.body.paymentType === 'noContribute' ? 1 : req.body.totalAmount,
@@ -43,5 +43,5 @@ function handleError(res) {
 }
 
 module.exports = {
-    newInvoiceHandler: newInvoiceHandler
+    updateInvoiceHandler: updateInvoiceHandler
 };

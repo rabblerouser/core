@@ -26,6 +26,6 @@ router.get('/verified', function(req, res) {
 });
 
 router.post('/members/update', membersController.updateMemberHandler);
-router.post('/invoices', invoicesController.newInvoiceHandler);
+router.post('/invoices/update', invoicesController.updateInvoiceHandler);
 
 module.exports = router;

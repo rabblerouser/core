@@ -11,8 +11,8 @@ const specHelper = require("../../support/specHelper"),
 var invoicesController = require("../../../controllers/invoicesController");
 
 describe("invoicesController", () => {
-    describe("newInvoiceHandler", () => {
-        let newInvoiceHandler,
+    describe("updateInvoiceHandler", () => {
+        let updateInvoiceHandler,
             goodRequest, res,
             statusStub, responseJsonStub,
             payForInvoiceStub, payForInvoicePromise,
@@ -21,7 +21,7 @@ describe("invoicesController", () => {
             renderStub, renderLocationStub;
 
         beforeEach(() => {
-            newInvoiceHandler = invoicesController.newInvoiceHandler;
+            updateInvoiceHandler = invoicesController.updateInvoiceHandler;
             payForInvoiceStub = sinon.stub(invoiceService, 'payForInvoice');
             validatePaymentStub = sinon.stub(paymentValidator, 'isValid');
             loggerStub = sinon.stub(logger, 'logError');
@@ -67,7 +67,7 @@ describe("invoicesController", () => {
                 validatePaymentStub.returns([]);
                 payForInvoicePromise.resolve();
 
-                newInvoiceHandler(goodRequest, res)
+                updateInvoiceHandler(goodRequest, res)
                     .finally(() => {
                         expect(res.status).toHaveBeenCalledWith(200);
                     }).nodeify(done);
@@ -77,7 +77,7 @@ describe("invoicesController", () => {
         describe("when validation fails", () => {
             it("responds with status 400", (done) => {
                 validatePaymentStub.returns(["totalAmount"]);
-                newInvoiceHandler(goodRequest, res);
+                updateInvoiceHandler(goodRequest, res);
 
                 expect(invoiceService.payForInvoice).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);
@@ -91,7 +91,7 @@ describe("invoicesController", () => {
                 let errorMessage = "Seriously, we still don't have any damn bananas.";
                 payForInvoicePromise.reject(errorMessage);
 
-                newInvoiceHandler(goodRequest, res)
+                updateInvoiceHandler(goodRequest, res)
                     .finally(() => {
                         expect(logger.logError).toHaveBeenCalled();
                         expect(res.status).toHaveBeenCalledWith(500);
@@ -106,7 +106,7 @@ describe("invoicesController", () => {
 
                 payForInvoicePromise.reject(error);
 
-                newInvoiceHandler(goodRequest, res)
+                updateInvoiceHandler(goodRequest, res)
                     .finally(() => {
                         expect(logger.logError).not.toHaveBeenCalled();
                         expect(res.status).toHaveBeenCalledWith(400);
