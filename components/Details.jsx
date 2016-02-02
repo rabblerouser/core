@@ -159,7 +159,7 @@ export default class Details extends Component {
                     </div>
                     <div className="heading">
                         <h2 className="sub-title"> Personal Information</h2>
-                        <i>{this.getPersonalInformationSubtitletext()}</i>
+                         <div className="sub-description">{this.getPersonalInformationSubtitletext()}</div>
                     </div>
                     <div className="field-group">
                         <label htmlFor="firstName" className={this.validationErrorClass('firstName')}>Given Name(s) <span className="mandatoryField">* </span>
@@ -187,7 +187,7 @@ export default class Details extends Component {
                     </div>
                     <div className="heading">
                         <h2 className="sub-title"> Residential Address</h2>
-                        <i>{this.getResidentialAddressSubtitleText()}</i>
+                        <div className="sub-description">{this.getResidentialAddressSubtitleText()}</div>
                     </div>
                     <div className="field-group">
                         <label htmlFor="residentialAddress[address]" className={this.validationErrorClass('residentialAddress')}>Address <span className="mandatoryField">* </span>
@@ -235,7 +235,7 @@ export default class Details extends Component {
                          className={(() => { return this.state.showPostalAddress ? '' : 'hidden';})()}>
                         <div className="heading">
                             <h2 className="sub-title"> Postal Address</h2>
-                            <i>Please enter the postal address.</i>
+                             <div className="sub-description">Please enter the postal address.</div>
                         </div>
                         <div className="field-group">
                             <label htmlFor="postalAddress[address]" className={this.validationErrorClass('postalAddress')}>Address <span className="mandatoryField">* </span>
@@ -277,7 +277,7 @@ export default class Details extends Component {
                     </div>
                     <div className="heading">
                         <h2 className="sub-title"> Contact Details</h2>
-                        <i>Please enter your current email and phone number.</i>
+                         <div className="sub-description">Please enter your current email and phone number.</div>
                     </div>
                     <div className="field-group">
                         <label htmlFor="email" className={this.validationErrorClass('email')}>Email <span className="mandatoryField">* </span>

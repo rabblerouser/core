@@ -132,8 +132,8 @@ export default class Payment extends Component {
                     </div>
                 </div>
                 <div className="heading">
-                    <h2 className="sub-title">How would you like to contribute? <span className="mandatoryField2">* </span></h2>
-                    <i>Choose from the options below.</i>
+                    <h2 className="sub-title">How would you like to contribute? <span className="mandatoryField2">* </span></h2> 
+                     <div className="sub-description">Choose from the options below.</div>
                 </div>
                 <div className="field-group" id="payments">
                     <PaypalPayment ref="paypalPayment"
@@ -162,7 +162,7 @@ export default class Payment extends Component {
                 <div className={(() => { return this.state.paymentType==='noContribute' ? 'hidden' : ''})()}>
                     <div className="heading">
                         <h2 className="sub-title"> Membership Contribution</h2>
-                        <i>Please enter an amount.</i>
+                         <div className="sub-description">Please enter an amount.</div>
                     </div>
                     <div className="contribution-amount">
                         <div className="currency">$AUD</div>

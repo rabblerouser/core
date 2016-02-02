@@ -41,6 +41,13 @@
             line-height:20px;
         }
     }
+    
+    .sub-title span{
+        @include media($mobile) {
+            font-size: 16px;
+            line-height:20px;
+        }  
+    }
 
     .sub-description {
         font-size: 14px;
@@ -371,7 +378,7 @@ hr {
   .validationErrors-text {
     height: 45px;
     padding-left: 10px;
-    width: 80%;
+ 
   }
 
   .validationErrors-text span {
@@ -387,7 +394,7 @@ hr {
       
       
     @include media($mobile) {
-        font-size:13px;
+        font-size:11px;
     }
   }
 
@@ -421,6 +428,10 @@ hr {
     img {
         width: 48px;
         float: left;
+        
+        @include media($mobile) {
+            display:none;
+        }
     }
 }
 
@@ -466,6 +477,10 @@ hr {
     padding-top: 15px;
     padding-bottom: 15px;
     margin-top: 10px;
+      
+    @include media($mobile) {
+        font-size:13px;
+    }  
   }
 
    button:hover{
@@ -476,6 +491,10 @@ hr {
     height: 40px;
     line-height: 40px;
     margin: 0;
+      
+    @include media($mobile) {
+        font-size:13px;
+    }   
   }
 }
 
@@ -498,11 +517,21 @@ hr {
 .footer a {
     color: #0073ae;
     padding-bottom: 30px;
+    
+    @include media($mobile) {
+        font-size:13px;
+    }
 }
 
 .footer a:hover {
     color: #008bc0;
 }
+
+.form-container {
+    @include media($mobile) {
+        margin-bottom: 0;
+    }
+}    
 
 .modal-header {
     background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);

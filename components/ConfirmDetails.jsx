@@ -47,7 +47,7 @@ export default class ConfirmDetails extends Component {
                         scrollToError={true}/>
                 <div className="heading">
                     <h2 className="sub-title">Declaration </h2>
-                    <i> Read the following and click the checkbox below.</i>
+                     <div className="sub-description"> Read the following and click the checkbox below.</div>
                 </div>
                 <div className="declaration">
                   {this.getDeclaration()}
@@ -59,7 +59,7 @@ export default class ConfirmDetails extends Component {
                 </label>
                 <div className="heading">
                     <h2 className="sub-title">Check Your Details</h2>
-                    <i>Please enter all the data you have entered is correct. It is a serious offence to make a false declaration.</i>
+                     <div className="sub-description">Please enter all the data you have entered is correct. It is a serious offence to make a false declaration.</div>
                 </div>
                 <div className="declaration">
                     <div className="declaration-text">
