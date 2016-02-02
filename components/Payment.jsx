@@ -94,7 +94,7 @@ export default class Payment extends Component {
               this.props.nextStep();
           }.bind(this),
           error: function(request, status, error) {
-              this.setState({errorMessages: [error]});
+              this.setState({errorMessages: [JSON.parse(request.responseText).errors]});
           }.bind(this)
       });
     }
