@@ -18,7 +18,7 @@ describe('invoiceService', () => {
         expectedInvoice, createInvoicePromise,
         updateInvoicePromise, findInvoicePromise,
         createEmptyInvoiceloggerStub, memberEmail, reference,
-        createdEmptyInvoice, invoiceId;
+        createdEmptyInvoice, invoiceId, errorLoggerStub;
 
     beforeEach(() => {
         createInvoiceStub = sinon.stub(models.Invoice, 'create');
@@ -27,6 +27,7 @@ describe('invoiceService', () => {
         newInvoiceloggerStub = sinon.stub(logger, 'logNewInvoiceEvent');
         updateInvoiceloggerStub = sinon.stub(logger, 'logUpdateInvoiceEvent');
         createEmptyInvoiceloggerStub = sinon.stub(logger, 'logCreateEmptyInvoiceEvent');
+        errorLoggerStub = sinon.stub(logger, 'logError');
 
         invoiceId = 1;
 
@@ -65,6 +66,7 @@ describe('invoiceService', () => {
         newInvoiceloggerStub.restore();
         updateInvoiceloggerStub.restore();
         createEmptyInvoiceloggerStub.restore();
+        errorLoggerStub.restore();
     });
 
     describe("create empty invoice", () => {
@@ -105,6 +107,18 @@ describe('invoiceService', () => {
                     expect(logger.logCreateEmptyInvoiceEvent).toHaveBeenCalledWith(createdEmptyInvoice);
                     expect(logger.logUpdateInvoiceEvent).toHaveBeenCalledWith(1, {reference: 'FUL1'});
                 }).nodeify(done);
+        });
+
+        it("logs the error when create empty invoice failed", (done) => {
+            createInvoicePromise.resolve(createdEmptyInvoice);
+            findInvoicePromise.resolve({});
+
+            let promise = invoiceService.createEmptyInvoice(memberEmail, membershipType);
+
+            promise.catch((error) => {
+                expect(logger.logError).toHaveBeenCalled();
+                expect(error.message).toEqual('An error has occurred internally.');
+            }).nodeify(done);
         });
 
         describe('reject the promise when', () => {

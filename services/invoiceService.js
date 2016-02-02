@@ -39,6 +39,11 @@ function updateInvoice(updateFields) {
     }
 }
 
+let handleError = (error) => {
+    logger.logError(error);
+    throw new Error('An error has occurred internally.');
+};
+
 var createEmptyInvoice = (memberEmail, membershipType) => {
     return Q({
           memberEmail: memberEmail,
@@ -49,7 +54,8 @@ var createEmptyInvoice = (memberEmail, membershipType) => {
         })
         .then(Invoice.create.bind(Invoice))
         .tap(logger.logCreateEmptyInvoiceEvent)
-        .then(updateInvoiceReference(membershipType));
+        .then(updateInvoiceReference(membershipType))
+        .catch(handleError);
 };
 
 function chargeCard(stripeToken, totalAmount) {
