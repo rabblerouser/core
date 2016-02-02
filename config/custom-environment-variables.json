@@ -1,7 +1,5 @@
 {
   "email": {
-    "smtpServer": "EMAIL_SERVER",
-    "user": "EMAIL_SERVER_USER",
-    "password": "EMAIL_SERVER_PSWD"
+    "server": "EMAIL_SERVER"
   }
 }

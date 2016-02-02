@@ -4,9 +4,7 @@
   },
   "email": {
     "membershipEmail": "membership@pirateparty.org.au",
-    "smtpServer": "override this using environment variable EMAIL_SERVER",
-    "user": "override this using environment variable EMAIL_SERVER_USER",
-    "password": "override this using environment variable EMAIL_SERVER_PSWD",
+    "server": "override this using environment variable EMAIL_SERVER",
     "sendMemberVerificationEnabled": false
   }
 }
