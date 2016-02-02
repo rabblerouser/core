@@ -102,7 +102,12 @@ describe("memberValidator", () => {
     describe("isValidPrimaryPhoneNumber", () => {
         [
             "+61472817381",
-            "0328171381"
+            "0328171381",
+            "0428171331",
+            "04-2817-133-1",
+            "04 2817 1331",
+            "555-555-5555",
+            "(555)555-5555"
         ].forEach((testCase) => {
             it(`Should return true given a string with a mobile phone number ${testCase}`, () => {
                 expect(memberValidator.isValidPhone(testCase)).toBe(true);
@@ -112,8 +117,8 @@ describe("memberValidator", () => {
         [
             "",
             null,
-            "04"+"1".repeat(9),
-            "+61"+"4".repeat(10)
+            "04",
+            "+61"+"4".repeat(3)
         ].forEach((testCase) => {
             it(`Should return false if phone is ${testCase}`, () => {
                 expect(memberValidator.isValidPhone(testCase)).toBe(false);
@@ -123,8 +128,13 @@ describe("memberValidator", () => {
 
     describe("isValidSecondaryPhoneNumber", () => {
         [
-            "+61472817381",
-            "0328171381",
+          "+61472817381",
+          "0328171381",
+          "0428171331",
+          "04-2817-133-1",
+          "04 2817 1331",
+          "555-555-5555",
+          "(555)555-5555",
             "",
             null
         ].forEach((testCase) => {
@@ -134,7 +144,7 @@ describe("memberValidator", () => {
         });
 
         [
-            "04"+"1".repeat(9),
+            "04",
             "+61"+"4".repeat(10)
         ].forEach((testCase) => {
             it(`Should return false if phone is ${testCase}`, () => {
