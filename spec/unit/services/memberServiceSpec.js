@@ -326,7 +326,7 @@ describe('memberService', () => {
           expect(member.email).toEqual('sherlock@holmes.co.uk');
         })
         .finally(() => {
-          expect(findOneStub).toHaveBeenCalled();
+          expect(models.Member.findOne).toHaveBeenCalled();
           expect(updateMemberStub).toHaveBeenCalled();
           done();
         })
@@ -343,14 +343,29 @@ describe('memberService', () => {
           expect(member.email).toEqual('sherlock@holmes.co.uk');
         })
         .finally(() => {
-          expect(models.Member, 'findOne').not.toHaveBeenCalled();
+          expect(models.Member.findOne).toHaveBeenCalled();
+          expect(updateMemberStub).not.toHaveBeenCalled();
           done();
         })
         .catch(done);
       });
 
+      it('should throw an error if hash does not match any record', (done) => {
+        let hash = '1d225bd0-57b5-4b87-90fc-f76ddc997e57';
+
+        findOnePromise.resolve(null);
+
+        memberService.verify(hash)
+        .catch((error) => {
+          expect(error).not.toBeNull();
+          expect(models.Member.findOne).toHaveBeenCalled();
+          expect(updateMemberStub).not.toHaveBeenCalled();
+          done();
+        });
+      });
+
     });
-    
+
     describe('update member', () => {
         const residentialAddressId = 1;
         const postalAddressId = 2;

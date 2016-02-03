@@ -177,6 +177,20 @@ describe('membersController', () => {
         }).nodeify(done);
       });
 
-      it('should return a static website with an error message when account not verified');
+      it('should return a 400 when the account could not be verified', (done) => {
+        verificationPromise.reject('The account could not be verified');
+
+        req = {
+          params: {
+            hash: '1d225bd0-57b5-4b87-90fc-f76ddc997e57'
+          }
+        };
+
+        membersController.verify(req, res)
+        .finally(() => {
+          expect(verificationStub).toHaveBeenCalled();
+          expect(res.sendStatus).toHaveBeenCalledWith(400);
+        }).nodeify(done);
+      });
     });
 });

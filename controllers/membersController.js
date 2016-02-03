@@ -124,7 +124,7 @@ function verify(req, res) {
   let hash = req.params.hash;
 
   if (!memberValidator.isValidVerificationHash(hash)) {
-    logger.logError('[member-verification-failed]', {hash: hash});
+    logger.logError('[member-verification-failed]', {error: 'Invalid input params', hash: hash});
     res.sendStatus(400);
     return Q.reject('Invalid Input');
   }
@@ -133,7 +133,9 @@ function verify(req, res) {
   .then(() => {
     res.redirect('/verified');
   })
-  .catch(handleError(res));
+  .catch(() => {
+    res.sendStatus(400);
+  });
 }
 
 module.exports = {
