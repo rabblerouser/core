@@ -6,7 +6,7 @@ let logger = require('../lib/logger');
 let Q = require('q');
 
 function logAndRethrow(error) {
-  logger.logError(error.stack, 'sending verification email');
+  logger.logError(error, 'sending verification email');
   throw new Error(error);
 }
 
@@ -22,7 +22,7 @@ function sendVerificationEmail(member) {
 
   You're almost done! The last step is to verify your membership by clicking on the link below. <br>
 
-  <a href="${config.app.url}/members/verify/${member.email}/${member.verificationHash}">Verify Account</a> <br>
+  <a href="${config.app.url}/members/verify/${member.verificationHash}">Verify Account</a> <br>
 
   Best,<br>
 

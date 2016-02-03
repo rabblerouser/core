@@ -314,7 +314,6 @@ describe('memberService', () => {
       });
 
       it('should verify the member if email and hash match', (done) => {
-        let email = 'sherlock@holmes.co.uk';
         let hash = '1d225bd0-57b5-4b87-90fc-f76ddc997e57';
 
         updateMemberPromise.resolve({dataValues: {email: 'sherlock@holmes.co.uk', verified: true, id: '1'}});
@@ -322,7 +321,7 @@ describe('memberService', () => {
         let memberToVerify = {dataValues: {email: 'sherlock@holmes.co.uk', verified: false, id: '1'}, update: updateMemberStub};
         findOnePromise.resolve(memberToVerify);
 
-        memberService.verify(email, hash)
+        memberService.verify(hash)
         .then((member) => {
           expect(member.email).toEqual('sherlock@holmes.co.uk');
         })
@@ -335,12 +334,11 @@ describe('memberService', () => {
       });
 
       it('should not verify the member if already verified', (done) => {
-        let email = 'sherlock@holmes.co.uk';
         let hash = '1d225bd0-57b5-4b87-90fc-f76ddc997e57';
 
         findOnePromise.resolve({dataValues: {email: 'sherlock@holmes.co.uk', verified: true, id: '1'}});
 
-        memberService.verify(email, hash)
+        memberService.verify(hash)
         .then((member) => {
           expect(member.email).toEqual('sherlock@holmes.co.uk');
         })

@@ -19,7 +19,7 @@ router.get('/members/new', function(req, res) {
 router.post('/payments/paypal', paypalHandler.handleIpn);
 
 router.post('/members', membersController.newMemberHandler);
-router.get('/members/verify/:email/:hash', membersController.verify);
+router.get('/members/verify/:hash', membersController.verify);
 
 router.get('/verified', function(req, res) {
     res.render('account-verified', { title: 'Pirate Party Membership' });

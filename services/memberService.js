@@ -127,16 +127,16 @@ let list = () => {
         .catch(handleError);
 };
 
-function findForVerification(email, hash) {
+function findForVerification(hash) {
   var query = {
-    where: {email: email, verificationHash: hash},
+    where: {verificationHash: hash},
     attributes: ['id', 'email', 'verified']
   };
 
   return Member.findOne(query)
         .then((result) => {
           if (!result) {
-            throw new Error(`Match not found for email:${email} and hash:${hash}`);
+            throw new Error(`Match not found for hash:${hash}`);
           }
           return result;
         });
@@ -153,8 +153,8 @@ function markAsVerified(member) {
   return member.dataValues;
 }
 
-function verify(email, hash) {
-  return findForVerification(email, hash)
+function verify(hash) {
+  return findForVerification(hash)
     .then(markAsVerified)
     .tap((verifiedMember) => logger.logInfoEvent('[member-verification-event]', verifiedMember))
     .catch((error) => {

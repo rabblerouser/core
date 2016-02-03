@@ -121,16 +121,15 @@ var updateMemberHandler = (req, res) => {
 };
 
 function verify(req, res) {
-  let email = req.params.email;
   let hash = req.params.hash;
 
-  if (!(memberValidator.isValidEmail(email) && memberValidator.isValidVerificationHash(hash))) {
-    logger.logError('[member-verification-failed]', {email: email, hash: hash});
+  if (!memberValidator.isValidVerificationHash(hash)) {
+    logger.logError('[member-verification-failed]', {hash: hash});
     res.sendStatus(400);
     return Q.reject('Invalid Input');
   }
 
-  return memberService.verify(email, hash)
+  return memberService.verify(hash)
   .then(() => {
     res.redirect('/verified');
   })

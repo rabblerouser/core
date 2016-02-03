@@ -147,30 +147,16 @@ describe('membersController', () => {
         memberService.verify.restore();
       });
 
-      it('should return 400 when the email is not well formed', (done) => {
-        req = {
-          params: {
-            email: 'thisIsWrong',
-            hash: '1d225bd0-57b5-4b87-90fc-f76ddc997e57'
-          }
-        };
-
-        membersController.verify(req, res)
-        .finally(() => {
-          expect(res.sendStatus).toHaveBeenCalledWith(400);
-        }).nodeify(done);
-      });
-
       it('should return 400 when the hash is not valid', (done) => {
         req = {
           params: {
-            email: 'sherlock@holmes.co.uk',
             hash: 'ZZZZZooooWrong'
           }
         };
 
         membersController.verify(req, res)
         .finally(() => {
+          expect(verificationStub).not.toHaveBeenCalled();
           expect(res.sendStatus).toHaveBeenCalledWith(400);
         }).nodeify(done);
       });
@@ -180,13 +166,13 @@ describe('membersController', () => {
 
         req = {
           params: {
-            email: 'sherlock@holmes.co.uk',
             hash: '1d225bd0-57b5-4b87-90fc-f76ddc997e57'
           }
         };
 
         membersController.verify(req, res)
         .finally(() => {
+          expect(verificationStub).toHaveBeenCalledWith(req.params.hash);
           expect(res.redirect).toHaveBeenCalledWith('/verified');
         }).nodeify(done);
       });
