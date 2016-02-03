@@ -117,14 +117,14 @@ casper.test.begin('Test the project-m-staging', 17, function suite(test) {
     casper.then(function() {
         this.click('button');
         casper.then(function() {
-            test.assertSelectorHasText('h1.form-title', 'Details');  //find the title
+            test.assertSelectorHasText('h1.form-title', 'Details');
         });
     });
 
 
 // Details page tests
 
-    //Residential Address Only
+    //Residential Address = Postal Address
 
     casper.then(function() {
       this.sendKeys('input[id=firstName]', 'Connor');
@@ -144,13 +144,22 @@ casper.test.begin('Test the project-m-staging', 17, function suite(test) {
       this.sendKeys('input[id=email]', 'qoku@gmail.com');
       this.sendKeys('input[id=primaryPhoneNumber]', '0412345678');
 
+      //jump to the Confirm page
       this.click('button');
 
       casper.then(function() {
           this.capture('screenshots/screenshot-click.png');
           test.assertSelectorHasText('h1.form-title', 'Confirm');
       });
+
+     //go back to the Details page
+
+      casper.then(function() {
+           this.click('a#go-back');
+           test.assertSelectorHasText('h1.form-title', 'Details');
+      });
     });
+
     casper.run(function () {
         test.done();
     });
