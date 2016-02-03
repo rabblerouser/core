@@ -6,7 +6,7 @@ let logger = require('../lib/logger');
 let Q = require('q');
 
 function logAndRethrow(error) {
-  logger.logError(error, 'sending verification email');
+  logger.logError(error, '[verification-email-failed]');
   throw new Error(error);
 }
 
