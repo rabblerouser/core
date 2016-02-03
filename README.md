@@ -34,15 +34,22 @@
                 3. Click your account -> account settings
                 4. Click API keys
                 5. Add the ones you wish to use into /config/stripe-config.json (for test and dev)
-        
+
         2. Second option is to declare them at run time:
                 1. Add STRIPE_SECRET_KEY="somekey" to environment vars
                 2. Add STRIPE_PUBLIC_KEY="anotherkey" to environment vars
                 3. Alternatively, define them at runtime before npm start, see below
-                
+
                 eg: STRIPE_SECRET_KEY="sk_test_randomNumbersAndLetters" STRIPE_PUBLIC_KEY="anotherkey" npm start
-                
+
         If you do both options, the run time declaration is used instead of the config file.
+
+0. Email configuration
+
+        1. Run `which sendmail` in a terminal
+        2. Add EMAIL_SERVER="Path to sendmail" to environment vars
+        3. Turn on the toggles for the emails that will be activated in each specific environment (config/default.json, config/staging.json, config/production.json)
+            - For the verification email set "sendMemberVerificationEnabled" to true
 
 0. Run the tests
 
