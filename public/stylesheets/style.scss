@@ -48,6 +48,10 @@ div.container {
         background-repeat: no-repeat;
         background-position: center; 
         content: '';
+        
+        @include media($mobile) {
+           background-size: 12px 12px;
+        }
       }
       
 
