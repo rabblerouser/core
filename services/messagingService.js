@@ -22,7 +22,7 @@ function sendVerificationEmail(member) {
 
   You're almost done! The last step is to verify your membership by clicking on the link below. <br>
 
-  <a href="${config.app.url}/members/verify/${member.verificationHash}">Verify Account</a> <br>
+  <a href="${config.app.publicUrl}/members/verify/${member.verificationHash}">Verify Account</a> <br>
 
   Best,<br>
 
