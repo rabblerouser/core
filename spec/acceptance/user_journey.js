@@ -183,10 +183,15 @@ casper.test.begin('Test the project-m-staging', 17, function suite(test) {
       });
       this.sendKeys('input[id="postalAddress[postcode]"]', '3001');
 
-      });
-      
-    });
+      this.click('button');
 
+      casper.then(function() {
+          this.capture('screenshots/screenshot-click.png');
+          test.assertSelectorHasText('h1.form-title', 'Confirm');
+      });
+    });
+    });
+ 
     casper.run(function () {
         test.done();
     });
