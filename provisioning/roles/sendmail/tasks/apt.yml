@@ -1,0 +1,4 @@
+- name: install sendmail
+  apt: name=sendmail
+  with_items:
+  - make
