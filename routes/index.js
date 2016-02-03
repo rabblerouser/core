@@ -2,10 +2,20 @@
 
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 var membersController = require('../controllers/membersController');
+var adminController = require('../controllers/adminController');
 var invoicesController = require('../controllers/invoicesController');
 var stripeHandler = require('../lib/stripeHandler');
 var paypalHandler = require('../lib/paypalHandler');
+
+function requireAuth(req, res, next){
+    if(!req.isAuthenticated()){
+        req.session.messages = "You need to login to view this page";
+        res.redirect('/login');
+    }
+    next();
+}
 
 router.get('/', function(req, res) {
     let headers = Object.assign({}, stripeHandler.getStripeHeaders(), paypalHandler.getPaypalHeaders());
@@ -27,5 +37,24 @@ router.get('/verified', function(req, res) {
 
 router.post('/members/update', membersController.updateMemberHandler);
 router.post('/invoices/update', invoicesController.updateInvoiceHandler);
+
+router.post('/login',
+  passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login',
+                                   failureFlash: false })
+);
+
+router.get('/login', function(req, res){
+        res.render('login');
+});
+
+router.get('/logout', requireAuth, function(req, res){
+    req.logout();
+    res.redirect('/');
+});
+
+//router.get('/admin', requireAuth, function(req, res){
+//    res.render('admin', { title: 'Pirate Party Admin' });
+//});
 
 module.exports = router;
