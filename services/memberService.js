@@ -81,7 +81,7 @@ var updateMember = (member) => {
             };
         })
         .then(function(updatedMember){
-            return Member.update(updatedMember, {where: {email: member.email}})
+            return Member.update(updatedMember, {where: {email: member.email}});
         })
         .tap(function(a){
             logger.logMemberSignUpEvent(a);
