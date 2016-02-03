@@ -1,8 +1,5 @@
 {
-  "app":{
-    "publicUrl": "https://project-m-staging.herokuapp.com"
-  },
   "email": {
-    "sendMemberVerificationEnabled": true
+    "sendMemberVerificationEnabled": false
   }
 }
