@@ -38,6 +38,18 @@ div.container {
       width: 50%;
     }
   }
+    
+    .progress-bar .visited:nth-child(1)::after,
+    .progress-bar .visited:nth-child(2)::after,
+    .progress-bar .visited:nth-child(3)::after,
+    .progress-bar .visited:nth-child(4)::after{
+        background-image: url('../images/tick.svg');
+        background-size: 16px 16px;
+        background-repeat: no-repeat;
+        background-position: center; 
+        content: '';
+      }
+      
 
   li {
     &:nth-child(1) {
