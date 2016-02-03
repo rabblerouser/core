@@ -221,6 +221,80 @@ h3 {
 }
 
 
+
+.modal-header {
+    background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
+    max-width: 391px;
+
+    .close-button {
+         height: 24px;
+         float:left;
+    }
+
+    .box-header {
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 19px;
+        text-align: center;
+
+        h2 {
+            color: #000;
+            font-size: 16px;
+            line-height: 20px;
+            margin-bottom: 0;
+            
+            @include media($mobile) {
+                font-size:17px;
+            }
+        }
+
+        .logo{
+            height: 65px;
+        }
+    }
+}
+
+.box-column {
+    background: #F5F5F5;
+    border-bottom: 1px solid #ECEBEB;
+    max-width: 391px;
+    padding: 0 15px;
+    text-align: center;
+
+  h3 {
+    color: #0073AE;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 22px;
+    margin-bottom: 0;
+    padding-top: 15px;
+      
+    @include media($mobile) {
+        font-size:14px;
+    }
+  }
+
+  h4 {
+    color: #008BC0;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 19px;
+    margin-bottom: 0;
+    padding-bottom: 15px;
+      
+    @include media($mobile) {
+        font-size:13px;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
 .info-box span{
     @include media($mobile) {
             font-size:11px;
@@ -533,80 +607,3 @@ hr {
     }
 }    
 
-.modal-header {
-    background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
-    max-width: 391px;
-
-    .close-button {
-         height: 24px;
-    }
-
-    .box-header {
-        border-bottom: 1px solid #CCC;
-        padding-bottom: 19px;
-        text-align: center;
-
-        h2 {
-            color: #000;
-            font-size: 23px;
-            line-height: 29px;
-            margin-bottom: 0;
-            text-shadow: "0px 1px 1px #FFFFFF";
-            
-            @include media($mobile) {
-                font-size:17px;
-            }
-        }
-
-        h3 {
-            color: #666;
-            font-size: 17px;
-            letter-spacing: .2px;
-            line-height: 22px;
-            margin-bottom: 0;
-            text-shadow: "0px 1px 1px #fff";
-            
-            @include media($mobile) {
-                font-size:14px;
-            }
-        }
-
-        .logo{
-            height: 87px;
-        }
-    }
-}
-
-.box-column {
-    background: #F5F5F5;
-    border-bottom: 1px solid #ECEBEB;
-    max-width: 391px;
-    padding: 0 30px;
-    text-align: center;
-
-  h3 {
-    color: #0073AE;
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 22px;
-    margin-bottom: 0;
-    padding-top: 25px;
-      
-    @include media($mobile) {
-        font-size:14px;
-    }
-  }
-
-  h4 {
-    color: #008BC0;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 19px;
-    margin-bottom: 0;
-    padding-bottom: 23px;
-      
-    @include media($mobile) {
-        font-size:13px;
-    }
-  }
-}
