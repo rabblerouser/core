@@ -40,7 +40,7 @@ casper.on('page.initialized', function() {
     });
 });
 
-casper.test.begin('Test the project-m-staging', 17, function suite(test) {
+casper.test.begin('Test the project-m-staging', 19, function suite(test) {
     casper.start('https://project-m-staging.herokuapp.com/', function() {
         test.assertTitle("Pirate Party Membership");
         var js = this.evaluate(function() {
@@ -191,7 +191,7 @@ casper.test.begin('Test the project-m-staging', 17, function suite(test) {
       });
     });
     });
- 
+
     casper.run(function () {
         test.done();
     });
