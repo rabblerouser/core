@@ -158,6 +158,33 @@ casper.test.begin('Test the project-m-staging', 17, function suite(test) {
            this.click('a#go-back');
            test.assertSelectorHasText('h1.form-title', 'Details');
       });
+
+    //check the postal address not same as residential address
+
+    casper.then(function() {
+           this.click('input[type="checkbox"]', 'Yes');
+    });
+    //fill in the postal address
+    casper.then(function() {
+      this.evaluate(function () {
+        return document.getElementById("residentialAddress[country]").selectedIndex = 38;
+      });
+
+      this.evaluate(function () {
+        return document.getElementById("residentialAddress[state]").selectedIndex = 1;
+      });
+      this.sendKeys('input[id="postalAddress"]', '1 Margaret Street');
+      this.sendKeys('input[id="postalAddress[suburb]"]', 'Cambridge');
+      this.evaluate(function () {
+        return document.getElementById("postalAddress[country]").selectedIndex = 13;
+      });
+      this.evaluate(function () {
+        return document.getElementById("postalAddress[state]").selectedIndex = 7;
+      });
+      this.sendKeys('input[id="postalAddress[postcode]"]', '3001');
+
+      });
+      
     });
 
     casper.run(function () {
