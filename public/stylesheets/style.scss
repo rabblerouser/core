@@ -99,7 +99,6 @@ div.container {
 .progress-bar {
   margin-top: 58px;
   text-align:center;
- 
 
 
   li {
@@ -134,6 +133,7 @@ div.container {
       width: 42px;
       z-index: 99;
       display: inline-block; 
+
         
          @include media($mobile) {
              height:35px;

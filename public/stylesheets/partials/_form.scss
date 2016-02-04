@@ -221,20 +221,56 @@ h3 {
 }
 
 
+.clickable {
+    cursor: pointer;
+}
+
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index:900000;
+    overflow:scroll;
+}
+
+.ReactModal__Content.ReactModal__Content--after-open{
+        max-width: 360px; 
+        margin: 10px !important;
+        top: 0 !important;
+        left: 10px !important;
+        right: 10px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        transform: none !important;
+    
+}
+
+Modal{
+    margin-top:30px;
+}
 
 .modal-header {
     background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
-    max-width: 391px;
+    max-width: 360px;
+    padding-top: 7px;
+    padding-left: 7px;
+    padding-right: 7px;
+     z-index:9000;
+    opacity: .99;
+    
+    
+    
+   
 
     .close-button {
          height: 24px;
          float:left;
+         padding: 10px;
     }
 
     .box-header {
         border-bottom: 1px solid #CCC;
         padding-bottom: 19px;
         text-align: center;
+        margin-top: -20px;
 
         h2 {
             color: #000;
@@ -256,7 +292,7 @@ h3 {
 .box-column {
     background: #F5F5F5;
     border-bottom: 1px solid #ECEBEB;
-    max-width: 391px;
+    max-width: 360px;
     padding: 0 15px;
     text-align: center;
 

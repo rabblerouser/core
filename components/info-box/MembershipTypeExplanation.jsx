@@ -39,7 +39,7 @@ export default class MembershipTypeExplanation extends Component {
               onRequestClose={this.closeModal}
               style={customStyles} >
                   <div className='modal-header'>
-                      <img src ='/images/close_button.svg' onClick={this.closeModal} className='close_button'/>
+                      <a class="clickable" href="javascript:void(0)"><img src ='/images/close_button.svg' onClick={this.closeModal} className='close_button'/></a>
                       <div className='box-header'>
                           <img src ='/images/pirate_party_logo.svg' className='logo'/>
                           <h2>Membership Types</h2>
