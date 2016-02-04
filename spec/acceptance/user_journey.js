@@ -40,7 +40,7 @@ casper.on('page.initialized', function() {
     });
 });
 
-casper.test.begin('Test the project-m-staging', 19, function suite(test) {
+casper.test.begin('Test the project-m-staging', 20, function suite(test) {
     casper.start('https://project-m-staging.herokuapp.com/', function() {
         test.assertTitle("Pirate Party Membership");
         var js = this.evaluate(function() {
@@ -141,7 +141,7 @@ casper.test.begin('Test the project-m-staging', 19, function suite(test) {
       });
 
       this.sendKeys('input[id="residentialAddress[postcode]"]', '35191');
-      this.sendKeys('input[id=email]', 'qoku@gmail.com');
+      this.sendKeys('input[id=email]', 'qoku17@gmail.com');
       this.sendKeys('input[id=primaryPhoneNumber]', '0412345678');
 
       //jump to the Confirm page
@@ -151,7 +151,7 @@ casper.test.begin('Test the project-m-staging', 19, function suite(test) {
           this.capture('screenshots/screenshot-click.png');
           test.assertSelectorHasText('h1.form-title', 'Confirm');
       });
-
+    });
      //go back to the Details page
 
       casper.then(function() {
@@ -165,6 +165,7 @@ casper.test.begin('Test the project-m-staging', 19, function suite(test) {
            this.click('input[type="checkbox"]', 'Yes');
     });
     //fill in the postal address
+
     casper.then(function() {
       this.evaluate(function () {
         return document.getElementById("residentialAddress[country]").selectedIndex = 38;
@@ -190,9 +191,25 @@ casper.test.begin('Test the project-m-staging', 19, function suite(test) {
           test.assertSelectorHasText('h1.form-title', 'Confirm');
       });
     });
+
+    // Confirm page tests
+
+    casper.then(function() {
+        this.click('input[type="checkbox"]', 'circumstance');
+
+        this.click('button');
+
+      casper.then(function() {
+        this.wait(1000,function() {
+
+        this.capture('screenshots/screenshot-click.png');
+        test.assertSelectorHasText('h1.form-title', 'Pay What You Want');
+        });
+      });
     });
 
     casper.run(function () {
         test.done();
     });
+
 });
