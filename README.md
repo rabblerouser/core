@@ -90,8 +90,8 @@
         ./node_modules/sequelize-cli/bin/sequelize db:migrate
 
 0. Create an admin user to access the treasurer/secretary views
-	
-	npm run createAdmin
+
+        npm run createAdmin
 
 ### Pull a copy of the staging db from heroku
 
