@@ -5,6 +5,6 @@
   "email": {
     "membershipEmail": "membership@pirateparty.org.au",
     "server": "override this using environment variable EMAIL_SERVER",
-    "sendMemberVerificationEnabled": false
+    "sendMemberVerificationEnabled": true
   }
 }
