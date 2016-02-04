@@ -1,4 +1,5 @@
 - hosts: all
   sudo: yes
   roles:
+    - { role: sendmail}
     - { role: postgres, db_names: ["project-m", "project-m_test"] }
