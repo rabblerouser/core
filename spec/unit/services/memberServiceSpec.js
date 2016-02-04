@@ -50,9 +50,6 @@ function getExpectedNewMember(residentialAddressId, postalAddressId, dateOfBirth
 
     member.postalAddressId = member.postalAddress;
     delete(member.postalAddress);
-
-    member.verified = false;
-
     return member;
 }
 
@@ -238,7 +235,7 @@ describe('memberService', () => {
                 firstName: 'Sherlock',
                 lastName: 'Halmes',
                 membershipType: 'full',
-                verified: false,
+                verified: null,
                 residentialAddress: residentialAddress
             };
 
@@ -316,9 +313,9 @@ describe('memberService', () => {
       it('should verify the member if email and hash match', (done) => {
         let hash = '1d225bd0-57b5-4b87-90fc-f76ddc997e57';
 
-        updateMemberPromise.resolve({dataValues: {email: 'sherlock@holmes.co.uk', verified: true, id: '1'}});
+        updateMemberPromise.resolve({dataValues: {email: 'sherlock@holmes.co.uk', verified: moment().format(), id: '1'}});
 
-        let memberToVerify = {dataValues: {email: 'sherlock@holmes.co.uk', verified: false, id: '1'}, update: updateMemberStub};
+        let memberToVerify = {dataValues: {email: 'sherlock@holmes.co.uk', verified: null, id: '1'}, update: updateMemberStub};
         findOnePromise.resolve(memberToVerify);
 
         memberService.verify(hash)
@@ -336,7 +333,7 @@ describe('memberService', () => {
       it('should not verify the member if already verified', (done) => {
         let hash = '1d225bd0-57b5-4b87-90fc-f76ddc997e57';
 
-        findOnePromise.resolve({dataValues: {email: 'sherlock@holmes.co.uk', verified: true, id: '1'}});
+        findOnePromise.resolve({dataValues: {email: 'sherlock@holmes.co.uk', verified: moment().format(), id: '1'}});
 
         memberService.verify(hash)
         .then((member) => {

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         secondaryPhoneNumber: DataTypes.STRING,
         dateOfBirth: DataTypes.DATEONLY,
         membershipType: DataTypes.STRING,
-        verified: { type : DataTypes.BOOLEAN , allowNull : false , defaultValue : false },
+        verified: { type : DataTypes.DATE, allowNull : true },
         verificationHash: { type : DataTypes.STRING , allowNull : true }
     }, {
         classMethods: {

@@ -29,7 +29,6 @@ function setupMember(newMember) {
         residentialAddressId: residentialAddress[0].dataValues.id,
         postalAddressId: postalAddress[0].dataValues.id,
         membershipType: newMember.membershipType,
-        verified: false,
         verificationHash: createVerificationHash()
     };
   };
@@ -144,7 +143,7 @@ function findForVerification(hash) {
 
 function markAsVerified(member) {
   if (!member.dataValues.verified) {
-    return member.update({verified: true})
+    return member.update({verified: moment().format()})
     .then((result) => {
       return result.dataValues;
     });
