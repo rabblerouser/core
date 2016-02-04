@@ -50,7 +50,11 @@ router.post('/login',
 );
 
 router.get('/login', function(req, res){
-    res.render('login');
+    if(req.isAuthenticated()){
+        res.redirect('/admin');
+    } else {
+        res.render('login');
+    }
 });
 
 router.get('/logout', requireAuth, function(req, res){
