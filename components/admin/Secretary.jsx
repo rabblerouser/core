@@ -44,7 +44,7 @@ export default class Secretary extends Component {
                             <td>{member.residentialAddress.state}</td>
                             <td>{member.residentialAddress.country}</td>
                             <td>{member.membershipType}</td>
-                            {member.verified ?
+                            {!!member.verified ?
                             <td className="verified"> verified</td>: <td className="unverified"> unverified</td>}
                             <td>linkhere</td>
                         </tr>);
