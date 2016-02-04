@@ -41,23 +41,25 @@ router.get('/verified', function(req, res) {
 router.post('/members/update', membersController.updateMemberHandler);
 router.post('/invoices/update', invoicesController.updateInvoiceHandler);
 
+router.get('/members', requireAuth, adminController.membersList);
+
 router.post('/login',
-  passport.authenticate('local', { successRedirect: '/',
+  passport.authenticate('local', { successRedirect: '/admin',
                                    failureRedirect: '/login',
                                    failureFlash: false })
 );
 
 router.get('/login', function(req, res){
-        res.render('login');
+    res.render('login');
 });
 
 router.get('/logout', requireAuth, function(req, res){
     req.logout();
-    res.redirect('/');
+    res.redirect('/login');
 });
 
-//router.get('/admin', requireAuth, function(req, res){
-//    res.render('admin', { title: 'Pirate Party Admin' });
-//});
+router.get('/admin', requireAuth, function(req, res){
+    res.render('admin', { title: 'Pirate Party Admin' });
+});
 
 module.exports = router;

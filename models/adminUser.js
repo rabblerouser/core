@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         classMethods: {
             authenticate: (email, password, cb) => {
-                return AdminUser.find({ email: email })
+                return AdminUser.find({where: { email: email }})
                     .then((user) => {
                         if (user) {
                             if (user.authenticate(password)) {

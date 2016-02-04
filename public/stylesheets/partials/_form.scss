@@ -636,5 +636,59 @@ hr {
     @include media($mobile) {
         margin-bottom: 0;
     }
-}    
+}
+
+.admin-container {
+    h1 {
+      font-size:1.2em;
+    }
+
+    table {
+      table-layout: fixed;
+      margin-left: 5%;
+      margin-right: 5%;
+      width: 90%;
+      margin-top: 5%;
+    }
+
+    th {
+      background-color:$blue-darker;
+      color:$white;
+      padding-left: 10px;
+    }
+
+    tr:nth-child(even) {
+      background-color: $white;
+    }
+
+    tr:nth-child(odd) {
+      background-color: $blue-light;
+    }
+
+    td {
+      color:$blue;
+      text-align: left;
+      padding-left: 10px;
+      word-wrap: break-word;
+    }
+
+    .navigation {
+      text-align: center;
+      margin-top: 20%;
+    }
+
+    .verified {
+      color: $green;
+    }
+
+    .unverified {
+      color: $red;
+    }
+}
+
+.admin-button {
+    margin-bottom: 10px;
+}
+
+
 

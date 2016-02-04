@@ -3,7 +3,8 @@ var webpack = require('webpack');
 module.exports = {
     entry: {
         main:'./components/App.jsx',
-        renew: './components/Renew.jsx'
+        renew: './components/Renew.jsx',
+        admin: './components/admin/AdminDashboard.jsx'
     },
     output: {
         path: './public/javascript',
