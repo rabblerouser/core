@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs'),
 module.exports = (sequelize, DataTypes) => {
     let AdminUser = sequelize.define('AdminUser', {
         id: { type: DataTypes.UUID, defaultValue: uuid.v4(), primaryKey: true },
-        email: DataTypes.STRING,
+        email: { type: DataTypes.STRING, unique: true },
         password: DataTypes.STRING
     }, {
         classMethods: {

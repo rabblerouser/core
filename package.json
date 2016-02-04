@@ -11,7 +11,8 @@
     "serverTests": "NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js",
     "componentTests": "NODE_ENV=test node ./node_modules/karma-cli/bin/karma start",
     "acceptanceTests": "NODE_ENV=test PHANTOMJS_EXECUTABLE=./node_modules/phantomjs/bin/phantomjs ./node_modules/casperjs/bin/casperjs --web-security=false --log-level=debug --verbose test spec/acceptance | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
-    "bundle": "./node_modules/webpack/bin/webpack.js --config ./webpack.config.js --progress --colors --watch"
+    "bundle": "./node_modules/webpack/bin/webpack.js --config ./webpack.config.js --progress --colors --watch",
+    "createAdmin": "node ./scripts/createAdmin.js"
   },
   "dependencies": {
     "babel-core": "^6.4.0",
@@ -49,6 +50,7 @@
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-modal": "^0.6.1",
+    "readline": "^1.3.0",
     "sequelize": "^3.14.2",
     "sequelize-cli": "^2.2.1",
     "serve-favicon": "~2.3.0",
