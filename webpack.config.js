@@ -1,10 +1,13 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: './components/App.jsx',
+    entry: {
+        main:'./components/App.jsx',
+        renew: './components/Renew.jsx'
+    },
     output: {
         path: './public/javascript',
-        filename: 'bundle.js'
+        filename: '[name].bundle.js'
     },
     module: {
         loaders: [

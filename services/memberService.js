@@ -184,10 +184,34 @@ function findMembershipsExpiringOn(date) {
             .catch(handleError);
 }
 
+function findMemberByEmail(email) {
+    var query = {
+        where: { email: email}
+    };
+    return Q(Member.findOne(query))
+        .then((result) => {
+            if(!result) {
+                throw new Error('No user found with that email');
+            }
+            var member = result.dataValues;
+            return Q.all([
+                Address.findOne({where: { id: member.residentialAddressId}}),
+                Address.findOne({where: { id: member.postalAddressId}})
+            ])
+                .spread((residentialAddress, postalAddress) => {
+                    member.residentialAddress = residentialAddress.dataValues;
+                    member.postalAddress = postalAddress.dataValues;
+                    member.dateOfBirth = moment(member.dateOfBirth).format('DD/MM/YYYY');
+                    return member;
+                });
+        });
+}
+
 module.exports = {
     createMember: createMember,
     updateMember: updateMember,
     list: list,
     verify: verify,
     findMembershipsExpiringOn: findMembershipsExpiringOn
+    findMemberByEmail: findMemberByEmail
 };

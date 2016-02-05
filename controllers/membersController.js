@@ -7,6 +7,7 @@ let messagingService = require('../services/messagingService');
 let logger = require('../lib/logger');
 let Q = require('q');
 
+
 function isPostalAddressEmpty(postalAddress){
   return  postalAddress.address === '' &&
           postalAddress.suburb === '' &&
@@ -138,8 +139,26 @@ function verify(req, res) {
   });
 }
 
+function renew(req, res) {
+    let email = req.params.email;
+    let hash = req.params.hash;
+    if (!(memberValidator.isValidEmail(email) && memberValidator.isValidVerificationHash(hash))) {
+        logger.logError('[member-verification-failed]', {email: email, hash: hash});
+        res.sendStatus(400);
+        return Q.reject('Invalid Input');
+    }
+
+    return memberService.findMemberByEmail(email)
+        .then((result) => {
+            var object = JSON.stringify(result);
+            res.header({'email': object}).render('renew');
+        });
+
+}
+
 module.exports = {
     newMemberHandler: newMemberHandler,
     updateMemberHandler: updateMemberHandler,
-    verify: verify
+    verify: verify,
+    renew: renew
 };
