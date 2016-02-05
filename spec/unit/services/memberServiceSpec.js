@@ -44,6 +44,7 @@ function getExpectedNewMember(residentialAddressId, postalAddressId, dateOfBirth
     let momentDate = moment(dateOfBirth, 'DD/MM/YYYY').toDate();
 
     let member = fakeNewMember(residentialAddressId, postalAddressId, momentDate);
+    member.memberSince = moment().format('L');
 
     member.residentialAddressId = member.residentialAddress;
     delete(member.residentialAddress);
