@@ -450,7 +450,7 @@ describe('memberService', () => {
         it('throws error and rejects promise if email does not exist', (done) => {
             Member.find
                 .withArgs({where: {email: 'sherlock@holmes.co.uk'}})
-                .returns(Promise.reject("email not found"));
+                .returns(Promise.reject('email not found'));
 
             memberService.updateMember(updatedMember, {where: {email: 'fakeyfakey@something.com'}}).catch((error) => {
                 expect(error).toEqual('email not found');

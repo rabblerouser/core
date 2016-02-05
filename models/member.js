@@ -14,12 +14,15 @@ module.exports = (sequelize, DataTypes) => {
         dateOfBirth: DataTypes.DATEONLY,
         membershipType: DataTypes.STRING,
         verified: { type : DataTypes.DATE, allowNull : true },
-        verificationHash: { type : DataTypes.STRING , allowNull : true }
+        verificationHash: { type : DataTypes.STRING , allowNull : true },
+        memberSince: { type: DataTypes.DATEONLY, allowNull : false},
+        lastRenewal: { type: DataTypes.DATEONLY, allowNull : true},
+        renewalHash: { type : DataTypes.STRING , allowNull : true }
     }, {
         classMethods: {
             associate: (models) => {
-                Member.belongsTo(models.Address, { as: "postalAddress", foreignKey: "postalAddressId" });
-                Member.belongsTo(models.Address, { as: "residentialAddress", foreignKey: "residentialAddressId"});
+                Member.belongsTo(models.Address, { as: 'postalAddress', foreignKey: 'postalAddressId' });
+                Member.belongsTo(models.Address, { as: 'residentialAddress', foreignKey: 'residentialAddressId'});
             }
         }
     });

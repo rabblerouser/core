@@ -29,7 +29,8 @@ function setupMember(newMember) {
         residentialAddressId: residentialAddress[0].dataValues.id,
         postalAddressId: postalAddress[0].dataValues.id,
         membershipType: newMember.membershipType,
-        verificationHash: createVerificationHash()
+        verificationHash: createVerificationHash(),
+        memberSince: moment().format('L')
     };
   };
 }
