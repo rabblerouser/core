@@ -111,7 +111,7 @@ Happy hacking!
 
 0. Open preferences -> Languages and frameworks
 
-0. Change javascript to EXMAScript 6
+0. Change javascript to ECMAScript 6
 
 0. Setup run configuration to node and "javascript/file" to be bin/www
 
