@@ -12,10 +12,9 @@ export default class ChequeInfoBox extends Component {
     // }
 
     render() {
-        return (<div className="info-box">
+        return (<div className="info-box payment">
             <div className="info-body">
-                  <strong>An invoice will be sent by email. Please enter the number
-                  found in your invoice when you make your payment.</strong>
+                  <strong>An invoice with a reference number will be sent by email. Please quote your number when you make your payment.</strong>
             </div>
         </div>)
     }

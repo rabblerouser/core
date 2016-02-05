@@ -323,12 +323,9 @@ Modal{
   }
 }
 
-
-
-
-
-
-
+.info-box.payment{
+    margin-bottom: 15px;
+}
 
 
 .info-box span{
@@ -561,13 +558,12 @@ hr {
 
     input[type="text"] {
         border-bottom-color: $blue;
-        border-left: 0;
         border-radius: 0;
         border-right-color: $blue;
         border-top-color: $blue;
         margin: 0;
         vertical-align: middle;
-        width: 80px;
+        width: 120px;
         margin-bottom: 30px;
     }
 }

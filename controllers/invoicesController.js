@@ -8,13 +8,17 @@ var logger = require('../lib/logger');
 var updateInvoiceHandler = (req, res) => {
 
     let newInvoice = {
-        totalAmount: req.body.paymentType === 'noContribute' ? 1 : req.body.totalAmount,
+        totalAmount: req.body.paymentType === 'noContribute' ? 0 : req.body.totalAmount,
         paymentType: req.body.paymentType,
         stripeToken: req.body.stripeToken,
         invoiceId: req.body.invoiceId
     };
-
-    let validationErrors = paymentValidator.isValid(newInvoice);
+    let validationErrors
+    if(req.body.paymentType === 'noContribute'){
+        validationErrors = paymentValidator.isValidNoContribute(newInvoice);
+    } else {
+        validationErrors = paymentValidator.isValid(newInvoice);
+    }
 
     if (validationErrors.length > 0) {
         return res.status(400).json({ errors: validationErrors});

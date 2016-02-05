@@ -12,9 +12,9 @@ export default class PaypalInfoBox extends Component {
     // }
 
     render() {
-        return (<div className="info-box">
+        return (<div className="info-box payment">
             <div className="info-body">
-                  <strong>You will be redirected to PayPal checkout after clicking continue.</strong>
+                  <strong>You will be redirected to PayPal after clicking continue.</strong>
             </div>
         </div>)
     }

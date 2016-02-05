@@ -78,4 +78,21 @@ describe("paymentValidator", () => {
             });
         });
     });
+    
+    describe("isValidNoContribute", () => {
+        let validPayment = {
+                "totalAmount": 0,
+                "paymentType": "noContribute",
+                "invoiceId": '1'
+        };
+
+        it("should return empty array of errors on valid payment", () => {
+            expect(paymentValidator.isValidNoContribute(validPayment)).toEqual([]);
+        });
+
+        it("should return array of errors on null payment", () => {
+            expect(paymentValidator.isValidNoContribute(null).length).not.toBe(0);
+        });
+    });
+
 });

@@ -12,9 +12,9 @@ export default class StripeInfoBox extends Component {
     // }
 
     render() {
-        return (<div className="info-box">
+        return (<div className="info-box payment">
             <div className="info-body">
-                  <strong> Click continue to proceed with payment.</strong>
+                  <strong> You will be able to enter your details after clicking continue.</strong>
             </div>
         </div>)
     }

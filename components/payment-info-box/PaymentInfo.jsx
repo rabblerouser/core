@@ -16,7 +16,6 @@ export default class PaymentInfo extends Component {
     // }
 
     render() {
-      console.log(this.props.paymentType);
       if(this.props.paymentType === 'paypal') {
           return <PaypalInfoBox
                   didUpdate={this.componentDidUpdate}/>;

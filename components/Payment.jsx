@@ -18,7 +18,7 @@ export default class Payment extends Component {
         this.processOtherPayment = this.processOtherPayment.bind(this);
         this.processPayment = this.processPayment.bind(this);
         this.updateErrorMessage = this.updateErrorMessage.bind(this);
-        this.state = {amount : '', invalidFields: [], errorMessages: [], paymentType: '', scrollToError: true};
+        this.state = {amount : '50', invalidFields: [], errorMessages: [], paymentType: '', scrollToError: true};
     }
 
     handleValidationErrors(errorFields, scrollToError){
@@ -101,11 +101,16 @@ export default class Payment extends Component {
 
     processPayment() {
         var fieldValues = {
-            totalAmount: this.state.paymentType === 'noContribute' ? 1 : Math.floor(Number(this.state.amount)),
+            totalAmount: this.state.paymentType === 'noContribute' ? 0 : Math.floor(Number(this.state.amount)),
             paymentType: this.state.paymentType,
             invoiceId: this.props.invoiceId };
 
-        var invalidFields = this.validator.isValid(fieldValues);
+        var invalidFields;
+        if(this.state.paymentType === 'noContribute'){
+            invalidFields = this.validator.isValidNoContribute(fieldValues);
+        } else {
+            invalidFields = this.validator.isValid(fieldValues);
+        }
         if (invalidFields.length > 0) {
             return this.handleValidationErrors(invalidFields, true);
         }
@@ -159,16 +164,16 @@ export default class Payment extends Component {
                         <input type="radio" name="paymentType" value="noContribute" onChange={this.handlePaymentTypeChanged}/>I do not want to contribute.
                     </label>
                 </div>
+                <PaymentInfo paymentType={this.state.paymentType}/>
                 <div className={(() => { return this.state.paymentType==='noContribute' ? 'hidden' : ''})()}>
                     <div className="heading">
                         <h2 className="sub-title"> Membership Contribution</h2>
                          <div className="sub-description">Please enter an amount.</div>
                     </div>
                     <div className="contribution-amount">
-                        <div className="currency">$AUD</div>
-                        <input type="text" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
+                        <label>$AUD</label>
+                        <input type="text" defaultValue="50" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
                     </div>
-                    <PaymentInfo paymentType={this.state.paymentType}/>
                 </div>
                 <div className="navigation">
                     <button type="button" id="payment-continue-button" onClick={this.processPayment}>Continue</button>
