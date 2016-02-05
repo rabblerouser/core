@@ -18,6 +18,8 @@ export default class Payment extends Component {
         this.processOtherPayment = this.processOtherPayment.bind(this);
         this.processPayment = this.processPayment.bind(this);
         this.updateErrorMessage = this.updateErrorMessage.bind(this);
+        this.isValidationError = this.isValidationError.bind(this);
+        this.validationErrorClass = this.validationErrorClass.bind(this);
         this.state = {amount : '50', invalidFields: [], errorMessages: [], paymentType: '', scrollToError: true};
     }
 
@@ -42,6 +44,17 @@ export default class Payment extends Component {
 
     updateErrorMessage(errorMessages) {
         this.setState({errorMessages: [errorMessages]});
+    }
+    
+     isValidationError(fieldName) {
+      return _.indexOf(this.state.invalidFields, fieldName) > -1;
+    }
+    
+    validationErrorClass(fieldName) {
+        if(this.isValidationError(fieldName)){
+            return 'invalid contribution-amount';
+        }
+        return 'contribution-amount';
     }
 
     handleAmountChanged(event) {
@@ -170,7 +183,7 @@ export default class Payment extends Component {
                         <h2 className="sub-title"> Membership Contribution</h2>
                          <div className="sub-description">Please enter an amount.</div>
                     </div>
-                    <div className="contribution-amount">
+                    <div className={this.validationErrorClass('totalAmount')}>
                         <label>$AUD</label>
                         <input type="text" defaultValue="50" name="totalAmount" id="totalAmount" onChange={this.handleAmountChanged}/>
                     </div>

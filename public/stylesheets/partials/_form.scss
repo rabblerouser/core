@@ -107,7 +107,7 @@
     background: $white;
     border: 3px solid $blue;
     padding: 20px 25px;
-    font-size:14px;
+    font-size:13px;
     margin-bottom: 25px;
     margin-top: 10px;
 
@@ -485,17 +485,17 @@ hr {
   .validationErrors-text {
     height: 45px;
     padding-left: 10px;
- 
   }
 
   .validationErrors-text span {
     color: $red;
     font-weight: bold;
     padding-bottom: 10px;
+    font-size:15px;  
   }
 
   .errors {
-    font-size: 14px;
+    font-size: 13px;
     color: $red;
     margin-left: 17px;
       
@@ -527,7 +527,7 @@ hr {
         height: 45px;
         padding-left: 10px;
         width: 80%;
-        font-size: 14px;
+        font-size: 13px;
         vertical-align: middle;
         display: table-cell;
     }
@@ -582,7 +582,6 @@ hr {
     margin-right: 6px;
     padding-top: 15px;
     padding-bottom: 15px;
-    margin-top: 10px;
       
     @include media($mobile) {
         font-size:13px;

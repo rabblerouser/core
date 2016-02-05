@@ -45,7 +45,7 @@ export default class StripePayment extends Component {
 
                 this.stripeHandler = StripeCheckout.configure({
                     key: stripePublicKey,
-                    image: '/images/logo.svg',
+                    image: '/images/signet_black.svg',
                     email: this.props.email,
                     token: function (token) {
                         $.ajax({

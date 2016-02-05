@@ -21,6 +21,8 @@ export default class Finished extends Component {
                     <p>If you don’t receive it, please contact us at membership@pirateparty.org.au </p>
 
                     {this.props.paypalFinish ? <PaypalFinish /> : null}
+                    
+                    <br/>
                 </label>
                 <div className="navigation">
                     <a href='/'>
