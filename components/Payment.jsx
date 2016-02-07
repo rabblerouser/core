@@ -178,7 +178,7 @@ export default class Payment extends Component {
                     </label>
                 </div>
                 <PaymentInfo paymentType={this.state.paymentType}/>
-                <div className={(() => { return this.state.paymentType==='noContribute' ? 'hidden' : ''})()}>
+                <div className={(() => { return this.state.paymentType==='' || this.state.paymentType==='noContribute' ? 'hidden' : ''})()}>
                     <div className="heading">
                         <h2 className="sub-title"> Membership Contribution</h2>
                          <div className="sub-description">Please enter an amount.</div>
