@@ -163,9 +163,24 @@ function verify(hash) {
     });
 }
 
+function findMembershipsExpiringOn(date) {
+    if (!date) {
+        return  Q.resolve([]);
+    }
+
+    let lastRenewal = moment(date, 'L').subtract(1, 'year');
+    let query = {
+        where: {lastRenewal: { eq: lastRenewal }},
+        attributes: ['id', 'email']
+    };
+    return Member.findAll(query)
+            .catch(handleError);
+}
+
 module.exports = {
     createMember: createMember,
     updateMember: updateMember,
     list: list,
-    verify: verify
+    verify: verify,
+    findMembershipsExpiringOn: findMembershipsExpiringOn
 };

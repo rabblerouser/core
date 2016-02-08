@@ -458,4 +458,44 @@ describe('memberService', () => {
             }).nodeify(done);
         });
     });
+
+    describe('findMembershipsExpiringOn', () => {
+      let findAllStub;
+      let findAllPromise;
+
+      beforeEach(() => {
+        findAllPromise = Q.defer();
+        findAllStub = sinon.stub(models.Member, 'findAll').returns(findAllPromise.promise);
+      });
+
+      afterEach(() => {
+        models.Member.findAll.restore();
+      });
+
+
+      it('should return an empty array if no memberships expiring on the date', (done) => {
+        findAllPromise.resolve([]);
+        let expiredOn = moment().format('L');
+
+        memberService.findMembershipsExpiringOn(expiredOn)
+        .then((result) => {
+          expect(result.length).toEqual(0);
+          expect(models.Member.findAll).toHaveBeenCalled();
+          done();
+        })
+        .catch(done);
+      });
+
+      it('should return an empty array if no date defined', (done) => {
+        memberService.findMembershipsExpiringOn(null)
+        .then((result) => {
+          expect(result.length).toEqual(0);
+          expect(models.Member.findAll).not.toHaveBeenCalled();
+          done();
+        })
+        .catch(done);
+      });
+
+      it('should return memberships expiring on the date');
+    });
 });
