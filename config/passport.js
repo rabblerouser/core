@@ -12,5 +12,5 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    return AdminUser.findById(id).nodeify(done);
+    return AdminUser.findById(id).then((err, value) => {done(value, err);});
 });
