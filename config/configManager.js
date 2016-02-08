@@ -6,10 +6,10 @@ const config = require('./config.json')[env];
 const defaults = {
     session: {
         secret: "i'm a teapot",
-        proxy: true,
+        proxy: false,
         secureCookie: true
     }
-}
+};
 
 let sessionConfig = () => {
     let sessionOverrides = {};
@@ -23,7 +23,7 @@ let sessionConfig = () => {
     }
 
     return Object.assign(defaults.session, sessionOverrides);
-}
+};
 
 let logFormat = () => {
     if (['development', 'test'].indexOf(env) > -1) {
@@ -38,4 +38,4 @@ let logFormat = () => {
 module.exports = {
     session: sessionConfig(),
     logFormat: logFormat()
-}
+};
