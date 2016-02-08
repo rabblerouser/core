@@ -41,7 +41,9 @@ casper.on('page.initialized', function() {
 });
 
 casper.test.begin('Test the project-m-staging', 21, function suite(test) {
-    casper.start('https://project-m-staging.herokuapp.com/', function() {
+    var url = casper.cli.get("url");
+
+    casper.start(url, function() {
         test.assertTitle("Pirate Party Membership");
         var js = this.evaluate(function() {
             return document;
@@ -141,7 +143,7 @@ casper.test.begin('Test the project-m-staging', 21, function suite(test) {
       });
 
       this.sendKeys('input[id="residentialAddress[postcode]"]', '35191');
-      this.sendKeys('input[id=email]', 'qoku28@gmail.com');// change the email address here to run the tests
+      this.sendKeys('input[id=email]', 'qoku'+Math.random()+'@gmail.com');// change the email address here to run the tests
       this.sendKeys('input[id=primaryPhoneNumber]', '0412345678');
 
       //jump to the Confirm page
