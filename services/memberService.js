@@ -84,11 +84,30 @@ var updateMember = (member) => {
             return Member.update(updatedMember, {where: {email: member.email}});
         })
         .tap(function(a){
-            logger.logMemberSignUpEvent(a);
+            logger.logMemberUpdateDetailsEvent(a);
         })
         .catch((error) => {
             return Q.reject(error);
         });
+};
+
+let renewMember = hash => {
+    var query = {where: {renewalHash: hash}};
+    return Member.findOne(query)
+        .then((result) => {
+            var member = result.dataValues;
+            member.lastRenewal = moment().format('L');
+            return Member.update(member, {where: {renewalHash: hash}})
+                .then(function(){
+                    return member;
+                })
+                .tap(function(a){
+                    logger.logMemberRenewalEvent(a);
+                })
+                .catch((error) => {
+                        return Q.reject(error);
+                });
+        })
 };
 
 let transformMember = member => {
@@ -184,14 +203,14 @@ function findMembershipsExpiringOn(date) {
             .catch(handleError);
 }
 
-function findMemberByEmail(email) {
+function findMemberByRenewalHash(hash) {
     var query = {
-        where: { email: email}
+        where: { renewalHash: hash}
     };
     return Q(Member.findOne(query))
         .then((result) => {
             if(!result) {
-                throw new Error('No user found with that email');
+                throw new Error('No user found with that renewal hash');
             }
             var member = result.dataValues;
             return Q.all([
@@ -210,8 +229,9 @@ function findMemberByEmail(email) {
 module.exports = {
     createMember: createMember,
     updateMember: updateMember,
+    renewMember: renewMember,
     list: list,
     verify: verify,
     findMembershipsExpiringOn: findMembershipsExpiringOn
-    findMemberByEmail: findMemberByEmail
+    findMemberByRenewalHash: findMemberByRenewalHash
 };

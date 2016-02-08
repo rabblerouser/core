@@ -4,6 +4,8 @@ let memberService = require('../services/memberService');
 let invoiceService = require('../services/invoiceService');
 let memberValidator = require('../lib/memberValidator');
 let messagingService = require('../services/messagingService');
+let stripeHandler = require('../lib/stripeHandler');
+let paypalHandler = require('../lib/paypalHandler');
 let logger = require('../lib/logger');
 let Q = require('q');
 
@@ -140,25 +142,36 @@ function verify(req, res) {
 }
 
 function renew(req, res) {
-    let email = req.params.email;
     let hash = req.params.hash;
-    if (!(memberValidator.isValidEmail(email) && memberValidator.isValidVerificationHash(hash))) {
-        logger.logError('[member-verification-failed]', {email: email, hash: hash});
+
+    if (!memberValidator.isValidVerificationHash(hash)) {
+        logger.logError('[member-verification-failed]', {hash: hash});
         res.sendStatus(400);
         return Q.reject('Invalid Input');
     }
 
-    return memberService.findMemberByEmail(email)
+    return memberService.findMemberByRenewalHash(hash)
         .then((result) => {
-            var object = JSON.stringify(result);
-            res.header({'email': object}).render('renew');
+            var headers = Object.assign({}, {user: JSON.stringify(result)}, stripeHandler.getStripeHeaders(), paypalHandler.getPaypalHeaders());
+            res.header(headers).render('renew');
         });
 
+}
+
+function renewMemberHandler(req, res) {
+    let hash = req.body.renewalHash;
+
+    return memberService.renewMember(hash)
+        .then(createEmptyInvoice)
+        .tap(sendResponseToUser(res))
+        .tap()
+        .catch(handleError(res));
 }
 
 module.exports = {
     newMemberHandler: newMemberHandler,
     updateMemberHandler: updateMemberHandler,
     verify: verify,
-    renew: renew
+    renew: renew,
+    renewMemberHandler: renewMemberHandler
 };

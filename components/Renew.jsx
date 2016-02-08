@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+import $ from 'jquery';
 import Errors from './Errors.jsx';
 import ConfirmRenewal from './ConfirmRenewal.jsx';
 import Payment from './Payment.jsx';
+import RenewalFinish from './RenewalFinish.jsx';
 
 export default class Renew extends Component {
 
@@ -10,6 +12,7 @@ export default class Renew extends Component {
         super(props);
         this.confirmMembershipRenewal = this.confirmMembershipRenewal.bind(this);
         this.getForm = this.getForm.bind(this);
+        this.nextStep = this.nextStep.bind(this);
         this.state = {user: '', errors: [], step: 1};
     }
 
@@ -17,12 +20,23 @@ export default class Renew extends Component {
         var req = new XMLHttpRequest();
         req.open('GET', document.location, false);
         req.send(null);
-        this.setState({user: JSON.parse(req.getResponseHeader('email'))});
+        this.setState({user: JSON.parse(req.getResponseHeader('user'))});
+    }
+
+    nextStep() {
+        this.setState( { step: this.state.step + 1  } );
     }
 
     confirmMembershipRenewal() {
-        //POST MEMBERSHIPRENEWAL
-        this.setState({ step: this.state.step + 1});
+        $.ajax({
+            type: 'POST',
+            url: '/renew',
+            data: this.state.user,
+            success: function(value) {
+                this.invoiceId = value.invoiceId;
+                this.nextStep();
+            }.bind(this)
+        });
     }
 
     getForm() {
@@ -34,6 +48,8 @@ export default class Renew extends Component {
                 return <Payment email={this.state.user.email}
                                        invoiceId={this.invoiceId}
                                        nextStep={this.nextStep} />;
+            case 3:
+                return <RenewalFinish  />
         };
     }
 

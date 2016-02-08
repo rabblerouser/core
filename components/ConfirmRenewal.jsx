@@ -7,6 +7,7 @@ export default class ConfirmDetails extends Component {
     constructor(props) {
         super(props);
         this.getFullAddress = this.getFullAddress.bind(this);
+        this.renewMember = this.renewMember.bind(this);
         this.state = {
             errors: []
         };
@@ -19,6 +20,15 @@ export default class ConfirmDetails extends Component {
                 + addressObj.state + ', '
                 + addressObj.country + ', '
                 + addressObj.postcode;
+        }
+    }
+
+    renewMember() {
+        if(this.refs.declarationConfirmation.checked) {
+            this.props.nextStep();
+        }
+        else {
+            this.setState({errors:["Please click the declaration checkbox and check that your details are correct before continuing."]});
         }
     }
 
@@ -77,7 +87,7 @@ export default class ConfirmDetails extends Component {
                     </div>
                 </div>
                 <div className="navigation">
-                    <button onClick={this.props.nextStep}>Renew my membership</button>
+                    <button onClick={this.renewMember}>Renew my membership</button>
                 </div>
             </div>
         </fieldset>
