@@ -232,6 +232,6 @@ module.exports = {
     renewMember: renewMember,
     list: list,
     verify: verify,
-    findMembershipsExpiringOn: findMembershipsExpiringOn
+    findMembershipsExpiringOn: findMembershipsExpiringOn,
     findMemberByRenewalHash: findMemberByRenewalHash
 };
