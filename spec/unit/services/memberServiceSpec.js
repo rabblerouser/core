@@ -496,6 +496,26 @@ describe('memberService', () => {
         .catch(done);
       });
 
-      it('should return memberships expiring on the date');
+      it('should return memberships expiring on the date', (done) => {
+        findAllPromise.resolve([
+            {
+                dataValues:
+                {
+                    id: '2d4f3fac-e3ec-48b1-a01f-70edd0a22f23',
+                    email: 'difydubif@yahoo.com'
+                }
+            }]);
+
+        let expiredOn = moment().format('L');
+
+        memberService.findMembershipsExpiringOn(expiredOn)
+        .then((result) => {
+            expect(result.length).toEqual(1);
+            expect(result[0].email).toEqual('difydubif@yahoo.com');
+            expect(models.Member.findAll).toHaveBeenCalled();
+            done();
+        })
+        .catch(done);
+      });
     });
 });

@@ -97,9 +97,11 @@ let transformMember = member => {
     return Object.assign({}, newMemberRoot, { residentialAddress: newResidentialAddressRoot });
 };
 
-let transformMembers = memberQueryResult => {
-    return memberQueryResult.map(transformMember);
-};
+function transformMembers(adapter) {
+    return function (memberQueryResult) {
+        return memberQueryResult.map(adapter);
+    };
+}
 
 let handleError = (error) => {
     logger.logError(error);
@@ -123,7 +125,7 @@ let list = () => {
     };
 
     return Member.findAll(query)
-        .then(transformMembers)
+        .then(transformMembers(transformMember))
         .catch(handleError);
 };
 
@@ -163,6 +165,10 @@ function verify(hash) {
     });
 }
 
+function transformMembershipToRenew(member) {
+    return Object.assign({}, member.dataValues);
+}
+
 function findMembershipsExpiringOn(date) {
     if (!date) {
         return  Q.resolve([]);
@@ -174,6 +180,7 @@ function findMembershipsExpiringOn(date) {
         attributes: ['id', 'email']
     };
     return Member.findAll(query)
+            .then(transformMembers(transformMembershipToRenew))
             .catch(handleError);
 }
 
