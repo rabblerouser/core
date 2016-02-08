@@ -12,5 +12,11 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    return AdminUser.findById(id).then((err, value) => {done(value, err);});
+    let logger = require('../lib/logger');
+    logger.logInfoEvent('ID ABOUT TO BE DESERIALIZED',id);
+    return AdminUser.findById(id).then((err, value) => {
+        logger.logInfoEvent('VALUE OF FIND IN DESERIALIZED',value);
+        logger.logInfoEvent('ERROR OF FIND IN DESERIALIZED',value);
+        done(value, err);
+    });
 });
