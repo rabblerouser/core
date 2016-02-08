@@ -19,7 +19,7 @@ describe('messagingService', () => {
       loggerSpy = sinon.spy(logger, 'logError');
 
       configStub = sinon.stub(config, 'get');
-      configStub.withArgs('email.sendMemberVerificationEnabled').returns(true);
+      configStub.withArgs('email.sendEmails').returns(true);
 
       emailPromise = Q.defer();
       emailUiltStub = sinon.stub(emailUtil, 'sendHtmlEmail');
@@ -39,7 +39,7 @@ describe('messagingService', () => {
       .then((result) => {
         expect(result.message).toEqual('sent');
         expect(result.options.to).toEqual('sherlock@holmes.co.uk');
-        expect(emailUtil.sendHtmlEmail).toHaveBeenCalled();
+        expect(emailUtil.sendHtmlEmail).toHav eBeenCalled();
       })
       .nodeify(done);
     });
@@ -56,7 +56,7 @@ describe('messagingService', () => {
     });
 
     it('does not send an email if disabled in configuration', (done) => {
-      configStub.withArgs('email.sendMemberVerificationEnabled').returns(false);
+      configStub.withArgs('email.sendEmails').returns(false);
 
       messagingService.sendVerificationEmail(member)
       .finally(() => {

@@ -6,7 +6,8 @@ const Q = require('q'),
     moment = require('moment'),
     Address = models.Address,
     Member = models.Member,
-    uuid = require('node-uuid');
+    uuid = require('node-uuid'),
+    messagingService = require('./messagingService');
 
 function createVerificationHash() {
   return uuid.v4();
@@ -174,9 +175,18 @@ function markAsVerified(member) {
   return member.dataValues;
 }
 
+function sendWelcomeEmailOffline(data) {
+    logger.logInfoEvent('[sending welcome email]', data);
+    messagingService.sendWelcomeEmail(data)
+        .catch(logger.logError);
+
+    return data;
+}
+
 function verify(hash) {
   return findForVerification(hash)
     .then(markAsVerified)
+    .then(sendWelcomeEmailOffline)
     .tap((verifiedMember) => logger.logInfoEvent('[member-verification-event]', verifiedMember))
     .catch((error) => {
       logger.logError('[member-verification-failed]', {error: error});

@@ -10,41 +10,71 @@ function logAndRethrow(error) {
   throw new Error(error);
 }
 
-function sendVerificationEmail(member) {
-  if (!config.get('email.sendMemberVerificationEnabled')) {
-    return Q.resolve(member);
-  }
+let member = {};
 
-//should be moved to a separate file.
-  const text = `Hello, <br>
+let emails = {
+  welcome: {
+    logger: logger.logWelcomeEmailSent,
+    subject: 'The Pirate Party - Welcome',
+    text: function(member) { return `Welcome to the Pirate Party!
 
-  Thank you for your membership application to the Pirate Party. <br>
+You can now start participating and getting involved towards the development of a more secure and transparent Australia.
 
-  You're almost done! The last step is to verify your membership by clicking on the link below. <br>
+For a list of upcoming meetings and discussions, head to pirateparty.org.au
 
-  <a href="${config.app.publicUrl}/members/verify/${member.verificationHash}">Verify Account</a> <br>
+Best,
 
-  Best,<br>
+The Pirate Party` }
+  },
 
-  The Pirate Party`;
-
-  let options = {
-    to: member.email,
+  verification: {
+    logger: logger.logVerificationEmailSent,
     subject: 'The Pirate Party - Verify Your Email',
-    body: text
-  };
+    text: function(member) { return `Hello, <br>
 
-  return emailUtil.sendHtmlEmail(options)
-  .then((result) => {
-    return {
-      options: options,
-      message: result
+Thank you for your membership application to the Pirate Party. <br>
+
+You're almost done! The last step is to verify your membership by clicking on the link below. <br>
+
+<a href="${config.app.publicUrl}/members/verify/${member.verificationHash}">Verify Account</a> <br>
+
+Best,<br>
+
+The Pirate Party` }
+  }
+};
+
+function sendVerificationEmail(member) {
+    return sendEmail(member, emails.verification);
+}
+
+function sendWelcomeEmail(member) {
+    return sendEmail(member, emails.welcome);
+}
+
+function sendEmail(member, type) {
+    if (!config.get('email.sendEmails')) {
+        return Q.resolve(member);
+    }
+
+    let options = {
+        to: member.email,
+        subject: type.subject,
+        body: type.text(member)
     };
-  })
-  .tap(logger.logVerificationEmailSent)
-  .catch(logAndRethrow);
+
+    return emailUtil.sendHtmlEmail(options)
+        .then((result) => {
+            return {
+                options: options,
+                message: result
+            };
+        })
+        .tap(type.logger)
+        .catch(logAndRethrow);
 }
 
 module.exports = {
-  sendVerificationEmail : sendVerificationEmail
+  sendVerificationEmail : sendVerificationEmail,
+  sendWelcomeEmail: sendWelcomeEmail
 };
