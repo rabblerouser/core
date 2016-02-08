@@ -77,7 +77,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res, next) => {
-    logger.logError(err);
+    require('./lib/logger').logError(err);
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
