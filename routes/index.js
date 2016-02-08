@@ -13,6 +13,7 @@ function requireAuth(req, res, next){
     if(!req.isAuthenticated()){
         req.session.messages = "You need to login to view this page";
         res.redirect('/login');
+        return;
     }
     next();
 }
