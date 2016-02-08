@@ -40,7 +40,7 @@ casper.on('page.initialized', function() {
     });
 });
 
-casper.test.begin('Test the project-m-staging', 20, function suite(test) {
+casper.test.begin('Test the project-m-staging', 21, function suite(test) {
     casper.start('https://project-m-staging.herokuapp.com/', function() {
         test.assertTitle("Pirate Party Membership");
         var js = this.evaluate(function() {
@@ -141,7 +141,7 @@ casper.test.begin('Test the project-m-staging', 20, function suite(test) {
       });
 
       this.sendKeys('input[id="residentialAddress[postcode]"]', '35191');
-      this.sendKeys('input[id=email]', 'qoku17@gmail.com');
+      this.sendKeys('input[id=email]', 'qoku28@gmail.com');// change the email address here to run the tests
       this.sendKeys('input[id=primaryPhoneNumber]', '0412345678');
 
       //jump to the Confirm page
@@ -206,10 +206,24 @@ casper.test.begin('Test the project-m-staging', 20, function suite(test) {
         test.assertSelectorHasText('h1.form-title', 'Pay What You Want');
         });
       });
-    });
 
+  //Pay What You Want page
+
+          //do not want to contribute
+      casper.then(function() {
+          this.click('input[name="paymentType"][value="noContribute"]');
+
+          this.click('button');
+
+        casper.then(function() {
+          this.wait(2000,function() {
+          this.capture('screenshots/screenshot-click.png');
+          test.assertSelectorHasText('h1.form-title', 'Finish');
+          });
+        });
+      });
+});
     casper.run(function () {
         test.done();
     });
-
 });
