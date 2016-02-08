@@ -53,7 +53,7 @@ router.get('/login', function(req, res){
     if(req.isAuthenticated()){
         res.redirect('/admin');
     } else {
-        res.render('login');
+        res.render('login', {title: 'Login'});
     }
 });
 

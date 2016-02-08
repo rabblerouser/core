@@ -6,11 +6,13 @@ export default class Secretary extends Component {
         super(props);
         this.render = this.render.bind(this);
         this.state = {members: []};
+        this.loadMembers = this.loadMembers.bind(this);
         this.loadMembers();
     }
 
     loadMembers() {
-        $.get({
+        $.ajax({
+            type: 'GET',
             url: '/members',
             dataType: 'json',
             success: function(value) {
@@ -21,7 +23,7 @@ export default class Secretary extends Component {
 
     render() {
         return(
-            <table>
+            <table className="secretary-table">
                 <thead>
                     <tr>
                         <th>First name</th>
@@ -38,15 +40,15 @@ export default class Secretary extends Component {
                     {this.state.members.map(function(member) {
                         return(
                         <tr>
-                            <td>{member.firstName}</td>
-                            <td>{member.lastName}</td>
-                            <td>{member.residentialAddress.postcode}</td>
-                            <td>{member.residentialAddress.state}</td>
-                            <td>{member.residentialAddress.country}</td>
-                            <td>{member.membershipType}</td>
+                            <td className='first-name'>{member.firstName}</td>
+                            <td className='last-name'>{member.lastName}</td>
+                            <td className='postcode'>{member.residentialAddress.postcode}</td>
+                            <td className='state'>{member.residentialAddress.state}</td>
+                            <td className='country'>{member.residentialAddress.country}</td>
+                            <td className='membership-type'>{member.membershipType}</td>
                             {!!member.verified ?
-                            <td className="verified"> verified</td>: <td className="unverified"> unverified</td>}
-                            <td>linkhere</td>
+                            <td className='verified'> verified</td>: <td className='unverified'> unverified</td>}
+                            <td className='link'><a href='#' >linkhere</a></td>
                         </tr>);
                         })}
                 </tbody>
