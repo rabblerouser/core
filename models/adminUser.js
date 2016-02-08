@@ -1,7 +1,8 @@
 'use strict';
 
 const bcrypt = require('bcryptjs'),
-      uuid = require('node-uuid');
+      uuid = require('node-uuid'),
+      logger = require('../lib/logger');
 
 module.exports = (sequelize, DataTypes) => {
     let AdminUser = sequelize.define('AdminUser', {
@@ -15,16 +16,16 @@ module.exports = (sequelize, DataTypes) => {
                     .then((user) => {
                         if (user) {
                             if (user.authenticate(password)) {
-                                // log this event
+                                logger.logInfoEvent('admin-logged-in', email);
                                 cb(null, user.dataValues);
                             }
                             else {
-                                // log this event
+                                logger.logInfoEvent('admin-failed-log-in', email);
                                 cb(null, false);
                             }
                         }
                         else {
-                            // log this event
+                            logger.logInfoEvent('admin-failed-log-in', email);
                             cb(null, false);
                         }
                     });
