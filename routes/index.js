@@ -11,6 +11,7 @@ var paypalHandler = require('../lib/paypalHandler');
 
 function requireAuth(req, res, next){
     if(!req.isAuthenticated()){
+        require('../lib/logger').logInfoEvent("Seriously... " + req.user + req.isAuthenticated());
         req.session.messages = "You need to login to view this page";
         res.redirect('/login');
         return;
