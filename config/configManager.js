@@ -6,7 +6,7 @@ const config = require('./config.json')[env];
 const defaults = {
     session: {
         secret: "i'm a teapot",
-        proxy: false,
+        proxy: true,
         secureCookie: true
     }
 };
