@@ -39,7 +39,7 @@ describe('messagingService', () => {
       .then((result) => {
         expect(result.message).toEqual('sent');
         expect(result.options.to).toEqual('sherlock@holmes.co.uk');
-        expect(emailUtil.sendHtmlEmail).toHav eBeenCalled();
+        expect(emailUtil.sendHtmlEmail).toHaveBeenCalled();
       })
       .nodeify(done);
     });
