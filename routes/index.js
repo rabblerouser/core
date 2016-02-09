@@ -30,10 +30,10 @@ router.get('/members/new', function(req, res) {
 
 router.post('/payments/paypal', paypalHandler.handleIpn);
 
+
 router.post('/members', membersController.newMemberHandler);
 router.post('/renew', membersController.renewMemberHandler);
 router.get('/members/verify/:hash', membersController.verify);
-router.get('/members/verify/:email/:hash', membersController.verify);
 router.get('/members/renew/:hash', membersController.renew);
 
 router.get('/verified', function(req, res) {
