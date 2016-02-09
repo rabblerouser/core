@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
                             logger.logInfoEvent('admin-failed-log-in', email);
                             cb(null, false);
                         }
+                    })
+                    .catch((err) => {
+                        logger.logError(err, 'AdminUser Authenticate caught an error');
                     });
             }
         },
