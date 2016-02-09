@@ -41,9 +41,9 @@ casper.on('page.initialized', function() {
 });
 
 casper.test.begin('Test the project-m-staging', 21, function suite(test) {
-    var url = casper.cli.get("url");
+    casper.start('https://project-m-staging.herokuapp.com/', function() {
 
-    casper.start(url, function() {
+
         test.assertTitle("Pirate Party Membership");
         var js = this.evaluate(function() {
             return document;
@@ -143,7 +143,7 @@ casper.test.begin('Test the project-m-staging', 21, function suite(test) {
       });
 
       this.sendKeys('input[id="residentialAddress[postcode]"]', '35191');
-      this.sendKeys('input[id=email]', 'qoku'+Math.random()+'@gmail.com');// change the email address here to run the tests
+      this.sendKeys('input[id=email]', 'qoku'+Math.random()+'@gmail.com');
       this.sendKeys('input[id=primaryPhoneNumber]', '0412345678');
 
       //jump to the Confirm page
@@ -208,23 +208,39 @@ casper.test.begin('Test the project-m-staging', 21, function suite(test) {
         test.assertSelectorHasText('h1.form-title', 'Pay What You Want');
         });
       });
+    });
 
   //Pay What You Want page
 
-          //do not want to contribute
-      casper.then(function() {
-          this.click('input[name="paymentType"][value="noContribute"]');
+      //     //no contribute----passed
+      // casper.then(function() {
+      //     this.click('input[name="paymentType"][value="noContribute"]');
+      //
+      //     this.click('button');
+      //
+      //   casper.then(function() {
+      //     this.wait(2000,function() {
+      //     this.capture('screenshots/screenshot-click.png');
+      //     test.assertSelectorHasText('h1.form-title', 'Finish');
+      //     });
+      //   });
+      // });
 
-          this.click('button');
+      //Direct Deposit----with $20 deposit
+       casper.then(function() {
+           this.click('input[name="paymentType"][value="deposit"]');
+           this.sendKeys('input[id=totalAmount]','20');
 
-        casper.then(function() {
-          this.wait(2000,function() {
-          this.capture('screenshots/screenshot-click.png');
-          test.assertSelectorHasText('h1.form-title', 'Finish');
+           this.click('button');
+
+          casper.then(function() {
+              this.wait(1000,function() {
+              this.capture('screenshots/screenshot-click.png');
+               test.assertSelectorHasText('h1.form-title', 'Finish');
+              });
           });
-        });
-      });
-});
+       });
+
     casper.run(function () {
         test.done();
     });
