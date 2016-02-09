@@ -40,7 +40,7 @@ casper.on('page.initialized', function() {
     });
 });
 
-casper.test.begin('Test the project-m-staging', 21, function suite(test) {
+casper.test.begin('Test the project-m-staging', 22, function suite(test) {
     casper.start('https://project-m-staging.herokuapp.com/', function() {
 
 
@@ -234,12 +234,27 @@ casper.test.begin('Test the project-m-staging', 21, function suite(test) {
            this.click('button');
 
           casper.then(function() {
-              this.wait(1000,function() {
+              this.wait(2000,function() {
               this.capture('screenshots/screenshot-click.png');
-               test.assertSelectorHasText('h1.form-title', 'Finish');
+
+              test.assertSelectorHasText('h1.form-title', 'Finish');
               });
           });
-       });
+      });
+
+     //Finish page
+      casper.then(function() {
+
+        this.click('button');
+
+      casper.then(function() {
+        this.wait(2000,function() {
+        this.capture('screenshots/screenshot-click.png');
+
+        test.assertTitle("Pirate Party Membership");
+        });
+      });
+     });
 
     casper.run(function () {
         test.done();
