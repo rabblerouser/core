@@ -133,7 +133,7 @@ export default class MembershipType extends Component {
                     </label>
                 </div>
                 <div className="field-group">
-                    <h3>Are you a member of another Australian political party? <span className="mandatoryField">* </span></h3>
+                    <h3>Are you a member of any other Australian political party? <span className="mandatoryField">* </span></h3>
                     <label htmlFor="yesOp" onClick={this.showInfoBox}>
                         <input onChange={this.showInfoBox} value="Yes" defaultChecked="" type="radio" name="isMemberOfOtherParty" className="isMemberOfOtherParty" ref="yes" id="yesOp" />
                         Yes

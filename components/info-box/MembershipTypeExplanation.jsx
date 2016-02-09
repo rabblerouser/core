@@ -52,15 +52,15 @@ export default class MembershipTypeExplanation extends Component {
                   </div>
                   <div className="box-column">
                       <h3>Supporter Membership</h3>
-                      <h4>Members who belong to another Political Party, but wish to support the Pirate Party.</h4>
+                      <h4>Members who belong to another political party, but wish to support the Pirate Party.</h4>
                   </div>
                   <div className="box-column">
                       <h3>Permanent Resident Membership</h3>
-                      <h4>Members who have a permanent resident visa and do not belong to any other political party.</h4>
+                      <h4>Members who have a Permanent Resident visa and do not belong to any other political party.</h4>
                   </div>
                   <div className="box-column">
                       <h3>International Membership</h3>
-                      <h4>International citizens or members with a temporary visa.</h4>
+                      <h4>International citizens or members with a Temporary visa.</h4>
                   </div>
             </Modal>
       </div>
