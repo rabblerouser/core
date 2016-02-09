@@ -40,7 +40,7 @@ casper.on('page.initialized', function() {
     });
 });
 
-casper.test.begin('Test the admin flow', 5, function suite(test) {
+casper.test.begin('Test the admin flow', 6, function suite(test) {
     var email = casper.cli.get("email");
     var password = casper.cli.get("password");
     var url = casper.cli.get("url");

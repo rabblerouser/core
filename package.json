@@ -10,8 +10,8 @@
     "test": "npm run serverTests && npm run componentTests",
     "serverTests": "NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js",
     "componentTests": "NODE_ENV=test node ./node_modules/karma-cli/bin/karma start",
-    "acceptanceTests": "NODE_ENV=test PHANTOMJS_EXECUTABLE=./node_modules/phantomjs/bin/phantomjs ./node_modules/casperjs/bin/casperjs --web-security=false --log-level=debug --verbose test spec/acceptance/user_journey.js --url=http://localhost:3000 --email=$ACCEPTANCE_EMAIL --password=$ACCEPTANCE_PASSWORD | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
-    "acceptanceTestsStaging": "NODE_ENV=test PHANTOMJS_EXECUTABLE=./node_modules/phantomjs/bin/phantomjs ./node_modules/casperjs/bin/casperjs --web-security=false --log-level=debug --verbose test spec/acceptance/user_journey.js --url=https://project-m-staging.herokuapp.com --email=$ACCEPTANCE_EMAIL --password=$ACCEPTANCE_PASSWORD | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
+    "acceptanceTests": "NODE_ENV=test PHANTOMJS_EXECUTABLE=./node_modules/phantomjs/bin/phantomjs ./node_modules/casperjs/bin/casperjs --web-security=true --log-level=debug --verbose test spec/acceptance/user_journey.js --url=http://localhost:3000 --email=$ACCEPTANCE_EMAIL --password=$ACCEPTANCE_PASSWORD | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
+    "acceptanceTestsStaging": "NODE_ENV=test PHANTOMJS_EXECUTABLE=./node_modules/phantomjs/bin/phantomjs ./node_modules/casperjs/bin/casperjs --web-security=true --log-level=debug --verbose test spec/acceptance/user_journey.js spec/acceptance/admin_journey.js --url=https://project-m-staging.herokuapp.com --email=$ACCEPTANCE_EMAIL --password=$ACCEPTANCE_PASSWORD | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
     "bundle": "./node_modules/webpack/bin/webpack.js --config ./webpack.config.js --progress --colors --watch",
     "createAdmin": "node ./scripts/createAdmin.js"
   },
