@@ -46,17 +46,12 @@ router.post('/invoices/update', invoicesController.updateInvoiceHandler);
 router.get('/members', requireAuth, adminController.membersList);
 
 router.post('/login',
-  passport.authenticate('local', { successRedirect: '/admin',
-                                   failureRedirect: '/login',
-                                   failureFlash: false })
-);
+  passport.authenticate('local'), function(req, res) {
+        res.redirect('/admin');
+    });
 
 router.get('/login', function(req, res){
-    if(req.isAuthenticated()){
-        res.redirect('/admin');
-    } else {
-        res.render('login', {title: 'Login'});
-    }
+    res.render('login', {title: 'Login'});
 });
 
 router.get('/logout', requireAuth, function(req, res){
