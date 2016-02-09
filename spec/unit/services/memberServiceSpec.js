@@ -476,11 +476,12 @@ describe('memberService', () => {
       it('should return an empty array if no memberships expiring on the date', (done) => {
         findAllPromise.resolve([]);
         let expiredOn = moment().format('L');
+        let query = { where: {lastRenewal: moment(expiredOn, 'L').subtract(1, 'year').toDate()}, attributes: ['id', 'email']};
 
         memberService.findMembershipsExpiringOn(expiredOn)
         .then((result) => {
           expect(result.length).toEqual(0);
-          expect(models.Member.findAll).toHaveBeenCalled();
+          expect(models.Member.findAll).toHaveBeenCalledWith(query);
           done();
         })
         .catch(done);

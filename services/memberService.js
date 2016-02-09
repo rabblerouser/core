@@ -31,7 +31,8 @@ function setupMember(newMember) {
         postalAddressId: postalAddress[0].dataValues.id,
         membershipType: newMember.membershipType,
         verificationHash: createVerificationHash(),
-        memberSince: moment().format('L')
+        memberSince: moment().format('L'),
+        lastRenewal: moment().format('L')
     };
   };
 }
@@ -123,10 +124,12 @@ function transformMembers(adapter) {
     };
 }
 
-let handleError = (error) => {
-    logger.logError(error);
-    return models.Sequelize.Promise.reject('An error has occurred while fetching members');
-};
+function handleError(message) {
+    return function(error) {
+        logger.logError(error, message);
+        return models.Sequelize.Promise.reject(message);
+    };
+}
 
 let list = () => {
     let query = {
@@ -146,7 +149,7 @@ let list = () => {
 
     return Member.findAll(query)
         .then(transformMembers(transformMember))
-        .catch(handleError);
+        .catch(handleError('An error has occurred while fetching members'));
 };
 
 function findForVerification(hash) {
@@ -189,12 +192,13 @@ function verify(hash) {
     .then(sendWelcomeEmailOffline)
     .tap((verifiedMember) => logger.logInfoEvent('[member-verification-event]', verifiedMember))
     .catch((error) => {
-      logger.logError('[member-verification-failed]', {error: error});
+      logger.logError(error, '[member-verification-failed]');
       throw new Error('Account could not be verified');
     });
 }
 
 function transformMembershipToRenew(member) {
+
     return Object.assign({}, member.dataValues);
 }
 
@@ -203,14 +207,15 @@ function findMembershipsExpiringOn(date) {
         return  Q.resolve([]);
     }
 
-    let lastRenewal = moment(date, 'L').subtract(1, 'year');
+    let lastRenewal = moment(date, 'L').subtract(1, 'year').toDate();
     let query = {
-        where: {lastRenewal: { eq: lastRenewal }},
+        where: {lastRenewal: lastRenewal},
         attributes: ['id', 'email']
     };
+
     return Member.findAll(query)
             .then(transformMembers(transformMembershipToRenew))
-            .catch(handleError);
+            .catch(handleError('[find-members-expiring-on-failed]'));
 }
 
 function findMemberByRenewalHash(hash) {
