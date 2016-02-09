@@ -1,9 +1,9 @@
 'use strict';
 
-const every24Hours = 86400000;
 const memberService = require('./memberService');
 const moment = require('moment');
 const logger = require('../lib/logger');
+const humanInterval = require('human-interval');
 
 function membershipsExpiringSoon() {
     const in90Days = moment().add(90, 'days').format('L');
@@ -21,7 +21,7 @@ function remindMembersToRenew() {
 
 function setupRecurrentJob() {
     logger.logInfoEvent('[renewal-task-setup]');
-    setInterval(remindMembersToRenew, every24Hours);
+    setInterval(remindMembersToRenew, humanInterval('24 hours'));
 }
 
 function start() {
