@@ -9,7 +9,7 @@ const Q = require('q'),
     uuid = require('node-uuid'),
     messagingService = require('./messagingService');
 
-function createVerificationHash() {
+function createHash() {
   return uuid.v4();
 }
 
@@ -30,7 +30,7 @@ function setupMember(newMember) {
         residentialAddressId: residentialAddress[0].dataValues.id,
         postalAddressId: postalAddress[0].dataValues.id,
         membershipType: newMember.membershipType,
-        verificationHash: createVerificationHash(),
+        verificationHash: createHash(),
         memberSince: moment().format('L'),
         lastRenewal: moment().format('L')
     };
@@ -109,7 +109,7 @@ let renewMember = hash => {
                 .catch((error) => {
                         return Q.reject(error);
                 });
-        })
+        });
 };
 
 let transformMember = member => {
@@ -198,7 +198,6 @@ function verify(hash) {
 }
 
 function transformMembershipToRenew(member) {
-
     return Object.assign({}, member.dataValues);
 }
 
@@ -241,12 +240,29 @@ function findMemberByRenewalHash(hash) {
         });
 }
 
+function notifyMember(member) {
+    let renewalHash = createHash();
+    return Member.update({renewalHash: renewalHash}, {where: {id: member.id}})
+        .then(() => {
+            member.renewalHash = renewalHash;
+            return messagingService.sendRenewalEmail(member);
+        });
+}
+
+
+function notifyMembersToRenew(membersToNotify) {
+    var promises = [];
+    membersToNotify.forEach((member) => promises.push(notifyMember(member)));
+    return Q.all(promises);
+}
+
 module.exports = {
     createMember: createMember,
     updateMember: updateMember,
     renewMember: renewMember,
     list: list,
     verify: verify,
+    notifyExpiringMembers: notifyMembersToRenew,
     findMembershipsExpiringOn: findMembershipsExpiringOn,
-    findMemberByRenewalHash: findMemberByRenewalHash
+    findMemberByRenewalHash: findMemberByRenewalHash,
 };

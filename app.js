@@ -19,7 +19,8 @@ const express = require('express'),
       db = require('./db/connection'),
       sessionStore = new SequelizeSessionStore({db: db}),
       sessionOpts = configManager.session,
-      env = process.env.NODE_ENV || 'development';
+      env = process.env.NODE_ENV || 'development',
+      membershipRenewalJob = require('./services/membershipRenewalService');
 
 sessionStore.sync();
 
@@ -84,5 +85,7 @@ app.use((err, req, res, next) => {
         error: {}
     });
 });
+
+membershipRenewalJob.start();
 
 module.exports = app;
