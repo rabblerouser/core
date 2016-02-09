@@ -18,7 +18,7 @@ export default class Finished extends Component {
                 <label>
                     <p>You will soon receive a verification email. To confirm your membership, please click on the link provided in the email.</p>
 
-                    <p>If you don’t receive it, please contact us at membership@pirateparty.org.au </p>
+                    <p>If you don’t receive it, please contact us at <a href="mailto:membership@pirateparty.org.au">membership@pirateparty.org.au</a> </p>
 
                     {this.props.paypalFinish ? <PaypalFinish /> : null}
                     
