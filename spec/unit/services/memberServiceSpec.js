@@ -519,4 +519,55 @@ describe('memberService', () => {
         .catch(done);
       });
     });
+
+    describe('renewMember', () => {
+        let findOneStub;
+        let findOnePromise;
+        let updateMemberPromise;
+        let updateMemberStub;
+
+        beforeEach(() => {
+            findOnePromise = Q.defer();
+            findOneStub = sinon.stub(models.Member, 'findOne').returns(findOnePromise.promise);
+            updateMemberPromise = Q.defer();
+            updateMemberStub = sinon.stub(models.Member, 'update').returns(updateMemberPromise.promise);
+        });
+
+        afterEach(() => {
+            models.Member.findOne.restore();
+            models.Member.update.restore();
+        });
+
+        it('should set the lastRenewal date if member was found', (done) => {
+            let memberToRenew = { dataValues: { } };
+            findOnePromise.resolve(memberToRenew);
+            updateMemberPromise.resolve(memberToRenew);
+
+            memberService.renewMember('potato')
+                .then((member) => {
+                    expect(member.lastRenewal).toEqual(moment().format('L'));
+                })
+                .finally(() => {
+                    expect(models.Member.findOne).toHaveBeenCalled();
+                    expect(updateMemberStub).toHaveBeenCalled();
+                    done();
+                })
+                .catch(done);
+        });
+
+        it('should throw an error if member was not found', (done) => {
+            findOnePromise.reject();
+
+            memberService.renewMember('potato')
+                .then((member) => {
+                    expect(member.lastRenewal).toBeUndefined();
+                })
+                .finally(() => {
+                    expect(models.Member.findOne).toHaveBeenCalled();
+                    expect(updateMemberStub).not.toHaveBeenCalled();
+                    done();
+                })
+                .catch(done);
+        });
+    });
 });
