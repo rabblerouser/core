@@ -19,7 +19,7 @@ export default class SupporterInfoBox extends Component {
                 <MembershipTypeExplanation />
             </div>
             <div className="info-body">
-                As members of another political party, Supporters are not eligible to vote at Pirate Party affairs, but they can:
+                As members of another political party, Supporters are not eligible to vote at Pirate Party proceedings, but they can:
                 <ul>
                     <li>Participate in the decision making process;</li>
                     <li>Communicate and submit policy and constitutional amendment proposals.</li>

@@ -41,7 +41,7 @@ export default class MembershipType extends Component {
         }
         else if(this.refs.isEnrolledNo.checked) {
             if(this.refs.citizen.checked) {
-                this.setState({errors:["Australian citizens must be enrolled to become a member"],
+                this.setState({errors:["Australian citizens must be enrolled to become a member", "You must be at least 16 years of age to sign up as a Pirate Party member"],
                               showInfoBox: false});
             } else if(this.refs.permanentResident.checked) {
                 if(this.refs.yes.checked ) {

@@ -25,8 +25,8 @@ export default class Details extends Component {
         };
 
         this.errorTypes = {
-          firstName: {name: 'First Name', message: 'Please enter your first name. No numbers or symbols allowed.'},
-          lastName: {name: 'Last Name', message: 'Please enter your last name. No numbers or symbols allowed.'},
+          firstName: {name: 'First Name', message: 'Please enter your first name. No symbols allowed.'},
+          lastName: {name: 'Last Name', message: 'Please enter your last name. No symbols allowed.'},
           dateOfBirth: {name: 'Date of Birth', message: 'Must be in the format DD/MM/YYYY and you must be over 16 years of age.'},
           email: {name: 'Email', message: 'Please enter a valid email address i.e. valid@email.com'},
           primaryPhoneNumber: {name: 'Phone Number', message: 'Please enter a valid phone number.'},
@@ -168,7 +168,7 @@ export default class Details extends Component {
                             <input type="text" defaultValue={this.props.formValues.firstName} ref="firstName" id="firstName"
                                    className="firstName" />
                         </label>
-                        <label htmlFor="lastName" className={this.validationErrorClass('lastName')}>Surname <span className="mandatoryField">* </span>
+                        <label htmlFor="lastName" className={this.validationErrorClass('lastName')}>Last Name <span className="mandatoryField">* </span>
                           <InlineError isError={this.isValidationError('lastName')}
                                         errorMessage={this.errorTypes['lastName'].message} />
                           <input type="text" defaultValue={this.props.formValues.lastName} ref="lastName" id="lastName"

@@ -12,7 +12,7 @@ export default class Finished extends Component {
 
             <div className="form-body">
                 <div className="heading">
-                    <h2 className="sub-title"> We have received your details. </h2>
+                    <h2 className="sub-title"> Thank you, we have received your details. </h2>
                 </div>
 
                 <label>

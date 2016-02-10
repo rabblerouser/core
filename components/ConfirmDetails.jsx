@@ -54,7 +54,7 @@ export default class ConfirmDetails extends Component {
                 </div>
                 <label className={this.state.errors.length > 0 ? "invalid" : ""} id="checkbox_declaration">
                     <input type="checkbox" name="circumstance" ref="declarationConfirmation"/>
-                    <b>I confirm that I am enrolled to vote in federal elections and consent to my information being sent
+                    <b>I confirm that I am enrolled to vote in Australian federal elections and consent to my information being sent
                     to the Australian Electoral Commission.</b><span className="mandatoryField">* </span>
                 </label>
                 <div className="heading">

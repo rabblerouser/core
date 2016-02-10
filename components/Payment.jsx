@@ -146,7 +146,7 @@ export default class Payment extends Component {
                 <div className="reminder">
                     <img src="/images/reminder.svg"/>
                     <div className="reminder-text">
-                        Membership of Pirate Party Australia is currently <b>whatever you want!</b>
+                        The cost of membership of Pirate Party Australia is currently <b>whatever you want</b>!
                     </div>
                 </div>
                 <div className="heading">
