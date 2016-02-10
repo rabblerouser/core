@@ -9,6 +9,7 @@ export default class ConfirmDetails extends Component {
         this.getFullAddress = this.getFullAddress.bind(this);
         this.submitMember = this.submitMember.bind(this);
         this.getDeclaration = this.getDeclaration.bind(this);
+        this.getCheckboxText = this.getCheckboxText.bind(this);
         this.state = {
             errors: []
         };
@@ -37,6 +38,14 @@ export default class ConfirmDetails extends Component {
       }
       return <OtherMemberDeclarationText />;
     }
+    
+      getCheckboxText() {
+      if(this.props.formValues.membershipType === 'full'){
+          return <b>I confirm that I am enrolled to vote in Australian federal elections and consent to my information being sent
+                    to the Australian Electoral Commission.</b>;
+      }
+      return <b>I agree with the above.</b>;
+     }
 
     render() {
         return <fieldset>
@@ -54,8 +63,7 @@ export default class ConfirmDetails extends Component {
                 </div>
                 <label className={this.state.errors.length > 0 ? "invalid" : ""} id="checkbox_declaration">
                     <input type="checkbox" name="circumstance" ref="declarationConfirmation"/>
-                    <b>I confirm that I am enrolled to vote in Australian federal elections and consent to my information being sent
-                    to the Australian Electoral Commission.</b><span className="mandatoryField">* </span>
+                         {this.getCheckboxText()}<span className="mandatoryField">* </span>
                 </label>
                 <div className="heading">
                     <h2 className="sub-title">Check Your Details</h2>
