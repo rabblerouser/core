@@ -28,7 +28,7 @@ export default class Payment extends Component {
         var errors = [];
         let errorMessages = {
             totalAmount: 'If you wish to contribute, the minimum is $1.',
-            paymentType: 'Please select a payment type.'
+            paymentType: 'Please select a payment method.'
         };
 
         if(_.indexOf(invalidFields, 'paymentType') > -1){
@@ -150,7 +150,7 @@ export default class Payment extends Component {
                     </div>
                 </div>
                 <div className="heading">
-                    <h2 className="sub-title">How would you like to contribute? <span className="mandatoryField2">* </span></h2> 
+                    <h2 className="sub-title">How would you like to contribute?</h2> 
                      <div className="sub-description">Choose from the options below.</div>
                 </div>
                 <div className="field-group" id="payments">
