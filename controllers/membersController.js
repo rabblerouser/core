@@ -164,7 +164,6 @@ function renewMemberHandler(req, res) {
     return memberService.renewMember(hash)
         .then(createEmptyInvoice)
         .tap(sendResponseToUser(res))
-        .tap()
         .catch(handleError(res));
 }
 
