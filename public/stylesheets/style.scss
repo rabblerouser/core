@@ -4,7 +4,9 @@
 @import 'neat';
 @import 'partials/local-variables';
 @import 'partials/form';
+@import 'partials/admin';
 @import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,400italic,700,700italic);
+
 
 div.container {
   @include outer-container(100%);

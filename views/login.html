@@ -1,14 +1,27 @@
-<title>Login</title>
-<form action="/login" method="post">
-    <div>
-        <label>Email:</label>
-        <input type="text" id="email" name="email"/>
-    </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" id="password" name="password"/>
-    </div>
-    <div>
-        <input type="submit" id="login" name="login" value="Log In"/>
-    </div>
-</form>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/stylesheets/style.css">
+    </head>
+    
+    <body class="login_body">
+        <form  class="login_form" action="/login" method="post">
+            <h1 class="login_h1">Admin Dashboard</h1>
+            <div>
+                <input placeholder="Email" type="text" id="email" name="email"/>
+            </div>
+            
+            <div>
+                <input placeholder="Password" type="password" id="password" name="password"/>
+            </div>
+            
+            <div>
+                <input type="submit" id="login" name="login" value="Log In"/>
+            </div>
+            
+        </form>
+    </body>
+    <script src="/javascript/main.bundle.js"></script>
+</html>

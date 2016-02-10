@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 
+
+
 export default class Secretary extends Component {
     constructor(props) {
         super(props);
