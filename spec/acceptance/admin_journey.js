@@ -52,14 +52,12 @@ casper.test.begin('Test the admin flow', 6, function suite(test) {
     casper.then(function () {
         this.sendKeys('input[id=email]', email);
         this.sendKeys('input[id=password]', password);
+        this.click('input[id=login]');
     });
 
-    casper.then(function() {
-        this.click('input[id=login]');
-        casper.then(function() {
-            this.test.assertUrlMatches(url+'/admin');
-            test.assertSelectorHasText('h1', 'Admin Dashboard');
-        });
+    casper.waitForUrl(url + '/admin', function () {
+        this.test.assertUrlMatches(url + '/admin');
+        test.assertSelectorHasText('h1', 'Admin Dashboard');
     });
 
     //goto secretary

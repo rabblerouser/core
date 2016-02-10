@@ -47,7 +47,9 @@ router.get('/members', requireAuth, adminController.membersList);
 
 router.post('/login',
   passport.authenticate('local'), function(req, res) {
-        res.redirect('/admin');
+        req.session.save(function () {
+            res.redirect('/admin');
+        });
     });
 
 router.get('/login', function(req, res){
