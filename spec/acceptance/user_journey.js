@@ -202,7 +202,7 @@ casper.test.begin('Test the project-m-staging', 22, function suite(test) {
             this.click('button');
         })
         .then(function () {
-            this.wait(1000, function () {
+            this.wait(4000, function () {
 
                 this.capture('screenshots/screenshot-click-confirm.png');
                 test.assertSelectorHasText('h1.form-title', 'Pay What You Want');
