@@ -30,6 +30,7 @@
       "before": false,
       "after": false,
       "expect": false,
-      "jasmine": false
+      "jasmine": false,
+      "casper": false
   }
 }
