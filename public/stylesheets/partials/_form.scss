@@ -151,17 +151,6 @@
 }
 
 
-.mandatoryField2 {
-    color: $red;
-    font-size: 20px;
-    font-weight: bold;
-    
-    @include media($mobile) {
-        font-size: 17px;  
-    } 
-}
-
-
 fieldset {
     @include fill-parent();
     @include clearfix();
