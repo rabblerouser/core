@@ -44,7 +44,7 @@ export default class ConfirmDetails extends Component {
           return <b>I confirm that I am enrolled to vote in Australian federal elections and consent to my information being sent
                     to the Australian Electoral Commission.</b>;
       }
-      return <b>I agree with the above.</b>;
+      return <b>I agree to the declaration.</b>;
      }
 
     render() {
