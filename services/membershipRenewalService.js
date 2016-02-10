@@ -3,7 +3,8 @@
 const memberService = require('./memberService');
 const moment = require('moment');
 const logger = require('../lib/logger');
-const humanInterval = require('human-interval');
+const CronJob = require('cron').CronJob;
+const everyDayAt7_30am = '00 1 1 * * *';
 
 function membershipsExpiringSoon() {
     const in90Days = moment().add(90, 'days').format('L');
@@ -15,19 +16,24 @@ function remindMembersToRenew() {
     return membershipsExpiringSoon()
     .then(memberService.notifyExpiringMembers)
     .catch((error) => {
-        logger.logError(error.toString(), '[memberships-renewal-task-error]');
+        logger.logError(error.toString(), '[renewal-notification-job-failed]');
     });
 }
 
-function setupRecurrentJob() {
-    logger.logInfoEvent('[renewal-task-setup]');
-    setInterval(remindMembersToRenew, humanInterval('24 hours'));
+function start() {
+    let job = new CronJob({
+      cronTime: everyDayAt7_30am,
+      onTick: function() {
+        logger.logInfoEvent('[renewal-notification-job-started]');
+
+        remindMembersToRenew()
+        .then((result) => logger.logInfoEvent('[renewal-notification-job-finished]', `Notifications sent: ${result.length}`));
+      },
+      start: false
+    });
+    job.start();
 }
 
-function start() {
-    remindMembersToRenew()
-    .finally(setupRecurrentJob);
-}
 
 module.exports = {
     start : start
