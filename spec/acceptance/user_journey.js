@@ -41,7 +41,6 @@ casper.on('page.initialized', function() {
 });
 
 casper.test.begin('Test the project-m-staging', 22, function suite(test) {
-    // casper.start('https://project-m-staging.herokuapp.com/', function() {
     var url = casper.cli.get("url")
 
     casper.start(url,function() {
