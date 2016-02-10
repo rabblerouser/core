@@ -132,7 +132,7 @@ casper.test.begin('Test the project-m-staging', 22, function suite(test) {
     casper.then(function () {
         this.sendKeys('input[id=firstName]', 'Connor');
         this.sendKeys('input[id=lastName]', 'Melbourne');
-        this.sendKeys('input[id=dateOfBirth]', '12/08/2014');
+        this.sendKeys('input[id=dateOfBirth]', '12/08/1990');
         this.sendKeys('input[id="residentialAddress[address]"]', 'Laboriosam at inventore unde quo iure adipisicing ut voluptas sed soluta ut');
         this.sendKeys('input[id="residentialAddress[suburb]"]', 'Incidunt modi necessitatibus rem vitae modi eiusmod voluptatem numquam corporis laboriosam consequatur Eos reprehenderit');
         this.evaluate(function () {
@@ -205,13 +205,14 @@ casper.test.begin('Test the project-m-staging', 22, function suite(test) {
             this.wait(4000, function () {
 
                 this.capture('screenshots/screenshot-click-confirm.png');
-                test.assertSelectorHasText('h1.form-title', 'Pay What You Want');
+
             });
         });
 
     //Pay What You Want page
-    //Direct Deposit----with $20 deposit
-    casper.then(function () {
+    casper.waitForSelectorTextChange('h1.form-title', function () {
+        //Direct Deposit----with $20 deposit
+        test.assertSelectorHasText('h1.form-title', 'Pay What You Want');
         this.click('input[name="paymentType"][value="deposit"]');
         this.sendKeys('input[id=totalAmount]', '20');
 
