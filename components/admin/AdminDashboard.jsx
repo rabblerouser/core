@@ -35,15 +35,15 @@ export default class AdminDashboard extends Component {
             </div>;
         }
         return (
-            <div className="admin-container">
+            <div className="admin_dashboard">
                 <div className="container">
                     <div className="navigation">
-                        <h1>Admin Dashboard</h1>
+                        <h1 className="admin_h1">Admin Dashboard</h1>
                         <br/>
-                        <input type="button" className="admin-button" id="secretary" name="secretary" value="Secretary page"
+                        <input type="button" className="admin-button" id="secretary" name="secretary" value="Secretary"
                                onClick={this.loadSecretaryPage}/>
                         <br/>
-                        <input type="button" className="admin-button" name="treasurer" value="Treasurer page"
+                        <input type="button" className="admin-button" name="treasurer" value="Treasurer"
                                onClick={this.loadTreasurerPage}/>
                         <br/>
                         <a href="/logout">Logout</a>

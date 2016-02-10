@@ -1,21 +1,23 @@
-/* Login Screen */
+/* Login Screen & Admin Dashboard */
 
-.login_form{
+.login_form, .admin_dashboard {
     background-color: $blue-light;
     max-width: 350px;
     margin: auto;
     margin-top: 10%;
     padding: 2em;
     border-top: 7px solid $blue-darker;
+    text-align: center;
 }
 
-.login_form input{
+
+.login_form input, .admin_dashboard input{
     height: 3em;
     width: 100%;
 }
 
 
-.login_h1{
+.admin_h1{
     font-size: 20px;
     line-height: 26px;
     color: $blue-darker;
@@ -23,11 +25,17 @@
 }
 
 
-/* Admin Dashboard */
-
 .admin-button {
     margin-bottom: 10px;
 }
+
+
+.admin_dashboard a{
+    text-decoration: underline;
+}
+
+
+/* Secretary View */
 
 
 .admin-container {
