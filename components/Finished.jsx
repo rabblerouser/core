@@ -25,7 +25,7 @@ export default class Finished extends Component {
                     <br/>
                 </label>
                 <div className="navigation">
-                    <a href='/'>
+                    <a href='https://pirateparty.org.au/'>
                         <button>Back To The Website</button>
                     </a>
                 </div>
