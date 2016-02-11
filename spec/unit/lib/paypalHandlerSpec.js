@@ -45,7 +45,7 @@ describe('paypalHandler', () => {
             expect(chargeSuccessStub).toHaveBeenCalled();
             expect(invalidRequestLoggerStub).not.toHaveBeenCalled();
             expect(res.sendStatus).toHaveBeenCalledWith(200);
-        }).nodeify(done);
+        }).then(done, done.fail);
     });
 
     it('Should not call charge success if verify returns errors', () => {

@@ -158,7 +158,7 @@ describe('membersController', () => {
         .finally(() => {
           expect(verificationStub).not.toHaveBeenCalled();
           expect(res.sendStatus).toHaveBeenCalledWith(400);
-        }).nodeify(done);
+        }).then(done, done.fail);
       });
 
       it('redirect to /verified when account successfully verified', (done) => {
@@ -174,7 +174,7 @@ describe('membersController', () => {
         .finally(() => {
           expect(verificationStub).toHaveBeenCalledWith(req.params.hash);
           expect(res.redirect).toHaveBeenCalledWith('/verified');
-        }).nodeify(done);
+        }).then(done, done.fail);
       });
 
       it('should return a 400 when the account could not be verified', (done) => {
@@ -190,7 +190,7 @@ describe('membersController', () => {
         .finally(() => {
           expect(verificationStub).toHaveBeenCalled();
           expect(res.sendStatus).toHaveBeenCalledWith(400);
-        }).nodeify(done);
+        }).then(done, done.fail);
       });
     });
 });

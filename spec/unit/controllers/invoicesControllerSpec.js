@@ -70,7 +70,7 @@ describe("invoicesController", () => {
                 updateInvoiceHandler(goodRequest, res)
                     .finally(() => {
                         expect(res.status).toHaveBeenCalledWith(200);
-                    }).nodeify(done);
+                    }).then(done, done.fail);
             });
         });
 
@@ -96,7 +96,7 @@ describe("invoicesController", () => {
                         expect(logger.logError).toHaveBeenCalledWith('invoicesController');
                         expect(res.status).toHaveBeenCalledWith(500);
                         expect(responseJsonStub).toHaveBeenCalledWith({errors: "An error has occurred internally."});
-                    }).nodeify(done);
+                    }).then(done, done.fail);
             });
 
             it("responds with a bad request if charge card failed", (done) => {
@@ -111,7 +111,7 @@ describe("invoicesController", () => {
                         expect(logger.logError).not.toHaveBeenCalled();
                         expect(res.status).toHaveBeenCalledWith(400);
                         expect(responseJsonStub).toHaveBeenCalledWith({errors: errorMessage});
-                    }).nodeify(done);
+                    }).then(done, done.fail);
             });
         });
     });

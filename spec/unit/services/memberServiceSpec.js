@@ -458,8 +458,7 @@ describe('memberService', () => {
             memberService.updateMember(updatedMember, {where: {email: 'sherlock@holmes.co.uk'}}).then((result) => {
                 expect(models.Member.update).toHaveBeenCalled();
                 expect(result.lastName).toEqual('Temple');
-            })
-                .then(done, done.fail);
+            }).then(done, done.fail);
         });
 
         it('throws error and rejects promise if email does not exist', (done) => {

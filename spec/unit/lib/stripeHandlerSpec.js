@@ -44,6 +44,6 @@ describe("stripeHandler", () => {
       stripeHandler.chargeCard(stripeToken, totalAmount)
         .then(() => {
             expect(createStub).toHaveBeenCalledWith(expectedNewCharge);
-          }).nodeify(done);
+          }).then(done, done.fail);
   });
 });
