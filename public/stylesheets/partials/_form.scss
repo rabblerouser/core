@@ -1,12 +1,13 @@
-/* NOTE: This page includes styles for the form ONLY (i.e. not admin pages) */
+/* NOTE: This is the stylesheet for the form section ONLY. Progress bar styles are in style.css */
+
 
 /* --------------------------------------------------------------------------------------
 
-   FORM BACKGROUND AND INPUTS
+   FORM BACKGROUND STYLES
 
 -------------------------------------------------------------------------------------- */
 
-fieldset {
+fieldset { /* This is the form background */
     @include fill-parent();
     @include clearfix();
     @include pad(0px 0px 32px 0px);
@@ -14,15 +15,18 @@ fieldset {
     border:none;
     background-color: $blue-light;
     color: $blue-darker;
+    
 
     .form-body {
         @include pad(0 36px default 36px);
+        
         @include media($mobile) {
             @include pad(0 25px default 25px); 
         } 
     }
+    
 
-    .field-group {
+    .field-group { /* A group of information under one heading */
             @include span-columns(6);
             @include pad(15px 0px 20px 0px);
             width: 100%;
@@ -30,44 +34,11 @@ fieldset {
             @include media($mobile) {
                 @include pad(10px 0px 13px 0px); 
             } 
-     
-    }
-
-    a {
-        color: $blue-darker;
-        font-weight: bold;
-        text-decoration: underline;
-    }
-
-    a:hover{
-        color: #4da8d4;
-    }
-
-    label {
-        font-weight: normal;
-        margin-bottom: 0;
-        font-size: 14px;
-        
-        @include media($mobile) {
-            font-size: 13px;
-        } 
-    }
-
-    input[type="text"] {
-        border-color: $blue;
-        border-radius: 0;
     }
 }
 
 
-
-/* --------------------------------------------------------------------------------------
-
-   FORM CONTAINER WIDTH + FORM TYPOGRAPHY 
-
--------------------------------------------------------------------------------------- */
-
-.form-container {
+.form-container { /* Form container width */
     @include media($desktop) {
         max-width: 800px;
     }    
@@ -77,7 +48,19 @@ fieldset {
     }
 
     margin: 10px auto;
+}
 
+
+
+
+/* --------------------------------------------------------------------------------------
+
+   FORM TYPOGRAPHY 
+
+-------------------------------------------------------------------------------------- */
+
+.form-container {
+    
     .form-title { /* Large heading with blue background at the top of the form */
         background: $blue-darker;
         color: $white;
@@ -110,7 +93,7 @@ fieldset {
         }
     }
     
-    .sub-title span{
+    .sub-title span {
         @include media($mobile) {
             font-size: 16px;
             line-height:20px;
@@ -137,22 +120,45 @@ fieldset {
     }
     
     
-    span { 
+    span { /* Mobile size of body text */
         @include media($mobile) {
            font-size: 13px;     
        }   
     }
-
-    .progress-bar li span { /* Mobile size of progress bar font */
-        @include media($mobile) {
-        font-size: 9px;
-       }  
+    
+    
+    a { /* Inline link styles */
+        color: $blue-darker;
+        font-weight: bold;
+        text-decoration: underline;
     }
     
+
+    a:hover{ 
+        color: #4da8d4;
+    }
+    
+
+    label {
+        font-weight: normal;
+        margin-bottom: 0;
+        font-size: 14px;
+
+        @include media($mobile) {
+            font-size: 13px;
+        } 
+    }
+
+    input[type="text"] {
+        border-color: $blue;
+        border-radius: 0;
+    }  
 }
 
 
-.mandatoryField { /* Red asterisks */
+/* Red asterisks */
+
+.mandatoryField { 
     color: $red;
     font-size: 14px;
     font-weight: bold;

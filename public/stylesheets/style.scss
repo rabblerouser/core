@@ -95,7 +95,11 @@ div.container {
 }
 
 
-
+ .progress-bar li span { /* Mobile size of progress bar font */
+        @include media($mobile) {
+        font-size: 9px;
+       }
+}
 
 
 .progress-bar {
