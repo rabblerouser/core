@@ -541,7 +541,9 @@ hr {
   }
 }
 
-
+.invalid b { /* Makes checkbox declaration red on error */
+    color: $red;
+}
 
 /* --------------------------------------------------------------------------------------
 
@@ -583,8 +585,6 @@ hr {
     }   
   }
 }
-
-
 
 
 /* --------------------------------------------------------------------------------------
@@ -678,10 +678,18 @@ hr {
    PRIVACY POLICY LINK
 
 -------------------------------------------------------------------------------------- */
+.footer {
+    font-size: 14px;
+    font-style: italic;
+    line-height: 19px;
+    text-align: center;
+}
+
 
 .footer a {
     color: #0073ae;
     padding-bottom: 30px;
+    text-decoration: underline;
     
     @include media($mobile) {
         font-size:13px;
