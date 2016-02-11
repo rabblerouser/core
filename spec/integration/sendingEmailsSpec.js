@@ -61,12 +61,12 @@ describe('thing', () => {
             it('throws an error when something unexpected happens', (done) => {
                 messagingService.sendVerificationEmail(member)
                     .then((result) => {
-                        expect("this shouldn't happen").toBe("aahhhh");
+                        done.fail('no error!');
                     })
                     .catch((error) => {
                         expect(error).not.toBeNull();
-                    })
-                    .finally(done);
+                        done();
+                    });
             });
         });
 
