@@ -1,155 +1,10 @@
+/* NOTE: This page includes styles for the form ONLY (i.e. not admin pages) */
 
-.form-container {
-    @include media($desktop) {
-        max-width: 800px;
-    }    
+/* --------------------------------------------------------------------------------------
 
-    @include media($mobile) {
-        @include pad();  
-    }
+   FORM BACKGROUND AND INPUTS
 
-    margin: 10px auto;
-
-    .form-title {
-        background: $blue-darker;
-        color: $white;
-        font-size: 24px;
-        font-weight: bold;
-        height: 76px;
-        line-height: 76px;
-        margin-bottom: 10px;
-        padding-left: 36px;
-        
-        @include media($mobile) {
-            font-size: 20px;
-            height: 65px;
-            line-height: 65px;
-            margin-bottom: 0;
-            padding-left: 25px;
-        }
-    }
-
-    .sub-title {
-        border-bottom: 1px solid $blue;
-        font-size: 20px;
-        line-height: 26px;
-        margin-bottom: 0;
-        padding-bottom: 6px;
-        
-        @include media($mobile) {
-            font-size: 16px;
-            line-height:20px;
-        }
-    }
-    
-    .sub-title span{
-        @include media($mobile) {
-            font-size: 16px;
-            line-height:20px;
-        }  
-    }
-
-    .sub-description {
-        font-size: 14px;
-        font-style: italic;
-        line-height: 20px;
-        padding-top: 6px;
-        
-        @include media($mobile) {
-            font-size: 11px;
-            line-height: 16px;
-        }
-    }
-
-    .heading {
-        @include span-columns(12);
-
-        padding-top: 20px;
-        padding-bottom: 10px;
-
-        i {
-            font-size: 14px;
-            margin-bottom: 25px;
-            
-            @include media($mobile) {
-                font-size: 11px;
-                margin-bottom: 15px;
-            }
-        }
-    }
-    
-    span {
-        @include media($mobile) {
-           font-size: 13px;     
-       }   
-    }
-
-
-
-    .progress-bar li span {
-        @include media($mobile) {
-        font-size: 9px;
-       }  
-    }
-    
-}
-
-
-
-#payments {
-    padding-top: 0 !important;
-}
-
-
-.declaration {
-    float: left;
-    width: 100%;
-    background: $white;
-    border: 3px solid $blue;
-    padding: 20px 25px;
-    font-size:13px;
-    margin-bottom: 25px;
-    margin-top: 10px;
-
-    > * {
-      display: inline-block;
-    }
-
-    .declaration-text {
-      color:#0073AE;
-    }
-
-    img {
-      width: 48px;
-      float: left;
-    }
-    
-    @include media($mobile) {
-        font-size: 13px;  
-    } 
-}
-
-
-#checkbox_declaration{
-    margin-bottom:15px;
-}
-
-
-.confirmationLabel {
-    margin-bottom: 40px;
-}
-
-
-.mandatoryField {
-    color: $red;
-    font-size: 14px;
-    font-weight: bold;
-    
-    @include media($mobile) {
-        font-size: 13px;  
-    } 
-}
-
+-------------------------------------------------------------------------------------- */
 
 fieldset {
     @include fill-parent();
@@ -203,6 +58,171 @@ fieldset {
         border-radius: 0;
     }
 }
+
+
+
+/* --------------------------------------------------------------------------------------
+
+   FORM CONTAINER WIDTH + FORM TYPOGRAPHY 
+
+-------------------------------------------------------------------------------------- */
+
+.form-container {
+    @include media($desktop) {
+        max-width: 800px;
+    }    
+
+    @include media($mobile) {
+        @include pad();  
+    }
+
+    margin: 10px auto;
+
+    .form-title { /* Large heading with blue background at the top of the form */
+        background: $blue-darker;
+        color: $white;
+        font-size: 24px;
+        font-weight: bold;
+        height: 76px;
+        line-height: 76px;
+        margin-bottom: 10px;
+        padding-left: 36px;
+        
+        @include media($mobile) {
+            font-size: 20px;
+            height: 65px;
+            line-height: 65px;
+            margin-bottom: 0;
+            padding-left: 25px;
+        }
+    }
+
+    .sub-title { /* Internal form heading, above the divider line */
+        border-bottom: 1px solid $blue;
+        font-size: 20px;
+        line-height: 26px;
+        margin-bottom: 0;
+        padding-bottom: 6px;
+        
+        @include media($mobile) {
+            font-size: 16px;
+            line-height:20px;
+        }
+    }
+    
+    .sub-title span{
+        @include media($mobile) {
+            font-size: 16px;
+            line-height:20px;
+        }  
+    }
+
+    .sub-description { /* Smaller description in italics, under the divider line */
+        font-size: 14px;
+        font-style: italic;
+        line-height: 20px;
+        padding-top: 6px;
+        
+        @include media($mobile) {
+            font-size: 11px;
+            line-height: 16px;
+        }
+    }
+
+    .heading { /* .heading is the combination of .sub-title + .sub-description */
+        @include span-columns(12);
+
+        padding-top: 20px;
+        padding-bottom: 10px;
+    }
+    
+    
+    span { 
+        @include media($mobile) {
+           font-size: 13px;     
+       }   
+    }
+
+    .progress-bar li span { /* Mobile size of progress bar font */
+        @include media($mobile) {
+        font-size: 9px;
+       }  
+    }
+    
+}
+
+
+.mandatoryField { /* Red asterisks */
+    color: $red;
+    font-size: 14px;
+    font-weight: bold;
+    
+    @include media($mobile) {
+        font-size: 13px;  
+    } 
+}
+
+
+
+
+/* --------------------------------------------------------------------------------------
+
+   CONFIRM PAGE
+
+-------------------------------------------------------------------------------------- */
+
+
+.declaration { /* This class has been applied to both the declaration box and the check details box */
+    float: left;
+    width: 100%;
+    background: $white;
+    border: 3px solid $blue;
+    padding: 20px 25px;
+    font-size:13px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+
+    > * {
+      display: inline-block;
+    }
+
+    .declaration-text {
+      color:#0073AE;
+    }
+
+    img {
+      width: 48px;
+      float: left;
+    }
+    
+    @include media($mobile) {
+        font-size: 13px;  
+    } 
+}
+
+
+#checkbox_declaration {
+    margin-bottom:15px;
+}
+
+
+
+/* --------------------------------------------------------------------------------------
+
+   PAYMENT PAGE
+
+-------------------------------------------------------------------------------------- */
+
+
+#payments {
+    padding-top: 0 !important;
+}
+
+
+
+
+
+
 
 
 h3 {
