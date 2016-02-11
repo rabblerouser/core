@@ -40,7 +40,7 @@ describe("adminController", () => {
             membersList(req, res).finally(() => {
                 expect(res.status).toHaveBeenCalled(200);
                 expect(jsonStub).toHaveBeenCalledWith({ members: memberList });
-            }).nodeify(done);
+            }).then(done, done.fail);
         });
 
         it("responds with an error list of members", (done) => {
@@ -50,7 +50,7 @@ describe("adminController", () => {
             membersList(req, res).finally(() => {
                 expect(res.status).toHaveBeenCalled(500);
                 expect(jsonStub).toHaveBeenCalledWith({ error: error });
-            }).nodeify(done);
+            }).then(done, done.fail);
         });
     });
 });

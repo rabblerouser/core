@@ -104,18 +104,12 @@ describe("User Flow", () => {
     it ("member sign up with duplicate email should fail", (done) => {
         successfullyCreatingANewMemberShouldRepondWithA200()
             .then(postMemberWithExistEmailShouldRespondWithA500)
-            .nodeify(done)
-            .catch((err) => {
-                done.fail(err);
-            });
+            .then(done, done.fail);
     }, 60000);
 
     it ("a new member successfully signs up and then makes a payment", (done) => {
         successfullyCreatingANewMemberShouldRepondWithA200()
             .then(successfullyCreateInvoiceShouldRespondWithA200)
-            .nodeify(done)
-            .catch((err) => {
-                done.fail(err);
-            });
+            .then(done, done.fail);
     }, 60000);
 });

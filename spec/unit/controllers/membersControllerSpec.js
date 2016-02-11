@@ -110,7 +110,7 @@ describe('membersController', () => {
                     expect(res.status).toHaveBeenCalledWith(200);
                     expect(res.status().json).toHaveBeenCalledWith({invoiceId: '1', newMember: {email: createdMember.email}});
                     expect(messagingService.sendVerificationEmail).toHaveBeenCalledWith(createdMember);
-                }).nodeify(done);
+                }).then(done, done.fail);
             });
         });
 
