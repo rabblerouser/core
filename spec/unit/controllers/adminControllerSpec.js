@@ -9,25 +9,27 @@ const specHelper = require('../../support/specHelper'),
 var adminController = require('../../../controllers/adminController');
 
 describe('adminController', () => {
-    describe('membersList', () => {
-        let res,
-            req,
-            jsonStub,
-            memberList;
+    let res,
+        req;
+    let jsonStub,
+        memberList;
 
+    beforeEach(() => {
+        jsonStub = sinon.stub();
+
+        res = {
+            status: sinon.stub().returns({json: jsonStub})
+        };
+
+        req = {};
+
+        memberList = [{firstName: 'bob'}];
+    });
+
+    describe('membersList', () => {
         let membersList = adminController.membersList;
 
         beforeEach(() => {
-            jsonStub = sinon.stub();
-
-            res = {
-                status: sinon.stub().returns({json: jsonStub})
-            };
-
-            req = {};
-
-            memberList = [{firstName: 'bob'}];
-
             sinon.stub(memberService, 'list');
         });
 
@@ -40,7 +42,7 @@ describe('adminController', () => {
 
             membersList(req, res).finally(() => {
                 expect(res.status).toHaveBeenCalled(200);
-                expect(jsonStub).toHaveBeenCalledWith({ members: memberList });
+                expect(jsonStub).toHaveBeenCalledWith({members: memberList});
             }).then(done, done.fail);
         });
 
@@ -50,30 +52,15 @@ describe('adminController', () => {
 
             membersList(req, res).finally(() => {
                 expect(res.status).toHaveBeenCalled(500);
-                expect(jsonStub).toHaveBeenCalledWith({ error: error });
+                expect(jsonStub).toHaveBeenCalledWith({error: error});
             }).then(done, done.fail);
         });
     });
 
     describe('unconfirmedPaymentsMembersList', () => {
-        let res,
-            req,
-            jsonStub,
-            memberList;
-
         let membersList = adminController.unconfirmedPaymentsMembersList;
 
         beforeEach(() => {
-            jsonStub = sinon.stub();
-
-            res = {
-                status: sinon.stub().returns({json: jsonStub})
-            };
-
-            req = {};
-
-            memberList = [{firstName: 'bob'}];
-
             sinon.stub(invoiceService, 'unconfirmedPaymentList');
         });
 
@@ -81,7 +68,7 @@ describe('adminController', () => {
             invoiceService.unconfirmedPaymentList.restore();
         });
 
-        it('responds with a list of members', (done) => {
+        it('responds with a list of unconfirmed payments', (done) => {
             invoiceService.unconfirmedPaymentList.returns(Promise.resolve(memberList));
 
             membersList(req, res).finally(() => {
@@ -90,7 +77,7 @@ describe('adminController', () => {
             }).then(done, done.fail);
         });
 
-        it('responds with an error list of members', (done) => {
+        it('responds with an error list of unconfirmed payments', (done) => {
             let error = 'Liar liar pants on fire';
             invoiceService.unconfirmedPaymentList.returns(Promise.reject(error));
 
