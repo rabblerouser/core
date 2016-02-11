@@ -2,7 +2,7 @@
   apt: name=git
 
 - name: install letsencrypt client
-  git: repo=https://github.com/letsencrypt/letsencrypt clone=yes dest=/opt/letsencrypt
+  git: repo=https://github.com/letsencrypt/letsencrypt clone=yes force=yes dest=/opt/letsencrypt
 
 - name: open port 80
   ufw: rule=allow port=80 proto=tcp
