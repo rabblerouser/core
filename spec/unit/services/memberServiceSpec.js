@@ -134,12 +134,26 @@ describe('memberService', () => {
             memberPromise.resolve(createdMemberFromDb);
 
             memberService.createMember(newMember)
-                .finally((createdMember) => {
+                .then((createdMember) => {
                     expect(createdMember.firstName).toEqual(expectedNewMember.firstName);
                     expect(createdMember.id).toEqual(randomNewMemberId);
 
-                    expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining(expectedNewMember));
-                }).nodeify(done);
+                    expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
+                            firstName: 'Sherlock',
+                            lastName: 'Holmes',
+                            gender: 'horse radish',
+                            email: 'sherlock@holmes.co.uk',
+                            dateOfBirth: moment(date, 'DD/MM/YYYY').toDate(),
+                            primaryPhoneNumber: '0396291146',
+                            secondaryPhoneNumber: '0394291146',
+                            residentialAddressId: 1,
+                            postalAddressId: 2,
+                            membershipType: 'full',
+                            verificationHash: jasmine.anything(),
+                            memberSince: jasmine.anything(),
+                            lastRenewal: jasmine.anything()
+                        }));
+                }).then(done, done.fail);
         });
 
         it('logs the member sign up event', (done) => {
@@ -149,9 +163,9 @@ describe('memberService', () => {
             memberPromise.resolve(createdMemberFromDb);
 
             memberService.createMember(newMember)
-                .finally(() => {
+                .then(() => {
                     expect(logger.logMemberSignUpEvent).toHaveBeenCalledWith(expectedNewMember);
-                }).nodeify(done);
+                }).then(done, done.fail);
         });
 
         describe('when postal and residential address are identical', () => {
@@ -166,7 +180,7 @@ describe('memberService', () => {
                 memberService.createMember(newMember)
                     .finally(() => {
                         expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining(expectedNewMember));
-                    }).nodeify(done);
+                    }).then(done, done.fail);
             });
         });
 
@@ -279,7 +293,7 @@ describe('memberService', () => {
 
             memberService.list().then((result) => {
                 expect(result).toEqual([member]);
-            }).nodeify(done);
+            }).then(done, done.fail);
         });
 
         it('logs an error if there is an error, and ensures the promise is rejected', (done) => {
@@ -289,7 +303,7 @@ describe('memberService', () => {
             memberService.list().catch((error) => {
                 expect(logger.logError).toHaveBeenCalledWith('bad bad bad');
                 expect(error).toEqual('An error has occurred while fetching members');
-            }).nodeify(done);
+            }).then(done, done.fail);
         });
     });
 
@@ -445,7 +459,7 @@ describe('memberService', () => {
                 expect(models.Member.update).toHaveBeenCalled();
                 expect(result.lastName).toEqual('Temple');
             })
-                .nodeify(done);
+                .then(done, done.fail);
         });
 
         it('throws error and rejects promise if email does not exist', (done) => {
@@ -455,7 +469,7 @@ describe('memberService', () => {
 
             memberService.updateMember(updatedMember, {where: {email: 'fakeyfakey@something.com'}}).catch((error) => {
                 expect(error).toEqual('email not found');
-            }).nodeify(done);
+            }).then(done, done.fail);
         });
     });
 
