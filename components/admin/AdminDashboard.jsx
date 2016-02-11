@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import Secretary from './Secretary.jsx';
+import Treasurer from './Treasurer.jsx';
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -17,23 +18,33 @@ export default class AdminDashboard extends Component {
         this.state = {page: this.statics.dashboard};
     }
 
-
     loadSecretaryPage() {
         this.setState({page: this.statics.secretary});
     }
 
     loadTreasurerPage() {
-        this.setState({page: this.statics.secretary});
+        this.setState({page: this.statics.treasurer});
     }
 
     render() {
         if (this.state.page === this.statics.secretary) {
-            return <div className="admin-container">
-                <div className="container">
-                    <Secretary />
-                </div>
-            </div>;
+            return (
+                <div className="admin-container">
+                    <div className="container">
+                        <Secretary />
+                    </div>
+                </div>);
         }
+
+        if (this.state.page === this.statics.treasurer) {
+            return (
+                <div className="admin-container">
+                    <div className="container">
+                        <Treasurer />
+                    </div>
+                </div>);
+        }
+
         return (
             <div className="admin_dashboard">
                 <div className="container">
@@ -50,7 +61,6 @@ export default class AdminDashboard extends Component {
                     </div>
                 </div>
             </div>
-
         )
     }
 }

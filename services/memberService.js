@@ -6,6 +6,7 @@ const Q = require('q'),
     moment = require('moment'),
     Address = models.Address,
     Member = models.Member,
+    Invoice = models.Invoice,
     uuid = require('node-uuid'),
     messagingService = require('./messagingService');
 
@@ -153,6 +154,41 @@ let list = () => {
         .catch(handleError('An error has occurred while fetching members'));
 };
 
+
+let transformMemberWithInvoice = invoice => {
+    let newInvoiceRoot = invoice.dataValues;
+    let newMemberRoot = invoice.dataValues.member.dataValues;
+    return Object.assign({}, newMemberRoot, newInvoiceRoot);
+};
+
+function transformMembersWithInvoice(adapter) {
+    return function (memberQueryResult) {
+        return memberQueryResult.map(adapter);
+    };
+}
+
+function unconfirmedPaymentList() {
+    let query = {
+        include: [{
+            model: Member,
+            as: 'member',
+            attributes: [
+                'firstName',
+                'lastName'
+            ]
+        }],
+        attributes: ['reference', 'paymentType', 'totalAmountInCents', 'paymentStatus'],
+        where: {
+            paymentStatus: 'Pending',
+            paymentType: ['cheque', 'deposit']
+        }
+    };
+
+    return Invoice.findAll(query)
+        .then(transformMembersWithInvoice(transformMemberWithInvoice))
+        .catch(handleError('An error has occurred while fetching unconfirmed members'));
+}
+
 function findForVerification(hash) {
   var query = {
     where: {verificationHash: hash},
@@ -266,4 +302,5 @@ module.exports = {
     notifyExpiringMembers: notifyExpiringMembers,
     findMembershipsExpiringOn: findMembershipsExpiringOn,
     findMemberByRenewalHash: findMemberByRenewalHash,
+    unconfirmedPaymentList: unconfirmedPaymentList
 };

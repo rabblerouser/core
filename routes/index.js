@@ -43,6 +43,7 @@ router.get('/verified', function(req, res) {
 router.post('/members/update', membersController.updateMemberHandler);
 router.post('/invoices/update', invoicesController.updateInvoiceHandler);
 
+router.get('/members/unconfirmed', requireAuth, adminController.unconfirmedPaymentsMembersList);
 router.get('/members', requireAuth, adminController.membersList);
 
 router.post('/login',

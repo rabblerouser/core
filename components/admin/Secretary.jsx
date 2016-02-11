@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 
-
-
 export default class Secretary extends Component {
     constructor(props) {
         super(props);
@@ -28,8 +26,8 @@ export default class Secretary extends Component {
             <table className="secretary-table">
                 <thead>
                     <tr>
-                        <th>First name</th>
-                        <th>Last name</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Postcode</th>
                         <th>State</th>
                         <th>Country</th>
