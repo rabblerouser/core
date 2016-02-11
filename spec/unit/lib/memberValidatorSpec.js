@@ -119,39 +119,10 @@ describe("memberValidator", () => {
         [
             "",
             null,
-            "words?",
-            "04",
-            "+61"+"4".repeat(3)
+            "words?"
         ].forEach((testCase) => {
             it(`Should return false if phone is ${testCase}`, () => {
                 expect(memberValidator.isValidPhone(testCase)).toBe(false);
-            });
-        });
-    });
-
-    describe("isValidSecondaryPhoneNumber", () => {
-        [
-          "+61472817381",
-          "0328171381",
-          "0428171331",
-          "04-2817-133-1",
-          "04 2817 1331",
-          "+1555-555-5555",
-          "+1(555)555-5555",
-            "",
-            null
-        ].forEach((testCase) => {
-            it(`Should return true given a string with a mobile phone number ${testCase}`, () => {
-                expect(memberValidator.isValidOptionalPhone(testCase)).toBe(true);
-            });
-        });
-
-        [
-            "04",
-            "+61"+"4".repeat(10)
-        ].forEach((testCase) => {
-            it(`Should return false if phone is ${testCase}`, () => {
-                expect(memberValidator.isValidOptionalPhone(testCase)).toBe(false);
             });
         });
     });
