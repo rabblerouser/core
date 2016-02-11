@@ -155,7 +155,7 @@ describe('membersController', () => {
         };
 
         membersController.verify(req, res)
-        .finally(() => {
+        .catch(() => {
           expect(verificationStub).not.toHaveBeenCalled();
           expect(res.sendStatus).toHaveBeenCalledWith(400);
         }).then(done, done.fail);
