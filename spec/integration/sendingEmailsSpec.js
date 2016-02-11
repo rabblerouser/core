@@ -1,6 +1,5 @@
 'use strict';
-let specHelper = require('../support/specHelper');
-let Q = specHelper.Q;
+require('../support/specHelper');
 let emailUtil = require('../../lib/emailUtil');
 let messagingService = require('../../services/messagingService');
 let sinon = require('sinon');
@@ -37,7 +36,7 @@ describe('thing', () => {
                     .then((result) => {
                         expect(sendMailSpy).toHaveBeenCalled();
                     })
-                    .nodeify(done);
+                    .then(done, done.fail);
             });
 
             it('does not send an email if disabled in configuration', (done) => {
@@ -47,7 +46,7 @@ describe('thing', () => {
                     .finally(() => {
                         expect(sendMailSpy).not.toHaveBeenCalled();
                     })
-                    .nodeify(done);
+                    .then(done, done.fail);
             });
         });
 
