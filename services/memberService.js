@@ -250,7 +250,7 @@ function notifyMember(member) {
 }
 
 
-function notifyMembersToRenew(membersToNotify) {
+function notifyExpiringMembers(membersToNotify) {
     var promises = [];
     membersToNotify.forEach((member) => promises.push(notifyMember(member)));
     return Q.all(promises);
@@ -262,7 +262,7 @@ module.exports = {
     renewMember: renewMember,
     list: list,
     verify: verify,
-    notifyExpiringMembers: notifyMembersToRenew,
+    notifyExpiringMembers: notifyExpiringMembers,
     findMembershipsExpiringOn: findMembershipsExpiringOn,
     findMemberByRenewalHash: findMemberByRenewalHash,
 };
