@@ -210,7 +210,7 @@ casper.test.begin('Test the project-m-staging', 22, function suite(test) {
         });
 
     //Pay What You Want page
-    casper.waitForSelectorTextChange('h1.form-title', function () {
+    casper.waitUntilVisible('input[name="paymentType"][value="deposit"]', function () {
         //Direct Deposit----with $20 deposit
         test.assertSelectorHasText('h1.form-title', 'Pay What You Want');
         this.click('input[name="paymentType"][value="deposit"]');
