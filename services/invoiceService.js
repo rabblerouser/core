@@ -7,7 +7,8 @@ const Q = require('q'),
     ChargeCardError = require('../errors/ChargeCardError'),
     moment = require('moment'),
     _ = require('lodash'),
-    Invoice = models.Invoice;
+    Invoice = models.Invoice,
+    Member = models.Member;
 
 function findInvoice(invoiceId) {
     return Q(Invoice.findOne({where: {id: invoiceId}}))
@@ -129,8 +130,45 @@ var paypalChargeSuccess = (customInvoiceId, paypalId) => {
     });
 };
 
+
+
+let transformMemberWithInvoice = invoice => {
+    let newInvoiceRoot = invoice.dataValues;
+    let newMemberRoot = invoice.dataValues.member.dataValues;
+    return Object.assign({}, newMemberRoot, newInvoiceRoot);
+};
+
+function transformMembersWithInvoice(adapter) {
+    return function (memberQueryResult) {
+        return memberQueryResult.map(adapter);
+    };
+}
+
+function unconfirmedPaymentList() {
+    let query = {
+        include: [{
+            model: Member,
+            as: 'member',
+            attributes: [
+                'firstName',
+                'lastName'
+            ]
+        }],
+        attributes: ['reference', 'paymentType', 'totalAmountInCents', 'paymentStatus'],
+        where: {
+            paymentStatus: 'Pending',
+            paymentType: ['cheque', 'deposit']
+        }
+    };
+
+    return Invoice.findAll(query)
+        .then(transformMembersWithInvoice(transformMemberWithInvoice))
+        .catch(handleError('An error has occurred while fetching unconfirmed members'));
+}
+
 module.exports = {
     payForInvoice: payForInvoice,
     createEmptyInvoice: createEmptyInvoice,
-    paypalChargeSuccess: paypalChargeSuccess
+    paypalChargeSuccess: paypalChargeSuccess,
+    unconfirmedPaymentList: unconfirmedPaymentList
 };

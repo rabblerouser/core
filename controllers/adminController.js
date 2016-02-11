@@ -1,6 +1,7 @@
 'use strict';
 
 const memberService = require("../services/memberService");
+const invoiceService = require("../services/invoiceService");
 
 let membersList = (req, res) => {
     function respondWithError(error) {
@@ -34,7 +35,7 @@ let unconfirmedPaymentsMembersList = (req, res) => {
         return { members: members };
     }
 
-    return memberService.unconfirmedPaymentList()
+    return invoiceService.unconfirmedPaymentList()
         .then(preparePayload)
         .then(respondWithSuccess)
         .catch(respondWithError);
