@@ -14,10 +14,7 @@ function membershipsExpiringSoon() {
 
 function remindMembersToRenew() {
     return membershipsExpiringSoon()
-    .then(memberService.notifyExpiringMembers)
-    .catch((error) => {
-        logger.logError(error.toString(), '[renewal-notification-job-failed]');
-    });
+    .then(memberService.notifyExpiringMembers);
 }
 
 function start() {
@@ -27,7 +24,10 @@ function start() {
         logger.logInfoEvent('[renewal-notification-job-started]');
 
         remindMembersToRenew()
-        .then((result) => logger.logInfoEvent('[renewal-notification-job-finished]', `Notifications sent: ${result.length}`));
+        .then((result) => logger.logInfoEvent('[renewal-notification-job-finished]', `Notifications sent: ${result.length}`))
+        .catch((error) => {
+            logger.logError(error.toString(), '[renewal-notification-job-failed]');
+        });
       },
       start: false
     });
