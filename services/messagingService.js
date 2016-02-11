@@ -37,15 +37,15 @@ let emails = {
   verification: {
     logger: logger.logVerificationEmailSent,
     subject: 'The Pirate Party - Verify Your Email',
-    text: function(member) { return `Hello, <br>
+    text: function(member) { return `Hello,
 
-        Thank you for your membership application to the Pirate Party. <br>
+        Thank you for your membership application to the Pirate Party.
 
-        You're almost done! The last step is to verify your membership by clicking on the link below. <br>
+        You're almost done! The last step is to verify your membership by clicking on the link below.
 
-        <a href="${config.app.publicUrl}/members/verify/${member.verificationHash}">Verify Account</a> <br>
+        ${config.app.publicUrl}/members/verify/${member.verificationHash}
 
-        Best,<br>
+        Best,
 
         The Pirate Party`;
     }
@@ -56,13 +56,13 @@ let emails = {
     text: function(member) { return `
         Hello,
 
-        Your Pirate Party membership is due to expire 90 days. To renew it, please click on the following link: \n
+        Your Pirate Party membership is due to expire 90 days. To renew it, please click on the following link:
 
-        ${config.app.publicUrl}/members/renew/${member.renewalHash} \n
+        ${config.app.publicUrl}/members/renew/${member.renewalHash}
 
-        Should you have any questions or concerns, do not hesitate to contact us at membership@pirateparty.org.au. \n
+        Should you have any questions or concerns, do not hesitate to contact us at membership@pirateparty.org.au.
 
-        Best, \n
+        Best,
 
         The Pirate Party`;
     }
