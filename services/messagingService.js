@@ -53,15 +53,16 @@ let emails = {
   renewal: {
     logger: logger.logMemberRenewalEmail,
     subject: 'The Pirate Party - Renew Your Membership',
-    text: function(member) { return `Hello, <br/>
+    text: function(member) { return `
+        Hello,
 
-        Your Pirate Party membership is due to expire 90 days. To renew it, please click on the following link: <br/>
+        Your Pirate Party membership is due to expire 90 days. To renew it, please click on the following link: \n
 
-        <a href="${config.app.publicUrl}/members/renew/${member.renewalHash}">Renew Membership</a> <br/>
+        ${config.app.publicUrl}/members/renew/${member.renewalHash} \n
 
-        Should you have any questions or concerns, do not hesitate to contact us at membership@pirateparty.org.au. <br/>
+        Should you have any questions or concerns, do not hesitate to contact us at membership@pirateparty.org.au. \n
 
-        Best, <br/>
+        Best, \n
 
         The Pirate Party`;
     }

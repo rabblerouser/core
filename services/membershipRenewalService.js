@@ -4,7 +4,7 @@ const memberService = require('./memberService');
 const moment = require('moment');
 const logger = require('../lib/logger');
 const CronJob = require('cron').CronJob;
-const everyDayAt7_30am = '00 1 1 * * *';
+const everyDayAt7_30am = '00 30 7 * * *';
 
 function membershipsExpiringSoon() {
     const in90Days = moment().add(90, 'days').format('L');
