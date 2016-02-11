@@ -50,11 +50,20 @@
       width: 90%;
       margin-top: 5%;
     }
+    
+    tr {
+        border: none;
+    }
 
     th {
       background-color:$blue-darker;
       color:$white;
+      font-size: 14px;
       padding-left: 10px;
+      padding-right: 10px;  
+      padding-top:18px;
+      padding-bottom: 18px;
+      word-wrap: break-word;
     }
 
     tr:nth-child(even) {
@@ -70,6 +79,7 @@
       text-align: left;
       padding-left: 10px;
       word-wrap: break-word;
+      font-size: 12px;
     }
 
     .navigation {
@@ -83,6 +93,10 @@
 
     .unverified {
       color: $red;
+    }
+    
+    table a {
+        text-decoration: underline;
     }
 }
 
