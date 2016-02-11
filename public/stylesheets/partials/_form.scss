@@ -7,7 +7,7 @@
 
 -------------------------------------------------------------------------------------- */
 
-fieldset { /* This is the form background */
+fieldset { 
     @include fill-parent();
     @include clearfix();
     @include pad(0px 0px 32px 0px);
@@ -51,11 +51,9 @@ fieldset { /* This is the form background */
 }
 
 
-
-
 /* --------------------------------------------------------------------------------------
 
-   FORM TYPOGRAPHY 
+   FORM TYPOGRAPHY AND FORM INPUTS
 
 -------------------------------------------------------------------------------------- */
 
@@ -156,6 +154,11 @@ fieldset { /* This is the form background */
 }
 
 
+h3 {
+  margin: 0;
+}
+
+
 /* Red asterisks */
 
 .mandatoryField { 
@@ -169,179 +172,56 @@ fieldset { /* This is the form background */
 }
 
 
+input[type="radio"] {
+    margin-top: 15px;
+}
 
 
-/* --------------------------------------------------------------------------------------
 
-   CONFIRM PAGE
+/* Country and state dropdowns */
 
--------------------------------------------------------------------------------------- */
-
-
-.declaration { /* This class has been applied to both the declaration box and the check details box */
-    float: left;
+select {
     width: 100%;
-    background: $white;
-    border: 3px solid $blue;
-    padding: 20px 25px;
-    font-size:13px;
-    margin-bottom: 25px;
-    margin-top: 10px;
-
-    > * {
-      display: inline-block;
-    }
-
-    .declaration-text {
-      color:#0073AE;
-    }
-
-    img {
-      width: 48px;
-      float: left;
-    }
+    border-radius: 0 !important;
+    background-color: white;
+    height: 2.6em;
+    border-color: #4DA8D3;
+    font-size: 14px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+    transition: border-color 150ms ease;
     
     @include media($mobile) {
-        font-size: 13px;  
+        font-size:13px;
     } 
 }
 
+select::-ms-expand { /* for IE 11 */
+    display: none;
+}
 
-#checkbox_declaration {
-    margin-bottom:15px;
+select { /* Arrow image */
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    background-position: right 50%;
+    background-repeat: no-repeat;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAYAAABSgIzaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDZFNDEwNjlGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDZFNDEwNkFGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NkU0MTA2N0Y3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NkU0MTA2OEY3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuGsgwQAAAA5SURBVHjaYvz//z8DOYCJgUxAf42MQIzTk0D/M+KzkRGPoQSdykiKJrBGpOhgJFYTWNEIiEeAAAMAzNENEOH+do8AAAAASUVORK5CYII=);
+    padding: .5em;
+    padding-right: 1.5em;
+    border: 1px solid #4DA8D4;
+}
+
+
+input[type="text"], select {
+  max-width: 350px;
 }
 
 
 
 /* --------------------------------------------------------------------------------------
 
-   PAYMENT PAGE
+   MEMBERSHIP TYPE INFO BOX
 
 -------------------------------------------------------------------------------------- */
-
-
-#payments {
-    padding-top: 0 !important;
-}
-
-
-
-
-
-
-
-
-h3 {
-  margin: 0;
-}
-
-
-.clickable {
-    cursor: pointer;
-}
-
-
-.ReactModal__Overlay.ReactModal__Overlay--after-open {
-    z-index:900000;
-    overflow:scroll;
-}
-
-.ReactModal__Content.ReactModal__Content--after-open{
-        max-width: 360px; 
-        margin: 10px !important;
-        top: 0 !important;
-        left: 10px !important;
-        right: 10px !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        transform: none !important;
-    
-}
-
-Modal{
-    margin-top:30px;
-}
-
-.modal-header {
-    background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
-    max-width: 360px;
-    padding-top: 7px;
-    padding-left: 7px;
-    padding-right: 7px;
-     z-index:9000;
-    opacity: .99;
-    
-    
-    
-   
-
-    .close-button {
-         height: 24px;
-         float:left;
-         padding: 10px;
-    }
-
-    .box-header {
-        border-bottom: 1px solid #CCC;
-        padding-bottom: 19px;
-        text-align: center;
-        margin-top: -20px;
-
-        h2 {
-            color: #000;
-            font-size: 16px;
-            line-height: 20px;
-            margin-bottom: 0;
-            
-            @include media($mobile) {
-                font-size:17px;
-            }
-        }
-
-        .logo{
-            height: 65px;
-        }
-    }
-}
-
-.box-column {
-    background: #F5F5F5;
-    border-bottom: 1px solid #ECEBEB;
-    max-width: 360px;
-    padding: 0 15px;
-    text-align: center;
-
-  h3 {
-    color: #0073AE;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 22px;
-    margin-bottom: 0;
-    padding-top: 15px;
-      
-    @include media($mobile) {
-        font-size:14px;
-    }
-  }
-
-  h4 {
-    color: #008BC0;
-    font-size: 12px;
-    font-weight: normal;
-    line-height: 19px;
-    margin-bottom: 0;
-    padding-bottom: 15px;
-      
-    @include media($mobile) {
-        font-size:13px;
-    }
-  }
-}
-
-.info-box.payment{
-    margin-bottom: 15px;
-}
-
 
 .info-box span{
     @include media($mobile) {
@@ -368,7 +248,6 @@ Modal{
             font-size:13px;
         } 
     
-        
 
     h3 {
         @include pad(default 0px 0px 0px);
@@ -387,7 +266,7 @@ Modal{
             font-size:9px;
         } 
 
-        .circled {
+        .circled { /* Question mark symbol */
             border-radius: 100%;
             background: $green;
             text-align: center;
@@ -437,55 +316,168 @@ Modal{
     }
 }
 
-input[type="radio"] {
-    margin-top: 15px;
+
+/* --------------------------------------------------------------------------------------
+
+   MEMBERSHIP EXPLANATION MODAL
+
+-------------------------------------------------------------------------------------- */
+
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open { /* This prevents the progress bar from being above the modal. */
+    z-index:900000;
+    overflow:scroll;
 }
 
-select {
-    width: 100%;
-    border-radius: 0 !important;
-    background-color: white;
-    height: 2.6em;
-    border-color: #4DA8D3;
-    font-size: 14px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
-    transition: border-color 150ms ease;
+
+.ReactModal__Content.ReactModal__Content--after-open{  
+        max-width: 360px; 
+        margin: 10px !important;
+        top: 0 !important;
+        left: 10px !important;
+        right: 10px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        transform: none !important;    
+}
+
+
+Modal {
+    margin-top:30px;
+}
+
+.modal-header {
+    background: linear-gradient(-180deg, #F5F5F7, #E6E6E7);
+    max-width: 360px;
+    padding-top: 7px;
+    padding-left: 7px;
+    padding-right: 7px;
+     z-index:9000;
+    opacity: .99;
     
+    
+    .close-button {
+         height: 24px;
+         float:left;
+         padding: 10px;
+    }
+
+    .box-header {
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 19px;
+        text-align: center;
+        margin-top: -20px;
+
+        h2 {
+            color: #000;
+            font-size: 16px;
+            line-height: 20px;
+            margin-bottom: 0;
+            
+            @include media($mobile) {
+                font-size:17px;
+            }
+        }
+
+        .logo{
+            height: 65px;
+        }
+    }
+}
+
+
+.box-column {  /* This is the explanation row for each membership type. */
+    background: #F5F5F5;
+    border-bottom: 1px solid #ECEBEB;
+    max-width: 360px;
+    padding: 0 15px;
+    text-align: center;
+
+  h3 {
+    color: #0073AE;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 22px;
+    margin-bottom: 0;
+    padding-top: 15px;
+      
+    @include media($mobile) {
+        font-size:14px;
+    }
+  }
+
+  h4 {
+    color: #008BC0;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 19px;
+    margin-bottom: 0;
+    padding-bottom: 15px;
+      
     @include media($mobile) {
         font-size:13px;
-    } 
-}
-
-select::-ms-expand { /* for IE 11 */
-    display: none;
-}
-
-select{
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    background-position: right 50%;
-    background-repeat: no-repeat;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAYAAABSgIzaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDZFNDEwNjlGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDZFNDEwNkFGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NkU0MTA2N0Y3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NkU0MTA2OEY3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuGsgwQAAAA5SURBVHjaYvz//z8DOYCJgUxAf42MQIzTk0D/M+KzkRGPoQSdykiKJrBGpOhgJFYTWNEIiEeAAAMAzNENEOH+do8AAAAASUVORK5CYII=);
-    padding: .5em;
-    padding-right: 1.5em;
-    border: 1px solid #4DA8D4;
+    }
+  }
 }
 
 
-input[type="text"], select {
-  max-width: 350px;
+.clickable { /* Transforms cursor into a hand when you hover on the cross */
+    cursor: pointer;
 }
 
 
-.field-group input[type="radio"]{
-    border-color: #4DA8D3 !important;
+/* --------------------------------------------------------------------------------------
+
+   INFO BOX AT THE TOP OF THE PAGE
+
+-------------------------------------------------------------------------------------- */
+
+
+.reminder {
+    background: $white;
+    border: 3px solid $blue;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+
+    > * {
+        display: inline-block;
+    }
+
+    .reminder-text {
+        height: 45px;
+        padding-left: 10px;
+        width: 80%;
+        font-size: 13px;
+        vertical-align: middle;
+        display: table-cell;
+    }
+
+    img {
+        width: 48px;
+        float: left;
+        
+        @include media($mobile) {
+            display:none;
+        }
+    }
 }
+
+
+
+
+/* --------------------------------------------------------------------------------------
+
+   TOP ERROR VALIDATION BOX
+
+-------------------------------------------------------------------------------------- */
 
 
 hr {
     border-bottom: 1px solid $blue;
     margin: 0;
 }
+
 
 .validationErrors {
     background: $white;
@@ -527,61 +519,35 @@ hr {
   }
 }
 
-.reminder {
-    background: $white;
-    border: 3px solid $blue;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    margin-top: 25px;
 
-    > * {
-        display: inline-block;
-    }
 
-    .reminder-text {
-        height: 45px;
-        padding-left: 10px;
-        width: 80%;
-        font-size: 13px;
-        vertical-align: middle;
-        display: table-cell;
-    }
+/* --------------------------------------------------------------------------------------
 
-    img {
-        width: 48px;
-        float: left;
-        
-        @include media($mobile) {
-            display:none;
-        }
-    }
+   INLINE VALIDATION
+
+-------------------------------------------------------------------------------------- */
+
+.invalid {
+  > input {
+    border-color: #cc4756 !important;
+  }
+  > select {
+    border-color: #cc4756 !important;
+  }
+  .errors {
+    color: #CC4756;
+    font-size: 11px;
+    font-style: italic;
+  }
 }
 
-.contribution-amount {
-    
-    .currency {
-        background: $blue-darker;
-        color: $white;
-        float: left;
-        font-weight: bold;
-        height: 40px;
-        line-height: 40px;
-        padding-left: 3px;
-        vertical-align: middle;
-        width: 50px;
-    }
 
-    input[type="text"] {
-        border-bottom-color: $blue;
-        border-radius: 0;
-        border-right-color: $blue;
-        border-top-color: $blue;
-        margin: 0;
-        vertical-align: middle;
-        width: 120px;
-        margin-bottom: 30px;
-    }
-}
+
+/* --------------------------------------------------------------------------------------
+
+   BOTTOM NAVIGATION
+
+-------------------------------------------------------------------------------------- */
 
 .navigation {
     @include span-columns(12);
@@ -619,20 +585,99 @@ hr {
 }
 
 
-.invalid {
-  // color: #CC4756;
-  > input {
-    border-color: #cc4756 !important;
-  }
-  > select {
-    border-color: #cc4756 !important;
-  }
-  .errors {
-    color: #CC4756;
-    font-size: 11px;
-    font-style: italic;
-  }
+
+
+/* --------------------------------------------------------------------------------------
+
+   CONFIRM PAGE
+
+-------------------------------------------------------------------------------------- */
+
+.declaration { /* This class has been applied to both the declaration box and the check details box */
+    float: left;
+    width: 100%;
+    background: $white;
+    border: 3px solid $blue;
+    padding: 20px 25px;
+    font-size:13px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+
+    > * {
+      display: inline-block;
+    }
+
+    .declaration-text {
+      color:#0073AE;
+    }
+
+    img {
+      width: 48px;
+      float: left;
+    }
+    
+    @include media($mobile) {
+        font-size: 13px;  
+    } 
 }
+
+
+#checkbox_declaration {
+    margin-bottom:15px;
+}
+
+
+
+/* --------------------------------------------------------------------------------------
+
+   PAYMENT PAGE
+
+-------------------------------------------------------------------------------------- */
+
+
+#payments {
+    padding-top: 0 !important;
+}
+
+
+.info-box.payment{
+    margin-bottom: 15px;
+}
+
+
+.contribution-amount {
+    
+    .currency {
+        background: $blue-darker;
+        color: $white;
+        float: left;
+        font-weight: bold;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 3px;
+        vertical-align: middle;
+        width: 50px;
+    }
+
+    input[type="text"] {
+        border-bottom-color: $blue;
+        border-radius: 0;
+        border-right-color: $blue;
+        border-top-color: $blue;
+        margin: 0;
+        vertical-align: middle;
+        width: 120px;
+        margin-bottom: 30px;
+    }
+}
+
+
+
+/* --------------------------------------------------------------------------------------
+
+   PRIVACY POLICY LINK
+
+-------------------------------------------------------------------------------------- */
 
 .footer a {
     color: #0073ae;
@@ -643,9 +688,11 @@ hr {
     }
 }
 
+
 .footer a:hover {
     color: #008bc0;
 }
+
 
 .form-container {
     @include media($mobile) {
