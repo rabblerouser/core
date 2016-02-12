@@ -468,4 +468,45 @@ describe('invoiceService', () => {
             });
         });
     });
+
+    describe('acceptPayment', () => {
+        let reference ='INT8';
+
+        it('Should retrieve the unconfirmed payments', (done) => {
+            updateInvoicePromise.resolve([1]);
+
+            let promise = invoiceService.acceptPayment(reference);
+
+            promise.then(() => {
+                expect(updateInvoiceStub).toHaveBeenCalled();
+            }).then(done, done.fail)
+                .catch(done.fail);
+        });
+
+        it('Should throw an error if update fails', (done) => {
+            updateInvoicePromise.reject('This should not be shown to user');
+
+            let promise = invoiceService.acceptPayment(reference);
+
+            promise.then(() => {
+                done.fail('Should not go into then');
+            }).catch((err) => {
+                expect(err).toEqual('This should not be shown to user');
+                done();
+            });
+        });
+
+        it('Should throw an error if no rows updated', (done) => {
+            updateInvoicePromise.resolve([0]);
+
+            let promise = invoiceService.acceptPayment(reference);
+
+            promise.then(() => {
+                done.fail('Should not go into then');
+            }).catch((err) => {
+                expect(err).toEqual('Failed to accept INT8 in the database');
+                done();
+            });
+        });
+    });
 });
