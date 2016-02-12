@@ -19,7 +19,7 @@ describe("User Flow", () => {
 
     let hasErrors = (res) => {
         if (!('errors' in res.body)) throw new Error("missing errors");
-        if (res.body.errors[0].name !== 'SequelizeUniqueConstraintError') throw new Error("Wrong error message!");
+        if (res.body.errors[0] !== 'Create Member failed') throw new Error("Wrong error message!");
     };
 
     let invoice = {

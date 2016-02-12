@@ -17,6 +17,13 @@ function save(member) {
   return Member.create.bind(Member)(member);
 }
 
+function handleError(message) {
+    return function(error) {
+        logger.logError(error, message);
+        return models.Sequelize.Promise.reject(message);
+    };
+}
+
 function setupMember(newMember) {
   return function (residentialAddress, postalAddress) {
     return {
@@ -55,7 +62,8 @@ let createMember = (newMember) => {
           .tap(logEvent)
           .then((savedMember) => {
             return  savedMember.dataValues;
-          });
+          })
+          .catch(handleError('Create Member failed'));
 };
 
 var updateMember = (member) => {
@@ -121,13 +129,6 @@ let transformMember = member => {
 function transformMembers(adapter) {
     return function (memberQueryResult) {
         return memberQueryResult.map(adapter);
-    };
-}
-
-function handleError(message) {
-    return function(error) {
-        logger.logError(error, message);
-        return models.Sequelize.Promise.reject(message);
     };
 }
 

@@ -184,18 +184,19 @@ describe('memberService', () => {
             });
         });
 
-        describe('an error when saving the residential address to the database', () => {
-            it('responds with a server error', (done) => {
-                let errorMessage = 'Yes, we have no bananas.';
-                residentialAddressPromise.reject(errorMessage);
+        describe('things went bad', () => {
+            it('handles db errors when saving the residential address', (done) => {
+                residentialAddressPromise.reject('Some DB ERROR the user should not see.');
 
-                let promise = memberService.createMember(newMember);
-
-                promise.finally(() => {
+                memberService.createMember(newMember)
+                .then(() => {
+                    done.fail('createMember should not have succeded. It should have failed.');
+                })
+                .catch((error) => {
                     expect(models.Member.create).not.toHaveBeenCalled();
-                    expect(promise.isRejected()).toBe(true);
-                    done();
-                });
+                    expect(error).toEqual('Create Member failed');
+                })
+                .then(done, done.fail);
             });
         });
 
