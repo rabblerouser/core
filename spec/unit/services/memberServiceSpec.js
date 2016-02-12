@@ -198,37 +198,40 @@ describe('memberService', () => {
                 })
                 .then(done, done.fail);
             });
-        });
 
-        describe('an error when saving the postal address to the databse', () => {
-            it('responds with a server error', (done) => {
-                let errorMessage = 'Yes, we have no horses.';
+            it('handles db errors when saving the postal address', (done) => {
                 residentialAddressPromise.resolve(residentialAddressFromDb);
-                postalAddressPromise.reject(errorMessage);
+                postalAddressPromise.reject('Some DB ERROR the user should not see.');
 
-                let promise = memberService.createMember(newMember);
-
-                promise.finally(() => {
+                memberService.createMember(newMember)
+                .then(() => {
+                    done.fail('createMember should not have succeded. It should have failed.');
+                })
+                .catch((error) => {
                     expect(models.Member.create).not.toHaveBeenCalled();
-                    expect(promise.isRejected()).toBe(true);
-                    done();
-                });
+                    expect(error).toEqual('Create Member failed');
+                })
+                .then(done, done.fail);
             });
+
+            it('handles db erros when savinf the member to the database');
         });
 
         describe('an error when saving the member to the database', () => {
             it('rejects the promise', (done) => {
-                let errorMessage = 'Seriously, we still don\'t have any damn bananas.';
                 residentialAddressPromise.resolve(residentialAddressFromDb);
                 postalAddressPromise.resolve(postalAddressFromDb);
-                memberPromise.reject(errorMessage);
+                memberPromise.reject('Some DB ERROR the user should not see.');
 
-                let promise = memberService.createMember(newMember);
-
-                promise.finally(() => {
-                    expect(promise.isRejected()).toBe(true);
-                    done();
-                });
+                memberService.createMember(newMember)
+                .then(() => {
+                    done.fail('createMember should not have succeded. It should have failed.');
+                })
+                .catch((error) => {
+                    expect(models.Member.create).toHaveBeenCalled();
+                    expect(error).toEqual('Create Member failed');
+                })
+                .then(done, done.fail);
             });
         });
     });
