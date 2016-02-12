@@ -49,7 +49,7 @@ var updateInvoiceHandler = (req, res) => {
 function acceptPayment(req, res) {
     let reference = req.params.reference;
 
-    return invoiceService.confirmPayment(reference)
+    return invoiceService.acceptPayment(reference)
         .tap(() => {
             logger.logInfoEvent(['invoice-payment-accepted'], 'With reference: ' + reference);
         })
@@ -62,5 +62,5 @@ function acceptPayment(req, res) {
 
 module.exports = {
     updateInvoiceHandler: updateInvoiceHandler,
-    confirmPayment: acceptPayment
+    acceptPayment: acceptPayment
 };

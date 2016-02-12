@@ -15,7 +15,7 @@ export default class Treasurer extends Component {
     loadInvoices() {
         $.ajax({
             type: 'GET',
-            url: '/invoices/unconfirmed',
+            url: '/invoices/unaccepted',
             dataType: 'json',
             success: function (value) {
                 this.setState({invoices: value.members});
@@ -26,7 +26,7 @@ export default class Treasurer extends Component {
     acceptPayment(invoice) {
         $.ajax({
             type: 'POST',
-            url: '/invoices/unconfirmed/' + invoice.reference,
+            url: '/invoices/unaccepted/' + invoice.reference,
             dataType: 'json',
             success: function () {
                 let newInvoices = this.state.invoices;

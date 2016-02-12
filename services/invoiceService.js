@@ -178,7 +178,7 @@ function unconfirmedPaymentList() {
         .catch(handleError('An error has occurred while fetching unconfirmed members'));
 }
 
-function confirmPayment(reference) {
+function acceptPayment(reference) {
 
     function checkResultOfUpdate(value) {
         if (!value || value[0] !== 1) {
@@ -209,5 +209,5 @@ module.exports = {
     createEmptyInvoice: createEmptyInvoice,
     paypalChargeSuccess: paypalChargeSuccess,
     unconfirmedPaymentList: unconfirmedPaymentList,
-    confirmPayment: confirmPayment
+    acceptPayment: acceptPayment
 };

@@ -44,8 +44,8 @@ router.post('/renew', membersController.renewMemberHandler);
 
 router.post('/payments/paypal', paypalHandler.handleIpn);
 router.post('/invoices/update', invoicesController.updateInvoiceHandler);
-router.post('/invoices/unconfirmed/:reference', requireAuth, invoicesController.confirmPayment);
-router.get('/invoices/unconfirmed', requireAuth, adminController.unconfirmedPaymentsMembersList);
+router.post('/invoices/unaccepted/:reference', requireAuth, invoicesController.acceptPayment);
+router.get('/invoices/unaccepted', requireAuth, adminController.unconfirmedPaymentsMembersList);
 
 router.post('/login',
     passport.authenticate('local'), function (req, res) {

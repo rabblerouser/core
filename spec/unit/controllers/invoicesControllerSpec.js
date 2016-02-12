@@ -115,4 +115,17 @@ describe("invoicesController", () => {
             });
         });
     });
+
+    describe('acceptPayment',() => {
+        let acceptInvoiceStub, acceptInvoicePromise;
+        beforeEach(() => {
+            acceptInvoicePromise = Q.defer();
+            acceptInvoiceStub = sinon.stub(invoiceService, 'acceptPayment');
+            acceptInvoiceStub.returns(acceptInvoicePromise.promise);
+        });
+
+        afterEach(() => {
+            acceptInvoiceStub.restore();
+        });
+    });
 });
