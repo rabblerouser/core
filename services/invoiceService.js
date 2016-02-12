@@ -130,8 +130,6 @@ var paypalChargeSuccess = (customInvoiceId, paypalId) => {
     });
 };
 
-
-
 let transformMemberWithInvoice = invoice => {
     let newInvoiceRoot = invoice.dataValues;
     let newMemberRoot = invoice.dataValues.member.dataValues;
@@ -145,6 +143,13 @@ function transformMembersWithInvoice(adapter) {
 }
 
 function unconfirmedPaymentList() {
+    function handleError(message) {
+        return function(error) {
+            logger.logError(error, message);
+            return models.Sequelize.Promise.reject(message);
+        };
+    }
+
     let query = {
         include: [{
             model: Member,

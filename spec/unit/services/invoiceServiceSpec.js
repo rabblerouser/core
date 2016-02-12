@@ -406,4 +406,57 @@ describe('invoiceService', () => {
             }).then(done, done.fail);
         });
       });
+
+    describe('unconfirmedPaymentList', () => {
+        let invoiceFindAllStub, findAllPromise, unconfirmedPaymentValue;
+
+        beforeEach(() => {
+            invoiceFindAllStub = sinon.stub(models.Invoice, 'findAll');
+            findAllPromise = Q.defer();
+            invoiceFindAllStub.returns(findAllPromise.promise);
+            unconfirmedPaymentValue = [
+                {
+                    dataValues: {
+                        reference: 'INT34',
+                        paymentType: 'deposit',
+                        totalAmountInCents: '2000',
+                        paymentStatus: 'Pending',
+                        member: {
+                            dataValues: {
+                                firstName: 'Gotta catch em all',
+                                lastName: 'Pokemans Pokewomans Pokepeople'
+                            }
+                        }
+                    }
+                }];
+        });
+
+        afterEach(() => {
+            invoiceFindAllStub.restore();
+        });
+
+        it('Should retrieve the unconfirmed payments', (done) => {
+            findAllPromise.resolve(unconfirmedPaymentValue);
+
+            let promise = invoiceService.unconfirmedPaymentList();
+
+            promise.then(() => {
+                expect(invoiceFindAllStub).toHaveBeenCalled();
+            }).then(done, done.fail)
+                .catch(done.fail);
+        });
+
+        it('Should throw an error if findAll fails', (done) => {
+            findAllPromise.reject('Could not connect to database');
+
+            let promise = invoiceService.unconfirmedPaymentList();
+
+            promise.then(() => {
+                done.fail('Should not go into then');
+            }).catch((err) => {
+                expect(err).toEqual('An error has occurred while fetching unconfirmed members');
+                done();
+            });
+        });
+    });
 });
