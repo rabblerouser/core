@@ -85,7 +85,7 @@ function sendResponseToUser(res) {
 function handleError(res) {
   return function(error) {
     logger.logError('membersController', error);
-    res.status(500).json({errors: [error]});
+    res.sendStatus(500);
   };
 }
 

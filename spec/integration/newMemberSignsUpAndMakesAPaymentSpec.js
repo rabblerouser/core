@@ -17,11 +17,6 @@ describe("User Flow", () => {
         createdInvoiceId = res.body.invoiceId;
     };
 
-    let hasErrors = (res) => {
-        if (!('errors' in res.body)) throw new Error("missing errors");
-        if (res.body.errors[0] !== 'Create Member failed') throw new Error("Wrong error message!");
-    };
-
     let invoice = {
         "totalAmount": "88.88",
         "paymentType": "deposit",
@@ -44,8 +39,7 @@ describe("User Flow", () => {
             .set("Content-Type", "application/json")
             .set("Accept", "application/json")
             .send(member)
-            .expect(500)
-            .expect(hasErrors);
+            .expect(500);
     };
 
     let successfullyCreateInvoiceShouldRespondWithA200 = () => {

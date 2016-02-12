@@ -21,7 +21,8 @@ export default class NewMemberForm extends Component {
         this.getForm = this.getForm.bind(this);
 
         let startingState = this.checkIfPaypalFinishStep() ? 5 : 1;
-        this.state = { step: (this.props.initialState === undefined ? startingState : this.props.initialState) };
+        this.state = { errors: [],
+                       step: (this.props.initialState === undefined ? startingState : this.props.initialState) };
         this.formValues = {
                             membershipType: '',
                             isEnrolled: '',
@@ -82,6 +83,10 @@ export default class NewMemberForm extends Component {
           success: function(value) {
               this.invoiceId = value.invoiceId;
               this.nextStep();
+          }.bind(this),
+          error: function () {
+              this.setState({errors: ['Sorry, we could not register you this time. Please try again, or ' +
+              'contact us at membership@pirateparty.org.au.']});
           }.bind(this)
       });
     }
@@ -103,7 +108,8 @@ export default class NewMemberForm extends Component {
           case 3:
               return <ConfirmDetails formValues={this.formValues}
                                     postAndContinue={this.postAndContinue}
-                                    previousStep={this.previousStep} />;
+                                    previousStep={this.previousStep}
+                                    errors={this.state.errors}/>;
           case 4:
               return <Payment email={this.formValues.email}
                               invoiceId={this.invoiceId}

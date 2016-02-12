@@ -10,8 +10,10 @@ export default class ConfirmDetails extends Component {
         this.submitMember = this.submitMember.bind(this);
         this.getDeclaration = this.getDeclaration.bind(this);
         this.getCheckboxText = this.getCheckboxText.bind(this);
+        this.isValidationError = this.isValidationError.bind(this);
         this.state = {
-            errors: []
+            errors: [],
+            errorTitle: ""
         };
     }
 
@@ -23,12 +25,21 @@ export default class ConfirmDetails extends Component {
             + addressObj.postcode;
     }
 
+    componentWillReceiveProps(props) {
+        this.setState({ errors: props.errors,
+                        errorTitle: props.errors ? "Error:" : ""});
+    }
+
+    isValidationError() {
+        return this.state.errors.length > 0 && !this.refs.declarationConfirmation.checked;
+    }
+
     submitMember() {
         if(this.refs.declarationConfirmation.checked) {
             this.props.postAndContinue(this.props.formValues);
         }
         else {
-            this.setState({errors:["Please click the declaration checkbox and check that your details are correct before continuing."]});
+            this.setState({errorTitle: "Please check the following fields:", errors:["Please click the declaration checkbox and check that your details are correct before continuing."]});
         }
     }
 
@@ -54,7 +65,8 @@ export default class ConfirmDetails extends Component {
             <div className="form-body">
                 <Errors invalidFields={this.state.errors}
                         scrollToError={true}
-                        validationErrorText="Please check the following fields:"/>
+                        errorTitle={this.state.errorTitle}/>
+
                 <div className="heading">
                     <h2 className="sub-title">Declaration </h2>
                      <div className="sub-description"> Read the following and click the checkbox below.</div>
@@ -62,7 +74,7 @@ export default class ConfirmDetails extends Component {
                 <div className="declaration">
                   {this.getDeclaration()}
                 </div>
-                <label className={this.state.errors.length > 0 ? "invalid" : ""} id="checkbox_declaration">
+                <label className={this.isValidationError() ? "invalid" : ""} id="checkbox_declaration">
                     <input type="checkbox" name="circumstance" ref="declarationConfirmation"/>
                          {this.getCheckboxText()}<span className="mandatoryField">* </span>
                 </label>

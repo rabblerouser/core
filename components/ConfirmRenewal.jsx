@@ -39,7 +39,7 @@ export default class ConfirmDetails extends Component {
             <div className="form-body">
                 <Errors invalidFields={this.state.errors}
                         scrollToError={true}
-                        validationErrorText="Please check the following fields:"/>
+                        errorTitle="Please check the following fields:"/>
 
 
                 <div className="heading">
@@ -83,7 +83,8 @@ export default class ConfirmDetails extends Component {
                         <b> Email: </b> {this.props.user.email} <br/>
                         <b> Phone: </b> {this.props.user.primaryPhoneNumber} <br/>
                         <br/>
-                        <b> If you need to update your details, please contact the Pirate Party at <u>membership@pirateparty.org.au</u>
+                        <b> If you need to update your details, please
+                            <a href="https://pirateparty.org.au/contact/">contact the Pirate Party</a>
                             after completing this form. </b>
                     </div>
                 </div>

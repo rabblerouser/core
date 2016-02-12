@@ -146,7 +146,7 @@ export default class Payment extends Component {
             <div className="form-body">
                 <Errors invalidFields={this.state.errorMessages}
                         scrollToError={this.state.scrollToError}
-                        validationErrorText="Please check the following fields:"/>
+                        errorTitle="Please check the following fields:"/>
                 <div className="reminder">
                     <img src="/images/reminder.svg"/>
                     <div className="reminder-text">

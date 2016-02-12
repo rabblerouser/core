@@ -42,7 +42,7 @@ export default class Treasurer extends Component {
     render() {
         return (
             <div className='treasurer-page'>
-                <Errors validationErrorText='Error:'
+                <Errors errorTitle='Error:'
                         invalidFields={this.state.error}
                         scrollToError={true}/>
                 <table className='admin-table'>
