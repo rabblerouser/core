@@ -10,11 +10,9 @@ export default class StripePayment extends Component {
         this.stripeDisabled = false;
         this.stripeHandler = null;
         this.loadStripe();
-
         this.loadStripe = this.loadStripe.bind(this);
         this.showStripeDialog = this.showStripeDialog.bind(this);
         this.render = this.render.bind(this);
-
     }
 
     showStripeDialog() {
@@ -22,7 +20,10 @@ export default class StripePayment extends Component {
           name: 'Pirate Party',
           description: 'Membership application',
           //The server expects to be sent in cents, however users expect in dollars
-          amount: Math.floor(parseFloat(this.props.amount)) * 100
+          amount: Math.floor(parseFloat(this.props.amount)) * 100,
+          closed: () => {
+              this.props.enableContinue();
+          }
         });
       };
 

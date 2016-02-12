@@ -21,6 +21,7 @@ export default class Payment extends Component {
         this.updateErrorMessage = this.updateErrorMessage.bind(this);
         this.isValidationError = this.isValidationError.bind(this);
         this.validationErrorClass = this.validationErrorClass.bind(this);
+        this.enableContinue = this.enableContinue.bind(this);
         this.state = { amount : '50', invalidFields: [], errorMessages: [],
             paymentType: '', scrollToError: true, continueButtonDisabled: false };
     }
@@ -139,6 +140,10 @@ export default class Payment extends Component {
         }
     }
 
+    enableContinue() {
+        this.setState({continueButtonDisabled: false})
+    }
+
     render() {
         return (<fieldset>
             <h1 className="form-title">Pay What You Want</h1>
@@ -168,7 +173,8 @@ export default class Payment extends Component {
                                     email={this.props.email}
                                     amount={this.state.amount}
                                     invoiceId={this.props.invoiceId}
-                                    nextStep={this.props.nextStep}/>
+                                    nextStep={this.props.nextStep}
+                                    enableContinue={this.enableContinue} />
                     <label>
                         <input type="radio" name="paymentType" value="deposit" onChange={this.handlePaymentTypeChanged}/>Direct Deposit
                     </label>
