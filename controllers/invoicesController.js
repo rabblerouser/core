@@ -13,7 +13,7 @@ var updateInvoiceHandler = (req, res) => {
         stripeToken: req.body.stripeToken,
         invoiceId: req.body.invoiceId
     };
-    let validationErrors
+    let validationErrors;
     if(req.body.paymentType === 'noContribute'){
         validationErrors = paymentValidator.isValidNoContribute(newInvoice);
     } else {
@@ -46,6 +46,11 @@ function handleError(res) {
     }
 }
 
+function confirmPayment(req, res, id) {
+    return res.status(200).json({});
+}
+
 module.exports = {
-    updateInvoiceHandler: updateInvoiceHandler
+    updateInvoiceHandler: updateInvoiceHandler,
+    confirmPayment: confirmPayment
 };

@@ -408,7 +408,7 @@ describe('invoiceService', () => {
       });
 
     describe('unconfirmedPaymentList', () => {
-        let invoiceFindAllStub, findAllPromise, unconfirmedPaymentValue;
+        let invoiceFindAllStub, findAllPromise, unconfirmedPaymentValue, expectedOutput;
 
         beforeEach(() => {
             invoiceFindAllStub = sinon.stub(models.Invoice, 'findAll');
@@ -429,6 +429,14 @@ describe('invoiceService', () => {
                         }
                     }
                 }];
+            expectedOutput = [{
+                firstName: 'Gotta catch em all',
+                lastName: 'Pokemans Pokewomans Pokepeople',
+                reference: 'INT34',
+                paymentType: 'deposit',
+                totalAmountInCents: '2000',
+                paymentStatus: 'Pending'
+            }];
         });
 
         afterEach(() => {
@@ -440,8 +448,9 @@ describe('invoiceService', () => {
 
             let promise = invoiceService.unconfirmedPaymentList();
 
-            promise.then(() => {
+            promise.then((value) => {
                 expect(invoiceFindAllStub).toHaveBeenCalled();
+                expect(value).toEqual(expectedOutput);
             }).then(done, done.fail)
                 .catch(done.fail);
         });

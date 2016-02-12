@@ -133,6 +133,7 @@ var paypalChargeSuccess = (customInvoiceId, paypalId) => {
 let transformMemberWithInvoice = invoice => {
     let newInvoiceRoot = invoice.dataValues;
     let newMemberRoot = invoice.dataValues.member.dataValues;
+    delete newInvoiceRoot.member;
     return Object.assign({}, newMemberRoot, newInvoiceRoot);
 };
 

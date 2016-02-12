@@ -28,23 +28,25 @@ router.get('/members/new', function(req, res) {
     res.render('members/new', { title: 'New Member' });
 });
 
-router.post('/payments/paypal', paypalHandler.handleIpn);
-
-
 router.post('/members', membersController.newMemberHandler);
-router.post('/renew', membersController.renewMemberHandler);
+
+
 router.get('/members/verify/:hash', membersController.verify);
 router.get('/members/renew/:hash', membersController.renew);
+router.get('/members', requireAuth, adminController.membersList);
 
+router.post('/members/update', membersController.updateMemberHandler);
 router.get('/verified', function(req, res) {
     res.render('account-verified', { title: 'Pirate Party Membership' });
 });
 
-router.post('/members/update', membersController.updateMemberHandler);
-router.post('/invoices/update', invoicesController.updateInvoiceHandler);
+router.post('/renew', membersController.renewMemberHandler);
 
-router.get('/members/unconfirmed', requireAuth, adminController.unconfirmedPaymentsMembersList);
-router.get('/members', requireAuth, adminController.membersList);
+router.post('/payments/paypal', paypalHandler.handleIpn);
+router.post('/invoices/update', invoicesController.updateInvoiceHandler);
+router.post('/invoices/unconfirmed/:reference', requireAuth, invoicesController.confirmPayment);
+
+router.get('/invoices/unconfirmed', requireAuth, adminController.unconfirmedPaymentsMembersList);
 
 router.post('/login',
   passport.authenticate('local'), function(req, res) {
