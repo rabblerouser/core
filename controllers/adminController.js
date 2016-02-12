@@ -43,6 +43,5 @@ function unconfirmedPaymentsMembersList(req, res) {
 
 module.exports = {
     membersList: membersList,
-    unconfirmedPaymentsMembersList: unconfirmedPaymentsMembersList,
-    confirmPayment: confirmPayment
+    unconfirmedPaymentsMembersList: unconfirmedPaymentsMembersList
 };

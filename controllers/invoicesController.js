@@ -47,6 +47,7 @@ function handleError(res) {
 }
 
 function confirmPayment(req, res, id) {
+    console.log('THIS IS THE ID', id);
     return res.status(200).json({});
 }
 
