@@ -21,22 +21,26 @@ function findInvoice(invoiceId) {
 }
 
 function updateInvoice(updateFields) {
-    return function(invoiceId) {
-        return Invoice.update(updateFields, { where: {id: invoiceId} });
+    return function (invoiceId) {
+        return Invoice.update(updateFields, {where: {id: invoiceId}});
     };
 }
 
 function updateInvoiceReference(membershipType) {
-    return function(data) {
+    return function (data) {
         let invoiceId = data.dataValues.id;
         let updateFields = {
-            reference: membershipType.substring(0,3).toUpperCase() + invoiceId
+            reference: membershipType.substring(0, 3).toUpperCase() + invoiceId
         };
 
         return findInvoice(invoiceId)
             .then(updateInvoice(updateFields))
-            .tap(()=>{logger.logUpdateInvoiceEvent(invoiceId, updateFields);})
-            .then(()=>{return {id: invoiceId};});
+            .tap(()=> {
+                logger.logUpdateInvoiceEvent(invoiceId, updateFields);
+            })
+            .then(()=> {
+                return {id: invoiceId};
+            });
     };
 }
 
@@ -47,12 +51,12 @@ let handleError = (error) => {
 
 var createEmptyInvoice = (memberEmail, membershipType) => {
     return Q({
-          memberEmail: memberEmail,
-          totalAmountInCents: 0,
-          paymentDate: moment().format('L'),
-          paymentType: '',
-          reference: ''
-        })
+        memberEmail: memberEmail,
+        totalAmountInCents: 0,
+        paymentDate: moment().format('L'),
+        paymentType: '',
+        reference: ''
+    })
         .then(Invoice.create.bind(Invoice))
         .tap(logger.logCreateEmptyInvoiceEvent)
         .then(updateInvoiceReference(membershipType))
@@ -64,8 +68,8 @@ function chargeCard(stripeToken, totalAmount) {
         .tap(() => {
             logger.logNewChargeEvent(stripeToken);
         })
-        .catch((error)=>{
-            logger.logNewFailedCharge(stripeToken,error);
+        .catch((error)=> {
+            logger.logNewFailedCharge(stripeToken, error);
             throw new ChargeCardError('Failed to charge card!');
         });
 }
@@ -84,11 +88,13 @@ function updatePaymentForInvoice(invoice) {
 
     return findInvoice(invoice.invoiceId)
         .then(updateInvoice(updateFields))
-        .tap(()=>{logger.logUpdateInvoiceEvent(invoice.invoiceId, updateFields);});
+        .tap(()=> {
+            logger.logUpdateInvoiceEvent(invoice.invoiceId, updateFields);
+        });
 }
 
 function updateStripePaymentForInvoice(invoice) {
-    return function(charge) {
+    return function (charge) {
         invoice.paymentStatus = 'PAID';
         invoice.transactionId = charge.id;
         return updatePaymentForInvoice(invoice);
@@ -106,7 +112,7 @@ var payForInvoice = (invoice) => {
 
 var paypalChargeSuccess = (customInvoiceId, paypalId) => {
     function checkResultOfUpdate(value) {
-        if(!value || value[0] !== 1) {
+        if (!value || value[0] !== 1) {
             logger.logNewFailedPaypalUpdate(customInvoiceId, paypalId);
             return Q.reject('Failed to update ' + customInvoiceId + ' in the database');
         }
@@ -118,13 +124,13 @@ var paypalChargeSuccess = (customInvoiceId, paypalId) => {
 
     return models.sequelize.transaction(function (t) {
         return Invoice.update({
-          transactionId: paypalId,
-          'paymentStatus': 'PAID'
-        },{
-          where: {id : customInvoiceId}
-        }, {transaction: t})
-        .tap(logUpdate)
-        .then(checkResultOfUpdate);
+                transactionId: paypalId,
+                'paymentStatus': 'PAID'
+            }, {
+                where: {id: customInvoiceId}
+            }, {transaction: t})
+            .tap(logUpdate)
+            .then(checkResultOfUpdate);
     }).catch((err) => {
         return Q.reject(err);
     });
@@ -145,7 +151,7 @@ function transformMembersWithInvoice(adapter) {
 
 function unconfirmedPaymentList() {
     function handleError(message) {
-        return function(error) {
+        return function (error) {
             logger.logError(error, message);
             return models.Sequelize.Promise.reject(message);
         };
@@ -172,9 +178,36 @@ function unconfirmedPaymentList() {
         .catch(handleError('An error has occurred while fetching unconfirmed members'));
 }
 
+function confirmPayment(reference) {
+
+    function checkResultOfUpdate(value) {
+        if (!value || value[0] !== 1) {
+            logger.logError('[failed-to-accept-invoice]', '');
+            return Q.reject('Failed to accept ' + reference + ' in the database');
+        }
+    }
+
+    function logUpdate() {
+        logger.logInfoEvent('[updating-invoice-status]', 'Updating invoice with reference: ' + reference);
+    }
+
+    return models.sequelize.transaction(function (t) {
+        return Invoice.update({
+                'paymentStatus': 'PAID'
+            }, {
+                where: {reference: reference}
+            }, {transaction: t})
+            .tap(logUpdate)
+            .then(checkResultOfUpdate);
+    }).catch((err) => {
+        return Q.reject(err);
+    });
+}
+
 module.exports = {
     payForInvoice: payForInvoice,
     createEmptyInvoice: createEmptyInvoice,
     paypalChargeSuccess: paypalChargeSuccess,
-    unconfirmedPaymentList: unconfirmedPaymentList
+    unconfirmedPaymentList: unconfirmedPaymentList,
+    confirmPayment: confirmPayment
 };

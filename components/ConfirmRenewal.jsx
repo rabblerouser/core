@@ -38,7 +38,8 @@ export default class ConfirmDetails extends Component {
 
             <div className="form-body">
                 <Errors invalidFields={this.state.errors}
-                        scrollToError={true}/>
+                        scrollToError={true}
+                        validationErrorText="Please check the following fields:"/>
 
 
                 <div className="heading">

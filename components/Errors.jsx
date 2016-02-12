@@ -21,7 +21,7 @@ export default class Errors extends Component {
     render() {
         return (<div className={this.getClass(this.props.invalidFields)}>
                  <div className="validationErrors-text">
-                    <span>Please check the following fields:</span>
+                    <span>{this.props.validationErrorText}</span>
                     <ul className="errors">
                        {this.props.invalidFields.map(function(field){
                            return <li>{field}</li>;

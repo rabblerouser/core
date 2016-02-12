@@ -101,7 +101,8 @@ export default class MembershipType extends Component {
         return (<fieldset>
             <h1 className="form-title">Membership Type</h1>
             <div className="form-body">
-                <Errors invalidFields={this.state.errors}/>
+                <Errors invalidFields={this.state.errors}
+                        validationErrorText="Please check the following fields:"/>
                 <div className="heading">
                     <h2 className="sub-title">What is your current situation?</h2>
                     <div className="sub-description">We will use your answers to determine which Pirate Party membership suits you best.</div>

@@ -146,7 +146,8 @@ export default class Details extends Component {
 
                 <div className="form-body">
                     <Errors invalidFields={this.state.errorNames}
-                            scrollToError={this.state.scrollToError}/>
+                            scrollToError={this.state.scrollToError}
+                            validationErrorText="Please check the following fields:"/>
 
                     <div className="reminder">
                         <img src="/images/reminder.svg"></img>
