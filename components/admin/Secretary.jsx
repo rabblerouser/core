@@ -23,7 +23,7 @@ export default class Secretary extends Component {
 
     render() {
         return(
-            <table className="secretary-table">
+            <table className="admin-table">
                 <thead>
                     <tr>
                         <th>First Name</th>
@@ -33,7 +33,6 @@ export default class Secretary extends Component {
                         <th>Country</th>
                         <th>Membership</th>
                         <th>Status</th>
-                        <th>Full Info</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,7 +47,6 @@ export default class Secretary extends Component {
                             <td className='membership-type'>{member.membershipType}</td>
                             {!!member.verified ?
                             <td className='verified'>Verified</td>: <td className='unverified'>Unverified</td>}
-                            <td className='link'><a href='#' >View Info</a></td>
                         </tr>);
                         })}
                 </tbody>

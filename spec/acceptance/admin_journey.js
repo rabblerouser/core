@@ -65,8 +65,8 @@ casper.test.begin('Test the admin flow', 6, function suite(test) {
         casper.then(function() {
             this.click('input[id=secretary]');
             casper.then(function() {
-                test.assertExist('table.secretary-table');
-                test.assertSelectorHasText('th','First NameLast NamePostcodeStateCountryMembershipStatusFull Info');
+                test.assertExist('table.admin-table');
+                test.assertSelectorHasText('th','First NameLast NamePostcodeStateCountryMembershipStatus');
                 //Check that some kind of data exists
                 casper.waitForSelector('td', function () {
                     test.assertSelectorExists('td');
