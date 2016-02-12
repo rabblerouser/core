@@ -20,10 +20,7 @@ export default class StripePayment extends Component {
           name: 'Pirate Party',
           description: 'Membership application',
           //The server expects to be sent in cents, however users expect in dollars
-          amount: Math.floor(parseFloat(this.props.amount)) * 100,
-          closed: () => {
-              this.props.enableContinue();
-          }
+          amount: Math.floor(parseFloat(this.props.amount)) * 100
         });
       };
 
