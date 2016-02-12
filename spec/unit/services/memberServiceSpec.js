@@ -214,11 +214,7 @@ describe('memberService', () => {
                 .then(done, done.fail);
             });
 
-            it('handles db erros when savinf the member to the database');
-        });
-
-        describe('an error when saving the member to the database', () => {
-            it('rejects the promise', (done) => {
+            it('handles db erros when saving the member to the database', (done) => {
                 residentialAddressPromise.resolve(residentialAddressFromDb);
                 postalAddressPromise.resolve(postalAddressFromDb);
                 memberPromise.reject('Some DB ERROR the user should not see.');
@@ -304,7 +300,11 @@ describe('memberService', () => {
             models.Member.findAll
                 .returns(Promise.reject('bad bad bad'));
 
-            memberService.list().catch((error) => {
+            memberService.list()
+            .then(() => {
+                done.fail('This should not be resolving successfully');
+            })
+            .catch((error) => {
                 expect(logger.logError).toHaveBeenCalledWith('bad bad bad');
                 expect(error).toEqual('An error has occurred while fetching members');
             }).then(done, done.fail);
