@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Errors from './Errors.jsx';
 import StripePayment from './StripePayment.jsx';
 import PaypalPayment from './PaypalPayment.jsx';
+import Button from './Button.jsx';
 import * as paymentValidator from '../lib/paymentValidator';
 import PaymentInfo from './payment-info-box/PaymentInfo.jsx';
 import $ from 'jquery';
@@ -20,7 +21,8 @@ export default class Payment extends Component {
         this.updateErrorMessage = this.updateErrorMessage.bind(this);
         this.isValidationError = this.isValidationError.bind(this);
         this.validationErrorClass = this.validationErrorClass.bind(this);
-        this.state = {amount : '50', invalidFields: [], errorMessages: [], paymentType: '', scrollToError: true};
+        this.state = { amount : '50', invalidFields: [], errorMessages: [],
+            paymentType: '', scrollToError: true, continueButtonDisabled: false };
     }
 
     handleValidationErrors(errorFields, scrollToError){
@@ -68,13 +70,13 @@ export default class Payment extends Component {
 
     processStripePayment() {
       let stripeReference = this.refs.stripePayment;
-
       if (stripeReference.stripeDidError) {
           console.log('failed to load script');
       } else if (stripeReference.stripeDisabled) {
           console.log('Stripe has been disabled, could not find public key');
       } else if (stripeReference) {
           stripeReference.showStripeDialog();
+          this.setState({ continueButtonDisabled: true })
       }
     }
 
@@ -189,7 +191,8 @@ export default class Payment extends Component {
                     </div>
                 </div>
                 <div className="navigation">
-                    <button type="button" id="payment-continue-button" onClick={this.processPayment}>Continue</button>
+                    <Button type="button" disabled={this.state.continueButtonDisabled} id="payment-continue-button"
+                            onClick={this.processPayment} textContent="Continue" />
                 </div>
             </div>
         </fieldset>)
