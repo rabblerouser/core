@@ -4,11 +4,12 @@ var invoiceService = require("../services/invoiceService");
 var paymentValidator = require("../lib/paymentValidator");
 var ChargeCardError = require('../errors/ChargeCardError');
 var logger = require('../lib/logger');
+var Q = require('q');
 
 function sendResponseToUser(res) {
     return function () {
         res.status(200).json({});
-    }
+    };
 }
 
 function handleError(res) {
@@ -19,7 +20,7 @@ function handleError(res) {
             logger.logError('invoicesController', error);
             res.status(500).json({errors: "An error has occurred internally."});
         }
-    }
+    };
 }
 
 var updateInvoiceHandler = (req, res) => {
@@ -38,7 +39,8 @@ var updateInvoiceHandler = (req, res) => {
     }
 
     if (validationErrors.length > 0) {
-        return res.status(400).json({errors: validationErrors});
+        res.status(400).json({errors: validationErrors});
+        return Q.reject({errors: validationErrors});
     }
 
     return invoiceService.payForInvoice(newInvoice)
