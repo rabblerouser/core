@@ -472,7 +472,7 @@ describe('invoiceService', () => {
     describe('acceptPayment', () => {
         let reference ='INT8';
 
-        it('Should retrieve the unconfirmed payments', (done) => {
+        it('Should retrieve the unaccepted payments', (done) => {
             updateInvoicePromise.resolve([1]);
 
             let promise = invoiceService.acceptPayment(reference);
@@ -489,7 +489,7 @@ describe('invoiceService', () => {
             let promise = invoiceService.acceptPayment(reference);
 
             promise.then(() => {
-                done.fail('Should not go into then');
+                done.fail('Should not go into then when promise rejected');
             }).catch((err) => {
                 expect(err).toEqual('This should not be shown to user');
                 done();
@@ -502,7 +502,7 @@ describe('invoiceService', () => {
             let promise = invoiceService.acceptPayment(reference);
 
             promise.then(() => {
-                done.fail('Should not go into then');
+                done.fail('Should not go into then when no rows updated');
             }).catch((err) => {
                 expect(err).toEqual('Failed to accept INT8 in the database');
                 done();

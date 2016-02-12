@@ -58,7 +58,8 @@ function acceptPayment(req, res) {
         .then(sendResponseToUser(res))
         .catch((error) => {
             logger.logError(error, 'Payment could not be accepted with reference: ' + reference);
-            return res.status(500).json({errors: 'Payment could not be accepted'});
+            res.status(500).json({errors: 'Payment could not be accepted'});
+            return Q.reject('Payment could not be accepted');
         });
 }
 

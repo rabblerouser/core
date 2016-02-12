@@ -10,14 +10,24 @@ const specHelper = require('../../support/specHelper'),
 
 var invoicesController = require('../../../controllers/invoicesController');
 
-describe('invoicesController', () => {
-    describe('updateInvoiceHandler', () => {
-        let goodRequest, res,
-            statusStub, responseJsonStub,
+describe("invoicesController", () => {
+    let res, statusStub, responseJsonStub, renderLocationStub, renderStub;
+
+    beforeEach(() => {
+        renderLocationStub = sinon.stub();
+        renderStub = sinon.stub();
+        statusStub = sinon.stub();
+        responseJsonStub = sinon.stub();
+        statusStub.returns({render: renderLocationStub, json: responseJsonStub});
+        res = {status: statusStub, render: renderStub};
+    });
+
+    describe("updateInvoiceHandler", () => {
+        let updateInvoiceHandler,
+            goodRequest,
             payForInvoiceStub, payForInvoicePromise,
             validatePaymentStub,
-            expectedInvoiceValues, loggerStub,
-            renderStub, renderLocationStub;
+            expectedInvoiceValues, loggerStub;
 
         beforeEach(() => {
             payForInvoiceStub = sinon.stub(invoiceService, 'payForInvoice');
@@ -46,12 +56,7 @@ describe('invoicesController', () => {
                 .withArgs(expectedInvoiceValues)
                 .returns(payForInvoicePromise.promise);
 
-            statusStub = sinon.stub();
-            responseJsonStub = sinon.stub();
-            renderLocationStub = sinon.stub();
-            renderStub = sinon.stub();
-            statusStub.returns({render: renderLocationStub, json: responseJsonStub});
-            res = {status: statusStub, render: renderStub};
+
         });
 
         afterEach(() => {
@@ -115,16 +120,44 @@ describe('invoicesController', () => {
         });
     });
 
-    describe('acceptPayment',() => {
-        let acceptInvoiceStub, acceptInvoicePromise;
+    describe('acceptPayment', () => {
+        let acceptInvoiceStub, acceptInvoicePromise, req, reference = 'ful81';
+
         beforeEach(() => {
             acceptInvoicePromise = Q.defer();
             acceptInvoiceStub = sinon.stub(invoiceService, 'acceptPayment');
             acceptInvoiceStub.returns(acceptInvoicePromise.promise);
+            req = {params: {reference: reference}};
         });
 
         afterEach(() => {
             acceptInvoiceStub.restore();
         });
+
+        it('Should retrieve the unaccepted payments', (done) => {
+            acceptInvoicePromise.resolve();
+
+            let promise = invoicesController.acceptPayment(req, res);
+
+            promise.then(() => {
+                expect(acceptInvoiceStub).toHaveBeenCalled();
+            }).then(done, done.fail)
+                .catch(done.fail);
+        });
+
+        it('Should throw an', (done) => {
+            acceptInvoicePromise.reject();
+
+            let promise = invoicesController.acceptPayment(req, res);
+
+            promise.then(() => {
+                done.fail('Should not go into then when promise rejected');
+            }).finally(() => {
+                expect(res.status).toHaveBeenCalledWith(500);
+                expect(responseJsonStub).toHaveBeenCalledWith({errors: 'Payment could not be accepted'});
+                done();
+            });
+        });
+
     });
 });
