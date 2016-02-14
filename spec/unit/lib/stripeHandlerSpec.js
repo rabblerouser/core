@@ -1,10 +1,10 @@
 'use strict';
 
-const specHelper = require("../../support/specHelper"),
+const specHelper = require('../../support/specHelper'),
       sinon = specHelper.sinon,
       Q = specHelper.Q;
 
-describe("stripeHandler", () => {
+describe('stripeHandler', () => {
 
   let createStub, stripe,
       stripeToken, totalAmount,
@@ -15,19 +15,19 @@ describe("stripeHandler", () => {
   beforeEach(() => {
     createStub = sinon.stub();
 
-    stripe = require("stripe");
+    stripe = require('stripe');
     sinon.stub(stripe, 'Stripe')
         .returns({charges: {create: createStub}});
 
-    stripeHandler = require("../../../lib/stripeHandler");
+    stripeHandler = require('../../../lib/stripeHandler');
 
-    stripeToken = {id:1};
+    stripeToken = { id:1 };
     totalAmount = 60;
     expectedNewCharge = {
           amount: 6000,
-          currency: "aud",
+          currency: 'aud',
           source: 1,
-          description: "Pirate party membership."
+          description: 'Pirate party membership.'
         };
 
     createPromise = Q.defer();
@@ -38,7 +38,7 @@ describe("stripeHandler", () => {
       stripe.Stripe.restore();
   });
 
-  it("Charge Credit Card", (done) => {
+  it('Charge Credit Card', (done) => {
       createPromise.resolve();
 
       stripeHandler.chargeCard(stripeToken, totalAmount)
