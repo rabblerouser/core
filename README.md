@@ -24,7 +24,7 @@
 
         npm install
 
-0. Add stripe keys
+0. Add stripe keys [Optional]
 
         1. First option is to add stripe config file:
                 1. Make a file called stripe-config.json in /config file (see /config/strip-config.json.example for format)
@@ -42,7 +42,7 @@
 
         If you do both options, the run time declaration is used instead of the config file.
 
-0. Email configuration
+0. Email configuration [Optional]
 
         1. Run `which sendmail` in a terminal
         2. Add EMAIL_SERVER="Path to sendmail" to environment vars
@@ -112,6 +112,10 @@
 Happy hacking!
 
 ## Optional setup
+
+### JShint
+
+0. Install [plugin](http://jshint.com/install/)
 
 ### WebStorm
 
