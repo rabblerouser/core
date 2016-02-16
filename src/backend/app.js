@@ -24,11 +24,11 @@ const express = require('express'),
 
 sessionStore.sync();
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../frontend/views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
-app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../../public', 'images', 'favicon.ico')));
 app.use(helmet());
 app.use(logger(configManager.logFormat));
 app.use(bodyParser.json());
@@ -45,12 +45,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(sassMiddleware({
-    src: path.join(__dirname, 'public'),
-    dest: path.join(__dirname, 'public'),
+    src: path.join(__dirname, '../../public'),
+    dest: path.join(__dirname, '../../public'),
     debug: true,
     outputStyle: 'compressed',
     includePaths: neat.includePaths
-}), express.static(path.join(__dirname, 'public')));
+}), express.static(path.join(__dirname, '../../public')));
 
 app.use('/', routes);
 
