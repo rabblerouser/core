@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import populateCountries from '../../public/javascript/countries.js';
+import populateCountries from '../../../../public/javascript/countries.js';
 import Details from '../Details.jsx';
 
 describe('Details step', () => {
