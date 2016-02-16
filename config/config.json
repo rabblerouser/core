@@ -1,8 +1,8 @@
 {
     "development": {
-        "username": "lab-assistant",
-        "password": "lab-assistant",
-        "database": "lab-assistant",
+        "username": "project-m",
+        "password": "project-m",
+        "database": "project-m",
         "host": "127.0.0.1",
         "dialect": "postgresql",
         "session": {
@@ -11,9 +11,9 @@
         }
     },
     "test": {
-        "username": "lab-assistant",
-        "password": "lab-assistant",
-        "database": "lab-assistant_test",
+        "username": "project-m",
+        "password": "project-m",
+        "database": "project-m_test",
         "host": "127.0.0.1",
         "dialect": "postgresql",
         "logging": false,
