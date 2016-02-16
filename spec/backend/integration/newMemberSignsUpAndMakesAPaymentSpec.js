@@ -86,7 +86,7 @@ describe("User Flow", () => {
             memberSuffix = Date.now();
         }
         else {
-            app = require("../../app");
+            app = require("../../../src/backend/app");
             memberSuffix = "";
         }
 
