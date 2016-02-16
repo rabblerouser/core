@@ -1,7 +1,5 @@
 # Lab Assistant
 
-[![Build Status](https://snap-ci.com/thelabtw/lab-assistant/branch/master/build_image)](https://snap-ci.com/thelabtw/lab-assistant/branch/master)
-
 ## Dev setup
 
 0. Install [vagrant](https://www.vagrantup.com/downloads.html)
