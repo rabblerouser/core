@@ -2,7 +2,7 @@
 
 require('../../support/specHelper');
 
-var paymentValidator = require('../../../lib/paymentValidator');
+var paymentValidator = require('../../../src/lib/paymentValidator');
 
 describe('paymentValidator', () => {
     describe('isValid', () => {

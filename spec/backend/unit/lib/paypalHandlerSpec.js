@@ -1,13 +1,13 @@
 'use strict';
 
 const queryString = require('query-string');
-const specHelper = require('../../support/specHelper'),
+const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
       Q = specHelper.Q,
-      paypalHandler = require('../../../lib/paypalHandler.js'),
-      invoiceService = require('../../../services/invoiceService.js'),
+      paypalHandler = require('../../../../src/backend/lib/paypalHandler.js'),
+      invoiceService = require('../../../../src/backend/services/invoiceService.js'),
       paypalIpn = require('paypal-ipn'),
-      logger = require('../../../lib/logger');
+      logger = require('../../../../src/backend/lib/logger');
 
 describe('paypalHandler', () => {
     let ipnStub, req, res, chargeSuccessStub, statusStub, endStub,

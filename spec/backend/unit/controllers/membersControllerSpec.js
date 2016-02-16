@@ -1,14 +1,14 @@
 'use strict';
 
-const specHelper = require('../../support/specHelper'),
+const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
       Q = specHelper.Q,
-      invoiceService = require('../../../services/invoiceService'),
-      memberService = require('../../../services/memberService'),
-      messagingService = require('../../../services/messagingService'),
-      memberValidator = require('../../../lib/memberValidator');
+      invoiceService = require('../../../../src/backend/services/invoiceService'),
+      memberService = require('../../../../src/backend/services/memberService'),
+      messagingService = require('../../../../src/backend/services/messagingService'),
+      memberValidator = require('../../../../src/lib/memberValidator');
 
-var membersController = require('../../../controllers/membersController');
+var membersController = require('../../../../src/backend/controllers/membersController');
 
 describe('membersController', () => {
 

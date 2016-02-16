@@ -1,6 +1,6 @@
 'use strict';
 
-const specHelper = require('../../support/specHelper'),
+const specHelper = require('../../../support/specHelper'),
       models = specHelper.models,
       Member = models.Member,
       sinon = specHelper.sinon,
@@ -8,7 +8,7 @@ const specHelper = require('../../support/specHelper'),
       logger = specHelper.logger,
       moment = require('moment');
 
-var memberService = require('../../../services/memberService');
+var memberService = require('../../../../src/backend/services/memberService');
 
 function getUpdatedMember(residentialAddress, postalAddress, date) {
     return {

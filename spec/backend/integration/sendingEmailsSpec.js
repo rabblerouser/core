@@ -1,7 +1,6 @@
 'use strict';
-require('../support/specHelper');
-let emailUtil = require('../../lib/emailUtil');
-let messagingService = require('../../services/messagingService');
+require('../../support/specHelper.js');
+let messagingService = require('../../../src/backend/services/messagingService');
 let sinon = require('sinon');
 let member = {email: 'sherlock@holmes.co.uk', verificationHash: 'shhhaaaaaa'};
 let config = require('config');

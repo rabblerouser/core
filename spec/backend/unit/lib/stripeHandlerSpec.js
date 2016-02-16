@@ -1,6 +1,6 @@
 'use strict';
 
-const specHelper = require('../../support/specHelper'),
+const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
       Q = specHelper.Q;
 
@@ -19,7 +19,7 @@ describe('stripeHandler', () => {
     sinon.stub(stripe, 'Stripe')
         .returns({charges: {create: createStub}});
 
-    stripeHandler = require('../../../lib/stripeHandler');
+    stripeHandler = require('../../../../src/backend/lib/stripeHandler');
 
     stripeToken = { id:1 };
     totalAmount = 60;

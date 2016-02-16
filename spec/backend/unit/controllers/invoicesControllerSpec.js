@@ -1,14 +1,14 @@
 'use strict';
 
-const specHelper = require('../../support/specHelper'),
+const specHelper = require('../../../support/specHelper'),
     sinon = specHelper.sinon,
     Q = specHelper.Q,
-    invoiceService = require('../../../services/invoiceService'),
-    paymentValidator = require('../../../lib/paymentValidator'),
+    invoiceService = require('../../../../src/backend/services/invoiceService'),
+    paymentValidator = require('../../../../src/lib/paymentValidator'),
     logger = specHelper.logger,
     ChargeCardError = specHelper.ChargeCardError;
 
-var invoicesController = require('../../../controllers/invoicesController');
+var invoicesController = require('../../../../src/backend/controllers/invoicesController');
 
 describe("invoicesController", () => {
     let res, statusStub, responseJsonStub, renderLocationStub, renderStub;
