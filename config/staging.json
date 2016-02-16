@@ -1,5 +1,8 @@
 {
   "email": {
     "sendEmails": true
+  },
+  "paypal": {
+    "return_url":"https://project-m-staging.herokuapp.com/"
   }
 }

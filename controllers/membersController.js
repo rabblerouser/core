@@ -90,7 +90,6 @@ function handleError(res) {
 }
 
 let newMemberHandler = (req, res) => {
-
     let newMember = setupNewMember(req);
 
     let validationErrors = memberValidator.isValid(newMember);

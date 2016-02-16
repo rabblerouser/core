@@ -1,5 +1,8 @@
 {
   "email": {
     "sendEmails": false
+  },
+  "paypal": {
+    "return_url":"https://membership.pirateparty.org.au/"
   }
 }
