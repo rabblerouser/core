@@ -21,7 +21,7 @@ function requireAuth(req, res, next) {
 
 router.get('/', function (req, res) {
     let headers = Object.assign({}, stripeHandler.getStripeHeaders(), paypalHandler.getPaypalHeaders());
-    res.header(headers).render('index', {title: 'Pirate Party Membership'});
+    res.header(headers).render('index', {title: 'The Lab - Sign Up'});
 });
 
 router.post('/members', membersController.newMemberHandler);
