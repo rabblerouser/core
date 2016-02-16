@@ -2,7 +2,7 @@
 
 let memberService = require('../services/memberService');
 let invoiceService = require('../services/invoiceService');
-let memberValidator = require('../lib/memberValidator');
+let memberValidator = require('../../lib/memberValidator');
 let messagingService = require('../services/messagingService');
 let stripeHandler = require('../lib/stripeHandler');
 let paypalHandler = require('../lib/paypalHandler');

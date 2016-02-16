@@ -1,7 +1,7 @@
 'use strict';
 
-var invoiceService = require("../services/invoiceService");
-var paymentValidator = require("../lib/paymentValidator");
+var invoiceService = require('../services/invoiceService');
+var paymentValidator = require('../../lib/paymentValidator');
 var ChargeCardError = require('../errors/ChargeCardError');
 var logger = require('../lib/logger');
 var Q = require('q');
@@ -15,10 +15,10 @@ function sendResponseToUser(res) {
 function handleError(res) {
     return function (error) {
         if (error instanceof ChargeCardError) {
-            res.status(400).json({errors: error.message})
+            res.status(400).json({errors: error.message});
         } else {
             logger.logError('invoicesController', error);
-            res.status(500).json({errors: "An error has occurred internally."});
+            res.status(500).json({errors: 'An error has occurred internally.'});
         }
     };
 }
