@@ -24,12 +24,7 @@ router.get('/', function (req, res) {
     res.header(headers).render('index', {title: 'Pirate Party Membership'});
 });
 
-router.get('/members/new', function (req, res) {
-    res.render('members/new', {title: 'New Member'});
-});
-
 router.post('/members', membersController.newMemberHandler);
-
 
 router.get('/members/verify/:hash', membersController.verify);
 router.get('/members/renew/:hash', membersController.renew);
