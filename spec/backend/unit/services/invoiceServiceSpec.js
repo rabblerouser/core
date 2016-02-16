@@ -1,7 +1,7 @@
 'use strict';
 
-const specHelper = require('../../support/specHelper'),
-    stripeHandler = require('../../../lib/stripeHandler'),
+const specHelper = require('../../../support/specHelper'),
+    stripeHandler = require('../../../../src/backend/lib/stripeHandler'),
     models = specHelper.models,
     Invoice = models.Invoice,
     sinon = specHelper.sinon,
@@ -9,7 +9,7 @@ const specHelper = require('../../support/specHelper'),
     logger = specHelper.logger,
     moment = require('moment');
 
-var invoiceService = require('../../../services/invoiceService');
+var invoiceService = require('../../../../src/backend/services/invoiceService');
 
 describe('invoiceService', () => {
     let createInvoiceStub, updateInvoiceStub,

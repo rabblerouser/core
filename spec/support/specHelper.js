@@ -5,10 +5,10 @@ const sinon = require('sinon');
 const Q = require('q');
 require('jasmine-sinon');
 
-var logger = require('../../lib/logger');
-var ChargeCardError = require('../../errors/ChargeCardError');
+var logger = require('../../src/backend/lib/logger');
+var ChargeCardError = require('../../src/backend/errors/ChargeCardError');
 
-var models = require('../../models'),
+var models = require('../../src/backend/models'),
     Address = models.Address,
     Member = models.Member,
     Invoice = models.Invoice,

@@ -3,7 +3,7 @@
 var request = require("supertest-as-promised");
 
 const instance_url = process.env.INSTANCE_URL,
-    specHelper = require("../support/specHelper");
+    specHelper = require("../../support/specHelper");
 
 describe("User Flow", () => {
     let app,

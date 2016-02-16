@@ -1,12 +1,12 @@
 'use strict';
 
-const specHelper = require('../../support/specHelper'),
+const specHelper = require('../../../support/specHelper'),
     sinon = specHelper.sinon,
     Promise = specHelper.models.Sequelize.Promise,
-    invoiceService = require('../../../services/invoiceService'),
-    memberService = require('../../../services/memberService');
+    invoiceService = require('../../../../src/backend/services/invoiceService'),
+    memberService = require('../../../../src/backend/services/memberService');
 
-var adminController = require('../../../controllers/adminController');
+let adminController = require('../../../../src/backend/controllers/adminController');
 
 describe('adminController', () => {
     let res,

@@ -5,7 +5,7 @@ const moment = require("moment");
 var _  = require("lodash");
 require("../../support/specHelper");
 
-var memberValidator = require("../../../lib/memberValidator");
+var memberValidator = require("../../../src/lib/memberValidator");
 
 describe("memberValidator", () => {
     describe("isValid", () => {

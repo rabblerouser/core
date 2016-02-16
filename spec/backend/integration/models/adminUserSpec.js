@@ -1,8 +1,8 @@
 'use strict';
 
-const specHelper = require('../../support/specHelper.js'),
+const specHelper = require('../../../support/specHelper.js'),
       sinon = specHelper.sinon,
-      AdminUser = require('../../../models/index').AdminUser;
+      AdminUser = require('../../../../src/backend/models/index').AdminUser;
 
 describe('AdminUser', () => {
     let email = 'iamapirate@thehighseas.com',
