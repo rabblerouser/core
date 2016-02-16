@@ -3,7 +3,7 @@ import Errors from './Errors.jsx';
 import StripePayment from './StripePayment.jsx';
 import PaypalPayment from './PaypalPayment.jsx';
 import Button from './Button.jsx';
-import * as paymentValidator from '../lib/paymentValidator';
+import * as paymentValidator from '../../lib/paymentValidator';
 import PaymentInfo from './payment-info-box/PaymentInfo.jsx';
 import $ from 'jquery';
 

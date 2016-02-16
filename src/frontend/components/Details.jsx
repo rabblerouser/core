@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Errors from './Errors.jsx';
 import InlineError from './InlineError.jsx';
-import * as memberValidator from '../lib/memberValidator';
-import countrySelector from '../public/javascript/countries.js';
+import * as memberValidator from '../../lib/memberValidator';
+import countrySelector from '../../../public/javascript/countries.js';
 
 export default class Details extends Component {
     constructor(props) {
