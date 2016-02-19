@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import MembershipType from './MembershipType.jsx';
 import Details from './Details.jsx';
-import Payment from './Payment.jsx';
 import ConfirmDetails from './ConfirmDetails.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import Finished from './Finished.jsx';
@@ -14,15 +12,15 @@ export default class NewMemberForm extends Component {
         super(props);
         this.nextStep = this.nextStep.bind(this);
         this.previousStep = this.previousStep.bind(this);
-        this.setMembershipType = this.setMembershipType.bind(this);
         this.postAndContinue = this.postAndContinue.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
         this.getForm = this.getForm.bind(this);
 
-        let startingState = this.checkIfPaypalFinishStep() ? 5 : 1;
+        let startingState = 1;
         this.state = { errors: [],
-                       step: (this.props.initialState === undefined ? startingState : this.props.initialState) };
+                       step: (this.props.initialState === undefined ? startingState : this.props.initialState),
+                       membershipType: 'full' };
         this.formValues = {
                             membershipType: '',
                             isEnrolled: '',
@@ -65,11 +63,6 @@ export default class NewMemberForm extends Component {
         this.setState( { step: this.state.step - 1  } );
     }
 
-    setMembershipType(type) {
-      this.setState({membershipType: type});
-      this.nextStep();
-    }
-
     saveAndContinue(fieldValues) {
       this.formValues = fieldValues;
       this.nextStep();
@@ -86,7 +79,7 @@ export default class NewMemberForm extends Component {
           }.bind(this),
           error: function () {
               this.setState({errors: ['Sorry, we could not register you this time. Please try again, or ' +
-              'contact us at membership@pirateparty.org.au.']});
+              'contact us at admin@thelab.org.au']});
           }.bind(this)
       });
     }
@@ -98,27 +91,17 @@ export default class NewMemberForm extends Component {
     getForm() {
       switch(this.state.step) {
           case 1:
-              return <MembershipType nextStep={this.setMembershipType}
-                                     formValues={this.formValues} />;
-          case 2:
               return <Details formValues={this.formValues}
                               saveAndContinue={this.saveAndContinue}
-                              previousStep={this.previousStep}
                               membershipType={this.state.membershipType} />;
-          case 3:
+          case 2:
               return <ConfirmDetails formValues={this.formValues}
                                     postAndContinue={this.postAndContinue}
                                     previousStep={this.previousStep}
                                     errors={this.state.errors}/>;
-          case 4:
-              return <Payment email={this.formValues.email}
-                              invoiceId={this.invoiceId}
-                              previousStep={this.previousStep}
-                              nextStep={this.nextStep} />;
-          case 5:
+          case 3:
               return <Finished email={this.formValues.email}
-                                nextStep={this.nextStep}
-                                paypalFinish={this.checkIfPaypalFinishStep()} />;
+                                nextStep={this.nextStep} />;
       };
     }
 
