@@ -149,15 +149,6 @@ export default class Details extends Component {
                             scrollToError={this.state.scrollToError}
                             errorTitle="Please check the following fields:"/>
 
-                    <div className="reminder">
-                        <img src="/images/reminder.svg"></img>
-
-                        <div className="reminder-text">
-                            The information provided in this form may be used for the purpose of ensuring that the
-                            Pirate Party can register or remain registered as a political party in Australia, and its
-                            states and territories. <a href="https://pirateparty.org.au/privacy/" target="_blank">View our Privacy Policy.</a>
-                        </div>
-                    </div>
                     <div className="heading">
                         <h2 className="sub-title"> Personal Information</h2>
                          <div className="sub-description">{this.getPersonalInformationSubtitletext()}</div>
