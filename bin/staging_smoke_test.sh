@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-NODE_ENV=test
+#NODE_ENV=test
 
 sudo yum install ansible
 
