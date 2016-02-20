@@ -2,4 +2,4 @@
   sudo: yes
   roles:
     - { role: sendmail}
-    - { role: postgres, db_names: ["project-m", "project-m_test"] }
+    - { role: postgres, db_names: ["lab-assistant", "lab-assistant_test"] }

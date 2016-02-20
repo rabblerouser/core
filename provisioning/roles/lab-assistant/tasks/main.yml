@@ -20,7 +20,7 @@
   apt: name=pslist
 
 - name: upload init script
-  template: src=project-m_init.j2 dest=/etc/init.d/project-m mode=0755
+  template: src=lab-assistant_init.j2 dest=/etc/init.d/lab-assistant mode=0755
 
 - name: upload config
   template: src=config.json.j2 dest="{{ app_path }}/config/config.json" mode=0600
@@ -32,5 +32,5 @@
   become_user: "{{ app_user}}"
   command: npm install --production chdir="{{ app_path }}"
 
-- name: re/start project-m
-  service: name=project-m enabled=yes state=restarted
+- name: re/start lab-assistant
+  service: name=lab-assistant enabled=yes state=restarted

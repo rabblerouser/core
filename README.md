@@ -109,7 +109,7 @@
 
 0. curl -o db/dumps/latest.dump `heroku pg:backups public-url`
 
-0. (in the vm) pg_restore --verbose --clean --no-acl --no-owner -h localhost -U project-m -d project-m db/dumps/latest.dump
+0. (in the vm) pg_restore --verbose --clean --no-acl --no-owner -h localhost -U lab-assistant -d lab-assistant db/dumps/latest.dump
 
 Happy hacking!
 

@@ -13,7 +13,7 @@
   sudo_user: postgres
   postgresql_user: "name={{ db_user }} role_attr_flags=NOSUPERUSER,CREATEDB,LOGIN password={{ db_password }}"
 
-- name: setup project-m user permissions
+- name: setup lab-assistant user permissions
   sudo_user: postgres
   postgresql_user: "db={{ item }} name={{ db_user }} priv=ALL"
   with_items: "{{ db_names }}"

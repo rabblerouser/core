@@ -41,7 +41,7 @@ casper.on('page.initialized', function () {
     });
 });
 
-casper.test.begin('Test the project-m-staging', 22, function suite(test) {
+casper.test.begin('Test the lab-assistant-staging', 22, function suite(test) {
     var url = casper.cli.get("url");
 
     casper.start(url, function () {

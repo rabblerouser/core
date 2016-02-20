@@ -3,6 +3,6 @@
     "sendEmails": true
   },
   "paypal": {
-    "return_url":"https://project-m-staging.herokuapp.com/"
+    "return_url":"https://lab-assistant-staging.herokuapp.com/"
   }
 }
