@@ -10,6 +10,4 @@ ansible-playbook -i "localhost," -c local provisioning/ci.yml
 npm install
 #node_modules/sequelize-cli/bin/sequelize db:migrate # even though we don't use it, the app still needs it to wake up. we can fix this later.
 
-INSTANCE_URL=https://lab-assistant-staging.herokuapp.com node --harmony
-
-INSTANCE_URL=https://project-m-staging.herokuapp.com node --harmony node_modules/jasmine/bin/jasmine.js spec/backend/integration/newMemberSignsUpSpec.js
+INSTANCE_URL=https://lab-assistant-staging.herokuapp.com node --harmony node_modules/jasmine/bin/jasmine.js spec/backend/integration/newMemberSignsUpSpec.js
