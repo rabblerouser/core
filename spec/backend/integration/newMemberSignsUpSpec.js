@@ -11,15 +11,15 @@ describe('User Flow', () => {
         member;
 
     let hasNewMemberAndInvoiceId = (res) => {
-        if (!('newMember' in res.body)) throw new Error('missing created member');
-        if (!('invoiceId' in res.body)) throw new Error('missing invoiceId');
-        createdInvoiceId = res.body.invoiceId;
-    };
+        if (!('newMember' in res.body)) {
+            throw new Error('missing created member');
+        }
 
-    let invoice = {
-        'totalAmount': '88.88',
-        'paymentType': 'deposit',
-        'invoiceId': ''
+        if (!('invoiceId' in res.body)) {
+            throw new Error('missing invoiceId');
+        }
+
+        createdInvoiceId = res.body.invoiceId;
     };
 
     let successfullyCreatingANewMemberShouldRepondWithA200 = () => {
@@ -39,17 +39,6 @@ describe('User Flow', () => {
             .set('Accept', 'application/json')
             .send(member)
             .expect(500);
-    };
-
-    let successfullyCreateInvoiceShouldRespondWithA200 = () => {
-        invoice.invoiceId = createdInvoiceId;
-
-        return request(app)
-            .post('/invoices/update')
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
-            .send(invoice)
-            .expect(200);
     };
 
     let makeMemberWithEmail = email => {
@@ -97,12 +86,6 @@ describe('User Flow', () => {
     it ('member sign up with duplicate email should fail', (done) => {
         successfullyCreatingANewMemberShouldRepondWithA200()
             .then(postMemberWithExistEmailShouldRespondWithA500)
-            .then(done, done.fail);
-    }, 60000);
-
-    it ('a new member successfully signs up and then makes a payment', (done) => {
-        successfullyCreatingANewMemberShouldRepondWithA200()
-            .then(successfullyCreateInvoiceShouldRespondWithA200)
             .then(done, done.fail);
     }, 60000);
 });
