@@ -1,4 +1,6 @@
-# Lab Assistant
+# Project-M
+
+[![Build Status](https://snap-ci.com/ppau/project-m/branch/master/build_image)](https://snap-ci.com/ppau/project-m/branch/master)
 
 ## Dev setup
 
@@ -6,7 +8,7 @@
 0. Install [ansible](https://docs.ansible.com/ansible/intro_installation.html)
 0. Clone the project
 
-        git clone https://github.com/thelabtw/lab-assistant.git
+        git clone https://github.com/ppau/project-m.git
 
 0. Start the vagrant vm
 
