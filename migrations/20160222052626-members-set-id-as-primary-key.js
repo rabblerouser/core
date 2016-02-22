@@ -4,10 +4,10 @@ module.exports = {
   up: function (queryInterface, Sequelize, done) {
     queryInterface.sequelize.query('ALTER TABLE "Invoices" DROP CONSTRAINT "Invoices_memberEmail_fkey"')
     .then(() => {
-      queryInterface.sequelize.query('ALTER TABLE "Members" DROP CONSTRAINT "Members_pkey"')
+      return queryInterface.sequelize.query('ALTER TABLE "Members" DROP CONSTRAINT "Members_pkey"');
     })
     .then(() => {
-       queryInterface.sequelize.query('ALTER TABLE "Members" ADD CONSTRAINT "Members_pkey" PRIMARY KEY(id)')
+       return queryInterface.sequelize.query('ALTER TABLE "Members" ADD CONSTRAINT "Members_pkey" PRIMARY KEY(id)');
     })
     .then(() => {
       return queryInterface.addColumn('Invoices', 'memberId', {
