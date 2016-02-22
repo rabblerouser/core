@@ -4,26 +4,27 @@ const uuid = require('node-uuid');
 
 module.exports = (sequelize, DataTypes) => {
     var Member = sequelize.define('Member', {
-        id: { type: DataTypes.UUID, defaultValue: uuid.v4() },
-        email: { type: DataTypes.STRING, primaryKey: true },
+        id: { type: DataTypes.UUID, defaultValue: uuid.v4(), primaryKey: true },
+        email: { type: DataTypes.STRING, allowNull: false },
         firstName: DataTypes.STRING,
         lastName: DataTypes.STRING,
         gender: DataTypes.STRING,
         primaryPhoneNumber: DataTypes.STRING,
         secondaryPhoneNumber: DataTypes.STRING,
         dateOfBirth: DataTypes.DATEONLY,
-        membershipType: DataTypes.STRING,
+        membershipType: { type: DataTypes.STRING, defaultValue: 'full'},
         verified: { type : DataTypes.DATE, allowNull : true },
         verificationHash: { type : DataTypes.STRING , allowNull : true },
-        memberSince: { type: DataTypes.DATEONLY, allowNull : false},
+        memberSince: { type: DataTypes.DATEONLY, allowNull : true},
         lastRenewal: { type: DataTypes.DATEONLY, allowNull : true},
-        renewalHash: { type : DataTypes.STRING , allowNull : true }
+        renewalHash: { type : DataTypes.STRING , allowNull : true },
+        contactFirstName: DataTypes.STRING,
+        contactSurname: DataTypes.STRING
     }, {
         classMethods: {
             associate: (models) => {
                 Member.belongsTo(models.Address, { as: 'postalAddress', foreignKey: 'postalAddressId' });
                 Member.belongsTo(models.Address, { as: 'residentialAddress', foreignKey: 'residentialAddressId'});
-                Member.hasOne(models.Invoice, {foreignKey: 'memberEmail'});
             }
         }
     });
