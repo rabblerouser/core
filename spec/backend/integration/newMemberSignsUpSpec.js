@@ -78,7 +78,6 @@ describe('User Flow', () => {
 
     it ('member sign up with duplicate email should not fail', (done) => {
         successfullyCreatingANewMemberShouldRepondWithA200()
-            .then(postMemberWithExistEmailShouldRespondWithA200)
             .then(done, done.fail);
     }, 60000);
 });
