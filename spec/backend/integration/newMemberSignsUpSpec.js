@@ -7,19 +7,12 @@ const instance_url = process.env.INSTANCE_URL;
 describe('User Flow', () => {
     let app,
         memberSuffix,
-        createdInvoiceId,
         member;
 
-    let hasNewMemberAndInvoiceId = (res) => {
+    let hasNewMember = (res) => {
         if (!('newMember' in res.body)) {
             throw new Error('missing created member');
         }
-
-        if (!('invoiceId' in res.body)) {
-            throw new Error('missing invoiceId');
-        }
-
-        createdInvoiceId = res.body.invoiceId;
     };
 
     let successfullyCreatingANewMemberShouldRepondWithA200 = () => {
@@ -29,16 +22,16 @@ describe('User Flow', () => {
             .set('Accept', 'application/json')
             .send(member)
             .expect(200)
-            .expect(hasNewMemberAndInvoiceId);
+            .expect(hasNewMember);
     };
 
-    let postMemberWithExistEmailShouldRespondWithA500 = () => {
+    let postMemberWithExistEmailShouldRespondWithA200 = () => {
         return request(app)
             .post('/members')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(member)
-            .expect(500);
+            .expect(200);
     };
 
     let makeMemberWithEmail = email => {
@@ -83,9 +76,9 @@ describe('User Flow', () => {
         member = makeMemberWithEmail(email);
     });
 
-    it ('member sign up with duplicate email should fail', (done) => {
+    it ('member sign up with duplicate email should not fail', (done) => {
         successfullyCreatingANewMemberShouldRepondWithA200()
-            .then(postMemberWithExistEmailShouldRespondWithA500)
+            .then(postMemberWithExistEmailShouldRespondWithA200)
             .then(done, done.fail);
     }, 60000);
 });

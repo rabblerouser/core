@@ -1,7 +1,6 @@
 'use strict';
 
 let memberService = require('../services/memberService');
-let invoiceService = require('../services/invoiceService');
 let memberValidator = require('../../lib/memberValidator');
 let messagingService = require('../services/messagingService');
 let stripeHandler = require('../lib/stripeHandler');
@@ -55,27 +54,16 @@ function setupNewMember(req) {
   };
 }
 
-function sendVerificationEmailOffline(data) {
-  messagingService.sendVerificationEmail(data.member)
+function sendVerificationEmailOffline(member) {
+  messagingService.sendVerificationEmail(member)
   .catch(logger.logError);
 }
 
-function createEmptyInvoice(createdMember) {
-  return invoiceService.createEmptyInvoice(createdMember.email, createdMember.membershipType)
-  .then((emptyInvoice) => {
-    return {
-      invoice: emptyInvoice,
-      member: createdMember
-    };
-  });
-}
-
 function sendResponseToUser(res) {
-  return function(data) {
+  return function(createdMember) {
     let responseForUser = {
-      invoiceId: data.invoice.id,
       newMember: {
-        email: data.member.email
+        email: createdMember.email
       }
     };
     res.status(200).json(responseForUser);
@@ -99,7 +87,6 @@ let newMemberHandler = (req, res) => {
     }
 
     return memberService.createMember(newMember)
-    .then(createEmptyInvoice)
     .tap(sendResponseToUser(res))
     .tap(sendVerificationEmailOffline)
     .catch(handleError(res));
@@ -161,7 +148,6 @@ function renewMemberHandler(req, res) {
     let hash = req.body.renewalHash;
 
     return memberService.renewMember(hash)
-        .then(createEmptyInvoice)
         .tap(sendResponseToUser(res))
         .catch(handleError(res));
 }

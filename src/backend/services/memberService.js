@@ -6,7 +6,6 @@ const Q = require('q'),
     moment = require('moment'),
     Address = models.Address,
     Member = models.Member,
-    Invoice = models.Invoice,
     uuid = require('node-uuid'),
     messagingService = require('./messagingService');
 

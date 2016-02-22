@@ -3,7 +3,6 @@
 const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
       Q = specHelper.Q,
-      invoiceService = require('../../../../src/backend/services/invoiceService'),
       memberService = require('../../../../src/backend/services/memberService'),
       messagingService = require('../../../../src/backend/services/messagingService'),
       memberValidator = require('../../../../src/lib/memberValidator');
@@ -18,13 +17,11 @@ describe('membersController', () => {
             residentialAddress, postalAddress,
             createMemberStub, createMemberPromise,
             validateMemberStub, sendVerificationEmailPromise,
-            createInvoiceStub, createInvoicePromise,
             sendVerificationEmailStub;
 
         beforeEach(() => {
             newMemberHandler = membersController.newMemberHandler;
             createMemberStub = sinon.stub(memberService, 'createMember');
-            createInvoiceStub = sinon.stub(invoiceService, 'createEmptyInvoice');
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
             sendVerificationEmailStub = sinon.stub(messagingService, 'sendVerificationEmail');
             res = {status: sinon.stub().returns({json: sinon.spy()})};
@@ -64,18 +61,12 @@ describe('membersController', () => {
                 .withArgs(goodRequest.body)
                 .returns(createMemberPromise.promise);
 
-            createInvoicePromise = Q.defer();
-            createInvoiceStub
-                .withArgs(goodRequest.body.email, goodRequest.body.membershipType)
-                .returns(createInvoicePromise.promise);
-
             sendVerificationEmailPromise = Q.defer();
             sendVerificationEmailStub.returns(sendVerificationEmailPromise.promise);
         });
 
         afterEach(() => {
             memberService.createMember.restore();
-            invoiceService.createEmptyInvoice.restore();
             memberValidator.isValid.restore();
             messagingService.sendVerificationEmail.restore();
         });
@@ -87,7 +78,6 @@ describe('membersController', () => {
             beforeEach(() => {
                 validateMemberStub.returns([]);
                 createMemberPromise.resolve(createdMember);
-                createInvoicePromise.resolve({id:'1'});
                 sendVerificationEmailPromise.resolve();
 
                 expectedMemberCreateValues = {
@@ -104,11 +94,11 @@ describe('membersController', () => {
                 };
             });
 
-            it('creates a new member', (done) => {
+            fit('creates a new member', (done) => {
                 newMemberHandler(goodRequest, res)
                 .finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
-                    expect(res.status().json).toHaveBeenCalledWith({invoiceId: '1', newMember: {email: createdMember.email}});
+                    expect(res.status().json).toHaveBeenCalledWith({newMember: {email: createdMember.email}});
                     expect(messagingService.sendVerificationEmail).toHaveBeenCalledWith(createdMember);
                 }).then(done, done.fail);
             });
