@@ -5,9 +5,6 @@ var router = express.Router();
 var passport = require('passport');
 var membersController = require('../controllers/membersController');
 var adminController = require('../controllers/adminController');
-var invoicesController = require('../controllers/invoicesController');
-var stripeHandler = require('../lib/stripeHandler');
-var paypalHandler = require('../lib/paypalHandler');
 
 function requireAuth(req, res, next) {
     if (!req.isAuthenticated()) {
@@ -20,8 +17,7 @@ function requireAuth(req, res, next) {
 }
 
 router.get('/', function (req, res) {
-    let headers = Object.assign({}, stripeHandler.getStripeHeaders(), paypalHandler.getPaypalHeaders());
-    res.header(headers).render('index', {title: 'The Lab - Sign Up'});
+    res.render('index', {title: 'The Lab - Sign Up'});
 });
 
 router.post('/members', membersController.createNewMember);
@@ -36,11 +32,6 @@ router.get('/verified', function (req, res) {
 });
 
 router.post('/renew', membersController.renewMemberHandler);
-
-router.post('/payments/paypal', paypalHandler.handleIpn);
-router.post('/invoices/update', invoicesController.updateInvoiceHandler);
-router.post('/invoices/unaccepted/:reference', requireAuth, invoicesController.acceptPayment);
-router.get('/invoices/unaccepted', requireAuth, adminController.unconfirmedPaymentsMembersList);
 
 router.post('/login',
     passport.authenticate('local'), function (req, res) {
@@ -59,7 +50,7 @@ router.get('/logout', requireAuth, function (req, res) {
 });
 
 router.get('/admin', requireAuth, function (req, res) {
-    res.render('admin', {title: 'Pirate Party Admin'});
+    res.render('admin', {title: 'The Lab Admin'});
 });
 
 module.exports = router;

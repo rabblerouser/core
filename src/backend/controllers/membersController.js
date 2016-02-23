@@ -3,8 +3,6 @@
 let memberService = require('../services/memberService');
 let memberValidator = require('../../lib/memberValidator');
 let messagingService = require('../services/messagingService');
-let stripeHandler = require('../lib/stripeHandler');
-let paypalHandler = require('../lib/paypalHandler');
 let logger = require('../lib/logger');
 let Q = require('q');
 
@@ -138,7 +136,7 @@ function renew(req, res) {
 
     return memberService.findMemberByRenewalHash(hash)
         .then((result) => {
-            var headers = Object.assign({}, {user: JSON.stringify(result)}, stripeHandler.getStripeHeaders(), paypalHandler.getPaypalHeaders());
+            var headers = Object.assign({}, {user: JSON.stringify(result)});
             res.header(headers).render('renew');
         });
 
