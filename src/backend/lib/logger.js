@@ -100,5 +100,6 @@ module.exports = {
     logInfoEvent: logInfoEvent,
     logMemberRenewalEvent: logMemberRenewalEvent,
     logMemberRenewalEmail: logMemberRenewalEmail,
-    logMemberUpdateDetailsEvent: logMemberUpdateDetailsEvent
+    logMemberUpdateDetailsEvent: logMemberUpdateDetailsEvent,
+    temporarySolution: winstonLogger
 };

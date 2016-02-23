@@ -3,6 +3,7 @@
 const Q = require('q'),
     models = require('../models'),
     logger = require('../lib/logger'),
+    temporaryLogger = logger.temporarySolution,
     moment = require('moment'),
     Address = models.Address,
     Member = models.Member,
@@ -45,7 +46,7 @@ function setupMember(newMember) {
 }
 
 function logEvent(saveResult) {
-  logger.logMemberSignUpEvent(saveResult.dataValues);
+    temporaryLogger.info('[member-sign-up-event]', saveResult.dataValues);
 }
 
 function getMemberAddresses(newMember) {

@@ -10,6 +10,54 @@ const specHelper = require('../../../support/specHelper'),
 
 var memberService = require('../../../../src/backend/services/memberService');
 
+const fakeDateOfBirth = '22/12/1900';
+const formattedDateOfBirth = moment(fakeDateOfBirth, 'DD/MM/YYYY').toDate();
+const randomNewMemberId = 1;
+const fakeResidentialAddressId = 1;
+const fakePostalAddressId = 2;
+
+function fakeResidentialAddress() {
+    return {
+        address: '221b Baker St',
+        suburb: 'London',
+        country: 'England',
+        state: 'VIC',
+        postcode: '1234'
+    };
+}
+
+function fakeResidentialAddressFromDB() {
+    let result = [
+        {
+            dataValues: fakeResidentialAddress()
+        }
+    ];
+
+    result[0].dataValues.id = fakeResidentialAddressId;
+    return result;
+}
+
+function fakePostalAddress() {
+    return {
+        address: '47 I dont want your spam St',
+        suburb: 'Moriarty',
+        country: 'USA',
+        state: 'NM',
+        postcode: '5678'
+    };
+}
+
+function fakePostalAddressFromDB() {
+    let result = [
+        {
+            dataValues: fakePostalAddress()
+        }
+    ];
+
+    result[0].dataValues.id = fakePostalAddressId;
+    return result;
+}
+
 function getUpdatedMember(residentialAddress, postalAddress, date) {
     return {
         firstName: 'Shurley',
@@ -25,13 +73,13 @@ function getUpdatedMember(residentialAddress, postalAddress, date) {
     };
 }
 
-function fakeNewMember(residentialAddress, postalAddress, date) {
+function fakeNewMember(residentialAddress, postalAddress) {
   return {
             firstName: 'Sherlock',
             lastName: 'Holmes',
             gender: 'horse radish',
             email: 'sherlock@holmes.co.uk',
-            dateOfBirth: date,
+            dateOfBirth: fakeDateOfBirth,
             primaryPhoneNumber: '0396291146',
             secondaryPhoneNumber: '0394291146',
             residentialAddress: residentialAddress,
@@ -40,82 +88,62 @@ function fakeNewMember(residentialAddress, postalAddress, date) {
         };
 }
 
-function getExpectedNewMember(residentialAddressId, postalAddressId, dateOfBirth) {
-    let momentDate = moment(dateOfBirth, 'DD/MM/YYYY').toDate();
+function fakeMemberInputDifferentResAndPostalAddress() {
+    return fakeNewMember(fakeResidentialAddress(), fakePostalAddress());
+}
 
-    let member = fakeNewMember(residentialAddressId, postalAddressId, momentDate);
-    member.memberSince = moment().format('L');
+function fakeMemberInputSameResAndPostalAddress() {
+    return fakeNewMember(fakeResidentialAddress(), fakeResidentialAddress());
+}
 
-    member.residentialAddressId = member.residentialAddress;
-    delete(member.residentialAddress);
+function getExpectedNewMember(residentialAddressId, postalAddressId) {
+    return {
+        firstName: 'Sherlock',
+        lastName: 'Holmes',
+        gender: 'horse radish',
+        email: 'sherlock@holmes.co.uk',
+        dateOfBirth: formattedDateOfBirth,
+        primaryPhoneNumber: '0396291146',
+        secondaryPhoneNumber: '0394291146',
+        residentialAddressId: residentialAddressId,
+        postalAddress: postalAddressId,
+        membershipType: 'full',
+        memberSince: moment().format('L')
+    };
+}
 
-    member.postalAddressId = member.postalAddress;
-    delete(member.postalAddress);
-    return member;
+function fakeResultFromDbWhenSavingMember(residentialAddressId, postalAddressId) {
+    let result = {
+        dataValues: getExpectedNewMember(residentialAddressId, postalAddressId)
+    };
+    result.dataValues.id = randomNewMemberId;
+    return result;
 }
 
 describe('memberService', () => {
     describe('createMember', () => {
-        const residentialAddressId = 1;
-        const postalAddressId = 2;
-        const randomNewMemberId = 1;
-        const date = '22/12/1900';
-        const residentialAddressFromDb = [
-            {
-                dataValues: {
-                    id: residentialAddressId
-                }
-            }
-        ];
-        const postalAddressFromDb = [
-            {
-                dataValues: {
-                    id: postalAddressId
-                }
-            }
-        ];
-
-        let createMemberStub, addressStub, loggerStub,
-            residentialAddress, postalAddress,
-            newMember, expectedNewMember, createdMemberFromDb,
-            residentialAddressPromise, postalAddressPromise, memberPromise;
+        let clock;
+        let createMemberStub;
+        let addressStub;
+        let residentialAddressPromise;
+        let postalAddressPromise;
+        let memberPromise;
 
         beforeEach(() => {
+            var fakeDate = moment('2016-02-03T00:00:01.000+11:00');
+            clock = sinon.useFakeTimers(fakeDate.valueOf());
+
             createMemberStub = sinon.stub(models.Member, 'create');
             addressStub = sinon.stub(models.Address, 'findOrCreate');
-            loggerStub = sinon.stub(logger, 'logMemberSignUpEvent');
-
-            residentialAddress = {
-                address: '221b Baker St',
-                suburb: 'London',
-                country: 'England',
-                state: 'VIC',
-                postcode: '1234'
-            };
-            postalAddress = {
-                address: '47 I dont want your spam St',
-                suburb: 'Moriarty',
-                country: 'USA',
-                state: 'NM',
-                postcode: '5678'
-            };
-
-            newMember = fakeNewMember(residentialAddress, postalAddress, date);
-            expectedNewMember = getExpectedNewMember(residentialAddressId, postalAddressId, date);
-            createdMemberFromDb = {
-              dataValues : expectedNewMember
-            };
-            createdMemberFromDb.dataValues.id = randomNewMemberId;
-
 
             residentialAddressPromise = Q.defer();
             addressStub
-                .withArgs({where: residentialAddress, defaults: residentialAddress})
+                .withArgs({where: fakeResidentialAddress(), defaults: fakeResidentialAddress()})
                 .returns(residentialAddressPromise.promise);
 
             postalAddressPromise = Q.defer();
             addressStub
-                .withArgs({where: postalAddress, defaults: postalAddress})
+                .withArgs({where: fakePostalAddress(), defaults: fakePostalAddress()})
                 .returns(postalAddressPromise.promise);
 
             memberPromise = Q.defer();
@@ -123,31 +151,28 @@ describe('memberService', () => {
         });
 
         afterEach(() => {
+            clock.restore();
             models.Member.create.restore();
             models.Address.findOrCreate.restore();
-            loggerStub.restore();
         });
 
         it('creates a new member and address', (done) => {
-            residentialAddressPromise.resolve(residentialAddressFromDb);
-            postalAddressPromise.resolve(postalAddressFromDb);
-            memberPromise.resolve(createdMemberFromDb);
+            residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
+            postalAddressPromise.resolve(fakePostalAddressFromDB());
+            memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakePostalAddressId));
 
-            memberService.createMember(newMember)
-                .then((createdMember) => {
-                    expect(createdMember.firstName).toEqual(expectedNewMember.firstName);
-                    expect(createdMember.id).toEqual(randomNewMemberId);
-
+            memberService.createMember(fakeMemberInputDifferentResAndPostalAddress())
+                .then(() => {
                     expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
                             firstName: 'Sherlock',
                             lastName: 'Holmes',
                             gender: 'horse radish',
                             email: 'sherlock@holmes.co.uk',
-                            dateOfBirth: moment(date, 'DD/MM/YYYY').toDate(),
+                            dateOfBirth: formattedDateOfBirth,
                             primaryPhoneNumber: '0396291146',
                             secondaryPhoneNumber: '0394291146',
-                            residentialAddressId: 1,
-                            postalAddressId: 2,
+                            residentialAddressId: fakeResidentialAddressId,
+                            postalAddressId: fakePostalAddressId,
                             membershipType: 'full',
                             verificationHash: jasmine.anything(),
                             memberSince: jasmine.anything(),
@@ -156,31 +181,19 @@ describe('memberService', () => {
                 }).then(done, done.fail);
         });
 
-        it('logs the member sign up event', (done) => {
-            residentialAddressPromise.resolve(residentialAddressFromDb);
-            postalAddressPromise.resolve(postalAddressFromDb);
-
-            memberPromise.resolve(createdMemberFromDb);
-
-            memberService.createMember(newMember)
-                .then(() => {
-                    expect(logger.logMemberSignUpEvent).toHaveBeenCalledWith(expectedNewMember);
-                }).then(done, done.fail);
-        });
-
         describe('when postal and residential address are identical', () => {
             it('set them both to same value', (done) => {
-                newMember = fakeNewMember(residentialAddress, residentialAddress, date);
-                expectedNewMember = getExpectedNewMember(residentialAddressId, residentialAddressId, date);
+                residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
+                postalAddressPromise.resolve(fakeResidentialAddressFromDB());
+                memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakeResidentialAddressId));
 
-                residentialAddressPromise.resolve(residentialAddressFromDb);
-                postalAddressPromise.resolve(postalAddressFromDb);
-                memberPromise.resolve(createdMemberFromDb);
-
-                memberService.createMember(newMember)
-                    .finally(() => {
-                        expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining(expectedNewMember));
-                    }).then(done, done.fail);
+                memberService.createMember(fakeMemberInputSameResAndPostalAddress())
+                .then(() => {
+                    expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining({
+                        residentialAddressId: 1,
+                        postalAddressId: 1
+                    }));
+                }).then(done, done.fail);
             });
         });
 
@@ -188,7 +201,7 @@ describe('memberService', () => {
             it('handles db errors when saving the residential address', (done) => {
                 residentialAddressPromise.reject('Some DB ERROR the user should not see.');
 
-                memberService.createMember(newMember)
+                memberService.createMember(fakeMemberInputDifferentResAndPostalAddress())
                 .then(() => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
@@ -200,10 +213,10 @@ describe('memberService', () => {
             });
 
             it('handles db errors when saving the postal address', (done) => {
-                residentialAddressPromise.resolve(residentialAddressFromDb);
+                residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
                 postalAddressPromise.reject('Some DB ERROR the user should not see.');
 
-                memberService.createMember(newMember)
+                memberService.createMember(fakeMemberInputDifferentResAndPostalAddress())
                 .then(() => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
@@ -215,11 +228,11 @@ describe('memberService', () => {
             });
 
             it('handles db erros when saving the member to the database', (done) => {
-                residentialAddressPromise.resolve(residentialAddressFromDb);
-                postalAddressPromise.resolve(postalAddressFromDb);
+                residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
+                postalAddressPromise.resolve(fakePostalAddressFromDB());
                 memberPromise.reject('Some DB ERROR the user should not see.');
 
-                memberService.createMember(newMember)
+                memberService.createMember(fakeMemberInputDifferentResAndPostalAddress())
                 .then(() => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
