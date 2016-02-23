@@ -8,7 +8,7 @@ var env = process.env.NODE_ENV || 'development';
 
 var config = null;
 try {
-    var configFile = require(__dirname + '/../config/paypal-config.json');
+    var configFile = require(__dirname + '/../../../config/paypal-config.json');
     config = configFile[env];
 } catch (e) {
     console.log('Could not find paypal config file');
