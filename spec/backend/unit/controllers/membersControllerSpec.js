@@ -11,8 +11,8 @@ var membersController = require('../../../../src/backend/controllers/membersCont
 
 describe('membersController', () => {
 
-    describe('newMemberHandler', () => {
-        let newMemberHandler,
+    describe('createNewMember', () => {
+        let createNewMember,
             goodRequest, res,
             residentialAddress, postalAddress,
             createMemberStub, createMemberPromise,
@@ -20,7 +20,7 @@ describe('membersController', () => {
             sendVerificationEmailStub;
 
         beforeEach(() => {
-            newMemberHandler = membersController.newMemberHandler;
+            createNewMember = membersController.createNewMember;
             createMemberStub = sinon.stub(memberService, 'createMember');
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
             sendVerificationEmailStub = sinon.stub(messagingService, 'sendVerificationEmail');
@@ -94,8 +94,8 @@ describe('membersController', () => {
                 };
             });
 
-            fit('creates a new member', (done) => {
-                newMemberHandler(goodRequest, res)
+            it('creates a new member', (done) => {
+                createNewMember(goodRequest, res)
                 .finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
                     expect(res.status().json).toHaveBeenCalledWith({newMember: {email: createdMember.email}});
@@ -107,7 +107,7 @@ describe('membersController', () => {
         describe('when validation fails', () => {
             it('responds with status 400',(done) => {
                 validateMemberStub.returns(['firstName']);
-                newMemberHandler(goodRequest, res);
+                createNewMember(goodRequest, res);
 
                 expect(memberService.createMember).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);

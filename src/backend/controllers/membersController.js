@@ -77,7 +77,7 @@ function handleError(res) {
   };
 }
 
-let newMemberHandler = (req, res) => {
+let createNewMember = (req, res) => {
     let newMember = setupNewMember(req);
 
     let validationErrors = memberValidator.isValid(newMember);
@@ -153,7 +153,7 @@ function renewMemberHandler(req, res) {
 }
 
 module.exports = {
-    newMemberHandler: newMemberHandler,
+    createNewMember: createNewMember,
     updateMemberHandler: updateMemberHandler,
     verify: verify,
     renew: renew,

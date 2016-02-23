@@ -24,7 +24,7 @@ router.get('/', function (req, res) {
     res.header(headers).render('index', {title: 'The Lab - Sign Up'});
 });
 
-router.post('/members', membersController.newMemberHandler);
+router.post('/members', membersController.createNewMember);
 
 router.get('/members/verify/:hash', membersController.verify);
 router.get('/members/renew/:hash', membersController.renew);
