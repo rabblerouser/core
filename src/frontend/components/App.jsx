@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import NewMemberForm from './NewMemberForm.jsx';
+import { Resources } from '../config/strings';
 
 export default class App extends Component {
     render() {
@@ -10,7 +11,7 @@ export default class App extends Component {
                 <NewMemberForm />
             </div>
             <div className="footer">
-                <a href="https://pirateparty.org.au/privacy/" target="_blank">Privacy Policy</a>
+                <a href={ Resources.privacyPolicy } target="_blank">Privacy Policy</a>
             </div>
           </div>
         )
