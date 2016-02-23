@@ -13,6 +13,9 @@ module.exports = function (config) {
         },
         reporters: ['dots'],
         webpack: {
+            plugins: [
+                  new webpack.IgnorePlugin(/ReactContext/),
+              ],
             module: {
                 loaders: [
                     {

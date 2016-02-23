@@ -83,6 +83,7 @@
     "query-string": "^3.0.0",
     "react-addons-test-utils": "^0.14.7",
     "sinon": "^1.17.2",
+    "skin-deep": "^0.14.0",
     "supertest": "^1.1.0",
     "supertest-as-promised": "^2.0.2",
     "watchify": "^3.7.0",
