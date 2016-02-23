@@ -2,7 +2,7 @@
 
 const passport = require('passport'),
       LocalStrategy = require('passport-local').Strategy,
-      AdminUser = require('../src/backend/models/index').AdminUser;
+      AdminUser = require('../models/index').AdminUser;
 
 passport.use(new LocalStrategy({
     usernameField: 'email',
