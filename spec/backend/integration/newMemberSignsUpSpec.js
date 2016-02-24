@@ -76,7 +76,7 @@ describe('User Flow', () => {
         member = makeMemberWithEmail(email);
     });
 
-    it ('member sign up with duplicate email should not fail', (done) => {
+    xit ('member sign up with duplicate email should not fail', (done) => {
         successfullyCreatingANewMemberShouldRepondWithA200()
             .then(done, done.fail);
     }, 60000);
