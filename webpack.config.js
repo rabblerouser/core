@@ -3,7 +3,6 @@ require('webpack');
 module.exports = {
     entry: {
         main:'./src/frontend/components/App.jsx',
-        renew: './src/frontend/components/Renew.jsx',
         admin: './src/frontend/components/admin/AdminDashboard.jsx'
     },
     output: {
