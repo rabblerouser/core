@@ -7,7 +7,6 @@ import { ApplictionFormValidationErrors as ErrorStrings } from '../config/string
 import { ApplicationFormFieldLabels as Labels } from '../config/strings.js';
 import { ApplicationForm as Strings } from '../config/strings.js';
 
-
 export default class Details extends Component {
     constructor(props) {
         super(props);
@@ -71,7 +70,6 @@ export default class Details extends Component {
 
     submitDetails() {
 
-
         var fieldValues = {
             labSelection: this.refs.labSelection.value,
             contactName: this.refs.contactName.value,
@@ -92,7 +90,7 @@ export default class Details extends Component {
             this.handleValidationErrors(validationErrors, true);
             return;
         }
-        return this.props.saveAndContinue(fieldValues);
+        return this.props.postAndContinue(fieldValues);
     }
 
     render() {
@@ -174,7 +172,7 @@ export default class Details extends Component {
                       </div>
 
                     <div className="navigation">
-                        <button onClick={this.submitDetails}>Continue</button>
+                        <button onClick={this.submitDetails}>Register</button>
                         <p>or <a id="go-back" onClick={this.props.previousStep} href="#">go back</a></p>
                     </div>
                 </div>

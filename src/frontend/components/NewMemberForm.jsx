@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Details from './Details.jsx';
-import ConfirmDetails from './ConfirmDetails.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import Finished from './Finished.jsx';
 import $ from 'jquery';
@@ -21,34 +20,18 @@ export default class NewMemberForm extends Component {
         this.state = { errors: [],
                        step: (this.props.initialState === undefined ? startingState : this.props.initialState),
                        membershipType: 'full' };
-        this.formValues = {
-                            membershipType: '',
-                            isEnrolled: '',
-                            residentialStatus: '',
-                            isMemberOfOtherParty: '',
-                            eligibility: '',
-                            firstName: '',
-                            lastName: '',
-                            dateOfBirth: '',
-                            gender: '',
-                            email: '',
-                            primaryPhoneNumber: '',
-                            secondaryPhoneNumber: '',
-                            residentialAddress: {
-                                address: '',
-                                suburb: '',
-                                country: '',
-                                state: '',
-                                postcode: ''
-                            },
-                            postalAddress: {
-                                address: '',
-                                suburb: '',
-                                country: '',
-                                state: '',
-                                postcode: ''
-                            }
-                        };
+        this.formValues =  {
+            labSelection: '',
+            contactName: '',
+            contactLastName: '',
+            contactNumber: '',
+            contactEmail: '',
+            childName: '',
+            childLastName: '',
+            childBirthYear: '',
+            schoolType: '',
+            additionalInfo: ''
+        };
     }
 
     componentDidUpdate() {
@@ -92,14 +75,8 @@ export default class NewMemberForm extends Component {
       switch(this.state.step) {
           case 1:
               return <Details formValues={this.formValues}
-                              saveAndContinue={this.saveAndContinue}
-                              membershipType={this.state.membershipType} />;
+                              postAndContinue={this.postAndContinue} />;
           case 2:
-              return <ConfirmDetails formValues={this.formValues}
-                                    postAndContinue={this.postAndContinue}
-                                    previousStep={this.previousStep}
-                                    errors={this.state.errors}/>;
-          case 3:
               return <Finished email={this.formValues.email}
                                 nextStep={this.nextStep} />;
       };
