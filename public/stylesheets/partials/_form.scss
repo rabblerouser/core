@@ -7,7 +7,7 @@
 
 -------------------------------------------------------------------------------------- */
 
-fieldset { 
+fieldset {
     @include fill-parent();
     @include clearfix();
     @include pad(0px 0px 32px 0px);
@@ -15,36 +15,51 @@ fieldset {
     border:none;
     background-color: $blue-light;
     color: $blue-darker;
-    
+
 
     .form-body {
         @include pad(0 36px default 36px);
-        
+
         @include media($mobile) {
-            @include pad(0 25px default 25px); 
-        } 
+            @include pad(0 25px default 25px);
+        }
     }
-    
 
     .field-group { /* A group of information under one heading */
             @include span-columns(6);
             @include pad(15px 0px 20px 0px);
             width: 100%;
-        
+
             @include media($mobile) {
-                @include pad(10px 0px 13px 0px); 
-            } 
+                @include pad(10px 0px 13px 0px);
+            }
     }
+}
+
+.field-pair {
+  @include pad(0px 0px 0px 0px);
+  margin-top: 8px;
+  .sub-field {
+    @include media($desktop) {
+      display: inline-block;
+      width: 50%;
+    }
+
+    @include media($mobile) {
+        @include pad();
+    }
+  }
+
 }
 
 
 .form-container { /* Form container width */
     @include media($desktop) {
         max-width: 800px;
-    }    
+    }
 
     @include media($mobile) {
-        @include pad();  
+        @include pad();
     }
 
     margin: 10px auto;
@@ -58,7 +73,7 @@ fieldset {
 -------------------------------------------------------------------------------------- */
 
 .form-container {
-    
+
     .form-title { /* Large heading with blue background at the top of the form */
         background: $blue-darker;
         color: $white;
@@ -68,7 +83,7 @@ fieldset {
         line-height: 76px;
         margin-bottom: 10px;
         padding-left: 36px;
-        
+
         @include media($mobile) {
             font-size: 20px;
             height: 65px;
@@ -84,18 +99,18 @@ fieldset {
         line-height: 26px;
         margin-bottom: 0;
         padding-bottom: 6px;
-        
+
         @include media($mobile) {
             font-size: 16px;
             line-height:20px;
         }
     }
-    
+
     .sub-title span {
         @include media($mobile) {
             font-size: 16px;
             line-height:20px;
-        }  
+        }
     }
 
     .sub-description { /* Smaller description in italics, under the divider line */
@@ -103,7 +118,7 @@ fieldset {
         font-style: italic;
         line-height: 20px;
         padding-top: 6px;
-        
+
         @include media($mobile) {
             font-size: 11px;
             line-height: 16px;
@@ -116,26 +131,26 @@ fieldset {
         padding-top: 20px;
         padding-bottom: 10px;
     }
-    
-    
+
+
     span { /* Mobile size of body text */
         @include media($mobile) {
-           font-size: 13px;     
-       }   
+           font-size: 13px;
+       }
     }
-    
-    
+
+
     a { /* Inline link styles */
         color: $blue-darker;
         font-weight: bold;
         text-decoration: underline;
     }
-    
 
-    a:hover{ 
+
+    a:hover{
         color: #4da8d4;
     }
-    
+
 
     label {
         font-weight: normal;
@@ -144,13 +159,25 @@ fieldset {
 
         @include media($mobile) {
             font-size: 13px;
-        } 
+        }
     }
 
-    input[type="text"] {
+    input {
         border-color: $blue;
         border-radius: 0;
-    }  
+    }
+
+    aside {
+      font-size: 13px;
+      font-style: italic;
+      margin-top: 3px;
+      margin-bottom: 3px;
+    }
+
+    .other-field {
+      display: inline-block;
+      margin-left: 10px;
+    }
 }
 
 
@@ -158,27 +185,9 @@ h3 {
   margin: 0;
 }
 
-
-/* Red asterisks */
-
-.mandatoryField { 
-    color: $red;
-    font-size: 14px;
-    font-weight: bold;
-    
-    @include media($mobile) {
-        font-size: 13px;  
-    } 
-}
-
-
 input[type="radio"] {
     margin-top: 15px;
 }
-
-
-
-/* Country and state dropdowns */
 
 select {
     width: 100%;
@@ -189,10 +198,34 @@ select {
     font-size: 14px;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
     transition: border-color 150ms ease;
-    
+
     @include media($mobile) {
         font-size:13px;
-    } 
+    }
+}
+
+#labSelection {
+  max-width: 250px;
+}
+
+#childBirthYear {
+  max-width: 80px;
+}
+
+input[type="email"] {
+  max-width: 250px;
+}
+
+input[type="tel"] {
+  max-width: 250px;
+}
+
+input[type="text"].other-field {
+  max-width: 200px;
+}
+
+textarea {
+  max-width: 350px;
 }
 
 select::-ms-expand { /* for IE 11 */
@@ -210,7 +243,6 @@ select { /* Arrow image */
     border: 1px solid #4DA8D4;
 }
 
-
 input[type="text"], select {
   max-width: 350px;
 }
@@ -226,7 +258,7 @@ input[type="text"], select {
 .info-box span{
     @include media($mobile) {
             font-size:11px;
-        }  
+        }
 }
 
 .info-box {
@@ -235,25 +267,25 @@ input[type="text"], select {
     border: 2px solid $green;
     margin-bottom: 25px;
     padding: 0 15px;
-    
+
 
     .info-heading {
         border-bottom: 1px solid $green;
         color: $green;
         font-weight: bold;
         padding-bottom: 5px;
-        
+
         @include media($mobile) {
             padding-top:10px;
             font-size:13px;
-        } 
-    
+        }
+
 
     h3 {
         @include pad(default 0px 0px 0px);
         margin:0px;
     }
-        
+
 
     a {
         color: $green;
@@ -261,10 +293,10 @@ input[type="text"], select {
         font-size: 10px;
         font-style: italic;
         font-weight: normal;
-        
+
         @include media($mobile) {
             font-size:9px;
-        } 
+        }
 
         .circled { /* Question mark symbol */
             border-radius: 100%;
@@ -291,7 +323,7 @@ input[type="text"], select {
     .info-body {
     font-size: 13px;
     padding: 15px 0;
-        
+
          @include media($mobile) {
             font-size: 11px;
             line-height: 16px;
@@ -312,7 +344,7 @@ input[type="text"], select {
              color: $green;
         }
 
-       
+
     }
 }
 
@@ -330,15 +362,15 @@ input[type="text"], select {
 }
 
 
-.ReactModal__Content.ReactModal__Content--after-open{  
-        max-width: 360px; 
+.ReactModal__Content.ReactModal__Content--after-open{
+        max-width: 360px;
         margin: 10px !important;
         top: 0 !important;
         left: 10px !important;
         right: 10px !important;
         margin-left: auto !important;
         margin-right: auto !important;
-        transform: none !important;    
+        transform: none !important;
 }
 
 
@@ -354,8 +386,8 @@ Modal {
     padding-right: 7px;
      z-index:9000;
     opacity: .99;
-    
-    
+
+
     .close-button {
          height: 24px;
          float:left;
@@ -373,7 +405,7 @@ Modal {
             font-size: 16px;
             line-height: 20px;
             margin-bottom: 0;
-            
+
             @include media($mobile) {
                 font-size:17px;
             }
@@ -400,7 +432,7 @@ Modal {
     line-height: 22px;
     margin-bottom: 0;
     padding-top: 15px;
-      
+
     @include media($mobile) {
         font-size:14px;
     }
@@ -413,7 +445,7 @@ Modal {
     line-height: 19px;
     margin-bottom: 0;
     padding-bottom: 15px;
-      
+
     @include media($mobile) {
         font-size:13px;
     }
@@ -456,7 +488,7 @@ Modal {
     img {
         width: 48px;
         float: left;
-        
+
         @include media($mobile) {
             display:none;
         }
@@ -498,15 +530,15 @@ hr {
     color: $red;
     font-weight: bold;
     padding-bottom: 10px;
-    font-size:15px;  
+    font-size:15px;
   }
 
   .errors {
     font-size: 13px;
     color: $red;
     margin-left: 17px;
-      
-      
+
+
     @include media($mobile) {
         font-size:11px;
     }
@@ -565,10 +597,10 @@ hr {
     margin-right: 6px;
     padding-top: 15px;
     padding-bottom: 15px;
-      
+
     @include media($mobile) {
         font-size:13px;
-    }  
+    }
   }
 
    button:hover{
@@ -579,10 +611,10 @@ hr {
     height: 40px;
     line-height: 40px;
     margin: 0;
-      
+
     @include media($mobile) {
         font-size:13px;
-    }   
+    }
   }
 }
 
@@ -615,10 +647,10 @@ hr {
       width: 48px;
       float: left;
     }
-    
+
     @include media($mobile) {
-        font-size: 13px;  
-    } 
+        font-size: 13px;
+    }
 }
 
 
@@ -646,7 +678,7 @@ hr {
 
 
 .contribution-amount {
-    
+
     .currency {
         background: $blue-darker;
         color: $white;
@@ -690,7 +722,7 @@ hr {
     color: #0073ae;
     padding-bottom: 30px;
     text-decoration: underline;
-    
+
     @include media($mobile) {
         font-size:13px;
     }
@@ -707,8 +739,3 @@ hr {
         margin-bottom: 0;
     }
 }
-
-
-
-
-

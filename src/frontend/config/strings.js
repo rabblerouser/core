@@ -6,6 +6,7 @@ export const ApplicationForm = {
   instructions: "Please fill in the following information and we'll let you know when space becomes available at the lab",
   labPlaceholder: "Select Lab",
   byoReminder: "Please be aware that participants will need to bring their own laptop to the lab",
+  ageReminder: "Please note that our target age is generally between 10 and 16 years",
   submitButton: "Submit"
 }
 
