@@ -27,6 +27,9 @@ function handleError(message) {
 
 function setupMember(newMember) {
   return function (residentialAddress, postalAddress) {
+    let residentialAddressId = residentialAddress ? residentialAddress[0].dataValues.id : null;
+    let postalAddressId = postalAddress ? postalAddress[0].dataValues.id : null;
+
     return {
         firstName: newMember.firstName,
         lastName: newMember.lastName,
@@ -35,8 +38,8 @@ function setupMember(newMember) {
         dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
         primaryPhoneNumber: newMember.primaryPhoneNumber,
         secondaryPhoneNumber: newMember.secondaryPhoneNumber,
-        residentialAddressId: residentialAddress[0].dataValues.id,
-        postalAddressId: postalAddress[0].dataValues.id,
+        residentialAddressId: residentialAddressId,
+        postalAddressId: postalAddressId,
         membershipType: newMember.membershipType,
         verificationHash: createHash(),
         memberSince: moment().format('L'),
@@ -49,11 +52,22 @@ function logEvent(saveResult) {
     temporaryLogger.info('[member-sign-up-event]', saveResult.dataValues);
 }
 
+function findOrCreateAddress(address) {
+    return Q(Address.findOrCreate({where: address, defaults: address}));
+}
+
 function getMemberAddresses(newMember) {
-  return [
-    Q(Address.findOrCreate({where: newMember.residentialAddress, defaults: newMember.residentialAddress})),
-    Q(Address.findOrCreate({where: newMember.postalAddress, defaults: newMember.postalAddress}))
-  ];
+    let memberAddresses = [];
+
+    if (newMember.residentialAddress) {
+        memberAddresses.push(findOrCreateAddress(newMember.residentialAddress));
+    }
+
+    if (newMember.postalAddress) {
+        memberAddresses.push(findOrCreateAddress(newMember.postalAddress));
+    }
+
+    return memberAddresses;
 }
 
 let createMember = (newMember) => {

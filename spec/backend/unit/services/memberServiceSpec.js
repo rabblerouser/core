@@ -88,14 +88,6 @@ function fakeNewMember(residentialAddress, postalAddress) {
         };
 }
 
-function fakeMemberInputDifferentResAndPostalAddress() {
-    return fakeNewMember(fakeResidentialAddress(), fakePostalAddress());
-}
-
-function fakeMemberInputSameResAndPostalAddress() {
-    return fakeNewMember(fakeResidentialAddress(), fakeResidentialAddress());
-}
-
 function getExpectedNewMember(residentialAddressId, postalAddressId) {
     return {
         firstName: 'Sherlock',
@@ -161,7 +153,7 @@ describe('memberService', () => {
             postalAddressPromise.resolve(fakePostalAddressFromDB());
             memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakePostalAddressId));
 
-            memberService.createMember(fakeMemberInputDifferentResAndPostalAddress())
+            memberService.createMember(fakeNewMember(fakeResidentialAddress(), fakePostalAddress()))
                 .then(() => {
                     expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
                             firstName: 'Sherlock',
@@ -187,7 +179,9 @@ describe('memberService', () => {
                 postalAddressPromise.resolve(fakeResidentialAddressFromDB());
                 memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakeResidentialAddressId));
 
-                memberService.createMember(fakeMemberInputSameResAndPostalAddress())
+                let input = fakeNewMember(fakeResidentialAddress(), fakeResidentialAddress());
+
+                memberService.createMember(input)
                 .then(() => {
                     expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining({
                         residentialAddressId: 1,
@@ -201,7 +195,9 @@ describe('memberService', () => {
             it('handles db errors when saving the residential address', (done) => {
                 residentialAddressPromise.reject('Some DB ERROR the user should not see.');
 
-                memberService.createMember(fakeMemberInputDifferentResAndPostalAddress())
+                let input = fakeNewMember(fakeResidentialAddress(), fakePostalAddress());
+
+                memberService.createMember(input)
                 .then(() => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
@@ -216,7 +212,9 @@ describe('memberService', () => {
                 residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
                 postalAddressPromise.reject('Some DB ERROR the user should not see.');
 
-                memberService.createMember(fakeMemberInputDifferentResAndPostalAddress())
+                let input = fakeNewMember(fakeResidentialAddress(), fakePostalAddress());
+
+                memberService.createMember(input)
                 .then(() => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
@@ -232,7 +230,9 @@ describe('memberService', () => {
                 postalAddressPromise.resolve(fakePostalAddressFromDB());
                 memberPromise.reject('Some DB ERROR the user should not see.');
 
-                memberService.createMember(fakeMemberInputDifferentResAndPostalAddress())
+                let input = fakeNewMember(fakeResidentialAddress(), fakePostalAddress());
+
+                memberService.createMember(input)
                 .then(() => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
