@@ -8,21 +8,21 @@
   margin-top: 25px;
   position: relative;
   text-align: center;
-    
+
   @include media($mobile) {
       margin-top: 0;
-    } 
+    }
 
   img {  /* Logo */
-    height: 72px;
+    height: 100px;
 
     @include media($tablet) {
       width: 50%;
     }
   }
-    
 
- /* Progress bar content */      
+
+ /* Progress bar content */
 
   li {
     &:nth-child(1) {
@@ -63,7 +63,7 @@
 
 
 
-/* Progress bar styles */ 
+/* Progress bar styles */
 
 .progress-bar {
   margin-top: 58px;
@@ -77,15 +77,15 @@
     font-weight: 600;
     position: relative;
     width: 20%;
-      
-     
+
+
     @include media($tablet) {
       font-size: 11px;
-    } 
-      
+    }
+
     @include media($mobile) {
        line-height: 12px;
-    } 
+    }
 
     &::after { /* Circles */
       background: $white;
@@ -101,9 +101,9 @@
       top: -52px;
       width: 42px;
       z-index: 99;
-      display: inline-block; 
+      display: inline-block;
 
-        
+
          @include media($mobile) {
              height:35px;
              width: 35px;
@@ -111,7 +111,7 @@
              margin-left: -17px;
              font-size: 11px;
              line-height:28px;
-        } 
+        }
     }
 
 
@@ -127,7 +127,7 @@
       margin: auto;
     }
   }
-    
+
 
   .active {
     color: $blue-darker;
@@ -170,7 +170,7 @@
 }
 
 
-/* Tick image for progress bar */ 
+/* Tick image for progress bar */
 .progress-bar .visited:nth-child(1)::after,
 .progress-bar .visited:nth-child(2)::after,
 .progress-bar .visited:nth-child(3)::after,
@@ -178,7 +178,7 @@
     background-image: url('../images/Tick.svg');
     background-size: 16px 16px;
     background-repeat: no-repeat;
-    background-position: center; 
+    background-position: center;
     content: '';
 
     @include media($mobile) {
@@ -190,8 +190,8 @@
   display: none;
 }
 
-/* Responsive text for progress bar */ 
-.progress-bar li span { 
+/* Responsive text for progress bar */
+.progress-bar li span {
         @include media($mobile) {
         font-size: 9px;
        }
