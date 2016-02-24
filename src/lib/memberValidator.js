@@ -47,6 +47,12 @@ var isValidDate = (date) => {
     return formattedDate.isValid() && formattedDate.isSameOrBefore(sixteenYearsAgo);
 };
 
+var isValidYear = (number) => {
+    let currentYear = new Date().getFullYear();
+    let year = parseInt(number);
+    return year <= currentYear && year >= (currentYear - 18);
+};
+
 var isValidPostcode = (postcode) => {
     return !!postcode && /^\d{4}$/.test(postcode);
 };
@@ -123,29 +129,18 @@ var isValidMembershipType = (type) => {
 
 const memberFieldsChecks =
 {
-    firstName: isValidName,
-    lastName: isValidName,
-    gender: isValidGender,
-    email: isValidEmail,
-    primaryPhoneNumber: isValidPhone,
-    secondaryPhoneNumber: isValidOptionalPhone,
-    dateOfBirth:  isValidDate
-};
-
-var addressFieldChecks =
-{
-    address: isValidLength,
-    suburb: isValidLength,
-    postcode: isValidPostcode,
-    state: isValidLength,
-    country: isValidCountry
+    contactName: isValidName,
+    contactEmail: isValidEmail,
+    contactNumber: isValidPhone,
+    childName: isValidName,
+    childBirthYear:  isValidYear,
+    labSelection: isValidString,
+    schoolType: isValidString
 };
 
 var isValid = (member) => {
     var errors = [
-        isValidDetails(member),
-        isValidResidentialAddress(member && member['residentialAddress']),
-        isValidPostalAddress(member && member['postalAddress'])
+        isValidDetails(member)
     ];
     return _.flatten(errors);
 
@@ -153,12 +148,10 @@ var isValid = (member) => {
 
 module.exports = {
     isValidName: isValidName,
-    isValidGender: isValidGender,
     isValidEmail: isValidEmail,
     isValidPhone: isValidPhone,
     isValidDate: isValidDate,
+    isValidYear: isValidYear,
     isValid: isValid,
-    isValidAddress: isValidResidentialAddress,
-    isValidMembershipType: isValidMembershipType,
     isValidVerificationHash: isValidVerificationHash
 };

@@ -3,14 +3,15 @@ import Errors from './Errors.jsx';
 import InlineError from './InlineError.jsx';
 import * as memberValidator from '../../lib/memberValidator';
 import countrySelector from '../../../public/javascript/countries.js';
+import { ApplictionFormValidationErrors as ErrorStrings } from '../config/strings.js';
+import { ApplicationFormFieldLabels as Labels } from '../config/strings.js';
+import { ApplicationForm as Strings } from '../config/strings.js';
+
 
 export default class Details extends Component {
     constructor(props) {
         super(props);
         this.submitDetails = this.submitDetails.bind(this);
-        this.getPersonalInformationSubtitletext = this.getPersonalInformationSubtitletext.bind(this);
-        this.getResidentialAddressSubtitleText = this.getResidentialAddressSubtitleText.bind(this);
-        this.handlePostalAddress = this.handlePostalAddress.bind(this);
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
         this.validationErrorClass = this.validationErrorClass.bind(this);
         this.isValidationError = this.isValidationError.bind(this);
@@ -19,46 +20,22 @@ export default class Details extends Component {
         this.state = {
             invalidFields: [],
             errorNames: [],
-            showPostalAddress: false,
-            residentialCountry: 'Australia',
-            postalCountry: 'Australia'
+            labs: ['Geelong', 'Melbourne', 'East Melbourne']
         };
 
         this.errorTypes = {
-          firstName: {name: 'First Name', message: 'Please enter your first name. No symbols allowed.'},
-          lastName: {name: 'Last Name', message: 'Please enter your last name. No symbols allowed.'},
-          dateOfBirth: {name: 'Date of Birth', message: 'Must be in the format DD/MM/YYYY and you must be over 16 years of age.'},
-          email: {name: 'Email', message: 'Please enter a valid email address i.e. valid@email.com'},
-          primaryPhoneNumber: {name: 'Phone Number', message: 'Please enter a valid phone number.'},
-          secondaryPhoneNumber: {name: 'Secondary Phone Number', message: 'Please enter a valid phone number.'},
-          residentialAddress: {name: 'Residential Address', message: 'Please enter your address.'},
-          residentialState: {name: 'Residential State', message: 'Please select your state from the dropdown menu.'},
-          residentialCountry: {name: 'Residential Country', message: 'Please select your country from the dropdown menu.'},
-          residentialPostcode: {name: 'Residential Postcode', message: 'Please enter your postcode/zip code. Must not be longer than 16 digits.'},
-          residentialSuburb: {name: 'Residential Suburb', message: 'Please enter your suburb/city.'},
-          postalAddress: {name: 'Postal Address', message: 'Please enter your address.'},
-          postalState: {name: 'Postal State', message: 'Please select your state from the dropdown menu.'},
-          postalCountry: {name: 'Postal Country', message: 'Please select your country from the dropdown menu.'},
-          postalPostcode: {name: 'Postal Postcode', message: 'Please enter your postcode/zip code. Must not be longer than 16 digits.'},
-          postalSuburb: {name: 'Postal Suburb', message: 'Please enter your suburb/city.'},
+          contactName: ErrorStrings.contactName,
+          contactNumber: ErrorStrings.contactNumber,
+          childBirthYear: ErrorStrings.childBirthYear,
+          contactEmail: ErrorStrings.contactEmail,
+          childName: ErrorStrings.childName,
+          labSelection: ErrorStrings.labSelection,
+          schoolType: ErrorStrings.schoolType
         };
-    }
-
-    handlePostalAddress() {
-        if (this.refs.differentPostal.checked) {
-            this.setState({showPostalAddress: true});
-        } else {
-            this.setState({showPostalAddress: false});
-        }
     }
 
     handleValidationErrors(validationErrors, scrollToError) {
         let invalidFields = validationErrors;
-
-        if(!this.refs.differentPostal.checked){
-            invalidFields = _.filter(validationErrors, (error) => !_.startsWith(error, 'postal'));
-        }
-
         var errors = [];
 
         _.forEach(invalidFields, function(error){
@@ -66,28 +43,6 @@ export default class Details extends Component {
         }.bind(this));
 
         this.setState({invalidFields: invalidFields, errorNames: errors, scrollToError: scrollToError});
-    }
-
-    componentDidMount() {
-        countrySelector.populateCountries('residentialAddress[country]', 'residentialAddress[state]');
-        countrySelector.populateCountries('postalAddress[country]', 'postalAddress[state]');
-
-        countrySelector.setCountryAddress('residentialAddress[country]', this.props.formValues.residentialAddress.country, 'residentialAddress[state]', this.props.formValues.residentialAddress.state);
-        countrySelector.setCountryAddress('postalAddress[country]', this.props.formValues.postalAddress.country, 'postalAddress[state]', this.props.formValues.postalAddress.state);
-    }
-
-    getPersonalInformationSubtitletext() {
-        if (this.props.membershipType === 'full') {
-            return 'Please enter your details exactly as they would appear on the electoral roll.';
-        }
-        return 'Please enter your details.';
-    }
-
-    getResidentialAddressSubtitleText() {
-        if (this.props.membershipType === 'full') {
-            return 'Please enter the address that you are enrolled to vote from.';
-        }
-        return 'Please enter your address.';
     }
 
     isValidationError(fieldName) {
@@ -101,36 +56,37 @@ export default class Details extends Component {
         return ;
     }
 
+    getSchoolType(refs) {
+      if (refs.schoolTypePrimary.checked) {
+        return refs.schoolTypePrimary.value;
+      }
+      if (refs.schoolTypeSecondary.checked) {
+        return refs.schoolTypeSecondary.value;
+      }
+      if (refs.schoolTypeOther.checked) {
+        return refs.schoolTypeOtherText.value;
+      }
+      return '';
+    }
 
     submitDetails() {
+
+
         var fieldValues = {
-            membershipType: this.props.membershipType,
-            firstName: this.refs.firstName.value,
-            lastName: this.refs.lastName.value,
-            dateOfBirth: this.refs.dateOfBirth.value,
-            gender: this.refs.gender.value,
-            email: this.refs.email.value,
-            primaryPhoneNumber: this.refs.phoneNumber.value,
-            secondaryPhoneNumber: this.refs.secondaryPhoneNumber.value,
-            residentialAddress: {
-                address: this.refs.residentialAddress.value,
-                suburb: this.refs.residentialSuburb.value,
-                country: this.refs.residentialCountry.value,
-                state: this.refs.residentialState.value,
-                postcode: this.refs.residentialPostcode.value
-            },
-            postalAddress: {
-                address: this.refs.postalAddress.value,
-                suburb: this.refs.postalSuburb.value,
-                country: this.refs.postalCountry.value,
-                state: this.refs.postalState.value,
-                postcode: this.refs.postalPostcode.value
-            }
+            labSelection: this.refs.labSelection.value,
+            contactName: this.refs.contactName.value,
+            contactLastName: this.refs.contactLastName.value,
+            contactNumber: this.refs.contactNumber.value,
+            contactEmail: this.refs.contactEmail.value,
+            childName: this.refs.childName.value,
+            childLastName: this.refs.childLastName.value,
+            childBirthYear: this.refs.childBirthYear.value,
+            schoolType: this.getSchoolType(this.refs),
+            additionalInfo: this.refs.additionalInfo.value
         };
 
-        if (!this.refs.differentPostal.checked) {
-            fieldValues.postalAddress = fieldValues.residentialAddress;
-        }
+        console.log(JSON.stringify(fieldValues));
+
         var validationErrors = this.validator.isValid(fieldValues);
         if (validationErrors.length > 0) {
             this.handleValidationErrors(validationErrors, true);
@@ -151,146 +107,72 @@ export default class Details extends Component {
 
                     <div className="heading">
                         <h2 className="sub-title"> Personal Information</h2>
-                         <div className="sub-description">{this.getPersonalInformationSubtitletext()}</div>
+                         <div className="sub-description">{Strings.instructions}</div>
                     </div>
                     <div className="field-group">
-                        <label htmlFor="firstName" className={this.validationErrorClass('firstName')}>Given Name(s) <span className="mandatoryField">* </span>
-                            <InlineError isError={this.isValidationError('firstName')}
-                                          errorMessage={this.errorTypes['firstName'].message} />
-                            <input type="text" defaultValue={this.props.formValues.firstName} ref="firstName" id="firstName"
-                                   className="firstName" />
-                        </label>
-                        <label htmlFor="lastName" className={this.validationErrorClass('lastName')}>Last Name <span className="mandatoryField">* </span>
-                          <InlineError isError={this.isValidationError('lastName')}
-                                        errorMessage={this.errorTypes['lastName'].message} />
-                          <input type="text" defaultValue={this.props.formValues.lastName} ref="lastName" id="lastName"
-                                   className="lastName"/>
-                        </label>
-                        <label htmlFor="dateOfBirth" className={this.validationErrorClass('dateOfBirth')}>Date of Birth <span className="mandatoryField">* </span>
-                          <InlineError isError={this.isValidationError('dateOfBirth')}
-                                        errorMessage={this.errorTypes['dateOfBirth'].message} />
-                          <input type="text" defaultValue={this.props.formValues.dateOfBirth} ref="dateOfBirth"
-                                   placeholder="DD/MM/YYYY" id="dateOfBirth" className="dateOfBirth"/>
-                        </label>
-                        <label htmlFor="gender">Gender <i>(optional)</i>
-                            <input type="text" defaultValue={this.props.formValues.gender} ref="gender" id="gender"
-                                   className="gender"/>
-                        </label>
-                    </div>
-                    <div className="heading">
-                        <h2 className="sub-title"> Residential Address</h2>
-                        <div className="sub-description">{this.getResidentialAddressSubtitleText()}</div>
-                    </div>
-                    <div className="field-group">
-                        <label htmlFor="residentialAddress[address]" className={this.validationErrorClass('residentialAddress')}>Address <span className="mandatoryField">* </span>
-                            <InlineError isError={this.isValidationError('residentialAddress')}
-                                          errorMessage={this.errorTypes['residentialAddress'].message} />
-                            <input type="text" defaultValue={this.props.formValues.residentialAddress.address} ref="residentialAddress" id="residentialAddress[address]" className="residentialAddress" />
-                        </label>
-                        <label htmlFor="residentialAddress[suburb]" className={this.validationErrorClass('residentialSuburb')}>Suburb/City <span className="mandatoryField">* </span>
-                            <InlineError isError={this.isValidationError('residentialSuburb')}
-                                          errorMessage={this.errorTypes['residentialSuburb'].message} />
-                            <input type="text" defaultValue={this.props.formValues.residentialAddress.suburb} ref="residentialSuburb" id="residentialAddress[suburb]" className="residentialSuburb" />
-                        </label>
-                        <label htmlFor="residentialAddress[country]" className={this.validationErrorClass('residentialCountry')}>Country <span className="mandatoryField">* </span>
-                            <InlineError isError={this.isValidationError('residentialCountry')}
-                                          errorMessage={this.errorTypes['residentialCountry'].message} />
-                            <select defaultValue={this.props.formValues.residentialAddress.country} ref="residentialCountry"
-                                    id="residentialAddress[country]" className="residentialCountry">
-                            </select>
-                        </label>
-                        <div className="state-code">
-                            <label htmlFor="residentialAddress[state]" className={this.validationErrorClass('residentialState')}>State <span className="mandatoryField">* </span>
-                                <InlineError isError={this.isValidationError('residentialState')}
-                                              errorMessage={this.errorTypes['residentialState'].message} />
-                                <select defaultValue={this.props.formValues.residentialAddress.state} ref="residentialState"
-                                        id="residentialAddress[state]" className="residentialState">
-                                    <option value="New South Wales">New South Wales</option>
-                                </select>
-                            </label>
-                            <label htmlFor="residentialAddress[postcode]" className={this.validationErrorClass('residentialPostcode')}>Postcode/ZIP Code <span className="mandatoryField">* </span>
-                                <InlineError isError={this.isValidationError('residentialPostcode')}
-                                              errorMessage={this.errorTypes['residentialPostcode'].message} />
-                                <input type="text" defaultValue={this.props.formValues.residentialAddress.postcode}
-                                       ref="residentialPostcode" id="residentialAddress[postcode]"
-                                       className="residentialPostcode"/>
-                            </label>
-                        </div>
-                        <label>
-                            <input type="checkbox" onChange={this.handlePostalAddress}
-                                   defaultValue={this.props.formValues.differentPostal} ref="differentPostal"
-                                   value="Yes"/>
-                            My postal address is <b>different</b>.
-                        </label>
-                    </div>
-                    <div id="postal-address"
-                         className={(() => { return this.state.showPostalAddress ? '' : 'hidden';})()}>
-                        <div className="heading">
-                            <h2 className="sub-title"> Postal Address</h2>
-                             <div className="sub-description">Please enter the postal address.</div>
-                        </div>
-                        <div className="field-group">
-                            <label htmlFor="postalAddress[address]" className={this.validationErrorClass('postalAddress')}>Address <span className="mandatoryField">* </span>
-                                <InlineError isError={this.isValidationError('postalAddress')}
-                                              errorMessage={this.errorTypes['postalAddress'].message} />
-                                <input type="text" defaultValue={this.props.formValues.postalAddress.address}
-                                       ref="postalAddress" id="postalAddress"/>
-                            </label>
-                            <label htmlFor="postalAddress[suburb]" className={this.validationErrorClass('postalSuburb')}>Suburb <span className="mandatoryField">* </span>
-                                <InlineError isError={this.isValidationError('postalSuburb')}
-                                              errorMessage={this.errorTypes['postalSuburb'].message} />
-                                <input type="text" defaultValue={this.props.formValues.postalAddress.suburb}
-                                       ref="postalSuburb" id="postalAddress[suburb]"/>
-                            </label>
-                            <label htmlFor="postalAddress[country]" className={this.validationErrorClass('postalCountry')}>Country <span className="mandatoryField">* </span>
-                                <InlineError isError={this.isValidationError('postalCountry')}
-                                              errorMessage={this.errorTypes['postalCountry'].message} />
-                                <select defaultValue={this.props.formValues.postalAddress.country} ref="postalCountry"
-                                        id="postalAddress[country]">
-                                </select>
-                            </label>
 
-                            <div className="state-code">
-                                <label htmlFor="postalAddress[state]" className={this.validationErrorClass('postalState')}>State <span className="mandatoryField">* </span>
-                                    <InlineError isError={this.isValidationError('postalState')}
-                                                  errorMessage={this.errorTypes['postalState'].message} />
-                                    <select defaultValue={this.props.formValues.postalAddress.state} ref="postalState"
-                                            id="postalAddress[state]">
-                                    </select>
-                                </label>
-                                <label htmlFor="postalAddress[postcode]" className={this.validationErrorClass('postalPostcode')}>Postcode/ZIP Code <span className="mandatoryField">* </span>
-                                    <InlineError isError={this.isValidationError('postalPostcode')}
-                                                  errorMessage={this.errorTypes['postalPostcode'].message} />
-                                    <input type="text" defaultValue={this.props.formValues.postalAddress.postcode}
-                                           ref="postalPostcode" id="postalAddress[postcode]"/>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="heading">
-                        <h2 className="sub-title"> Contact Details</h2>
-                         <div className="sub-description">Please enter your current email and phone number.</div>
-                    </div>
-                    <div className="field-group">
-                        <label htmlFor="email" className={this.validationErrorClass('email')}>Email <span className="mandatoryField">* </span>
-                            <InlineError isError={this.isValidationError('email')}
-                                          errorMessage={this.errorTypes['email'].message} />
-                            <input type="text" defaultValue={this.props.formValues.email} ref="email" id="email"
-                                   className="email"/>
+                        <label htmlFor="labSelection" className={this.validationErrorClass('labSelection')}>{Labels.labSelection}<span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('labSelection')}
+                                          errorMessage={this.errorTypes['labSelection'].message} />
                         </label>
-                        <label htmlFor="phoneNumber" className={this.validationErrorClass('primaryPhoneNumber')}>Phone number <span className="mandatoryField">* </span>
-                            <InlineError isError={this.isValidationError('primaryPhoneNumber')}
-                                          errorMessage={this.errorTypes['primaryPhoneNumber'].message} />
-                            <input type="text" defaultValue={this.props.formValues.primaryPhoneNumber} ref="phoneNumber"
-                                   id="primaryPhoneNumber" className="primaryPhoneNumber"/>
+                        <select ref="labSelection" defaultValue="" required id="labSelection" className="labSelection">
+                            <option value="" disabled>{Strings.labPlaceholder}</option>
+                            {
+                              this.state.labs.map(function(lab) {
+                                return <option value={lab}>{lab}</option>;
+                              })
+                            }
+                        </select>
+                        <span>{ Strings.byoReminder }</span>
+
+                        <label htmlFor="contactName" className={this.validationErrorClass('contactName')}>{Labels.contactName}<span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('contactName')}
+                                          errorMessage={this.errorTypes['contactName'].message} />
                         </label>
-                        <label htmlFor="secondaryPhoneNumber" className={this.validationErrorClass('secondaryPhoneNumber')}>Secondary Phone <i>(optional)</i>
-                            <InlineError isError={this.isValidationError('secondaryPhoneNumber')}
-                                          errorMessage={this.errorTypes['secondaryPhoneNumber'].message} />
-                                        <input type="text" defaultValue={this.props.formValues.secondaryPhoneNumber} ref="secondaryPhoneNumber"
-                                   id="secondaryPhoneNumber" className="secondaryPhoneNumber"/>
+                        <input type="text" defaultValue={this.props.formValues.contactName} ref="contactName" id="contactName" className="contactName" />
+                        <input type="text" defaultValue={this.props.formValues.contactLastName} ref="contactLastName" id="contactLastName" className="contactLastName" />
+
+                        <label htmlFor="contactNumber" className={this.validationErrorClass('contactNumber')}>{Labels.contactNumber}<span className="mandatoryField">* </span>
+                          <InlineError isError={this.isValidationError('contactNumber')}
+                                        errorMessage={this.errorTypes['contactNumber'].message} />
                         </label>
-                    </div>
+                        <input type="tel" defaultValue={this.props.formValues.contactNumber} ref="contactNumber" id="contactNumber" className="contactNumber"/>
+
+                        <label htmlFor="contactEmail" className={this.validationErrorClass('contactEmail')}>{Labels.contactEmail}<span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('contactEmail')}
+                                          errorMessage={this.errorTypes['contactEmail'].message} />
+                        </label>
+                        <input type="email" defaultValue={this.props.formValues.contactEmail} ref="contactEmail" id="contactEmail" className="contactEmail"/>
+
+                        <label htmlFor="childName" className={this.validationErrorClass('childName')}>{Labels.childName}<span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('childName')}
+                                          errorMessage={this.errorTypes['childName'].message} />
+                        </label>
+                        <input type="text" defaultValue={this.props.formValues.childName} ref="childName" id="childName" className="childName"/>
+                        <input type="text" defaultValue={this.props.formValues.childLastName} ref="childLastName" id="childLastName" className="childLastName"/>
+
+                        <label htmlFor="childBirthYear" className={this.validationErrorClass('childBirthYear')}>{Labels.childBirthYear}<span className="mandatoryField">* </span>
+                          <InlineError isError={this.isValidationError('childBirthYear')}
+                                        errorMessage={this.errorTypes['childBirthYear'].message} />
+                        </label>
+                        <input type="number" defaultValue={this.props.formValues.childBirthYear} ref="childBirthYear" placeholder="YYYY" min="1980" max="2016" id="childBirthYear" className="childBirthYear"/>
+
+                        <label htmlFor="schoolType" className={this.validationErrorClass('schoolType')}>{Labels.schoolType}<span className="mandatoryField">* </span>
+                            <InlineError isError={this.isValidationError('schoolType')}
+                                          errorMessage={this.errorTypes['schoolType'].message} />
+                        </label>
+
+                        <input type="radio" name="schoolType" ref="schoolTypePrimary" value="Primary"/>Primary
+                        <input type="radio" name="schoolType" ref="schoolTypeSecondary" value="Secondary"/>Secondary
+                        <input type="radio" name="schoolType" ref="schoolTypeOther" value="Other"/>Other
+                        <input type="text" defaultValue={this.props.formValues.schoolType} ref="schoolTypeOtherText" id="schoolType" className="schoolType"/>
+
+                        <label htmlFor="additionalInfo" className={this.validationErrorClass('additionalInfo')}>{Labels.additionalInfo}
+                        </label>
+                        <textarea defaultValue={this.props.formValues.additionalInfo} ref="additionalInfo" id="additionalInfo" className="additionalInfo"/>
+
+                      </div>
+
                     <div className="navigation">
                         <button onClick={this.submitDetails}>Continue</button>
                         <p>or <a id="go-back" onClick={this.props.previousStep} href="#">go back</a></p>
@@ -299,6 +181,4 @@ export default class Details extends Component {
             </fieldset>
         )
     }
-
-;
 }
