@@ -156,21 +156,45 @@ describe('memberService', () => {
             memberService.createMember(fakeNewMember(fakeResidentialAddress(), fakePostalAddress()))
                 .then(() => {
                     expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
-                            firstName: 'Sherlock',
-                            lastName: 'Holmes',
-                            gender: 'horse radish',
-                            email: 'sherlock@holmes.co.uk',
-                            dateOfBirth: formattedDateOfBirth,
-                            primaryPhoneNumber: '0396291146',
-                            secondaryPhoneNumber: '0394291146',
-                            residentialAddressId: fakeResidentialAddressId,
-                            postalAddressId: fakePostalAddressId,
-                            membershipType: 'full',
-                            verificationHash: jasmine.anything(),
-                            memberSince: jasmine.anything(),
-                            lastRenewal: jasmine.anything()
-                        }));
+                        firstName: 'Sherlock',
+                        lastName: 'Holmes',
+                        gender: 'horse radish',
+                        email: 'sherlock@holmes.co.uk',
+                        dateOfBirth: formattedDateOfBirth,
+                        primaryPhoneNumber: '0396291146',
+                        secondaryPhoneNumber: '0394291146',
+                        residentialAddressId: fakeResidentialAddressId,
+                        postalAddressId: fakePostalAddressId,
+                        membershipType: 'full',
+                        verificationHash: jasmine.anything(),
+                        memberSince: jasmine.anything(),
+                        lastRenewal: jasmine.anything()
+                    }));
                 }).then(done, done.fail);
+        });
+
+        it('creates a new member with no address', (done) => {
+            memberPromise.resolve(fakeResultFromDbWhenSavingMember(null, null));
+
+            memberService.createMember(fakeNewMember())
+            .then(() => {
+                expect(addressStub).not.toHaveBeenCalled();
+                expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
+                    firstName: 'Sherlock',
+                    lastName: 'Holmes',
+                    gender: 'horse radish',
+                    email: 'sherlock@holmes.co.uk',
+                    dateOfBirth: formattedDateOfBirth,
+                    primaryPhoneNumber: '0396291146',
+                    secondaryPhoneNumber: '0394291146',
+                    residentialAddressId: null,
+                    postalAddressId: null,
+                    membershipType: 'full',
+                    verificationHash: jasmine.anything(),
+                    memberSince: jasmine.anything(),
+                    lastRenewal: jasmine.anything()
+                }));
+            }).then(done, done.fail);
         });
 
         describe('when postal and residential address are identical', () => {
