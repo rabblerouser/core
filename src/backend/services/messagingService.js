@@ -2,26 +2,19 @@
 
 let emailUtil = require('../lib/emailUtil');
 let config = require('config');
-let logger = require('../lib/logger');
+let temporaryLogger = require('../lib/logger').temporarySolution;
 let Q = require('q');
 
 function logAndRethrow(message) {
     return function (error) {
-      logger.logError(error, message);
-      throw new Error(error);
-    };
-}
-
-function logAndRethrow(message) {
-    return function (error) {
-      logger.logError(error, message);
-      throw new Error(error);
+        temporaryLogger.error(message, {error: error.toString()});
+        throw new Error(error);
     };
 }
 
 let emails = {
   welcome: {
-    logger: logger.logWelcomeEmailSent,
+    logger: (email) => temporaryLogger.info('[welcome-email-sent]', { email: email }),
     subject: 'The Pirate Party - Welcome',
     text: function() { return `Welcome to the Pirate Party!
 
@@ -35,7 +28,7 @@ let emails = {
     }
   },
   verification: {
-    logger: logger.logVerificationEmailSent,
+    logger: (email) => temporaryLogger.info('[verification-email-sent]', { email: email }),
     subject: 'The Pirate Party - Verify Your Email',
     text: function(member) { return `Hello,
 
@@ -51,7 +44,7 @@ let emails = {
     }
   },
   renewal: {
-    logger: logger.logMemberRenewalEmail,
+    logger: (email) => temporaryLogger.info('[renewal-notification-email-sent]', { email: email }),
     subject: 'The Pirate Party - Renew Your Membership',
     text: function(member) { return `
         Hello,

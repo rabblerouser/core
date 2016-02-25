@@ -61,7 +61,7 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-    require('./lib/logger').logError(error.stack, '[general-application-error]');
+    require('./lib/logger').error('[general-application-error]', {error: error.stack});
     res.status(error.status || 500);
     res.render('error');
 

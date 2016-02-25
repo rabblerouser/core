@@ -2,8 +2,7 @@
 
 const Q = require('q'),
     models = require('../models'),
-    logger = require('../lib/logger'),
-    temporaryLogger = logger.temporarySolution,
+    temporaryLogger = require('../lib/logger').temporarySolution,
     moment = require('moment'),
     Address = models.Address,
     Member = models.Member,
@@ -20,7 +19,7 @@ function save(member) {
 
 function handleError(message) {
     return function(error) {
-        logger.logError(error, message);
+        temporaryLogger.error(message, { error: error.toString() });
         return models.Sequelize.Promise.reject(message);
     };
 }
@@ -108,10 +107,11 @@ var updateMember = (member) => {
         .then(function(updatedMember){
             return Member.update(updatedMember, {where: {email: member.email}});
         })
-        .tap(function(a){
-            logger.logMemberUpdateDetailsEvent(a);
+        .tap(function(updatedMember){
+            temporaryLogger.info('[member-details-updated]', {member: updatedMember});
         })
         .catch((error) => {
+            temporaryLogger.error('[member-update-error]', {error: error.toString()});
             return Q.reject(error);
         });
 };
@@ -126,8 +126,8 @@ let renewMember = hash => {
                 .then(function(){
                     return member;
                 })
-                .tap(function(a){
-                    logger.logMemberRenewalEvent(a);
+                .tap(function(renewedMember){
+                    temporaryLogger.info('[membership-renewed]', {member: renewedMember});
                 })
                 .catch((error) => {
                         return Q.reject(error);
@@ -195,9 +195,9 @@ function markAsVerified(member) {
 }
 
 function sendWelcomeEmailOffline(data) {
-    logger.logInfoEvent('[sending welcome email]', data);
+    temporaryLogger.info('[sending welcome email]', data);
     messagingService.sendWelcomeEmail(data)
-        .catch(logger.logError);
+        .catch(temporaryLogger.error);
 
     return data;
 }
@@ -206,10 +206,10 @@ function verify(hash) {
   return findForVerification(hash)
     .then(markAsVerified)
     .then(sendWelcomeEmailOffline)
-    .tap((verifiedMember) => logger.logInfoEvent('[member-verification-event]', verifiedMember))
+    .tap((verifiedMember) => temporaryLogger.info('[member-verification-event]', verifiedMember))
     .catch((error) => {
-      logger.logError(error, '[member-verification-failed]');
-      throw new Error('Account could not be verified');
+        temporaryLogger.error('[member-verification-failed]', {error: error.toString()});
+        throw new Error('Account could not be verified');
     });
 }
 

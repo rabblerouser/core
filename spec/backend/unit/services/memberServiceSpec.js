@@ -5,7 +5,6 @@ const specHelper = require('../../../support/specHelper'),
       Member = models.Member,
       sinon = specHelper.sinon,
       Q = specHelper.Q,
-      logger = specHelper.logger,
       moment = require('moment');
 
 var memberService = require('../../../../src/backend/services/memberService');
@@ -313,12 +312,10 @@ describe('memberService', () => {
             }];
 
             sinon.stub(models.Member, 'findAll');
-            sinon.stub(logger, 'logError');
         });
 
         afterEach(() => {
             models.Member.findAll.restore();
-            logger.logError.restore();
         });
 
         it('resolves with a list of raw members', (done) => {
@@ -331,7 +328,7 @@ describe('memberService', () => {
             }).then(done, done.fail);
         });
 
-        it('logs an error if there is an error, and ensures the promise is rejected', (done) => {
+        it('should handle errors', (done) => {
             models.Member.findAll
                 .returns(Promise.reject('bad bad bad'));
 
@@ -340,7 +337,6 @@ describe('memberService', () => {
                 done.fail('This should not be resolving successfully');
             })
             .catch((error) => {
-                expect(logger.logError).toHaveBeenCalledWith('bad bad bad');
                 expect(error).toEqual('An error has occurred while fetching members');
             }).then(done, done.fail);
         });
@@ -435,7 +431,7 @@ describe('memberService', () => {
             }
         ];
 
-        let updateMemberStub, addressStub, loggerStub, findUserStub,
+        let updateMemberStub, addressStub, findUserStub,
             residentialAddress, postalAddress, updateMemberPromise,
             currentMember, updatedMember,
             residentialAddressPromise, postalAddressPromise;
@@ -444,7 +440,6 @@ describe('memberService', () => {
             updateMemberStub = sinon.stub(models.Member, 'update');
             addressStub = sinon.stub(models.Address, 'findOrCreate');
             findUserStub = sinon.stub(models.Member, 'find');
-            loggerStub = sinon.stub(logger, 'logMemberSignUpEvent');
 
             residentialAddress = {
                 address: '221b Baker St',
@@ -482,7 +477,6 @@ describe('memberService', () => {
             models.Address.findOrCreate.restore();
             models.Member.find.restore();
             models.Member.update.restore();
-            loggerStub.restore();
         });
 
         it('successfully updates users details using email', (done) => {

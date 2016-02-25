@@ -3,7 +3,7 @@
 let memberService = require('../services/memberService');
 let memberValidator = require('../../lib/memberValidator');
 let messagingService = require('../services/messagingService');
-let logger = require('../lib/logger');
+let temporarySolution = require('../lib/logger').temporarySolution;
 let Q = require('q');
 
 
@@ -54,7 +54,7 @@ function setupNewMember(req) {
 
 function sendVerificationEmailOffline(member) {
   messagingService.sendVerificationEmail(member)
-  .catch(logger.logError);
+  .catch((error) => temporarySolution.error('[error-sending-verification-email]', {error: error.toString()}));
 }
 
 function sendResponseToUser(res) {
@@ -70,7 +70,7 @@ function sendResponseToUser(res) {
 
 function handleError(res) {
   return function(error) {
-    logger.logError('membersController', error);
+    temporarySolution.error('[error-members-controller]', {error: error.toString()});
     res.sendStatus(500);
   };
 }
@@ -111,7 +111,7 @@ function verify(req, res) {
   let hash = req.params.hash;
 
   if (!memberValidator.isValidVerificationHash(hash)) {
-    logger.logError('[member-verification-failed]', {error: 'Invalid input params', hash: hash});
+    temporarySolution.error('[member-verification-failed]', {error: 'Invalid input params', hash: hash});
     res.sendStatus(400);
     return Q.reject('Invalid Input');
   }
@@ -129,7 +129,7 @@ function renew(req, res) {
     let hash = req.params.hash;
 
     if (!memberValidator.isValidVerificationHash(hash)) {
-        logger.logError('[member-verification-failed]', {hash: hash});
+        temporarySolution.error('[member-verification-failed]', {hash: hash});
         res.sendStatus(400);
         return Q.reject('Invalid Input');
     }

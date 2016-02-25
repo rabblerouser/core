@@ -2,7 +2,7 @@
 
 const memberService = require('./memberService');
 const moment = require('moment');
-const logger = require('../lib/logger');
+let temporarySolution = require('../lib/logger').temporarySolution;
 const CronJob = require('cron').CronJob;
 const everyDayAt7_30am = '00 30 7 * * *';
 
@@ -21,12 +21,12 @@ function start() {
     let job = new CronJob({
       cronTime: everyDayAt7_30am,
       onTick: function() {
-        logger.logInfoEvent('[renewal-notification-job-started]');
+        temporarySolution.info('[renewal-notification-job-started]');
 
         remindMembersToRenew()
-        .then((result) => logger.logInfoEvent('[renewal-notification-job-finished]', `Notifications sent: ${result.length}`))
+        .then((result) => temporarySolution.info('[renewal-notification-job-finished]', `Notifications sent: ${result.length}`))
         .catch((error) => {
-            logger.logError(error.toString(), '[renewal-notification-job-failed]');
+            temporarySolution.error('[renewal-notification-job-failed]', error.toString());
         });
       },
       start: false
