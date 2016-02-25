@@ -231,7 +231,22 @@ describe('memberService', () => {
         });
 
         describe('things went bad', () => {
-            it('handles error when creating a member with no branch');
+            it('handles error when retrieving the branch', (done) => {
+                branchPromise.reject('Some ERROR thrown by the branch service');
+
+                let input = fakeNewMember(null, null);
+
+                memberService.createMember(input)
+                .then(() => {
+                    done.fail('createMember should not have succeded. It should have failed.');
+                })
+                .catch((error) => {
+                    expect(branchService.findByKey).toHaveBeenCalled();
+                    expect(models.Member.create).not.toHaveBeenCalled();
+                    expect(error).toEqual('Create Member failed');
+                })
+                .then(done, done.fail);
+            });
 
             it('handles db errors when saving the residential address', (done) => {
                 residentialAddressPromise.reject('Some DB ERROR the user should not see.');
