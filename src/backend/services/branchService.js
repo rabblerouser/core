@@ -1,12 +1,12 @@
 'use strict';
 
 const models = require('../models'),
-    temporaryLogger = require('../lib/logger').temporarySolution,
+    logger = require('../lib/logger'),
     Branch = models.Branch;
 
 function handleError(message) {
     return function(error) {
-        temporaryLogger.error(message, { error: error.toString() });
+        logger.error(message, { error: error.toString() });
         return models.Sequelize.Promise.reject(message);
     };
 }

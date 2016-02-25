@@ -2,7 +2,7 @@
 
 const Q = require('q'),
     models = require('../models'),
-    temporaryLogger = require('../lib/logger').temporarySolution,
+    logger = require('../lib/logger'),
     moment = require('moment'),
     Address = models.Address,
     Member = models.Member,
@@ -19,7 +19,7 @@ function save(member) {
 
 function handleError(message) {
     return function(error) {
-        temporaryLogger.error(message, { error: error.toString() });
+        logger.error(message, { error: error.toString() });
         return models.Sequelize.Promise.reject(message);
     };
 }
@@ -48,7 +48,7 @@ function setupMember(newMember) {
 }
 
 function logEvent(saveResult) {
-    temporaryLogger.info('[member-sign-up-event]', saveResult.dataValues);
+    logger.info('[member-sign-up-event]', saveResult.dataValues);
 }
 
 function findOrCreateAddress(address) {
@@ -108,10 +108,10 @@ var updateMember = (member) => {
             return Member.update(updatedMember, {where: {email: member.email}});
         })
         .tap(function(updatedMember){
-            temporaryLogger.info('[member-details-updated]', {member: updatedMember});
+            logger.info('[member-details-updated]', {member: updatedMember});
         })
         .catch((error) => {
-            temporaryLogger.error('[member-update-error]', {error: error.toString()});
+            logger.error('[member-update-error]', {error: error.toString()});
             return Q.reject(error);
         });
 };
@@ -127,7 +127,7 @@ let renewMember = hash => {
                     return member;
                 })
                 .tap(function(renewedMember){
-                    temporaryLogger.info('[membership-renewed]', {member: renewedMember});
+                    logger.info('[membership-renewed]', {member: renewedMember});
                 })
                 .catch((error) => {
                         return Q.reject(error);
@@ -195,9 +195,9 @@ function markAsVerified(member) {
 }
 
 function sendWelcomeEmailOffline(data) {
-    temporaryLogger.info('[sending welcome email]', data);
+    logger.info('[sending welcome email]', data);
     messagingService.sendWelcomeEmail(data)
-        .catch(temporaryLogger.error);
+        .catch(logger.error);
 
     return data;
 }
@@ -206,9 +206,9 @@ function verify(hash) {
   return findForVerification(hash)
     .then(markAsVerified)
     .then(sendWelcomeEmailOffline)
-    .tap((verifiedMember) => temporaryLogger.info('[member-verification-event]', verifiedMember))
+    .tap((verifiedMember) => logger.info('[member-verification-event]', verifiedMember))
     .catch((error) => {
-        temporaryLogger.error('[member-verification-failed]', {error: error.toString()});
+        logger.error('[member-verification-failed]', {error: error.toString()});
         throw new Error('Account could not be verified');
     });
 }

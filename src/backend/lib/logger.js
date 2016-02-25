@@ -14,6 +14,4 @@ const winstonLogger = new (winston.Logger)({
     })]
 });
 
-module.exports = {
-    temporarySolution: winstonLogger
-};
+module.exports = winstonLogger;

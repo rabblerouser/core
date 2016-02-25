@@ -2,7 +2,7 @@
 
 const bcrypt = require('bcryptjs'),
       uuid = require('node-uuid'),
-      temporaryLogger = require('../lib/logger').temporarySolution;
+      logger = require('../lib/logger');
 
 module.exports = (sequelize, DataTypes) => {
     let AdminUser = sequelize.define('AdminUser', {
@@ -16,21 +16,21 @@ module.exports = (sequelize, DataTypes) => {
                     .then((user) => {
                         if (user) {
                             if (user.authenticate(password)) {
-                                temporaryLogger.info('admin-logged-in', email);
+                                logger.info('admin-logged-in', email);
                                 cb(null, user.dataValues);
                             }
                             else {
-                                temporaryLogger.info('admin-failed-log-in', email);
+                                logger.info('admin-failed-log-in', email);
                                 cb(null, false);
                             }
                         }
                         else {
-                            temporaryLogger.info('admin-failed-log-in', email);
+                            logger.info('admin-failed-log-in', email);
                             cb(null, false);
                         }
                     })
                     .catch((err) => {
-                        temporaryLogger.error('AdminUser Authenticate caught an error', err);
+                        logger.error('AdminUser Authenticate caught an error', err);
                     });
             }
         },
