@@ -25,5 +25,9 @@
     "staging": {
         "use_env_variable": "DATABASE_URL",
         "session_secret_env_variable": "SESSION_SECRET"
+    },
+    "production": {
+        "use_env_variable": "DATABASE_URL",
+        "session_secret_env_variable": "SESSION_SECRET"
     }
 }
