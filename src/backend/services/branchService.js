@@ -2,7 +2,6 @@
 
 const models = require('../models'),
     temporaryLogger = require('../lib/logger').temporarySolution,
-    Address = models.Address,
     Branch = models.Branch;
 
 function handleError(message) {
@@ -13,40 +12,25 @@ function handleError(message) {
 }
 
 let transformBranch = dbResult => {
-    let branch = dbResult.dataValues;
-    let residentialAddressFromDb = dbResult.dataValues.residentialAddress;
-    let postalAddressFromDb = dbResult.dataValues.postalAddressFromDb;
-
-    let residentialAddress = residentialAddressFromDb ? residentialAddressFromDb.dataValues : null;
-    let postalAddress = postalAddressFromDb ? postalAddressFromDb.dataValues : null;
-
-    return Object.assign({}, branch, { residentialAddress: residentialAddress, postalAddress: postalAddress });
+    return dbResult.dataValues;
 };
 
-function transformBranchs(adapter) {
-    return function (branchQueryResult) {
-        return branchQueryResult.map(adapter);
+function transformBranches(adapter) {
+    return function (dbResult) {
+        return dbResult.map(adapter);
     };
 }
 
 let list = () => {
     let query = {
-        include: [{
-            model: Address,
-            as: 'residentialAddress',
-            attributes: ['postcode', 'state', 'country']
-        }],
         attributes: [
-            'id',
-            'firstName',
-            'lastName',
-            'branchshipType',
-            'verified'
+            'key',
+            'name'
         ]
     };
 
     return Branch.findAll(query)
-        .then(transformBranchs(transformBranch))
+        .then(transformBranches(transformBranch))
         .catch(handleError('An error has occurred while fetching branches'));
 };
 
