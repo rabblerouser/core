@@ -148,29 +148,29 @@ describe('memberService', () => {
             models.Address.findOrCreate.restore();
         });
 
-        it('creates a new member and address', (done) => {
+        it('creates a new member with different residential and postal addresses', (done) => {
             residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
             postalAddressPromise.resolve(fakePostalAddressFromDB());
             memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakePostalAddressId));
 
             memberService.createMember(fakeNewMember(fakeResidentialAddress(), fakePostalAddress()))
-                .then(() => {
-                    expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
-                        firstName: 'Sherlock',
-                        lastName: 'Holmes',
-                        gender: 'horse radish',
-                        email: 'sherlock@holmes.co.uk',
-                        dateOfBirth: formattedDateOfBirth,
-                        primaryPhoneNumber: '0396291146',
-                        secondaryPhoneNumber: '0394291146',
-                        residentialAddressId: fakeResidentialAddressId,
-                        postalAddressId: fakePostalAddressId,
-                        membershipType: 'full',
-                        verificationHash: jasmine.anything(),
-                        memberSince: jasmine.anything(),
-                        lastRenewal: jasmine.anything()
-                    }));
-                }).then(done, done.fail);
+            .then(() => {
+                expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
+                    firstName: 'Sherlock',
+                    lastName: 'Holmes',
+                    gender: 'horse radish',
+                    email: 'sherlock@holmes.co.uk',
+                    dateOfBirth: formattedDateOfBirth,
+                    primaryPhoneNumber: '0396291146',
+                    secondaryPhoneNumber: '0394291146',
+                    residentialAddressId: fakeResidentialAddressId,
+                    postalAddressId: fakePostalAddressId,
+                    membershipType: 'full',
+                    verificationHash: jasmine.anything(),
+                    memberSince: jasmine.anything(),
+                    lastRenewal: jasmine.anything()
+                }));
+            }).then(done, done.fail);
         });
 
         it('creates a new member with no address', (done) => {
@@ -197,22 +197,20 @@ describe('memberService', () => {
             }).then(done, done.fail);
         });
 
-        describe('when postal and residential address are identical', () => {
-            it('set them both to same value', (done) => {
-                residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
-                postalAddressPromise.resolve(fakeResidentialAddressFromDB());
-                memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakeResidentialAddressId));
+        it('creates a new member with same residential and postal address', (done) => {
+            residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
+            postalAddressPromise.resolve(fakeResidentialAddressFromDB());
+            memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakeResidentialAddressId));
 
-                let input = fakeNewMember(fakeResidentialAddress(), fakeResidentialAddress());
+            let input = fakeNewMember(fakeResidentialAddress(), fakeResidentialAddress());
 
-                memberService.createMember(input)
-                .then(() => {
-                    expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining({
-                        residentialAddressId: 1,
-                        postalAddressId: 1
-                    }));
-                }).then(done, done.fail);
-            });
+            memberService.createMember(input)
+            .then(() => {
+                expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining({
+                    residentialAddressId: 1,
+                    postalAddressId: 1
+                }));
+            }).then(done, done.fail);
         });
 
         describe('things went bad', () => {
@@ -416,7 +414,6 @@ describe('memberService', () => {
           done();
         });
       });
-
     });
 
     describe('update member', () => {
