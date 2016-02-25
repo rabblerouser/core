@@ -79,7 +79,6 @@
     "karma-phantomjs-launcher": "^0.2.3",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
-    "nock": "^7.2.2",
     "phantomjs": "^1.9.19",
     "query-string": "^3.0.0",
     "react-addons-test-utils": "^0.14.7",
