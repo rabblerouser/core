@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             associate: (models) => {
                 Member.belongsTo(models.Address, { as: 'postalAddress', foreignKey: 'postalAddressId' });
                 Member.belongsTo(models.Address, { as: 'residentialAddress', foreignKey: 'residentialAddressId'});
+                Member.belongsTo(models.Branch, { as: 'branch', foreignKey: 'branchId'});
             }
         }
     });

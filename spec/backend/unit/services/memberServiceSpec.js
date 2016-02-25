@@ -8,12 +8,21 @@ const specHelper = require('../../../support/specHelper'),
       moment = require('moment');
 
 var memberService = require('../../../../src/backend/services/memberService');
+var branchService = require('../../../../src/backend/services/branchService');
 
 const fakeDateOfBirth = '22/12/1900';
 const formattedDateOfBirth = moment(fakeDateOfBirth, 'DD/MM/YYYY').toDate();
 const randomNewMemberId = 1;
 const fakeResidentialAddressId = 1;
 const fakePostalAddressId = 2;
+
+function fakeBranch() {
+    return {
+        name: 'Geelong (Vic)',
+        id: 'some-branch-id-1',
+        key: 'some-branch-ref-key-1'
+    };
+}
 
 function fakeResidentialAddress() {
     return {
@@ -83,7 +92,8 @@ function fakeNewMember(residentialAddress, postalAddress) {
             secondaryPhoneNumber: '0394291146',
             residentialAddress: residentialAddress,
             postalAddress: postalAddress,
-            membershipType: 'full'
+            membershipType: 'full',
+            branch: 'some-branch-ref-key-1'
         };
 }
 
@@ -113,18 +123,15 @@ function fakeResultFromDbWhenSavingMember(residentialAddressId, postalAddressId)
 
 describe('memberService', () => {
     describe('createMember', () => {
-        let clock;
         let createMemberStub;
+        let memberPromise;
         let addressStub;
         let residentialAddressPromise;
         let postalAddressPromise;
-        let memberPromise;
+        let getBranchStub;
+        let branchPromise;
 
         beforeEach(() => {
-            var fakeDate = moment('2016-02-03T00:00:01.000+11:00');
-            clock = sinon.useFakeTimers(fakeDate.valueOf());
-
-            createMemberStub = sinon.stub(models.Member, 'create');
             addressStub = sinon.stub(models.Address, 'findOrCreate');
 
             residentialAddressPromise = Q.defer();
@@ -138,19 +145,23 @@ describe('memberService', () => {
                 .returns(postalAddressPromise.promise);
 
             memberPromise = Q.defer();
-            createMemberStub.returns(memberPromise.promise);
+            createMemberStub = sinon.stub(models.Member, 'create').returns(memberPromise.promise);
+
+            branchPromise = Q.defer();
+            getBranchStub = sinon.stub(branchService, 'findByKey').withArgs('some-branch-ref-key-1').returns(branchPromise.promise);
         });
 
         afterEach(() => {
-            clock.restore();
             models.Member.create.restore();
             models.Address.findOrCreate.restore();
+            branchService.findByKey.restore();
         });
 
-        it('creates a new member with different residential and postal addresses', (done) => {
+        it('creates a new member in a new branch', (done) => {
             residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
             postalAddressPromise.resolve(fakePostalAddressFromDB());
             memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakePostalAddressId));
+            branchPromise.resolve(fakeBranch());
 
             memberService.createMember(fakeNewMember(fakeResidentialAddress(), fakePostalAddress()))
             .then(() => {
@@ -167,31 +178,37 @@ describe('memberService', () => {
                     membershipType: 'full',
                     verificationHash: jasmine.anything(),
                     memberSince: jasmine.anything(),
-                    lastRenewal: jasmine.anything()
+                    lastRenewal: jasmine.anything(),
+                    branchId: 'some-branch-id-1'
+                }));
+            }).then(done, done.fail);
+        });
+
+        it('creates a new member with different residential and postal addresses', (done) => {
+            residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
+            postalAddressPromise.resolve(fakePostalAddressFromDB());
+            branchPromise.resolve(fakeBranch());
+            memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakePostalAddressId));
+
+            memberService.createMember(fakeNewMember(fakeResidentialAddress(), fakePostalAddress()))
+            .then(() => {
+                expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
+                    residentialAddressId: fakeResidentialAddressId,
+                    postalAddressId: fakePostalAddressId
                 }));
             }).then(done, done.fail);
         });
 
         it('creates a new member with no address', (done) => {
+            branchPromise.resolve(fakeBranch());
             memberPromise.resolve(fakeResultFromDbWhenSavingMember(null, null));
 
             memberService.createMember(fakeNewMember())
             .then(() => {
                 expect(addressStub).not.toHaveBeenCalled();
                 expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
-                    firstName: 'Sherlock',
-                    lastName: 'Holmes',
-                    gender: 'horse radish',
-                    email: 'sherlock@holmes.co.uk',
-                    dateOfBirth: formattedDateOfBirth,
-                    primaryPhoneNumber: '0396291146',
-                    secondaryPhoneNumber: '0394291146',
                     residentialAddressId: null,
                     postalAddressId: null,
-                    membershipType: 'full',
-                    verificationHash: jasmine.anything(),
-                    memberSince: jasmine.anything(),
-                    lastRenewal: jasmine.anything()
                 }));
             }).then(done, done.fail);
         });
@@ -199,6 +216,7 @@ describe('memberService', () => {
         it('creates a new member with same residential and postal address', (done) => {
             residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
             postalAddressPromise.resolve(fakeResidentialAddressFromDB());
+            branchPromise.resolve(fakeBranch());
             memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakeResidentialAddressId));
 
             let input = fakeNewMember(fakeResidentialAddress(), fakeResidentialAddress());
@@ -213,6 +231,8 @@ describe('memberService', () => {
         });
 
         describe('things went bad', () => {
+            it('handles error when creating a member with no branch');
+
             it('handles db errors when saving the residential address', (done) => {
                 residentialAddressPromise.reject('Some DB ERROR the user should not see.');
 
@@ -249,6 +269,7 @@ describe('memberService', () => {
             it('handles db erros when saving the member to the database', (done) => {
                 residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
                 postalAddressPromise.resolve(fakePostalAddressFromDB());
+                branchPromise.resolve(fakeBranch());
                 memberPromise.reject('Some DB ERROR the user should not see.');
 
                 let input = fakeNewMember(fakeResidentialAddress(), fakePostalAddress());

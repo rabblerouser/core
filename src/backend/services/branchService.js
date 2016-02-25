@@ -34,6 +34,15 @@ let list = () => {
         .catch(handleError('An error has occurred while fetching branches'));
 };
 
+function findByRefKey(refKey) {
+    return Promise.resolve({
+        name: null,
+        key: refKey,
+        id: null
+    });
+}
+
 module.exports = {
-    list: list
+    list: list,
+    findByKey: findByRefKey
 };

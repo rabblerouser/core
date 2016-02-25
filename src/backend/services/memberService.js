@@ -7,7 +7,9 @@ const Q = require('q'),
     Address = models.Address,
     Member = models.Member,
     uuid = require('node-uuid'),
-    messagingService = require('./messagingService');
+    messagingService = require('./messagingService'),
+    branchService = require('./branchService');
+
 
 function createHash() {
   return uuid.v4();
@@ -69,9 +71,19 @@ function getMemberAddresses(newMember) {
     return memberAddresses;
 }
 
+function assignToBranch(branchKey) {
+    return function (member) {
+        return branchService.findByKey(branchKey)
+        .then((branch) => {
+            return Object.assign({}, member, {branchId: branch.id});
+        });
+    };
+}
+
 let createMember = (newMember) => {
     return Q.all(getMemberAddresses(newMember))
           .spread(setupMember(newMember))
+          .then(assignToBranch(newMember.branch))
           .then(save)
           .tap(logEvent)
           .then((savedMember) => {
