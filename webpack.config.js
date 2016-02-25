@@ -13,7 +13,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.css$/,
-                loader: "style!css"
+                loader: 'style!css'
             },
             {
                 test: /\.scss$/,

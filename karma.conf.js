@@ -22,7 +22,7 @@ module.exports = function (config) {
                         test: /\.jsx?$/,
                         exclude: /node_modules/,
                         loader: 'babel-loader',
-                        cacheDirectory: ".babel-cache",
+                        cacheDirectory: '.babel-cache',
                         query: {
                             presets: ['es2015', 'react', 'stage-0']
                         }
