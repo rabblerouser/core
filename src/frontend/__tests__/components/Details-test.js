@@ -1,8 +1,9 @@
+'use strict';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import populateCountries from '../../../../public/javascript/countries.js';
-import Details from '../Details.jsx';
+import Details from '../../components/Details.jsx';
 
 describe('Details step', () => {
     let detailsForm;

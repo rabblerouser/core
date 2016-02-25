@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import FormFieldLabel from '../../form/FormFieldLabel.jsx';
-import InlineError from '../../form/InlineError.jsx';
+import FormFieldLabel from '../../../components/form/FormFieldLabel.jsx';
+import InlineError from '../../../components/form/InlineError.jsx';
 import { ApplicationFormFieldLabels as Labels } from '../../../config/strings.js';
 import sd from 'skin-deep';
 
@@ -93,7 +93,7 @@ describe('FormFieldLabel', () => {
     it('should not have the invalid class assigned to the label', () => {
       let element = renderedTree.subTree('label');
       expect(element).not.toBeFalsy();
-      expect(element.props.className).not.toBe("invalid");      
+      expect(element.props.className).not.toBe("invalid");
     });
 
   });
