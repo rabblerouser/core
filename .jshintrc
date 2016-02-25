@@ -23,6 +23,7 @@
   "esnext": true,
   "node": true,
   "globals": {
+      "spyOn": false,
       "describe": false,
       "it": false,
       "beforeEach": false,
