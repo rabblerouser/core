@@ -82,8 +82,6 @@ export default class Details extends Component {
             additionalInfo: this.refs.additionalInfo.value
         };
 
-        console.log(JSON.stringify(fieldValues));
-
         var validationErrors = this.validator.isValid(fieldValues);
         if (validationErrors.length > 0) {
             this.handleValidationErrors(validationErrors, true);
@@ -113,7 +111,7 @@ export default class Details extends Component {
                             <option value="" disabled>{Strings.labPlaceholder}</option>
                             {
                               this.state.labs.map(function(lab) {
-                                return <option value={lab.key}>{lab.value}</option>;
+                                return <option value={lab.key}>{lab.name}</option>;
                               })
                             }
                         </select>
