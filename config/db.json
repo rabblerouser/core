@@ -1,0 +1,22 @@
+{
+  "development": {
+    "username": "lab-assistant",
+    "password": "lab-assistant",
+    "database": "lab-assistant",
+    "host": "127.0.0.1",
+    "dialect": "postgresql"
+  },
+  "test": {
+    "username": "lab-assistant",
+    "password": "lab-assistant",
+    "database": "lab-assistant_test",
+    "host": "127.0.0.1",
+    "dialect": "postgresql"
+  },
+  "staging": {
+    "use_env_variable": "DATABASE_URL"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}

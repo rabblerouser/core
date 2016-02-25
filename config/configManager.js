@@ -1,7 +1,7 @@
 'use strict';
 
 const env = process.env.NODE_ENV || 'development';
-const config = require('./config.json')[env];
+const config = require('config');
 
 const defaults = {
     session: {
@@ -33,7 +33,6 @@ let logFormat = () => {
         return '[:date[iso]] :remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
     }
 };
-
 
 module.exports = {
     session: sessionConfig(),

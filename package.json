@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "postinstall": "./node_modules/webpack/bin/webpack.js --config ./webpack.config.js --progress --colors -p",
-    "prestart": "node_modules/sequelize-cli/bin/sequelize db:migrate",
+    "prestart": "node_modules/sequelize-cli/bin/sequelize --config config/db.json db:migrate",
     "start": "node ./bin/www",
-    "pretest": "NODE_ENV=test node_modules/sequelize-cli/bin/sequelize db:migrate",
+    "pretest": "NODE_ENV=test node_modules/sequelize-cli/bin/sequelize --config config/db.json db:migrate",
     "test": "npm run serverTests && npm run componentTests",
     "serverTests": "NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js",
     "componentTests": "NODE_ENV=test node ./node_modules/karma-cli/bin/karma start",

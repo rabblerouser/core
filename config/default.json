@@ -3,13 +3,12 @@
     "publicUrl": "http://localhost:3000"
   },
   "email": {
-    "membershipEmail": "membership@pirateparty.org.au",
+    "membershipEmail": "rdoherty@thoughtworks.com",
     "server": "override this using environment variable EMAIL_SERVER",
     "sendEmails": true
   },
-  "paypal": {
-      "return_url":"http://localhost:3000/",
-      "server_url":"https://www.sandbox.paypal.com/cgi-bin/webscr",
-      "email":"paypal@pirateparty.org.au"
+  "session": {
+    "proxy": false,
+    "secureCookie": false
   }
 }
