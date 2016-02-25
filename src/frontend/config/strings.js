@@ -1,14 +1,14 @@
 export const Resources = {
-  privacyPolicy: "https://pirateparty.org.au/privacy/"
+  privacyPolicy: 'https://pirateparty.org.au/privacy/'
 };
 
 export const ApplicationForm = {
-  instructions: "Please fill in the following information and we'll let you know when space becomes available at the lab",
-  labPlaceholder: "Select Lab",
-  byoReminder: "Please be aware that participants will need to bring their own laptop to the lab",
-  ageReminder: "Please note that our target age is between 10 and 16 years",
-  submitButton: "Submit"
-}
+  instructions: 'Please fill in the following information and we\'ll let you know when space becomes available at the lab',
+  labPlaceholder: 'Select Lab',
+  byoReminder: 'Please be aware that participants will need to bring their own laptop to the lab',
+  ageReminder: 'Please note that our target age is between 10 and 16 years',
+  submitButton: 'Submit'
+};
 
 export const ApplicationFormFields = [
   'contactName',
@@ -19,18 +19,18 @@ export const ApplicationFormFields = [
   'schoolType',
   'labSelection',
   'additionalInfo'
-]
+];
 
 export const ApplicationFormFieldLabels = {
-  contactName: "Parent / Guardian name",
-  contactEmail: "Email address",
-  contactNumber: "Contact number",
-  childName: "Child's name",
-  childBirthYear: "Child's year of birth",
-  schoolType: "What type of school does your child attend?",
-  labSelection: "Lab to join",
-  additionalInfo: "Do you have anything else you think we should know?"
-}
+  contactName: 'Parent / Guardian name',
+  contactEmail: 'Email address',
+  contactNumber: 'Contact number',
+  childName: 'Child\'s name',
+  childBirthYear: 'Child\'s year of birth',
+  schoolType: 'What type of school does your child attend?',
+  labSelection: 'Lab to join',
+  additionalInfo: 'Do you have anything else you think we should know?'
+};
 
 export const ApplictionFormValidationErrors = {
   contactName: {name: 'Contact Name', message: 'Please enter a contact name. No symbols allowed'},
@@ -40,4 +40,4 @@ export const ApplictionFormValidationErrors = {
   childBirthYear: {name: 'Birth Year', message: 'Please select the year of birth'},
   schoolType: {name: 'School Type', message: 'Please select a school'},
   labSelection: {name: 'Lab Selection', message: 'Please select a lab to attend'}
-}
+};
