@@ -36,6 +36,9 @@ export default class Details extends Component {
       labService.getLabList()
         .then( (labs) => {
           this.setState({labs: labs});
+        })
+        .catch( () => {
+          this.setState({labs: []});
         });
     }
 
