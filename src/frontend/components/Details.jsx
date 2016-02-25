@@ -5,6 +5,7 @@ import countrySelector from '../../../public/javascript/countries.js';
 import { ApplictionFormValidationErrors as ErrorStrings } from '../config/strings.js';
 import { ApplicationForm as Strings } from '../config/strings.js';
 import FormFieldLabel from './form/FormFieldLabel.jsx';
+import labService from '../services/labService';
 
 export default class Details extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class Details extends Component {
         this.state = {
             invalidFields: [],
             errorNames: [],
-            labs: ['Geelong', 'Melbourne', 'East Melbourne']
+            labs: []
         };
 
         this.errorTypes = {
@@ -29,6 +30,13 @@ export default class Details extends Component {
           labSelection: ErrorStrings.labSelection,
           schoolType: ErrorStrings.schoolType
         };
+    }
+
+    componentDidMount() {
+      labService.getLabList()
+        .then( (labs) => {
+          this.setState({labs: labs});
+        });
     }
 
     handleValidationErrors(validationErrors, scrollToError) {
@@ -105,7 +113,7 @@ export default class Details extends Component {
                             <option value="" disabled>{Strings.labPlaceholder}</option>
                             {
                               this.state.labs.map(function(lab) {
-                                return <option value={lab}>{lab}</option>;
+                                return <option value={lab.key}>{lab.value}</option>;
                               })
                             }
                         </select>
