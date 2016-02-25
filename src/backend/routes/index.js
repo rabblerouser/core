@@ -5,6 +5,7 @@ var router = express.Router();
 var passport = require('passport');
 var membersController = require('../controllers/membersController');
 var adminController = require('../controllers/adminController');
+var branchesController = require('../controllers/branchesController');
 
 function requireAuth(req, res, next) {
     if (!req.isAuthenticated()) {
@@ -52,5 +53,7 @@ router.get('/logout', requireAuth, function (req, res) {
 router.get('/admin', requireAuth, function (req, res) {
     res.render('admin', {title: 'The Lab Admin'});
 });
+
+router.get('/branches', branchesController.list);
 
 module.exports = router;
