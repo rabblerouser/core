@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
 import Errors from './Errors.jsx';
-import InlineError from './InlineError.jsx';
 import * as memberValidator from '../../lib/memberValidator';
 import countrySelector from '../../../public/javascript/countries.js';
 import { ApplictionFormValidationErrors as ErrorStrings } from '../config/strings.js';
-import { ApplicationFormFieldLabels as Labels } from '../config/strings.js';
 import { ApplicationForm as Strings } from '../config/strings.js';
+import FormFieldLabel from './form/FormFieldLabel.jsx';
 
 export default class Details extends Component {
     constructor(props) {
         super(props);
         this.submitDetails = this.submitDetails.bind(this);
         this.handleValidationErrors = this.handleValidationErrors.bind(this);
-        this.validationErrorClass = this.validationErrorClass.bind(this);
         this.isValidationError = this.isValidationError.bind(this);
         this.render = this.render.bind(this);
         this.validator = memberValidator;
@@ -46,13 +44,6 @@ export default class Details extends Component {
 
     isValidationError(fieldName) {
       return _.indexOf(this.state.invalidFields, fieldName) > -1;
-    }
-
-    validationErrorClass(fieldName) {
-        if(this.isValidationError(fieldName)){
-            return 'invalid';
-        }
-        return ;
     }
 
     getSchoolType(refs) {
@@ -108,11 +99,7 @@ export default class Details extends Component {
                         <div className="sub-description">{Strings.instructions}</div>
                     </div>
                     <div className="field-group">
-
-                        <label htmlFor="labSelection" className={this.validationErrorClass('labSelection')}>{Labels.labSelection}<span className="mandatoryField"></span>
-                            <InlineError isError={this.isValidationError('labSelection')}
-                                          errorMessage={this.errorTypes['labSelection'].message} />
-                        </label>
+                        <FormFieldLabel fieldName="labSelection" isOptional={false} hasError={this.isValidationError('labSelection')} />
                         <aside>{ Strings.byoReminder }</aside>
                         <select ref="labSelection" defaultValue="" required id="labSelection" className="labSelection">
                             <option value="" disabled>{Strings.labPlaceholder}</option>
@@ -122,10 +109,8 @@ export default class Details extends Component {
                               })
                             }
                         </select>
-                        <label htmlFor="contactName" className={this.validationErrorClass('contactName')}>{Labels.contactName}<span className="mandatoryField"></span>
-                            <InlineError isError={this.isValidationError('contactName')}
-                                          errorMessage={this.errorTypes['contactName'].message} />
-                        </label>
+
+                        <FormFieldLabel fieldName="contactName" isOptional={false} hasError={this.isValidationError('contactName')} />
                         <fieldset className="field-pair">
                           <div className="sub-field">
                             <label>First name</label>
@@ -137,23 +122,13 @@ export default class Details extends Component {
                           </div>
                         </fieldset>
 
-                        <label htmlFor="contactNumber" className={this.validationErrorClass('contactNumber')}>{Labels.contactNumber}<span className="mandatoryField"></span>
-                          <InlineError isError={this.isValidationError('contactNumber')}
-                                        errorMessage={this.errorTypes['contactNumber'].message} />
-                        </label>
+                        <FormFieldLabel fieldName="contactNumber" isOptional={false} hasError={this.isValidationError('contactNumber')} />
                         <input type="tel" defaultValue={this.props.formValues.contactNumber} ref="contactNumber" id="contactNumber" className="contactNumber"/>
 
-                        <label htmlFor="contactEmail" className={this.validationErrorClass('contactEmail')}>{Labels.contactEmail}<span className="mandatoryField"></span>
-                            <InlineError isError={this.isValidationError('contactEmail')}
-                                          errorMessage={this.errorTypes['contactEmail'].message} />
-                        </label>
+                        <FormFieldLabel fieldName="contactEmail" isOptional={false} hasError={this.isValidationError('contactEmail')} />
                         <input type="email" defaultValue={this.props.formValues.contactEmail} ref="contactEmail" id="contactEmail" className="contactEmail"/>
 
-                        <label htmlFor="childName" className={this.validationErrorClass('childName')}>{Labels.childName}<span className="mandatoryField"></span>
-                            <InlineError isError={this.isValidationError('childName')}
-                                          errorMessage={this.errorTypes['childName'].message} />
-                        </label>
-
+                        <FormFieldLabel fieldName="childName" isOptional={false} hasError={this.isValidationError('childName')} />
                         <fieldset className="field-pair">
                           <div className="sub-field">
                             <label>First name</label>
@@ -165,28 +140,19 @@ export default class Details extends Component {
                           </div>
                         </fieldset>
 
-                        <label htmlFor="childBirthYear" className={this.validationErrorClass('childBirthYear')}>{Labels.childBirthYear}<span className="mandatoryField"></span>
-                          <InlineError isError={this.isValidationError('childBirthYear')}
-                                        errorMessage={this.errorTypes['childBirthYear'].message} />
-                        </label>
+                        <FormFieldLabel fieldName="childBirthYear" isOptional={false} hasError={this.isValidationError('childBirthYear')} />
                         <aside>{ Strings.ageReminder }</aside>
-
                         <input type="number" defaultValue={this.props.formValues.childBirthYear} ref="childBirthYear" placeholder="YYYY" min="1980" max="2016" id="childBirthYear" className="childBirthYear"/>
 
-                        <label htmlFor="schoolType" className={this.validationErrorClass('schoolType')}>{Labels.schoolType}<span className="mandatoryField"></span>
-                            <InlineError isError={this.isValidationError('schoolType')}
-                                          errorMessage={this.errorTypes['schoolType'].message} />
-                        </label>
-
+                        <FormFieldLabel fieldName="schoolType" isOptional={false} hasError={this.isValidationError('schoolType')} />
                         <div><input type="radio" name="schoolType" ref="schoolTypePrimary" value="Primary"/>Primary</div>
                         <div><input type="radio" name="schoolType" ref="schoolTypeSecondary" value="Secondary"/>Secondary</div>
                         <div><input type="radio" name="schoolType" ref="schoolTypeOther" value="Other"/>Other
                           <input type="text" defaultValue={this.props.formValues.schoolType} ref="schoolTypeOtherText" id="schoolTypeOtherText" className="other-field"/>
                         </div>
-                        <label htmlFor="additionalInfo" className={this.validationErrorClass('additionalInfo')}>{Labels.additionalInfo}
-                        </label>
-                        <textarea defaultValue={this.props.formValues.additionalInfo} ref="additionalInfo" id="additionalInfo" className="additionalInfo"/>
 
+                        <FormFieldLabel fieldName="additionalInfo" isOptional={true} hasError={this.isValidationError('additionalInfo')} />
+                        <textarea defaultValue={this.props.formValues.additionalInfo} ref="additionalInfo" id="additionalInfo" className="additionalInfo"/>
                       </div>
 
                     <div className="navigation">

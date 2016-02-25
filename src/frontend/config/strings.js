@@ -29,7 +29,7 @@ export const ApplicationFormFieldLabels = {
   childBirthYear: "Child's year of birth",
   schoolType: "What type of school does your child attend?",
   labSelection: "Lab to join",
-  additionalInfo: "Do you have anything else you think we should know? (optional)"
+  additionalInfo: "Do you have anything else you think we should know?"
 }
 
 export const ApplictionFormValidationErrors = {
