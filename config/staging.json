@@ -2,9 +2,6 @@
   "email": {
     "sendEmails": true
   },
-  "paypal": {
-    "return_url":"https://lab-assistant-staging.herokuapp.com/"
-  },
   "session": {
     "proxy": true,
     "secureCookie": true

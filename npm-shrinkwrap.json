@@ -5731,7 +5731,7 @@
                 },
                 "lodash._isiterateecall": {
                   "version": "3.0.9",
-                  "from": "https://registry.npmjs.org/lodash._isiterateecall/-/lodash._isiterateecall-3.0.9.tgz",
+                  "from": "lodash._isiterateecall@>=3.0.0 <4.0.0",
                   "resolved": "https://registry.npmjs.org/lodash._isiterateecall/-/lodash._isiterateecall-3.0.9.tgz"
                 },
                 "lodash.isarray": {
@@ -7566,11 +7566,6 @@
         }
       }
     },
-    "paypal-ipn": {
-      "version": "3.0.0",
-      "from": "https://registry.npmjs.org/paypal-ipn/-/paypal-ipn-3.0.0.tgz",
-      "resolved": "https://registry.npmjs.org/paypal-ipn/-/paypal-ipn-3.0.0.tgz"
-    },
     "pg": {
       "version": "4.4.3",
       "from": "https://registry.npmjs.org/pg/-/pg-4.4.3.tgz",
@@ -7787,24 +7782,24 @@
         },
         "lodash.assign": {
           "version": "3.2.0",
-          "from": "https://registry.npmjs.org/lodash.assign/-/lodash.assign-3.2.0.tgz",
+          "from": "lodash.assign@>=3.2.0 <4.0.0",
           "resolved": "https://registry.npmjs.org/lodash.assign/-/lodash.assign-3.2.0.tgz",
           "dependencies": {
             "lodash._baseassign": {
               "version": "3.2.0",
-              "from": "https://registry.npmjs.org/lodash._baseassign/-/lodash._baseassign-3.2.0.tgz",
+              "from": "lodash._baseassign@>=3.0.0 <4.0.0",
               "resolved": "https://registry.npmjs.org/lodash._baseassign/-/lodash._baseassign-3.2.0.tgz",
               "dependencies": {
                 "lodash._basecopy": {
                   "version": "3.0.1",
-                  "from": "https://registry.npmjs.org/lodash._basecopy/-/lodash._basecopy-3.0.1.tgz",
+                  "from": "lodash._basecopy@>=3.0.0 <4.0.0",
                   "resolved": "https://registry.npmjs.org/lodash._basecopy/-/lodash._basecopy-3.0.1.tgz"
                 }
               }
             },
             "lodash._createassigner": {
               "version": "3.1.1",
-              "from": "https://registry.npmjs.org/lodash._createassigner/-/lodash._createassigner-3.1.1.tgz",
+              "from": "lodash._createassigner@>=3.0.0 <4.0.0",
               "resolved": "https://registry.npmjs.org/lodash._createassigner/-/lodash._createassigner-3.1.1.tgz",
               "dependencies": {
                 "lodash._bindcallback": {
@@ -7814,7 +7809,7 @@
                 },
                 "lodash._isiterateecall": {
                   "version": "3.0.9",
-                  "from": "https://registry.npmjs.org/lodash._isiterateecall/-/lodash._isiterateecall-3.0.9.tgz",
+                  "from": "lodash._isiterateecall@>=3.0.0 <4.0.0",
                   "resolved": "https://registry.npmjs.org/lodash._isiterateecall/-/lodash._isiterateecall-3.0.9.tgz"
                 },
                 "lodash.restparam": {
@@ -7826,12 +7821,12 @@
             },
             "lodash.keys": {
               "version": "3.1.2",
-              "from": "https://registry.npmjs.org/lodash.keys/-/lodash.keys-3.1.2.tgz",
+              "from": "lodash.keys@>=3.0.0 <4.0.0",
               "resolved": "https://registry.npmjs.org/lodash.keys/-/lodash.keys-3.1.2.tgz",
               "dependencies": {
                 "lodash._getnative": {
                   "version": "3.9.1",
-                  "from": "https://registry.npmjs.org/lodash._getnative/-/lodash._getnative-3.9.1.tgz",
+                  "from": "lodash._getnative@>=3.0.0 <4.0.0",
                   "resolved": "https://registry.npmjs.org/lodash._getnative/-/lodash._getnative-3.9.1.tgz"
                 },
                 "lodash.isarguments": {
@@ -9952,23 +9947,6 @@
           "version": "1.3.0",
           "from": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.0.tgz",
           "resolved": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.0.tgz"
-        }
-      }
-    },
-    "stripe": {
-      "version": "4.1.0",
-      "from": "https://registry.npmjs.org/stripe/-/stripe-4.1.0.tgz",
-      "resolved": "https://registry.npmjs.org/stripe/-/stripe-4.1.0.tgz",
-      "dependencies": {
-        "bluebird": {
-          "version": "2.10.2",
-          "from": "https://registry.npmjs.org/bluebird/-/bluebird-2.10.2.tgz",
-          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.10.2.tgz"
-        },
-        "qs": {
-          "version": "2.4.2",
-          "from": "https://registry.npmjs.org/qs/-/qs-2.4.2.tgz",
-          "resolved": "https://registry.npmjs.org/qs/-/qs-2.4.2.tgz"
         }
       }
     },
