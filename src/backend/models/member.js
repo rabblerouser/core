@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         renewalHash: { type : DataTypes.STRING , allowNull : true },
         contactFirstName: DataTypes.STRING,
         contactLastName: DataTypes.STRING,
-        schoolType: { type: DataTypes.STRING, allowNull : true}
+        schoolType: { type: DataTypes.STRING, allowNull : true},
+        additionalInfo: { type: DataTypes.STRING, allowNull : true}
     }, {
         classMethods: {
             associate: (models) => {

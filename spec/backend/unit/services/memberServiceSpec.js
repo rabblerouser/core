@@ -96,7 +96,8 @@ function fakeNewMember(residentialAddress, postalAddress) {
             branch: 'some-branch-ref-key-1',
             schoolType: 'Primary',
             contactFirstName: 'Jaime',
-            contactLastName: 'Garzon'
+            contactLastName: 'Garzon',
+            additionalInfo: 'Lots of information'
         };
 }
 
@@ -185,7 +186,8 @@ describe('memberService', () => {
                     branchId: 'some-branch-id-1',
                     schoolType: 'Primary',
                     contactFirstName: 'Jaime',
-                    contactLastName: 'Garzon'
+                    contactLastName: 'Garzon',
+                    additionalInfo: 'Lots of information'
                 }));
             }).then(done, done.fail);
         });

@@ -48,7 +48,8 @@ function setupNewMember(newMember) {
         contactLastName: newMember.contactLastName,
         schoolType: newMember.schoolType,
         residentialAddressId: residentialAddressId,
-        postalAddressId: postalAddressId
+        postalAddressId: postalAddressId,
+        additionalInfo: newMember.additionalInfo
     };
   };
 }
