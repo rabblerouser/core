@@ -26,24 +26,6 @@
 
         npm install
 
-0. Add stripe keys [Optional]
-
-        1. First option is to add stripe config file:
-                1. Make a file called stripe-config.json in /config file (see /config/strip-config.json.example for format)
-                2. Visit [stripe](https://dashboard.stripe.com/test/dashboard)
-                3. Click your account -> account settings
-                4. Click API keys
-                5. Add the ones you wish to use into /config/stripe-config.json (for test and dev)
-
-        2. Second option is to declare them at run time:
-                1. Add STRIPE_SECRET_KEY="somekey" to environment vars
-                2. Add STRIPE_PUBLIC_KEY="anotherkey" to environment vars
-                3. Alternatively, define them at runtime before npm start, see below
-
-                eg: STRIPE_SECRET_KEY="sk_test_randomNumbersAndLetters" STRIPE_PUBLIC_KEY="anotherkey" npm start
-
-        If you do both options, the run time declaration is used instead of the config file.
-
 0. Email configuration [Optional]
 
         1. Run `which sendmail` in a terminal

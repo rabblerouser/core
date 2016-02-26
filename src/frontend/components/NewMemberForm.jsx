@@ -67,10 +67,6 @@ export default class NewMemberForm extends Component {
       });
     }
 
-    checkIfPaypalFinishStep() {
-      return windowLocationUtil.getQueryParameters().indexOf('?tx=') !== -1;
-    }
-
     getForm() {
       switch(this.state.step) {
           case 1:

@@ -6,4 +6,4 @@
     - { role: postgres, db_password: "{{ lookup('env','DB_PASSWORD') }}" }
     - { role: letsencrypt, cert_contact_email: "{{ lookup('env','CERT_EMAIL') }}", cert_domain: "{{ inventory_hostname }}" }
     - { role: nginx, server_name: "{{ inventory_hostname }}", https_certs_dir: "/etc/letsencrypt/live/{{ inventory_hostname }}" }
-    - { role: lab-assistant, git_sha: "{{ lookup('env', 'APP_GIT_SHA') }}", node_env: production, db_password: "{{ lookup('env','DB_PASSWORD') }}", session_secret:  "{{ lookup('env','SESSION_SECRET') }}", stripe_secret_key:  "{{ lookup('env','STRIPE_SECRET_KEY') }}" , stripe_public_key:  "{{ lookup('env','STRIPE_PUBLIC_KEY') }}" }
+    - { role: lab-assistant, git_sha: "{{ lookup('env', 'APP_GIT_SHA') }}", node_env: production, db_password: "{{ lookup('env','DB_PASSWORD') }}", session_secret:  "{{ lookup('env','SESSION_SECRET') }}"}

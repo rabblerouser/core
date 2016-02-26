@@ -22,9 +22,6 @@
 - name: upload init script
   template: src=lab-assistant_init.j2 dest=/etc/init.d/lab-assistant mode=0755
 
-- name: upload stripe-config
-  template: src=stripe-config.json.j2 dest="{{ app_path }}/config/stripe-config.json" mode=0600
-
 - name: upload db.json
   template: src=db.json.j2 dest="{{ app_path }}/config/db.json" mode=0600
 
