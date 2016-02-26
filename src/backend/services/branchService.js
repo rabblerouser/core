@@ -35,10 +35,17 @@ let list = () => {
 };
 
 function findByRefKey(refKey) {
-    return Promise.resolve({
-        name: null,
-        key: refKey,
-        id: null
+    if (!refKey) {
+        return Promise.resolve({});
+    }
+
+    var query = {where: {key: refKey}};
+    return Branch.findOne(query)
+    .then((result) => {
+        return result.dataValues;
+    }).catch((error) => {
+        logger.error('[find-branch-by-key-error]', {error: error.toString()});
+        throw new Error(`Error when looking up branch with key: ${refKey}`);
     });
 }
 

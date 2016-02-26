@@ -1,6 +1,7 @@
 'use strict';
 
 const specHelper = require('../../../support/specHelper'),
+      Q = specHelper.Q,
       sinon = specHelper.sinon,
       Branch = specHelper.models.Branch;
 
@@ -49,6 +50,62 @@ describe('branchService', () => {
                 expect(result[0].key).toEqual('some-key-1');
                 expect(result[0].name).toEqual('Geelong');
             }).then(done, done.fail);
+        });
+
+        describe('sad scenario', () => {
+            it('should handle errors when retrieving the branches list');
+        });
+    });
+
+    describe('findByKey', () => {
+        let findOneStub;
+        let findOnePromise;
+
+        beforeEach(() => {
+            findOnePromise = Q.defer();
+            findOneStub = sinon.stub(Branch, 'findOne').returns(findOnePromise.promise);
+        });
+
+        afterEach(() => {
+            Branch.findOne.restore();
+        });
+
+        it('should return the branch associated with that key', (done) => {
+            let branchFromDb = {dataValues: {key: 'some-key-1', id: 'some-id-1', name: 'Ngamarriyanga (NT)'}};
+            findOnePromise.resolve(branchFromDb);
+
+            branchService.findByKey('some-key-1')
+            .then((result) => {
+                expect(Branch.findOne).toHaveBeenCalled();
+                expect(result.id).toEqual('some-id-1');
+                expect(result.name).toEqual('Ngamarriyanga (NT)');
+            })
+            .then(done, done.fail);
+        });
+
+        it('should return an empty object when key is null', (done) => {
+            branchService.findByKey(null)
+            .then((result) => {
+                expect(Branch.findOne).not.toHaveBeenCalled();
+                expect(result).toEqual({});
+            })
+            .then(done, done.fail);
+        });
+
+        describe('sad scenario', () => {
+            it('should handle errors when retrieving the branches list', (done) => {
+                findOnePromise.reject('some db error the service should not rethrow');
+
+                branchService.findByKey('some-key-1')
+                .then(() => {
+                    jasmine.fail('This should not have succeded');
+                })
+                .catch((error) => {
+                    expect(Branch.findOne).toHaveBeenCalled();
+                    expect(error.message).toEqual('Error when looking up branch with key: some-key-1');
+                })
+                .then(done, done.fail);
+            });
         });
     });
 
