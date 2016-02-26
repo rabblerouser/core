@@ -10,11 +10,12 @@
 fieldset {
     @include fill-parent();
     @include clearfix();
-    @include pad(0px 0px 32px 0px);
+    @include pad(0px 0px 0px 0px);
 
     border:none;
     background-color: $blue-light;
     color: $blue-darker;
+
 
 
     .form-body {
@@ -155,11 +156,23 @@ fieldset {
     label {
         font-weight: normal;
         margin-bottom: 0;
-        font-size: 14px;
+        font-size: 16px;
 
         @include media($mobile) {
             font-size: 13px;
         }
+    }
+
+    fieldset fieldset label {
+        font-size: 14px;
+    }
+
+    fieldset fieldset legend {
+        padding: 0;
+    }
+
+    fieldset fieldset {
+
     }
 
     input {
@@ -246,6 +259,8 @@ select { /* Arrow image */
 input[type="text"], select {
   max-width: 350px;
 }
+
+
 
 
 
