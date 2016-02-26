@@ -85,6 +85,7 @@ let createNewMember = (req, res) => {
     let validationErrors = memberValidator.isValid(newMember);
 
     if (validationErrors.length > 0) {
+        logger.info('[create-new-member-validation-error]', {errors: validationErrors});
         return res.status(400).json({ errors: validationErrors});
     }
 

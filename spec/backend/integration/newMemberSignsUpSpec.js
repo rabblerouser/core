@@ -41,14 +41,26 @@ let makeMember = () => {
     };
 };
 
-describe('User Flow', () => {
+describe('MemberIntegrationTests', () => {
 
     beforeEach(() => {
         app = instance_url ? instance_url : require('../../../src/backend/app');
     });
 
-    xit ('member sign up with duplicate email should not fail', (done) => {
-        successfullyCreatingANewMemberShouldRepondWithA200(makeMember())
-        .then(done, done.fail);
-    }, 60000);
+    describe('Creating new member', () => {
+        xit('should return 200 and a created member when the input is valid', (done) => {
+            return request(app)
+            .post('/members')
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+            .send(makeMember())
+            .expect(200)
+            .expect(hasNewMember)
+            .then(done, done.fail);
+        });
+
+        xit('should return 400 if the input is not valid', (done) => {
+
+        });
+    });
 });
