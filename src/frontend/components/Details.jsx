@@ -6,6 +6,7 @@ import { ApplictionFormValidationErrors as ErrorStrings } from '../config/string
 import { ApplicationForm as Strings } from '../config/strings.js';
 import FormFieldLabel from './form/FormFieldLabel.jsx';
 import labService from '../services/labService';
+import memberAdapter from '../adapters/memberAdapter';
 
 export default class Details extends Component {
     constructor(props) {
@@ -90,7 +91,8 @@ export default class Details extends Component {
             this.handleValidationErrors(validationErrors, true);
             return;
         }
-        return this.props.postAndContinue(fieldValues);
+        let payload = memberAdapter.prepareNewMemberPayload(fieldValues);
+        return this.props.postAndContinue(payload);
     }
 
     render() {
