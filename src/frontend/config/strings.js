@@ -12,17 +12,6 @@ export const ApplicationForm = {
   submitButton: 'Submit'
 };
 
-export const ApplicationFormFields = [
-  'contactName',
-  'contactEmail',
-  'contactNumber',
-  'childName',
-  'childBirthYear',
-  'schoolType',
-  'labSelection',
-  'additionalInfo'
-];
-
 export const ApplicationFormFieldLabels = {
   contactName: 'Parent / Guardian name',
   contactEmail: 'Email address',
@@ -36,10 +25,13 @@ export const ApplicationFormFieldLabels = {
 
 export const ApplictionFormValidationErrors = {
   contactName: {name: 'Contact Name', message: 'Please enter a contact name. No symbols allowed'},
+  contactLastName: {name: 'Contact Last Name', message: 'No symbols allowed'},
   contactEmail: {name: 'Contact Email', message: 'Please enter a valid email address i.e. valid@email.com'},
   contactNumber: {name: 'Contact Number', message: 'Please enter a valid phone number'},
   childName: {name: 'Child Name', message: 'Please enter the child\'s name. No symbols allowed'},
+  participantLastName: {name: 'Participant Last Name', message: 'No symbols allowed'},
   childBirthYear: {name: 'Birth Year', message: 'Please select the year of birth'},
   schoolType: {name: 'School Type', message: 'Please select a school'},
-  labSelection: {name: 'Lab Selection', message: 'Please select a lab to attend'}
+  labSelection: {name: 'Lab Selection', message: 'Please select a lab to attend'},
+  additionalInfo: {name: 'Additional Info', message: 'No symbols allowed'}  
 };
