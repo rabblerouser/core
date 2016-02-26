@@ -21,7 +21,7 @@ function save(member) {
 
 function handleError(message) {
     return function(error) {
-        logger.error(message, { error: error.toString() });
+        logger.error(message, { error: error.stack });
         return models.Sequelize.Promise.reject(message);
     };
 }
