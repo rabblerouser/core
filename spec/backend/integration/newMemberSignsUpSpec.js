@@ -50,6 +50,20 @@ let makeMember = (branchKey) => {
     };
 };
 
+let makeMemberWithNoAddress = (branchKey) => {
+    let member = makeMember(branchKey);
+    member.residentialAddress = null;
+    member.postalAddress = null;
+
+    return member;
+};
+
+let makeInvalidMember = () => {
+    let member = makeMember();
+    member.firstName = null;
+    return member;
+};
+
 describe('MemberIntegrationTests', () => {
 
     beforeEach(() => {
@@ -71,8 +85,38 @@ describe('MemberIntegrationTests', () => {
             });
         });
 
-        xit('should return 400 if the input is not valid', (done) => {
+        it('should return 200 when creating a member with no address', (done) => {
+            getBranchKey()
+            .then((branchKey) => {
+                return request(app)
+                .post('/members')
+                .set('Content-Type', 'application/json')
+                .set('Accept', 'application/json')
+                .send(makeMemberWithNoAddress(branchKey))
+                .expect(200)
+                .expect(hasNewMember)
+                .then(done, done.fail);
+            });
+        });
 
+        it('should return 400 if the input is null', (done) => {
+            return request(app)
+            .post('/members')
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+            .send(null)
+            .expect(400)
+            .then(done, done.fail);
+        });
+
+        it('should return 400 if the input is incomplete', (done) => {
+            return request(app)
+            .post('/members')
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+            .send(makeInvalidMember())
+            .expect(400)
+            .then(done, done.fail);
         });
     });
 });

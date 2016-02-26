@@ -7,33 +7,38 @@ let logger = require('../lib/logger');
 let Q = require('q');
 
 
-function isPostalAddressEmpty(postalAddress){
-  return  postalAddress.address === '' &&
-          postalAddress.suburb === '' &&
-          postalAddress.postcode === '';
+function isAddressEmpty(address){
+  return  !address ||
+            (address.address === '' &&
+            address.suburb === '' &&
+            address.postcode === '');
 }
 
-function residentialAddress(req) {
+function residentialAddress(input) {
+    if (isAddressEmpty(input)) {
+        return null;
+      }
+
     return {
-      address: req.body.residentialAddress.address,
-      suburb: req.body.residentialAddress.suburb,
-      postcode: req.body.residentialAddress.postcode,
-      state: req.body.residentialAddress.state,
-      country: req.body.residentialAddress.country
+      address: input.address,
+      suburb: input.suburb,
+      postcode: input.postcode,
+      state: input.state,
+      country: input.country
     };
 }
 
-function postalAddress(req) {
-  if (isPostalAddressEmpty(req)) {
-    return residentialAddress(req);
+function postalAddress(input) {
+  if (isAddressEmpty(input)) {
+    return null;
   }
 
   return {
-    address: req.body.postalAddress.address,
-    suburb: req.body.postalAddress.suburb,
-    postcode: req.body.postalAddress.postcode,
-    state: req.body.postalAddress.state,
-    country: req.body.postalAddress.country
+    address: input.address,
+    suburb: input.suburb,
+    postcode: input.postcode,
+    state: input.state,
+    country: input.country
   };
 }
 
@@ -46,8 +51,8 @@ function setupNewMember(req) {
       primaryPhoneNumber: req.body.primaryPhoneNumber,
       secondaryPhoneNumber: req.body.secondaryPhoneNumber,
       dateOfBirth: req.body.dateOfBirth,
-      residentialAddress: residentialAddress(req),
-      postalAddress: postalAddress(req),
+      residentialAddress: residentialAddress(req.body.residentialAddress),
+      postalAddress: postalAddress(req.body.postalAddress),
       membershipType: req.body.membershipType,
       schoolType: req.body.schoolType,
       contactFirstName: req.body.contactFirstName,
