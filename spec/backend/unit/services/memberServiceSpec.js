@@ -93,7 +93,10 @@ function fakeNewMember(residentialAddress, postalAddress) {
             residentialAddress: residentialAddress,
             postalAddress: postalAddress,
             membershipType: 'full',
-            branch: 'some-branch-ref-key-1'
+            branch: 'some-branch-ref-key-1',
+            schoolType: 'Primary',
+            contactFirstName: 'Jaime',
+            contactLastName: 'Garzon'
         };
 }
 
@@ -179,7 +182,10 @@ describe('memberService', () => {
                     verificationHash: jasmine.anything(),
                     memberSince: jasmine.anything(),
                     lastRenewal: jasmine.anything(),
-                    branchId: 'some-branch-id-1'
+                    branchId: 'some-branch-id-1',
+                    schoolType: 'Primary',
+                    contactFirstName: 'Jaime',
+                    contactLastName: 'Garzon'
                 }));
             }).then(done, done.fail);
         });

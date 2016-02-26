@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         lastRenewal: { type: DataTypes.DATEONLY, allowNull : true},
         renewalHash: { type : DataTypes.STRING , allowNull : true },
         contactFirstName: DataTypes.STRING,
-        contactSurname: DataTypes.STRING
+        contactLastName: DataTypes.STRING,
+        schoolType: { type: DataTypes.STRING, allowNull : true}
     }, {
         classMethods: {
             associate: (models) => {

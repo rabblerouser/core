@@ -32,19 +32,22 @@ function setupMember(newMember) {
     let postalAddressId = postalAddress ? postalAddress[0].dataValues.id : null;
 
     return {
+        email: newMember.email,
         firstName: newMember.firstName,
         lastName: newMember.lastName,
-        email: newMember.email,
         gender: newMember.gender,
-        dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
         primaryPhoneNumber: newMember.primaryPhoneNumber,
         secondaryPhoneNumber: newMember.secondaryPhoneNumber,
-        residentialAddressId: residentialAddressId,
-        postalAddressId: postalAddressId,
+        dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
         membershipType: newMember.membershipType,
         verificationHash: createHash(),
         memberSince: moment().format('L'),
-        lastRenewal: moment().format('L')
+        lastRenewal: moment().format('L'),
+        contactFirstName: newMember.contactFirstName,
+        contactLastName: newMember.contactLastName,
+        schoolType: newMember.schoolType,
+        residentialAddressId: residentialAddressId,
+        postalAddressId: postalAddressId
     };
   };
 }

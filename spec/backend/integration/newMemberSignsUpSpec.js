@@ -10,18 +10,10 @@ let hasNewMember = (res) => {
     }
 };
 
-let successfullyCreatingANewMemberShouldRepondWithA200 = (member) => {
-    return request(app)
-        .post('/members')
-        .set('Content-Type', 'application/json')
-        .set('Accept', 'application/json')
-        .send(member)
-        .expect(200)
-        .expect(hasNewMember);
-};
-
 let makeMember = () => {
     return {
+        'contactName': 'Rebeca',
+        'schoolType': 'Primary',
         'labSelection': 'lab-geelong',
         'firstName': 'Sherlock',
         'lastName': 'Holmes',
