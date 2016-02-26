@@ -26,12 +26,13 @@ function handleError(message) {
     };
 }
 
-function setupMember(newMember) {
+function setupNewMember(newMember) {
   return function (residentialAddress, postalAddress) {
     let residentialAddressId = residentialAddress ? residentialAddress[0].dataValues.id : null;
     let postalAddressId = postalAddress ? postalAddress[0].dataValues.id : null;
 
     return {
+        id: createHash(),
         email: newMember.email,
         firstName: newMember.firstName,
         lastName: newMember.lastName,
@@ -85,7 +86,7 @@ function assignToBranch(branchKey) {
 
 let createMember = (newMember) => {
     return Q.all(getMemberAddresses(newMember))
-          .spread(setupMember(newMember))
+          .spread(setupNewMember(newMember))
           .then(assignToBranch(newMember.branch))
           .then(save)
           .tap(logEvent)
