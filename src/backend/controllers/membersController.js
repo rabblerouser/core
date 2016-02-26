@@ -1,7 +1,7 @@
 'use strict';
 
 let memberService = require('../services/memberService');
-let memberValidator = require('../../lib/memberValidator');
+let memberValidator = require('../lib/memberValidator');
 let messagingService = require('../services/messagingService');
 let logger = require('../lib/logger');
 let Q = require('q');

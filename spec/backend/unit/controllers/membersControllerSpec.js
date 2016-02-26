@@ -5,7 +5,7 @@ const specHelper = require('../../../support/specHelper'),
       Q = specHelper.Q,
       memberService = require('../../../../src/backend/services/memberService'),
       messagingService = require('../../../../src/backend/services/messagingService'),
-      memberValidator = require('../../../../src/lib/memberValidator');
+      memberValidator = require('../../../../src/backend/lib/memberValidator');
 
 var membersController = require('../../../../src/backend/controllers/membersController');
 
