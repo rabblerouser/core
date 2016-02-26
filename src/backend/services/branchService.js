@@ -4,10 +4,10 @@ const models = require('../models'),
     logger = require('../lib/logger'),
     Branch = models.Branch;
 
-function handleError(message) {
+function handleError(logMessage, userMessage) {
     return function(error) {
-        logger.error(message, { error: error.toString() });
-        return models.Sequelize.Promise.reject(message);
+        logger.error(logMessage, { error: error.toString() });
+        throw new Error(userMessage);
     };
 }
 
@@ -31,7 +31,7 @@ let list = () => {
 
     return Branch.findAll(query)
         .then(transformBranches(transformBranch))
-        .catch(handleError('An error has occurred while fetching branches'));
+        .catch(handleError('[branches-list-error]', 'An error has occurred while fetching branches'));
 };
 
 function findByRefKey(refKey) {
@@ -43,10 +43,7 @@ function findByRefKey(refKey) {
     return Branch.findOne(query)
     .then((result) => {
         return result ? result.dataValues : {};
-    }).catch((error) => {
-        logger.error('[find-branch-by-key-error]', {error: error.toString()});
-        throw new Error(`Error when looking up branch with key: ${refKey}`);
-    });
+    }).catch(handleError('[find-branch-by-key-error]', `Error when looking up branch with key: ${refKey}`));
 }
 
 module.exports = {

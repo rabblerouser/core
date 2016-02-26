@@ -53,7 +53,19 @@ describe('branchService', () => {
         });
 
         describe('sad scenario', () => {
-            it('should handle errors when retrieving the branches list');
+            it('should handle errors when retrieving the branches list', (done) => {
+                Branch.findAll.returns(Promise.reject('Obscure DB error the service should not rethrow'));
+
+                 branchService.list()
+                .then(() => {
+                    jasmine.fail('This should not have succeded');
+                })
+                .catch((error) => {
+                    expect(Branch.findAll).toHaveBeenCalled();
+                    expect(error.message).toEqual('An error has occurred while fetching branches');
+                })
+                .then(done, done.fail);
+            });
         });
     });
 
