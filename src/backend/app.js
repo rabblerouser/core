@@ -11,16 +11,12 @@ const express = require('express'),
       sassMiddleware = require('node-sass-middleware'),
       session = require('express-session'),
       passport = require('passport'),
-      passportConfig = require('../../config/passport'),
       neat = require('node-neat'),
       app = express(),
       config = require('config'),
-      configManager = require('../../config/configManager'),
       SequelizeSessionStore = require('connect-session-sequelize')(session.Store),
       db = require('./db/connection'),
       sessionStore = new SequelizeSessionStore({db: db}),
-      sessionOpts = configManager.session,
-      env = process.env.NODE_ENV || 'development',
       membershipRenewalJob = require('./services/membershipRenewalService');
 
 sessionStore.sync();
@@ -36,12 +32,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitized());
 app.use(session({
-    secret: sessionOpts.secret,
+    secret: config.session.secret,
     store: sessionStore,
-    proxy: sessionOpts.proxy,
+    proxy: config.session.proxy,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: sessionOpts.secureCookie }
+    cookie: { secure: config.session.secureCookie }
 }));
 app.use(passport.initialize());
 app.use(passport.session());

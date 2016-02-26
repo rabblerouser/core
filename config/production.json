@@ -5,6 +5,5 @@
   "session": {
     "proxy": true,
     "secureCookie": true
-  },
-  "session_secret_env_variable": "SESSION_SECRET"
+  }
 }
