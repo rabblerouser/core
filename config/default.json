@@ -8,6 +8,7 @@
     "sendEmails": true
   },
   "session": {
+    "secret": "i'm a teapot",
     "proxy": false,
     "secureCookie": false
   }
