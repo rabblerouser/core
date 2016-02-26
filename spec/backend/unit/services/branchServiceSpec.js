@@ -92,6 +92,17 @@ describe('branchService', () => {
             .then(done, done.fail);
         });
 
+        it('should return an empty object when the branch is not found', (done) => {
+            findOnePromise.resolve(null);
+
+            branchService.findByKey('some-key-1')
+            .then((result) => {
+                expect(Branch.findOne).toHaveBeenCalled();
+                expect(result).toEqual({});
+            })
+            .then(done, done.fail);
+        });
+
         describe('sad scenario', () => {
             it('should handle errors when retrieving the branches list', (done) => {
                 findOnePromise.reject('some db error the service should not rethrow');
