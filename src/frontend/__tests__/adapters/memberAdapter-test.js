@@ -13,7 +13,7 @@ describe('member request adapter', () => {
       contactEmail: 'c',
       childName: 'a',
       childLastName: 'b',
-      childBirthYear: 'e',
+      childBirthYear: '2000',
       schoolType: 'f',
       additionalInfo: 'j'
     };
@@ -23,7 +23,7 @@ describe('member request adapter', () => {
       lastName: 'b',
       email: 'c',
       primaryPhoneNumber: 'd',
-      dateOfBirth: 'e',
+      dateOfBirth: '01/01/2000',
       schoolType: 'f',
       contactFirstName: 'g',
       contactLastName: 'h',
