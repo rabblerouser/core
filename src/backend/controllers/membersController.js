@@ -48,7 +48,11 @@ function setupNewMember(req) {
       dateOfBirth: req.body.dateOfBirth,
       residentialAddress: residentialAddress(req),
       postalAddress: postalAddress(req),
-      membershipType: req.body.membershipType
+      membershipType: req.body.membershipType,
+      schoolType: req.body.schoolType,
+      contactFirstName: req.body.contactFirstName,
+      contactLastName: req.body.contactLastName,
+      branch: req.body.branch
   };
 }
 

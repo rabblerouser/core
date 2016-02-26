@@ -52,7 +52,11 @@ describe('membersController', () => {
                     secondaryPhoneNumber: '0394291146',
                     residentialAddress: residentialAddress,
                     postalAddress: postalAddress,
-                    membershipType: 'full'
+                    membershipType: 'full',
+                    contactFirstName: 'Jaime',
+                    contactLastName: 'Garzon',
+                    schoolType: 'Primary',
+                    branch: 'some-key-1'
                 }
             };
 
@@ -90,7 +94,11 @@ describe('membersController', () => {
                     secondaryPhoneNumber: '0394291146',
                     residentialAddress: residentialAddress,
                     postalAddress: postalAddress,
-                    membershipType: 'full'
+                    membershipType: 'full',
+                    contactFirstName: 'Jaime',
+                    contactLastName: 'Garzon',
+                    schoolType: 'Primary',
+                    branch: 'some-key-1'
                 };
             });
 

@@ -12,9 +12,10 @@ let hasNewMember = (res) => {
 
 let makeMember = () => {
     return {
-        'contactName': 'Rebeca',
+        'contactFirstName': 'Jaime',
+        'contactLastName': 'Garzon',
         'schoolType': 'Primary',
-        'labSelection': 'lab-geelong',
+        'branch': '94f8b498-75bd-4fc6-a86c-8e3caf682df6',
         'firstName': 'Sherlock',
         'lastName': 'Holmes',
         'email': 'sherlock@holmes.co.uk',
