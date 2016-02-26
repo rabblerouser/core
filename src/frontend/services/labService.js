@@ -7,12 +7,17 @@ import { Resources } from '../config/strings';
 const getLabList = function () {
 
   var deferred = Q.defer();
-  $.get( `${Resources.labHost}/${Resources.labListEndPoint}`, function(data) {
-    data.branches ? deferred.resolve(data.branches) : deferred.reject();
-  })
-  .fail( () => {
-    deferred.reject();
-  });
+  $.ajax({
+        type: 'GET',
+        url: `/${Resources.labListEndPoint}`,
+        dataType: 'json',
+        success: function(data) {
+            return data.branches ? deferred.resolve(data.branches) : deferred.reject();
+        }
+    })
+    .fail( () => {
+      deferred.reject();
+    });
 
   return deferred.promise;
 };
