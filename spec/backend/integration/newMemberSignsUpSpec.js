@@ -1,6 +1,7 @@
 'use strict';
 
 let request = require('supertest-as-promised');
+const sample = require('lodash').sample;
 const instance_url = process.env.INSTANCE_URL;
 let app;
 
@@ -10,16 +11,24 @@ let hasNewMember = (res) => {
     }
 };
 
-let makeMember = () => {
+let getBranchKey = () => {
+    return request(app)
+            .get('/branches')
+            .then((response) => {
+                return sample(response.body.branches).key;
+            });
+};
+
+let makeMember = (branchKey) => {
     return {
         'contactFirstName': 'Jaime',
         'contactLastName': 'Garzon',
         'schoolType': 'Primary',
-        'branch': '94f8b498-75bd-4fc6-a86c-8e3caf682df6',
+        'branch': branchKey,
         'firstName': 'Sherlock',
         'lastName': 'Holmes',
         'email': 'sherlock@holmes.co.uk',
-        'dateOfBirth': '22/12/1900',
+        'dateOfBirth': '01/01/1983',
         'primaryPhoneNumber': '0396291146',
         'secondaryPhoneNumber': null,
         'gender': 'horse radish',
@@ -48,15 +57,18 @@ describe('MemberIntegrationTests', () => {
     });
 
     describe('Creating new member', () => {
-        xit('should return 200 and a created member when the input is valid', (done) => {
-            return request(app)
-            .post('/members')
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
-            .send(makeMember())
-            .expect(200)
-            .expect(hasNewMember)
-            .then(done, done.fail);
+        it('should return 200 and a created member when the input is valid', (done) => {
+            getBranchKey()
+            .then((branchKey) => {
+                return request(app)
+                .post('/members')
+                .set('Content-Type', 'application/json')
+                .set('Accept', 'application/json')
+                .send(makeMember(branchKey))
+                .expect(200)
+                .expect(hasNewMember)
+                .then(done, done.fail);
+            });
         });
 
         xit('should return 400 if the input is not valid', (done) => {
