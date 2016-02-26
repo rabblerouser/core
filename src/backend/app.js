@@ -14,6 +14,7 @@ const express = require('express'),
       passportConfig = require('../../config/passport'),
       neat = require('node-neat'),
       app = express(),
+      config = require('config'),
       configManager = require('../../config/configManager'),
       SequelizeSessionStore = require('connect-session-sequelize')(session.Store),
       db = require('./db/connection'),
@@ -30,7 +31,7 @@ app.set('view engine', 'html');
 
 app.use(favicon(path.join(__dirname, '../../public', 'images', 'favicon.ico')));
 app.use(helmet());
-app.use(logger(configManager.logFormat));
+app.use(logger(config.logFormat));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitized());
