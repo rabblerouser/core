@@ -7,13 +7,14 @@ function isValidVerificationHash(theHash) {
   return validator.isUUID(theHash, '4');
 }
 
-var containsSpecialCharacters = (theString) => {
-    return /[\<\>\"\%\;\(\)\&\+]/.test(theString);
+var containsSpecialCharacters = (theString, restricted) => {
+    return restricted.test(theString);
 };
 
-var isValidString = (theString) => {
+var isValidString = (theString, restricted) => {
+    restricted = restricted || new RegExp('[\<\>\"\%\;\(\)\&\+]');
     return !!theString &&
-        !containsSpecialCharacters(theString) &&
+        !containsSpecialCharacters(theString, restricted) &&
         theString.length < 256;
 };
 
@@ -21,8 +22,8 @@ var isValidName = (name) => {
     return isValidString(name);
 };
 
-var isValidGender = (gender) => {
-    return !gender || isValidString(gender);
+var isValidBranch = (name) => {
+    return isValidString(name, new RegExp('[\<\>\"\%\;\&\+]'));
 };
 
 var isValidEmail = (email) => {
@@ -37,80 +38,27 @@ var isValidPhone = (phone) => {
     return (!!phone) && isValidPhoneNumber(phone);
 };
 
-var isValidOptionalPhone = (phone) => {
-    return !phone || isValidPhone(phone);
-};
-
-var isValidDate = (date) => {
-    let formattedDate = moment(date, 'DD/MM/YYYY', true);
-    let sixteenYearsAgo = moment().endOf('day').subtract(16, 'years');
-    return formattedDate.isValid() && formattedDate.isSameOrBefore(sixteenYearsAgo);
-};
-
 var isValidYear = (number) => {
     let currentYear = new Date().getFullYear();
     let year = parseInt(number);
     return year <= currentYear && year >= (currentYear - 18);
 };
 
-var isValidPostcode = (postcode) => {
-    return !!postcode && /^\d{4}$/.test(postcode);
+const memberFieldsChecks =
+{
+    contactName: isValidName,
+    contactEmail: isValidEmail,
+    contactNumber: isValidPhone,
+    childName: isValidName,
+    childBirthYear:  isValidYear,
+    labSelection: isValidBranch,
+    schoolType: isValidString
 };
 
-var isValidInternationalPostcode = (postcode) => {
-    return !!postcode && postcode.toString().length <= 16;
-};
-
-function setUpPostCodeChecks(addressObj) {
-    if (addressObj && addressObj.country !== 'Australia') {
-        addressFieldChecks.postcode = isValidInternationalPostcode;
-    } else {
-        addressFieldChecks.postcode = isValidPostcode;
-    }
-}
-
-var isValidResidentialAddress = (addressObj) => {
-    setUpPostCodeChecks(addressObj);
-    var addressErrors =  _.reduce(addressFieldChecks, function(errors, checkFn, memberFieldKey) {
-        if (!addressObj || !checkFn(addressObj[memberFieldKey])){
-            errors.push(memberFieldKey);
-        }
-        return errors;
-    },[]);
-
-    if(addressErrors.length > 0){
-        return _.map(addressErrors, function(error){
-            return 'residential' + _.capitalize(error);
-        });
-    }
-    return [];
-};
-
-var isValidPostalAddress = (addressObj) => {
-    setUpPostCodeChecks(addressObj);
-    var addressErrors =  _.reduce(addressFieldChecks, function(errors, checkFn, memberFieldKey) {
-        if (!addressObj || !checkFn(addressObj[memberFieldKey])){
-            errors.push(memberFieldKey);
-        }
-        return errors;
-    },[]);
-
-    if(addressErrors.length > 0){
-        return _.map(addressErrors, function(error){
-            return 'postal' + _.capitalize(error);
-        });
-    }
-    return [];
-};
-
-var isValidLength = (object, minLength, maxLength) => {
-    minLength = minLength ? minLength : 1;
-    maxLength = maxLength ? maxLength : 255;
-    return !!object && object.length <= maxLength && object.length >= minLength;
-};
-
-var isValidCountry = (country) => {
-    return isValidLength(country) && country !== 'Select Country';
+var isValidDate = (date) => {
+    let formattedDate = moment(date, 'DD/MM/YYYY', true);
+    let sixteenYearsAgo = moment().endOf('day').subtract(16, 'years');
+    return formattedDate.isValid() && formattedDate.isSameOrBefore(sixteenYearsAgo);
 };
 
 var isValidDetails = (member) => {
@@ -122,28 +70,11 @@ var isValidDetails = (member) => {
     },[]);
 };
 
-var isValidMembershipType = (type) => {
-    let validOptions = ['full', 'permanentResident', 'supporter', 'internationalSupporter'];
-    return validOptions.indexOf(type) !== -1;
-};
-
-const memberFieldsChecks =
-{
-    contactName: isValidName,
-    contactEmail: isValidEmail,
-    contactNumber: isValidPhone,
-    childName: isValidName,
-    childBirthYear:  isValidYear,
-    labSelection: isValidString,
-    schoolType: isValidString
-};
-
 var isValid = (member) => {
     var errors = [
         isValidDetails(member)
     ];
     return _.flatten(errors);
-
 };
 
 module.exports = {

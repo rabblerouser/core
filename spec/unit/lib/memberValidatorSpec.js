@@ -40,6 +40,21 @@ describe('memberValidator', () => {
           expect(memberValidator.isValid(null).length).not.toBe(0);
       });
 
+      it('should return array of errors when missing data', () => {
+        let invalidMember = {
+            'contactName': '',
+            'contactEmail': '',
+            'contactNumber': '',
+            'childName': '',
+            'childBirthYear':  '',
+            'labSelection': '',
+            'schoolType': ''
+        };
+        let expectedErrors = ['contactName','contactEmail','contactNumber','childName','childBirthYear', 'labSelection','schoolType'];
+          expect(memberValidator.isValid(invalidMember)).toEqual(expectedErrors);
+
+      });
+
     });
 
     describe('isValidName', () => {
