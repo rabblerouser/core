@@ -46,7 +46,7 @@ var isValidYear = (number) => {
 
 var isValidDate = (date) => {
     let formattedDate = moment(date, 'DD/MM/YYYY', true);
-    return formattedDate.isValid();
+    return formattedDate.isValid() && formattedDate.isSameOrBefore(moment());
 };
 
 const memberFieldsChecks =
