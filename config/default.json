@@ -5,7 +5,7 @@
   "email": {
     "membershipEmail": "rdoherty@thoughtworks.com",
     "server": "override this using environment variable EMAIL_SERVER",
-    "sendEmails": true
+    "sendEmails": false
   },
   "session": {
     "secret": "i'm a teapot",

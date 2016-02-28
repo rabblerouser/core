@@ -1,6 +1,6 @@
 {
   "email": {
-    "sendEmails": true
+    "sendEmails": false
   },
   "session": {
     "proxy": true,
