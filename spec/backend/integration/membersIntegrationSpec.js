@@ -80,9 +80,8 @@ describe('MemberIntegrationTests', () => {
                 .set('Accept', 'application/json')
                 .send(makeMember(branchKey))
                 .expect(200)
-                .expect(hasNewMember)
-                .then(done, done.fail);
-            });
+                .expect(hasNewMember);
+            }).then(done, done.fail);
         });
 
         it('should return 200 when creating a member with no address', (done) => {
@@ -94,9 +93,8 @@ describe('MemberIntegrationTests', () => {
                 .set('Accept', 'application/json')
                 .send(makeMemberWithNoAddress(branchKey))
                 .expect(200)
-                .expect(hasNewMember)
-                .then(done, done.fail);
-            });
+                .expect(hasNewMember);
+            }).then(done, done.fail);
         });
 
         it('should return 400 if the input is null', (done) => {
