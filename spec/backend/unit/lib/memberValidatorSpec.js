@@ -140,11 +140,6 @@ describe('memberValidator', () => {
             expect(memberValidator.isValidDate('22/12/1900')).toBe(true);
         });
 
-        it('Should return true if the user is 16 years old', () => {
-            let date = moment().subtract(16, 'years').format('DD/MM/YYYY');
-            expect(memberValidator.isValidDate(date)).toBe(true);
-        });
-
         it('Should return false if the user is under 16 years old', () => {
             let date = moment().subtract(16, 'years').add(1, 'days').format('L');
             expect(memberValidator.isValidDate(date)).toBe(false);
