@@ -46,8 +46,7 @@ var isValidYear = (number) => {
 
 var isValidDate = (date) => {
     let formattedDate = moment(date, 'DD/MM/YYYY', true);
-    let sixteenYearsAgo = moment().endOf('day').subtract(16, 'years');
-    return formattedDate.isValid() && formattedDate.isSameOrBefore(sixteenYearsAgo);
+    return formattedDate.isValid();
 };
 
 const memberFieldsChecks =
