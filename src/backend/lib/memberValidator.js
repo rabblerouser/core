@@ -54,7 +54,7 @@ const memberFieldsChecks =
 {
     contactFirstName: isValidName,
     email: isValidEmail,
-    primaryPhoneNumber: isValidName,
+    primaryPhoneNumber: isValidPhone,
     firstName: isValidName,
     dateOfBirth: isValidDate,
     branch: isValidBranch,

@@ -15,7 +15,7 @@ describe('memberValidator', () => {
         'firstName': 'Sherlock',
         'email': 'sherlock@holmes.co.uk',
         'dateOfBirth': '01/01/1983',
-        'primaryPhoneNumber': '0396291146',
+        'primaryPhoneNumber': '+263-64-8581786',
         'gender': 'horse radish',
       };
 
