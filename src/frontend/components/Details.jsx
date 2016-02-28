@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Errors from './Errors.jsx';
-import * as memberValidator from '../../lib/memberValidator';
+import * as memberValidator from '../services/memberValidator';
 import countrySelector from '../../../public/javascript/countries.js';
 import { ApplictionFormValidationErrors as ErrorStrings } from '../config/strings.js';
 import { ApplicationForm as Strings } from '../config/strings.js';

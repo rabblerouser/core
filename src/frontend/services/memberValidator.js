@@ -1,10 +1,8 @@
 'use strict';
 const validator = require('validator');
-const moment = require('moment');
 const _ = require('lodash');
 
 const restrictedChars = '[\<\>\"\%\;\(\)\&\+]';
-const yearsBefore = 18;
 
 function isValidVerificationHash(theHash) {
   return validator.isUUID(theHash, '4');
@@ -56,7 +54,7 @@ var isValidPhone = (phone) => {
 var isValidYear = (number) => {
     let currentYear = new Date().getFullYear();
     let year = parseInt(number);
-    return year <= currentYear && year >= (currentYear - yearsBefore);
+    return year <= currentYear && year >= 1900;
 };
 
 const memberFieldsChecks =
@@ -70,12 +68,6 @@ const memberFieldsChecks =
     labSelection: isValidLab,
     schoolType: isValidName,
     additionalInfo: isValidOptionalTextBlock
-};
-
-var isValidDate = (date) => {
-    let formattedDate = moment(date, 'DD/MM/YYYY', true);
-    let sixteenYearsAgo = moment().endOf('day').subtract(16, 'years');
-    return formattedDate.isValid() && formattedDate.isSameOrBefore(sixteenYearsAgo);
 };
 
 var isValidDetails = (member) => {
@@ -100,7 +92,6 @@ module.exports = {
     isValidOptionalTextBlock: isValidOptionalTextBlock,
     isValidEmail: isValidEmail,
     isValidPhone: isValidPhone,
-    isValidDate: isValidDate,
     isValidYear: isValidYear,
     isValid: isValid,
     isValidVerificationHash: isValidVerificationHash
