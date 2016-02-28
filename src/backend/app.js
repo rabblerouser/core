@@ -1,5 +1,7 @@
 'use strict';
 
+require('../../config/passport');
+
 const express = require('express'),
       path = require('path'),
       favicon = require('serve-favicon'),
