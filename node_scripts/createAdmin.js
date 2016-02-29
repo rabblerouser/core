@@ -1,6 +1,6 @@
 'use strict';
 
-var models = require('../models');
+var models = require('../src/backend/models');
 var readline = require('readline');
 
 var rl = readline.createInterface({
