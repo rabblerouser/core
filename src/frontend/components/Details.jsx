@@ -3,7 +3,7 @@ import Errors from './Errors.jsx';
 import * as memberValidator from '../services/memberValidator';
 import countrySelector from '../../../public/javascript/countries.js';
 import { ApplictionFormValidationErrors as ErrorStrings } from '../config/strings.js';
-import { ApplicationForm as Strings } from '../config/strings.js';
+import { ApplicationForm as Strings, Resources } from '../config/strings.js';
 import FormFieldLabel from './form/FormFieldLabel.jsx';
 import InlineError from './form/InlineError.jsx';
 
@@ -180,7 +180,7 @@ export default class Details extends Component {
 
                     <div className="navigation">
                         <button onClick={this.submitDetails}>Register</button>
-                        <p>or <a id="go-back" onClick={this.props.previousStep} href="#">go back</a></p>
+                        <p>or <a onClick={this.props.previousStep} href={Resources.theLabHome}>return to The Lab</a></p>
                     </div>
                 </div>
             </fieldset>
