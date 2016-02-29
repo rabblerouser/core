@@ -107,10 +107,9 @@ export default class Details extends Component {
                             scrollToError={this.state.scrollToError}
                             errorTitle="Please check the following fields:"/>
 
-                    <div className="heading">
-                        <h2 className="sub-title"> Personal Information</h2>
-                        <div className="sub-description">{Strings.instructions}</div>
-                    </div>
+                    
+                    <p>{Strings.instructions}</p>
+                 
                     <div className="field-group">
                         <FormFieldLabel fieldName="labSelection" isOptional={false} hasError={this.isValidationError('labSelection')} />
                         <aside>{ Strings.byoReminder }</aside>
