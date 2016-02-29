@@ -36,11 +36,11 @@ describe('FormFieldLabel', () => {
       renderedTree = sd.shallowRender(<FormFieldLabel isOptional={true}/>);
     })
 
-    it('should include the text (optional) as a span', () => {
+    it('should include the text (optional) in a span', () => {
       let element = renderedTree.subTree('span');
       expect(element).not.toBeFalsy();
       expect(element.props.className).toBe("optional");
-      expect(element.text()).toBe("(optional)");
+      expect(element.text()).toContain("(optional)");
     })
 
   });
