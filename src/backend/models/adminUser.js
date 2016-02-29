@@ -26,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
                     .catch((err) => {
                         logger.error('AdminUser Authenticate caught an error', err);
                     });
+            },
+            associate: (models) => {
+                AdminUser.belongsTo(models.Branch, { as: 'branch', foreignKey: 'branchId'});
             }
         },
         instanceMethods: {
