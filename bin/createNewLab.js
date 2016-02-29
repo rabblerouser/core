@@ -1,6 +1,6 @@
 'use strict';
 
-var Branch = require('../src/backend/models').Branch;
+var Branch = require('../src/backend/models/index').Branch;
 var readline = require('readline');
 
 var rl = readline.createInterface({input: process.stdin, output: process.stdout});
