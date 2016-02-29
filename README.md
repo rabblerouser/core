@@ -53,9 +53,9 @@
 
 0. Re-bundling the UI
 
-The frontend code must be re-bundled whenever it changes or `npm start` will serve the last bundled version of the UI. We have a `postinstall` task that bundles any time `npm install` is run (i.e. on deployment). 
+    The frontend code must be re-bundled whenever it changes or `npm start` will serve the last bundled version of the UI. We have a `postinstall` task that bundles any time `npm install` is run (i.e. on deployment). 
 
-When developing, the easiest way to keep the front-end up to date is to run the following command in a separate shell, which will watch the code and re-bundle on changes. This can be run outside of the Vagrant VM, if you have `npm` installed on your host machine.
+    When developing, the easiest way to keep the front-end up to date is to run the following command in a separate shell, which will watch the code and re-bundle on changes. This can be run outside of the Vagrant VM, if you have `npm` installed on your host machine.
 
         npm run bundle
 
