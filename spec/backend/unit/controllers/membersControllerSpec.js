@@ -56,7 +56,8 @@ describe('membersController', () => {
                     contactFirstName: 'Jaime',
                     contactLastName: 'Garzon',
                     schoolType: 'Primary',
-                    branch: 'some-key-1'
+                    branch: 'some-key-1',
+                    additionalInfo: null
                 }
             };
 

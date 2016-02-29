@@ -83,30 +83,6 @@ describe('memberValidator', () => {
         });
     });
 
-    describe('isValidYear', () => {
-      [
-          '2000',
-          '2016',
-          '1999'
-      ].forEach((testCase) => {
-          it(`Should return true given a string with a birth year in range ${testCase}`, () => {
-              expect(memberValidator.isValidYear(testCase)).toBe(true);
-          });
-      });
-
-      [
-          '',
-          '1900',
-          null,
-          '2017',
-          'words?'
-      ].forEach((testCase) => {
-          it(`Should return false given a non year string or out of range ${testCase}`, () => {
-              expect(memberValidator.isValidYear(testCase)).toBe(false);
-          });
-      });
-    });
-
     describe('isValidPhoneNumber', () => {
         [
             '+61472817381',
@@ -153,5 +129,60 @@ describe('memberValidator', () => {
                 expect(memberValidator.isValidDate(input)).toBe(false);
             });
         });
+    });
+
+    describe('isValidOptionalName', () => {
+        let validTestCases = [
+            null,
+            '',
+            undefined,
+            'A valid name'
+        ];
+
+        validTestCases.forEach((input) => {
+            it(`should return true if given a ${input} value`, () => {
+                expect(memberValidator.isValidOptionalName(input)).toBe(true);
+            });
+        });
+
+        let testCases = [
+            'a'.repeat(256),
+            'Flo the 1st<'
+        ];
+
+        testCases.forEach((input) => {
+            it(`should return false if given a ${input} value`, () => {
+                expect(memberValidator.isValidOptionalName(input)).toBe(false);
+            });
+        });
+    });
+
+    describe('isValidOptionalTextBlock', () => {
+
+        let validTestCases = [
+            null,
+            '',
+            undefined,
+            'A valid text block',
+            'a'.repeat(257)
+        ];
+
+        validTestCases.forEach((input) => {
+            it(`should return true if given a ${input} value`, () => {
+                expect(memberValidator.isValidOptionalTextBlock(input)).toBe(true);
+            });
+        });
+
+        let testCases = [
+            'a'.repeat(2000),
+            'Flo the 1st<'
+        ];
+
+        testCases.forEach((input) => {
+            it(`should return false if given a ${input} value`, () => {
+                expect(memberValidator.isValidOptionalTextBlock(input)).toBe(false);
+            });
+        });
+
     });
 });
