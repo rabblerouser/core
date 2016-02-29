@@ -117,9 +117,10 @@ export default class Details extends Component {
                             scrollToError={this.state.scrollToError}
                             errorTitle={this.state.errorTitle}/>
                     <p>{Strings.instructions}</p>
+                    <p>{ Strings.byoReminder }</p>
                     <div className="field-group">
                         <FormFieldLabel fieldName="labSelection" isOptional={false} hasError={this.isValidationError('labSelection')} />
-                        <aside>{ Strings.byoReminder }</aside>
+                     
                         <select ref="labSelection" defaultValue="" required id="labSelection" className="labSelection">
                             <option value="" disabled>{Strings.labPlaceholder}</option>
                             {

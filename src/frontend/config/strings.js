@@ -8,9 +8,9 @@ export const Resources = {
 };
 
 export const ApplicationForm = {
-  instructions: 'Please fill in the following information and we\'ll let you know when space becomes available at the lab',
+  instructions: 'Please fill in the following information and we\'ll let you know when space becomes available at your preferred Lab.',
   labPlaceholder: 'Select Lab',
-  byoReminder: 'Please be aware that participants will need to bring their own laptop to the lab',
+  byoReminder: 'Please be aware that participants will need to bring their own laptop.',
   ageReminder: 'Please note that our target age is between 10 and 16 years',
   submitButton: 'Submit',
   remoteSubmitErrorTitle: `Sorry, we could not register you this time. Please try again, or contact us at ${Resources.theLabContactEmail}`,
