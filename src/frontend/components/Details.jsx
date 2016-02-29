@@ -23,13 +23,14 @@ export default class Details extends Component {
             errorNames: [],
             labs: []
         };
-
         this.errorTypes = {
           contactName: ErrorStrings.contactName,
+          contactLastName: ErrorStrings.contactLastName,
           contactNumber: ErrorStrings.contactNumber,
           childBirthYear: ErrorStrings.childBirthYear,
           contactEmail: ErrorStrings.contactEmail,
           childName: ErrorStrings.childName,
+          childLastName: ErrorStrings.childLastName,
           labSelection: ErrorStrings.labSelection,
           schoolType: ErrorStrings.schoolType
         };
@@ -45,6 +46,11 @@ export default class Details extends Component {
         });
     }
 
+    componentWillReceiveProps(props) {
+      this.setState({ errors: props.errors,
+                      errorTitle: props.errors });
+    }
+
     handleValidationErrors(validationErrors, scrollToError) {
         let invalidFields = validationErrors;
         var errors = [];
@@ -53,7 +59,10 @@ export default class Details extends Component {
             errors.push(this.errorTypes[error].name);
         }.bind(this));
 
-        this.setState({invalidFields: invalidFields, errorNames: errors, scrollToError: scrollToError});
+        this.setState({ invalidFields: invalidFields,
+                        errorNames: errors,
+                        scrollToError: scrollToError,
+                        errorTitle: Strings.validationErrorTitle});
     }
 
     isValidationError(fieldName) {
@@ -88,7 +97,9 @@ export default class Details extends Component {
             additionalInfo: this.refs.additionalInfo.value
         };
 
+        this.setState({invalidFields: [], errorNames: [], errorTitle:''});
         var validationErrors = this.validator.isValid(fieldValues);
+
         if (validationErrors.length > 0) {
             this.handleValidationErrors(validationErrors, true);
             return;
@@ -101,15 +112,11 @@ export default class Details extends Component {
         return (
             <fieldset>
                 <h1 className="form-title">Details</h1>
-
                 <div className="form-body">
                     <Errors invalidFields={this.state.errorNames}
                             scrollToError={this.state.scrollToError}
-                            errorTitle="Please check the following fields:"/>
-
-                    
+                            errorTitle={this.state.errorTitle}/>
                     <p>{Strings.instructions}</p>
-                 
                     <div className="field-group">
                         <FormFieldLabel fieldName="labSelection" isOptional={false} hasError={this.isValidationError('labSelection')} />
                         <aside>{ Strings.byoReminder }</aside>
@@ -125,14 +132,12 @@ export default class Details extends Component {
                         <fieldset className="field-pair">
                           <legend>Parent / Guardian name</legend>
                           <div className="sub-field">
-                        
+
                          <FormFieldLabel fieldName="contactName" isOptional={false} hasError={this.isValidationError('contactName')} />
-                       
                             <input type="text" defaultValue={this.props.formValues.contactName} ref="contactName" id="contactName" className="contactName" />
                           </div>
                           <div className="sub-field">
                            <FormFieldLabel fieldName="contactLastName" isOptional={false} hasError={this.isValidationError('contactLastName')} />
-                       
                             <input type="text" defaultValue={this.props.formValues.contactLastName} ref="contactLastName" id="contactLastName" className="contactLastName" />
                           </div>
                         </fieldset>
@@ -147,12 +152,11 @@ export default class Details extends Component {
                           <legend>Participant name</legend>
                           <div className="sub-field">
                             <FormFieldLabel fieldName="childName" isOptional={false} hasError={this.isValidationError('childName')} />
-        
                             <input type="text" defaultValue={this.props.formValues.childName} ref="childName" id="childName" className="childName"/>
                           </div>
                           <div className="sub-field">
                             <FormFieldLabel fieldName="childLastName" isOptional={false} hasError={this.isValidationError('childLastName')} />
-                               <input type="text" defaultValue={this.props.formValues.childLastName} ref="childLastName" id="childLastName" className="childLastName"/>
+                            <input type="text" defaultValue={this.props.formValues.childLastName} ref="childLastName" id="childLastName" className="childLastName"/>
                           </div>
                         </fieldset>
 

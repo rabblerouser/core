@@ -8,8 +8,8 @@ export default class Errors extends Component {
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
     }
 
-    getClass(invalidaFields) {
-        return invalidaFields.length >= 1 ? "validationErrors" : "hidden";
+    getClass(errorTitle) {
+      return errorTitle ?  'validationErrors' : 'hidden';
     }
 
     componentDidUpdate() {
@@ -19,7 +19,7 @@ export default class Errors extends Component {
     }
 
     render() {
-        return (<div className={this.getClass(this.props.invalidFields)}>
+        return (<div className={this.getClass(this.props.errorTitle)}>
                  <div className="validationErrors-text">
                     <span>{this.props.errorTitle}</span>
                     <ul className="errors">

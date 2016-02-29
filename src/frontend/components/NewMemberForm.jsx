@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Details from './Details.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import Finished from './Finished.jsx';
+import {ApplicationForm, Resources} from '../config/strings';
 import $ from 'jquery';
 let windowLocationUtil = require('../lib/windowLocationUtil.js');
 
@@ -54,16 +55,15 @@ export default class NewMemberForm extends Component {
     postAndContinue(fieldValues) {
       $.ajax({
           type: 'POST',
-          url: '/members',
+          url: `/${Resources.applicationsEndPoint}`,
           data: fieldValues,
           success: function(value) {
               this.invoiceId = value.invoiceId;
               this.nextStep();
           }.bind(this),
           error: function () {
-              this.setState({errors: ['Sorry, we could not register you this time. Please try again, or ' +
-              'contact us at admin@thelab.org.au']});
-          }.bind(this)
+               this.setState({errors: ApplicationForm.remoteSubmitErrorTitle});
+            }.bind(this)
       });
     }
 
@@ -71,7 +71,7 @@ export default class NewMemberForm extends Component {
       switch(this.state.step) {
           case 1:
               return <Details formValues={this.formValues}
-                              postAndContinue={this.postAndContinue} />;
+                              postAndContinue={this.postAndContinue} errors={this.state.errors}/>;
           case 2:
               return <Finished email={this.formValues.email}
                                 nextStep={this.nextStep} />;
