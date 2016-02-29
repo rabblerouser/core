@@ -19,7 +19,7 @@ describe('InlineError', () => {
     it('has a single span with a class of errors', () => {
       let element = renderedTree.subTree('span');
       expect(element).not.toBeFalsy();
-      expect(element.text()).toBe('Please enter a contact name. No symbols allowed');
+      expect(element.text()).toBe('Please enter a contact name. No symbols allowed.');
     });
 
   });

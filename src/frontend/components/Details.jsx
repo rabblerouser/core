@@ -176,6 +176,7 @@ export default class Details extends Component {
                         </fieldset>
 
                         <FormFieldLabel fieldName="additionalInfo" isOptional={true} hasError={this.isValidationError('additionalInfo')} />
+                        <aside>{ Strings.additionalInfoAside }</aside>
                         <textarea defaultValue={this.props.formValues.additionalInfo} ref="additionalInfo" id="additionalInfo" className="additionalInfo"/>
                       </div>
 

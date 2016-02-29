@@ -29,7 +29,7 @@ describe('Details step', () => {
     });
 
     it('should show list of invalid fields if the details entered were invalid', () => {
-        let expectedErrors = 'Contact NameContact EmailContact NumberParticipant NameBirth YearLab SelectionSchool Type';
+        let expectedErrors = 'Contact first nameEmail addressContact numberParticipant first nameParticipant\'s year of birthLab to joinSchool type';
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
@@ -40,21 +40,21 @@ describe('Details step', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors[1]).textContent).toMatch(/Please select a lab to attend/);
+        expect(ReactDOM.findDOMNode(errors[1]).textContent).toMatch(/Please select a lab to join./);
     });
 
     it('should show contact name error message if it wasn\'t filled in', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors[2]).textContent).toMatch(/Please enter a contact name. No symbols allowed/);
+        expect(ReactDOM.findDOMNode(errors[2]).textContent).toMatch(/Please enter a contact name. No symbols allowed./);
     });
 
     it('should show contact number error message if it wasn\'t filled in', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors[3]).textContent).toMatch(/Please enter a valid phone number/);
+        expect(ReactDOM.findDOMNode(errors[3]).textContent).toMatch(/Please enter a valid phone number./);
     });
 
     it('should show contact email error message if it wasn\'t filled in', () => {
@@ -68,21 +68,21 @@ describe('Details step', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors[5]).textContent).toMatch(/Please enter the participant's name. No symbols allowed/);
+        expect(ReactDOM.findDOMNode(errors[5]).textContent).toMatch(/Please enter the participant's name. No symbols allowed./);
     });
 
     it('should show participant birth year error message if it wasn\'t filled in', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors[6]).textContent).toMatch(/Please select the year of birth/);
+        expect(ReactDOM.findDOMNode(errors[6]).textContent).toMatch(/Please select the year of birth./);
     });
 
     it('should show school type error message if it wasn\'t filled in', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors[7]).textContent).toMatch(/Please select a school/);
+        expect(ReactDOM.findDOMNode(errors[7]).textContent).toMatch(/Please select a school type./);
     });
 
 });
