@@ -14,20 +14,14 @@ module.exports = (sequelize, DataTypes) => {
             authenticate: (email, password, cb) => {
                 return AdminUser.find({where: { email: email }})
                     .then((user) => {
-                        if (user) {
-                            if (user.authenticate(password)) {
-                                logger.info('admin-logged-in', email);
-                                cb(null, user.dataValues);
-                            }
-                            else {
-                                logger.info('admin-failed-log-in', email);
-                                cb(null, false);
-                            }
+                        if (user && user.authenticate(password)) {
+                            logger.info('admin-logged-in', email);
+                            cb(null, user.dataValues);
+                            return;
                         }
-                        else {
-                            logger.info('admin-failed-log-in', email);
-                            cb(null, false);
-                        }
+
+                        logger.info('admin-failed-log-in', email);
+                        cb(null, false);
                     })
                     .catch((err) => {
                         logger.error('AdminUser Authenticate caught an error', err);
@@ -35,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         instanceMethods: {
-            // needs to use function syntax because arrow functions clobber this
             authenticate: function(password) {
                 return bcrypt.compareSync(password, this.password);
             }
