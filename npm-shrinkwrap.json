@@ -7845,6 +7845,11 @@
         }
       }
     },
+    "reactabular": {
+      "version": "0.11.2",
+      "from": "reactabular@latest",
+      "resolved": "https://registry.npmjs.org/reactabular/-/reactabular-0.11.2.tgz"
+    },
     "readline": {
       "version": "1.3.0",
       "from": "https://registry.npmjs.org/readline/-/readline-1.3.0.tgz",
