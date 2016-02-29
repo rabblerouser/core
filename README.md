@@ -51,11 +51,13 @@
 
         npm start
 
-### webpack
+0. Re-bundling the UI
 
-0. npm install webpack -g
+The frontend code must be re-bundled whenever it changes or `npm start` will serve the last bundled version of the UI. We have a `postinstall` task that bundles any time `npm install` is run (i.e. on deployment). 
 
-0. webpack --progress --colors --watch
+When developing, the easiest way to keep the front-end up to date is to run the following command in a separate shell, which will watch the code and re-bundle on changes. This can be run outside of the Vagrant VM, if you have `npm` installed on your host machine.
+
+        npm run bundle
 
 ### Tests
 
