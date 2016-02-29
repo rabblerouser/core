@@ -10,12 +10,12 @@ describe('memberValidator', () => {
           'contactName': 'Sherlock',
           'contactEmail': 'sherlock@holmes.co.uk',
           'contactNumber': '0396291146',
-          'childName': 'Holmes',
-          'childBirthYear':  '2000',
+          'participantName': 'Holmes',
+          'participantBirthYear':  '2000',
           'labSelection': 'Geelong',
           'schoolType': 'Primary',
           'contactLastName': 'Sherlock',
-          'childLastName': 'Holmes',
+          'participantLastName': 'Holmes',
           'additionalInfo':  'More info for you!'
       };
 
@@ -23,12 +23,12 @@ describe('memberValidator', () => {
         'contactName': 'Sherlock',
         'contactEmail': 'sherlock@holmes.co.uk',
         'contactNumber': '0396291146',
-        'childName': 'Holmes',
-        'childBirthYear':  '2000',
+        'participantName': 'Holmes',
+        'participantBirthYear':  '2000',
         'labSelection': 'Geelong',
         'schoolType': 'Primary',
         'contactLastName': '',
-        'childLastName': '',
+        'participantLastName': '',
         'additionalInfo':  ''
       };
 
@@ -49,15 +49,15 @@ describe('memberValidator', () => {
             'contactName': '',
             'contactEmail': '',
             'contactNumber': '',
-            'childName': '',
-            'childBirthYear':  '',
+            'participantName': '',
+            'participantBirthYear':  '',
             'labSelection': '',
             'schoolType': '',
             'contactLastName': '',
-            'childLastName': '',
+            'participantLastName': '',
             'additionalInfo':  ''
         };
-        let expectedErrors = ['contactName','contactEmail','contactNumber','childName','childBirthYear', 'labSelection','schoolType'];
+        let expectedErrors = ['contactName','contactEmail','contactNumber','participantName','participantBirthYear', 'labSelection','schoolType'];
           expect(memberValidator.isValid(invalidMember)).toEqual(expectedErrors);
 
       });

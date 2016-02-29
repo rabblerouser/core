@@ -27,9 +27,9 @@ export default class NewMemberForm extends Component {
             contactLastName: '',
             contactNumber: '',
             contactEmail: '',
-            childName: '',
-            childLastName: '',
-            childBirthYear: '',
+            participantName: '',
+            participantLastName: '',
+            participantBirthYear: '',
             schoolType: '',
             additionalInfo: ''
         };

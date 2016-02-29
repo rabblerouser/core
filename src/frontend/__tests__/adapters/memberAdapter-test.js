@@ -11,9 +11,9 @@ describe('member request adapter', () => {
       contactLastName: 'h',
       contactNumber: 'd',
       contactEmail: 'c',
-      childName: 'a',
-      childLastName: 'b',
-      childBirthYear: '2000',
+      participantName: 'a',
+      participantLastName: 'b',
+      participantBirthYear: '2000',
       schoolType: 'f',
       additionalInfo: 'j'
     };

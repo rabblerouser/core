@@ -27,12 +27,13 @@ export default class Details extends Component {
           contactName: ErrorStrings.contactName,
           contactLastName: ErrorStrings.contactLastName,
           contactNumber: ErrorStrings.contactNumber,
-          childBirthYear: ErrorStrings.childBirthYear,
+          participantBirthYear: ErrorStrings.participantBirthYear,
           contactEmail: ErrorStrings.contactEmail,
-          childName: ErrorStrings.childName,
-          childLastName: ErrorStrings.childLastName,
+          participantName: ErrorStrings.participantName,
+          participantLastName: ErrorStrings.participantLastName,
           labSelection: ErrorStrings.labSelection,
-          schoolType: ErrorStrings.schoolType
+          schoolType: ErrorStrings.schoolType,
+          additionalInfo: ErrorStrings.additionalInfo
         };
     }
 
@@ -54,7 +55,6 @@ export default class Details extends Component {
     handleValidationErrors(validationErrors, scrollToError) {
         let invalidFields = validationErrors;
         var errors = [];
-
         _.forEach(invalidFields, function(error){
             errors.push(this.errorTypes[error].name);
         }.bind(this));
@@ -90,9 +90,9 @@ export default class Details extends Component {
             contactLastName: this.refs.contactLastName.value,
             contactNumber: this.refs.contactNumber.value,
             contactEmail: this.refs.contactEmail.value,
-            childName: this.refs.childName.value,
-            childLastName: this.refs.childLastName.value,
-            childBirthYear: this.refs.childBirthYear.value,
+            participantName: this.refs.participantName.value,
+            participantLastName: this.refs.participantLastName.value,
+            participantBirthYear: this.refs.participantBirthYear.value,
             schoolType: this.getSchoolType(this.refs),
             additionalInfo: this.refs.additionalInfo.value
         };
@@ -151,21 +151,21 @@ export default class Details extends Component {
                         <fieldset className="field-pair">
                           <legend>Participant name</legend>
                           <div className="sub-field">
-                            <FormFieldLabel fieldName="childName" isOptional={false} hasError={this.isValidationError('childName')} />
-                            <input type="text" defaultValue={this.props.formValues.childName} ref="childName" id="childName" className="childName"/>
+                            <FormFieldLabel fieldName="participantName" isOptional={false} hasError={this.isValidationError('participantName')} />
+                            <input type="text" defaultValue={this.props.formValues.participantName} ref="participantName" id="participantName" className="participantName"/>
                           </div>
                           <div className="sub-field">
-                            <FormFieldLabel fieldName="childLastName" isOptional={false} hasError={this.isValidationError('childLastName')} />
-                            <input type="text" defaultValue={this.props.formValues.childLastName} ref="childLastName" id="childLastName" className="childLastName"/>
+                            <FormFieldLabel fieldName="participantLastName" isOptional={false} hasError={this.isValidationError('participantLastName')} />
+                            <input type="text" defaultValue={this.props.formValues.participantLastName} ref="participantLastName" id="participantLastName" className="participantLastName"/>
                           </div>
                         </fieldset>
 
-                        <FormFieldLabel fieldName="childBirthYear" isOptional={false} hasError={this.isValidationError('childBirthYear')} />
+                        <FormFieldLabel fieldName="participantBirthYear" isOptional={false} hasError={this.isValidationError('participantBirthYear')} />
                         <aside>{ Strings.ageReminder }</aside>
-                        <input type="number" defaultValue={this.props.formValues.childBirthYear} ref="childBirthYear" placeholder="YYYY" min="1980" max="2016" id="childBirthYear" className="childBirthYear"/>
+                        <input type="number" defaultValue={this.props.formValues.participantBirthYear} ref="participantBirthYear" placeholder="YYYY" min="1980" max="2016" id="participantBirthYear" className="participantBirthYear"/>
 
                         <fieldset>
-                          <legend>What type of school does your child attend?</legend>
+                          <legend>What type of school does the participant attend?</legend>
                           <InlineError errorFor={ this.isValidationError('schoolType') ? 'schoolType' : '' }/>
                           <div><input type="radio" name="schoolType" ref="schoolTypePrimary" id="schoolTypePrimary" value="Primary" /><label htmlFor="schoolTypePrimary">Primary</label></div>
                           <div><input type="radio" name="schoolType" ref="schoolTypeSecondary" id="schoolTypeSecondary" value="Secondary"/><label htmlFor="schoolTypeSecondary">Secondary</label></div>

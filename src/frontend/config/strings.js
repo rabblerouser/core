@@ -21,10 +21,10 @@ export const ApplicationFormFieldLabels = {
   contactLastName: 'Last name',
   contactEmail: 'Email address',
   contactNumber: 'Contact number',
-  childName: 'First name',
-  childLastName: 'Last name',
-  childBirthYear: 'Child\'s year of birth',
-  schoolType: 'What type of school does your child attend?',
+  participantName: 'First name',
+  participantLastName: 'Last name',
+  participantBirthYear: 'Participant\'s year of birth',
+  schoolType: 'What type of school does your participant attend?',
   labSelection: 'Lab to join',
   additionalInfo: 'Do you have anything else you think we should know?'
 };
@@ -34,9 +34,9 @@ export const ApplictionFormValidationErrors = {
   contactLastName: {name: 'Contact Last Name', message: 'No symbols allowed'},
   contactEmail: {name: 'Contact Email', message: 'Please enter a valid email address i.e. valid@email.com'},
   contactNumber: {name: 'Contact Number', message: 'Please enter a valid phone number'},
-  childName: {name: 'Child Name', message: 'Please enter the child\'s name. No symbols allowed'},
-  childLastName: {name: 'Participant Last Name', message: 'No symbols allowed'},
-  childBirthYear: {name: 'Birth Year', message: 'Please select the year of birth'},
+  participantName: {name: 'Participant Name', message: 'Please enter the participant\'s name. No symbols allowed'},
+  participantLastName: {name: 'Participant Last Name', message: 'No symbols allowed'},
+  participantBirthYear: {name: 'Birth Year', message: 'Please select the year of birth'},
   schoolType: {name: 'School Type', message: 'Please select a school'},
   labSelection: {name: 'Lab Selection', message: 'Please select a lab to attend'},
   additionalInfo: {name: 'Additional Info', message: 'No symbols allowed'}

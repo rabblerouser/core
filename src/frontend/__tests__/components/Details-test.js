@@ -12,11 +12,11 @@ describe('Details step', () => {
                         contactName: '',
                         contactEmail: '',
                         contactNumber: '',
-                        childName: '',
-                        childBirthYear: '',
+                        participantName: '',
+                        participantBirthYear: '',
                         schoolType: '',
                         contactLastName: '',
-                        childLastName: '',
+                        participantLastName: '',
                         additionalInfo: ''
                     };
 
@@ -29,7 +29,7 @@ describe('Details step', () => {
     });
 
     it('should show list of invalid fields if the details entered were invalid', () => {
-        let expectedErrors = 'Contact NameContact EmailContact NumberChild NameBirth YearLab SelectionSchool Type';
+        let expectedErrors = 'Contact NameContact EmailContact NumberParticipant NameBirth YearLab SelectionSchool Type';
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
@@ -64,14 +64,14 @@ describe('Details step', () => {
         expect(ReactDOM.findDOMNode(errors[4]).textContent).toMatch(/Please enter a valid email address i.e. valid@email.com/);
     });
 
-    it('should show child name error message if it wasn\'t filled in', () => {
+    it('should show participant name error message if it wasn\'t filled in', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");
-        expect(ReactDOM.findDOMNode(errors[5]).textContent).toMatch(/Please enter the child's name. No symbols allowed/);
+        expect(ReactDOM.findDOMNode(errors[5]).textContent).toMatch(/Please enter the participant's name. No symbols allowed/);
     });
 
-    it('should show child birth year error message if it wasn\'t filled in', () => {
+    it('should show participant birth year error message if it wasn\'t filled in', () => {
         let continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
         TestUtils.Simulate.click(continueButton);
         var errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, "errors");

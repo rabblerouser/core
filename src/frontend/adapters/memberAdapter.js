@@ -50,11 +50,11 @@ let mapAdditionalInfo = (value) => {
 let prepareNewMemberPayload = (fields) => {
 
   let map = {
-    childName: 'firstName',
-    childLastName: 'lastName',
+    participantName: 'firstName',
+    participantLastName: 'lastName',
     contactEmail: 'email',
     contactNumber: 'primaryPhoneNumber',
-    childBirthYear: 'dateOfBirth',
+    participantBirthYear: 'dateOfBirth',
     schoolType: 'schoolType',
     contactName: 'contactFirstName',
     contactLastName : 'contactLastName',
@@ -67,11 +67,11 @@ let prepareNewMemberPayload = (fields) => {
   }
 
   return {
-    firstName: mapFirstName(fields.childName),
-    lastName: mapLastName(fields.childLastName),
+    firstName: mapFirstName(fields.participantName),
+    lastName: mapLastName(fields.participantLastName),
     email: mapEmail(fields.contactEmail),
     primaryPhoneNumber: mapPrimaryPhoneNumber(fields.contactNumber),
-    dateOfBirth: mapDateOfBirth(fields.childBirthYear),
+    dateOfBirth: mapDateOfBirth(fields.participantBirthYear),
     schoolType: mapSchoolType(fields.schoolType),
     contactFirstName: mapContactFirstName(fields.contactName),
     contactLastName: mapContactLastName(fields.contactLastName),

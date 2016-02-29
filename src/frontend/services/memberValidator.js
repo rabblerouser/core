@@ -63,9 +63,9 @@ const memberFieldsChecks =
     contactLastName: isValidOptionalName,
     contactEmail: isValidEmail,
     contactNumber: isValidPhone,
-    childName: isValidName,
-    childLastName: isValidOptionalName,
-    childBirthYear:  isValidYear,
+    participantName: isValidName,
+    participantLastName: isValidOptionalName,
+    participantBirthYear:  isValidYear,
     labSelection: isValidLab,
     schoolType: isValidName,
     additionalInfo: isValidOptionalTextBlock
