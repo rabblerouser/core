@@ -17,7 +17,7 @@ passport.deserializeUser((id, done) => {
     return AdminUser.findById(id)
     .nodeify(done)
     .catch((err) => {
-        require('../lib/logger').error('failed to deserialize', err.toString());
+        require('../src/backend/lib/logger').error('failed to deserialize', err.toString());
         done(null, false);
     });
 });
