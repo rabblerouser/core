@@ -12,7 +12,7 @@ const getLabList = function () {
         url: `/${Resources.labListEndPoint}`,
         dataType: 'json',
         success: function(data) {
-            return data.branches ? deferred.resolve(data.branches) : deferred.reject();
+          return data.branches ? deferred.resolve(data.branches) : deferred.reject();
         }
     })
     .fail( () => {
