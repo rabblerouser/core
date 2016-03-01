@@ -8,6 +8,8 @@ let models = require('../../../src/backend/models'),
     AdminUser = models.AdminUser;
 let app;
 
+//let saRequest = require('superagent');
+
 let hasNewMember = (res) => {
     if (!('newMember' in res.body)) {
         throw new Error('missing created member');
@@ -70,21 +72,36 @@ let makeInvalidMember = () => {
 function createBranch() {
     return Branch.create({name:'Fake Branch'});
 }
-
-function createUser() {
-    return createBranch()
-    .then(() => {
-        return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser' });
-    });
-}
-
-function authenticate() {
-    return request(app)
-    .post('/login')
-    .set('Content-Type', 'application/json')
-    .send({ email: 'orgnsr@thelab.org', password: 'organiser' })
-    .expect(302);
-}
+//
+//function createUser(branch) {
+//    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.dataValues.id });
+//}
+//
+//function createMember(branch) {
+//    return request(app)
+//        .post('/members')
+//        .set('Content-Type', 'application/json')
+//        .set('Accept', 'application/json')
+//        .send(makeMember(branch.dataValues.key));
+//}
+//
+//function createThings() {
+//    return createBranch().tap(createMember).then(createUser);
+//}
+//
+//function authenticate() {
+//    return saRequest(app)
+//    .post('/login')
+//    .set('Content-Type', 'application/json')
+//    .send({ email: 'orgnsr@thelab.org', password: 'organiser' })
+//    .end(function (err, res) {
+//        if (err) {
+//            throw err;
+//        }
+//        saRequest.saveCookies(res);
+//        return saRequest;
+//    });
+//}
 
 describe('MemberIntegrationTests', () => {
 
@@ -141,10 +158,16 @@ describe('MemberIntegrationTests', () => {
     });
 
     describe('list of members', () => {
-        xit('finds a list of members for an organiser', (done) => {
-            createUser()
-            .then(authenticate)
-            .then(done, done.fail);
+        it('finds a list of members for an organiser', (done) => {
+            //createThings()
+            //.then(authenticate)
+            //.then((loginAgent) => {
+            //    let membersReq = request(app).get('/members');
+            //
+            //    loginAgent.attachCookies(membersReq);
+            //    membersReq.expect(200).then(done, done.fail);
+            //})
+            //.then(done, done.fail);
         });
     });
 });
