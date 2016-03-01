@@ -30,8 +30,16 @@ export default class AdminDashboard extends Component {
                 header: 'Participant’s Name'
             },
             {
+                property: 'lastName',
+                header: 'Participant’s Last Name'
+            },
+            {
                 property: 'contactFirstName',
                 header: 'Parent’s Name'
+            },
+            {
+                property: 'contactLastName',
+                header: 'Parent’s Last'
             },
             {
                 property: 'primaryPhoneNumber',
