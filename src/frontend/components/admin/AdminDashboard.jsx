@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
+let Table = require('reactabular').Table;
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -23,15 +24,36 @@ export default class AdminDashboard extends Component {
     }
 
     render() {
-
         let columns = [
             {
-                property: 'participantName',
-                header: 'Participant'
+                property: 'firstName',
+                header: 'Participant’s Name'
+            },
+            {
+                property: 'contactFirstName',
+                header: 'Parent’s Name'
+            },
+            {
+                property: 'primaryPhoneNumber',
+                header: 'Phone Number'
+            },
+            {
+                property: 'email',
+                header: 'Email'
+            },
+            {
+                property: 'dateOfBirth',
+                header: 'Year of Birth'
+            },
+            {
+                property: 'schoolType',
+                header: 'School Type'
+            },
+            {
+                property: 'additionalInfo',
+                header: 'Notes'
             }
         ];
-
-        let Table = require('reactabular').Table;
 
         return (
             <div className="admin-container">
