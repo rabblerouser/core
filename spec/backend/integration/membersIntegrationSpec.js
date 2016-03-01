@@ -158,7 +158,7 @@ describe('MemberIntegrationTests', () => {
     });
 
     describe('list of members', () => {
-        it('finds a list of members for an organiser', (done) => {
+        //it('finds a list of members for an organiser', (done) => {
             //createThings()
             //.then(authenticate)
             //.then((loginAgent) => {
@@ -168,6 +168,6 @@ describe('MemberIntegrationTests', () => {
             //    membersReq.expect(200).then(done, done.fail);
             //})
             //.then(done, done.fail);
-        });
+        //});
     });
 });
