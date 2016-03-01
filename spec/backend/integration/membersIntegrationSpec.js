@@ -3,6 +3,9 @@
 let request = require('supertest-as-promised');
 const sample = require('lodash').sample;
 const instance_url = process.env.INSTANCE_URL;
+let models = require('../../../src/backend/models'),
+    Branch = models.Branch,
+    AdminUser = models.AdminUser;
 let app;
 
 let hasNewMember = (res) => {
@@ -64,6 +67,25 @@ let makeInvalidMember = () => {
     return member;
 };
 
+function createBranch() {
+    return Branch.create({name:'Fake Branch'});
+}
+
+function createUser() {
+    return createBranch()
+    .then(() => {
+        return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser' });
+    });
+}
+
+function authenticate() {
+    return request(app)
+    .post('/login')
+    .set('Content-Type', 'application/json')
+    .send({ email: 'orgnsr@thelab.org', password: 'organiser' })
+    .expect(302);
+}
+
 describe('MemberIntegrationTests', () => {
 
     beforeEach(() => {
@@ -114,6 +136,14 @@ describe('MemberIntegrationTests', () => {
             .set('Accept', 'application/json')
             .send(makeInvalidMember())
             .expect(400)
+            .then(done, done.fail);
+        });
+    });
+
+    describe('list of members', () => {
+        xit('finds a list of members for an organiser', (done) => {
+            createUser()
+            .then(authenticate)
             .then(done, done.fail);
         });
     });
