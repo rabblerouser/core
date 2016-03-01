@@ -14,7 +14,7 @@ export default class Finished extends Component {
                 <div className="heading">
                     <h2 className="sub-title"> Thank you, we have received your details. </h2>
                 </div>
-                <p>Somebody from your nominated lab will be in touch with you within the next few weeks with more information.</p>
+                <p>The Lab will be in touch with you shortly to discuss your booking.</p>
                 <div className="navigation">
                   <p><a onClick={this.props.previousStep} href={Resources.theLabHome}>Return to The Lab</a></p>
                 </div>
