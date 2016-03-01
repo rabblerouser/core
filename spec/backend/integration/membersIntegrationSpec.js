@@ -4,6 +4,7 @@ const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
 const sample = require('lodash').sample;
+const times = require('lodash').times;
 let models = require('../../../src/backend/models'),
     Branch = models.Branch,
     AdminUser = models.AdminUser;
@@ -13,6 +14,12 @@ let hasNewMember = (res) => {
         throw new Error('missing created member');
     }
 };
+
+function hasMembersList(res) {
+    let response = res.body;
+    expect(response.members).not.toBeNull();
+    expect(response.members.length).toEqual(3);
+}
 
 let getBranchKey = (someAgent) => {
     return someAgent
@@ -53,6 +60,22 @@ let makeMember = (branchKey) => {
     };
 };
 
+function createFakeMembers(agent, numberOfMembers) {
+    return function(branch) {
+        let createTheseMembers = [];
+        times(numberOfMembers, () => {
+            createTheseMembers.push(agent
+                .post('/members')
+                .set('Content-Type', 'application/json')
+                .set('Accept', 'application/json')
+                .send(makeMember(branch.key))
+            );
+        });
+        return Promise.all(createTheseMembers);
+    };
+}
+
+
 let makeMemberWithNoAddress = (branchKey) => {
     let member = makeMember(branchKey);
     member.residentialAddress = null;
@@ -68,14 +91,14 @@ let makeInvalidMember = () => {
 };
 
 function createBranch() {
-    return Branch.create({name:'Fake Branch'});
+    return Branch.create({name:'Fake Branch'})
+    .then((sequelizeResult) => {
+        return sequelizeResult.dataValues;
+    });
 }
 
-function createUser() {
-    return createBranch()
-    .then(() => {
-        return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser' });
-    });
+function createUser(branch) {
+    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id });
 }
 
 function authenticate(someAgent) {
@@ -146,12 +169,14 @@ describe('MemberIntegrationTests', () => {
 
     describe('list of members', () => {
         it('finds a list of members for an organiser', (done) => {
-            createUser()
+            createBranch()
+            .tap(createUser)
+            .then(createFakeMembers(agent, 3))
             .then(authenticate(agent))
             .then(() => {
                 return agent.get('/members');
             })
-            .then((res) => console.log(res.body))
+            .then(hasMembersList)
             .then(done, done.fail);
         });
     });
