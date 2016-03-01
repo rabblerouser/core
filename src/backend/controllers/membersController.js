@@ -166,5 +166,8 @@ module.exports = {
     updateMemberHandler: updateMemberHandler,
     verify: verify,
     renew: renew,
-    renewMemberHandler: renewMemberHandler
+    renewMemberHandler: renewMemberHandler,
+    list: function fixMe(req, res) {
+        res.json({members: []});
+    }
 };

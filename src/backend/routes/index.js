@@ -25,7 +25,7 @@ router.post('/members', membersController.createNewMember);
 
 router.get('/members/verify/:hash', membersController.verify);
 router.get('/members/renew/:hash', membersController.renew);
-router.get('/members', requireAuth, adminController.membersList);
+router.get('/members', requireAuth, membersController.list);
 
 router.post('/members/update', membersController.updateMemberHandler);
 router.get('/verified', function (req, res) {

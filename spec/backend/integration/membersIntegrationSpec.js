@@ -1,14 +1,12 @@
 'use strict';
 
+const instance_url = process.env.INSTANCE_URL;
+let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
 const sample = require('lodash').sample;
-const instance_url = process.env.INSTANCE_URL;
 let models = require('../../../src/backend/models'),
     Branch = models.Branch,
     AdminUser = models.AdminUser;
-let app;
-
-//let saRequest = require('superagent');
 
 let hasNewMember = (res) => {
     if (!('newMember' in res.body)) {
@@ -16,8 +14,8 @@ let hasNewMember = (res) => {
     }
 };
 
-let getBranchKey = () => {
-    return request(app)
+let getBranchKey = (someAgent) => {
+    return someAgent
             .get('/branches')
             .then((response) => {
                 return sample(response.body.branches).key;
@@ -72,48 +70,37 @@ let makeInvalidMember = () => {
 function createBranch() {
     return Branch.create({name:'Fake Branch'});
 }
-//
-//function createUser(branch) {
-//    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.dataValues.id });
-//}
-//
-//function createMember(branch) {
-//    return request(app)
-//        .post('/members')
-//        .set('Content-Type', 'application/json')
-//        .set('Accept', 'application/json')
-//        .send(makeMember(branch.dataValues.key));
-//}
-//
-//function createThings() {
-//    return createBranch().tap(createMember).then(createUser);
-//}
-//
-//function authenticate() {
-//    return saRequest(app)
-//    .post('/login')
-//    .set('Content-Type', 'application/json')
-//    .send({ email: 'orgnsr@thelab.org', password: 'organiser' })
-//    .end(function (err, res) {
-//        if (err) {
-//            throw err;
-//        }
-//        saRequest.saveCookies(res);
-//        return saRequest;
-//    });
-//}
+
+function createUser() {
+    return createBranch()
+    .then(() => {
+        return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser' });
+    });
+}
+
+function authenticate(someAgent) {
+    return function() {
+        return someAgent
+        .post('/login')
+        .set('Content-Type', 'application/json')
+        .send({ email: 'orgnsr@thelab.org', password: 'organiser' })
+        .expect(302);
+    };
+}
 
 describe('MemberIntegrationTests', () => {
+    let agent;
 
     beforeEach(() => {
-        app = instance_url ? instance_url : require('../../../src/backend/app');
+
+        agent = request.agent(app);
     });
 
     describe('Creating new member', () => {
         it('should return 200 and a created member when the input is valid', (done) => {
-            getBranchKey()
+            getBranchKey(agent)
             .then((branchKey) => {
-                return request(app)
+                return agent
                 .post('/members')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
@@ -124,9 +111,9 @@ describe('MemberIntegrationTests', () => {
         });
 
         it('should return 200 when creating a member with no address', (done) => {
-            getBranchKey()
+            getBranchKey(agent)
             .then((branchKey) => {
-                return request(app)
+                return agent
                 .post('/members')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
@@ -137,7 +124,7 @@ describe('MemberIntegrationTests', () => {
         });
 
         it('should return 400 if the input is null', (done) => {
-            return request(app)
+            return agent
             .post('/members')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
@@ -147,7 +134,7 @@ describe('MemberIntegrationTests', () => {
         });
 
         it('should return 400 if the input is incomplete', (done) => {
-            return request(app)
+            return agent
             .post('/members')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
@@ -158,16 +145,14 @@ describe('MemberIntegrationTests', () => {
     });
 
     describe('list of members', () => {
-        //it('finds a list of members for an organiser', (done) => {
-            //createThings()
-            //.then(authenticate)
-            //.then((loginAgent) => {
-            //    let membersReq = request(app).get('/members');
-            //
-            //    loginAgent.attachCookies(membersReq);
-            //    membersReq.expect(200).then(done, done.fail);
-            //})
-            //.then(done, done.fail);
-        //});
+        it('finds a list of members for an organiser', (done) => {
+            createUser()
+            .then(authenticate(agent))
+            .then(() => {
+                return agent.get('/members');
+            })
+            .then((res) => console.log(res.body))
+            .then(done, done.fail);
+        });
     });
 });
