@@ -178,8 +178,15 @@ function list(branchId) {
             'id',
             'firstName',
             'lastName',
-            'membershipType',
-            'verified'
+            'primaryPhoneNumber',
+            'secondaryPhoneNumber',
+            'contactFirstName',
+            'contactLastName',
+            'dateOfBirth',
+            'email',
+            'schoolType',
+            'additionalInfo',
+            'membershipType'
         ],
         where: {
             branchId: branchId
