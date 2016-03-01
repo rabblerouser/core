@@ -53,7 +53,7 @@
 
 0. Re-bundling the UI
 
-    The frontend code must be re-bundled whenever it changes; `npm start` serves the last bundled version of the UI. We have a `postinstall` task that bundles any time `npm install` is run (i.e. on deployment). 
+    The frontend code must be re-bundled whenever it changes; `npm start` serves the last bundled version of the UI. We have a `postinstall` task that bundles any time `npm install` is run (i.e. on deployment).
 
     When developing, the easiest way to keep the front-end up to date is to run the following command in a separate shell, which will watch the code and re-bundle on changes. This can be run outside of the Vagrant VM, if you have `npm` installed on your host machine.
 
@@ -82,6 +82,11 @@
 0. Migrate the database (run automatically as part and npm start or npm test)
 
         ./node_modules/sequelize-cli/bin/sequelize db:migrate
+
+0. Create a new migration
+
+        ./node_modules/sequelize-cli/bin/sequelize migration:create --config config/db.json --name <migration_name>
+
 
 0. Create an admin user to access the treasurer/secretary views
 
