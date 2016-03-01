@@ -4,22 +4,26 @@ const Q = require('q');
 const $ = require('jquery');
 import { Resources } from '../config/strings';
 
-const getLabList = function () {
+const handleResponseError = function(error) {
+  switch(error.status) {
+    case 404 : throw new Error('LABS NOT FOUND');
+    default: throw new Error('LABS NOT AVAILABLE');
+  }
+};
 
-  var deferred = Q.defer();
-  $.ajax({
+const getLabList = function () {
+  return Q($.ajax({
         type: 'GET',
         url: `/${Resources.labListEndPoint}`,
         dataType: 'json',
-        success: function(data) {
-          return data.branches ? deferred.resolve(data.branches) : deferred.reject();
+    }))
+    .catch(handleResponseError)
+    .then((data) => {
+        if(data.branches) {
+          return data.branches;
         }
-    })
-    .fail( () => {
-      deferred.reject();
+        throw new Error('INVALID LAB LIST');
     });
-
-  return deferred.promise;
 };
 
 export default {
