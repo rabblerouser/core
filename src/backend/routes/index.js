@@ -5,6 +5,7 @@ var router = express.Router();
 var passport = require('passport');
 var membersController = require('../controllers/membersController');
 var branchesController = require('../controllers/branchesController');
+var groupsController = require('../controllers/groupsController');
 
 function requireAuth(req, res, next) {
     if (!req.isAuthenticated()) {
@@ -54,5 +55,7 @@ router.get('/admin', requireAuth, function (req, res) {
 });
 
 router.get('/branches', branchesController.list);
+
+router.get('/groups/', groupsController.list);
 
 module.exports = router;
