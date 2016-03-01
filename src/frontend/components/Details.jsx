@@ -119,7 +119,7 @@ export default class Details extends Component {
                             scrollToError={this.state.scrollToError}
                             errorTitle={this.state.errorTitle}/>
                     <p>{Strings.instructions}</p>
-                    <p>{ Strings.byoReminder }</p>
+                    <p><strong>{ Strings.byoReminder }</strong></p>
                     <div className="field-group">
                         <FormFieldLabel fieldName="labSelection" isOptional={false} hasError={this.isValidationError('labSelection')} />
 
