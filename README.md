@@ -88,7 +88,7 @@
         ./node_modules/sequelize-cli/bin/sequelize migration:create --config config/db.json --name <migration_name>
 
 
-0. Create an admin user to access the treasurer/secretary views
+0. Create an admin user to access the organiser views
 
         npm run createAdmin
 
