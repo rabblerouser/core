@@ -159,6 +159,8 @@ describe('memberValidator', () => {
 
         [
             '',
+            '-;',
+            ' 0 0 1;',
             null,
             'words?'
         ].forEach((testCase) => {

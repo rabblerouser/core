@@ -45,7 +45,7 @@ var isValidEmail = (email) => {
 };
 
 var isValidPhoneNumber = (input) => {
-  return /[-+\s()\d]+/.test(input);
+  return /^[-+\s()\d]+$/.test(input);
 };
 
 var isValidPhone = (phone) => {
@@ -96,4 +96,3 @@ module.exports = {
     isValidVerificationHash: isValidVerificationHash,
     isValidOptionalTextBlock: isValidOptionalTextBlock
 };
-

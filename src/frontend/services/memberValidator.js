@@ -18,7 +18,7 @@ var isValidString = (inString, pattern) => {
 };
 
 var isValidPhoneNumber = (input) => {
-  return /[-+\s()\d]+/.test(input);
+  return /^[-+\s()\d]+$/.test(input);
 };
 
 var isValidOptionalName = (name) => {
