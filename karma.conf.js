@@ -4,7 +4,7 @@ module.exports = function (config) {
     config.set({
         browsers: ['PhantomJS'],
         singleRun: true,
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine', 'sinon'],
         files: [
             { pattern: 'webpack.test.config.js', watched: false }
         ],
