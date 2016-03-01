@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
         id: { type: DataTypes.UUID, defaultValue: uuid.v4(), primaryKey: true },
         name: DataTypes.STRING,
         key: { type: DataTypes.UUID, defaultValue: uuid.v4()}
+    }, {
+        classMethods: {
+            associate: (models) => {
+                Branch.belongsToMany(models.Group, { through: 'BranchGroups', foreignKey: 'branchId' });
+            }
+        }
     });
 
     return Branch;
