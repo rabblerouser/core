@@ -14,8 +14,9 @@ export const ApplicationForm = {
   ageReminder: 'Please note that our target age is between 10 and 16 years',
   additionalInfoAside: 'Is there anything else you think we should know?',
   submitButton: 'Submit',
+  validationErrorTitle: 'Please check the following fields:',
   remoteSubmitErrorTitle: `Sorry, we could not register you this time. Please try again, or contact us at ${Resources.theLabContactEmail}`,
-  validationErrorTitle: 'Please check the following fields:'
+  remoteLabListErrorTitle: `Sorry, we could not get the list of available labs at this time. Please try again, or contact us at ${Resources.theLabContactEmail}`
 };
 
 export const ApplicationFormFieldLabels = {

@@ -43,8 +43,10 @@ export default class Details extends Component {
           this.setState({labs: labs});
         })
         .catch( () => {
-          this.setState({labs: []});
+          this.setState({errors: 'No labs',
+                         errorTitle: Strings.remoteLabListErrorTitle});
         });
+
     }
 
     componentWillReceiveProps(props) {
@@ -120,7 +122,7 @@ export default class Details extends Component {
                     <p>{ Strings.byoReminder }</p>
                     <div className="field-group">
                         <FormFieldLabel fieldName="labSelection" isOptional={false} hasError={this.isValidationError('labSelection')} />
-                     
+
                         <select ref="labSelection" defaultValue="" required id="labSelection" className="labSelection">
                             <option value="" disabled>{Strings.labPlaceholder}</option>
                             {
