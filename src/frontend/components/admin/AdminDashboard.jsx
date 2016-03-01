@@ -39,7 +39,7 @@ export default class AdminDashboard extends Component {
             },
             {
                 property: 'contactLastName',
-                header: 'Parent’s Last'
+                header: 'Parent’s Last Name'
             },
             {
                 property: 'primaryPhoneNumber',
