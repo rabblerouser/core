@@ -2,24 +2,24 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 
 export default class Secretary extends Component {
-    constructor(props) {
-        super(props);
-        this.render = this.render.bind(this);
-        this.state = {members: []};
-        this.loadMembers = this.loadMembers.bind(this);
-        this.loadMembers();
-    }
+        constructor(props) {
+            super(props);
+            this.render = this.render.bind(this);
+            this.state = {members: []};
+            this.loadMembers = this.loadMembers.bind(this);
+            this.loadMembers();
+        }
 
-    loadMembers() {
-        $.ajax({
-            type: 'GET',
-            url: '/members',
-            dataType: 'json',
-            success: function(value) {
-                this.setState({members: value.members});
-            }.bind(this)
-        });
-    }
+        loadMembers() {
+            $.ajax({
+                type: 'GET',
+                url: '/members',
+                dataType: 'json',
+                success: function(value) {
+                    this.setState({members: value.members});
+                }.bind(this)
+            });
+        }
 
     render() {
         return(

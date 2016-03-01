@@ -1,30 +1,33 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+import $ from 'jquery';
 
 export default class AdminDashboard extends Component {
     constructor(props) {
         super(props);
         this.render = this.render.bind(this);
+        this.state = {members: []};
+        this.loadMembers = this.loadMembers.bind(this);
+        this.loadMembers();
+    }
+
+    loadMembers() {
+        $.ajax({
+            type: 'GET',
+            url: '/members',
+            dataType: 'json',
+            success: function(value) {
+                this.setState({members: value.members});
+            }.bind(this)
+        });
     }
 
     render() {
 
-        let data = [
-            {
-                name: 'React.js'
-            },
-            {
-                name: 'Angular.js'
-            },
-            {
-                name: 'Aurelia'
-            }
-        ];
-
         let columns = [
             {
-                property: 'name',
-                header: 'Name'
+                property: 'participantName',
+                header: 'Participant'
             }
         ];
 
@@ -33,7 +36,7 @@ export default class AdminDashboard extends Component {
         return (
             <div className="admin-container">
                 <div className="container">
-                    <Table columns={columns} data={data} />
+                    <Table columns={columns} data={this.state.members} />
                 </div>
             </div>);
     }
