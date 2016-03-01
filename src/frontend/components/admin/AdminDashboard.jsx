@@ -51,7 +51,8 @@ export default class AdminDashboard extends Component {
             },
             {
                 property: 'dateOfBirth',
-                header: 'Year of Birth'
+                header: 'Year of Birth',
+                cell: (dob) => dob.substring(0,4)
             },
             {
                 property: 'schoolType',
