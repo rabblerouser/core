@@ -161,13 +161,19 @@ function renewMemberHandler(req, res) {
         .catch(handleError(res));
 }
 
+function list(req, res) {
+    return memberService.list(req.user.branchId)
+    .then((members) => {
+        res.json({members: members});
+    })
+    .catch(handleError(res));
+}
+
 module.exports = {
     createNewMember: createNewMember,
     updateMemberHandler: updateMemberHandler,
     verify: verify,
     renew: renew,
     renewMemberHandler: renewMemberHandler,
-    list: function fixMe(req, res) {
-        res.json({members: []});
-    }
+    list: list
 };

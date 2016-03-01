@@ -4,7 +4,6 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var membersController = require('../controllers/membersController');
-var adminController = require('../controllers/adminController');
 var branchesController = require('../controllers/branchesController');
 
 function requireAuth(req, res, next) {

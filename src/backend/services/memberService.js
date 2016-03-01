@@ -5,6 +5,7 @@ const Q = require('q'),
     logger = require('../lib/logger'),
     moment = require('moment'),
     Address = models.Address,
+    Branch = models.Branch,
     Member = models.Member,
     uuid = require('node-uuid'),
     messagingService = require('./messagingService'),
@@ -152,11 +153,9 @@ let renewMember = hash => {
         });
 };
 
-let transformMember = member => {
-    let newMemberRoot = member.dataValues;
-    let newResidentialAddressRoot = member.dataValues.residentialAddress.dataValues;
-    return Object.assign({}, newMemberRoot, { residentialAddress: newResidentialAddressRoot });
-};
+function transformMember(dbMember) {
+    return Object.assign({}, dbMember.dataValues, { branch: dbMember.dataValues.branch.dataValues });
+}
 
 function transformMembers(adapter) {
     return function (memberQueryResult) {
@@ -164,12 +163,16 @@ function transformMembers(adapter) {
     };
 }
 
-let list = () => {
+function list(branchId) {
+    if (!branchId) {
+        return Q.resolve([]);
+    }
+
     let query = {
         include: [{
-            model: Address,
-            as: 'residentialAddress',
-            attributes: ['postcode', 'state', 'country']
+            model: Branch,
+            as: 'branch',
+            attributes: ['name', 'key', 'id']
         }],
         attributes: [
             'id',
@@ -177,13 +180,16 @@ let list = () => {
             'lastName',
             'membershipType',
             'verified'
-        ]
+        ],
+        where: {
+            branchId: branchId
+        }
     };
 
     return Member.findAll(query)
         .then(transformMembers(transformMember))
         .catch(handleError('An error has occurred while fetching members'));
-};
+}
 
 function findForVerification(hash) {
   var query = {

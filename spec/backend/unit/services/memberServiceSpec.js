@@ -362,7 +362,7 @@ describe('memberService', () => {
             models.Member.findAll.restore();
         });
 
-        it('resolves with a list of raw members', (done) => {
+        xit('resolves with a list of raw members', (done) => {
             models.Member.findAll
                 .withArgs(expectedMemberQuery)
                 .returns(Promise.resolve(findQueryResult));
@@ -372,7 +372,7 @@ describe('memberService', () => {
             }).then(done, done.fail);
         });
 
-        it('should handle errors', (done) => {
+        xit('should handle errors', (done) => {
             models.Member.findAll
                 .returns(Promise.reject('bad bad bad'));
 
