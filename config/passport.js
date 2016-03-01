@@ -15,6 +15,12 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     return AdminUser.findById(id)
+    .then((dbResult) => {
+        return {
+            email: dbResult.email,
+            branchId: dbResult.branchId
+        };
+    })
     .nodeify(done)
     .catch((err) => {
         require('../src/backend/lib/logger').error('failed to deserialize', err.toString());
