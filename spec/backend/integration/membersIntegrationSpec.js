@@ -7,8 +7,8 @@ const sample = require('lodash').sample;
 const uuid = require('node-uuid');
 const times = require('lodash').times;
 let models = require('../../../src/backend/models'),
-    Branch = models.Branch,
-    AdminUser = models.AdminUser;
+    Branch = models.Branch;
+let integrationTestHelpers = require('./integrationTestHelpers.js');
 
 let hasNewMember = (res) => {
     if (!('newMember' in res.body)) {
@@ -30,55 +30,8 @@ let getBranchKey = (someAgent) => {
             });
 };
 
-let makeMember = (branchKey) => {
-    return {
-        'contactFirstName': 'Jaime',
-        'contactLastName': 'Garzon',
-        'schoolType': 'Primary',
-        'branch': branchKey,
-        'firstName': 'Sherlock',
-        'lastName': 'Holmes',
-        'email': 'sherlock@holmes.co.uk',
-        'dateOfBirth': '01/01/1983',
-        'primaryPhoneNumber': '0396291146',
-        'secondaryPhoneNumber': null,
-        'gender': 'horse radish',
-        'residentialAddress': {
-            'address': '222b Baker St',
-            'suburb': 'London',
-            'country': 'England',
-            'state': 'VIC',
-            'postcode': '1234'
-        },
-        'postalAddress': {
-            'address': '303 collins st',
-            'suburb': 'melbourne',
-            'country': 'australia',
-            'state': 'VIC',
-            'postcode': '3000'
-        },
-        'membershipType': 'full'
-    };
-};
-
-function createFakeMembers(agent, numberOfMembers) {
-    return function(branch) {
-        let createTheseMembers = [];
-        times(numberOfMembers, () => {
-            createTheseMembers.push(agent
-                .post('/members')
-                .set('Content-Type', 'application/json')
-                .set('Accept', 'application/json')
-                .send(makeMember(branch.key))
-            );
-        });
-        return Promise.all(createTheseMembers);
-    };
-}
-
-
 let makeMemberWithNoAddress = (branchKey) => {
-    let member = makeMember(branchKey);
+    let member = integrationTestHelpers.makeMember(branchKey);
     member.residentialAddress = null;
     member.postalAddress = null;
 
@@ -86,37 +39,15 @@ let makeMemberWithNoAddress = (branchKey) => {
 };
 
 let makeInvalidMember = () => {
-    let member = makeMember();
+    let member = integrationTestHelpers.makeMember();
     member.firstName = null;
     return member;
 };
-
-function createBranch() {
-    return Branch.create({name:'Fake Branch', id: uuid.v4(), key: uuid.v4()})
-    .then((sequelizeResult) => {
-        return sequelizeResult.dataValues;
-    });
-}
-
-function createUser(branch) {
-    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id });
-}
-
-function authenticate(someAgent) {
-    return function() {
-        return someAgent
-        .post('/login')
-        .set('Content-Type', 'application/json')
-        .send({ email: 'orgnsr@thelab.org', password: 'organiser' })
-        .expect(302);
-    };
-}
 
 describe('MemberIntegrationTests', () => {
     let agent;
 
     beforeEach(() => {
-
         agent = request.agent(app);
     });
 
@@ -128,7 +59,7 @@ describe('MemberIntegrationTests', () => {
                 .post('/members')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
-                .send(makeMember(branchKey))
+                .send(integrationTestHelpers.makeMember(branchKey))
                 .expect(200)
                 .expect(hasNewMember);
             }).then(done, done.fail);
@@ -186,10 +117,10 @@ describe('MemberIntegrationTests', () => {
 
     describe('list of members', () => {
         it('finds a list of members for an organiser', (done) => {
-            createBranch()
-            .tap(createUser)
-            .then(createFakeMembers(agent, 3))
-            .then(authenticate(agent))
+            integrationTestHelpers.createBranch()
+            .tap(integrationTestHelpers.createUser)
+            .then(integrationTestHelpers.createFakeMembers(agent, 3))
+            .then(integrationTestHelpers.authenticate(agent))
             .then(() => {
                 return agent.get('/members');
             })
