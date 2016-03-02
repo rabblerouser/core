@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         membershipType: { type: DataTypes.STRING, defaultValue: 'full'},
         verified: { type : DataTypes.DATE, allowNull : true },
         verificationHash: { type : DataTypes.STRING , allowNull : true },
-        memberSince: { type: DataTypes.DATEONLY, allowNull : true},
+        memberSince: { type: DataTypes.DATE, allowNull : false},
         lastRenewal: { type: DataTypes.DATEONLY, allowNull : true},
         renewalHash: { type : DataTypes.STRING , allowNull : true },
         contactFirstName: DataTypes.STRING,

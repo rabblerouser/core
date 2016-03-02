@@ -43,7 +43,7 @@ function setupNewMember(newMember) {
         dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
         membershipType: newMember.membershipType,
         verificationHash: createHash(),
-        memberSince: moment().format('L'),
+        memberSince: moment(),
         lastRenewal: moment().format('L'),
         contactFirstName: newMember.contactFirstName,
         contactLastName: newMember.contactLastName,
@@ -186,7 +186,8 @@ function list(branchId) {
             'email',
             'schoolType',
             'additionalInfo',
-            'membershipType'
+            'membershipType',
+            'memberSince'
         ],
         where: {
             branchId: branchId

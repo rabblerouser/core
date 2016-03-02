@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
 import {sortByOrder} from 'lodash';
-let Table = require('reactabular').Table;
-let sortColumn = require('reactabular').sortColumn;
+const Table = require('reactabular').Table;
+const sortColumn = require('reactabular').sortColumn;
+const moment = require('moment');
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -12,6 +13,11 @@ export default class AdminDashboard extends Component {
         this.state = {
             members: [],
             columns: [
+                {
+                    property: 'memberSince',
+                    header: 'Member Since',
+                    cell: (date) => moment(date).format('YYYY/MM/DD HH:mm')
+                },
                 {
                     property: 'firstName',
                     header: 'Participant’s Name'
