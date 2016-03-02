@@ -4,6 +4,7 @@ const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
 const sample = require('lodash').sample;
+const uuid = require('node-uuid');
 const times = require('lodash').times;
 let models = require('../../../src/backend/models'),
     Branch = models.Branch,
@@ -91,7 +92,7 @@ let makeInvalidMember = () => {
 };
 
 function createBranch() {
-    return Branch.create({name:'Fake Branch'})
+    return Branch.create({name:'Fake Branch', id: uuid.v4(), key: uuid.v4()})
     .then((sequelizeResult) => {
         return sequelizeResult.dataValues;
     });
@@ -177,6 +178,20 @@ describe('MemberIntegrationTests', () => {
                 return agent.get('/members');
             })
             .then(hasMembersList)
+            .then(done, done.fail);
+        });
+
+        it('only authenticated organisers can access the members list', (done) => {
+
+            createBranch()
+            .then(createFakeMembers(agent, 3))
+            .then(() => {
+                return agent.get('/members');
+            })
+            .then((res) => {
+                expect(res.headers.location).toEqual('/login');
+                expect(res.status).toEqual(302);
+            })
             .then(done, done.fail);
         });
     });
