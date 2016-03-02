@@ -12,7 +12,8 @@ var models = require('../../src/backend/models'),
     Address = models.Address,
     Member = models.Member,
     Branch = models.Branch,
-    AdminUser = models.AdminUser;
+    AdminUser = models.AdminUser,
+    Group = models.Group;
 
 var terminalReporter = new reporters.TerminalReporter({
     verbosity: 1,
@@ -29,7 +30,10 @@ beforeEach((done) => {
         return AdminUser.truncate();
     })
     .then(() => {
-        return Branch.truncate();
+        return Branch.truncate({cascade: true});
+    })
+    .then(() => {
+        return Group.truncate({cascade: true});
     })
     .nodeify(done);
 });

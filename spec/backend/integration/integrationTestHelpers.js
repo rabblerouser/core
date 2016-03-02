@@ -23,7 +23,7 @@ function authenticate(someAgent) {
 }
 
 function createBranch() {
-    return Branch.create({name:'Fake Branch', id: uuid.v4()})
+    return Branch.create({name:'Fake Branch', id: uuid.v4(), key: uuid.v4()})
         .then((sequelizeResult) => {
             return sequelizeResult.dataValues;
         });

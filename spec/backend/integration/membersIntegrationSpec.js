@@ -1,13 +1,9 @@
 'use strict';
-
+const specHelper = require('../../support/specHelper');
 const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
 const sample = require('lodash').sample;
-const uuid = require('node-uuid');
-const times = require('lodash').times;
-let models = require('../../../src/backend/models'),
-    Branch = models.Branch;
 let integrationTestHelpers = require('./integrationTestHelpers.js');
 
 let hasNewMember = (res) => {
@@ -47,8 +43,9 @@ let makeInvalidMember = () => {
 describe('MemberIntegrationTests', () => {
     let agent;
 
-    beforeEach(() => {
+    beforeEach((done) => {
         agent = request.agent(app);
+        integrationTestHelpers.createBranch().nodeify(done);
     });
 
     describe('Creating new member', () => {
