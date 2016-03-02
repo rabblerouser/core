@@ -172,7 +172,7 @@ function list(branchId) {
         include: [{
             model: Branch,
             as: 'branch',
-            attributes: ['name', 'key', 'id']
+            attributes: ['name', 'id']
         }],
         attributes: [
             'id',
