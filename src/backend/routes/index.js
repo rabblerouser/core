@@ -59,4 +59,6 @@ router.get('/branches/:id/groups', branchesController.groupsByBranch);
 
 router.get('/groups', groupsController.list);
 
+router.post('/branches/:branchId/groups/:groupId/members', groupsController.addMembers);
+
 module.exports = router;

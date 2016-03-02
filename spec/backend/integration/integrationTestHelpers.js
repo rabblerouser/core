@@ -88,5 +88,6 @@ module.exports = {
     authenticate: authenticate,
     createBranch: createBranch,
     createFakeMembers: createFakeMembers,
-    makeMember: makeMember
+    makeMember: makeMember,
+    createGroupInBranch: createGroupInBranch
 };

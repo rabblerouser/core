@@ -1,11 +1,13 @@
 'use strict';
 
-let request = require('supertest-as-promised');
-let _ = require('lodash');
+let request = require('supertest-as-promised'),
+    _ = require('lodash'),
+    integrationTestHelpers = require('./integrationTestHelpers'),
+    app, agent;
+
 const instance_url = process.env.INSTANCE_URL;
-let app,
-    agent;
-let integrationTestHelpers = require('./integrationTestHelpers');
+
+require('../../support/specHelper');
 
 let listOfGroups = (res) => {
     if (!('groups' in res.body)) {
@@ -20,8 +22,17 @@ let getGroups = () => {
         .expect(listOfGroups);
 };
 
-describe('Groups Integration Test', () => {
+function getMemberAndReturnMemberAndGroup(group) {
+    return agent.get('/members')
+        .then((response) => {
+            return [
+                _.sample(response.body.members),
+                group
+            ];
+        });
+}
 
+describe('Groups Integration Test', () => {
     beforeEach(() => {
         app = instance_url ? instance_url : require('../../../src/backend/app');
         agent = request.agent(app);
@@ -29,32 +40,22 @@ describe('Groups Integration Test', () => {
 
     it('should return a list of groups', (done) => {
         getGroups()
-        .then(done, done.fail);
-    }, 60000);
+            .then(done, done.fail);
+    });
 
-    xdescribe('adding a member to a group', () => {
-        it('responds with a 200', () => {
-            let group, branch;
+    describe('adding a member to a group', () => {
+        it('responds with a 200', (done) => {
             integrationTestHelpers.createBranch()
-                .tap((branch) => {
-                    branch = branch;
-                })
                 .tap(integrationTestHelpers.createUser)
-                .then(integrationTestHelpers.createFakeMembers(agent, 1))
+                .tap(integrationTestHelpers.createFakeMembers(agent, 1))
                 .then((branch) => {
-                    return integrationTestHelpers.createGroup(branch.id)
+                    return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
-                .tap((group) => {
-                    groupId = group.id;
-                })
-                .then(integrationTestHelpers.authenticate(agent))
-                .then(() => {
-                    return agent.get('/members');
-                })
-                .then((response) => {
-                    let member = _.sample(response.body.members);
+                .tap(integrationTestHelpers.authenticate(agent))
+                .then(getMemberAndReturnMemberAndGroup)
+                .spread((member, group) => {
                     let branchId = member.branchId;
-                    return agent.post(`/branches/${branchId}/group/${groupId}/members`)
+                    return agent.post(`/branches/${branchId}/groups/${group.id}/members`)
                         .set('Content-Type', 'application/json')
                         .send([member.id])
                         .expect(200);

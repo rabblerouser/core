@@ -8,10 +8,15 @@ function list(req, res) {
             res.status(200).json({groups: list});
         })
         .catch(() => {
-            res.status(500);
+            res.sendStatus(500);
         });
 }
 
+function addMembers(req, res) {
+    res.sendStatus(200);
+}
+
 module.exports = {
-    list: list
+    list: list,
+    addMembers: addMembers
 };
