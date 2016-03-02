@@ -34,7 +34,6 @@ var isValidName = (name) => {
 
 var isValidOptionalTextBlock = (block) => {
     return block !== undefined &&
-           isValidString(block) &&
            block.length < 2000;
 };
 
