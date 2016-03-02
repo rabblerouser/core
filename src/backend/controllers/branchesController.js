@@ -8,7 +8,7 @@ function list(req, res) {
             res.status(200).json({branches: list});
         })
         .catch(() => {
-            res.status(500);
+            res.sendStatus(500);
         });
 }
 

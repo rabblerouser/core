@@ -65,6 +65,19 @@ describe('branchesController', () => {
                 expect(res.status().json).toHaveBeenCalledWith({branches: fakeBranchesList()});
             }).then(done, done.fail);
         });
+
+        describe('things went bad', () => {
+            it('should return 500 when there is an unexpected error', (done) => {
+                res = {sendStatus: sinon.spy()};
+                branchService.list.returns(Promise.reject('some service error'));
+
+                branchesController.list(req, res)
+                .then(() => {
+                    expect(res.sendStatus).toHaveBeenCalledWith(500);
+                })
+                .then(done, done.fail);
+            });
+        });
     });
 
     describe('groupsInBranch', ()=> {
