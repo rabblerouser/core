@@ -8,7 +8,10 @@ var newBranch;
 Group.truncate({cascade: true})
     .then(Branch.truncate({cascade: true}))
     .then(function() {
-        return Branch.create({name: 'Branch name'});
+        return Branch.create({id: 'aa3538ae-763d-49d9-ac23-2281ba2145e4', name: 'Branch name no groups'});
+    })
+    .then(function() {
+        return Branch.create({id: 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174', name: 'Branch name groups'});
     })
     .then(function(branch) {
       newBranch = branch;
@@ -26,7 +29,6 @@ Group.truncate({cascade: true})
     .then(function() {
         return newBranch.getGroups();
     })
-    .then(console.log)
     .then(function() {
         console.log('Database seeded.');
         process.exit(0);
