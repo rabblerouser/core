@@ -1,6 +1,7 @@
 'use strict';
 
 const times = require('lodash').times;
+const uuid = require('node-uuid');
 let models = require('../../../src/backend/models'),
     Member = models.Member,
     AdminUser = models.AdminUser,
@@ -22,7 +23,7 @@ function authenticate(someAgent) {
 }
 
 function createBranch() {
-    return Branch.create({name:'Fake Branch'})
+    return Branch.create({name:'Fake Branch', id: uuid.v4()})
         .then((sequelizeResult) => {
             return sequelizeResult.dataValues;
         });

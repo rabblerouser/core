@@ -68,7 +68,7 @@ describe('MemberIntegrationTests', () => {
         it('should safely create a member with dodgy information', (done) => {
             getBranchKey(agent)
             .then((branchKey) => {
-                let dodgyMember = makeMember(branchKey);
+                let dodgyMember = integrationTestHelpers.makeMember(branchKey);
                 dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
 
                 return agent
@@ -130,8 +130,8 @@ describe('MemberIntegrationTests', () => {
 
         it('only authenticated organisers can access the members list', (done) => {
 
-            createBranch()
-            .then(createFakeMembers(agent, 3))
+            integrationTestHelpers.createBranch()
+            .then(integrationTestHelpers.createFakeMembers(agent, 3))
             .then(() => {
                 return agent.get('/members');
             })
