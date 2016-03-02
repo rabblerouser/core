@@ -9,15 +9,15 @@ var branchesController = require('../../../../src/backend/controllers/branchesCo
 function fakeBranchesList() {
     return [
         {
-            key:'some-key-1',
+            id:'some-id-1',
             name: 'Geelong'
         },
         {
-            key:'some-key-2',
+            id:'some-id-2',
             name: 'Frankston'
         },
         {
-            key:'some-key-3',
+            id:'some-id-3',
             name: 'Hawthorn'
         }
     ];

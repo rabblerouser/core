@@ -18,16 +18,16 @@ function hasMembersList(res) {
     expect(response.members.length).toEqual(3);
 }
 
-let getBranchKey = (someAgent) => {
+let getBranchId = (someAgent) => {
     return someAgent
             .get('/branches')
             .then((response) => {
-                return sample(response.body.branches).key;
+                return sample(response.body.branches).id;
             });
 };
 
-let makeMemberWithNoAddress = (branchKey) => {
-    let member = integrationTestHelpers.makeMember(branchKey);
+let makeMemberWithNoAddress = (branchId) => {
+    let member = integrationTestHelpers.makeMember(branchId);
     member.residentialAddress = null;
     member.postalAddress = null;
 
@@ -50,22 +50,22 @@ describe('MemberIntegrationTests', () => {
 
     describe('Creating new member', () => {
         it('should return 200 and a created member when the input is valid', (done) => {
-            getBranchKey(agent)
-            .then((branchKey) => {
+            getBranchId(agent)
+            .then((branchId) => {
                 return agent
                 .post('/members')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
-                .send(integrationTestHelpers.makeMember(branchKey))
+                .send(integrationTestHelpers.makeMember(branchId))
                 .expect(200)
                 .expect(hasNewMember);
             }).then(done, done.fail);
         });
 
         it('should safely create a member with dodgy information', (done) => {
-            getBranchKey(agent)
-            .then((branchKey) => {
-                let dodgyMember = integrationTestHelpers.makeMember(branchKey);
+            getBranchId(agent)
+            .then((branchId) => {
+                let dodgyMember = integrationTestHelpers.makeMember(branchId);
                 dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
 
                 return agent
@@ -79,13 +79,13 @@ describe('MemberIntegrationTests', () => {
         });
 
         it('should return 200 when creating a member with no address', (done) => {
-            getBranchKey(agent)
-            .then((branchKey) => {
+            getBranchId(agent)
+            .then((branchId) => {
                 return agent
                 .post('/members')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
-                .send(makeMemberWithNoAddress(branchKey))
+                .send(makeMemberWithNoAddress(branchId))
                 .expect(200)
                 .expect(hasNewMember);
             }).then(done, done.fail);

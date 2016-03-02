@@ -56,7 +56,7 @@ describe('membersController', () => {
                     contactFirstName: 'Jaime',
                     contactLastName: 'Garzon',
                     schoolType: 'Primary',
-                    branch: 'some-key-1',
+                    branch: 'some-id-1',
                     additionalInfo: null
                 }
             };
@@ -99,7 +99,7 @@ describe('membersController', () => {
                     contactFirstName: 'Jaime',
                     contactLastName: 'Garzon',
                     schoolType: 'Primary',
-                    branch: 'some-key-1'
+                    branch: 'some-id-1'
                 };
             });
 
@@ -197,7 +197,7 @@ describe('membersController', () => {
         let serviceStub, req, res;
 
         beforeEach(() => {
-            req = {user: {banchId: 'some-key-1'}};
+            req = {user: {banchId: 'some-id-1'}};
             serviceStub = sinon.stub(memberService, 'list');
         });
 

@@ -34,7 +34,7 @@ function transformGroups(adapter) {
 let list = () => {
     let query = {
         attributes: [
-            'key',
+            'id',
             'name'
         ]
     };
@@ -56,20 +56,19 @@ function groupsInBranch(id) {
         .catch(handleError('[find-branch-by-id-error]', `Error when looking up branch with id: ${id}`));
 }
 
-function findByRefKey(refKey) {
-    if (!refKey) {
+function findById(id) {
+    if (!id) {
         return Promise.resolve({});
     }
 
-    var query = {where: {key: refKey}};
-    return Branch.findOne(query)
+    return Branch.findById(id)
         .then((result) => {
             return result ? result.dataValues : {};
-        }).catch(handleError('[find-branch-by-key-error]', `Error when looking up branch with key: ${refKey}`));
+        }).catch(handleError('[find-branch-by-id-error]', `Error when looking up branch with id: ${id}`));
 }
 
 module.exports = {
     list: list,
-    findByKey: findByRefKey,
+    findById: findById,
     groupsInBranch: groupsInBranch
 };

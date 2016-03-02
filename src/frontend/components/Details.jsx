@@ -127,7 +127,7 @@ export default class Details extends Component {
                             <option value="" disabled>{Strings.labPlaceholder}</option>
                             {
                               this.state.labs.map(function(lab) {
-                                return <option value={lab.key}>{lab.name}</option>;
+                                return <option value={lab.id}>{lab.name}</option>;
                               })
                             }
                         </select>

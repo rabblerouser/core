@@ -23,7 +23,7 @@ function authenticate(someAgent) {
 }
 
 function createBranch() {
-    return Branch.create({name:'Fake Branch', id: uuid.v4(), key: uuid.v4()})
+    return Branch.create({name:'Fake Branch', id: uuid.v4()})
         .then((sequelizeResult) => {
             return sequelizeResult.dataValues;
         });
@@ -36,12 +36,12 @@ function createGroupInBranch(branchId) {
         });
 }
 
-let makeMember = (branchKey) => {
+let makeMember = (branchId) => {
     return {
         'contactFirstName': 'Jaime',
         'contactLastName': 'Garzon',
         'schoolType': 'Primary',
-        'branch': branchKey,
+        'branch': branchId,
         'firstName': 'Sherlock',
         'lastName': 'Holmes',
         'email': 'sherlock@holmes.co.uk',
@@ -76,7 +76,7 @@ function createFakeMembers(agent, numberOfMembers) {
                     .post('/members')
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
-                    .send(makeMember(branch.key))
+                    .send(makeMember(branch.id))
             );
         });
         return Promise.all(createTheseMembers);

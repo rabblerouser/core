@@ -22,8 +22,7 @@ const fakePostalAddressId = 2;
 function fakeBranch() {
     return {
         name: 'Geelong (Vic)',
-        id: 'some-branch-id-1',
-        key: 'some-branch-ref-key-1'
+        id: 'some-branch-id-1'
     };
 }
 
@@ -96,7 +95,7 @@ function fakeNewMember(residentialAddress, postalAddress) {
             residentialAddress: residentialAddress,
             postalAddress: postalAddress,
             membershipType: 'full',
-            branch: 'some-branch-ref-key-1',
+            branch: 'some-branch-ref-id-1',
             schoolType: 'Primary',
             contactFirstName: 'Jaime',
             contactLastName: 'Garzon',
@@ -169,13 +168,13 @@ describe('memberService', () => {
             createMemberStub = sinon.stub(Member, 'create').returns(memberPromise.promise);
 
             branchPromise = Q.defer();
-            getBranchStub = sinon.stub(branchService, 'findByKey').withArgs('some-branch-ref-key-1').returns(branchPromise.promise);
+            getBranchStub = sinon.stub(branchService, 'findById').withArgs('some-branch-ref-id-1').returns(branchPromise.promise);
         });
 
         afterEach(() => {
             Member.create.restore();
             models.Address.findOrCreate.restore();
-            branchService.findByKey.restore();
+            branchService.findById.restore();
         });
 
         it('creates a new member in a new branch', (done) => {
@@ -266,7 +265,7 @@ describe('memberService', () => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
                 .catch((error) => {
-                    expect(branchService.findByKey).toHaveBeenCalled();
+                    expect(branchService.findById).toHaveBeenCalled();
                     expect(Member.create).not.toHaveBeenCalled();
                     expect(error).toEqual('Create Member failed');
                 })

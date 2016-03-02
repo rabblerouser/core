@@ -77,9 +77,9 @@ function getMemberAddresses(newMember) {
     return memberAddresses;
 }
 
-function assignToBranch(branchKey) {
+function assignToBranch(branchId) {
     return function (member) {
-        return branchService.findByKey(branchKey)
+        return branchService.findById(branchId)
         .then((branch) => {
             return Object.assign({}, member, {branchId: branch.id});
         });

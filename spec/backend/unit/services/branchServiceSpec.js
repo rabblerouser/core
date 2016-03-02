@@ -11,19 +11,19 @@ function fakeBranchesListFromDb() {
     return [
         {
             dataValues: {
-                key:'some-key-1',
+                id:'some-id-1',
                 name: 'Geelong'
             }
         },
         {
             dataValues: {
-                key:'some-key-2',
+                id:'some-id-2',
                 name: 'Frankston'
             }
         },
         {
             dataValues: {
-                key:'some-key-3',
+                id:'some-id-3',
                 name: 'Hawthorn'
             }
         }
@@ -47,7 +47,7 @@ describe('branchService', () => {
 
             branchService.list().then((result) => {
                 expect(result.length).toEqual(3);
-                expect(result[0].key).toEqual('some-key-1');
+                expect(result[0].id).toEqual('some-id-1');
                 expect(result[0].name).toEqual('Geelong');
             }).then(done, done.fail);
         });
@@ -69,36 +69,36 @@ describe('branchService', () => {
         });
     });
 
-    describe('findByKey', () => {
+    describe('findById', () => {
         let findOneStub;
         let findOnePromise;
 
         beforeEach(() => {
             findOnePromise = Q.defer();
-            findOneStub = sinon.stub(Branch, 'findOne').returns(findOnePromise.promise);
+            findOneStub = sinon.stub(Branch, 'findById').returns(findOnePromise.promise);
         });
 
         afterEach(() => {
-            Branch.findOne.restore();
+            Branch.findById.restore();
         });
 
-        it('should return the branch associated with that key', (done) => {
-            let branchFromDb = {dataValues: {key: 'some-key-1', id: 'some-id-1', name: 'Ngamarriyanga (NT)'}};
+        it('should return the branch associated with that id', (done) => {
+            let branchFromDb = {dataValues: {id: 'some-id-1', name: 'Ngamarriyanga (NT)'}};
             findOnePromise.resolve(branchFromDb);
 
-            branchService.findByKey('some-key-1')
+            branchService.findById('some-id-1')
             .then((result) => {
-                expect(Branch.findOne).toHaveBeenCalled();
+                expect(Branch.findById).toHaveBeenCalled();
                 expect(result.id).toEqual('some-id-1');
                 expect(result.name).toEqual('Ngamarriyanga (NT)');
             })
             .then(done, done.fail);
         });
 
-        it('should return an empty object when key is null', (done) => {
-            branchService.findByKey(null)
+        it('should return an empty object when id is null', (done) => {
+            branchService.findById(null)
             .then((result) => {
-                expect(Branch.findOne).not.toHaveBeenCalled();
+                expect(Branch.findById).not.toHaveBeenCalled();
                 expect(result).toEqual({});
             })
             .then(done, done.fail);
@@ -107,9 +107,9 @@ describe('branchService', () => {
         it('should return an empty object when the branch is not found', (done) => {
             findOnePromise.resolve(null);
 
-            branchService.findByKey('some-key-1')
+            branchService.findById('some-id-1')
             .then((result) => {
-                expect(Branch.findOne).toHaveBeenCalled();
+                expect(Branch.findById).toHaveBeenCalled();
                 expect(result).toEqual({});
             })
             .then(done, done.fail);
@@ -119,13 +119,13 @@ describe('branchService', () => {
             it('should handle errors when retrieving the branches list', (done) => {
                 findOnePromise.reject('some db error the service should not rethrow');
 
-                branchService.findByKey('some-key-1')
+                branchService.findById('some-id-1')
                 .then(() => {
                     jasmine.fail('This should not have succeded');
                 })
                 .catch((error) => {
-                    expect(Branch.findOne).toHaveBeenCalled();
-                    expect(error.message).toEqual('Error when looking up branch with key: some-key-1');
+                    expect(Branch.findById).toHaveBeenCalled();
+                    expect(error.message).toEqual('Error when looking up branch with id: some-id-1');
                 })
                 .then(done, done.fail);
             });
