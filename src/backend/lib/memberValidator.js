@@ -30,9 +30,7 @@ var isValidName = (name) => {
 };
 
 var isValidOptionalTextBlock = (block) => {
-    return isEmpty(block) ||
-           (isValidString(block) &&
-           block.length < 2000);
+    return isEmpty(block) ||  block.length < 2000;
 };
 
 var isValidBranch = (name) => {

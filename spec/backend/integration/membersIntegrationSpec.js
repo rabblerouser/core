@@ -134,6 +134,22 @@ describe('MemberIntegrationTests', () => {
             }).then(done, done.fail);
         });
 
+        it('should safely create a member with dodgy information', (done) => {
+            getBranchKey(agent)
+            .then((branchKey) => {
+                let dodgyMember = makeMember(branchKey);
+                dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
+
+                return agent
+                .post('/members')
+                .set('Content-Type', 'application/json')
+                .set('Accept', 'application/json')
+                .send(dodgyMember)
+                .expect(200)
+                .expect(hasNewMember);
+            }).then(done, done.fail);
+        });
+
         it('should return 200 when creating a member with no address', (done) => {
             getBranchKey(agent)
             .then((branchKey) => {

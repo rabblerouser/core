@@ -166,6 +166,7 @@ describe('memberValidator', () => {
             '',
             undefined,
             'A valid text block',
+            'Flo the 1st<',
             'a'.repeat(257)
         ];
 
@@ -176,8 +177,7 @@ describe('memberValidator', () => {
         });
 
         let testCases = [
-            'a'.repeat(2000),
-            'Flo the 1st<'
+            'a'.repeat(2000)
         ];
 
         testCases.forEach((input) => {
