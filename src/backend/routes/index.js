@@ -55,7 +55,8 @@ router.get('/admin', requireAuth, function (req, res) {
 });
 
 router.get('/branches', branchesController.list);
+router.get('/branches/:id/groups', branchesController.groupsByBranch);
 
-router.get('/groups/', groupsController.list);
+router.get('/groups', groupsController.list);
 
 module.exports = router;
