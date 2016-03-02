@@ -192,4 +192,55 @@ describe('membersController', () => {
         }).then(done, done.fail);
       });
     });
+
+    describe('list', () => {
+        let serviceStub, req, res;
+
+        beforeEach(() => {
+            req = {user: {banchId: 'some-key-1'}};
+            serviceStub = sinon.stub(memberService, 'list');
+        });
+
+        afterEach(() => {
+            memberService.list.restore();
+        });
+
+        it('should return a list of members', (done) => {
+            serviceStub.returns(Q.resolve([{id: 'id1', firstName: 'Pepe', lastName: 'Perez'}]));
+            res = {status: sinon.stub().returns({json: sinon.spy()})};
+
+            membersController.list(req, res)
+            .then(() => {
+                expect(serviceStub).toHaveBeenCalled();
+                expect(res.status).toHaveBeenCalledWith(200);
+                expect(res.status().json).toHaveBeenCalledWith(jasmine.objectContaining({ members: [{id: 'id1', firstName: 'Pepe', lastName: 'Perez'}]}));
+            })
+            .then(done, done.fail);
+        });
+
+        describe('oops, things are not working quite well', () => {
+
+            it('should handle service exceptions', (done) => {
+                serviceStub.returns(Q.reject('Some service list error'));
+                res = {sendStatus: sinon.spy()};
+
+                membersController.list(req, res)
+                .then(() => {
+                    expect(res.sendStatus).toHaveBeenCalledWith(500);
+                    expect(serviceStub).toHaveBeenCalled();
+                })
+                .then(done, done.fail);
+            });
+
+            it('should handle when a session is not found', (done) => {
+                req = {};
+                res = {sendStatus: sinon.spy()};
+
+                membersController.list(req, res);
+                expect(res.sendStatus).toHaveBeenCalledWith(500);
+                expect(serviceStub).not.toHaveBeenCalled();
+                done();
+            });
+        });
+    });
 });

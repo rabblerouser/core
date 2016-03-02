@@ -162,9 +162,15 @@ function renewMemberHandler(req, res) {
 }
 
 function list(req, res) {
+    if (!req.user) {
+        logger.error('[error-members-controller]', {error: 'No sesion found in the request'});
+        res.sendStatus(500);
+        return;
+    }
+
     return memberService.list(req.user.branchId)
     .then((members) => {
-        res.json({members: members});
+        res.status(200).json({members: members});
     })
     .catch(handleError(res));
 }
