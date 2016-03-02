@@ -15,7 +15,17 @@ let transformBranch = dbResult => {
     return dbResult.dataValues;
 };
 
+let transformGroup = dbResult => {
+    return dbResult.dataValues;
+};
+
 function transformBranches(adapter) {
+    return function (dbResult) {
+        return dbResult.map(adapter);
+    };
+}
+
+function transformGroups(adapter) {
     return function (dbResult) {
         return dbResult.map(adapter);
     };
@@ -34,6 +44,18 @@ let list = () => {
         .catch(handleError('[branches-list-error]', 'An error has occurred while fetching branches'));
 };
 
+function groupsInBranch(id) {
+    return Branch.findById(id)
+        .then(result => {
+            if(!result) {
+                throw('');
+            }
+            return result.getGroups();
+        })
+        .then(transformGroups(transformGroup))
+        .catch(handleError('[find-branch-by-id-error]', `Error when looking up branch with id: ${id}`));
+}
+
 function findByRefKey(refKey) {
     if (!refKey) {
         return Promise.resolve({});
@@ -41,12 +63,13 @@ function findByRefKey(refKey) {
 
     var query = {where: {key: refKey}};
     return Branch.findOne(query)
-    .then((result) => {
-        return result ? result.dataValues : {};
-    }).catch(handleError('[find-branch-by-key-error]', `Error when looking up branch with key: ${refKey}`));
+        .then((result) => {
+            return result ? result.dataValues : {};
+        }).catch(handleError('[find-branch-by-key-error]', `Error when looking up branch with key: ${refKey}`));
 }
 
 module.exports = {
     list: list,
-    findByKey: findByRefKey
+    findByKey: findByRefKey,
+    groupsInBranch: groupsInBranch
 };
