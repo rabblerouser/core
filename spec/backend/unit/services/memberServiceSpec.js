@@ -5,7 +5,10 @@ const specHelper = require('../../../support/specHelper'),
       Member = models.Member,
       sinon = specHelper.sinon,
       Q = specHelper.Q,
-      moment = require('moment');
+      moment = require('moment'),
+      uuid = require('node-uuid'),
+      sample = require('lodash').sample,
+      times = require('lodash').times;
 
 var memberService = require('../../../../src/backend/services/memberService');
 var branchService = require('../../../../src/backend/services/branchService');
@@ -125,6 +128,20 @@ function fakeResultFromDbWhenSavingMember(residentialAddressId, postalAddressId)
     return result;
 }
 
+function fakeMembersList(membersQty) {
+    let membersList = [];
+
+    times(membersQty, () => {
+        let dbResponse = fakeResultFromDbWhenSavingMember();
+        dbResponse.dataValues.id = uuid.v4();
+        dbResponse.dataValues.branch = { dataValues: fakeBranch()};
+
+        membersList.push(dbResponse);
+    });
+
+    return membersList;
+}
+
 describe('memberService', () => {
     describe('createMember', () => {
         let createMemberStub;
@@ -149,14 +166,14 @@ describe('memberService', () => {
                 .returns(postalAddressPromise.promise);
 
             memberPromise = Q.defer();
-            createMemberStub = sinon.stub(models.Member, 'create').returns(memberPromise.promise);
+            createMemberStub = sinon.stub(Member, 'create').returns(memberPromise.promise);
 
             branchPromise = Q.defer();
             getBranchStub = sinon.stub(branchService, 'findByKey').withArgs('some-branch-ref-key-1').returns(branchPromise.promise);
         });
 
         afterEach(() => {
-            models.Member.create.restore();
+            Member.create.restore();
             models.Address.findOrCreate.restore();
             branchService.findByKey.restore();
         });
@@ -250,7 +267,7 @@ describe('memberService', () => {
                 })
                 .catch((error) => {
                     expect(branchService.findByKey).toHaveBeenCalled();
-                    expect(models.Member.create).not.toHaveBeenCalled();
+                    expect(Member.create).not.toHaveBeenCalled();
                     expect(error).toEqual('Create Member failed');
                 })
                 .then(done, done.fail);
@@ -266,7 +283,7 @@ describe('memberService', () => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
                 .catch((error) => {
-                    expect(models.Member.create).not.toHaveBeenCalled();
+                    expect(Member.create).not.toHaveBeenCalled();
                     expect(error).toEqual('Create Member failed');
                 })
                 .then(done, done.fail);
@@ -283,7 +300,7 @@ describe('memberService', () => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
                 .catch((error) => {
-                    expect(models.Member.create).not.toHaveBeenCalled();
+                    expect(Member.create).not.toHaveBeenCalled();
                     expect(error).toEqual('Create Member failed');
                 })
                 .then(done, done.fail);
@@ -302,7 +319,7 @@ describe('memberService', () => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
                 .catch((error) => {
-                    expect(models.Member.create).toHaveBeenCalled();
+                    expect(Member.create).toHaveBeenCalled();
                     expect(error).toEqual('Create Member failed');
                 })
                 .then(done, done.fail);
@@ -311,78 +328,75 @@ describe('memberService', () => {
     });
 
     describe('list', () => {
-        let member,
-            residentialAddress,
-            expectedMemberQuery,
-            findQueryResult,
-            Promise = models.Sequelize.Promise;
-
+        let Promise = models.Sequelize.Promise;
 
         beforeEach(() => {
-            residentialAddress = {
-                postcode: 1234,
-                state: 'VIC',
-                country: 'Australia'
-            };
-            member = {
-                firstName: 'Sherlock',
-                lastName: 'Halmes',
-                membershipType: 'full',
-                verified: null,
-                residentialAddress: residentialAddress
-            };
-
-             expectedMemberQuery = {
-                include: [{
-                    model: models.Address,
-                    as: 'residentialAddress',
-                    attributes: ['postcode', 'state', 'country']
-                }],
-                attributes: [
-                    'id',
-                    'firstName',
-                    'lastName',
-                    'membershipType',
-                    'verified'
-                ]
-            };
-
-             findQueryResult = [{
-                dataValues: Object.assign({}, member, {
-                    residentialAddress: {
-                        dataValues: residentialAddress
-                    }
-                })
-            }];
-
-            sinon.stub(models.Member, 'findAll');
+            sinon.stub(Member, 'findAll');
         });
 
         afterEach(() => {
-            models.Member.findAll.restore();
+            Member.findAll.restore();
         });
 
-        xit('resolves with a list of raw members', (done) => {
-            models.Member.findAll
-                .withArgs(expectedMemberQuery)
-                .returns(Promise.resolve(findQueryResult));
+        it('returns a list of members for a specific branch', (done) => {
+            Member.findAll
+                .returns(Promise.resolve(fakeMembersList(3)));
 
-            memberService.list().then((result) => {
-                expect(result).toEqual([member]);
-            }).then(done, done.fail);
-        });
+            memberService.list('some-branch-id-1')
+            .then((result) => {
+                let sampleMember = sample(result);
+                expect(result.length).toEqual(3);
 
-        xit('should handle errors', (done) => {
-            models.Member.findAll
-                .returns(Promise.reject('bad bad bad'));
-
-            memberService.list()
-            .then(() => {
-                done.fail('This should not be resolving successfully');
+                expect(sampleMember.branch.id).toEqual('some-branch-id-1');
+                expect(sampleMember.id).not.toBeNull();
+                expect(sampleMember.email).not.toBeNull();
+                expect(sampleMember.firstName).not.toBeNull();
+                expect(sampleMember.lastName).not.toBeNull();
+                expect(sampleMember.primaryPhoneNumber).not.toBeNull();
+                expect(sampleMember.dateOfBirth).not.toBeNull();
+                expect(sampleMember.contactFirstName).not.toBeNull();
+                expect(sampleMember.contactLastName).not.toBeNull();
+                expect(sampleMember.schoolType).not.toBeNull();
+                expect(sampleMember.additionalInfo).not.toBeNull();
             })
-            .catch((error) => {
-                expect(error).toEqual('An error has occurred while fetching members');
+            .then(done, done.fail);
+        });
+
+        it('returns an empty list if there are no members associated with the branch', (done) => {
+            Member.findAll.returns(Promise.resolve([]));
+
+            memberService.list('some-branch-id-1')
+            .then((result) => {
+                expect(result.length).toEqual(0);
+                expect(Member.findAll).toHaveBeenCalled();
+            })
+            .then(done, done.fail);
+
+        });
+
+        it('returns an empty list if no branch sent', (done) => {
+            memberService.list(null)
+            .then((result) => {
+                expect(Member.findAll).not.toHaveBeenCalled();
+                expect(result.length).toEqual(0);
             }).then(done, done.fail);
+        });
+
+        describe('sad path', () => {
+
+            it('should handle db errors', (done) => {
+                Member.findAll
+                    .returns(Promise.reject('A DB error the service should not rethrow'));
+
+                memberService.list('some-branch-id-1')
+                .then(() => {
+                    done.fail('This should not be resolving successfully');
+                })
+                .catch((error) => {
+                    expect(Member.findAll).toHaveBeenCalled();
+                    expect(error).toEqual('An error has occurred while fetching members');
+                }).then(done, done.fail);
+            });
         });
     });
 
@@ -394,14 +408,14 @@ describe('memberService', () => {
 
       beforeEach(() => {
         findOnePromise = Q.defer();
-        findOneStub = sinon.stub(models.Member, 'findOne').returns(findOnePromise.promise);
+        findOneStub = sinon.stub(Member, 'findOne').returns(findOnePromise.promise);
 
         updateMemberPromise = Q.defer();
         updateMemberStub = sinon.stub().returns(updateMemberPromise.promise);
       });
 
       afterEach(() => {
-        models.Member.findOne.restore();
+        Member.findOne.restore();
       });
 
       it('should verify the member if email and hash match', (done) => {
@@ -417,7 +431,7 @@ describe('memberService', () => {
           expect(member.email).toEqual('sherlock@holmes.co.uk');
         })
         .finally(() => {
-          expect(models.Member.findOne).toHaveBeenCalled();
+          expect(Member.findOne).toHaveBeenCalled();
           expect(updateMemberStub).toHaveBeenCalled();
           done();
         })
@@ -434,7 +448,7 @@ describe('memberService', () => {
           expect(member.email).toEqual('sherlock@holmes.co.uk');
         })
         .finally(() => {
-          expect(models.Member.findOne).toHaveBeenCalled();
+          expect(Member.findOne).toHaveBeenCalled();
           expect(updateMemberStub).not.toHaveBeenCalled();
           done();
         })
@@ -449,7 +463,7 @@ describe('memberService', () => {
         memberService.verify(hash)
         .catch((error) => {
           expect(error).not.toBeNull();
-          expect(models.Member.findOne).toHaveBeenCalled();
+          expect(Member.findOne).toHaveBeenCalled();
           expect(updateMemberStub).not.toHaveBeenCalled();
           done();
         });
@@ -481,9 +495,9 @@ describe('memberService', () => {
             residentialAddressPromise, postalAddressPromise;
 
         beforeEach(() => {
-            updateMemberStub = sinon.stub(models.Member, 'update');
+            updateMemberStub = sinon.stub(Member, 'update');
             addressStub = sinon.stub(models.Address, 'findOrCreate');
-            findUserStub = sinon.stub(models.Member, 'find');
+            findUserStub = sinon.stub(Member, 'find');
 
             residentialAddress = {
                 address: '221b Baker St',
@@ -519,8 +533,8 @@ describe('memberService', () => {
 
         afterEach(() => {
             models.Address.findOrCreate.restore();
-            models.Member.find.restore();
-            models.Member.update.restore();
+            Member.find.restore();
+            Member.update.restore();
         });
 
         it('successfully updates users details using email', (done) => {
@@ -532,7 +546,7 @@ describe('memberService', () => {
             updateMemberPromise.resolve(updatedMember);
 
             memberService.updateMember(updatedMember, {where: {email: 'sherlock@holmes.co.uk'}}).then((result) => {
-                expect(models.Member.update).toHaveBeenCalled();
+                expect(Member.update).toHaveBeenCalled();
                 expect(result.lastName).toEqual('Temple');
             }).then(done, done.fail);
         });
@@ -554,11 +568,11 @@ describe('memberService', () => {
 
       beforeEach(() => {
         findAllPromise = Q.defer();
-        findAllStub = sinon.stub(models.Member, 'findAll').returns(findAllPromise.promise);
+        findAllStub = sinon.stub(Member, 'findAll').returns(findAllPromise.promise);
       });
 
       afterEach(() => {
-        models.Member.findAll.restore();
+        Member.findAll.restore();
       });
 
 
@@ -570,7 +584,7 @@ describe('memberService', () => {
         memberService.findMembershipsExpiringOn(expiredOn)
         .then((result) => {
           expect(result.length).toEqual(0);
-          expect(models.Member.findAll).toHaveBeenCalledWith(query);
+          expect(Member.findAll).toHaveBeenCalledWith(query);
           done();
         })
         .catch(done);
@@ -580,7 +594,7 @@ describe('memberService', () => {
         memberService.findMembershipsExpiringOn(null)
         .then((result) => {
           expect(result.length).toEqual(0);
-          expect(models.Member.findAll).not.toHaveBeenCalled();
+          expect(Member.findAll).not.toHaveBeenCalled();
           done();
         })
         .catch(done);
@@ -602,7 +616,7 @@ describe('memberService', () => {
         .then((result) => {
             expect(result.length).toEqual(1);
             expect(result[0].email).toEqual('difydubif@yahoo.com');
-            expect(models.Member.findAll).toHaveBeenCalled();
+            expect(Member.findAll).toHaveBeenCalled();
             done();
         })
         .catch(done);
@@ -617,14 +631,14 @@ describe('memberService', () => {
 
         beforeEach(() => {
             findOnePromise = Q.defer();
-            findOneStub = sinon.stub(models.Member, 'findOne').returns(findOnePromise.promise);
+            findOneStub = sinon.stub(Member, 'findOne').returns(findOnePromise.promise);
             updateMemberPromise = Q.defer();
-            updateMemberStub = sinon.stub(models.Member, 'update').returns(updateMemberPromise.promise);
+            updateMemberStub = sinon.stub(Member, 'update').returns(updateMemberPromise.promise);
         });
 
         afterEach(() => {
-            models.Member.findOne.restore();
-            models.Member.update.restore();
+            Member.findOne.restore();
+            Member.update.restore();
         });
 
         it('should set the lastRenewal date if member was found', (done) => {
@@ -637,7 +651,7 @@ describe('memberService', () => {
                     expect(member.lastRenewal).toEqual(moment().format('L'));
                 })
                 .finally(() => {
-                    expect(models.Member.findOne).toHaveBeenCalled();
+                    expect(Member.findOne).toHaveBeenCalled();
                     expect(updateMemberStub).toHaveBeenCalled();
                     done();
                 })
@@ -652,7 +666,7 @@ describe('memberService', () => {
                     expect(member.lastRenewal).toBeUndefined();
                 })
                 .finally(() => {
-                    expect(models.Member.findOne).toHaveBeenCalled();
+                    expect(Member.findOne).toHaveBeenCalled();
                     expect(updateMemberStub).not.toHaveBeenCalled();
                     done();
                 })
