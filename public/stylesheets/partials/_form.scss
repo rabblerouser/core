@@ -46,9 +46,7 @@
       width: 50%;
     }
 
-    @include media($mobile) {
-        @include pad();
-    }
+
   }
 
 }
@@ -85,13 +83,7 @@
         margin-bottom: 10px;
         padding-left: 36px;
 
-        @include media($mobile) {
-            font-size: 20px;
-            height: 65px;
-            line-height: 65px;
-            margin-bottom: 0;
-            padding-left: 25px;
-        }
+
     }
 
     .sub-title { /* Internal form heading, above the divider line */
@@ -135,9 +127,7 @@
 
 
     span { /* Mobile size of body text */
-        @include media($mobile) {
-           font-size: 13px;
-       }
+ 
     }
 
 
@@ -158,14 +148,14 @@
         margin-bottom: 0;
         font-size: 16px;
 
-        @include media($mobile) {
-            font-size: 13px;
-        }
+   
     }
 
     fieldset {
     border: none;
     background: none;
+    margin: 15px 0px; 
+    padding: 0;
     }
 
     fieldset label {
@@ -241,6 +231,9 @@ input[type="text"].other-field {
 
 textarea {
   height: 100px;
+  @include media($mobile) {
+            height: 250px;
+        }
 }
 
 select::-ms-expand { /* for IE 11 */
