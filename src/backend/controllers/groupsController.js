@@ -1,6 +1,7 @@
 'use strict';
 
 let groupService = require('../services/groupService');
+let logger = require('../lib/logger');
 
 function list(req, res) {
     return groupService.list()
@@ -13,7 +14,19 @@ function list(req, res) {
 }
 
 function addMembers(req, res) {
-    res.sendStatus(200);
+
+    let groupId = req.params.groupId;
+    let branchId = req.params.branchId;
+    let memberIds = req.body || [];
+
+    return groupService.addMembers(groupId, memberIds)
+    .then(() => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        logger.error(`Failed adding a member to groupId: ${groupId}, branchId: ${branchId}, members: ${memberIds.join()}`, error);
+        res.sendStatus(500);
+    });
 }
 
 module.exports = {

@@ -26,7 +26,7 @@ function getMemberAndReturnMemberAndGroup(group) {
     return agent.get('/members')
         .then((response) => {
             return [
-                _.sample(response.body.members),
+                response.body.members,
                 group
             ];
         });
@@ -47,17 +47,19 @@ describe('Groups Integration Test', () => {
         it('responds with a 200', (done) => {
             integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createUser)
-                .tap(integrationTestHelpers.createFakeMembers(agent, 1))
+                .tap(integrationTestHelpers.createFakeMembers(agent, 2))
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
                 .tap(integrationTestHelpers.authenticate(agent))
                 .then(getMemberAndReturnMemberAndGroup)
-                .spread((member, group) => {
-                    let branchId = member.branchId;
+                .spread((members, group) => {
+                    let branchId = _.sample(members).branchId;
+                    let memberIds = _.pluck(members, 'id');
+
                     return agent.post(`/branches/${branchId}/groups/${group.id}/members`)
                         .set('Content-Type', 'application/json')
-                        .send([member.id])
+                        .send(memberIds)
                         .expect(200);
                 })
                 .then(done, done.fail);
