@@ -20,7 +20,7 @@ const express = require('express'),
       db = require('./db/connection'),
       sessionStore = new SequelizeSessionStore({db: db}),
       membershipRenewalJob = require('./services/membershipRenewalService'),
-      dataPermissionValidator = require('./lib/dataPermissionValidator');
+      pathAccessValidator = require('./authorization/pathAccessValidator');
 
 sessionStore.sync();
 
@@ -51,7 +51,7 @@ app.use(sassMiddleware({
     outputStyle: 'compressed',
     includePaths: neat.includePaths
 }), express.static(path.join(__dirname, '../../public')));
-app.use(dataPermissionValidator);
+
 app.use('/', routes);
 
 app.use((req, res, next) => {

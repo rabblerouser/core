@@ -132,7 +132,7 @@ describe('MemberIntegrationTests', () => {
                 return agent.get(`/branches/${branch.id}/members`);
             })
             .then((res) => {
-                expect(res.status).toEqual(401);
+                expect(res.status).toEqual(302);
             })
             .then(done, done.fail);
         });
