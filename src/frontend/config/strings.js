@@ -3,6 +3,8 @@ export const Resources = {
   labHost: 'http://localhost:3000',
   labListEndPoint: 'branches',
   applicationsEndPoint: 'members',
+  membersEndPoint: 'members',
+  groupListEndPoint: 'groups',
   theLabContactEmail: 'admin@thelab.org.au',
   theLabHome: 'http://thelab.org.au/'
 };

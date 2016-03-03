@@ -3,6 +3,14 @@ import labService from '../../../services/labService';
 
 describe('labService', () => {
 
+  describe('getLabGroups', () => {
+
+  });
+
+  describe('getLabPartipicants', () => {
+
+  });
+
   describe('getLabList', () => {
 
     let branchList = [{key: '1', name: 'Geelong'}, {key: '2', name: 'Melbourne'}, {key: '3', name: 'East Melbourne'}];

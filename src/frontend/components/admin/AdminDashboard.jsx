@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
-import MembersList from './MembersList.jsx';
+import ParticipantsList from './MembersList.jsx';
 import GroupsList from './GroupsList.jsx';
-
+import labService from '../../services/labService';
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -16,33 +16,23 @@ export default class AdminDashboard extends Component {
     }
 
     componentDidMount() {
-        $.ajax({
-            type: 'GET',
-            url: '/members',
-            dataType: 'json',
-            success: function(value) {
-                this.setState({members: value.members});
-            }.bind(this)
+        labService.getLabPartipicants()
+          .then( (participants) => {
+            this.setState({participants: participants});
         });
 
-        $.ajax({
-            type: 'GET',
-            url: '/groups',
-            dataType: 'json',
-            success: function(value) {
-                console.log(value);
-                this.setState({groups: value.groups});
-            }.bind(this)
+        labService.getLabGroups()
+          .then( (groups) => {
+            this.setState({groups: groups});
         });
     }
-
 
     render() {
         return (
             <div className="admin-container">
                 <div className="container">
                     <GroupsList groups={ this.state.groups } />
-                    <MembersList members={ this.state.members }/>
+                    <ParticipantsList participants={ this.state.participants }/>
                 </div>
             </div>);
     }

@@ -26,6 +26,38 @@ const getLabList = function () {
     });
 };
 
+const getLabGroups = function () {
+  return Q($.ajax({
+        type: 'GET',
+        url: `/${Resources.groupListEndPoint}`,
+        dataType: 'json',
+    }))
+    .catch(handleResponseError)
+    .then((data) => {
+        if(data.groups) {
+          return data.groups;
+        }
+        throw new Error('INVALID GROUP LIST');
+    });
+};
+
+const getLabPartipicants = function () {
+  return Q($.ajax({
+        type: 'GET',
+        url: `/${Resources.membersEndPoint}`,
+        dataType: 'json',
+    }))
+    .catch(handleResponseError)
+    .then((data) => {
+        if(data.members) {
+          return data.members;
+        }
+        throw new Error('INVALID MEMBERS LIST');
+    });
+};
+
 export default {
-    getLabList: getLabList
+    getLabList: getLabList,
+    getLabGroups: getLabGroups,
+    getLabPartipicants: getLabPartipicants
 };

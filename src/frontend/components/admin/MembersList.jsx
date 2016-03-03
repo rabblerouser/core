@@ -62,7 +62,7 @@ function tableColumns() {
     ];
 }
 
-export default class MembersList extends Component {
+export default class ParticipantsList extends Component {
     constructor(props) {
         super(props);
         this.state  = {
@@ -80,7 +80,7 @@ export default class MembersList extends Component {
     }
 
     render() {
-        let data = sortColumn.sort(this.props.members, this.state.sortingColumn, sortByOrder);
+        let data = sortColumn.sort(this.props.participants, this.state.sortingColumn, sortByOrder);
 
         return (
             <div className="admin-container">
