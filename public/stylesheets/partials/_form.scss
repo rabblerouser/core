@@ -7,7 +7,7 @@
 
 -------------------------------------------------------------------------------------- */
 
-form {
+.form-container section {
     @include fill-parent();
     @include clearfix();
     @include pad(0px 0px 20px 0px);

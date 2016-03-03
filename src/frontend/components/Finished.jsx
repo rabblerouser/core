@@ -7,7 +7,7 @@ export default class Finished extends Component {
     }
 
     render() {
-        return <fieldset>
+        return <section>
             <h1 className="form-title">Finish</h1>
 
             <div className="form-body">
@@ -19,6 +19,6 @@ export default class Finished extends Component {
                   <p><a onClick={this.props.previousStep} href={Resources.theLabHome}>Return to The Lab</a></p>
                 </div>
             </div>
-        </fieldset>
+        </section>
     }
 }
