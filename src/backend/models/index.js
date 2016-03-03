@@ -3,7 +3,13 @@
 const fs = require('fs'),
       path = require('path'),
       Sequelize = require('sequelize'),
-      basename = path.basename(module.filename);
+      basename = path.basename(module.filename),
+      pg = require('pg');
+
+/* https://github.com/sequelize/sequelize/issues/3781 */
+(function becauseOfSequelizeBug() {
+    delete pg.native;
+})();
 
 var db = {};
 
