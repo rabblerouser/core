@@ -11,6 +11,21 @@ const handleResponseError = function(error) {
   }
 };
 
+const getMyLabs = function () {
+    return Q($.ajax({
+          type: 'GET',
+          url: `/${Resources.myLabListEndPoint}`,
+          dataType: 'json',
+      }))
+      .catch(handleResponseError)
+      .then((data) => {
+          if(data.branches) {
+            return data.branches;
+          }
+          throw new Error('INVALID LAB LIST');
+      });
+}
+
 const getLabList = function () {
   return Q($.ajax({
         type: 'GET',
@@ -58,6 +73,7 @@ const getLabPartipicants = function () {
 
 export default {
     getLabList: getLabList,
+    getMyLabs: getMyLabs,
     getLabGroups: getLabGroups,
     getLabPartipicants: getLabPartipicants
 };

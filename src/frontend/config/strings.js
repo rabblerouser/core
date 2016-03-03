@@ -2,6 +2,7 @@ export const Resources = {
   privacyPolicy: 'https://pirateparty.org.au/privacy/',
   labHost: 'http://localhost:3000',
   labListEndPoint: 'branches',
+  myLabListEndPoint: 'admin/branches',
   applicationsEndPoint: 'members',
   membersEndPoint: 'members',
   groupListEndPoint: 'groups',
