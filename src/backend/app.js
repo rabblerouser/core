@@ -19,8 +19,7 @@ const express = require('express'),
       SequelizeSessionStore = require('connect-session-sequelize')(session.Store),
       db = require('./db/connection'),
       sessionStore = new SequelizeSessionStore({db: db}),
-      membershipRenewalJob = require('./services/membershipRenewalService'),
-      pathAccessValidator = require('./authorization/pathAccessValidator');
+      membershipRenewalJob = require('./services/membershipRenewalService');
 
 sessionStore.sync();
 
