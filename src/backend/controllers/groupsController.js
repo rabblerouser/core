@@ -14,19 +14,24 @@ function list(req, res) {
 }
 
 function addMembers(req, res) {
-
     let groupId = req.params.groupId;
     let branchId = req.params.branchId;
-    let memberIds = req.body || [];
+
+    let memberIds = req.body.memberIds || [];
+
+    if (memberIds.length === 0) {
+        res.sendStatus(400);
+        return null;
+    }
 
     return groupService.addMembers(groupId, memberIds)
-    .then(() => {
-        res.sendStatus(200);
-    })
-    .catch((error) => {
-        logger.error(`Failed adding a member to groupId: ${groupId}, branchId: ${branchId}, members: ${memberIds.join()}`, error);
-        res.sendStatus(500);
-    });
+        .then(() => {
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            logger.error(`Failed adding a member to groupId: ${groupId}, branchId: ${branchId}, members: ${memberIds.join()}`, error);
+            res.sendStatus(500);
+        });
 }
 
 module.exports = {

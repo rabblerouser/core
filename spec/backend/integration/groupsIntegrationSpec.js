@@ -59,8 +59,53 @@ describe('Groups Integration Test', () => {
 
                     return agent.post(`/branches/${branchId}/groups/${group.id}/members`)
                         .set('Content-Type', 'application/json')
-                        .send(memberIds)
+                        .send({memberIds: memberIds})
                         .expect(200);
+                })
+                .then(done, done.fail);
+        });
+
+        it('responds with a 400 when members is empty', (done) => {
+            integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createFakeMembers(agent, 2))
+                .then((branch) => {
+                    return integrationTestHelpers.createGroupInBranch(branch.id);
+                })
+                .tap(integrationTestHelpers.authenticate(agent))
+                .then((group) => {
+                    let branchId = group.branchId;
+
+                    return agent.post(`/branches/${branchId}/groups/${group.id}/members`)
+                        .set('Content-Type', 'application/json')
+                        .send({memberIds: []})
+                        .expect(400);
+                })
+                .then(done, done.fail);
+        });
+
+        it('responds with a 500 and an empty body when there is an error', (done) => {
+            integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createFakeMembers(agent, 2))
+                .then((branch) => {
+                    return integrationTestHelpers.createGroupInBranch(branch.id);
+                })
+                .tap(integrationTestHelpers.authenticate(agent))
+                .then((group) => {
+                    let branchId = 1234;
+
+                    return agent.post(`/branches/${branchId}/groups/${group.id}/members`)
+                        .set('Content-Type', 'application/json')
+                        .send({memberIds: [1, 2]})
+                        .expect(500)
+                        .expect((res) => {
+                            if (_.isEmpty(res.body)) {
+                                true
+                            } else {
+                                throw new Error("response body should be empty");
+                            }
+                        });
                 })
                 .then(done, done.fail);
         });
