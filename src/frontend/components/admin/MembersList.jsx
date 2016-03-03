@@ -50,6 +50,14 @@ function tableColumns() {
         {
             property: 'additionalInfo',
             header: 'Notes'
+        },
+        {
+            cell: () => ({
+                value: <span>Edit groups</span>,
+                props: {
+                    onClick: () => console.log('Editing groups WIP')
+                }
+            })
         }
     ];
 }

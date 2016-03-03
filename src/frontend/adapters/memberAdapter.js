@@ -76,7 +76,7 @@ let prepareNewMemberPayload = (fields) => {
     contactFirstName: mapContactFirstName(fields.contactName),
     contactLastName: mapContactLastName(fields.contactLastName),
     branch: mapBranch(fields.labSelection),
-    additionalInfo: mapAdditionalInfo(fields.additionalInfo),
+    additionalInfo: mapAdditionalInfo(fields.additionalInfo)
   };
 };
 
