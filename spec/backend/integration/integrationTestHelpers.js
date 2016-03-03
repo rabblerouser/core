@@ -3,7 +3,6 @@
 const times = require('lodash').times;
 const uuid = require('node-uuid');
 let models = require('../../../src/backend/models'),
-    Member = models.Member,
     AdminUser = models.AdminUser,
     Branch = models.Branch,
     Group = models.Group;
@@ -31,8 +30,14 @@ function createBranch() {
 
 function createGroupInBranch(branchId) {
     return Group.create({name: 'Groupalicious', description: 'Groups yeah', branchId: branchId})
-        .then((sequelizeResult) => {
-            return sequelizeResult.dataValues;
+        .then((group) => {
+            return Branch.findOne({where: {id: branchId}})
+            .then((branch) => {
+                return branch.addGroup(group);
+            })
+            .then((sequelizeResult) => {
+                return sequelizeResult[0][0].dataValues;
+            });
         });
 }
 

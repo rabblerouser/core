@@ -52,12 +52,12 @@ describe('Groups Integration Test', () => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
                 .tap(integrationTestHelpers.authenticate(agent))
-                .then(getMemberAndReturnMemberAndGroup)
-                .spread((members, group) => {
-                    let branchId = _.sample(members).branchId;
+                .then(getMemberAndReturnMemberAndGroup(agent))
+                .spread((members, branchGroup) => {
+                    let branchId = branchGroup.branchId;
                     let memberIds = _.pluck(members, 'id');
 
-                    return agent.post(`/branches/${branchId}/groups/${group.id}/members`)
+                    return agent.post(`/branches/${branchId}/groups/${branchGroup.groupId}/members`)
                         .set('Content-Type', 'application/json')
                         .send({memberIds: memberIds})
                         .expect(200);
@@ -73,10 +73,10 @@ describe('Groups Integration Test', () => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
                 .tap(integrationTestHelpers.authenticate(agent))
-                .then((group) => {
-                    let branchId = group.branchId;
+                .then((branchGroup) => {
+                    let branchId = branchGroup.branchId;
 
-                    return agent.post(`/branches/${branchId}/groups/${group.id}/members`)
+                    return agent.post(`/branches/${branchId}/groups/${branchGroup.id}/members`)
                         .set('Content-Type', 'application/json')
                         .send({memberIds: []})
                         .expect(400);
@@ -92,11 +92,10 @@ describe('Groups Integration Test', () => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
                 .tap(integrationTestHelpers.authenticate(agent))
-                .then((group) => {
-                    let badBranchId = 1234;
+                .then((branchGroup) => {
                     let badMemberIds = [1, 2];
 
-                    return agent.post(`/branches/${badBranchId}/groups/${group.id}/members`)
+                    return agent.post(`/branches/${branchGroup.branchId}/groups/${branchGroup.id}/members`)
                         .set('Content-Type', 'application/json')
                         .send({memberIds: badMemberIds})
                         .expect(500)
@@ -104,7 +103,7 @@ describe('Groups Integration Test', () => {
                             if (_.isEmpty(res.body)) {
                                 return;
                             } else {
-                                throw new Error("response body should be empty");
+                                throw new Error('response body should be empty');
                             }
                         });
                 })

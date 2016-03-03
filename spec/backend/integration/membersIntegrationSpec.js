@@ -1,5 +1,4 @@
 'use strict';
-const specHelper = require('../../support/specHelper');
 const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
