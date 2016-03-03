@@ -1,7 +1,7 @@
 'use strict';
 
 const specificBranch = /branches\/([\d\w-]+)\//;
-const logger = require('./logger');
+const logger = require('../lib/logger');
 
 function isRequestingProtectedData(req) {
     return req.path.match(specificBranch);
@@ -9,13 +9,12 @@ function isRequestingProtectedData(req) {
 
 function isUserAllowedToAccessBranch(user, path) {
     let branchIdInPath = path.match(specificBranch);
-    return branchIdInPath ? user.branchId === branchIdInPath[1] : false;
+    return branchIdInPath && user ? user.branchId === branchIdInPath[1] : false;
 
 }
 
 function canTheDataBeAccessed(req) {
-    return !isRequestingProtectedData(req) ||
-        (isRequestingProtectedData(req) && isUserAllowedToAccessBranch(req.user, req.path));
+    return isRequestingProtectedData(req) && isUserAllowedToAccessBranch(req.user, req.path);
 }
 
 module.exports = function(req, res, next) {

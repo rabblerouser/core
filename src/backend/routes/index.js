@@ -6,6 +6,7 @@ var passport = require('passport');
 var membersController = require('../controllers/membersController');
 var branchesController = require('../controllers/branchesController');
 var groupsController = require('../controllers/groupsController');
+var branchAuthorization = require('../authorization/pathAccessValidator');
 
 function requireAuth(req, res, next) {
     if (!req.isAuthenticated()) {

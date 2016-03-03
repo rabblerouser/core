@@ -4,7 +4,7 @@ let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
 let integrationTestHelpers = require('./integrationTestHelpers.js');
 
-describe('DataPermissionValidator Integration tests', () => {
+describe('PathAccessValidator Integration tests', () => {
     let agent;
 
     beforeEach(() => {
