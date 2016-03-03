@@ -7,7 +7,7 @@
 
 -------------------------------------------------------------------------------------- */
 
-fieldset {
+form {
     @include fill-parent();
     @include clearfix();
     @include pad(0px 0px 20px 0px);
@@ -163,17 +163,19 @@ fieldset {
         }
     }
 
-    fieldset fieldset label {
+    fieldset {
+    border: none;
+    background: none;
+    }
+
+    fieldset label {
         font-size: 14px;
     }
 
-    fieldset fieldset legend {
+    fieldset legend {
         padding: 0;
     }
 
-    fieldset fieldset {
-
-    }
 
     input {
         border-color: $blue;

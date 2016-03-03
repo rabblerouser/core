@@ -112,7 +112,7 @@ export default class Details extends Component {
 
     render() {
         return (
-            <fieldset>
+            <form>
                 <h1 className="form-title">Details</h1>
                 <div className="form-body">
                     <Errors invalidFields={this.state.errorNames}
@@ -187,7 +187,7 @@ export default class Details extends Component {
                         <p>or <a onClick={this.props.previousStep} href={Resources.theLabHome}>return to The Lab</a></p>
                     </div>
                 </div>
-            </fieldset>
+            </form>
         )
     }
 }
