@@ -163,7 +163,7 @@ function renewMemberHandler(req, res) {
 
 function list(req, res) {
     if (!req.user) {
-        logger.error('[error-members-controller]', {error: 'No sesion found in the request'});
+        logger.error('[error-members-controller]', {error: 'No session found in the request'});
         res.sendStatus(500);
         return;
     }
