@@ -115,10 +115,10 @@ describe('MemberIntegrationTests', () => {
         it('finds a list of members for an organiser', (done) => {
             integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createUser)
-            .then(integrationTestHelpers.createFakeMembers(agent, 3))
-            .then(integrationTestHelpers.authenticate(agent))
-            .then(() => {
-                return agent.get('/members');
+            .tap(integrationTestHelpers.createFakeMembers(agent, 3))
+            .tap(integrationTestHelpers.authenticate(agent))
+            .then((branch) => {
+                return agent.get(`/branches/${branch.id}/members`);
             })
             .then(hasMembersList)
             .then(done, done.fail);
@@ -127,13 +127,12 @@ describe('MemberIntegrationTests', () => {
         it('only authenticated organisers can access the members list', (done) => {
 
             integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createFakeMembers(agent, 3))
-            .then(() => {
-                return agent.get('/members');
+            .tap(integrationTestHelpers.createFakeMembers(agent, 3))
+            .then((branch) => {
+                return agent.get(`/branches/${branch.id}/members`);
             })
             .then((res) => {
-                expect(res.headers.location).toEqual('/login');
-                expect(res.status).toEqual(302);
+                expect(res.status).toEqual(401);
             })
             .then(done, done.fail);
         });

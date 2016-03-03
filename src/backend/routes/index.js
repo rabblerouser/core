@@ -22,17 +22,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/members', membersController.createNewMember);
-
-router.get('/members/verify/:hash', membersController.verify);
-router.get('/members/renew/:hash', membersController.renew);
-router.get('/members', requireAuth, membersController.list);
-
-router.post('/members/update', membersController.updateMemberHandler);
-router.get('/verified', function (req, res) {
-    res.render('account-verified', {title: 'Pirate Party Membership'});
-});
-
-router.post('/renew', membersController.renewMemberHandler);
+router.get('/branches/:branchId/members', requireAuth, membersController.list);
 
 router.post('/login',
     passport.authenticate('local'), function (req, res) {

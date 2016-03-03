@@ -22,14 +22,16 @@ let getGroups = () => {
         .expect(listOfGroups);
 };
 
-function getMemberAndReturnMemberAndGroup(group) {
-    return agent.get('/members')
-        .then((response) => {
-            return [
-                response.body.members,
-                group
-            ];
-        });
+function getMemberAndReturnMemberAndGroup(someAgent) {
+    return function(branchGroup) {
+        return someAgent.get(`/branches/${branchGroup.branchId}/members`)
+            .then((response) => {
+                return [
+                    response.body.members,
+                    branchGroup
+                ];
+            });
+    };
 }
 
 describe('Groups Integration Test', () => {

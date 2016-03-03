@@ -1,7 +1,9 @@
 'use strict';
 const specHelper = require('../../support/specHelper'),
     Branch = specHelper.models.Branch,
-    Group = specHelper.models.Group;
+    Group = specHelper.models.Group,
+    integrationTestHelpers = require('./integrationTestHelpers.js'),
+    Q = specHelper.Q;
 
 let request = require('supertest-as-promised');
 const instanceUrl = process.env.INSTANCE_URL;
@@ -45,10 +47,16 @@ let getBranches = () => {
 
 let getGroupsForBranch = () => {
     const branchId = 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174';
-    return request(app)
-        .get(`/branches/${branchId}/groups`)
-        .expect(200)
-        .expect(listOfGroups);
+    let agent = request.agent(app);
+
+    return Q(integrationTestHelpers.createUser({id: branchId}))
+    .tap(integrationTestHelpers.authenticate(agent))
+    .then(() => {
+        return agent
+            .get(`/branches/${branchId}/groups`)
+            .expect(200)
+            .expect(listOfGroups);
+    });
 };
 
 describe('Branches Integration Test', () => {
