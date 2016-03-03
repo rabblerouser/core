@@ -93,15 +93,16 @@ describe('Groups Integration Test', () => {
                 })
                 .tap(integrationTestHelpers.authenticate(agent))
                 .then((group) => {
-                    let branchId = 1234;
+                    let badBranchId = 1234;
+                    let badMemberIds = [1, 2];
 
-                    return agent.post(`/branches/${branchId}/groups/${group.id}/members`)
+                    return agent.post(`/branches/${badBranchId}/groups/${group.id}/members`)
                         .set('Content-Type', 'application/json')
-                        .send({memberIds: [1, 2]})
+                        .send({memberIds: badMemberIds})
                         .expect(500)
                         .expect((res) => {
                             if (_.isEmpty(res.body)) {
-                                true
+                                return;
                             } else {
                                 throw new Error("response body should be empty");
                             }
