@@ -42,10 +42,10 @@ function addMembers(groupId, memberIds) {
     });
 
     return GroupMembers.bulkCreate(addMembersToGroup)
-    .then((result) => {
-        logger.info('[add-member-to-group]', result);
-    })
-    .catch(handleError('[add-member-to-group-failed]', 'An error has occurred while adding members to groups'));
+        .tap((result) => {
+            logger.info('[add-member-to-group]', `Sucessfully added members: ${memberIds.join(',')} to group: ${groupId}`);
+        })
+        .catch(handleError('[add-member-to-group-failed]', 'An error has occurred while adding members to groups'));
 }
 
 module.exports = {
