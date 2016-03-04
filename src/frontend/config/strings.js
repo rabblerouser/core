@@ -45,5 +45,5 @@ export const ApplictionFormValidationErrors = {
   participantBirthYear: {name: 'Participant\'s year of birth', message: 'Please select the year of birth.'},
   schoolType: {name: 'School type', message: 'Please select a school type.'},
   labSelection: {name: 'Lab to join', message: 'Please select a lab to join.'},
-  additionalInfo: {name: 'Additional info', message: 'No symbols allowed.'}
+  additionalInfo: {name: 'Additional info', message: 'Maximum 2000 characters'}
 };
