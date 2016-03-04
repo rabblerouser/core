@@ -7,6 +7,7 @@ import {sortByOrder, map} from 'lodash';
 const Table = require('reactabular').Table;
 const sortColumn = require('reactabular').sortColumn;
 const moment = require('moment');
+import GroupsList from './GroupsList.jsx';
 
 import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
 
@@ -45,7 +46,7 @@ function tableColumns(props) {
         {
             property: 'Groups',
             header: 'Groups',
-            cell: (groups) => map(groups, "name")
+            cell: (groups) => <GroupsList groups={ groups } />
         },
         {
             cell: (nothing, participants, rowIndex) => {
