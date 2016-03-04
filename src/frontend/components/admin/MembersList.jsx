@@ -1,4 +1,5 @@
 'use strict';
+
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
@@ -7,7 +8,9 @@ const Table = require('reactabular').Table;
 const sortColumn = require('reactabular').sortColumn;
 const moment = require('moment');
 
-function tableColumns() {
+import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
+
+function tableColumns(props) {
     return [
         {
             property: 'memberSince',
@@ -52,12 +55,11 @@ function tableColumns() {
             header: 'Notes'
         },
         {
-            cell: () => ({
-                value: <span>Edit groups</span>,
-                props: {
-                    onClick: () => console.log('Editing groups WIP')
-                }
-            })
+            cell: (nothing, participants, rowIndex) => {
+                return {
+                    value: <EditMemberModalLauncher participant={participants[rowIndex]} groups={props.groups}/>
+                };
+            }
         }
     ];
 }
@@ -66,16 +68,15 @@ export default class ParticipantsList extends Component {
     constructor(props) {
         super(props);
         this.state  = {
-            columns: tableColumns(),
             columnNames: {
-                        onClick: (column) => {
-                            sortColumn(
-                                this.state.columns,
-                                column,
-                                this.setState.bind(this)
-                            );
-                        }
-                    }
+                onClick: (column) => {
+                    sortColumn(
+                        this.state.columns,
+                        column,
+                        this.setState.bind(this)
+                    );
+                }
+            }
         };
     }
 
@@ -85,7 +86,7 @@ export default class ParticipantsList extends Component {
         return (
             <div className="admin-container">
                 <div className="container">
-                    <Table columns={this.state.columns} data={data} columnNames={this.state.columnNames} />
+                    <Table columns={tableColumns(this.props)} data={data} columnNames={this.state.columnNames} />
                 </div>
             </div>);
     }

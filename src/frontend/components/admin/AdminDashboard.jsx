@@ -18,15 +18,14 @@ export default class AdminDashboard extends Component {
     }
 
     componentDidMount() {
-
         labService.getMyLabs()
-        .then( (labs) => {
-            this.setState({labs: labs});
-            this.setState({currentLab: labs[0]});
-            labService.getLabPartipicants(this.state.currentLab.id)
-            .then( participants => { this.setState({participants: participants}); });
-            labService.getLabGroups(this.state.currentLab.id)
-            .then( (groups) => { this.setState({groups: groups}); });
+            .then( (labs) => {
+                this.setState({labs: labs});
+                this.setState({currentLab: labs[0]});
+                labService.getLabPartipicants(this.state.currentLab.id)
+                        .then( participants => { this.setState({participants: participants}); });
+                labService.getLabGroups(this.state.currentLab.id)
+                        .then( groups => { this.setState({groups: groups}); });
             });
     }
 
@@ -35,7 +34,7 @@ export default class AdminDashboard extends Component {
             <div className="admin-container">
                 <div className="container">
                     <GroupsList groups={ this.state.groups } />
-                    <ParticipantsList participants={ this.state.participants }/>
+                    <ParticipantsList participants={ this.state.participants } groups={ this.state.groups }/>
                 </div>
             </div>);
     }
