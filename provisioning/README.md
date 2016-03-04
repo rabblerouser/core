@@ -15,7 +15,7 @@ Herein lies a bunch of ansible stuff for all the things required for different d
 
         [all]
 
-        some.host.com ansible_connection=ssh ansible_user=<your ssh user> ansible_ssh_private_key_file=<location_of_your_ssh_private_key>
+        some.host.com ansible_connection=ssh ansible_ssh_user=<your ssh user> ansible_ssh_private_key_file=<location_of_your_ssh_private_key>
         #The hostname should be the domain used for the webserver - the https certificate will match the hostname set here
 
 0. A database password set up as an environment variable (on the deployment box)`DB_PASSWORD`
