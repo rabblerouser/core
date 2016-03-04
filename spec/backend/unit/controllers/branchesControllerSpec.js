@@ -147,6 +147,28 @@ describe('branchesController', () => {
               }).then(done, done.fail);
             });
         });
+    });
 
+    describe('branchesForAdmin', () => {
+        describe('things did not go well', () => {
+            beforeEach(() => {
+                sinon.stub(branchService, 'findById');
+            });
+
+            afterEach(() => {
+                branchService.findById.restore();
+            });
+
+            it('should handle errors from the service', (done) => {
+                branchService.findById.returns(Promise.reject('some service error'));
+                let res = {sendStatus: sinon.spy()};
+
+                branchesController.list({}, res)
+                .then(() => {
+                    expect(res.sendStatus).toHaveBeenCalledWith(500);
+                })
+                .then(done, done.fail);
+            });
+        });
     });
 });

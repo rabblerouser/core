@@ -1,6 +1,7 @@
 'use strict';
 
 let branchService = require('../services/branchService');
+let logger = require('../lib/logger');
 
 function list(req, res) {
     return branchService.list()
@@ -35,6 +36,7 @@ function branchesForAdmin(req, res) {
             res.status(200).json({branches: [oneForNow]});
         })
         .catch(() => {
+            logger.error('[branches-for-admin]', `Error when retrieving branches for user: ${req.user ? req.user.email : 'unknown'}`);
             res.sendStatus(500);
         });
 }
