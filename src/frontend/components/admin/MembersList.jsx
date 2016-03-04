@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
-import {sortByOrder} from 'lodash';
+import {sortByOrder, map} from 'lodash';
 const Table = require('reactabular').Table;
 const sortColumn = require('reactabular').sortColumn;
 const moment = require('moment');
@@ -53,6 +53,12 @@ function tableColumns(props) {
         {
             property: 'additionalInfo',
             header: 'Notes'
+        },
+        {
+
+            property: 'Groups',
+            header: 'Groups',
+            cell: (groups) => map(groups, "name")
         },
         {
             cell: (nothing, participants, rowIndex) => {

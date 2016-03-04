@@ -6,6 +6,7 @@ const Q = require('q'),
     moment = require('moment'),
     Address = models.Address,
     Branch = models.Branch,
+    Group = models.Group,
     Member = models.Member,
     uuid = require('node-uuid'),
     messagingService = require('./messagingService'),
@@ -154,7 +155,10 @@ let renewMember = hash => {
 };
 
 function transformMember(dbMember) {
-    return Object.assign({}, dbMember.dataValues, { branch: dbMember.dataValues.branch.dataValues });
+    return Object.assign({}, dbMember.dataValues,
+        {
+            branch: dbMember.dataValues.branch.dataValues
+        });
 }
 
 function transformMembers(adapter) {
@@ -169,11 +173,19 @@ function list(branchId) {
     }
 
     let query = {
-        include: [{
-            model: Branch,
-            as: 'branch',
-            attributes: ['name', 'key', 'id']
-        }],
+        include: [
+            {
+                model: Branch,
+                as: 'branch',
+                attributes: ['name', 'key', 'id']
+            },
+            {
+                model: Group,
+                through: {
+                    attributes: ['name', 'key', 'id']
+                }
+            }
+        ],
         attributes: [
             'id',
             'firstName',
