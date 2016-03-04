@@ -13,49 +13,36 @@ import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
 function tableColumns(props) {
     return [
         {
-            property: 'memberSince',
-            header: 'Member Since',
-            cell: (date) => moment(date).format('YYYY/MM/DD HH:mm')
+            header: 'Participant',
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].firstName + " " + participants[rowIndex].lastName
         },
         {
-            property: 'firstName',
-            header: 'Participant’s Name'
+            header: 'Parent / Guardian',
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactFirstName + " " + participants[rowIndex].contactLastName
         },
         {
-            property: 'lastName',
-            header: 'Participant’s Last Name'
-        },
-        {
-            property: 'contactFirstName',
-            header: 'Parent’s Name'
-        },
-        {
-            property: 'contactLastName',
-            header: 'Parent’s Last Name'
-        },
-        {
-            property: 'primaryPhoneNumber',
-            header: 'Phone Number'
-        },
-        {
-            property: 'email',
-            header: 'Email'
+            header: 'Contact information',
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].primaryPhoneNumber + " " + participants[rowIndex].email
         },
         {
             property: 'dateOfBirth',
-            header: 'Year of Birth',
+            header: 'Birth year',
             cell: (dob) => dob.substring(0,4)
         },
         {
             property: 'schoolType',
-            header: 'School Type'
+            header: 'School type'
+        },
+        {
+            property: 'memberSince',
+            header: 'Date registered',
+            cell: (date) => moment(date).format('YYYY/MM/DD')
         },
         {
             property: 'additionalInfo',
             header: 'Notes'
         },
         {
-
             property: 'Groups',
             header: 'Groups',
             cell: (groups) => map(groups, "name")
