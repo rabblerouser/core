@@ -8,12 +8,14 @@ import labService from '../../services/labService';
 export default class AdminDashboard extends Component {
     constructor(props) {
         super(props);
-        this.render = this.render.bind(this);
         this.state = {
             members: [],
             groups: [],
             labs: [],
-            currentLab: ''
+            currentLab: '',
+            onSaveGroup: (groupDetails) => {
+                                console.log(groupDetails);
+                            }
         };
     }
 
@@ -33,7 +35,9 @@ export default class AdminDashboard extends Component {
         return (
             <div className="admin-container">
                 <div className="container">
-                    <GroupsList groups={ this.state.groups } />
+                    <GroupsList groups={ this.state.groups } onSave={ this.state.onSaveGroup } />
+                </div>
+                <div className="container">
                     <ParticipantsList participants={ this.state.participants } groups={ this.state.groups }/>
                 </div>
             </div>);

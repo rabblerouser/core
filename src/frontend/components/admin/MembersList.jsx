@@ -78,10 +78,7 @@ export default class ParticipantsList extends Component {
         let data = sortColumn.sort(this.props.participants, this.state.sortingColumn, sortByOrder);
 
         return (
-            <div className="admin-container">
-                <div className="container">
-                    <Table columns={tableColumns(this.props)} data={data} columnNames={this.state.columnNames} />
-                </div>
-            </div>);
+            <Table columns={tableColumns(this.props)} data={data} columnNames={this.state.columnNames} />
+        );
     }
 }

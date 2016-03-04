@@ -1,8 +1,10 @@
 'use strict';
 import React from 'react';
+import EditGroupModalLauncher from './EditGroupModalLauncher.jsx';
 
-export default ({ name , onSelect }) => (
+export default ({ group, onSave }) => (
   <li>
-      { name }
+      <div>{ group.name }</div>
+      <div><EditGroupModalLauncher group={group} onSave={onSave}/></div>
   </li>
 )
