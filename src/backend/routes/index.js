@@ -41,6 +41,7 @@ router.get('/logout', requireAuth, function (req, res) {
     res.redirect('/login');
 });
 
+router.get('/admin/branches', [requireAuth], branchesController.branchesForAdmin);
 router.get('/admin', [requireAuth], function (req, res) {
     res.render('admin', {title: 'The Lab Admin'});
 });

@@ -29,7 +29,18 @@ function groupsByBranch(req, res) {
         });
 }
 
+function branchesForAdmin(req, res) {
+    return branchService.findById(req.user.branchId)
+        .then((oneForNow) => {
+            res.status(200).json({branches: [oneForNow]});
+        })
+        .catch(() => {
+            res.sendStatus(500);
+        });
+}
+
 module.exports = {
     list: list,
+    branchesForAdmin: branchesForAdmin,
     groupsByBranch: groupsByBranch
 };
