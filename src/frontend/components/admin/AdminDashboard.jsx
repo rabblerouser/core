@@ -3,7 +3,8 @@ import {render} from 'react-dom';
 import $ from 'jquery';
 import ParticipantsList from './MembersList.jsx';
 import GroupsList from './GroupsList.jsx';
-import labService from '../../services/labService';
+import labService from '../../services/labService.js';
+import groupService from '../../services/groupService.js';
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -14,8 +15,19 @@ export default class AdminDashboard extends Component {
             labs: [],
             currentLab: '',
             onSaveGroup: (groupDetails) => {
-                                console.log(groupDetails);
-                            }
+                groupService.createOrUpdateGroup(groupDetails)
+                .then( (savedGroup) => {
+                    let groups = this.state.groups.slice(0);
+                    let group = groups.find (g => g.id === savedGroup.id);
+                    if(group) {
+                        Object.assign(group, savedGroup);
+                    }
+                    else {
+                        groups.push(savedGroup);
+                    }
+                    this.setState({groups: groups});
+                });
+            }
         };
     }
 
