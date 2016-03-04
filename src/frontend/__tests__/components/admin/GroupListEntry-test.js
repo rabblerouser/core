@@ -9,11 +9,12 @@ import sd from 'skin-deep';
 describe('GroupListEntry', () => {
 
   let renderedTree = '';
+  let group = {name: 'here is the name of the group'};
 
   describe('render', ()=> {
 
     beforeEach( () => {
-      renderedTree = sd.shallowRender(<GroupListEntry name='here is the name of the group'/>);
+      renderedTree = sd.shallowRender(<GroupListEntry group={ group }/>);
     });
 
     it('has a single li with the name of the group', () => {
