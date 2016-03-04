@@ -43,9 +43,7 @@ function setupNewMember(newMember) {
         secondaryPhoneNumber: newMember.secondaryPhoneNumber,
         dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
         membershipType: newMember.membershipType,
-        verificationHash: createHash(),
         memberSince: moment(),
-        lastRenewal: moment().format('L'),
         contactFirstName: newMember.contactFirstName,
         contactLastName: newMember.contactLastName,
         schoolType: newMember.schoolType,
@@ -135,25 +133,6 @@ var updateMember = (member) => {
         });
 };
 
-let renewMember = hash => {
-    var query = {where: {renewalHash: hash}};
-    return Member.findOne(query)
-        .then((result) => {
-            var member = result.dataValues;
-            member.lastRenewal = moment().format('L');
-            return Member.update(member, {where: {renewalHash: hash}})
-                .then(function(){
-                    return member;
-                })
-                .tap(function(renewedMember){
-                    logger.info('[membership-renewed]', {member: renewedMember});
-                })
-                .catch((error) => {
-                        return Q.reject(error);
-                });
-        });
-};
-
 function transformMember(dbMember) {
     return Object.assign({}, dbMember.dataValues,
         {
@@ -211,32 +190,6 @@ function list(branchId) {
         .catch(handleError('An error has occurred while fetching members'));
 }
 
-function findForVerification(hash) {
-  var query = {
-    where: {verificationHash: hash},
-    attributes: ['id', 'email', 'verified']
-  };
-
-  return Member.findOne(query)
-        .then((result) => {
-          if (!result) {
-            throw new Error(`Match not found for hash:${hash}`);
-          }
-          return result;
-        });
-}
-
-function markAsVerified(member) {
-  if (!member.dataValues.verified) {
-    return member.update({verified: moment().format()})
-    .then((result) => {
-      return result.dataValues;
-    });
-  }
-
-  return member.dataValues;
-}
-
 function sendWelcomeEmailOffline(data) {
     logger.info('[sending welcome email]', data);
     messagingService.sendWelcomeEmail(data)
@@ -245,83 +198,8 @@ function sendWelcomeEmailOffline(data) {
     return data;
 }
 
-function verify(hash) {
-  return findForVerification(hash)
-    .then(markAsVerified)
-    .then(sendWelcomeEmailOffline)
-    .tap((verifiedMember) => logger.info('[member-verification-event]', verifiedMember))
-    .catch((error) => {
-        logger.error('[member-verification-failed]', {error: error.toString()});
-        throw new Error('Account could not be verified');
-    });
-}
-
-function transformMembershipToRenew(member) {
-    return Object.assign({}, member.dataValues);
-}
-
-function findMembershipsExpiringOn(date) {
-    if (!date) {
-        return  Q.resolve([]);
-    }
-
-    let lastRenewal = moment(date, 'L').subtract(1, 'year').toDate();
-    let query = {
-        where: {lastRenewal: lastRenewal},
-        attributes: ['id', 'email']
-    };
-
-    return Member.findAll(query)
-            .then(transformMembers(transformMembershipToRenew))
-            .catch(handleError('[find-members-expiring-on-failed]'));
-}
-
-function findMemberByRenewalHash(hash) {
-    var query = {
-        where: { renewalHash: hash}
-    };
-    return Q(Member.findOne(query))
-        .then((result) => {
-            if(!result) {
-                throw new Error('No user found with that renewal hash');
-            }
-            var member = result.dataValues;
-            return Q.all([
-                Address.findOne({where: { id: member.residentialAddressId}}),
-                Address.findOne({where: { id: member.postalAddressId}})
-            ])
-                .spread((residentialAddress, postalAddress) => {
-                    member.residentialAddress = residentialAddress.dataValues;
-                    member.postalAddress = postalAddress.dataValues;
-                    member.dateOfBirth = moment(member.dateOfBirth).format('DD/MM/YYYY');
-                    return member;
-                });
-        });
-}
-
-function notifyMember(member) {
-    let renewalHash = createHash();
-    return Member.update({renewalHash: renewalHash}, {where: {id: member.id}})
-        .then(() => {
-            member.renewalHash = renewalHash;
-            return messagingService.sendRenewalEmail(member);
-        });
-}
-
-
-function notifyExpiringMembers(membersToNotify) {
-    var promises = [];
-    membersToNotify.forEach((member) => promises.push(notifyMember(member)));
-    return Q.all(promises);
-}
-
 module.exports = {
     createMember: createMember,
     updateMember: updateMember,
-    renewMember: renewMember,
-    list: list,
-    verify: verify,
-    notifyExpiringMembers: notifyExpiringMembers,
-    findMembershipsExpiringOn: findMembershipsExpiringOn,
-    findMemberByRenewalHash: findMemberByRenewalHash
+    list: list
 };

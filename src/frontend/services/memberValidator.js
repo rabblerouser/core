@@ -4,10 +4,6 @@ const _ = require('lodash');
 
 const restrictedChars = '[\<\>\"\%\;\(\)\&\+]';
 
-function isValidVerificationHash(theHash) {
-  return validator.isUUID(theHash, '4');
-}
-
 var hasStringValue = (string) => {
   return !!string;
 };
@@ -93,6 +89,5 @@ module.exports = {
     isValidEmail: isValidEmail,
     isValidPhone: isValidPhone,
     isValidYear: isValidYear,
-    isValid: isValid,
-    isValidVerificationHash: isValidVerificationHash
+    isValid: isValid
 };

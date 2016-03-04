@@ -30,8 +30,7 @@
 
         1. Run `which sendmail` in a terminal
         2. Add EMAIL_SERVER="Path to sendmail" to environment vars
-        3. Turn on the toggles for the emails that will be activated in each specific environment (config/default.json, config/staging.json, config/production.json)
-            - For the verification email set "sendEmails" to true
+        3. Turn on the toggle `email.sendEmails` in each specific environment (config/default.json, config/staging.json, config/production.json)
 
 0. Run the tests
 

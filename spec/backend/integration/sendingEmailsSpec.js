@@ -2,7 +2,7 @@
 require('../../support/specHelper.js');
 let messagingService = require('../../../src/backend/services/messagingService');
 let sinon = require('sinon');
-let member = {email: 'sherlock@holmes.co.uk', verificationHash: 'shhhaaaaaa'};
+let member = {email: 'sherlock@holmes.co.uk'};
 let config = require('config');
 
 let nodemailer = require('nodemailer');
@@ -31,7 +31,7 @@ describe('thing', () => {
             });
 
             it('sends the email to the member', (done) => {
-                messagingService.sendVerificationEmail(member)
+                messagingService.sendWelcomeEmail(member)
                     .then((result) => {
                         expect(sendMailSpy).toHaveBeenCalled();
                     })
@@ -41,7 +41,7 @@ describe('thing', () => {
             it('does not send an email if disabled in configuration', (done) => {
                 configStub.withArgs('email.sendEmails').returns(false);
 
-                messagingService.sendVerificationEmail(member)
+                messagingService.sendWelcomeEmail(member)
                     .finally(() => {
                         expect(sendMailSpy).not.toHaveBeenCalled();
                     })
@@ -58,7 +58,7 @@ describe('thing', () => {
             });
 
             it('throws an error when something unexpected happens', (done) => {
-                messagingService.sendVerificationEmail(member)
+                messagingService.sendWelcomeEmail(member)
                     .then((result) => {
                         done.fail('no error!');
                     })

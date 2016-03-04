@@ -16,14 +16,12 @@ describe('membersController', () => {
             goodRequest, res,
             residentialAddress, postalAddress,
             createMemberStub, createMemberPromise,
-            validateMemberStub, sendVerificationEmailPromise,
-            sendVerificationEmailStub;
+            validateMemberStub;
 
         beforeEach(() => {
             createNewMember = membersController.createNewMember;
             createMemberStub = sinon.stub(memberService, 'createMember');
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
-            sendVerificationEmailStub = sinon.stub(messagingService, 'sendVerificationEmail');
             res = {status: sinon.stub().returns({json: sinon.spy()})};
 
             residentialAddress = {
@@ -65,15 +63,11 @@ describe('membersController', () => {
             createMemberStub
                 .withArgs(goodRequest.body)
                 .returns(createMemberPromise.promise);
-
-            sendVerificationEmailPromise = Q.defer();
-            sendVerificationEmailStub.returns(sendVerificationEmailPromise.promise);
         });
 
         afterEach(() => {
             memberService.createMember.restore();
             memberValidator.isValid.restore();
-            messagingService.sendVerificationEmail.restore();
         });
 
         describe('when it receives a good request', () => {
@@ -83,7 +77,6 @@ describe('membersController', () => {
             beforeEach(() => {
                 validateMemberStub.returns([]);
                 createMemberPromise.resolve(createdMember);
-                sendVerificationEmailPromise.resolve();
 
                 expectedMemberCreateValues = {
                     firstName: 'Sherlock',
@@ -108,7 +101,6 @@ describe('membersController', () => {
                 .finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
                     expect(res.status().json).toHaveBeenCalledWith({newMember: {email: createdMember.email}});
-                    expect(messagingService.sendVerificationEmail).toHaveBeenCalledWith(createdMember);
                 }).then(done, done.fail);
             });
         });
@@ -123,74 +115,6 @@ describe('membersController', () => {
                 done();
             });
         });
-    });
-
-    describe('verify', () => {
-      let res, req;
-      let verificationStub;
-      let verificationPromise;
-
-      beforeEach(() => {
-        req = {};
-        res = {
-          redirect: sinon.spy(),
-          render: sinon.spy(),
-          sendStatus: sinon.spy()
-        };
-
-        verificationPromise = Q.defer();
-        verificationStub = sinon.stub(memberService, 'verify').returns(verificationPromise.promise);
-      });
-
-      afterEach(() => {
-        memberService.verify.restore();
-      });
-
-      it('should return 400 when the hash is not valid', (done) => {
-        req = {
-          params: {
-            hash: 'ZZZZZooooWrong'
-          }
-        };
-
-        membersController.verify(req, res)
-        .catch(() => {
-          expect(verificationStub).not.toHaveBeenCalled();
-          expect(res.sendStatus).toHaveBeenCalledWith(400);
-        }).then(done, done.fail);
-      });
-
-      it('redirect to /verified when account successfully verified', (done) => {
-        verificationPromise.resolve({email: 'sherlock@holmes.co.uk', verified: true});
-
-        req = {
-          params: {
-            hash: '1d225bd0-57b5-4b87-90fc-f76ddc997e57'
-          }
-        };
-
-        membersController.verify(req, res)
-        .finally(() => {
-          expect(verificationStub).toHaveBeenCalledWith(req.params.hash);
-          expect(res.redirect).toHaveBeenCalledWith('/verified');
-        }).then(done, done.fail);
-      });
-
-      it('should return a 400 when the account could not be verified', (done) => {
-        verificationPromise.reject('The account could not be verified');
-
-        req = {
-          params: {
-            hash: '1d225bd0-57b5-4b87-90fc-f76ddc997e57'
-          }
-        };
-
-        membersController.verify(req, res)
-        .finally(() => {
-          expect(verificationStub).toHaveBeenCalled();
-          expect(res.sendStatus).toHaveBeenCalledWith(400);
-        }).then(done, done.fail);
-      });
     });
 
     describe('list', () => {

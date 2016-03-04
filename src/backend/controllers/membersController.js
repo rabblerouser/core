@@ -2,7 +2,6 @@
 
 let memberService = require('../services/memberService');
 let memberValidator = require('../lib/memberValidator');
-let messagingService = require('../services/messagingService');
 let logger = require('../lib/logger');
 let Q = require('q');
 
@@ -62,11 +61,6 @@ function setupNewMember(req) {
   };
 }
 
-function sendVerificationEmailOffline(member) {
-  messagingService.sendVerificationEmail(member)
-  .catch((error) => logger.error('[error-sending-verification-email]', {error: error.toString()}));
-}
-
 function sendResponseToUser(res) {
   return function(createdMember) {
     let responseForUser = {
@@ -97,7 +91,6 @@ let createNewMember = (req, res) => {
 
     return memberService.createMember(newMember)
     .tap(sendResponseToUser(res))
-    .tap(sendVerificationEmailOffline)
     .catch(handleError(res));
 };
 
@@ -118,49 +111,6 @@ var updateMemberHandler = (req, res) => {
         .catch(handleError(res));
 };
 
-function verify(req, res) {
-  let hash = req.params.hash;
-
-  if (!memberValidator.isValidVerificationHash(hash)) {
-    logger.error('[member-verification-failed]', {error: 'Invalid input params', hash: hash});
-    res.sendStatus(400);
-    return Q.reject('Invalid Input');
-  }
-
-  return memberService.verify(hash)
-  .then(() => {
-    res.redirect('/verified');
-  })
-  .catch(() => {
-    res.sendStatus(400);
-  });
-}
-
-function renew(req, res) {
-    let hash = req.params.hash;
-
-    if (!memberValidator.isValidVerificationHash(hash)) {
-        logger.error('[member-verification-failed]', {hash: hash});
-        res.sendStatus(400);
-        return Q.reject('Invalid Input');
-    }
-
-    return memberService.findMemberByRenewalHash(hash)
-        .then((result) => {
-            var headers = Object.assign({}, {user: JSON.stringify(result)});
-            res.header(headers).render('renew');
-        });
-
-}
-
-function renewMemberHandler(req, res) {
-    let hash = req.body.renewalHash;
-
-    return memberService.renewMember(hash)
-        .tap(sendResponseToUser(res))
-        .catch(handleError(res));
-}
-
 function list(req, res) {
     if (!req.user) {
         logger.error('[error-members-controller]', {error: 'No session found in the request'});
@@ -178,8 +128,5 @@ function list(req, res) {
 module.exports = {
     createNewMember: createNewMember,
     updateMemberHandler: updateMemberHandler,
-    verify: verify,
-    renew: renew,
-    renewMemberHandler: renewMemberHandler,
     list: list
 };

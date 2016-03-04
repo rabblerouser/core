@@ -4,10 +4,6 @@ const moment = require('moment');
 const _ = require('lodash');
 const isEmpty = _.isEmpty;
 
-function isValidVerificationHash(theHash) {
-  return validator.isUUID(theHash, '4');
-}
-
 var containsSpecialCharacters = (theString, restricted) => {
     return restricted.test(theString);
 };
@@ -91,6 +87,5 @@ module.exports = {
     isValidPhone: isValidPhone,
     isValidDate: isValidDate,
     isValid: isValid,
-    isValidVerificationHash: isValidVerificationHash,
     isValidOptionalTextBlock: isValidOptionalTextBlock
 };
