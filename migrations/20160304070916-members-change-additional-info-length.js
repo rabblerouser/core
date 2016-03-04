@@ -2,7 +2,7 @@
 
 module.exports = {
     up: function (queryInterface, Sequelize, done) {
-        return queryInterface.changeColumn('Members', 'additionalInfo', {type: Sequelize.STRING, length: 2000, allowNull: true})
+        return queryInterface.changeColumn('Members', 'additionalInfo', {type: Sequelize.STRING(2000), allowNull: true})
         .nodeify(done);
     },
 
