@@ -8,7 +8,7 @@ import sd from 'skin-deep';
 import GroupListEntry from '../../../components/admin/GroupListEntry.jsx';
 
 
-describe('GroupListEntry', () => {
+describe('GroupList', () => {
 
   let renderedTree = '';
 

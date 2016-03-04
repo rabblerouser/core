@@ -4,6 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import GroupListEntry from '../../../components/admin/GroupListEntry.jsx';
+import EditGroupModalLauncher from '../../../components/admin/EditGroupModalLauncher.jsx';
+
 import sd from 'skin-deep';
 
 describe('GroupListEntry', () => {
@@ -17,10 +19,11 @@ describe('GroupListEntry', () => {
       renderedTree = sd.shallowRender(<GroupListEntry group={ group }/>);
     });
 
-    it('has a single li with the name of the group', () => {
+    it('has an edit modal and a span for the name of the group', () => {
       let element = renderedTree.subTree('li');
       expect(element).not.toBeFalsy();
-      expect(element.text()).toBe('here is the name of the group');
+      expect(element.props.children[0].type).toBe('span');
+      expect(element.props.children[1].type).toBe(EditGroupModalLauncher);
     });
 
   });

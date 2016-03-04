@@ -5,7 +5,6 @@ import AddGroupModalLauncher from './AddGroupModalLauncher.jsx';
 export default ({ groups , onSave }) => {
 
     let groupEntries = groups.map( group => (<GroupListEntry group={group} onSave={onSave} />));
-
     return (
         <ul>
             { groupEntries }
