@@ -1,0 +1,155 @@
+/* --------------------------------------------------------------------------------------
+
+   LOGIN SCREEN AND ADMIN DASHBOARD
+
+-------------------------------------------------------------------------------------- */
+
+.login_form, .admin_dashboard {
+    background-color: $blue-light;
+    max-width: 350px;
+    margin: auto;
+    margin-top: 10%;
+    padding: 2em;
+    border-top: 7px solid $blue-darker;
+    text-align: center;
+}
+
+
+.login_form input, .admin_dashboard input{
+    height: 3em;
+    width: 100%;
+}
+
+
+.admin_h1{
+    font-size: 20px;
+    line-height: 26px;
+    color: $blue-darker;
+    text-align: center;
+}
+
+
+.admin-button {
+    margin-bottom: 10px;
+}
+
+
+.admin_dashboard a{
+    text-decoration: underline;
+}
+
+
+
+/* --------------------------------------------------------------------------------------
+
+   SECRETARY VIEW
+
+-------------------------------------------------------------------------------------- */
+
+.admin-container {
+    h1 {
+      font-size:1.2em;
+    }
+
+    table {
+      table-layout: fixed;
+      margin-left: 5%;
+      margin-right: 5%;
+      width: 90%;
+      margin-top: 5%;
+    }
+
+    thead {
+
+      @include media($mobile) {
+            display:none;
+        }
+    }
+    
+    tr {
+        border: none;
+         @include media($mobile) {
+      
+      
+
+        }
+    }
+
+    th {
+      background-color:$blue-darker;
+      color:$white;
+      font-size: 14px;
+      padding-left: 10px;
+      padding-right: 10px;  
+      padding-top:18px;
+      padding-bottom: 18px;
+      word-wrap: break-word;
+    }
+
+    tr:nth-child(even) {
+      background-color: $white;
+    }
+
+    tr:nth-child(odd) {
+      background-color: $blue-light;
+    }
+
+    tr td:first-child {
+
+      @include media($mobile) {
+        font-weight: bold;
+        font-size: 0.9em;
+        padding: 10px 5px;
+
+        }
+   
+
+    }
+
+       tr td:last-child {
+
+      @include media($mobile) {
+       
+        padding-bottom: 10px;
+
+        }
+   
+
+    }
+
+    td {
+      color:$blue-darker;
+      text-align: left;
+      padding-left: 10px;
+      word-wrap: break-word;
+      font-size: 12px;
+        @include media($mobile) {
+            display:block;
+            padding: 0px 10px;
+        }
+    }
+
+    .navigation {
+      text-align: center;
+      margin-top: 20%;
+    }
+
+    .verified {
+      color: $green;
+    }
+
+    .unverified {
+      color: $red;
+    }
+    
+    table a {
+        text-decoration: underline;
+    }
+
+    .validationErrors {
+      margin: auto;
+      width: 90%;
+      margin-bottom: -3%;
+    }
+}
+
