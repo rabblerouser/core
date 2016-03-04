@@ -17,15 +17,13 @@ describe('GroupList', () => {
       let sampleGroups = [{name: 'A group'}, {name: 'Another group'}];
 
     beforeEach( () => {
-      renderedTree = sd.shallowRender(<GroupsList groups={sampleGroups}/>);
+      renderedTree = sd.shallowRender(<GroupsList groups={sampleGroups} onSave={''}/>);
     });
 
     it('has a single ul with lis for each group provided', () => {
       let element = renderedTree.subTree('ul');
       expect(element).not.toBeFalsy();
       expect(element.props.children.length).toBe(2);
-      expect(element.props.children[0].type).toBe(GroupListEntry);
-      expect(element.props.children[1].type).toBe(GroupListEntry);
     });
 
   });
