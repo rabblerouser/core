@@ -6,7 +6,7 @@ import { Resources } from '../config/strings';
 
 const handleResponseError = function(error) {
   switch(error.status) {
-    case 404 : throw new Error('NOT FOUND');
+    case 401 : case 404 : throw new Error('NOT FOUND');
     default: throw new Error('NOT AVAILABLE');
   }
 };

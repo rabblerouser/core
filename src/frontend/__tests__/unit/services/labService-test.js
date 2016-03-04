@@ -35,6 +35,19 @@ describe('labService', () => {
           });
         });
 
+        describe('when the branch id is undefined', () => {
+            it('should return an error that the remote endpoint was not found', (done) => {
+              labService.getLabGroups()
+                .then(() => {
+                  done.fail('Expected promise to be rejected');
+                })
+                .fail((error) => {
+                  expect(error.message).toEqual('NOT FOUND');
+                  done();
+                });
+            });
+        });
+
         describe('when the groups are retrieved in an invalid format', () => {
 
           beforeEach(() => {
@@ -55,6 +68,24 @@ describe('labService', () => {
           });
         });
 
+        describe('when the remote groups are 401 unauthorised', () => {
+
+            beforeEach(() => {
+              server.respondWith('GET', '/branches/112-11-21-2/groups', [401, {}, '']);
+            });
+
+            it('should return an error that the remote endpoint was not found', (done) => {
+              labService.getLabGroups('112-11-21-2')
+                .then(() => {
+                  done.fail('Expected promise to be rejected');
+                })
+                .fail((error) => {
+                  expect(error.message).toEqual('NOT FOUND');
+                  done();
+                });
+            });
+
+        });
 
         describe('when the remote groups are 404 not found', () => {
 
@@ -126,6 +157,19 @@ describe('labService', () => {
           });
         });
 
+        describe('when the branch id is undefined', () => {
+            it('should return an error that the remote endpoint was not found', (done) => {
+              labService.getLabPartipicants()
+                .then(() => {
+                  done.fail('Expected promise to be rejected');
+                })
+                .fail((error) => {
+                  expect(error.message).toEqual('NOT FOUND');
+                  done();
+                });
+            });
+        });
+
         describe('when the participants are retrieved in an invalid format', () => {
 
           beforeEach(() => {
@@ -163,6 +207,25 @@ describe('labService', () => {
                 done();
               });
           });
+
+        });
+
+        describe('when the remote participants are 401 unauthorised', () => {
+
+            beforeEach(() => {
+              server.respondWith('GET', '/branches/112-11-21-2/members', [401, {}, '']);
+            });
+
+            it('should return an error that the remote endpoint was not found', (done) => {
+              labService.getLabPartipicants('112-11-21-2')
+                .then(() => {
+                  done.fail('Expected promise to be rejected');
+                })
+                .fail((error) => {
+                  expect(error.message).toEqual('NOT FOUND');
+                  done();
+                });
+            });
 
         });
 
