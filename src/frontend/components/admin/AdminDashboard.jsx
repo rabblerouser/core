@@ -11,20 +11,23 @@ export default class AdminDashboard extends Component {
         this.render = this.render.bind(this);
         this.state = {
             members: [],
-            groups: []
+            groups: [],
+            labs: [],
+            currentLab: ''
         };
     }
 
     componentDidMount() {
-        labService.getLabPartipicants()
-          .then( (participants) => {
-            this.setState({participants: participants});
-        });
 
-        labService.getLabGroups()
-          .then( (groups) => {
-            this.setState({groups: groups});
-        });
+        labService.getMyLabs()
+        .then( (labs) => {
+            this.setState({labs: labs});
+            this.setState({currentLab: labs[0]});
+            labService.getLabPartipicants(this.state.currentLab.id)
+            .then( participants => { this.setState({participants: participants}); });
+            labService.getLabGroups(this.state.currentLab.id)
+            .then( (groups) => { this.setState({groups: groups}); });
+            });
     }
 
     render() {
