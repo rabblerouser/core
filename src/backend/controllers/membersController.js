@@ -94,23 +94,6 @@ let createNewMember = (req, res) => {
     .catch(handleError(res));
 };
 
-var updateMemberHandler = (req, res) => {
-
-    let newMember = setupNewMember(req);
-
-    let validationErrors = memberValidator.isValid(newMember);
-
-    if (validationErrors.length > 0) {
-        return res.status(400).json({ errors: validationErrors});
-    }
-
-    return memberService.updateMember(newMember)
-        .then((result) => {
-            res.status(200).json({ newMember: result});
-        })
-        .catch(handleError(res));
-};
-
 function list(req, res) {
     if (!req.user) {
         logger.error('[error-members-controller]', {error: 'No session found in the request'});
@@ -127,6 +110,5 @@ function list(req, res) {
 
 module.exports = {
     createNewMember: createNewMember,
-    updateMemberHandler: updateMemberHandler,
     list: list
 };
