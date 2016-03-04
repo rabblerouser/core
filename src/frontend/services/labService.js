@@ -6,8 +6,8 @@ import { Resources } from '../config/strings';
 
 const handleResponseError = function(error) {
   switch(error.status) {
-    case 404 : throw new Error('LABS NOT FOUND');
-    default: throw new Error('LABS NOT AVAILABLE');
+    case 404 : throw new Error('NOT FOUND');
+    default: throw new Error('NOT AVAILABLE');
   }
 };
 
@@ -41,10 +41,10 @@ const getLabList = function () {
     });
 };
 
-const getLabGroups = function () {
+const getLabGroups = function (lab) {
   return Q($.ajax({
         type: 'GET',
-        url: `/${Resources.groupListEndPoint}`,
+        url: `/${Resources.labListEndPoint}/${lab}/groups`,
         dataType: 'json',
     }))
     .catch(handleResponseError)
@@ -56,10 +56,10 @@ const getLabGroups = function () {
     });
 };
 
-const getLabPartipicants = function () {
+const getLabPartipicants = function (lab) {
   return Q($.ajax({
         type: 'GET',
-        url: `/${Resources.membersEndPoint}`,
+        url: `/${Resources.labListEndPoint}/${lab}/members`,
         dataType: 'json',
     }))
     .catch(handleResponseError)
@@ -67,7 +67,7 @@ const getLabPartipicants = function () {
         if(data.members) {
           return data.members;
         }
-        throw new Error('INVALID MEMBERS LIST');
+        throw new Error('INVALID PARTICIPANT LIST');
     });
 };
 
