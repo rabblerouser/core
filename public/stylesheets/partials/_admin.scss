@@ -138,6 +138,31 @@ nav {
   text-decoration: underline;
 }
 
+#groups li.new button {
+
+  margin: 0;
+  padding: 10px 15px 8px 15px;
+  cursor: pointer;
+  color: #062C40;
+  background:none;
+  font-weight: normal;
+  border-radius: 0;
+  font-size: 1em;
+  margin-top: -3px;
+
+}
+
+#groups li.new button:hover {
+color: #fff;
+ background: #062C40;
+
+}
+
+#groups li.new:hover {
+  background: none;
+  
+}
+
 
 /* --------------------------------------------------------------------------------------
 
