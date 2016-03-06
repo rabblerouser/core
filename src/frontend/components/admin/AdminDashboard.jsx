@@ -45,12 +45,17 @@ export default class AdminDashboard extends Component {
 
     render() {
         return (
-            <div className="admin-container">
+            <div className="admin-container">            
                 <div className="container">
+                <div className="header">
+                        <img src ='/images/the_lab_logo.svg'/>
+                    </div>
+
                     <GroupsList groups={ this.state.groups } onSave={ this.state.onSaveGroup } />
                 </div>
                 <div className="container">
                     <ParticipantsList participants={ this.state.participants } groups={ this.state.groups }/>
+
                 </div>
             </div>);
     }

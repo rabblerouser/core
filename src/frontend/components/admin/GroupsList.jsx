@@ -6,11 +6,15 @@ export default ({ groups , onSave }) => {
 
     let groupEntries = groups.map( group => (<GroupListEntry group={group} onSave={onSave} />));
     return (
-        <ul>
-            { groupEntries }
-            <li>
-                <AddGroupModalLauncher onSave={onSave}/>
-            </li>
-        </ul>
+
+        <nav id="groups">
+	        <ul>
+	            { groupEntries }
+	            <li>
+	                <AddGroupModalLauncher onSave={onSave}/>
+	            </li>
+	        </ul>
+        </nav>
+
     )
 }
