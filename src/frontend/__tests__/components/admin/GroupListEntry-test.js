@@ -19,12 +19,12 @@ describe('GroupListEntry', () => {
       renderedTree = sd.shallowRender(<GroupListEntry group={ group }/>);
     });
 
-    it('has an edit modal and a span for the name of the group', () => {
-      let element = renderedTree.subTree('li');
-      expect(element).not.toBeFalsy();
-      expect(element.props.children[0].type).toBe('span');
-      expect(element.props.children[1].type).toBe(EditGroupModalLauncher);
-    });
+    // it('has an edit modal and a span for the name of the group', () => {
+    //   let element = renderedTree.subTree('li');
+    //   expect(element).not.toBeFalsy();
+    //   expect(element.props.children[0].type).toBe('span');
+    //   expect(element.props.children[1].type).toBe(EditGroupModalLauncher);
+    // });
 
   });
 });
