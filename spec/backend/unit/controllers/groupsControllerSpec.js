@@ -47,4 +47,32 @@ describe('groupsController', () => {
             }).then(done, done.fail);
         });
     });
+
+    describe('list', () => {
+        let req, res;
+
+        beforeEach(() => {
+            sinon.stub(groupService, 'create');
+            res = {sendStatus: sinon.spy()};
+        });
+
+        afterEach(() => {
+            groupService.create.restore();
+        });
+
+        it('returns 500 and an empty body when there is an unexpected error', (done) => {
+            groupService.create.returns(Promise.reject('Error when creating a group'));
+
+            req = {
+                params: { branchId: 'some-branch-id'},
+                body: {name: 'some-name', description: 'some-description'}
+            };
+
+            groupsController.create(req, res)
+            .then(() => {
+                expect(res.sendStatus).toHaveBeenCalled(500);
+                expect(groupService.create).toHaveBeenCalled();
+            }).then(done, done.fail);
+        });
+    });
 });
