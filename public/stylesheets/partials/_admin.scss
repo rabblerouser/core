@@ -346,7 +346,7 @@ th.notes {
 }
 th.contact {width: 15%;}
 
-.notes, .schooltype {
+td:nth-of-type(5), td:nth-of-type(7) {
 
   white-space: nowrap;
   overflow: hidden;
