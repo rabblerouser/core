@@ -15,7 +15,7 @@ export default class AdminDashboard extends Component {
             labs: [],
             currentLab: '',
             onSaveGroup: (groupDetails) => {
-                groupService.createOrUpdateGroup(groupDetails)
+                groupService.createOrUpdateGroup(groupDetails, this.state.currentLab.id)
                 .then( (savedGroup) => {
                     let groups = this.state.groups.slice(0);
                     let group = groups.find (g => g.id === savedGroup.id);
@@ -45,7 +45,7 @@ export default class AdminDashboard extends Component {
 
     render() {
         return (
-            <div className="admin-container">            
+            <div className="admin-container">
                 <div className="container">
                     <div className="header">
                         <img src ='/images/the_lab_logo.svg'/>

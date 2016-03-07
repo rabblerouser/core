@@ -6,41 +6,35 @@ import { Resources } from '../config/strings';
 
 const handleResponseError = function(error) {
 
-/*  switch(error.status) {
+ switch(error.status) {
     case 401 : case 404 : throw new Error('NOT FOUND');
     default: throw new Error('NOT AVAILABLE');
   }
-  */
+
 };
 
-const createGroup = function (group) {    console.log('adding', group);
+const updateGroup = function (group, labId) {
     return Q($.ajax({
           type: 'POST',
-          url: `endpointPlaceholder`,
+          url: `/branches/${labId}/groups`,
           data: group,
       }))
       .catch(handleResponseError)
-      .then(() => {
-          return group;
-      });
-};
-const updateGroup = function (group) {
-    return Q($.ajax({
-          type: 'POST',
-          url: `endpointPlaceholder`,
-          data: group,
-      }))
-      .catch(handleResponseError)
-      .then(() => {
-          return group;
+      .then((data) => {
+          if(data.id && isValidGroup(data)) {
+              return data;
+          }
+          throw new Error('INVALID GROUP');
       });
 };
 
-const createOrUpdateGroup = function (group) {
-     if (group.id) {
-        return createGroup(group);
-        }
-    return updateGroup(group);
+const isValidGroup = (group) => {
+    return group.name && group.description;
+};
+
+const createOrUpdateGroup = function (group, labId) {
+
+    return updateGroup(group, labId);
 };
 
 export default {
