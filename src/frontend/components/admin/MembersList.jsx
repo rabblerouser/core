@@ -46,7 +46,7 @@ function tableColumns(props) {
         {
             property: 'Groups',
             header: 'Groups',
-            cell: (groups) => <GroupsList groups={groups} />
+            cell: (groups) => <GroupsList editable={false} groups={groups} />
         },
         {
             cell: (nothing, participants, rowIndex) => {
