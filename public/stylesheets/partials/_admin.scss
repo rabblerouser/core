@@ -368,17 +368,8 @@ color: #fff;
     padding-right: 10px;
   }
 
-  td:last-child {
-   
-  }
 
 
-
-.admin-container td {
-  vertical-align: top; 
-  font-size: 14px; 
-  max-height: 20px;
-}
 
 
     td {
@@ -392,6 +383,15 @@ color: #fff;
             display:block;
             padding: 0px 10px;
         }
+    }
+
+    td ul {
+      list-style: none
+
+    }
+
+    td li {
+      display: block;
     }
 
     td button {
