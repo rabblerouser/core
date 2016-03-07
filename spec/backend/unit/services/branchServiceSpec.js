@@ -58,7 +58,7 @@ describe('branchService', () => {
 
                  branchService.list()
                 .then(() => {
-                    jasmine.fail('This should not have succeded');
+                    done.fail('This should not have succeded');
                 })
                 .catch((error) => {
                     expect(Branch.findAll).toHaveBeenCalled();
@@ -121,7 +121,7 @@ describe('branchService', () => {
 
                 branchService.findById('some-id-1')
                 .then(() => {
-                    jasmine.fail('This should not have succeded');
+                    done.fail('This should not have succeded');
                 })
                 .catch((error) => {
                     expect(Branch.findById).toHaveBeenCalled();

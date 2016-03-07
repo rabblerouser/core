@@ -72,7 +72,7 @@ describe('branchService', () => {
                 let invalidBranchId = 'invalidId';
                 branchService.groupsInBranch(invalidBranchId)
                     .then(() => {
-                        jasmine.fail('This should not have succeded');
+                        done.fail('This should not have succeded');
                     })
                     .catch((error) => {
                         expect(error.message).toEqual('Error when looking up branch with id: invalidId');
