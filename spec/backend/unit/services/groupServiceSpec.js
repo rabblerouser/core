@@ -2,7 +2,9 @@
 
 const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
-      Group = specHelper.models.Group;
+      Group = specHelper.models.Group,
+      Branch = specHelper.models.Branch,
+      Q = specHelper.Q;
 
 var groupService = require('../../../../src/backend/services/groupService');
 
@@ -51,7 +53,7 @@ describe('groupService', () => {
 
                  groupService.list()
                 .then(() => {
-                    jasmine.fail('This should not have succeded');
+                    done.fail('This should not have succeded');
                 })
                 .catch((error) => {
                     expect(Group.findAll).toHaveBeenCalled();
@@ -59,6 +61,50 @@ describe('groupService', () => {
                 })
                 .then(done, done.fail);
             });
+        });
+    });
+
+    describe('create', () => {
+        beforeEach(() => {
+            sinon.stub(Branch, 'findById');
+            sinon.stub(Group, 'create');
+        });
+
+        afterEach(() => {
+            Branch.findById.restore();
+            Group.create.restore();
+        });
+
+        it('should handle when the branch is not found', (done) => {
+            Branch.findById.returns(Q.resolve(null));
+            Group.create.returns(Q.resolve({dataValues: {name: 'A group', description: 'description', id: 'some-group-id'}}));
+
+            groupService.create({name: 'A group', description: 'description'}, 'some-branch-id')
+            .then(() => {
+                done.fail('This should not have succeded');
+            })
+            .catch((error) => {
+                expect(Branch.findById).toHaveBeenCalled();
+                expect(Group.create).not.toHaveBeenCalled();
+                expect(error.message).toEqual('An error has occurred while creating group for branch with id: some-branch-id');
+            })
+            .then(done, done.fail);
+        });
+
+        it('should handle when there is an error creating the branch', (done) => {
+            Branch.findById.returns(Q.resolve({dataValues: {id: 'some-branch-id'}}));
+            Group.create.returns(Q.reject('A horrible DB error the service should not rethrow'));
+
+            groupService.create({name: 'A group', description: 'description'}, 'some-branch-id')
+            .then(() => {
+                done.fail('This should not have succeded');
+            })
+            .catch((error) => {
+                expect(Branch.findById).toHaveBeenCalled();
+                expect(Group.create).toHaveBeenCalled();
+                expect(error.message).toEqual('An error has occurred while creating group for branch with id: some-branch-id');
+            })
+            .then(done, done.fail);
         });
     });
 

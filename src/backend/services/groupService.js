@@ -58,7 +58,14 @@ function addGroupToBranch(branch, group) {
 }
 
 function findBranch(branchId) {
-    return Branch.findOne({where: {id: branchId}});
+    return Branch.findById(branchId)
+    .then((dbResult) => {
+        if (!dbResult) {
+            throw new Error(`Branch with id: ${branchId} not found`);
+        }
+
+        return dbResult;
+    });
 }
 
 function createGroup(input) {
@@ -66,9 +73,11 @@ function createGroup(input) {
         let group = {id: uuid.v4(), name: input.name, description: input.description};
 
         return Group.create(group)
-        .then((group) => {
-            return [branch, group];
-        });
+        .tap(() => logger.info('[create-group]', `group with id ${group.id} created`))
+        .then((savedGroup) => {
+            return [branch, savedGroup];
+        })
+        .catch(console.log);
     };
 }
 
@@ -77,7 +86,7 @@ function create(input, branchId) {
     .then(createGroup(input))
     .spread(addGroupToBranch)
     .then(transformGroup)
-    .catch(handleError('[create-group-failed]', `An error has occurred while crating group for branch with id: ${branchId}`));
+    .catch(handleError('[create-group-failed]', `An error has occurred while creating group for branch with id: ${branchId}`));
 }
 
 module.exports = {

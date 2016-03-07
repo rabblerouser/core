@@ -56,7 +56,18 @@ describe('Groups Integration Test', () => {
             .then(done, done.fail);
         });
 
-        it('should return 500 when creating the group fails');
+        it('should return 400 if group input data is not valid', (done) => {
+            integrationTestHelpers.createBranch()
+            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.authenticate(agent))
+            .then((branch) => {
+                return agent.post(`/branches/${branch.id}/groups`)
+                    .set('Content-Type', 'application/json')
+                    .send({})
+                    .expect(400);
+            })
+            .then(done, done.fail);
+        });
     });
 
     describe('adding a member to a group', () => {

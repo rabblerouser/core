@@ -2,6 +2,7 @@
 
 let groupService = require('../services/groupService');
 let logger = require('../lib/logger');
+let validator = require('../lib/inputValidator');
 
 function list(req, res) {
     return groupService.list()
@@ -34,6 +35,10 @@ function addMembers(req, res) {
         });
 }
 
+function groupDataValid(group) {
+    return validator.isValidName(group.name) && validator.isValidName(group.description);
+}
+
 function create(req, res) {
     let branchId = req.params.branchId;
     let group = {
@@ -41,12 +46,16 @@ function create(req, res) {
         description: req.body.description
     };
 
+    if (!groupDataValid(group)) {
+        res.sendStatus(400);
+    }
+
     return groupService.create(group, branchId)
     .then((group) => {
         res.status(200).json(group);
     })
     .catch((error) => {
-        logger.error(`Failed adding a member to groupId: ${groupId}, branchId: ${branchId}, members: ${memberIds.join()}`, error);
+        logger.error(`Failed creating a new group: branchId: ${branchId}}`, error);
         res.sendStatus(500);
     });
 }
