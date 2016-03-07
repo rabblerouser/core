@@ -20,10 +20,10 @@ describe('GroupList', () => {
       renderedTree = sd.shallowRender(<GroupsList groups={sampleGroups} onSave={''}/>);
     });
 
-    it('has a single ul with lis for each group provided', () => {
+    it('has a single ul with lis for each group provided plus the All Participants tab', () => {
       let element = renderedTree.subTree('ul');
       expect(element).not.toBeFalsy();
-      expect(element.props.children.length).toBe(2);
+      expect(element.props.children.length).toBe(3);
     });
 
   });

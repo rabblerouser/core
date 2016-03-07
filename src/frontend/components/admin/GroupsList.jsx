@@ -9,6 +9,7 @@ export default ({ groups , editable, onSave }) => {
 
     return (
         <ul>
+        	<li className="selected">All participants</li>
             { groupEntries }
             { addModalLauncher }
         </ul>
