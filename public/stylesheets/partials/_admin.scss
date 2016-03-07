@@ -216,7 +216,97 @@ color: #fff;
       padding-top:18px;
       padding-bottom: 18px;
       word-wrap: break-word;
+      font-weight:normal;
+      vertical-align: top;
+      font-size: 1em;
+      line-height: 1.2em;
+      padding-right: 20px; 
     }
+
+
+    th:last-child {
+      border-right: none;
+    }
+
+    th.sort-desc, th.sort-asc {
+      font-weight: bold;
+      background: #062C40;
+
+    }
+
+    th.sort-desc:before {
+      content: "\f0ab";
+      font-family: FontAwesome; 
+      text-align: right; 
+      display:block;
+      float:right;
+      padding-right: 0px;
+      margin-right: -15px;
+    }
+    
+    th.sort-asc:before {
+      content: "\f0aa";
+      font-family: FontAwesome; 
+      text-align: right; 
+      display:block;
+      float:right;
+      padding-right: 0px;
+      margin-right: -15px;
+    }
+
+    th:hover {
+      background: #00476B;
+      cursor: pointer;
+
+    }
+
+    th:hover:before {
+    
+      cursor: pointer;
+      content: "\f0ab";
+      font-family: FontAwesome; 
+      text-align: right; 
+      display:block;
+      float:right;
+      padding-right: 0px;
+      margin-right: -15px;
+    }
+
+    th.edit:hover {
+      background-color:$blue-darker;
+      cursor:default;
+    }
+
+    th.edit:hover:before {
+
+      cursor: default;
+      content: none;
+
+      text-align: right; 
+      display:block;
+      float:right;
+      padding-right: 0px;
+      margin-right: -15px;
+    }
+
+    th.sort-desc:hover:before {
+      cursor: pointer;
+      content: "\f0aa";
+      font-family: FontAwesome; 
+      text-align: right; 
+      display:block;
+      float:right;
+      padding-right: 0px;
+      margin-right: -15px;
+    }
+
+
+
+
+
+
+
+
 
     tr:nth-child(even) {
       background-color: $white;
@@ -249,16 +339,69 @@ color: #fff;
 
     }
 
+
+
+th.notes {
+    width: 30%;
+}
+th.contact {width: 15%;}
+
+.notes, .schooltype {
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+
+
+.admin-container td {
+  vertical-align: top; 
+  font-size: 14px; 
+  max-height: 20px;
+}
+
+
     td {
       color:$blue-darker;
       text-align: left;
       padding-left: 10px;
       word-wrap: break-word;
-      font-size: 12px;
+      font-size: 14px;
+      vertical-align:top;
         @include media($mobile) {
             display:block;
             padding: 0px 10px;
         }
+    }
+
+    td button {
+
+      background: none;
+      color: #0073ae;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      font-size: 1.3em;
+      padding: 5px;
+    }
+
+    td button:hover {
+
+      background: #062C40;
+      color: #fff;
+
+    }
+
+    td button span {
+      display: none;
+    }
+
+      td button:after {
+      content: "\f040";
+      font-family: FontAwesome; 
+    
     }
 
     .navigation {
