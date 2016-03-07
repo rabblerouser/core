@@ -5,7 +5,7 @@ import {render} from 'react-dom';
 import $ from 'jquery';
 import {sortByOrder, map} from 'lodash';
 const Table = require('reactabular').Table;
-const sortColumn = require('reactabular').sortColumn;
+import sortColumn from '../../lib/caseInsenstiveSortColumn.js';
 const moment = require('moment');
 const classnames = require('classnames');
 import GroupsList from './GroupsList.jsx';
