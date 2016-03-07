@@ -23,7 +23,7 @@ export default class EditMemberButton extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.launchEditForm}>Edit groups</button>
+                <button onClick={this.launchEditForm}><span>Edit groups</span></button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeEditForm}>
