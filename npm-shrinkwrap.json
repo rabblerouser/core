@@ -5127,6 +5127,11 @@
         }
       }
     },
+    "classnames": {
+      "version": "2.2.3",
+      "from": "classnames@latest",
+      "resolved": "https://registry.npmjs.org/classnames/-/classnames-2.2.3.tgz"
+    },
     "config": {
       "version": "1.19.0",
       "from": "https://registry.npmjs.org/config/-/config-1.19.0.tgz",

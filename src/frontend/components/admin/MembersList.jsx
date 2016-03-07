@@ -7,6 +7,7 @@ import {sortByOrder, map} from 'lodash';
 const Table = require('reactabular').Table;
 const sortColumn = require('reactabular').sortColumn;
 const moment = require('moment');
+const classnames = require('classnames');
 import GroupsList from './GroupsList.jsx';
 
 import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
@@ -15,45 +16,54 @@ function tableColumns(props) {
     return [
         {
             header: 'Participant',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].firstName + " " + participants[rowIndex].lastName
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].firstName + " " + participants[rowIndex].lastName,
+            headerClass: classnames('participant')
         },
         {
             header: 'Parent / Guardian',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactFirstName + " " + participants[rowIndex].contactLastName
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactFirstName + " " + participants[rowIndex].contactLastName,
+            headerClass: classnames('parent')
         },
         {
             header: 'Contact information',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].primaryPhoneNumber + " " + participants[rowIndex].email
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].primaryPhoneNumber + " " + participants[rowIndex].email,
+            headerClass: classnames('contact')
         },
         {
             property: 'dateOfBirth',
             header: 'Birth year',
-            cell: (dob) => dob.substring(0,4)
+            cell: (dob) => dob.substring(0,4),
+            headerClass: classnames('birth-year')
         },
         {
             property: 'schoolType',
-            header: 'School type'
+            header: 'School type',
+            headerClass: classnames('school-type')
         },
         {
             property: 'memberSince',
             header: 'Date registered',
-            cell: (date) => moment(date).format('YYYY/MM/DD')
+            cell: (date) => moment(date).format('YYYY/MM/DD'),
+            headerClass: classnames('date-registered')
         },
         {
             property: 'additionalInfo',
-            header: 'Notes'
+            header: 'Notes',
+            headerClass: classnames('notes')
         },
         {
             property: 'Groups',
             header: 'Groups',
-            cell: (groups) => <GroupsList editable={false} groups={groups} />
+            cell: (groups) => <GroupsList editable={false} groups={groups} />,
+            headerClass: classnames('groups')
         },
         {
             cell: (nothing, participants, rowIndex) => {
                 return {
                     value: <EditMemberModalLauncher participant={participants[rowIndex]} groups={props.groups}/>
                 };
-            }
+            },
+            headerClass: classnames('edit')
         }
     ];
 }
