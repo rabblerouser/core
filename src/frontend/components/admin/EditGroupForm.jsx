@@ -35,10 +35,10 @@ export default class EditGroupForm extends Component {
             <div>
                 I am a form to be submitted
                 <FormFieldLabel fieldName="groupName" isOptional={false} />
-                <input id="groupName" type="type" defaultValue="" value={this.state.name} onChange={this.updateName.bind(this)}/>
+                <input id="groupName" type="type" defaultValue="" value={this.state.name} onChange={this.updateName.bind(this)} placeholder="name"/>
                 <FormFieldLabel fieldName="groupDescription" isOptional={false} />
-                <input id="groupDescription" type="type" defaultValue="" value={this.state.description} onChange={this.updateDescription.bind(this)}/>
-                    <button onClick={this.saveChanges.bind(this)}>save</button>
+                <input id="groupDescription" type="type" defaultValue="" value={this.state.description} onChange={this.updateDescription.bind(this)} placeholder="description"/>
+                <button onClick={this.saveChanges.bind(this)}>save</button>
             </div>
 
         );
