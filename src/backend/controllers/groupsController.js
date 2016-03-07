@@ -48,6 +48,7 @@ function create(req, res) {
 
     if (!groupDataValid(group)) {
         res.sendStatus(400);
+        return;
     }
 
     return groupService.create(group, branchId)
