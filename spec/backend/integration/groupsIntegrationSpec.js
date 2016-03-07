@@ -3,24 +3,12 @@
 let request = require('supertest-as-promised'),
     _ = require('lodash'),
     integrationTestHelpers = require('./integrationTestHelpers'),
-    app, agent;
+    agent;
 
 const instance_url = process.env.INSTANCE_URL;
+let app = instance_url ? instance_url : require('../../../src/backend/app');
 
 require('../../support/specHelper');
-
-let listOfGroups = (res) => {
-    if (!('groups' in res.body)) {
-        throw new Error('groups not found');
-    }
-};
-
-let getGroups = () => {
-    return request(app)
-        .get('/groups')
-        .expect(200)
-        .expect(listOfGroups);
-};
 
 function getMemberAndReturnMemberAndGroup(someAgent) {
     return function(branchGroup) {
@@ -34,15 +22,41 @@ function getMemberAndReturnMemberAndGroup(someAgent) {
     };
 }
 
+function makeGroup() {
+    return {
+        name: 'Waiting List',
+        description: 'This is a description of the waiting list'
+    };
+}
+
+function assertCreatedGroup(res) {
+    let response = res.body;
+    expect(response).not.toBeNull();
+    expect(response.id).not.toBeNull();
+    expect(response.name).toEqual('Waiting List');
+}
+
 describe('Groups Integration Test', () => {
     beforeEach(() => {
-        app = instance_url ? instance_url : require('../../../src/backend/app');
         agent = request.agent(app);
     });
 
-    it('should return a list of groups', (done) => {
-        getGroups()
+    describe('create group for a branch', () => {
+        it('should return 200 when the group is successfully created', (done) => {
+            integrationTestHelpers.createBranch()
+            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.authenticate(agent))
+            .then((branch) => {
+                return agent.post(`/branches/${branch.id}/groups`)
+                    .set('Content-Type', 'application/json')
+                    .send(makeGroup())
+                    .expect(200)
+                    .then(assertCreatedGroup);
+            })
             .then(done, done.fail);
+        });
+
+        it('should return 500 when creating the group fails');
     });
 
     describe('adding a member to a group', () => {

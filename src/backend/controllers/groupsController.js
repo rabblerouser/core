@@ -34,7 +34,25 @@ function addMembers(req, res) {
         });
 }
 
+function create(req, res) {
+    let branchId = req.params.branchId;
+    let group = {
+        name: req.body.name,
+        description: req.body.description
+    };
+
+    return groupService.create(group, branchId)
+    .then((group) => {
+        res.status(200).json(group);
+    })
+    .catch((error) => {
+        logger.error(`Failed adding a member to groupId: ${groupId}, branchId: ${branchId}, members: ${memberIds.join()}`, error);
+        res.sendStatus(500);
+    });
+}
+
 module.exports = {
     list: list,
-    addMembers: addMembers
+    addMembers: addMembers,
+    create: create
 };

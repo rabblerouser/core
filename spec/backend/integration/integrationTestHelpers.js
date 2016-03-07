@@ -30,15 +30,15 @@ function createBranch() {
 
 function createGroupInBranch(branchId) {
     return Group.create({name: 'Groupalicious', description: 'Groups yeah', branchId: branchId})
-        .then((group) => {
-            return Branch.findOne({where: {id: branchId}})
-            .then((branch) => {
-                return branch.addGroup(group);
-            })
-            .then((sequelizeResult) => {
-                return sequelizeResult[0][0].dataValues;
-            });
+    .then((group) => {
+        return Branch.findOne({where: {id: branchId}})
+        .then((branch) => {
+            return branch.addGroup(group);
+        })
+        .then((sequelizeResult) => {
+            return sequelizeResult[0][0].dataValues;
         });
+    });
 }
 
 let makeMember = (branchId) => {

@@ -3,7 +3,9 @@
 const models = require('../models'),
     logger = require('../lib/logger'),
     Group = models.Group,
-    GroupMembers = models.GroupMembers;
+    Branch = models.Branch,
+    GroupMembers = models.GroupMembers,
+    uuid = require('node-uuid');
 
 function handleError(logMessage, userMessage) {
     return function(error) {
@@ -42,13 +44,44 @@ function addMembers(groupId, memberIds) {
     });
 
     return GroupMembers.bulkCreate(addMembersToGroup)
-        .tap((result) => {
+        .tap(() => {
             logger.info('[add-member-to-group]', `Sucessfully added members: ${memberIds.join(',')} to group: ${groupId}`);
         })
         .catch(handleError('[add-member-to-group-failed]', 'An error has occurred while adding members to groups'));
 }
 
+function addGroupToBranch(branch, group) {
+    return branch.addGroup(group)
+    .then(() => {
+        return group;
+    });
+}
+
+function findBranch(branchId) {
+    return Branch.findOne({where: {id: branchId}});
+}
+
+function createGroup(input) {
+    return function (branch) {
+        let group = {id: uuid.v4(), name: input.name, description: input.description};
+
+        return Group.create(group)
+        .then((group) => {
+            return [branch, group];
+        });
+    };
+}
+
+function create(input, branchId) {
+    return findBranch(branchId)
+    .then(createGroup(input))
+    .spread(addGroupToBranch)
+    .then(transformGroup)
+    .catch(handleError('[create-group-failed]', `An error has occurred while crating group for branch with id: ${branchId}`));
+}
+
 module.exports = {
     list: list,
-    addMembers: addMembers
+    addMembers: addMembers,
+    create: create
 };

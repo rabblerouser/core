@@ -49,8 +49,6 @@ router.get('/admin', [requireAuth], function (req, res) {
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.list);
 router.post('/branches/:branchId/groups/:groupId/members', [requireAuth, branchAuthorization], groupsController.addMembers);
 router.get('/branches/:id/groups', [requireAuth, branchAuthorization], branchesController.groupsByBranch);
-
-router.get('/groups', groupsController.list);
-
+router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.create);
 
 module.exports = router;
