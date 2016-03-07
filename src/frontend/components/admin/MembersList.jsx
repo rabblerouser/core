@@ -15,16 +15,19 @@ import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
 function tableColumns(props) {
     return [
         {
+            property: 'firstName',
             header: 'Participant',
             cell: (nothing, participants, rowIndex) => participants[rowIndex].firstName + " " + participants[rowIndex].lastName,
             headerClass: classnames('participant')
         },
         {
+            property: 'contactFirstName',
             header: 'Parent / Guardian',
             cell: (nothing, participants, rowIndex) => participants[rowIndex].contactFirstName + " " + participants[rowIndex].contactLastName,
             headerClass: classnames('parent')
         },
         {
+            property: 'primaryPhoneNumber',
             header: 'Contact information',
             cell: (nothing, participants, rowIndex) => participants[rowIndex].primaryPhoneNumber + " " + participants[rowIndex].email,
             headerClass: classnames('contact')
@@ -72,6 +75,7 @@ export default class ParticipantsList extends Component {
     constructor(props) {
         super(props);
         this.state  = {
+            columns: tableColumns(this.props),
             columnNames: {
                 onClick: (column) => {
                     sortColumn(
@@ -88,7 +92,7 @@ export default class ParticipantsList extends Component {
         let data = sortColumn.sort(this.props.participants, this.state.sortingColumn, sortByOrder);
 
         return (
-            <Table columns={tableColumns(this.props)} data={data} columnNames={this.state.columnNames} />
+            <Table columns={this.state.columns} data={data} columnNames={this.state.columnNames} />
         );
     }
 }
