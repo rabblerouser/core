@@ -25,4 +25,19 @@ describe('PathAccessValidator Integration tests', () => {
         })
         .then(done, done.fail);
     });
+
+    it('should respond with 401 when users try to access a branch path with no branch id', (done) => {
+        integrationTestHelpers.createBranch()
+        .then(integrationTestHelpers.createUser)
+        .then(integrationTestHelpers.authenticate(agent))
+        .then(() => {
+            let aDifferentBranchId;
+
+            return agent.get(`/branches/${aDifferentBranchId}/members`);
+        })
+        .then((res) => {
+            expect(res.status).toEqual(401);
+        })
+        .then(done, done.fail);
+    });
 });
