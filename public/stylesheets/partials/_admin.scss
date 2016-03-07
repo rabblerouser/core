@@ -341,18 +341,36 @@ color: #fff;
 
 
 
-th.notes {
-    width: 30%;
-}
-th.contact {width: 15%;}
+  th.notes {
+      width: 25%;
+  }
+  th.contact {
+    width: 15%;
+    }
 
-td:nth-of-type(5), td:nth-of-type(7) {
+  th.birth-year {
+    width: 75px;
+  }
 
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 10px;
-}
+  th.date-registered {
+    width: 110px;
+  }
+
+  th:last-child {
+     width: 50px;
+  }
+
+  td:nth-of-type(5), td:nth-of-type(7) {
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+  }
+
+  td:last-child {
+   
+  }
 
 
 
