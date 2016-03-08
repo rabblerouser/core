@@ -1,9 +1,12 @@
 'use strict';
 
-const Sequelize = require('sequelize');
+let Sequelize = require('sequelize');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../../config/db.json')[env];
+
+let cls = require('continuation-local-storage');
+Sequelize.cls = cls.createNamespace('lab-assistant');
 
 var connection;
 

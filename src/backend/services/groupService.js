@@ -80,9 +80,11 @@ function createGroup(input) {
 }
 
 function create(input, branchId) {
-    return findBranch(branchId)
-    .then(createGroup(input))
-    .spread(addGroupToBranch)
+    return Group.sequelize.transaction(() => {
+        return findBranch(branchId)
+        .then(createGroup(input))
+        .spread(addGroupToBranch)
+    })
     .then(transformGroup)
     .catch(handleError('[create-group-failed]', `An error has occurred while creating group for branch with id: ${branchId}`));
 }
