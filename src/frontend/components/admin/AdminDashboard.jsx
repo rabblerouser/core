@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
 import ParticipantsList from './MembersList.jsx';
+import AdminHeader from './AdminHeader.jsx';
 import GroupsList from './GroupsList.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
@@ -47,9 +48,7 @@ export default class AdminDashboard extends Component {
         return (
             <div className="admin-container">
                 <div className="container">
-                    <div className="header">
-                        <img src ='/images/the_lab_logo.svg'/>
-                    </div>
+                    <AdminHeader />
                     <nav id="groups">
                         <GroupsList editable={ true } groups={ this.state.groups } onSave={ this.state.onSaveGroup } />
                     </nav>
