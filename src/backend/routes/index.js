@@ -36,7 +36,7 @@ router.get('/login', function (req, res) {
     res.render('login', {title: 'Login'});
 });
 
-router.get('/logout', requireAuth, function (req, res) {
+router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/login');
 });
