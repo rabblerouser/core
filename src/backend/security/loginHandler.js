@@ -2,7 +2,7 @@
 
 let passport = require('passport');
 
-module.exports = function login(req, res, next) {
+module.exports = function login(req, res) {
   passport.authenticate('local', function(err, user, info) {
     if (err) {
         return res.render('error');
@@ -15,5 +15,5 @@ module.exports = function login(req, res, next) {
       res.redirect('/admin');
     });
 
-  })(req, res, next);
+  })(req, res);
 };
