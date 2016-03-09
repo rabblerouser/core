@@ -14,7 +14,7 @@ export default class AdminDashboard extends Component {
             participants: [],
             groups: [],
             labs: [],
-            groupFilter: '',
+            selectedGroup: '',
             currentLab: '',
             filteredParticipantList: [],
             onSaveGroup: (groupDetails) => {
@@ -32,11 +32,12 @@ export default class AdminDashboard extends Component {
                 });
             },
             onSelectGroup: (groupId) => {
-                this.setState({groupFilter: groupId}, ()=> {
-                        this.filterParticipantList();
+                let groups = this.state.groups.map(group => {
+                    return Object.assign({}, group, { selected: group.id === groupId });
                 });
+                this.setState({groups: groups});
+                this.setState({selectedGroup: groupId}, this.filterParticipantList);
             }
-
         };
     }
 
@@ -55,14 +56,14 @@ export default class AdminDashboard extends Component {
     }
 
     filterParticipantList() {
-        if (this.state.groupFilter === '') {
+        if (this.state.selectedGroup === '') {
             this.setState({filteredParticipantList: this.state.participants});
         }
         else {
             this.setState({filteredParticipantList:
                     this.state.participants.filter( element => {
                         return element.Groups.filter( group => {
-                            return group.id === this.state.groupFilter;
+                            return group.id === this.state.selectedGroup;
                         }).length > 0;
                     })
             });
@@ -75,7 +76,7 @@ export default class AdminDashboard extends Component {
                 <div className="container">
                     <AdminHeader />
                     <nav id="groups">
-                        <GroupsList editable={ true } groups={ this.state.groups } onSave={ this.state.onSaveGroup } onSelectGroup={ this.state.onSelectGroup } />
+                        <GroupsList editable={ true } selectedGroup={this.state.selectedGroup} groups={ this.state.groups } onSave={ this.state.onSaveGroup } onSelectGroup={ this.state.onSelectGroup } />
                     </nav>
                 </div>
                 <div className="container">
