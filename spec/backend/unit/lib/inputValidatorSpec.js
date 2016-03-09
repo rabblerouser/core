@@ -16,6 +16,7 @@ describe('inputValidator', () => {
         });
 
         [
+            undefined,
             '',
             null,
             'a'.repeat(256),
