@@ -19,6 +19,26 @@
     @include media($tablet) {
       width: 50%;
     }
+
+
+}
+
+  button.logout {
+    background: none;
+    border: none;
+    padding: 0;
+    float: right;
+    color: #062C40;
+    border-radius: 0;
+    font-weight: normal;
+    font-size: 1.1em;
+
+  }
+
+  button.logout:hover {
+   
+    text-decoration:underline;  
+
   }
 
 
