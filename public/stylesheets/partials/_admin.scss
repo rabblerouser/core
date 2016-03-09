@@ -21,7 +21,7 @@
 }
 
 
-.admin_h1{
+.login_body h1 {
     font-size: 20px;
     line-height: 26px;
     color: $blue-darker;
@@ -38,6 +38,14 @@
     text-decoration: underline;
 }
 
+.login_body .error {
+  border: 1px solid red;
+  border-radius: 3px;
+  background: #FAD9D9;
+  padding: 10px;
+  margin: 20px auto;
+}
+
 
 
 /* --------------------------------------------------------------------------------------
@@ -48,9 +56,9 @@
 
 nav {
   margin-top: 3em;
-  width: 94%;
-  margin-right: 3%;
-  margin-left: 3%;
+  width: 98%;
+  margin: auto;
+
 
              @include media($mobile) {
           
@@ -111,6 +119,7 @@ nav {
   cursor: default;
   font-weight: bold;
   margin-right: 5px;
+  margin-left: 5px;
 
            @include media($mobile) {
           
@@ -179,10 +188,9 @@ color: #fff;
 
     table {
       table-layout: fixed;
-      margin-left: 5%;
-      margin-right: 5%;
-      width: 90%;
-      margin-top: 5%;
+      margin: auto;
+      width: 98%;
+      margin-top: 20px;
 
                    @include media($mobile) {
           
@@ -344,7 +352,7 @@ color: #fff;
 
 
   th.notes {
-      width: 25%;
+      width: 20%;
   }
   th.contact {
     width: 15%;
