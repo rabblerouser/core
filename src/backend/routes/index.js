@@ -8,6 +8,7 @@ var branchesController = require('../controllers/branchesController');
 var groupsController = require('../controllers/groupsController');
 var branchAuthorization = require('../security/pathAccessValidator');
 let requireAuth = require('../security/authenticationRequired');
+let login = require('../security/loginHandler');
 
 router.get('/', function (req, res) {
     res.render('index', {title: 'The Lab - Sign Up'});
@@ -16,14 +17,9 @@ router.get('/', function (req, res) {
 router.post('/members', membersController.createNewMember);
 router.get('/branches', branchesController.list);
 
-router.post('/login', passport.authenticate('local'), function (req, res) {
-        req.session.save(function () {
-            res.redirect('/admin');
-        });
-    });
-
+router.post('/login', login);
 router.get('/login', function (req, res) {
-    res.render('login', {title: 'Login'});
+    res.render('login', {error: ''});
 });
 
 router.get('/logout', function (req, res) {

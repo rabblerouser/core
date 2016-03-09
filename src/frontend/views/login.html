@@ -5,22 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/stylesheets/style.css">
     </head>
-    
+
     <body class="login_body">
         <form  class="login_form" action="/login" method="post">
             <h1 class="admin_h1">Admin Dashboard</h1>
+            <span><%= error %></span>
             <div>
                 <input placeholder="Email" type="text" id="email" name="email"/>
             </div>
-            
+
             <div>
                 <input placeholder="Password" type="password" id="password" name="password"/>
             </div>
-            
+
             <div>
                 <input type="submit" id="login" name="login" value="Log In"/>
             </div>
-            
+
         </form>
     </body>
 </html>
