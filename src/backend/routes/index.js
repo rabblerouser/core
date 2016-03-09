@@ -22,6 +22,22 @@ router.post('/login', passport.authenticate('local'), function (req, res) {
         });
     });
 
+router.post('/login',function login(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+        return res.render('error');
+    }
+
+    if (!user) {
+        return res.render('login', {error: 'Wrong username or password'});
+    }
+
+    req.session.save(function() {
+      res.redirect('/admin');
+    });
+  })(req, res, next);
+});
+
 router.get('/login', function (req, res) {
     res.render('login', {title: 'Login'});
 });
