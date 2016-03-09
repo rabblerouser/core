@@ -6,6 +6,8 @@ import {render} from 'react-dom';
 import EditGroupForm from './EditGroupForm.jsx';
 import Modal from 'react-modal';
 
+
+
 export default class AddGroupModalLauncher extends Component {
     constructor(props) {
         super(props);
@@ -21,12 +23,20 @@ export default class AddGroupModalLauncher extends Component {
     };
 
     render() {
+        let customStyle = {
+
+            content:{
+                bottom: 'none'
+            }
+            
+        };
         return (
+
             <div>
-                <button onClick={this.launchEditForm}>Add group</button>
+                <button onClick={this.launchEditForm}>New group</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeEditForm}>
+                    onRequestClose={this.closeEditForm} style={customStyle}>
                     <EditGroupForm onSave={this.props.onSave} group={''}/>
                 </Modal>
             </div>

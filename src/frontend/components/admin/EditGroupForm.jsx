@@ -32,14 +32,16 @@ export default class EditGroupForm extends Component {
 
     render() {
         return (
-            <div>
-                I am a form to be submitted
+            <section className="form-container">
+                <h2>Create new group</h2>
                 <FormFieldLabel fieldName="groupName" isOptional={false} />
-                <input id="groupName" type="type" defaultValue="" value={this.state.name} onChange={this.updateName.bind(this)} placeholder="name"/>
+
+                <input id="groupName" type="text" placeholder="e.g. Tuesday 4.30pm" defaultValue="" value={this.state.name} onChange={this.updateName.bind(this)}/>
                 <FormFieldLabel fieldName="groupDescription" isOptional={false} />
-                <input id="groupDescription" type="type" defaultValue="" value={this.state.description} onChange={this.updateDescription.bind(this)} placeholder="description"/>
-                <button onClick={this.saveChanges.bind(this)}>save</button>
-            </div>
+                <textarea id="groupDescription" type="type" placeholder="Describe your group" defaultValue="" value={this.state.description} onChange={this.updateDescription.bind(this)}/>
+                    <button onClick={this.saveChanges.bind(this)}>Save group</button>
+            </section>
+
 
         );
     }

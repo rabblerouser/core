@@ -446,3 +446,33 @@ color: #fff;
     }
 }
 
+
+/* --------------------------------------------------------------------------------------
+
+   OVERLAYS
+
+-------------------------------------------------------------------------------------- */
+
+.ReactModalPortal .form-container {
+
+  h2 {
+  font-size: 1.2em;
+  }
+
+  input {
+    padding: 8px;
+    margin-bottom: 15px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+  }
+
+  textarea {
+    height: 200px;
+    border: 1px solid #4da8d4;
+  }
+}
+
+
+

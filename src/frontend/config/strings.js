@@ -32,7 +32,9 @@ export const ApplicationFormFieldLabels = {
   participantBirthYear: 'Participant\'s year of birth',
   schoolType: 'What type of school does your participant attend?',
   labSelection: 'Lab to join',
-  additionalInfo: 'Additional information'
+  additionalInfo: 'Additional information',
+  groupName: 'Group name',
+  groupDescription: 'Description'
 };
 
 export const ApplictionFormValidationErrors = {
