@@ -65,8 +65,8 @@ function deleteGroup(req, res) {
     let branchId = req.params.branchId;
     let groupId = req.params.groupId;
 
-    if (!(branchId && groupId)) {
-        logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`);
+    if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
+        logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}`);
         return res.sendStatus(400);
     }
 
