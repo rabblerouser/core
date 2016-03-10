@@ -46,6 +46,10 @@ var isValidDate = (date) => {
     return formattedDate.isValid() && formattedDate.isSameOrBefore(moment());
 };
 
+function isValidUUID(input) {
+    return validator.isUUID(input, 4);
+}
+
 module.exports = {
     isValidString: isValidString,
     isValidName: isValidName,
@@ -53,5 +57,6 @@ module.exports = {
     isValidEmail: isValidEmail,
     isValidPhone: isValidPhone,
     isValidDate: isValidDate,
-    isValidOptionalTextBlock: isValidOptionalTextBlock
+    isValidOptionalTextBlock: isValidOptionalTextBlock,
+    isValidUUID: isValidUUID
 };

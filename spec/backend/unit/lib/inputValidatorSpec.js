@@ -137,4 +137,29 @@ describe('inputValidator', () => {
             });
         });
     });
+
+    describe('isValidUUID', () => {
+
+        it('should return true for V4 uuids', () => {
+            expect(memberValidator.isValidUUID('5d773d92-47fb-4ad5-90c0-72c1b6e4af3a')).toBe(true);
+        });
+
+        it('should return false for non V4 uuids', () => {
+            expect(memberValidator.isValidUUID('4df38c00-e65a-11e5-a8bf-ed9212c0336b')).toBe(false);
+        });
+
+
+        let testCases = [
+            'a'.repeat(20),
+            null,
+            undefined,
+            1
+        ];
+
+        testCases.forEach((input) => {
+            it(`should return false if given a ${input} value`, () => {
+                expect(memberValidator.isValidUUID(input)).toBe(false);
+            });
+        });
+    });
 });
