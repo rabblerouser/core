@@ -29,7 +29,7 @@ function createBranch() {
 }
 
 function createGroupInBranch(branchId) {
-    return Group.create({name: 'Groupalicious', description: 'Groups yeah', branchId: branchId})
+    return Group.create({name: 'Groupalicious', description: 'Groups yeah', id: uuid.v4()})
     .then((group) => {
         return Branch.findOne({where: {id: branchId}})
         .then((branch) => {
