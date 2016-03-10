@@ -108,4 +108,33 @@ describe('groupService', () => {
         });
     });
 
+    describe('delete', () => {
+        beforeEach(() => {
+            sinon.stub(Group, 'destroy');
+        });
+
+        afterEach(() => {
+            Group.destroy.restore();
+        });
+
+        describe('this went bad', () => {
+
+            it('should handle when no groupId provided', (done) => {
+                Group.destroy.returns(Promise.resolve(0));
+
+                groupService.delete(null)
+                .then(() => {
+                    done.fail('this should have failed');
+                })
+                .catch((error) => {
+                    expect(Group.destroy).toHaveBeenCalled();
+                    expect(error.message).toEqual('An error has occurred while deleting the group with id: null');
+                })
+                .then(done, done.fail);
+            });
+
+            it('should handle when the group is not deleted');
+        });
+    });
+
 });

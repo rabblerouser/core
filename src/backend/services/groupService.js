@@ -83,14 +83,22 @@ function create(input, branchId) {
     return Group.sequelize.transaction(() => {
         return findBranch(branchId)
         .then(createGroup(input))
-        .spread(addGroupToBranch)
+        .spread(addGroupToBranch);
     })
     .then(transformGroup)
     .catch(handleError('[create-group-failed]', `An error has occurred while creating group for branch with id: ${branchId}`));
 }
 
 function deleteGroup(id) {
-    return Promise.resolve('deleted');
+    return Group.destroy({where: {id: id}})
+    .then((result) => {
+        if(!result) {
+            throw 'No records were deleted';
+        }
+
+        logger.info('[delete-group]', `group with id ${id} deleted`);
+    })
+    .catch(handleError('[delete-group-failed]', `An error has occurred while deleting the group with id: ${id}`));
 }
 
 module.exports = {
