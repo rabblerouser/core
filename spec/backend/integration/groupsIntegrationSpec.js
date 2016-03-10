@@ -4,6 +4,7 @@ let request = require('supertest-as-promised'),
     _ = require('lodash'),
     integrationTestHelpers = require('./integrationTestHelpers'),
     agent;
+let uuid = require('node-uuid');
 
 const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
@@ -92,6 +93,18 @@ describe('Groups Integration Test', () => {
                 .then((branch) => {
                     return agent.delete(`/branches/${branch.id}/groups/whatevs`)
                     .expect(400);
+                })
+                .then(done, done.fail);
+        });
+
+        /*This should return a different code, but requires more work, so will address later*/
+        it('should return 500 when trying to delete a group that does not exist', (done) => {
+            integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.authenticate(agent))
+                .then((branch) => {
+                    return agent.delete(`/branches/${branch.id}/groups/${uuid.v4()}`)
+                    .expect(500);
                 })
                 .then(done, done.fail);
         });

@@ -117,6 +117,16 @@ describe('groupService', () => {
             Group.destroy.restore();
         });
 
+        it('should delete the group', (done) => {
+            Group.destroy.returns(Promise.resolve(1));
+
+            groupService.delete('some-group-id')
+            .then(() => {
+                expect(Group.destroy).toHaveBeenCalledWith({where: {id: 'some-group-id'}});
+            })
+            .then(done, done.fail);
+        });
+
         describe('this went bad', () => {
 
             it('should handle when no groupId provided', (done) => {
@@ -133,7 +143,19 @@ describe('groupService', () => {
                 .then(done, done.fail);
             });
 
-            it('should handle when the group is not deleted');
+            it('should handle when deleting the group fails', (done) => {
+                Group.destroy.returns(Promise.reject('DB error the user should not see'));
+
+                groupService.delete('some-group-id')
+                .then(() => {
+                    done.fail('this should have failed');
+                })
+                .catch((error) => {
+                    expect(Group.destroy).toHaveBeenCalled();
+                    expect(error.message).toEqual('An error has occurred while deleting the group with id: some-group-id');
+                })
+                .then(done, done.fail);
+            });
         });
     });
 
