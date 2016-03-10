@@ -36,5 +36,6 @@ router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], me
 router.post('/branches/:branchId/groups/:groupId/members', [requireAuth, branchAuthorization], groupsController.addMembers);
 router.get('/branches/:id/groups', [requireAuth, branchAuthorization], branchesController.groupsByBranch);
 router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.create);
+router.delete('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.delete);
 
 module.exports = router;

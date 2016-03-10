@@ -61,8 +61,28 @@ function create(req, res) {
     });
 }
 
+function deleteGroup(req, res) {
+    let branchId = req.params.branchId;
+    let groupId = req.params.groupId;
+
+    if (!(branchId && groupId)) {
+        logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`);
+        return res.sendStatus(400);
+    }
+
+    return groupService.delete(groupId, branchId)
+    .then(() => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
+        res.sendStatus(500);
+    });
+}
+
 module.exports = {
     list: list,
     addMembers: addMembers,
-    create: create
+    create: create,
+    delete: deleteGroup
 };

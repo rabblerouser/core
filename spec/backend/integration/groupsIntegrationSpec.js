@@ -70,6 +70,24 @@ describe('Groups Integration Test', () => {
         });
     });
 
+    describe('delete group', () => {
+        it('should return a 200 when the group is successfully deleted', (done) => {
+            integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createUser)
+                .then((branch) => {
+                    return integrationTestHelpers.createGroupInBranch(branch.id);
+                })
+                .tap(integrationTestHelpers.authenticate(agent))
+                .then((branchGroup) => {
+                    return agent.delete(`/branches/${branchGroup.branchId}/groups/${branchGroup.groupId}`)
+                    .expect(200);
+                })
+                .then(done, done.fail);
+        });
+
+        it('should return a 400 if the input data is not valid');
+    });
+
     describe('adding a member to a group', () => {
         it('responds with a 200', (done) => {
             integrationTestHelpers.createBranch()

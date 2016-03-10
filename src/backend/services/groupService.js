@@ -89,8 +89,13 @@ function create(input, branchId) {
     .catch(handleError('[create-group-failed]', `An error has occurred while creating group for branch with id: ${branchId}`));
 }
 
+function deleteGroup(id) {
+    return Promise.resolve('deleted');
+}
+
 module.exports = {
     list: list,
     addMembers: addMembers,
-    create: create
+    create: create,
+    delete: deleteGroup
 };
