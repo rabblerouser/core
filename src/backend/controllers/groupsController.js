@@ -70,7 +70,7 @@ function deleteGroup(req, res) {
         return res.sendStatus(400);
     }
 
-    return groupService.delete(groupId, branchId)
+    return groupService.delete(groupId)
     .then(() => {
         res.sendStatus(200);
     })
