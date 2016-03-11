@@ -10,9 +10,7 @@ export default class EditMemberForm extends Component {
     }
 
     render() {
-        let groupCheckboxes = this.props.groups.map( group => (<GroupCheckbox group={group}
-                                                                                     participantGroups={this.props.participant.groups}
-                                                                                     allGroups={this.props.groups} />));
+        let groupCheckboxes = this.props.groups.map( group => (<GroupCheckbox group={group} participantGroups={this.props.participant.groups} allGroups={this.props.groups} />));
 
         return (
             <div>

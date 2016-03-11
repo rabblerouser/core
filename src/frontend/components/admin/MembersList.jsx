@@ -9,10 +9,9 @@ import sortColumn from '../../lib/sortColumn.js';
 const moment = require('moment');
 const classnames = require('classnames');
 import GroupsList from './GroupsList.jsx';
-
 import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
 
-function tableColumns(props) {
+function tableColumns() {
     return [
         {
             property: 'firstName',
@@ -63,7 +62,7 @@ function tableColumns(props) {
         {
             cell: (nothing, participants, rowIndex) => {
                 return {
-                    value: <EditMemberModalLauncher participant={participants[rowIndex]} groups={props.groups}/>
+                    value: <EditMemberModalLauncher participant={participants[rowIndex]} groups={participants[rowIndex].allGroups}/>
                 };
             },
             headerClass: classnames('edit')
@@ -72,10 +71,12 @@ function tableColumns(props) {
 }
 
 export default class ParticipantsList extends Component {
+
+
     constructor(props) {
         super(props);
         this.state  = {
-            columns: tableColumns(this.props),
+            columns: tableColumns(),
             columnNames: {
                 onClick: (column) => {
                     sortColumn(
@@ -91,8 +92,13 @@ export default class ParticipantsList extends Component {
     render() {
         let data = sortColumn.sort(this.props.participants, this.state.sortingColumn, sortByOrder);
 
+        let lessHacky = data.map((participant) => {
+            participant.allGroups = this.props.groups;
+            return participant;
+        });
+
         return (
-            <Table columns={this.state.columns} data={data} columnNames={this.state.columnNames} />
+            <Table columns={this.state.columns} data={lessHacky} columnNames={this.state.columnNames}/>
         );
     }
 }
