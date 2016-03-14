@@ -4,6 +4,7 @@ import $ from 'jquery';
 import ParticipantsList from './ParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
 import GroupsList from './GroupsList.jsx';
+import GroupDetailView from './GroupDetailView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 
@@ -37,6 +38,8 @@ export default class AdminDashboard extends Component {
                 });
                 this.setState({groups: groups});
                 this.setState({selectedGroup: selected}, this.filterParticipantList);
+            },
+            onDeleteGroup: (selected) => {
             }
         };
     }
@@ -78,6 +81,7 @@ export default class AdminDashboard extends Component {
                     <nav id="groups">
                         <GroupsList editable={ true } selectedGroup={this.state.selectedGroup} groups={ this.state.groups } onSave={ this.state.onSaveGroup } onSelectGroup={ this.state.onSelectGroup } />
                     </nav>
+                    <GroupDetailView selectedGroup={ this.state.selectedGroup } onSave={ this.state.onSaveGroup } onDelete={ this.state.onDeleteGroup } />
                 </div>
                 <div className="container">
                     <ParticipantsList participants={ this.state.filteredParticipantList } groups={ this.state.groups }/>
