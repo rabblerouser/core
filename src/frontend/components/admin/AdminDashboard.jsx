@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
-import ParticipantsList from './MembersList.jsx';
+import ParticipantsList from './ParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
 import GroupsList from './GroupsList.jsx';
 import labService from '../../services/labService.js';
