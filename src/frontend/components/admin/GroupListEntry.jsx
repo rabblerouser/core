@@ -5,7 +5,7 @@ import EditGroupModalLauncher from './EditGroupModalLauncher.jsx';
 export default ({ group, onSave, onSelect }) => {
 
     function selectGroup() {
-        onSelect(group.id);
+        onSelect(group);
     }
 
     return (  <li onClick={selectGroup} className={group.selected ? 'selected' : ''}>

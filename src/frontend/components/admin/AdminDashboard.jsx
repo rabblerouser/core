@@ -14,7 +14,7 @@ export default class AdminDashboard extends Component {
             participants: [],
             groups: [],
             labs: [],
-            selectedGroup: '',
+            selectedGroup: {},
             currentLab: '',
             filteredParticipantList: [],
             onSaveGroup: (groupDetails) => {
@@ -31,12 +31,12 @@ export default class AdminDashboard extends Component {
                     this.setState({groups: groups});
                 });
             },
-            onSelectGroup: (groupId) => {
+            onSelectGroup: (selected) => {
                 let groups = this.state.groups.map(group => {
-                    return Object.assign({}, group, { selected: group.id === groupId });
+                    return Object.assign({}, group, { selected: group.id === selected.id });
                 });
                 this.setState({groups: groups});
-                this.setState({selectedGroup: groupId}, this.filterParticipantList);
+                this.setState({selectedGroup: selected}, this.filterParticipantList);
             }
         };
     }
@@ -56,14 +56,14 @@ export default class AdminDashboard extends Component {
     }
 
     filterParticipantList() {
-        if (this.state.selectedGroup === '') {
+        if (!this.state.selectedGroup) {
             this.setState({filteredParticipantList: this.state.participants});
         }
         else {
             this.setState({filteredParticipantList:
                     this.state.participants.filter( element => {
                         return element.Groups.filter( group => {
-                            return group.id === this.state.selectedGroup;
+                            return group.id === this.state.selectedGroup.id;
                         }).length > 0;
                     })
             });
