@@ -8,12 +8,11 @@ export default ({ groups , selectedGroup, editable, onSave, onSelectGroup}) => {
     let addModalLauncher = editable ? <li className="new"><AddGroupModalLauncher onSave={onSave} /></li> : null;
 
     function selectAll() {
-        onSelectGroup('');
+        onSelectGroup();
     }
-
     return (
         <ul>
-        	<li onClick={selectAll} className={selectedGroup ? '' : 'selected'}>All participants</li>
+        	<li onClick={selectAll} className={selectedGroup === undefined ? 'selected' : '' }>All participants</li>
             { groupEntries }
             { addModalLauncher }
         </ul>
