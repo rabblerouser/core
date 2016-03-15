@@ -4,22 +4,21 @@ const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
       Q = specHelper.Q,
       memberService = require('../../../../src/backend/services/memberService'),
-      messagingService = require('../../../../src/backend/services/messagingService'),
       memberValidator = require('../../../../src/backend/lib/memberValidator');
 
 var membersController = require('../../../../src/backend/controllers/membersController');
 
 describe('membersController', () => {
 
-    describe('createNewMember', () => {
-        let createNewMember,
+    describe('register', () => {
+        let register,
             goodRequest, res,
             residentialAddress, postalAddress,
             createMemberStub, createMemberPromise,
             validateMemberStub;
 
         beforeEach(() => {
-            createNewMember = membersController.createNewMember;
+            register = membersController.register;
             createMemberStub = sinon.stub(memberService, 'createMember');
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
             res = {status: sinon.stub().returns({json: sinon.spy()})};
@@ -97,7 +96,7 @@ describe('membersController', () => {
             });
 
             it('creates a new member', (done) => {
-                createNewMember(goodRequest, res)
+                register(goodRequest, res)
                 .finally(() => {
                     expect(res.status).toHaveBeenCalledWith(200);
                     expect(res.status().json).toHaveBeenCalledWith({newMember: {email: createdMember.email}});
@@ -108,7 +107,7 @@ describe('membersController', () => {
         describe('when validation fails', () => {
             it('responds with status 400',(done) => {
                 validateMemberStub.returns(['firstName']);
-                createNewMember(goodRequest, res);
+                register(goodRequest, res);
 
                 expect(memberService.createMember).not.toHaveBeenCalled();
                 expect(res.status).toHaveBeenCalledWith(400);

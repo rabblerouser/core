@@ -47,12 +47,12 @@ describe('MemberIntegrationTests', () => {
         integrationTestHelpers.createBranch().nodeify(done);
     });
 
-    describe('Creating new member', () => {
+    describe('Register', () => {
         it('should return 200 and a created member when the input is valid', (done) => {
             getBranchId(agent)
             .then((branchId) => {
                 return agent
-                .post('/members')
+                .post('/register')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
                 .send(integrationTestHelpers.makeMember(branchId))
@@ -68,7 +68,7 @@ describe('MemberIntegrationTests', () => {
                 dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
 
                 return agent
-                .post('/members')
+                .post('/register')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
                 .send(dodgyMember)
@@ -81,7 +81,7 @@ describe('MemberIntegrationTests', () => {
             getBranchId(agent)
             .then((branchId) => {
                 return agent
-                .post('/members')
+                .post('/register')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
                 .send(makeMemberWithNoAddress(branchId))
@@ -92,7 +92,7 @@ describe('MemberIntegrationTests', () => {
 
         it('should return 400 if the input is null', (done) => {
             return agent
-            .post('/members')
+            .post('/register')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(null)
@@ -102,7 +102,7 @@ describe('MemberIntegrationTests', () => {
 
         it('should return 400 if the input is incomplete', (done) => {
             return agent
-            .post('/members')
+            .post('/register')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(makeInvalidMember())

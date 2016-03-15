@@ -2,7 +2,6 @@
 
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
 var membersController = require('../controllers/membersController');
 var branchesController = require('../controllers/branchesController');
 var groupsController = require('../controllers/groupsController');
@@ -14,7 +13,7 @@ router.get('/', function (req, res) {
     res.render('index', {title: 'The Lab - Sign Up'});
 });
 
-router.post('/members', membersController.createNewMember);
+router.post('/register', membersController.register);
 router.get('/branches', branchesController.list);
 
 router.post('/login', login);

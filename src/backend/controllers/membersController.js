@@ -3,8 +3,6 @@
 let memberService = require('../services/memberService');
 let memberValidator = require('../lib/memberValidator');
 let logger = require('../lib/logger');
-let Q = require('q');
-
 
 function isAddressEmpty(address){
   return  !address ||
@@ -79,7 +77,7 @@ function handleError(res) {
   };
 }
 
-let createNewMember = (req, res) => {
+let register = (req, res) => {
     let newMember = setupNewMember(req);
 
     let validationErrors = memberValidator.isValid(newMember);
@@ -109,6 +107,6 @@ function list(req, res) {
 }
 
 module.exports = {
-    createNewMember: createNewMember,
+    register: register,
     list: list
 };

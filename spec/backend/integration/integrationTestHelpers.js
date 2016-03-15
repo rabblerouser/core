@@ -78,7 +78,7 @@ function createFakeMembers(agent, numberOfMembers) {
         times(numberOfMembers, () => {
             createTheseMembers.push(
                 agent
-                    .post('/members')
+                    .post('/register')
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
                     .send(makeMember(branch.id))
