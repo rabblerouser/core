@@ -4,7 +4,7 @@ import GroupListEntry from './GroupListEntry.jsx';
 import AddGroupModalLauncher from './AddGroupModalLauncher.jsx';
 export default ({ groups , selectedGroup, editable, onSave, onSelectGroup}) => {
 
-    let groupEntries = groups.map( group => (<GroupListEntry group={group} onSave={onSave} onSelect={onSelectGroup} />));
+    let groupEntries = groups.map( group => (<GroupListEntry key={group.id} group={group} onSave={onSave} onSelect={onSelectGroup} />));
     let addModalLauncher = editable ? <li className="new"><AddGroupModalLauncher onSave={onSave} /></li> : null;
 
     function selectAll() {
