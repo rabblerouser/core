@@ -36,7 +36,7 @@ export const ApplicationFormFieldLabels = {
   groupDescription: 'Description'
 };
 
-export const ApplictionFormValidationErrors = {
+export const FormValidationErrors = {
   contactName: {name: 'Contact first name', message: 'Please enter a contact name. No symbols allowed.'},
   contactLastName: {name: 'Contact last name', message: 'No symbols allowed.'},
   contactEmail: {name: 'Email address', message: 'Please enter a valid email address i.e. valid@email.com'},
@@ -46,5 +46,7 @@ export const ApplictionFormValidationErrors = {
   participantBirthYear: {name: 'Participant\'s year of birth', message: 'Please select the year of birth.'},
   schoolType: {name: 'School type', message: 'Please select a school type.'},
   labSelection: {name: 'Lab to join', message: 'Please select a lab to join.'},
-  additionalInfo: {name: 'Additional info', message: 'Maximum 2000 characters'}
+  additionalInfo: {name: 'Additional info', message: 'Maximum 2000 characters'},
+  groupName: {name: 'Name', message: 'Please enter a group name. No symbols allowed.'},
+  groupDescription: {name: 'Description', message: 'Please enter a description (maximum 2000 characters).'}
 };

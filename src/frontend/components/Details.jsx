@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Errors from './Errors.jsx';
 import * as memberValidator from '../services/memberValidator';
 import countrySelector from '../../../public/javascript/countries.js';
-import { ApplictionFormValidationErrors as ErrorStrings } from '../config/strings.js';
+import { FormValidationErrors as ErrorStrings } from '../config/strings.js';
 import { ApplicationForm as Strings, Resources } from '../config/strings.js';
 import FormFieldLabel from './form/FormFieldLabel.jsx';
 import InlineError from './form/InlineError.jsx';

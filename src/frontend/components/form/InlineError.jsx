@@ -1,5 +1,5 @@
 import React from 'react';
-import { ApplictionFormValidationErrors as Errors } from '../../config/strings.js';
+import { FormValidationErrors as Errors } from '../../config/strings.js';
 
 export default ({ errorFor }) => (
   <span className="invalid">
