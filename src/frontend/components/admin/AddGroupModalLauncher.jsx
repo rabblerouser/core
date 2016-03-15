@@ -14,13 +14,13 @@ export default class AddGroupModalLauncher extends Component {
         this.state = {modalIsOpen: false};
     }
 
-    launchEditForm = () => {
+    launchEditForm () {
         this.setState({modalIsOpen: true});
-    };
+    }
 
-    closeEditForm = () => {
+    closeEditForm () {
         this.setState({modalIsOpen: false});
-    };
+    }
 
     render() {
         let customStyle = {
@@ -28,15 +28,15 @@ export default class AddGroupModalLauncher extends Component {
             content:{
                 bottom: 'none'
             }
-            
+
         };
         return (
 
             <div>
-                <button onClick={this.launchEditForm}>New group</button>
+                <button onClick={this.launchEditForm.bind(this)}>New group</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeEditForm} style={customStyle}>
+                    onRequestClose={this.closeEditForm.bind(this)} style={customStyle}>
                     <EditGroupForm onSave={this.props.onSave} group={''}/>
                 </Modal>
             </div>
