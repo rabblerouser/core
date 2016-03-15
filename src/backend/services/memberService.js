@@ -28,8 +28,7 @@ function handleError(message) {
     };
 }
 
-function setupNewMember(newMember) {
-  return function (residentialAddress, postalAddress) {
+function parse(newMember, residentialAddress, postalAddress) {
     let residentialAddressId = residentialAddress ? residentialAddress[0].dataValues.id : null;
     let postalAddressId = postalAddress ? postalAddress[0].dataValues.id : null;
 
@@ -43,7 +42,6 @@ function setupNewMember(newMember) {
         secondaryPhoneNumber: newMember.secondaryPhoneNumber,
         dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
         membershipType: newMember.membershipType,
-        memberSince: moment(),
         contactFirstName: newMember.contactFirstName,
         contactLastName: newMember.contactLastName,
         schoolType: newMember.schoolType,
@@ -51,6 +49,13 @@ function setupNewMember(newMember) {
         postalAddressId: postalAddressId,
         additionalInfo: newMember.additionalInfo
     };
+}
+
+function setupNewMember(newMember) {
+  return function (residentialAddress, postalAddress) {
+    let memberToSave = parse(newMember, residentialAddress, postalAddress);
+
+    return Object.assign({}, memberToSave, {id: createHash(), memberSince: moment()});
   };
 }
 
