@@ -10,11 +10,21 @@ export default ({ groups , selectedGroup, editable, onSave, onSelectGroup}) => {
     function selectAll() {
         onSelectGroup();
     }
+
+    function selectGroup(event) {
+        console.log(event.target.value);
+        onSelectGroup(event.target.value);
+    }
+
     return (
-        <ul>
-        	<li onClick={selectAll} className={selectedGroup === undefined ? 'selected' : '' }>All participants</li>
+        <div className="select">
+        <span className="arr"></span>
+        <select defaultValue="All participants" onChange={selectGroup}>
+       
+        	<option value=''>All participants</option>
             { groupEntries }
-            { addModalLauncher }
-        </ul>
+          
+        </select>
+        </div>
     )
 }

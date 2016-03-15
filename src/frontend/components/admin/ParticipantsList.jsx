@@ -8,7 +8,7 @@ const Table = require('reactabular').Table;
 import sortColumn from '../../lib/sortColumn.js';
 const moment = require('moment');
 const classnames = require('classnames');
-import GroupsList from './GroupsList.jsx';
+import ParticipantGroupsList from './ParticipantGroupsList.jsx';
 import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
 
 function tableColumns(onSave) {
@@ -56,7 +56,7 @@ function tableColumns(onSave) {
         {
             property: 'Groups',
             header: 'Groups',
-            cell: (groups) => <GroupsList editable={false} groups={groups} />,
+            cell: (groups) => <ParticipantGroupsList editable={false} groups={groups} />,
             headerClass: classnames('groups')
         },
         {

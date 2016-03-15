@@ -63,7 +63,7 @@ export default class AdminDashboard extends Component {
 
     updateGroupSelection(selected) {
         let groups = this.state.groups.map(group => {
-            return Object.assign({}, group, { selected: selected !== undefined && group.id === selected.id });
+            return Object.assign({}, group, { selected: selected !== undefined && group.id === selected });
         });
         this.setState({groups: groups});
     }
@@ -122,7 +122,7 @@ export default class AdminDashboard extends Component {
         if(this.state.selectedGroup === undefined) {
             return;
         }
-        return this.state.groups.find(group => group.id === this.state.selectedGroup.id);
+        return this.state.groups.find(group => group.id === this.state.selectedGroup);
     }
 
     render() {

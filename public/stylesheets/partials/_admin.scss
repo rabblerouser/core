@@ -525,11 +525,19 @@ color: #fff;
 .groupDetails dt {
   font-size: 1.2em;
   margin-bottom: 15px;
+  @include media($mobile) {
+            display:none;
+           
+        }
 }
 
 .groupDetails dd {
   font-size: 1.1em;
   margin-bottom: 15px;
+    @include media($mobile) {
+         
+            margin-top: -20px;
+        }
 }
 
 
