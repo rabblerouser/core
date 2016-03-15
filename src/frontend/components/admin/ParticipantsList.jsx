@@ -62,7 +62,7 @@ function tableColumns() {
         {
             cell: (nothing, participants, rowIndex) => {
                 return {
-                    value: <EditMemberModalLauncher participant={participants[rowIndex]} groups={participants[rowIndex].allGroups}/>
+                    value: <EditMemberModalLauncher participant={participants[rowIndex]}/>
                 };
             },
             headerClass: classnames('edit')

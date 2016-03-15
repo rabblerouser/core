@@ -11,8 +11,8 @@ export default class GroupCheckbox extends Component {
     render() {
         return (
             <div>
-                <p>P: {JSON.stringify(this.props.participantGroups)} <br />
-                    A: {JSON.stringify(this.props.allGroups)}</p>
+                <p>This group: {this.props.group}</p>
+                <p>Groups of this participant: {JSON.stringify(this.props.participantGroups)}</p>
             </div>
         )
     }
