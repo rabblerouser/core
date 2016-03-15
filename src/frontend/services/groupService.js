@@ -2,7 +2,6 @@
 
 const Q = require('q');
 const $ = require('jquery');
-import { Resources } from '../config/strings';
 
 const handleResponseError = function(error) {
 
@@ -11,6 +10,10 @@ const handleResponseError = function(error) {
     default: throw new Error('NOT AVAILABLE');
   }
 
+};
+
+const isValidGroup = (group) => {
+    return group.name && group.description;
 };
 
 const updateGroup = function (group, labId) {
@@ -28,15 +31,22 @@ const updateGroup = function (group, labId) {
       });
 };
 
-const isValidGroup = (group) => {
-    return group.name && group.description;
+const deleteGroup = (group, labId) => {
+    return Q($.ajax({
+          type: 'DELETE',
+          url: `/branches/${labId}/groups/${group.id}`
+      }))
+      .catch(handleResponseError)
+      .then((data) => {
+          return data;
+      });
 };
 
 const createOrUpdateGroup = function (group, labId) {
-
     return updateGroup(group, labId);
 };
 
 export default {
-    createOrUpdateGroup: createOrUpdateGroup
+    createOrUpdateGroup: createOrUpdateGroup,
+    deleteGroup: deleteGroup
 };
