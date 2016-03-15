@@ -54,7 +54,9 @@ describe('membersController', () => {
                     contactLastName: 'Garzon',
                     schoolType: 'Primary',
                     branch: 'some-id-1',
-                    additionalInfo: null
+                    additionalInfo: null,
+                    id: null,
+                    groups: null
                 }
             };
 

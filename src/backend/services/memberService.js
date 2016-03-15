@@ -9,8 +9,8 @@ const Q = require('q'),
     Group = models.Group,
     Member = models.Member,
     uuid = require('node-uuid'),
-    messagingService = require('./messagingService'),
-    branchService = require('./branchService');
+    branchService = require('./branchService'),
+    pluck = require('lodash').pluck;
 
 
 function createHash() {
@@ -28,26 +28,26 @@ function handleError(message) {
     };
 }
 
-function parse(newMember, residentialAddress, postalAddress) {
+function parse(input, residentialAddress, postalAddress) {
     let residentialAddressId = residentialAddress ? residentialAddress[0].dataValues.id : null;
     let postalAddressId = postalAddress ? postalAddress[0].dataValues.id : null;
 
     return {
-        id: createHash(),
-        email: newMember.email,
-        firstName: newMember.firstName,
-        lastName: newMember.lastName,
-        gender: newMember.gender,
-        primaryPhoneNumber: newMember.primaryPhoneNumber,
-        secondaryPhoneNumber: newMember.secondaryPhoneNumber,
-        dateOfBirth: moment(newMember.dateOfBirth, 'DD/MM/YYYY').toDate(),
-        membershipType: newMember.membershipType,
-        contactFirstName: newMember.contactFirstName,
-        contactLastName: newMember.contactLastName,
-        schoolType: newMember.schoolType,
+        id: input.id,
+        email: input.email,
+        firstName: input.firstName,
+        lastName: input.lastName,
+        gender: input.gender,
+        primaryPhoneNumber: input.primaryPhoneNumber,
+        secondaryPhoneNumber: input.secondaryPhoneNumber,
+        dateOfBirth: input.dateOfBirth ? moment(input.dateOfBirth, 'DD/MM/YYYY').toDate() : null,
+        membershipType: input.membershipType,
+        contactFirstName: input.contactFirstName,
+        contactLastName: input.contactLastName,
+        schoolType: input.schoolType,
         residentialAddressId: residentialAddressId,
         postalAddressId: postalAddressId,
-        additionalInfo: newMember.additionalInfo
+        additionalInfo: input.additionalInfo
     };
 }
 
@@ -67,15 +67,15 @@ function findOrCreateAddress(address) {
     return Q(Address.findOrCreate({where: address, defaults: address}));
 }
 
-function getMemberAddresses(newMember) {
+function getMemberAddresses(member) {
     let memberAddresses = [];
 
-    if (newMember.residentialAddress) {
-        memberAddresses.push(findOrCreateAddress(newMember.residentialAddress));
+    if (member.residentialAddress) {
+        memberAddresses.push(findOrCreateAddress(member.residentialAddress));
     }
 
-    if (newMember.postalAddress) {
-        memberAddresses.push(findOrCreateAddress(newMember.postalAddress));
+    if (member.postalAddress) {
+        memberAddresses.push(findOrCreateAddress(member.postalAddress));
     }
 
     return memberAddresses;
@@ -195,16 +195,36 @@ function list(branchId) {
         .catch(handleError('An error has occurred while fetching members'));
 }
 
-function sendWelcomeEmailOffline(data) {
-    logger.info('[sending welcome email]', data);
-    messagingService.sendWelcomeEmail(data)
-        .catch(logger.error);
-
-    return data;
+function edit(input) {
+    return Member.sequelize.transaction(() => {
+        return Q.all(getMemberAddresses(input))
+        .spread((residentialAddress, postalAddress) => {
+            return parse(input, residentialAddress, postalAddress);
+        })
+        .then((newValues) => {
+            return Member.findById(input.id)
+            .then( member => {
+                return member.update(newValues);
+            });
+        })
+        .then(member => {
+            return member.setGroups(input.groups)
+            .then((result) => {
+                let updatedMember = member.dataValues;
+                updatedMember.groups = pluck(result[0], 'dataValues.groupId');
+                return updatedMember;
+            });
+        });
+    })
+    .then(updatedMember => {
+        logger.info('[member-details-updated]', {member: updatedMember});
+        return updatedMember;
+    })
+    .catch(handleError(`Error when editing member with id ${input.id}`));
 }
-
 module.exports = {
     createMember: createMember,
     updateMember: updateMember,
-    list: list
+    list: list,
+    edit: edit
 };

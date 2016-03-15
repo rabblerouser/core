@@ -39,8 +39,9 @@ function postalAddress(input) {
   };
 }
 
-function setupNewMember(req) {
+function parseMember(req) {
   return {
+      id: req.body.id,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
@@ -55,7 +56,8 @@ function setupNewMember(req) {
       contactFirstName: req.body.contactFirstName,
       contactLastName: req.body.contactLastName,
       branch: req.body.branch,
-      additionalInfo: req.body.additionalInfo
+      additionalInfo: req.body.additionalInfo,
+      groups: req.body.groups
   };
 }
 
@@ -78,7 +80,7 @@ function handleError(res) {
 }
 
 let register = (req, res) => {
-    let newMember = setupNewMember(req);
+    let newMember = parseMember(req);
 
     let validationErrors = memberValidator.isValid(newMember);
 
@@ -106,7 +108,18 @@ function list(req, res) {
     .catch(handleError(res));
 }
 
+function edit(req, res) {
+    let member = parseMember(req);
+
+    return memberService.edit(member)
+    .then((updatedMember) => {
+        res.status(200).json(updatedMember);
+    })
+    .catch(handleError(res));
+}
+
 module.exports = {
     register: register,
-    list: list
+    list: list,
+    edit: edit
 };

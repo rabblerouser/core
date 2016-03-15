@@ -3,7 +3,9 @@ const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
 const sample = require('lodash').sample;
+const pluck = require('lodash').pluck;
 let integrationTestHelpers = require('./integrationTestHelpers.js');
+let Q = require('../../support/specHelper').Q;
 
 let hasNewMember = (res) => {
     if (!('newMember' in res.body)) {
@@ -134,6 +136,58 @@ describe('MemberIntegrationTests', () => {
             .then((res) => {
                 expect(res.status).toEqual(302);
             })
+            .then(done, done.fail);
+        });
+    });
+
+    function getMembersAndReturnMemberAndGroups(someAgent) {
+        return function(branchGroups) {
+            let branchId = sample(branchGroups).branchId;
+
+            return someAgent.get(`/branches/${branchId}/members`)
+                .then((response) => {
+                    return [
+                        response.body.members,
+                        branchGroups
+                    ];
+                });
+        };
+    }
+
+    function hasGroups(res) {
+        let response = res.body;
+        expect(response.groups).not.toBeNull();
+        expect(response.groups.length).toEqual(2);
+    }
+
+    function editMember(member, groups) {
+        groups = groups || [];
+        return Object.assign({}, member, {dateOfBirth: '01/01/1986', groups: groups});
+    }
+
+    describe('Edit member', () => {
+        it('should add groups to a member', (done) => {
+            integrationTestHelpers.createBranch()
+            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.createFakeMembers(agent, 1))
+            .then((branch) => {
+                return Q.all([
+                    integrationTestHelpers.createGroupInBranch(branch.id),
+                    integrationTestHelpers.createGroupInBranch(branch.id)
+                ]);
+            })
+            .tap(integrationTestHelpers.authenticate(agent))
+            .then(getMembersAndReturnMemberAndGroups(agent))
+            .spread((members, branchGroups) => {
+                let branchId = sample(branchGroups).branchId;
+                let member = sample(members);
+                let groups = pluck(branchGroups, 'groupId');
+                return agent.put(`/branches/${branchId}/members/${member.id}`)
+                    .set('Content-Type', 'application/json')
+                    .send(editMember(member, groups))
+                    .expect(200);
+            })
+            .then(hasGroups)
             .then(done, done.fail);
         });
     });
