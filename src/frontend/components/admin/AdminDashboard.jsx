@@ -8,7 +8,7 @@ import ErrorView from './ErrorView.jsx';
 import GroupsView from './GroupsView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
-import groupValidator from '../../services/groupValidator.js';
+
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -23,18 +23,12 @@ export default class AdminDashboard extends Component {
             pageErrors: [],
             onSaveGroup: (groupDetails) => {
                 this.clearErrors();
-                let errors = groupValidator.isValid(groupDetails);
-
-                if(errors) {
-                    this.handleError({message: 'Validation error'});
-                } else {
-                    let saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ? groupService.createGroup : groupService.updateGroup;
-                    saveAction(groupDetails, this.state.currentLab.id)
-                    .then( (savedGroup) => {
-                        this.updateGroups(this.state.groups, savedGroup);
-                    })
-                    .catch(this.handleError.bind(this));
-                }
+                let saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ? groupService.createGroup : groupService.updateGroup;
+                saveAction(groupDetails, this.state.currentLab.id)
+                .then( (savedGroup) => {
+                    this.updateGroups(this.state.groups, savedGroup);
+                })
+                .catch(this.handleError.bind(this));
             },
             onSelectGroup: (selected) => {
                 this.clearErrors();
