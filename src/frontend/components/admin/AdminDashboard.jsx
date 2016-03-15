@@ -42,6 +42,9 @@ export default class AdminDashboard extends Component {
                     this.setGroupFilter();
                 })
                 .catch(this.handleError.bind(this));
+            },
+            onSaveParticipant: (selected) => {
+                console.log(selected);
             }
         };
     }
@@ -130,7 +133,7 @@ export default class AdminDashboard extends Component {
                     { detailsView }
                 </div>
                 <div className="container">
-                    <ParticipantsList participants={ this.state.filteredParticipantList } groups={ this.state.groups }/>
+                    <ParticipantsList participants={ this.state.filteredParticipantList } groups={ this.state.groups } onSave= { this.state.onSaveParticipant }/>
                 </div>
             </div>);
     }

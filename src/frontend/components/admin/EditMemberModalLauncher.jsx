@@ -27,7 +27,7 @@ export default class EditMemberButton extends Component {
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeEditForm}>
-                    <EditMemberForm participant={this.props.participant} />
+                    <EditMemberForm participant={this.props.participant} onSave={this.props.onSave}/>
                 </Modal>
             </div>
         )

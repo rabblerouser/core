@@ -9,12 +9,18 @@ export default class EditMemberForm extends Component {
         super(props);
     }
 
+    saveChanges() {
+        this.props.onSave('placeholder');
+    }
+
     render() {
         return (
-            <div>
+            <section className="form-container">
+                <h2>Update participant</h2>
                 <h2>{this.props.participant.firstName} {this.props.participant.lastName}</h2>
                 <GroupCheckboxes allGroups={this.props.participant.allGroups} participantGroups={this.props.participant.Groups} />
-            </div>
+                    <button onClick={this.saveChanges.bind(this)}>Save group</button>
+            </section>
         )
     }
 }

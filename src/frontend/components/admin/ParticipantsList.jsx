@@ -11,7 +11,7 @@ const classnames = require('classnames');
 import GroupsList from './GroupsList.jsx';
 import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
 
-function tableColumns() {
+function tableColumns(onSave) {
     return [
         {
             property: 'firstName',
@@ -62,7 +62,7 @@ function tableColumns() {
         {
             cell: (nothing, participants, rowIndex) => {
                 return {
-                    value: <EditMemberModalLauncher participant={participants[rowIndex]}/>
+                    value: <EditMemberModalLauncher participant={participants[rowIndex]} onSave={ onSave }/>
                 };
             },
             headerClass: classnames('edit')
@@ -76,7 +76,7 @@ export default class ParticipantsList extends Component {
     constructor(props) {
         super(props);
         this.state  = {
-            columns: tableColumns(),
+            columns: tableColumns(this.props.onSave),
             columnNames: {
                 onClick: (column) => {
                     sortColumn(
