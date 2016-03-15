@@ -35,9 +35,9 @@ export default class GroupCheckboxes extends Component {
         );
 
         return (
-            <div>
+            <section className="selectGroups">
                 {checkboxes}
-            </div>
+            </section>
         )
     }
 }

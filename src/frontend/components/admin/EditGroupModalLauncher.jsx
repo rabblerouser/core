@@ -21,12 +21,19 @@ export default class EditGroupModalLauncher extends Component {
     };
 
     render() {
+
+        let customStyle = {
+
+            content:{
+                bottom: 'none'
+            }
+        };
         return (
             <div>
                 <button onClick={this.launchEditForm} className="editGroup" title="Edit group details"><span>Edit group details</span></button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeEditForm}>
+                    onRequestClose={this.closeEditForm}  style={customStyle}>
                     <EditGroupForm onSave={this.props.onSave} group={this.props.group}/>
                 </Modal>
             </div>

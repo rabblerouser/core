@@ -21,12 +21,20 @@ export default class EditMemberButton extends Component {
     };
 
     render() {
+
+        let customStyle = {
+
+            content:{
+                bottom: 'none'
+            }
+            
+        };
         return (
             <div>
                 <button onClick={this.launchEditForm}><span>Edit groups</span></button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeEditForm}>
+                    onRequestClose={this.closeEditForm} style={customStyle}>
                     <EditMemberForm participant={this.props.participant} onSave={this.props.onSave}/>
                 </Modal>
             </div>
