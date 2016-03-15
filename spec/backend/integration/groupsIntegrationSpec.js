@@ -71,6 +71,25 @@ describe('Groups Integration Test', () => {
         });
     });
 
+    describe('update group', () => {
+        it('should return a 200 when the group is successfully updated', (done) => {
+            integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createUser)
+                .then((branch) => {
+                    return integrationTestHelpers.createGroupInBranch(branch.id);
+                })
+                .tap(integrationTestHelpers.authenticate(agent))
+                .then((branchGroup) => {
+                    return agent.put(`/branches/${branchGroup.branchId}/groups/${branchGroup.groupId}`)
+                    .set('Content-Type', 'application/json')
+                    .send(makeGroup())
+                    .expect(200)
+                    .then(assertCreatedGroup);
+                })
+                .then(done, done.fail);
+        });
+    });
+
     describe('delete group', () => {
         it('should return a 200 when the group is successfully deleted', (done) => {
             integrationTestHelpers.createBranch()

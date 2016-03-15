@@ -80,9 +80,39 @@ function deleteGroup(req, res) {
     });
 }
 
+function update(req, res) {
+    let branchId = req.params.branchId;
+    let groupId = req.params.groupId;
+
+    if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
+        logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`);
+        return res.sendStatus(400);
+    }
+
+    let group = {
+        name: req.body.name,
+        description: req.body.description
+    };
+
+    if (!groupDataValid(group)) {
+        res.sendStatus(400);
+        return;
+    }
+
+    return groupService.update(group, groupId)
+    .then((group) => {
+        res.status(200).json(group);
+    })
+    .catch((error) => {
+        logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
+        res.sendStatus(500);
+    });
+}
+
 module.exports = {
     list: list,
     addMembers: addMembers,
     create: create,
-    delete: deleteGroup
+    delete: deleteGroup,
+    update: update
 };

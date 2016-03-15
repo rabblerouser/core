@@ -108,6 +108,66 @@ describe('groupService', () => {
         });
     });
 
+    describe('update', () => {
+        beforeEach(() => {
+            sinon.stub(Group, 'findById');
+            sinon.stub(Group, 'update');
+        });
+
+        afterEach(() => {
+            Group.update.restore();
+            Group.findById.restore();
+        });
+
+        it('should update the group', (done) => {
+            Group.findById.returns(Q.resolve(Group));
+            Group.update.returns(Q.resolve({dataValues: {name: 'A group', description: 'description', id: 'some-group-id'}}));
+
+            groupService.update({id: 'some-group-id', name: 'A group', description: 'description'}, 'some-group-id')
+            .then(() => {
+                expect(Group.findById).toHaveBeenCalled();
+                expect(Group.update).toHaveBeenCalled();
+            })
+            .then(done, done.fail);
+        });
+
+        describe('sad scenario', () => {
+
+            it('should handle when the group is not found', (done) => {
+                Group.findById.returns(Q.resolve(null));
+                Group.update.returns(Q.resolve({dataValues: {name: 'A group', description: 'description', id: 'some-group-id'}}));
+
+                groupService.update({id: 'some-group-id', name: 'A group', description: 'description'}, 'some-group-id')
+                .then(() => {
+                    done.fail('This should not have succeded');
+                })
+                .catch((error) => {
+                    expect(Group.findById).toHaveBeenCalled();
+                    expect(Group.update).not.toHaveBeenCalled();
+                    expect(error.message).toEqual('An error has occurred while updating a group with id: some-group-id');
+                })
+                .then(done, done.fail);
+            });
+
+            it('should handle errors when updating', (done) => {
+                Group.findById.returns(Q.resolve(Group));
+                Group.update.returns(Promise.reject('Obscure DB error the service should not rethrow'));
+
+                groupService.update({id: 'some-group-id', name: 'A group', description: 'description'}, 'some-group-id')
+                .then(() => {
+                    done.fail('This should not have succeded');
+                })
+                .catch((error) => {
+                    expect(Group.findById).toHaveBeenCalled();
+                    expect(Group.update).toHaveBeenCalled();
+                    expect(error.message).toEqual('An error has occurred while updating a group with id: some-group-id');
+                })
+                .then(done, done.fail);
+            });
+        });
+
+    });
+
     describe('delete', () => {
         beforeEach(() => {
             sinon.stub(Group, 'destroy');
