@@ -2,11 +2,12 @@
 import React from 'react';
 
 export default ({ group }) => (
-        <p>
-            Name:
-            { group.name }
-            <br/>
-            Description:
-            { group.description }
-        </p>
+        <dl>
+            <dt>
+            	{ group.name }
+            </dt>
+           <dd>
+            	{ group.description }
+        	</dd>
+       </dl>
 )

@@ -23,7 +23,7 @@ export default class EditGroupModalLauncher extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.launchEditForm}>Edit</button>
+                <button onClick={this.launchEditForm} className="editGroup" title="Edit group details"><span>Edit group details</span></button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeEditForm}>

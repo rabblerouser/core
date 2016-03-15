@@ -499,4 +499,67 @@ color: #fff;
 }
 
 
+/* --------------------------------------------------------------------------------------
+
+   GROUP DESCRIPTION
+
+-------------------------------------------------------------------------------------- */
+
+
+.groupDetails {
+  width: 98%;
+  margin: auto;
+  margin-top: 10px;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.groupDetails dt {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+
+.groupDetails dd {
+  font-size: 1.1em;
+  margin-bottom: 15px;
+}
+
+
+.groupDetails button {
+
+      background: none;
+      color: #0073ae;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      font-size: 1.3em;
+      padding: 5px;
+      display: inline;
+      float:left;
+      margin-right: 15px;
+    }
+
+.groupDetails button:hover {
+
+      background: #062C40;
+      color: #fff;
+
+    }
+
+.groupDetails button span {
+      display: none;
+    }
+
+.groupDetails button.editGroup:after {
+      content: "\f040";
+      font-family: FontAwesome; 
+    
+    }
+
+.groupDetails button.deleteGroup:after {
+      content: "\f1f8";
+      font-family: FontAwesome; 
+    
+    }
+
 

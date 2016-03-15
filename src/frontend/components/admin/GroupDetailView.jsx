@@ -4,8 +4,9 @@ import GroupActions from './GroupActions.jsx';
 import GroupDetails from './GroupDetails.jsx';
 
 export default ({ selectedGroup, onSave, onDelete }) => (
-    <div>
-        <GroupActions onSave={ onSave } onDelete={ onDelete } group={ selectedGroup }/>
+    <section className="groupDetails">
+        
         <GroupDetails group={ selectedGroup }/>
-    </div>
+        <GroupActions onSave={ onSave } onDelete={ onDelete } group={ selectedGroup }/>
+    </section>
 )
