@@ -18,7 +18,7 @@ export default class EditMemberForm extends Component {
             <section className="form-container">
                 
                 <h2>{this.props.participant.firstName} {this.props.participant.lastName}</h2>
-                <p>Select the groups the participant will attend.</p>
+                <p>Select one or more groups for the participant to join.</p>
                 <GroupCheckboxes allGroups={this.props.participant.allGroups} participantGroups={this.props.participant.Groups} />
                     <button onClick={this.saveChanges.bind(this)}>Save</button>
             </section>
