@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {GroupCheckbox} from './GroupCheckbox.jsx'
+import GroupCheckbox from './GroupCheckbox.jsx'
 
 export default class EditMemberForm extends Component {
     constructor(props) {
@@ -11,9 +11,10 @@ export default class EditMemberForm extends Component {
 
     render() {
         let groupCheckboxes = this.props.participant.allGroups.map(
-            group => (<GroupCheckbox group={group} participantGroups={this.props.participant.Groups} />)
+            group => {
+                 return (<GroupCheckbox group={group} participantGroups={this.props.participant.Groups} />)
+            }
         );
-
         return (
             <div>
                 <h2>{this.props.participant.firstName} {this.props.participant.lastName}</h2>
