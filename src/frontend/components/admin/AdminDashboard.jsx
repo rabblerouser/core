@@ -6,6 +6,7 @@ import ParticipantsList from './ParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
 import GroupsList from './GroupsList.jsx';
 import GroupDetailView from './GroupDetailView.jsx';
+import ErrorView from './ErrorView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 
@@ -25,7 +26,8 @@ export default class AdminDashboard extends Component {
                 groupService.createOrUpdateGroup(groupDetails, this.state.currentLab.id)
                 .then( (savedGroup) => {
                     this.addGroup(this.state.groups, savedGroup);
-                });
+                })
+                .catch(this.handleError.bind(this));
             },
             onSelectGroup: (selected) => {
                 this.clearErrors();
@@ -38,13 +40,21 @@ export default class AdminDashboard extends Component {
                 .then(()=> {
                     this.setState({groups: this.findAndRemoveGroup(this.state.groups, selected)});
                     this.setGroupFilter();
-                });
+                })
+                .catch(this.handleError.bind(this));
             }
         };
     }
 
     clearErrors() {
         this.setState({pageErrors: []});
+    }
+
+    handleError(error) {
+        let pageErrors = this.state.pageErrors.slice(0);
+        pageErrors.push(error.message);
+        this.setState({pageErrors: pageErrors});
+
     }
 
     updateGroupSelection(selected) {
@@ -108,7 +118,7 @@ export default class AdminDashboard extends Component {
         let detailsView = this.state.selectedGroup ? (<GroupDetailView selectedGroup={ this.state.selectedGroup }
                                                                 onSave={ this.state.onSaveGroup }
                                                                 onDelete={ this.state.onDeleteGroup } />) : '';
-        let errorsView = this.state.pageErrors.length > 0 ? ( <div> { this.state.pageErrors }</div>) : '';
+        let errorsView = this.state.pageErrors.length > 0 ? ( <ErrorView errors={ this.state.pageErrors } />) : '';
         return (
             <div className="admin-container">
                 <div className="container">
