@@ -19,17 +19,21 @@ export default class AdminDashboard extends Component {
             selectedGroup: undefined,
             currentLab: '',
             filteredParticipantList: [],
+            pageErrors: [],
             onSaveGroup: (groupDetails) => {
+                this.clearErrors();
                 groupService.createOrUpdateGroup(groupDetails, this.state.currentLab.id)
                 .then( (savedGroup) => {
                     this.addGroup(this.state.groups, savedGroup);
                 });
             },
             onSelectGroup: (selected) => {
+                this.clearErrors();
                 this.updateGroupSelection(selected);
                 this.setGroupFilter(selected);
             },
             onDeleteGroup: (selected) => {
+                this.clearErrors();
                 groupService.deleteGroup(selected, this.state.currentLab.id)
                 .then(()=> {
                     this.setState({groups: this.findAndRemoveGroup(this.state.groups, selected)});
@@ -37,6 +41,10 @@ export default class AdminDashboard extends Component {
                 });
             }
         };
+    }
+
+    clearErrors() {
+        this.setState({pageErrors: []});
     }
 
     updateGroupSelection(selected) {
@@ -100,10 +108,12 @@ export default class AdminDashboard extends Component {
         let detailsView = this.state.selectedGroup ? (<GroupDetailView selectedGroup={ this.state.selectedGroup }
                                                                 onSave={ this.state.onSaveGroup }
                                                                 onDelete={ this.state.onDeleteGroup } />) : '';
+        let errorsView = this.state.pageErrors.length > 0 ? ( <div> { this.state.pageErrors }</div>) : '';
         return (
             <div className="admin-container">
                 <div className="container">
                     <AdminHeader />
+                    { errorsView }
                     <nav id="groups">
                         <GroupsList editable={ true } selectedGroup={this.state.selectedGroup} groups={ this.state.groups } onSave={ this.state.onSaveGroup } onSelectGroup={ this.state.onSelectGroup } />
                     </nav>
