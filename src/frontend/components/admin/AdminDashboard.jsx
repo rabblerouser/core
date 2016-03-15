@@ -23,9 +23,10 @@ export default class AdminDashboard extends Component {
             pageErrors: [],
             onSaveGroup: (groupDetails) => {
                 this.clearErrors();
-                groupService.createOrUpdateGroup(groupDetails, this.state.currentLab.id)
+                let saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ? groupService.createGroup : groupService.updateGroup;
+                saveAction(groupDetails, this.state.currentLab.id)
                 .then( (savedGroup) => {
-                    this.addGroup(this.state.groups, savedGroup);
+                    this.updateGroups(this.state.groups, savedGroup);
                 })
                 .catch(this.handleError.bind(this));
             },
@@ -67,7 +68,7 @@ export default class AdminDashboard extends Component {
         this.setState({groups: groups});
     }
 
-    addGroup(groups, group) {
+    updateGroups(groups, group) {
         let newGroups = groups.slice(0);
         let oldGroup = newGroups.find (g => g.id === group.id);
         if(oldGroup) {
@@ -117,8 +118,15 @@ export default class AdminDashboard extends Component {
         }
     }
 
+    getSelectedGroup() {
+        if(this.state.selectedGroup === undefined) {
+            return;
+        }
+        return this.state.groups.find(group => group.id === this.state.selectedGroup.id);
+    }
+
     render() {
-        let detailsView = this.state.selectedGroup ? (<GroupDetailView selectedGroup={ this.state.selectedGroup }
+        let detailsView = this.state.selectedGroup ? (<GroupDetailView selectedGroup={ this.getSelectedGroup() }
                                                                 onSave={ this.state.onSaveGroup }
                                                                 onDelete={ this.state.onDeleteGroup } />) : '';
         let errorsView = this.state.pageErrors.length > 0 ? ( <ErrorView errors={ this.state.pageErrors } />) : '';
@@ -128,7 +136,7 @@ export default class AdminDashboard extends Component {
                     <AdminHeader />
                     { errorsView }
                     <nav id="groups">
-                        <GroupsList editable={ true } selectedGroup={this.state.selectedGroup} groups={ this.state.groups } onSave={ this.state.onSaveGroup } onSelectGroup={ this.state.onSelectGroup } />
+                        <GroupsList editable={ true } selectedGroup={this.getSelectedGroup()} groups={ this.state.groups } onSave={ this.state.onSaveGroup } onSelectGroup={ this.state.onSelectGroup } />
                     </nav>
                     { detailsView }
                 </div>
