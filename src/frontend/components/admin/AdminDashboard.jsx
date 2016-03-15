@@ -4,9 +4,8 @@ import $ from 'jquery';
 import _ from 'underscore';
 import ParticipantsList from './ParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
-import GroupsList from './GroupsList.jsx';
-import GroupDetailView from './GroupDetailView.jsx';
 import ErrorView from './ErrorView.jsx';
+import GroupsView from './GroupsView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 
@@ -126,23 +125,23 @@ export default class AdminDashboard extends Component {
     }
 
     render() {
-        let detailsView = this.state.selectedGroup ? (<GroupDetailView selectedGroup={ this.getSelectedGroup() }
-                                                                onSave={ this.state.onSaveGroup }
-                                                                onDelete={ this.state.onDeleteGroup } />) : '';
         let errorsView = this.state.pageErrors.length > 0 ? ( <ErrorView errors={ this.state.pageErrors } />) : '';
         return (
             <div className="admin-container">
-                <div className="container">
-                    <AdminHeader />
-                    { errorsView }
-                    <nav id="groups">
-                        <GroupsList editable={ true } selectedGroup={this.getSelectedGroup()} groups={ this.state.groups } onSave={ this.state.onSaveGroup } onSelectGroup={ this.state.onSelectGroup } />
-                    </nav>
-                    { detailsView }
-                </div>
-                <div className="container">
-                    <ParticipantsList participants={ this.state.filteredParticipantList } groups={ this.state.groups } onSave= { this.state.onSaveParticipant }/>
-                </div>
+                <AdminHeader />
+                { errorsView }
+                <GroupsView
+                    selectedGroup={this.getSelectedGroup()}
+                    groups={this.state.groups}
+                    onSaveGroup={this.state.onSaveGroup}
+                    onDeleteGroup={this.state.onDeleteGroup}
+                    onSelectGroup={this.state.onSelectGroup}
+                />
+                <ParticipantsList
+                    participants={ this.state.filteredParticipantList }
+                    groups={ this.state.groups }
+                    onSave= { this.state.onSaveParticipant }
+                />
             </div>);
     }
 }
