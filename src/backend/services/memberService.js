@@ -208,7 +208,8 @@ function edit(input) {
             });
         })
         .then(member => {
-            return member.setGroups(input.groups)
+            let groups = input.groups || [];
+            return member.setGroups(groups)
             .then((result) => {
                 let updatedMember = member.dataValues;
                 updatedMember.groups = pluck(result[0], 'dataValues.groupId');
