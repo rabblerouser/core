@@ -27,7 +27,7 @@ export default class EditMemberButton extends Component {
             content:{
                 bottom: 'none'
             }
-            
+
         };
         return (
             <div>
@@ -35,7 +35,11 @@ export default class EditMemberButton extends Component {
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeEditForm} style={customStyle}>
-                    <EditMemberForm participant={this.props.participant} onSave={this.props.onSave}/>
+                    <EditMemberForm
+                        participant={this.props.participant}
+                        onSave={this.props.onSave}
+                        onSuccess={this.closeEditForm.bind(this)}/>
+/>
                 </Modal>
             </div>
         )
