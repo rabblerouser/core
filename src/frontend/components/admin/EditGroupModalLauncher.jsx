@@ -21,10 +21,8 @@ export default class EditGroupModalLauncher extends Component {
     }
 
     render() {
-
         let customStyle = {
-
-            content:{
+            content: {
                 bottom: 'none'
             }
         };
