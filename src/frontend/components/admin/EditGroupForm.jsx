@@ -26,7 +26,7 @@ export default class EditGroupForm extends Component {
     saveChanges() {
         let errors = groupValidator.isValid(this.getGroupDetails());
         this.setState({invalidFields: errors});
-        if(!errors) {
+        if(errors.length === 0) {
             this.props.onSave(this.getGroupDetails());
         }
     }
