@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
 import _ from 'underscore';
-import ParticipantsList from './ParticipantsList.jsx';
+import FilteredParticipantsList from './FilteredParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './GroupsView.jsx';
@@ -17,7 +17,7 @@ export default class AdminDashboard extends Component {
             participants: [],
             groups: [],
             labs: [],
-            selectedGroup: undefined,
+            selectedGroupId: '',
             currentLab: '',
             filteredParticipantList: [],
             userMessages: [],
@@ -37,14 +37,14 @@ export default class AdminDashboard extends Component {
             onSelectGroup: (selected) => {
                 this.clearMessages();
                 this.updateGroupSelection(selected);
-                this.setGroupFilter(selected);
+                this.setState({selectedGroupId: selected});
             },
             onDeleteGroup: (selected) => {
                 this.clearMessages();
                 groupService.deleteGroup(selected, this.state.currentLab.id)
                 .then(()=> {
                     this.setState({groups: this.findAndRemoveGroup(this.state.groups, selected)});
-                    this.setGroupFilter();
+                    this.setState({selectedGroupId: ''});
                     this.setUserMessage('Group successfully deleted');
                 })
                 .catch((error) => {
@@ -117,16 +117,12 @@ export default class AdminDashboard extends Component {
         return _.without(groups, group);
     }
 
-    setGroupFilter(selected) {
-        this.setState({selectedGroup: selected ? selected : undefined}, this.filterParticipantList);
-    }
-
     componentDidMount() {
         labService.getMyLabs()
             .then( (labs) => {
                 this.setState({labs: labs});
                 this.setState({currentLab: labs[0]});
-                labService.getLabPartipicants(this.state.currentLab.id)
+                labService.getLabParticipants(this.state.currentLab.id)
                         .then( participants => { this.setState({participants: participants});
                                                  this.filterParticipantList();
                                                 });
@@ -135,26 +131,12 @@ export default class AdminDashboard extends Component {
             });
     }
 
-    filterParticipantList() {
-        if (!this.state.selectedGroup) {
-            this.setState({filteredParticipantList: this.state.participants});
-        }
-        else {
-            this.setState({filteredParticipantList:
-                    this.state.participants.filter( element => {
-                        return element.Groups.filter( group => {
-                            return group.id === this.state.selectedGroup;
-                        }).length > 0;
-                    })
-            });
-        }
-    }
 
     getSelectedGroup() {
-        if(this.state.selectedGroup === undefined) {
+        if(this.state.selectedGroupId === undefined) {
             return;
         }
-        return this.state.groups.find(group => group.id === this.state.selectedGroup);
+        return this.state.groups.find(group => group.id === this.state.selectedGroupId);
     }
 
     render() {
@@ -173,10 +155,11 @@ export default class AdminDashboard extends Component {
                     onDeleteGroup={this.state.onDeleteGroup}
                     onSelectGroup={this.state.onSelectGroup}
                 />
-                <ParticipantsList
-                    participants={ this.state.filteredParticipantList }
+            <FilteredParticipantsList
+                    groupFilter={ this.state.selectedGroupId }
                     groups={ this.state.groups }
-                    onSave= { this.state.onSaveParticipant }
+                    participants={ this.state.participants }
+                    onSaveParticipant= { this.state.onSaveParticipant }
                 />
             </div>);
     }

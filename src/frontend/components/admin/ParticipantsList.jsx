@@ -9,14 +9,14 @@ import sortColumn from '../../lib/sortColumn.js';
 const moment = require('moment');
 const classnames = require('classnames');
 import ParticipantGroupsList from './ParticipantGroupsList.jsx';
-import EditMemberModalLauncher from './EditMemberModalLauncher.jsx'
+import EditMemberModalLauncher from './EditMemberModalLauncher.jsx';
 
 function tableColumns(onSave) {
     return [
         {
-            property: 'firstName',
+            property: 'participantName',
             header: 'Participant',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].firstName + " " + participants[rowIndex].lastName,
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].participantName + " " + participants[rowIndex].participantLastName,
             headerClass: classnames('participant')
         },
         {
@@ -26,13 +26,13 @@ function tableColumns(onSave) {
             headerClass: classnames('parent')
         },
         {
-            property: 'primaryPhoneNumber',
+            property: 'contactNumber',
             header: 'Contact information',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].primaryPhoneNumber + " " + participants[rowIndex].email,
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactNumber + " " + participants[rowIndex].contactEmail,
             headerClass: classnames('contact')
         },
         {
-            property: 'dateOfBirth',
+            property: 'participantBirthYear',
             header: 'Birth year',
             cell: (dob) => dob.substring(0,4),
             headerClass: classnames('birth-year')
@@ -54,7 +54,7 @@ function tableColumns(onSave) {
             headerClass: classnames('notes')
         },
         {
-            property: 'Groups',
+            property: 'groups',
             header: 'Groups',
             cell: (groups) => <ParticipantGroupsList editable={false} groups={groups} />,
             headerClass: classnames('groups')
@@ -91,7 +91,6 @@ export default class ParticipantsList extends Component {
 
     render() {
         let data = sortColumn.sort(this.props.participants, this.state.sortingColumn, sortByOrder);
-
         let lessHacky = data.map((participant) => {
             participant.allGroups = this.props.groups;
             return participant;
