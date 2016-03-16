@@ -143,7 +143,7 @@ export default class AdminDashboard extends Component {
             this.setState({filteredParticipantList:
                     this.state.participants.filter( element => {
                         return element.Groups.filter( group => {
-                            return group.id === this.state.selectedGroup.id;
+                            return group.id === this.state.selectedGroup;
                         }).length > 0;
                     })
             });
