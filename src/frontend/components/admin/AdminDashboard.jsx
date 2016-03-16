@@ -8,7 +8,7 @@ import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './GroupsView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
-
+import memberService from '../../services/memberService.js';
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -51,9 +51,17 @@ export default class AdminDashboard extends Component {
                     this.handleError(`There was a problem deleting the group: ${error.message}`);
                 });
             },
-            onSaveParticipant: (selected) => {
+            onSaveParticipant: (participant, selectedGroups) => {
                 this.clearMessages();
-                console.log(selected);
+                memberService.update(participant, this.state.currentLab.id)
+                    .then((savedParticipant) => {
+                        this.updateGroups(this.state.participants, savedParticipant);
+                        this.setUserMessage('Participant successfully saved');
+                    })
+                    .catch((error) => {
+                        this.handleError(`There was a problem saving the prticipant: ${error.message}`);
+                    });
+                console.log(selectedGroups);
             }
         };
     }
@@ -83,16 +91,26 @@ export default class AdminDashboard extends Component {
         this.setState({groups: groups});
     }
 
-    updateGroups(groups, group) {
-        let newGroups = groups.slice(0);
-        let oldGroup = newGroups.find (g => g.id === group.id);
-        if(oldGroup) {
-            Object.assign(oldGroup, group);
+    updateGroups(collection, element) {
+        updateElements('groups', collection, element);
+    }
+
+    updateParticipants(collection, element) {
+        updateElements('participants', collection, element);
+    }
+
+    updateElements(collectionName, collection, element) {
+        let newElements = collection.slice(0);
+        let oldElement = newElements.find (g => g.id === element.id);
+        if(oldElement) {
+            Object.assign(oldElement, element);
         }
         else {
-            newGroups.push(group);
+            newElements.push(element);
         }
-        this.setState({groups: newGroups});
+        let state = {};
+        state[collectionName] = newElements;
+        this.setState(state);
     }
 
     findAndRemoveGroup(groups, selected) {
