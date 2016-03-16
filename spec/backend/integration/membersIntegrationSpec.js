@@ -22,12 +22,6 @@ function editMember(member, groups) {
     return Object.assign({}, member, {dateOfBirth: '01/01/1986', groups: groups});
 }
 
-function hasGroups(res) {
-    let response = res.body;
-    expect(response.groups).not.toBeNull();
-    expect(response.groups.length).toEqual(2);
-}
-
 let hasNewMember = (res) => {
     if (!('newMember' in res.body)) {
         throw new Error('missing created member');
@@ -201,7 +195,11 @@ describe('MemberIntegrationTests', () => {
                 .set('Content-Type', 'application/json')
                 .send(editMember(member, groups))
                 .expect(200)
-                .expect(hasGroups)
+                .expect((res) => {
+                    let response = res.body;
+                    expect(response.groups).not.toBeNull();
+                    expect(response.groups.length).toEqual(2);
+                })
                 .then(done, done.fail);
         });
 
