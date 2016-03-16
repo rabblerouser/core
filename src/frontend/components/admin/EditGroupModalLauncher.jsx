@@ -12,13 +12,13 @@ export default class EditGroupModalLauncher extends Component {
         this.state = {modalIsOpen: false};
     }
 
-    launchEditForm = () => {
+    launchEditForm() {
         this.setState({modalIsOpen: true});
-    };
+    }
 
-    closeEditForm = () => {
+    closeEditForm() {
         this.setState({modalIsOpen: false});
-    };
+    }
 
     render() {
 
@@ -30,11 +30,20 @@ export default class EditGroupModalLauncher extends Component {
         };
         return (
             <div>
-                <button onClick={this.launchEditForm} className="editGroup" title="Edit group details"><span>Edit group details</span></button>
+                <button onClick={this.launchEditForm.bind(this)}
+                    className="editGroup"
+                    title="Edit details">
+                    <span>Edit details</span>
+                </button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeEditForm}  style={customStyle}>
-                    <EditGroupForm onSave={this.props.onSave} group={this.props.group}/>
+                    onRequestClose={this.closeEditForm.bind(this)}
+                    style={customStyle}>
+                    <EditGroupForm
+                        title="Edit group"
+                        onSave={this.props.onSave}
+                        group={this.props.group}
+                        onSuccess={this.closeEditForm.bind(this)}/>
                 </Modal>
             </div>
         )

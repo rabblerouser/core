@@ -27,6 +27,7 @@ export default class EditGroupForm extends Component {
         let errors = groupValidator.isValid(this.getGroupDetails());
         this.setState({invalidFields: errors});
         if(errors.length === 0) {
+            this.props.onSuccess();
             this.props.onSave(this.getGroupDetails());
         }
     }
@@ -42,7 +43,7 @@ export default class EditGroupForm extends Component {
     render() {
         return (
             <section className="form-container">
-                <h2>Create new group</h2>
+                <h2>{this.props.title}</h2>
                 <FormFieldLabel fieldName="groupName" isOptional={false} hasError={this.isValidationError('name')} />
                 <input id="groupName" type="text" placeholder="e.g. Tuesday 4.30pm" defaultValue="" value={this.state.name} onChange={this.updateName.bind(this)}/>
                     <FormFieldLabel fieldName="groupDescription" isOptional={false} hasError={this.isValidationError('description')} />
