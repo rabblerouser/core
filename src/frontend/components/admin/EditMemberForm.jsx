@@ -9,7 +9,7 @@ export default class EditMemberForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedGroupIds: this.props.participant.Groups.map(group => group.id)
+            selectedGroupIds: this.props.participant.groups.map(group => group.id)
         };
     }
 
@@ -37,7 +37,7 @@ export default class EditMemberForm extends Component {
                 <p>Select one or more groups for the participant to join.</p>
                 <GroupCheckboxes onChange={this.onChange.bind(this)}
                                  allGroups={this.props.participant.allGroups}
-                                 participantGroups={this.props.participant.Groups} />
+                                 participantGroups={this.props.participant.groups} />
                 <button onClick={this.saveChanges.bind(this)}>Save</button>
             </section>
         )

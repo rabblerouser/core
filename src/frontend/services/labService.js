@@ -4,6 +4,8 @@ import $ from 'jquery';
 import { Resources } from '../config/strings';
 import groupAdapter from '../adapters/groupAdapter.js';
 import labAdapter from '../adapters/labAdapter.js';
+import participantAdapter from '../adapters/participantAdapter.js';
+
 
 const handleResponseError = function(error) {
   switch(error.status) {
@@ -42,24 +44,19 @@ const getLabGroups = function (lab) {
     .catch(handleResponseError);
 };
 
-const getLabPartipicants = function (lab) {
+const getLabParticipants = function (lab) {
   return Q($.ajax({
         type: 'GET',
         url: `/${Resources.labListEndPoint}/${lab}/members`,
         dataType: 'json',
     }))
-    .catch(handleResponseError)
-    .then((data) => {
-        if(data.members) {
-          return data.members;
-        }
-        throw new Error('INVALID PARTICIPANT LIST');
-    });
+    .then(participantAdapter.parseParticipants)
+    .catch(handleResponseError);
 };
 
 export default {
     getLabList: getLabList,
     getMyLabs: getMyLabs,
     getLabGroups: getLabGroups,
-    getLabPartipicants: getLabPartipicants
+    getLabParticipants: getLabParticipants
 };

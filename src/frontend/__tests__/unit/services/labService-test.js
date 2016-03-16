@@ -142,7 +142,39 @@ describe('labService', () => {
 
     });
 
-    describe('getLabPartipicants', () => {
+    describe('getLabParticipants', () => {
+
+        let validParticipantsPayload = [{
+            id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
+            firstName: 'Jo jo',
+            lastName: 'The 3rd',
+            contactFirstName: 'Jo',
+            contactLastName: 'The 2nd',
+            primaryPhoneNumber: '101010010',
+            email: 'jo@jo.com',
+            dateOfBirth: '1990',
+            schoolType: 'Primary',
+            memberSince: '2016-03-08T22:34:23.721Z',
+            additionalInfo: 'Some additional info',
+            Groups: [{id: 1, name: 'Group name'}],
+            branch: {id: '1234'}
+        }];
+
+        let validResult = [{
+            id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
+            participantName: 'Jo jo',
+            participantLastName: 'The 3rd',
+            contactFirstName: 'Jo',
+            contactLastName: 'The 2nd',
+            contactNumber: '101010010',
+            contactEmail: 'jo@jo.com',
+            participantBirthYear: '1990',
+            schoolType: 'Primary',
+            memberSince: '2016-03-08T22:34:23.721Z',
+            additionalInfo: 'Some additional info',
+            groups: [{id: 1, name: 'Group name'}],
+            branchId: '1234'
+        }];
 
         let server;
         beforeEach(() => {
@@ -159,13 +191,13 @@ describe('labService', () => {
             beforeEach(() => {
                 server.respondWith('GET', '/branches/112-11-21-2/members',
                           [200, { 'Content-Type': 'application/json' },
-                           JSON.stringify({members: validData})]);
+                           JSON.stringify({members: validParticipantsPayload})]);
             });
 
           it('should return a list of the labs', (done) => {
-            labService.getLabPartipicants('112-11-21-2')
+            labService.getLabParticipants('112-11-21-2')
               .then((participants) => {
-                expect(participants).toEqual(validData);
+                expect(participants).toEqual(validResult);
               })
               .then(done, done.fail);
           });
@@ -173,7 +205,7 @@ describe('labService', () => {
 
         describe('when the branch id is undefined', () => {
             it('should return an error that the remote endpoint was not found', (done) => {
-              labService.getLabPartipicants()
+              labService.getLabParticipants()
                 .then(() => {
                   done.fail('Expected promise to be rejected');
                 })
@@ -193,12 +225,12 @@ describe('labService', () => {
           });
 
           it('should return an error that return data was invalid', (done) => {
-            labService.getLabPartipicants('112-11-21-2')
+            labService.getLabParticipants('112-11-21-2')
               .then(() => {
                 done.fail('Expected promise to be rejected');
               })
               .fail((error) => {
-                expect(error.message).toEqual('INVALID PARTICIPANT LIST');
+                expect(error.message).toEqual('NOT AVAILABLE');
                 done();
               });
           });
@@ -212,7 +244,7 @@ describe('labService', () => {
           });
 
           it('should return an error that the remote endpoint was not found', (done) => {
-            labService.getLabPartipicants('112-11-21-2')
+            labService.getLabParticipants('112-11-21-2')
               .then(() => {
                 done.fail('Expected promise to be rejected');
               })
@@ -231,7 +263,7 @@ describe('labService', () => {
             });
 
             it('should return an error that the remote endpoint was not found', (done) => {
-              labService.getLabPartipicants('112-11-21-2')
+              labService.getLabParticipants('112-11-21-2')
                 .then(() => {
                   done.fail('Expected promise to be rejected');
                 })
@@ -250,7 +282,7 @@ describe('labService', () => {
           });
 
           it('should return a general server error', (done) => {
-            labService.getLabPartipicants('112-11-21-2')
+            labService.getLabParticipants('112-11-21-2')
               .then(() => {
                 done.fail('Expected promise to be rejected');
               })
