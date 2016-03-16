@@ -1,8 +1,8 @@
 'use strict';
-
-const Q = require('q');
-const $ = require('jquery');
+import Q from 'q';
+import $ from 'jquery';
 import { Resources } from '../config/strings';
+import groupAdapter from '../adapters/groupAdapter.js';
 
 const handleResponseError = function(error) {
   switch(error.status) {
@@ -24,7 +24,7 @@ const getMyLabs = function () {
           }
           throw new Error('INVALID LAB LIST');
       });
-}
+};
 
 const getLabList = function () {
   return Q($.ajax({
@@ -47,13 +47,8 @@ const getLabGroups = function (lab) {
         url: `/${Resources.labListEndPoint}/${lab}/groups`,
         dataType: 'json',
     }))
-    .catch(handleResponseError)
-    .then((data) => {
-        if(data.groups) {
-          return data.groups;
-        }
-        throw new Error('INVALID GROUP LIST');
-    });
+    .then(groupAdapter.parseGroups)
+    .catch(handleResponseError);
 };
 
 const getLabPartipicants = function (lab) {

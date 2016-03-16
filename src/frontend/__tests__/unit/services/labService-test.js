@@ -8,6 +8,20 @@ describe('labService', () => {
 
     describe('getLabGroups', () => {
 
+        let validGroupsPayload =
+            [
+                {
+                    id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
+                    name: 'Tuesday',
+                    description: 'Hi'
+                },
+                {
+                    id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
+                    name: 'Wednesday',
+                    description: 'Hi'
+                }
+            ];
+
         let server;
         beforeEach(() => {
           server = sinon.fakeServer.create();
@@ -23,13 +37,13 @@ describe('labService', () => {
             beforeEach(() => {
                 server.respondWith('GET', '/branches/112-11-21-2/groups',
                           [200, { 'Content-Type': 'application/json' },
-                           JSON.stringify({groups: validData})]);
+                           JSON.stringify({groups: validGroupsPayload})]);
             });
 
           it('should return a list of the labs', (done) => {
             labService.getLabGroups('112-11-21-2')
               .then((groups) => {
-                expect(groups).toEqual(validData);
+                expect(groups).toEqual(validGroupsPayload);
               })
               .then(done, done.fail);
           });
@@ -62,7 +76,7 @@ describe('labService', () => {
                 done.fail('Expected promise to be rejected');
               })
               .fail((error) => {
-                expect(error.message).toEqual('INVALID GROUP LIST');
+                expect(error.message).toEqual('NOT AVAILABLE');
                 done();
               });
           });

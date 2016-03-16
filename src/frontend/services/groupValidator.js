@@ -1,5 +1,4 @@
 'use strict';
-const validator = require('validator');
 const _ = require('lodash');
 
 const restrictedChars = '[\<\>\"\%\;\(\)\&\+]';
@@ -22,6 +21,10 @@ var isValidOptionalName = (name) => {
 var isValidName = (name) => {
   return hasStringValue(name) &&
          isValidOptionalName(name);
+};
+
+var isValidId = (id) => {
+    return hasStringValue(id);
 };
 
 var isValidDescription = (block) => {
@@ -54,5 +57,6 @@ var isValid = (group) => {
 module.exports = {
     isValid: isValid,
     isValidName: isValidName,
-    isValidDescription: isValidDescription
+    isValidDescription: isValidDescription,
+    isValidId: isValidId
 };

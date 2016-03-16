@@ -160,7 +160,7 @@ describe('groupService', () => {
                         done.fail('Expected promise to be rejected');
                     })
                     .fail((error) => {
-                        expect(error.message).toEqual('INVALID GROUP');
+                        expect(error.message).toEqual('NOT AVAILABLE');
                         done();
                     });
             });
@@ -274,7 +274,7 @@ describe('groupService', () => {
                         done.fail('Expected promise to be rejected');
                     })
                     .fail((error) => {
-                        expect(error.message).toEqual('INVALID GROUP');
+                        expect(error.message).toEqual('NOT AVAILABLE');
                         done();
                     });
             });

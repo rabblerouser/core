@@ -1,19 +1,13 @@
 'use strict';
-
-const Q = require('q');
-const $ = require('jquery');
+import Q from 'q';
+import $ from 'jquery';
+import groupAdapter from '../adapters/groupAdapter.js';
 
 const handleResponseError = function(error) {
-
  switch(error.status) {
     case 401 : case 404 : throw new Error('NOT FOUND');
     default: throw new Error('NOT AVAILABLE');
   }
-
-};
-
-const isValidGroup = (group) => {
-    return group.name && group.description;
 };
 
 const createGroup = function (group, labId) {
@@ -22,13 +16,8 @@ const createGroup = function (group, labId) {
           url: `/branches/${labId}/groups`,
           data: group,
       }))
-      .catch(handleResponseError)
-      .then((data) => {
-          if(data.id && isValidGroup(data)) {
-              return data;
-          }
-          throw new Error('INVALID GROUP');
-      });
+      .then(groupAdapter.parseGroup)
+      .catch(handleResponseError);
 };
 
 const updateGroup = function (group, labId) {
@@ -37,13 +26,8 @@ const updateGroup = function (group, labId) {
           url: `/branches/${labId}/groups/${group.id}`,
           data: group,
       }))
-      .catch(handleResponseError)
-      .then((data) => {
-          if(data.id && isValidGroup(data)) {
-              return data;
-          }
-          throw new Error('INVALID GROUP');
-      });
+      .then(groupAdapter.parseGroup)
+      .catch(handleResponseError);
 };
 
 const deleteGroup = (group, labId) => {
@@ -51,10 +35,7 @@ const deleteGroup = (group, labId) => {
           type: 'DELETE',
           url: `/branches/${labId}/groups/${group.id}`
       }))
-      .catch(handleResponseError)
-      .then((data) => {
-          return data;
-      });
+      .catch(handleResponseError);
 };
 
 export default {
