@@ -91,11 +91,11 @@ export default class AdminDashboard extends Component {
     }
 
     updateGroups(collection, element) {
-        updateElements('groups', collection, element);
+        this.updateElements('groups', collection, element);
     }
 
     updateParticipants(collection, element) {
-        updateElements('participants', collection, element);
+        this.updateElements('participants', collection, element);
     }
 
     updateElements(collectionName, collection, element) {
