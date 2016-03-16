@@ -4,7 +4,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import ParticipantsList from './ParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
-import ErrorView from './ErrorView.jsx';
+import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './GroupsView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
@@ -20,45 +20,60 @@ export default class AdminDashboard extends Component {
             selectedGroup: undefined,
             currentLab: '',
             filteredParticipantList: [],
+            userMessages: [],
             pageErrors: [],
             onSaveGroup: (groupDetails) => {
-                this.clearErrors();
+                this.clearMessages();
                 let saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ? groupService.createGroup : groupService.updateGroup;
                 saveAction(groupDetails, this.state.currentLab.id)
-                .then( (savedGroup) => {
+                .then((savedGroup) => {
                     this.updateGroups(this.state.groups, savedGroup);
+                    this.setUserMessage('Group successfully saved');
                 })
-                .catch(this.handleError.bind(this));
+                .catch((error) => {
+                    this.handleError(`There was a problem saving the group: ${error.message}`);
+                });
             },
             onSelectGroup: (selected) => {
-                this.clearErrors();
+                this.clearMessages();
                 this.updateGroupSelection(selected);
                 this.setGroupFilter(selected);
             },
             onDeleteGroup: (selected) => {
-                this.clearErrors();
+                this.clearMessages();
                 groupService.deleteGroup(selected, this.state.currentLab.id)
                 .then(()=> {
                     this.setState({groups: this.findAndRemoveGroup(this.state.groups, selected)});
                     this.setGroupFilter();
+                    this.setUserMessage('Group successfully deleted');
                 })
-                .catch(this.handleError.bind(this));
+                .catch((error) => {
+                    this.handleError(`There was a problem deleting the group: ${error.message}`);
+                });
             },
             onSaveParticipant: (selected) => {
+                this.clearMessages();
                 console.log(selected);
             }
         };
     }
 
-    clearErrors() {
+    clearMessages() {
+        this.setState({userMessages: []});
         this.setState({pageErrors: []});
     }
 
     handleError(error) {
         let pageErrors = this.state.pageErrors.slice(0);
-        pageErrors.push(error.message);
+        pageErrors.push(error);
         this.setState({pageErrors: pageErrors});
+    }
 
+    setUserMessage(message) {
+        let userMessages = this.state.userMessages.slice(0);
+        userMessages.push(message);
+
+        this.setState({userMessages: userMessages});
     }
 
     updateGroupSelection(selected) {
@@ -130,7 +145,10 @@ export default class AdminDashboard extends Component {
         return (
             <div className="admin-container">
                 <AdminHeader />
-                { errorsView }
+                <UserMessageView
+                    messages={this.state.userMessages}
+                    errors={this.state.pageErrors}
+                />
                 <GroupsView
                     selectedGroup={this.getSelectedGroup()}
                     groups={this.state.groups}
