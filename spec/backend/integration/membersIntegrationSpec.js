@@ -1,4 +1,5 @@
 'use strict';
+
 const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
@@ -6,6 +7,26 @@ const sample = require('lodash').sample;
 const pluck = require('lodash').pluck;
 let integrationTestHelpers = require('./integrationTestHelpers.js');
 let Q = require('../../support/specHelper').Q;
+
+function getMembers(someAgent, state) {
+    return function() {
+        return someAgent.get(`/branches/${state.branch.id}/members`)
+        .then((response) => {
+            return response.body.members;
+        });
+    };
+}
+
+function editMember(member, groups) {
+    groups = groups || [];
+    return Object.assign({}, member, {dateOfBirth: '01/01/1986', groups: groups});
+}
+
+function hasGroups(res) {
+    let response = res.body;
+    expect(response.groups).not.toBeNull();
+    expect(response.groups.length).toEqual(2);
+}
 
 let hasNewMember = (res) => {
     if (!('newMember' in res.body)) {
@@ -41,15 +62,24 @@ let makeInvalidMember = () => {
     return member;
 };
 
+function setState(obj, key) {
+    return function (newState) {
+        obj[key] = newState;
+    };
+}
+
 describe('MemberIntegrationTests', () => {
     let agent;
 
-    beforeEach((done) => {
+    beforeEach(() => {
         agent = request.agent(app);
-        integrationTestHelpers.createBranch().nodeify(done);
     });
 
     describe('Register', () => {
+        beforeEach((done) => {
+            integrationTestHelpers.createBranch().nodeify(done);
+        });
+
         it('should return 200 and a created member when the input is valid', (done) => {
             getBranchId(agent)
             .then((branchId) => {
@@ -140,55 +170,56 @@ describe('MemberIntegrationTests', () => {
         });
     });
 
-    function getMembersAndReturnMemberAndGroups(someAgent) {
-        return function(branchGroups) {
-            let branchId = sample(branchGroups).branchId;
-
-            return someAgent.get(`/branches/${branchId}/members`)
-                .then((response) => {
-                    return [
-                        response.body.members,
-                        branchGroups
-                    ];
-                });
-        };
-    }
-
-    function hasGroups(res) {
-        let response = res.body;
-        expect(response.groups).not.toBeNull();
-        expect(response.groups.length).toEqual(2);
-    }
-
-    function editMember(member, groups) {
-        groups = groups || [];
-        return Object.assign({}, member, {dateOfBirth: '01/01/1986', groups: groups});
-    }
-
     describe('Edit member', () => {
-        it('should add groups to a member', (done) => {
+
+        let browserState = {};
+
+        beforeEach((done) => {
             integrationTestHelpers.createBranch()
+            .tap(setState(browserState, 'branch'))
             .tap(integrationTestHelpers.createUser)
-            .tap(integrationTestHelpers.createFakeMembers(agent, 1))
-            .then((branch) => {
+            .then(integrationTestHelpers.createFakeMembers(agent, 1))
+            .then(() => {
                 return Q.all([
-                    integrationTestHelpers.createGroupInBranch(branch.id),
-                    integrationTestHelpers.createGroupInBranch(branch.id)
+                    integrationTestHelpers.createGroupInBranch(browserState.branch.id),
+                    integrationTestHelpers.createGroupInBranch(browserState.branch.id)
                 ]);
             })
+            .tap(setState(browserState, 'groups'))
             .tap(integrationTestHelpers.authenticate(agent))
-            .then(getMembersAndReturnMemberAndGroups(agent))
-            .spread((members, branchGroups) => {
-                let branchId = sample(branchGroups).branchId;
-                let member = sample(members);
-                let groups = pluck(branchGroups, 'groupId');
-                return agent.put(`/branches/${branchId}/members/${member.id}`)
-                    .set('Content-Type', 'application/json')
-                    .send(editMember(member, groups))
-                    .expect(200);
-            })
-            .then(hasGroups)
+            .then(getMembers(agent, browserState))
+            .tap(setState(browserState, 'members'))
             .then(done, done.fail);
+        });
+
+        it('should add groups to a member', (done) => {
+            let member = sample(browserState.members);
+            let groups = pluck(browserState.groups, 'groupId');
+            let branchId = browserState.branch.id;
+
+            return agent.put(`/branches/${branchId}/members/${member.id}`)
+                .set('Content-Type', 'application/json')
+                .send(editMember(member, groups))
+                .expect(200)
+                .expect(hasGroups)
+                .then(done, done.fail);
+        });
+
+        it('should edit the member with the new values', (done) => {
+            let member = sample(browserState.members);
+            let branchId = browserState.branch.id;
+
+            member.firstName = 'Super Test';
+
+            return agent.put(`/branches/${branchId}/members/${member.id}`)
+                .set('Content-Type', 'application/json')
+                .send(editMember(member, []))
+                .expect(200)
+                .then((response) => {
+                    let member = response.body;
+                    expect(member.firstName).toEqual('Super Test');
+                })
+                .then(done, done.fail);
         });
     });
 });
