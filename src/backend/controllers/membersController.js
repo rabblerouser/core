@@ -111,6 +111,13 @@ function list(req, res) {
 function edit(req, res) {
     let member = parseMember(req);
 
+    let validationErrors = memberValidator.isValid(member);
+
+    if (validationErrors.length > 0) {
+        logger.info('[edit-member-validation-error]', {errors: validationErrors});
+        return res.status(400).json({ errors: validationErrors});
+    }
+
     return memberService.edit(member)
     .then((updatedMember) => {
         res.status(200).json(updatedMember);

@@ -19,7 +19,7 @@ function getMembers(someAgent, state) {
 
 function editMember(member, groups) {
     groups = groups || [];
-    return Object.assign({}, member, {dateOfBirth: '01/01/1986', groups: groups});
+    return Object.assign({}, member, {dateOfBirth: '01/01/1986', groups: groups, branch: member.branch.id});
 }
 
 let hasNewMember = (res) => {
@@ -217,6 +217,19 @@ describe('MemberIntegrationTests', () => {
                     let member = response.body;
                     expect(member.firstName).toEqual('Super Test');
                 })
+                .then(done, done.fail);
+        });
+
+        it('should respond 400 if invalid input', (done) => {
+            let member = sample(browserState.members);
+            let branchId = browserState.branch.id;
+
+            member.firstName = null;
+
+            return agent.put(`/branches/${branchId}/members/${member.id}`)
+                .set('Content-Type', 'application/json')
+                .send(editMember(member, []))
+                .expect(400)
                 .then(done, done.fail);
         });
     });
