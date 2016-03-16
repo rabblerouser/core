@@ -113,7 +113,7 @@ function edit(req, res) {
 
     let validationErrors = memberValidator.isValid(member);
 
-    if (validationErrors.length > 0) {
+    if (validationErrors.length > 0 || !member.id) {
         logger.info('[edit-member-validation-error]', {errors: validationErrors});
         return res.status(400).json({ errors: validationErrors});
     }
