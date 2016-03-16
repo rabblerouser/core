@@ -95,7 +95,7 @@ function fakeNewMember(residentialAddress, postalAddress) {
             residentialAddress: residentialAddress,
             postalAddress: postalAddress,
             membershipType: 'full',
-            branch: 'some-branch-ref-id-1',
+            branch: 'some-branch-id-1',
             schoolType: 'Primary',
             contactFirstName: 'Jaime',
             contactLastName: 'Garzon',
@@ -115,7 +115,8 @@ function getExpectedNewMember(residentialAddressId, postalAddressId) {
         residentialAddressId: residentialAddressId,
         postalAddress: postalAddressId,
         membershipType: 'full',
-        memberSince: moment().format('L')
+        memberSince: moment().format('L'),
+        branchId: 'some-branch-id-1'
     };
 }
 
@@ -168,7 +169,7 @@ describe('memberService', () => {
             createMemberStub = sinon.stub(Member, 'create').returns(memberPromise.promise);
 
             branchPromise = Q.defer();
-            getBranchStub = sinon.stub(branchService, 'findById').withArgs('some-branch-ref-id-1').returns(branchPromise.promise);
+            getBranchStub = sinon.stub(branchService, 'findById').withArgs('some-branch-id-1').returns(branchPromise.promise);
         });
 
         afterEach(() => {
@@ -344,7 +345,31 @@ describe('memberService', () => {
                 let sampleMember = sample(result);
                 expect(result.length).toEqual(3);
 
-                expect(sampleMember.branch.id).toEqual('some-branch-id-1');
+                expect(sampleMember.branchId).toEqual('some-branch-id-1');
+                expect(sampleMember.id).not.toBeNull();
+                expect(sampleMember.email).not.toBeNull();
+                expect(sampleMember.firstName).not.toBeNull();
+                expect(sampleMember.lastName).not.toBeNull();
+                expect(sampleMember.primaryPhoneNumber).not.toBeNull();
+                expect(sampleMember.dateOfBirth).not.toBeNull();
+                expect(sampleMember.contactFirstName).not.toBeNull();
+                expect(sampleMember.contactLastName).not.toBeNull();
+                expect(sampleMember.schoolType).not.toBeNull();
+                expect(sampleMember.additionalInfo).not.toBeNull();
+            })
+            .then(done, done.fail);
+        });
+
+        it('it should return the list of groups for each member', (done) => {
+            Member.findAll
+                .returns(Promise.resolve(fakeMembersList(3)));
+
+            memberService.list('some-branch-id-1')
+            .then((result) => {
+                let sampleMember = sample(result);
+                expect(result.length).toEqual(3);
+
+                expect(sampleMember.branchId).toEqual('some-branch-id-1');
                 expect(sampleMember.id).not.toBeNull();
                 expect(sampleMember.email).not.toBeNull();
                 expect(sampleMember.firstName).not.toBeNull();

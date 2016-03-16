@@ -5,7 +5,6 @@ const Q = require('q'),
     logger = require('../lib/logger'),
     moment = require('moment'),
     Address = models.Address,
-    Branch = models.Branch,
     Group = models.Group,
     Member = models.Member,
     uuid = require('node-uuid'),
@@ -139,10 +138,9 @@ var updateMember = (member) => {
 };
 
 function transformMember(dbMember) {
-    return Object.assign({}, dbMember.dataValues,
-        {
-            branch: dbMember.dataValues.branch.dataValues
-        });
+    return Object.assign({}, dbMember.dataValues, {
+        groups: pluck(dbMember.dataValues.groups, 'dataValues.id')
+    });
 }
 
 function transformMembers(adapter) {
@@ -159,14 +157,10 @@ function list(branchId) {
     let query = {
         include: [
             {
-                model: Branch,
-                as: 'branch',
-                attributes: ['name', 'key', 'id']
-            },
-            {
                 model: Group,
+                as: 'groups',
                 through: {
-                    attributes: ['name', 'key', 'id']
+                    attributes: ['name']
                 }
             }
         ],
@@ -183,7 +177,8 @@ function list(branchId) {
             'schoolType',
             'additionalInfo',
             'membershipType',
-            'memberSince'
+            'memberSince',
+            'branchId'
         ],
         where: {
             branchId: branchId
@@ -202,7 +197,7 @@ function edit(input) {
             return parse(input, residentialAddress, postalAddress);
         })
         .then((newValues) => {
-            return Member.findById(input.id)
+            return Member.findOne({where: {id: input.id}})
             .then( member => {
                 return member.update(newValues);
             });
@@ -210,10 +205,20 @@ function edit(input) {
         .then(member => {
             let groups = input.groups || [];
             return member.setGroups(groups)
+            .then(() => {
+                return member.reload({
+                    include: [
+                        {
+                            model: Group,
+                            as: 'groups',
+                            through: {
+                                attributes: ['id']
+                            }
+                        }
+                    ]});
+            })
             .then((result) => {
-                let updatedMember = member.dataValues;
-                updatedMember.groups = pluck(result[0], 'dataValues.groupId');
-                return updatedMember;
+                return transformMember(result);
             });
         });
     })
