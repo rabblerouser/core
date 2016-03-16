@@ -1,26 +1,11 @@
 'use strict';
-import GroupValidator from '../services/groupValidator.js';
 const invalidDataError = 'INVALID DATA';
 
-let parseId = (id) => {
-    if(!GroupValidator.isValidId(id)) {
+let parseString = (value) => {
+    if(!value) {
         throw(invalidDataError);
     }
-    return id;
-};
-
-let parseName = (name) => {
-    if(!GroupValidator.isValidName(name)) {
-        throw(invalidDataError);
-    }
-    return name;
-};
-
-let parseDescription = (description) => {
-    if(!GroupValidator.isValidDescription(description)) {
-        throw(invalidDataError);
-    }
-    return description;
+    return value;
 };
 
 let parseGroupDetails = (data) => {
@@ -28,9 +13,9 @@ let parseGroupDetails = (data) => {
         throw(invalidDataError);
     }
     return {
-        id: parseId(data.id),
-        name: parseName(data.name),
-        description: parseDescription(data.description)
+        id: parseString(data.id),
+        name: parseString(data.name),
+        description: parseString(data.description)
     };
 };
 

@@ -39,7 +39,6 @@ describe('groupValidator', () => {
             '',
             null,
             Array(257).join('a'),
-            'Flo the 1st<'
         ].forEach((testCase) => {
             it(`Should return false if name is ${testCase}`, () => {
                 expect(groupValidator.isValidName(testCase)).toBe(false);

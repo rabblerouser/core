@@ -1,26 +1,13 @@
 'use strict';
 const _ = require('lodash');
 
-const restrictedChars = '[\<\>\"\%\;\(\)\&\+]';
-
 var hasStringValue = (string) => {
   return !!string;
 };
 
-var isValidString = (inString, pattern) => {
-  pattern = pattern || new RegExp(restrictedChars);
-  return !pattern.test(inString);
-};
-
-var isValidOptionalName = (name) => {
-    return name !== undefined &&
-           isValidString(name) &&
-           name.length < 256;
-};
-
 var isValidName = (name) => {
   return hasStringValue(name) &&
-         isValidOptionalName(name);
+  name.length < 256;
 };
 
 var isValidId = (id) => {

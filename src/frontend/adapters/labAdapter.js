@@ -1,19 +1,11 @@
 'use strict';
-import LabValidator from '../services/labValidator.js';
 const invalidDataError = 'INVALID DATA';
 
-let parseId = (id) => {
-    if(!LabValidator.isValidId(id)) {
+let parseString = (value) => {
+    if(!value) {
         throw(invalidDataError);
     }
-    return id;
-};
-
-let parseName = (name) => {
-    if(!LabValidator.isValidName(name)) {
-        throw(invalidDataError);
-    }
-    return name;
+    return value;
 };
 
 let parseLabDetails = (data) => {
@@ -21,8 +13,8 @@ let parseLabDetails = (data) => {
         throw(invalidDataError);
     }
     return {
-        id: parseId(data.id),
-        name: parseName(data.name)
+        id: parseString(data.id),
+        name: parseString(data.name)
     };
 };
 

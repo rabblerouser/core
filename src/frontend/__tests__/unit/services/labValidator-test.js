@@ -37,7 +37,6 @@ describe('labValidator', () => {
             '',
             null,
             Array(257).join('a'),
-            'Flo the 1st<'
         ].forEach((testCase) => {
             it(`Should return false if name is ${testCase}`, () => {
                 expect(labValidator.isValidName(testCase)).toBe(false);
