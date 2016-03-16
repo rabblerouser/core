@@ -267,6 +267,18 @@ describe('labService', () => {
 
   describe('getMyLabs', () => {
 
+      let validLabsPayload =
+          [
+              {
+                  id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
+                  name: 'Lab 1'
+              },
+              {
+                  id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
+                  name: 'Lab 2'
+              }
+          ];
+
       let server;
       beforeEach(() => {
         server = sinon.fakeServer.create();
@@ -282,13 +294,13 @@ describe('labService', () => {
         beforeEach(() => {
           server.respondWith('GET', '/admin/branches',
                       [200, { 'Content-Type': 'application/json' },
-                       JSON.stringify({branches: validData})]);
+                       JSON.stringify({branches: validLabsPayload})]);
         });
 
         it('should return a list of the labs', (done) => {
           labService.getMyLabs()
             .then((branches) => {
-              expect(branches).toEqual(validData);
+              expect(branches).toEqual(validLabsPayload);
             })
             .then(done, done.fail);
         });
@@ -308,7 +320,7 @@ describe('labService', () => {
               done.fail('Expected promise to be rejected');
             })
             .fail((error) => {
-              expect(error.message).toEqual('INVALID LAB LIST');
+              expect(error.message).toEqual('NOT AVAILABLE');
               done();
             });
         });
@@ -358,6 +370,17 @@ describe('labService', () => {
 
   describe('getLabList', () => {
 
+      let validLabsPayload =
+          [
+              {
+                  id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
+                  name: 'Lab 1'
+              },
+              {
+                  id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
+                  name: 'Lab 2'
+              }
+          ];
 
     let server;
     beforeEach(() => {
@@ -374,13 +397,13 @@ describe('labService', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches',
                     [200, { 'Content-Type': 'application/json' },
-                     JSON.stringify({branches: validData})]);
+                     JSON.stringify({branches: validLabsPayload})]);
       });
 
       it('should return a list of the labs', (done) => {
         labService.getLabList()
           .then((branches) => {
-            expect(branches).toEqual(validData);
+            expect(branches).toEqual(validLabsPayload);
           })
           .then(done, done.fail);
       });
@@ -400,7 +423,7 @@ describe('labService', () => {
             done.fail('Expected promise to be rejected');
           })
           .fail((error) => {
-            expect(error.message).toEqual('INVALID LAB LIST');
+            expect(error.message).toEqual('NOT AVAILABLE');
             done();
           });
       });

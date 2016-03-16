@@ -3,6 +3,7 @@ import Q from 'q';
 import $ from 'jquery';
 import { Resources } from '../config/strings';
 import groupAdapter from '../adapters/groupAdapter.js';
+import labAdapter from '../adapters/labAdapter.js';
 
 const handleResponseError = function(error) {
   switch(error.status) {
@@ -17,13 +18,8 @@ const getMyLabs = function () {
           url: `/${Resources.myLabListEndPoint}`,
           dataType: 'json',
       }))
-      .catch(handleResponseError)
-      .then((data) => {
-          if(data.branches) {
-            return data.branches;
-          }
-          throw new Error('INVALID LAB LIST');
-      });
+      .then(labAdapter.parseLabs)
+      .catch(handleResponseError);
 };
 
 const getLabList = function () {
@@ -32,13 +28,8 @@ const getLabList = function () {
         url: `/${Resources.labListEndPoint}`,
         dataType: 'json',
     }))
-    .catch(handleResponseError)
-    .then((data) => {
-        if(data.branches) {
-          return data.branches;
-        }
-        throw new Error('INVALID LAB LIST');
-    });
+    .then(labAdapter.parseLabs)
+    .catch(handleResponseError);
 };
 
 const getLabGroups = function (lab) {
