@@ -46,9 +46,23 @@
   margin: 20px auto;
 }
 
+.user_messages {
+    li {
+        border: 1px solid;
+        border-color: $green-darker;
+        border-radius: 3px;
+        background-color: $green-light;
+        padding: 10px;
+        margin: 20px auto;
+    }
+    .error {
+      border-color: red;
+      background: #FAD9D9;
+    }
+}
+
 .login_body span {
   color: red;
-
 }
 
 
@@ -66,11 +80,11 @@ nav {
 
 
              @include media($mobile) {
-          
+
       width: 98%;
       margin: 15px auto;
 
-      
+
 
         }
 }
@@ -83,10 +97,10 @@ nav {
   padding-left: 20px;
 
              @include media($mobile) {
-          
-      
+
+
           padding-left: 0px
-      
+
 
         }
 }
@@ -100,10 +114,10 @@ nav {
   color: #062C40;
 
              @include media($mobile) {
-          
-      
+
+
           display:none
-      
+
 
         }
 
@@ -127,13 +141,13 @@ nav {
   margin-left: 5px;
 
            @include media($mobile) {
-          
-      
+
+
           display:block;
           border: none;
           padding: 5px;
           margin-right: 0;
-      
+
 
         }
 
@@ -176,7 +190,7 @@ color: #fff;
 
 #groups li.new:hover {
   background: none;
-  
+
 }
 
 
@@ -198,10 +212,10 @@ color: #fff;
       margin-top: 20px;
 
                    @include media($mobile) {
-          
+
       width: 98%;
       margin: auto;
-      
+
 
         }
     }
@@ -212,12 +226,12 @@ color: #fff;
             display:none;
         }
     }
-    
+
     tr {
         border: none;
          @include media($mobile) {
-      
-      
+
+
 
         }
     }
@@ -227,7 +241,7 @@ color: #fff;
       color:$white;
       font-size: 14px;
       padding-left: 10px;
-      padding-right: 10px;  
+      padding-right: 10px;
       padding-top:18px;
       padding-bottom: 18px;
       word-wrap: break-word;
@@ -235,7 +249,7 @@ color: #fff;
       vertical-align: top;
       font-size: 1em;
       line-height: 1.2em;
-      padding-right: 20px; 
+      padding-right: 20px;
     }
 
 
@@ -244,25 +258,25 @@ color: #fff;
     }
 
     th.sort-desc, th.sort-asc {
-     
+
       background: #062C40;
 
     }
 
     th.sort-desc:before {
       content: "\f0ab";
-      font-family: FontAwesome; 
-      text-align: right; 
+      font-family: FontAwesome;
+      text-align: right;
       display:block;
       float:right;
       padding-right: 0px;
       margin-right: -15px;
     }
-    
+
     th.sort-asc:before {
       content: "\f0aa";
-      font-family: FontAwesome; 
-      text-align: right; 
+      font-family: FontAwesome;
+      text-align: right;
       display:block;
       float:right;
       padding-right: 0px;
@@ -276,11 +290,11 @@ color: #fff;
     }
 
     th:hover:before {
-    
+
       cursor: pointer;
       content: "\f0ab";
-      font-family: FontAwesome; 
-      text-align: right; 
+      font-family: FontAwesome;
+      text-align: right;
       display:block;
       float:right;
       padding-right: 0px;
@@ -297,7 +311,7 @@ color: #fff;
       cursor: default;
       content: none;
 
-      text-align: right; 
+      text-align: right;
       display:block;
       float:right;
       padding-right: 0px;
@@ -307,8 +321,8 @@ color: #fff;
     th.sort-desc:hover:before {
       cursor: pointer;
       content: "\f0aa";
-      font-family: FontAwesome; 
-      text-align: right; 
+      font-family: FontAwesome;
+      text-align: right;
       display:block;
       float:right;
       padding-right: 0px;
@@ -339,18 +353,18 @@ color: #fff;
         padding: 10px 5px;
 
         }
-   
+
 
     }
 
        tr td:last-child {
 
       @include media($mobile) {
-       
+
         padding-bottom: 10px;
 
         }
-   
+
 
     }
 
@@ -386,8 +400,8 @@ color: #fff;
    td:nth-of-type(5):hover, td:nth-of-type(7):hover {
  white-space: normal;
  overflow: visible;
-   
-  
+
+
 
     padding-right: 10px;
   }
@@ -442,8 +456,8 @@ color: #fff;
 
       td button:after {
       content: "\f040";
-      font-family: FontAwesome; 
-    
+      font-family: FontAwesome;
+
     }
 
     .navigation {
@@ -458,7 +472,7 @@ color: #fff;
     .unverified {
       color: $red;
     }
-    
+
     table a {
         text-decoration: underline;
     }
@@ -527,7 +541,7 @@ color: #fff;
   margin-bottom: 15px;
   @include media($mobile) {
             display:none;
-           
+
         }
 }
 
@@ -535,7 +549,7 @@ color: #fff;
   font-size: 1.1em;
   margin-bottom: 15px;
     @include media($mobile) {
-         
+
             margin-top: -20px;
         }
 }
@@ -568,14 +582,12 @@ color: #fff;
 
 .groupDetails button.editGroup:after {
       content: "\f040";
-      font-family: FontAwesome; 
-    
+      font-family: FontAwesome;
+
     }
 
 .groupDetails button.deleteGroup:after {
       content: "\f1f8";
-      font-family: FontAwesome; 
-    
+      font-family: FontAwesome;
+
     }
-
-
