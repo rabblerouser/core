@@ -1,19 +1,18 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-export default class Button extends Component {
-    constructor(props) {
-        super(props);
-    }
+const Button = props => (
+  <button disabled={props.disabled} type={props.type} id={props.id} onClick={props.onClick}>
+    {props.textContent}
+  </button>
+);
 
-    render() {
-        if(this.props.disabled) {
-            return <button disabled type={this.props.type} id={this.props.id} onClick={this.props.onClick}>
-                {this.props.textContent}
-            </button>
-        }
-        return <button type={this.props.type} id={this.props.id} onClick={this.props.onClick}>
-            {this.props.textContent}
-        </button>
-    }
-}
+Button.propTypes = {
+  disabled: React.PropTypes.bool,
+  textContent: React.PropTypes.string,
+  type: React.PropTypes.string,
+  id: React.PropTypes.string,
+  onClick: React.PropTypes.func
+};
+
+export default Button;
