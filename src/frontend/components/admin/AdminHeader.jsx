@@ -15,6 +15,7 @@ export default class AdminHeader extends Component {
     render() {
         return (
             <div className="header">
+                <span>{this.props.lab}</span>
                 <button onClick={this.logout} className="logout">Logout</button>
                 <img src ='/images/the_lab_logo.svg'/>
             </div>);

@@ -161,7 +161,7 @@ export default class AdminDashboard extends Component {
         let errorsView = this.state.pageErrors.length > 0 ? ( <ErrorView errors={ this.state.pageErrors } />) : '';
         return (
             <div className="admin-container">
-                <AdminHeader />
+                <AdminHeader lab={ this.state.currentLab.name }/>
                 <UserMessageView
                     messages={this.state.userMessages}
                     errors={this.state.pageErrors}
