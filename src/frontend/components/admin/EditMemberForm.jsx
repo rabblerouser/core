@@ -14,7 +14,8 @@ export default class EditMemberForm extends Component {
     }
 
     saveChanges() {
-        this.props.onSave(this.state.selectedGroupIds);
+        let participant = Object.assign({}, this.props.participant, {groups: this.state.selectedGroupIds});
+        this.props.onSave(participant);
     }
 
     onChange(event) {

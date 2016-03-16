@@ -51,17 +51,16 @@ export default class AdminDashboard extends Component {
                     this.handleError(`There was a problem deleting the group: ${error.message}`);
                 });
             },
-            onSaveParticipant: (participant, selectedGroups) => {
+            onSaveParticipant: (participant) => {
                 this.clearMessages();
                 memberService.update(participant, this.state.currentLab.id)
                     .then((savedParticipant) => {
-                        this.updateGroups(this.state.participants, savedParticipant);
+                        this.updateParticipants(this.state.participants, savedParticipant);
                         this.setUserMessage('Participant successfully saved');
                     })
                     .catch((error) => {
-                        this.handleError(`There was a problem saving the prticipant: ${error.message}`);
+                        this.handleError(`There was a problem saving the participant: ${error.message}`);
                     });
-                console.log(selectedGroups);
             }
         };
     }
