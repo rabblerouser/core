@@ -39,7 +39,6 @@ export default class EditMemberButton extends Component {
                         participant={this.props.participant}
                         onSave={this.props.onSave}
                         onSuccess={this.closeEditForm.bind(this)}/>
-/>
                 </Modal>
             </div>
         )
