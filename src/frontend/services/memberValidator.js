@@ -1,6 +1,7 @@
 'use strict';
 const validator = require('validator');
 const _ = require('lodash');
+const isEmpty = _.isEmpty;
 
 const restrictedChars = '[\<\>\"\%\;\(\)\&\+]';
 
@@ -18,9 +19,9 @@ var isValidPhoneNumber = (input) => {
 };
 
 var isValidOptionalName = (name) => {
-    return name !== undefined &&
-           isValidString(name) &&
-           name.length < 256;
+    return isEmpty(name) ||
+           (isValidString(name) &&
+           name.length < 256);
 };
 
 var isValidName = (name) => {
@@ -29,8 +30,7 @@ var isValidName = (name) => {
 };
 
 var isValidOptionalTextBlock = (block) => {
-    return block !== undefined &&
-           block.length < 2000;
+    return isEmpty(block) ||  block.length < 2000;
 };
 
 var isValidLab = (name) => {

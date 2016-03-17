@@ -86,8 +86,8 @@ describe('memberValidator', () => {
     });
 
     describe('isValidOptionalName', () => {
-      it('Should not be valid if it is undefined', () => {
-        expect(memberValidator.isValidOptionalName()).toBe(false);
+      it('Should be valid if it is undefined', () => {
+        expect(memberValidator.isValidOptionalName()).toBe(true);
       });
 
       it('Should be valid if it is an empty string', () => {
@@ -97,8 +97,8 @@ describe('memberValidator', () => {
     });
 
     describe('isValidOptionalTextBlock', () => {
-      it('Should not be valid if it is undefined', () => {
-        expect(memberValidator.isValidOptionalTextBlock()).toBe(false);
+      it('Should be valid if it is undefined', () => {
+        expect(memberValidator.isValidOptionalTextBlock()).toBe(true);
       });
 
       it('Should be valid if it is an empty string', () => {
