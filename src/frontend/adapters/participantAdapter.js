@@ -3,7 +3,7 @@ import moment from 'moment';
 const invalidDataError = 'INVALID DATA';
 
 let parseString = (value) => {
-    if(!value) {
+    if(value === undefined) {
         throw(invalidDataError);
     }
     return value;
