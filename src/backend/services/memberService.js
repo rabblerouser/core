@@ -143,37 +143,41 @@ function list(branchId) {
         .catch(handleError('An error has occurred while fetching members'));
 }
 
+function updateMemberValues(newValues) {
+    return Member.findOne({where: {id: newValues.id}})
+    .then( member => {
+        return member.update(newValues);
+    });
+}
+
+function updateMemberGroups(groups) {
+    return function (member) {
+        groups = groups || [];
+        return member.setGroups(groups)
+        .then(() => {
+            return member.reload({
+                include: [
+                {
+                    model: Group,
+                    as: 'groups',
+                    through: {
+                        attributes: ['id']
+                    }
+                }
+            ]});
+        });
+    };
+}
+
 function edit(input) {
     return Member.sequelize.transaction(() => {
         return Q.all(getMemberAddresses(input))
         .spread((residentialAddress, postalAddress) => {
             return parse(input, residentialAddress, postalAddress);
         })
-        .then((newValues) => {
-            return Member.findOne({where: {id: input.id}})
-            .then( member => {
-                return member.update(newValues);
-            });
-        })
-        .then(member => {
-            let groups = input.groups || [];
-            return member.setGroups(groups)
-            .then(() => {
-                return member.reload({
-                    include: [
-                        {
-                            model: Group,
-                            as: 'groups',
-                            through: {
-                                attributes: ['id']
-                            }
-                        }
-                    ]});
-            })
-            .then((result) => {
-                return transformMember(result);
-            });
-        });
+        .then(updateMemberValues)
+        .then(updateMemberGroups(input.groups))
+        .then(transformMember);
     })
     .then(updatedMember => {
         logger.info('[member-details-updated]', {member: updatedMember});
