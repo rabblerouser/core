@@ -68,21 +68,6 @@ function fakePostalAddressFromDB() {
     return result;
 }
 
-function getUpdatedMember(residentialAddress, postalAddress, date) {
-    return {
-        firstName: 'Shurley',
-        lastName: 'Temple',
-        gender: 'rabbit carrot',
-        email: 'sherlock@holmes.co.uk',
-        dateOfBirth: date,
-        primaryPhoneNumber: '0396291146',
-        secondaryPhoneNumber: '0394291146',
-        residentialAddress: residentialAddress,
-        postalAddress: postalAddress,
-        membershipType: 'full'
-    };
-}
-
 function fakeNewMember(residentialAddress, postalAddress) {
   return {
             firstName: 'Sherlock',
