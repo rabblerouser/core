@@ -5,21 +5,12 @@ import ParticipantsList from './ParticipantsList.jsx';
 const FilteredParticipantsList = ({ groupFilter, participants, groups, onSaveParticipant }) => {
 
     function filterParticipantsList() {
-        if (!groupFilter) {
-            return participants;
-        }
-        else {
-            return participants.filter( element => {
-                return element.groups.filter( group => {
-                    return group.id === groupFilter;
-                }).length > 0;
-            });
-        }
+        return !groupFilter ? participants : participants.filter( participant => participant.groups.includes(groupFilter) );
     }
 
     return (
         <ParticipantsList
-            participants={ filterParticipantsList(groupFilter) }
+            participants={ filterParticipantsList() }
             groups={ groups }
             onSave= { onSaveParticipant }
         />
@@ -28,7 +19,9 @@ const FilteredParticipantsList = ({ groupFilter, participants, groups, onSavePar
 
 FilteredParticipantsList.propTypes = {
     groupFilter: React.PropTypes.string,
-    participants: React.PropTypes.array
+    participants: React.PropTypes.array,
+    groups: React.PropTypes.array,
+    onSaveParticipant: React.PropTypes.func
 };
 
 export default FilteredParticipantsList;
