@@ -27,7 +27,7 @@ describe('member request adapter', () => {
       schoolType: 'f',
       contactFirstName: 'g',
       contactLastName: 'h',
-      branch: 'i',
+      branchId: 'i',
       additionalInfo: 'j'
     };
 

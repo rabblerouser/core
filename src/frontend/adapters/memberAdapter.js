@@ -75,7 +75,7 @@ let prepareNewMemberPayload = (fields) => {
     schoolType: mapSchoolType(fields.schoolType),
     contactFirstName: mapContactFirstName(fields.contactName),
     contactLastName: mapContactLastName(fields.contactLastName),
-    branch: mapBranch(fields.labSelection),
+    branchId: mapBranch(fields.labSelection),
     additionalInfo: mapAdditionalInfo(fields.additionalInfo)
   };
 };
