@@ -1,6 +1,4 @@
 'use strict';
-const pluck = require('lodash').pluck;
-const map = require('lodash').map;
 const times = require('lodash').times;
 const uuid = require('node-uuid');
 let models = require('../../../src/backend/models'),
@@ -47,7 +45,7 @@ let makeMember = (branchId) => {
         'contactFirstName': 'Jaime',
         'contactLastName': 'Garzon',
         'schoolType': 'Primary',
-        'branch': branchId,
+        'branchId': branchId,
         'firstName': 'Sherlock',
         'lastName': 'Holmes',
         'email': 'sherlock@holmes.co.uk',

@@ -31,23 +31,12 @@ function parse(input, residentialAddress, postalAddress) {
     let residentialAddressId = residentialAddress ? residentialAddress[0].dataValues.id : null;
     let postalAddressId = postalAddress ? postalAddress[0].dataValues.id : null;
 
-    return {
-        id: input.id,
-        email: input.email,
-        firstName: input.firstName,
-        lastName: input.lastName,
-        gender: input.gender,
-        primaryPhoneNumber: input.primaryPhoneNumber,
-        secondaryPhoneNumber: input.secondaryPhoneNumber,
+
+    return Object.assign({}, input, {
         dateOfBirth: input.dateOfBirth ? moment(input.dateOfBirth, 'DD/MM/YYYY').toDate() : null,
-        membershipType: input.membershipType,
-        contactFirstName: input.contactFirstName,
-        contactLastName: input.contactLastName,
-        schoolType: input.schoolType,
         residentialAddressId: residentialAddressId,
-        postalAddressId: postalAddressId,
-        additionalInfo: input.additionalInfo
-    };
+        postalAddressId: postalAddressId
+    });
 }
 
 function setupNewMember(newMember) {
@@ -92,7 +81,7 @@ function assignToBranch(branchId) {
 let createMember = (newMember) => {
     return Q.all(getMemberAddresses(newMember))
           .spread(setupNewMember(newMember))
-          .then(assignToBranch(newMember.branch))
+          .then(assignToBranch(newMember.branchId))
           .then(save)
           .tap(logEvent)
           .then((savedMember) => {

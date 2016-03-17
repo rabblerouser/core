@@ -53,7 +53,7 @@ describe('membersController', () => {
                     contactFirstName: 'Jaime',
                     contactLastName: 'Garzon',
                     schoolType: 'Primary',
-                    branch: 'some-id-1',
+                    branchId: 'some-id-1',
                     additionalInfo: null,
                     id: null,
                     groups: null
@@ -93,7 +93,7 @@ describe('membersController', () => {
                     contactFirstName: 'Jaime',
                     contactLastName: 'Garzon',
                     schoolType: 'Primary',
-                    branch: 'some-id-1'
+                    branchId: 'some-id-1'
                 };
             });
 

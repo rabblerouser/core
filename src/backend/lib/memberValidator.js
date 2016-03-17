@@ -16,7 +16,7 @@ const memberFieldsChecks =
     primaryPhoneNumber: inputValidator.isValidPhone,
     firstName: inputValidator.isValidName,
     dateOfBirth: inputValidator.isValidDate,
-    branch: isValidBranch,
+    branchId: isValidBranch,
     schoolType: inputValidator.isValidString,
     additionalInfo: inputValidator.isValidOptionalTextBlock
 };

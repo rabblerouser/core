@@ -10,7 +10,7 @@ describe('memberValidator', () => {
       let validMember = {
         'contactFirstName': 'Jaime',
         'schoolType': 'Primary',
-        'branch': 'rururu-we-ew-ew',
+        'branchId': 'rururu-we-ew-ew',
         'firstName': 'Sherlock',
         'email': 'sherlock@holmes.co.uk',
         'dateOfBirth': '01/01/1983',
@@ -45,10 +45,10 @@ describe('memberValidator', () => {
             'primaryPhoneNumber': '',
             'firstName': '',
             'dateOfBirth':  '',
-            'branch': '',
+            'branchId': '',
             'schoolType': ''
         };
-        let expectedErrors = ['contactFirstName','email','primaryPhoneNumber','firstName','dateOfBirth', 'branch','schoolType'];
+        let expectedErrors = ['contactFirstName','email','primaryPhoneNumber','firstName','dateOfBirth', 'branchId','schoolType'];
           expect(memberValidator.isValid(invalidMember)).toEqual(expectedErrors);
 
       });

@@ -95,7 +95,7 @@ function fakeNewMember(residentialAddress, postalAddress) {
             residentialAddress: residentialAddress,
             postalAddress: postalAddress,
             membershipType: 'full',
-            branch: 'some-branch-id-1',
+            branchId: 'some-branch-id-1',
             schoolType: 'Primary',
             contactFirstName: 'Jaime',
             contactLastName: 'Garzon',

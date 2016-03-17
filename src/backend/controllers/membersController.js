@@ -55,7 +55,7 @@ function parseMember(req) {
       schoolType: req.body.schoolType,
       contactFirstName: req.body.contactFirstName,
       contactLastName: req.body.contactLastName,
-      branch: req.body.branch,
+      branchId: req.body.branchId,
       additionalInfo: req.body.additionalInfo,
       groups: req.body.groups
   };
