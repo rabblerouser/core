@@ -56,7 +56,14 @@ function tableColumns(onSave) {
         {
             property: 'groups',
             header: 'Groups',
-            cell: (groups) => <ParticipantGroupsList editable={false} groups={groups} />,
+            cell: (groups, participants, rowIndex) => {
+                let groupDetails =  participants[rowIndex].allGroups.filter((group) => {
+                     return groups.includes(group.id);
+                 });
+                return {
+                 value: <ParticipantGroupsList editable={false} groups={ groupDetails } />
+                }
+            },
             headerClass: classnames('groups')
         },
         {

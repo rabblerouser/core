@@ -24,13 +24,6 @@ let parseGroups = (value) => {
     return value;
 };
 
-let parseBranchId = (value) => {
-    if(!value.id ) {
-        throw(invalidDataError);
-    }
-    return value.id.toString();
-};
-
 let parseParticipantDetails = (data) => {
     if(!data) {
         throw(invalidDataError);
@@ -47,8 +40,8 @@ let parseParticipantDetails = (data) => {
         schoolType: parseString(data.schoolType),
         memberSince: parseString(data.memberSince),
         additionalInfo: parseString(data.additionalInfo),
-        groups: parseGroups(data.Groups),
-        branchId: parseBranchId(data.branch)
+        groups: parseGroups(data.groups),
+        branchId: parseString(data.branchId)
     };
 };
 

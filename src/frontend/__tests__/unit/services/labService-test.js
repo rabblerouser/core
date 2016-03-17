@@ -156,8 +156,8 @@ describe('labService', () => {
             schoolType: 'Primary',
             memberSince: '2016-03-08T22:34:23.721Z',
             additionalInfo: 'Some additional info',
-            Groups: [{id: 1, name: 'Group name'}],
-            branch: {id: '1234'}
+            groups: [{id: 1, name: 'Group name'}],
+            branchId: '1234'
         }];
 
         let validResult = [{

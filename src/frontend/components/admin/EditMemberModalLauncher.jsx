@@ -9,16 +9,16 @@ import Modal from 'react-modal';
 export default class EditMemberButton extends Component {
     constructor(props) {
         super(props);
-        this.state = {modalIsOpen: false}
+        this.state = {modalIsOpen: false};
     }
 
-    launchEditForm = () => {
+    launchEditForm () {
         this.setState({modalIsOpen: true});
-    };
+    }
 
-    closeEditForm = () => {
+    closeEditForm () {
         this.setState({modalIsOpen: false});
-    };
+    }
 
     render() {
 
@@ -31,10 +31,10 @@ export default class EditMemberButton extends Component {
         };
         return (
             <div>
-                <button onClick={this.launchEditForm}><span>Edit groups</span></button>
+                <button onClick={this.launchEditForm.bind(this)}><span>Edit groups</span></button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeEditForm} style={customStyle}>
+                    onRequestClose={this.closeEditForm.bind(this)} style={customStyle}>
                     <EditMemberForm
                         participant={this.props.participant}
                         onSave={this.props.onSave}

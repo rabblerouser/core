@@ -9,25 +9,25 @@ export default class EditMemberForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedGroupIds: this.props.participant.groups.map(group => group.id)
+            selectedGroups: this.props.participant.groups
         };
     }
 
     saveChanges() {
-        let participant = Object.assign({}, this.props.participant, {groups: this.state.selectedGroupIds});
+        let participant = Object.assign({}, this.props.participant, {groups: this.state.selectedGroups});
         this.props.onSuccess();
         this.props.onSave(participant);
     }
 
     onChange(event) {
-        let newGroups = this.state.selectedGroupIds.slice(0);
+        let newGroups = this.state.selectedGroups.slice(0);
         if(event.target.checked) {
             newGroups.push(event.target.value);
         } else {
             let group = newGroups.find(id => id === event.target.value);
             newGroups = _.without(newGroups, group);
         }
-        this.setState({ selectedGroupIds: newGroups });
+        this.setState({ selectedGroups: newGroups });
     }
 
     render() {

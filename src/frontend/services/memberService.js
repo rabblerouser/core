@@ -19,7 +19,7 @@ function adaptMember(member) {
         contactFirstName: member.contactFirstName,
         contactLastName: member.contactLastName,
         schoolType: member.schoolType,
-        branch: member.branchId,
+        branchId: member.branchId,
         firstName: member.participantName,
         lastName: member.participantLastName,
         email: member.contactEmail,
