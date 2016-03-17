@@ -21,6 +21,10 @@ export const ApplicationForm = {
   remoteLabListErrorTitle: `Sorry, we could not get the list of available labs at this time. Please try again, or contact us at ${Resources.theLabContactEmail}`
 };
 
+export const AdminDashboard = {
+    RemoteSaveErrorMessage: `Sorry, there was an issue saving the change. Please try again or contact ${Resources.theLabContactEmail} for support.`
+};
+
 export const ApplicationFormFieldLabels = {
   contactName: 'First name',
   contactLastName: 'Last name',

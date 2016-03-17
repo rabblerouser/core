@@ -9,6 +9,7 @@ import GroupsView from './GroupsView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 import memberService from '../../services/memberService.js';
+import { AdminDashboard as Strings } from '../../config/strings.js';
 
 export default class AdminDashboard extends Component {
     constructor(props) {
@@ -30,9 +31,7 @@ export default class AdminDashboard extends Component {
                     this.updateGroups(this.state.groups, savedGroup);
                     this.setUserMessage('Group successfully saved');
                 })
-                .catch((error) => {
-                    this.handleError(`There was a problem saving the group: ${error.message}`);
-                });
+                .catch(this.handleError.bind(this));
             },
             onSelectGroup: (selected) => {
                 this.clearMessages();
@@ -47,9 +46,7 @@ export default class AdminDashboard extends Component {
                     this.setState({selectedGroupId: ''});
                     this.setUserMessage('Group successfully deleted');
                 })
-                .catch((error) => {
-                    this.handleError(`There was a problem deleting the group: ${error.message}`);
-                });
+                .catch(this.handleError.bind(this));
             },
             onSaveParticipant: (participant) => {
                 this.clearMessages();
@@ -58,9 +55,7 @@ export default class AdminDashboard extends Component {
                         this.updateParticipants(this.state.participants, savedParticipant);
                         this.setUserMessage('Participant successfully saved');
                     })
-                    .catch((error) => {
-                        this.handleError(`There was a problem saving the participant: ${error.message}`);
-                    });
+                    .catch(this.handleError.bind(this));
             }
         };
     }
@@ -70,16 +65,15 @@ export default class AdminDashboard extends Component {
         this.setState({pageErrors: []});
     }
 
-    handleError(error) {
+    handleError() {
         let pageErrors = this.state.pageErrors.slice(0);
-        pageErrors.push(error);
+        pageErrors.push(Strings.RemoteSaveErrorMessage);
         this.setState({pageErrors: pageErrors});
     }
 
     setUserMessage(message) {
         let userMessages = this.state.userMessages.slice(0);
         userMessages.push(message);
-
         this.setState({userMessages: userMessages});
     }
 
@@ -140,7 +134,6 @@ export default class AdminDashboard extends Component {
     }
 
     render() {
-        let errorsView = this.state.pageErrors.length > 0 ? ( <ErrorView errors={ this.state.pageErrors } />) : '';
         return (
             <div className="admin-container">
                 <AdminHeader lab={ this.state.currentLab.name }/>
