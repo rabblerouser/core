@@ -15,8 +15,6 @@ import memberAdapter from '../adapters/memberAdapter';
 export default class Details extends Component {
     constructor(props) {
         super(props);
-        this.handleValidationErrors = this.handleValidationErrors.bind(this);
-        this.render = this.render.bind(this);
         this.validator = memberValidator;
         this.state = {
             invalidFields: [],
@@ -89,29 +87,14 @@ export default class Details extends Component {
     }
 
     submitDetails() {
-
-        var fieldValues = {
-            labSelection: this.state.fieldValues.labSelection,
-            contactName: this.state.fieldValues.contactName,
-            contactLastName: this.state.fieldValues.contactLastName,
-            contactNumber: this.state.fieldValues.contactNumber,
-            contactEmail: this.state.fieldValues.contactEmail,
-            participantName: this.state.fieldValues.participantName,
-            participantLastName: this.state.fieldValues.participantLastName,
-            participantBirthYear: this.state.fieldValues.participantBirthYear,
-            schoolType: this.getSchoolType(this.state.fieldValues),
-            additionalInfo: this.state.fieldValues.additionalInfo
-        };
-
-
         this.setState({invalidFields: [], errorNames: [], errorTitle:''});
-        var validationErrors = this.validator.isValid(fieldValues);
+        var validationErrors = this.validator.isValid(this.state.fieldValues);
 
         if (validationErrors.length > 0) {
             this.handleValidationErrors(validationErrors, true);
             return;
         }
-        let payload = memberAdapter.prepareNewMemberPayload(fieldValues);
+        let payload = memberAdapter.prepareNewMemberPayload(this.state.fieldValues);
         return this.props.postAndContinue(payload);
     }
 
@@ -126,7 +109,11 @@ export default class Details extends Component {
                     <p>{Strings.instructions}</p>
                     <p><strong>{ Strings.byoReminder }</strong></p>
 
-                    <MemberFields onChange={this.onChange.bind(this)} invalidFields={this.state.invalidFields} labs={this.state.labs} ref="memberDetails" formValues={this.props.formValues}/>
+                    <MemberFields onChange={this.onChange.bind(this)}
+                                  invalidFields={this.state.invalidFields}
+                                  labs={this.state.labs}
+                                  formValues={this.props.formValues}
+                    />
 
                     <div className="navigation">
                         <button onClick={this.submitDetails.bind(this)}>Register</button>
