@@ -18,7 +18,7 @@ describe('participant adapter', () => {
             memberSince: '2016-03-08T22:34:23.721Z',
             additionalInfo: 'Some additional info',
             groups: [{id: 1, name: 'Group name'}],
-            branchId: '1234'
+            labId: '1234'
         }];
 
         describe('when the payload is valid', () => {
@@ -117,7 +117,7 @@ describe('participant adapter', () => {
             memberSince: '2016-03-08T22:34:23.721Z',
             additionalInfo: 'Some additional info',
             groups: [{id: 1, name: 'Group name'}],
-            branchId: '1234'
+            labId: '1234'
         };
 
         describe('when the payload is valid', () => {
@@ -167,30 +167,6 @@ describe('participant adapter', () => {
                 expect(participantAdapter.parseParticipant(validPayloadWithExtras)).toEqual(validResult);
             });
 
-        });
-
-        describe('when the payload is invalid', () => {
-            [
-                {firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}],branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', additionalInfo: 'Some additional info', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', groups: [{id: 1, name: 'Group name'}], branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info', branchId:'1234'},
-                {id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b', firstName: 'Jo jo', lastName: 'The 3rd', contactFirstName: 'Jo', contactLastName: 'The 2nd', primaryPhoneNumber: '101010010', email: 'jo@jo.com', dateOfBirth: '1990-01-01T00:00:00.000Z', schoolType: 'Primary', memberSince: '2016-03-08T22:34:23.721Z', additionalInfo: 'Some additional info'},
-                {},
-                null
-            ].forEach((testCase) => {
-                it(`Should throw an error on invalid data: ${testCase}`, () => {
-                    expect(() => {participantAdapter.parseParticipant(testCase);}).toThrow();
-                });
-            });
         });
     });
 });

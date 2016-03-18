@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import Errors from './Errors.jsx';
 import NewMemberFields from './form/NewMemberFields.jsx';
-import memberValidator from '../services/memberValidator';
+import applicationValidator from '../services/applicationValidator';
 import { ApplicationForm as Strings, FormValidationErrors as ErrorStrings, Resources } from '../config/strings.js';
 import labService from '../services/labService';
 import memberAdapter from '../adapters/memberAdapter';
@@ -70,8 +70,8 @@ export default class Details extends Component {
     submitDetails() {
 
         this.setState({invalidFields: [], errorNames: [], errorTitle:''});
-        var validationErrors = memberValidator.isValid(this.state.fieldValues);
-    
+        var validationErrors = applicationValidator.isValid(this.state.fieldValues);
+
         if (validationErrors.length > 0) {
             this.handleValidationErrors(validationErrors, true);
         } else {

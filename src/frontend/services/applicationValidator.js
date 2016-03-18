@@ -33,6 +33,11 @@ var isValidOptionalTextBlock = (block) => {
     return isEmpty(block) ||  block.length < 2000;
 };
 
+var isValidLab = (name) => {
+  return hasStringValue(name) &&
+         isValidString(name, new RegExp('[\<\>\"\%\;\&\+]'));
+};
+
 var isValidEmail = (email) => {
     return validator.isEmail(email);
 };
@@ -47,7 +52,7 @@ var isValidYear = (number) => {
     return year <= currentYear && year >= 1900;
 };
 
-const memberFieldsChecks =
+const applicationFieldsChecks =
 {
     contactName: isValidName,
     contactLastName: isValidOptionalName,
@@ -56,22 +61,23 @@ const memberFieldsChecks =
     participantName: isValidName,
     participantLastName: isValidOptionalName,
     participantBirthYear:  isValidYear,
+    labSelection: isValidLab,
     schoolType: isValidName,
     additionalInfo: isValidOptionalTextBlock
 };
 
-var isValidDetails = (member) => {
-    return _.reduce(memberFieldsChecks, function(errors, checkFn, memberFieldKey) {
-        if (!member || !checkFn(member[memberFieldKey])){
-            errors.push(memberFieldKey);
+var isValidDetails = (application) => {
+    return _.reduce(applicationFieldsChecks, function(errors, checkFn, applicationFieldKey) {
+        if (!application || !checkFn(application[applicationFieldKey])){
+            errors.push(applicationFieldKey);
         }
         return errors;
     },[]);
 };
 
-var isValid = (member) => {
+var isValid = (application) => {
     var errors = [
-        isValidDetails(member)
+        isValidDetails(application)
     ];
     return _.flatten(errors);
 };

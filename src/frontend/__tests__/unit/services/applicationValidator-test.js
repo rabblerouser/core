@@ -1,31 +1,31 @@
 'use strict';
 
 const moment = require('moment');
-import memberValidator from '../../../services/memberValidator';
+import applicationValidator from '../../../services/applicationValidator';
 
-describe('memberValidator', () => {
+describe('applicationValidator', () => {
     describe('isValid', () => {
 
-      let validMember = {
+      let validApplication = {
           'contactName': 'Sherlock',
           'contactEmail': 'sherlock@holmes.co.uk',
           'contactNumber': '0396291146',
           'participantName': 'Holmes',
           'participantBirthYear':  '2000',
-          'labId': 'Geelong',
+          'labSelection': 'Geelong',
           'schoolType': 'Primary',
           'contactLastName': 'Sherlock',
           'participantLastName': 'Holmes',
           'additionalInfo':  'More info for you!'
       };
 
-      let validMemberWithOptional = {
+      let validApplicationWithOptional = {
         'contactName': 'Sherlock',
         'contactEmail': 'sherlock@holmes.co.uk',
         'contactNumber': '0396291146',
         'participantName': 'Holmes',
         'participantBirthYear':  '2000',
-        'labId': 'Geelong',
+        'labSelection': 'Geelong',
         'schoolType': 'Primary',
         'contactLastName': '',
         'participantLastName': '',
@@ -33,32 +33,32 @@ describe('memberValidator', () => {
       };
 
       it('should return empty array of errors on valid member', () => {
-          expect(memberValidator.isValid(validMember)).toEqual([]);
+          expect(applicationValidator.isValid(validApplication)).toEqual([]);
       });
 
       it('should return empty array of errors on valid member with optional fields', () => {
-          expect(memberValidator.isValid(validMemberWithOptional)).toEqual([]);
+          expect(applicationValidator.isValid(validApplicationWithOptional)).toEqual([]);
       });
 
       it('should return array of errors on null member', () => {
-          expect(memberValidator.isValid(null).length).not.toBe(0);
+          expect(applicationValidator.isValid(null).length).not.toBe(0);
       });
 
       it('should return array of errors when missing data', () => {
-        let invalidMember = {
+        let invalidApplication = {
             'contactName': '',
             'contactEmail': '',
             'contactNumber': '',
             'participantName': '',
             'participantBirthYear':  '',
-            'labId': '',
+            'labSelection': '',
             'schoolType': '',
             'contactLastName': '',
             'participantLastName': '',
             'additionalInfo':  ''
         };
-        let expectedErrors = ['contactName','contactEmail','contactNumber','participantName','participantBirthYear','schoolType'];
-          expect(memberValidator.isValid(invalidMember)).toEqual(expectedErrors);
+        let expectedErrors = ['contactName','contactEmail','contactNumber','participantName','participantBirthYear', 'labSelection','schoolType'];
+          expect(applicationValidator.isValid(invalidApplication)).toEqual(expectedErrors);
 
       });
 
@@ -66,11 +66,11 @@ describe('memberValidator', () => {
 
     describe('isValidName', () => {
         it('Should return true given an alpha name', () => {
-            expect(memberValidator.isValidName('aaa')).toBe(true);
+            expect(applicationValidator.isValidName('aaa')).toBe(true);
         });
 
         it('Should return true if name is a alphanumeric', () => {
-            expect(memberValidator.isValidName('Flo the 1st')).toBe(true);
+            expect(applicationValidator.isValidName('Flo the 1st')).toBe(true);
         });
 
         [
@@ -80,39 +80,39 @@ describe('memberValidator', () => {
             'Flo the 1st<'
         ].forEach((testCase) => {
             it(`Should return false if name is ${testCase}`, () => {
-                expect(memberValidator.isValidName(testCase)).toBe(false);
+                expect(applicationValidator.isValidName(testCase)).toBe(false);
             });
         });
     });
 
     describe('isValidOptionalName', () => {
       it('Should be valid if it is undefined', () => {
-        expect(memberValidator.isValidOptionalName()).toBe(true);
+        expect(applicationValidator.isValidOptionalName()).toBe(true);
       });
 
       it('Should be valid if it is an empty string', () => {
-        expect(memberValidator.isValidOptionalName('')).toBe(true);
+        expect(applicationValidator.isValidOptionalName('')).toBe(true);
       });
 
     });
 
     describe('isValidOptionalTextBlock', () => {
       it('Should be valid if it is undefined', () => {
-        expect(memberValidator.isValidOptionalTextBlock()).toBe(true);
+        expect(applicationValidator.isValidOptionalTextBlock()).toBe(true);
       });
 
       it('Should be valid if it is an empty string', () => {
-        expect(memberValidator.isValidOptionalTextBlock('')).toBe(true);
+        expect(applicationValidator.isValidOptionalTextBlock('')).toBe(true);
       });
 
       it('Should be valid if it is a big string', () => {
-        expect(memberValidator.isValidOptionalTextBlock(Array(2000).join('a'))).toBe(true);
+        expect(applicationValidator.isValidOptionalTextBlock(Array(2000).join('a'))).toBe(true);
       });
     });
 
     describe('isValidEmail', () => {
         it('Should return true given a string with an \'@\' and a \'.\'', () => {
-            expect(memberValidator.isValidEmail('aaa@attt.com')).toBe(true);
+            expect(applicationValidator.isValidEmail('aaa@attt.com')).toBe(true);
         });
     });
 
@@ -123,7 +123,7 @@ describe('memberValidator', () => {
           '1999'
       ].forEach((testCase) => {
           it(`Should return true given a string with a birth year in range ${testCase}`, () => {
-              expect(memberValidator.isValidYear(testCase)).toBe(true);
+              expect(applicationValidator.isValidYear(testCase)).toBe(true);
           });
       });
 
@@ -135,7 +135,7 @@ describe('memberValidator', () => {
           'words?'
       ].forEach((testCase) => {
           it(`Should return false given a non year string or out of range ${testCase}`, () => {
-              expect(memberValidator.isValidYear(testCase)).toBe(false);
+              expect(applicationValidator.isValidYear(testCase)).toBe(false);
           });
       });
     });
@@ -153,7 +153,7 @@ describe('memberValidator', () => {
             '+18-1111-1111111'
         ].forEach((testCase) => {
             it(`Should return true given a string with a mobile phone number ${testCase}`, () => {
-                expect(memberValidator.isValidPhone(testCase)).toBe(true);
+                expect(applicationValidator.isValidPhone(testCase)).toBe(true);
             });
         });
 
@@ -165,7 +165,7 @@ describe('memberValidator', () => {
             'words?'
         ].forEach((testCase) => {
             it(`Should return false if phone is ${testCase}`, () => {
-                expect(memberValidator.isValidPhone(testCase)).toBe(false);
+                expect(applicationValidator.isValidPhone(testCase)).toBe(false);
             });
         });
     });
