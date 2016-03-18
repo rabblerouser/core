@@ -51,11 +51,11 @@ export default class EditMemberForm extends Component {
         return function(event) {
             let newValue;
             switch(event.target.type) {
-                case 'text':
-                    newValue = {[fieldName] : event.target.value};
-                    break;
                 case 'checkbox':
                     newValue = {[fieldName] : editMemberComponent.checkboxChange(fieldName, event.target.value, event.target.checked)};
+                    break;
+                default:
+                    newValue = {[fieldName] : event.target.value};
                     break;
             }
             let newFieldValues = Object.assign({}, editMemberComponent.state.fieldValues, newValue);
