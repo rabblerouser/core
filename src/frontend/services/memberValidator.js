@@ -82,7 +82,7 @@ var isValid = (member) => {
     return _.flatten(errors);
 };
 
-module.exports = {
+export default {
     isValidName: isValidName,
     isValidOptionalName: isValidOptionalName,
     isValidOptionalTextBlock: isValidOptionalTextBlock,

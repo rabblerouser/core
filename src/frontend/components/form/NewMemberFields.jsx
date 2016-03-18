@@ -1,13 +1,13 @@
 'use strict';
 import React, {Component} from 'react';
-import FormFieldLabel from '../form/FormFieldLabel.jsx';
+import FormFieldLabel from './FormFieldLabel.jsx';
 import { ApplicationForm as Strings, Resources } from '../../config/strings.js';
-import InlineError from '../form/InlineError.jsx';
+import InlineError from './InlineError.jsx';
 
-export default ({ invalidFields, labs, onChange, formValues }) => {
+const NewMemberFields = ({ invalidFields, labs, onChange, formValues }) => {
 
     function isValidationError(fieldName) {
-      return invalidFields.includes(fieldName);
+        return _.indexOf(invalidFields, fieldName) > -1;
     }
 
     return (
@@ -74,3 +74,12 @@ export default ({ invalidFields, labs, onChange, formValues }) => {
           </div>
     )
 }
+
+NewMemberFields.propTypes = {
+    invalidFields: React.PropTypes.array,
+    labs: React.PropTypes.array,
+    onChange: React.PropTypes.func,
+    formValues: React.PropTypes.array
+};
+
+export default NewMemberFields
