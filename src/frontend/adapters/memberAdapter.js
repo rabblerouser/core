@@ -48,7 +48,6 @@ let mapAdditionalInfo = (value) => {
 
 
 let prepareNewMemberPayload = (fields) => {
-
   let map = {
     participantName: 'firstName',
     participantLastName: 'lastName',
@@ -61,10 +60,6 @@ let prepareNewMemberPayload = (fields) => {
     labSelection : 'branch',
     additionalInfo: 'additionalInfo'
   };
-
-  if (!fieldsHaveAllKeys(Object.keys(map), fields)) {
-    return {};
-  }
 
   return {
     firstName: mapFirstName(fields.participantName),
