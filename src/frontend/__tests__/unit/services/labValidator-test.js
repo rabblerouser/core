@@ -23,24 +23,4 @@ describe('labValidator', () => {
         expect(labValidator.isValid(invalidLab)).toEqual(expectedErrors);
       });
     });
-
-    describe('isValidName', () => {
-        it('Should return true given an alpha name', () => {
-            expect(labValidator.isValidName('aaa')).toBe(true);
-        });
-
-        it('Should return true if name is a alphanumeric', () => {
-            expect(labValidator.isValidName('Flo the 1st')).toBe(true);
-        });
-
-        [
-            '',
-            null,
-            Array(257).join('a'),
-        ].forEach((testCase) => {
-            it(`Should return false if name is ${testCase}`, () => {
-                expect(labValidator.isValidName(testCase)).toBe(false);
-            });
-        });
-    });
 });

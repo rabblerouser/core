@@ -1,22 +1,10 @@
 'use strict';
-const _ = require('lodash');
-
-var hasStringValue = (string) => {
-  return !!string;
-};
-
-var isValidName = (name) => {
-  return hasStringValue(name) &&
-  name.length < 256;
-};
-
-var isValidId = (id) => {
-    return hasStringValue(id);
-};
+import inputValidator from '../../backend/lib/inputValidator';
+import _ from 'lodash';
 
 const labFieldsChecks =
 {
-    name: isValidName
+    name: inputValidator.isValidName
 };
 
 var isValidDetails = (lab) => {
@@ -36,7 +24,5 @@ var isValid = (lab) => {
 };
 
 module.exports = {
-    isValid: isValid,
-    isValidName: isValidName,
-    isValidId: isValidId
+    isValid: isValid
 };

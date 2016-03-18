@@ -1,28 +1,11 @@
 'use strict';
-const _ = require('lodash');
-
-var hasStringValue = (string) => {
-  return !!string;
-};
-
-var isValidName = (name) => {
-  return hasStringValue(name) &&
-  name.length < 256;
-};
-
-var isValidId = (id) => {
-    return hasStringValue(id);
-};
-
-var isValidDescription = (block) => {
-    return hasStringValue(block) &&
-           block.length < 2000;
-};
+import inputValidator from '../../backend/lib/inputValidator';
+import _ from 'lodash';
 
 const groupFieldsChecks =
 {
-    name: isValidName,
-    description: isValidDescription
+    name: inputValidator.isValidName,
+    description: inputValidator.isValidTextBlock
 };
 
 var isValidDetails = (group) => {
@@ -42,8 +25,5 @@ var isValid = (group) => {
 };
 
 module.exports = {
-    isValid: isValid,
-    isValidName: isValidName,
-    isValidDescription: isValidDescription,
-    isValidId: isValidId
+    isValid: isValid
 };

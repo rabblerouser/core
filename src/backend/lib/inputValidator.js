@@ -25,8 +25,16 @@ var isValidName = (name) => {
            name.length < 256;
 };
 
+var isValidText = (text) => {
+  return !!text && text.length < 256;
+};
+
 var isValidOptionalTextBlock = (block) => {
     return isEmpty(block) ||  block.length < 2000;
+};
+
+var isValidTextBlock = (block) => {
+    return !!block && block.length < 2000;
 };
 
 var isValidEmail = (email) => {
@@ -46,6 +54,12 @@ var isValidDate = (date) => {
     return formattedDate.isValid() && formattedDate.isSameOrBefore(moment());
 };
 
+var isValidYear = (number) => {
+    let currentYear = new Date().getFullYear();
+    let year = parseInt(number);
+    return year <= currentYear && year >= 1900;
+};
+
 function isValidUUID(input) {
     return validator.isUUID(input, 4);
 }
@@ -57,6 +71,9 @@ module.exports = {
     isValidEmail: isValidEmail,
     isValidPhone: isValidPhone,
     isValidDate: isValidDate,
+    isValidText: isValidText,
     isValidOptionalTextBlock: isValidOptionalTextBlock,
-    isValidUUID: isValidUUID
+    isValidTextBlock: isValidTextBlock,
+    isValidUUID: isValidUUID,
+    isValidYear: isValidYear
 };
