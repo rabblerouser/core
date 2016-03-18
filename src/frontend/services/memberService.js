@@ -16,10 +16,10 @@ const handleResponseError = function(error) {
 function adaptMember(member) {
     let adapted = {
         id: member.id,
-        contactFirstName: member.contactFirstName,
+        contactFirstName: member.contactName,
         contactLastName: member.contactLastName,
         schoolType: member.schoolType,
-        branchId: member.branchId,
+        branchId: member.labId,
         firstName: member.participantName,
         lastName: member.participantLastName,
         email: member.contactEmail,

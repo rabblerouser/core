@@ -173,7 +173,7 @@ describe('labService', () => {
             memberSince: '2016-03-08T22:34:23.721Z',
             additionalInfo: 'Some additional info',
             groups: [{id: 1, name: 'Group name'}],
-            branchId: '1234'
+            labId: '1234'
         }];
 
         let server;

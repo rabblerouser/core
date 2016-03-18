@@ -3,41 +3,76 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore';
-import GroupCheckboxes from './GroupCheckboxes.jsx'
+import EditMemberFields from './EditMemberFields.jsx';
+import memberValidator from '../../services/memberValidator';
 
 export default class EditMemberForm extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            selectedGroups: this.props.participant.groups
+            id: props.participant.id,
+            invalidFields: [],
+            fieldValues: props.participant
         };
     }
 
-    saveChanges() {
-        let participant = Object.assign({}, this.props.participant, {groups: this.state.selectedGroups});
-        this.props.onSuccess();
-        this.props.onSave(participant);
+    getGroupDetails() {
+        return this.state;
     }
 
-    onChange(event) {
-        let newGroups = this.state.selectedGroups.slice(0);
-        if(event.target.checked) {
-            newGroups.push(event.target.value);
-        } else {
-            let group = newGroups.find(id => id === event.target.value);
-            newGroups = _.without(newGroups, group);
+    isValidationError(fieldName) {
+      return this.state.invalidFields.includes(fieldName);
+    }
+
+    saveChanges() {
+        let participant = Object.assign({}, this.props.participant, this.state.fieldValues);
+        let errors = memberValidator.isValid(participant);
+        this.setState({invalidFields: errors});
+        if(errors.length === 0) {
+            this.props.onSuccess();
+            this.props.onSave(participant);
         }
-        this.setState({ selectedGroups: newGroups });
+    }
+
+    checkboxChange(fieldName, fieldValue, isChecked) {
+        let newValues = this.state.fieldValues[fieldName].slice(0);
+        if(isChecked) {
+            newValues.push(fieldValue);
+        } else {
+            newValues = _.without(newValues, fieldValue);
+        }
+        return newValues;
+    }
+
+    onChange(fieldName) {
+        let editMemberComponent = this;
+
+        return function(event) {
+            let newValue;
+            switch(event.target.type) {
+                case 'text':
+                    newValue = {[fieldName] : event.target.value};
+                    break;
+                case 'checkbox':
+                    newValue = {[fieldName] : editMemberComponent.checkboxChange(fieldName, event.target.value, event.target.checked)};
+                    break;
+            }
+            let newFieldValues = Object.assign({}, editMemberComponent.state.fieldValues, newValue);
+            editMemberComponent.setState({
+                fieldValues: newFieldValues
+            });
+        };
     }
 
     render() {
         return (
             <section className="form-container">
-                <h2>{this.props.participant.firstName} {this.props.participant.lastName}</h2>
-                <p>Select one or more groups for the participant to join.</p>
-                <GroupCheckboxes onChange={this.onChange.bind(this)}
-                                 allGroups={this.props.participant.allGroups}
-                                 participantGroups={this.props.participant.groups} />
+                <EditMemberFields onChange={this.onChange.bind(this)}
+                              invalidFields={this.state.invalidFields}
+                              groups={this.props.participant.allGroups}
+                              formValues={this.props.participant}
+                />
                 <button onClick={this.saveChanges.bind(this)}>Save</button>
             </section>
         )

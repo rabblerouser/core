@@ -6,7 +6,7 @@ import {render} from 'react-dom';
 import EditMemberForm from './EditMemberForm.jsx';
 import Modal from 'react-modal';
 
-export default class EditMemberButton extends Component {
+export default class EditMemberModalLauncher extends Component {
     constructor(props) {
         super(props);
         this.state = {modalIsOpen: false};
