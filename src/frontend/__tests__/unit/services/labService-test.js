@@ -164,7 +164,7 @@ describe('labService', () => {
             id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
             participantName: 'Jo jo',
             participantLastName: 'The 3rd',
-            contactFirstName: 'Jo',
+            contactName: 'Jo',
             contactLastName: 'The 2nd',
             contactNumber: '101010010',
             contactEmail: 'jo@jo.com',

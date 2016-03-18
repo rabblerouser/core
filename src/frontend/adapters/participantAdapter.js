@@ -32,7 +32,7 @@ let parseParticipantDetails = (data) => {
         id: parseString(data.id),
         participantName: parseString(data.firstName),
         participantLastName: parseString(data.lastName),
-        contactFirstName: parseString(data.contactFirstName),
+        contactName: parseString(data.contactFirstName),
         contactLastName: parseString(data.contactLastName),
         contactNumber: parseString(data.primaryPhoneNumber),
         contactEmail: parseString(data.email),

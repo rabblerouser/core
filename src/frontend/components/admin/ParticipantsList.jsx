@@ -22,7 +22,7 @@ function tableColumns(onSave) {
         {
             property: 'contactFirstName',
             header: 'Parent / Guardian',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactFirstName + " " + participants[rowIndex].contactLastName,
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactName + " " + participants[rowIndex].contactLastName,
             headerClass: classnames('parent')
         },
         {
