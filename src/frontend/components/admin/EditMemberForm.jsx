@@ -25,8 +25,16 @@ export default class EditMemberForm extends Component {
       return this.state.invalidFields.includes(fieldName);
     }
 
+    getSchoolType(fieldValues) {
+        if (fieldValues.schoolType === 'Other') {
+            return fieldValues.schoolTypeOtherText;
+        }
+
+        return fieldValues.schoolType;
+    }
+
     saveChanges() {
-        let participant = Object.assign({}, this.props.participant, this.state.fieldValues);
+        let participant = Object.assign({}, this.props.participant, this.state.fieldValues, {schoolType: this.getSchoolType(this.state.fieldValues)});
         let errors = memberValidator.isValid(participant);
         this.setState({invalidFields: errors});
         if(errors.length === 0) {

@@ -14,7 +14,8 @@ describe('member request adapter', () => {
       participantName: 'a',
       participantLastName: 'b',
       participantBirthYear: '2000',
-      schoolType: 'f',
+      schoolType: 'Other',
+      schoolTypeOtherText: 'home',
       additionalInfo: 'j'
     };
 
@@ -24,7 +25,7 @@ describe('member request adapter', () => {
       email: 'c',
       primaryPhoneNumber: 'd',
       dateOfBirth: '01/01/2000',
-      schoolType: 'f',
+      schoolType: 'home',
       contactFirstName: 'g',
       contactLastName: 'h',
       branchId: 'i',

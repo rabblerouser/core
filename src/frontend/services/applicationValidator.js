@@ -63,6 +63,7 @@ const applicationFieldsChecks =
     participantBirthYear:  isValidYear,
     labSelection: isValidLab,
     schoolType: isValidName,
+    schoolTypeOtherText: isValidOptionalName,
     additionalInfo: isValidOptionalTextBlock
 };
 

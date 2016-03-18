@@ -57,11 +57,11 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups }) => {
 
             <fieldset>
               <legend>School type</legend>
-              <InlineError errorFor={ isValidationError('schoolType') ? 'schoolType' : '' }/>
-              <div><input type="radio" name="schoolType" onClick={onChange('schoolType')} defaultChecked={formValues.schoolType === 'Primary'} id="schoolTypePrimary" value="Primary" /><label htmlFor="schoolTypePrimary">Primary</label></div>
-              <div><input type="radio" name="schoolType" onClick={onChange('schoolType')} defaultChecked={formValues.schoolType === 'Secondary'} id="schoolTypeSecondary" value="Secondary"/><label htmlFor="schoolTypeSecondary">Secondary</label></div>
-              <div><input type="radio" name="schoolType" onClick={onChange('schoolType')} defaultChecked={formValues.schoolType !== 'Primary' && formValues.schoolType !== 'Secondary'} id="schoolTypeOther" value="Other"/><label htmlFor="schoolTypeOther">Other</label>
-              <input type="text" defaultValue={formValues.schoolType} onChange={onChange('schoolTypeOtherText')} id="schoolTypeOtherText" className="other-field"/>
+              <InlineError errorFor={ isValidationError('schoolType') || isValidationError('schoolTypeOtherText') ? 'schoolType' : '' }/>
+              <div><input type="radio" defaultChecked={formValues.schoolType === 'Primary'} name="schoolType" onClick={onChange('schoolType')} id="schoolTypePrimary" value="Primary" /><label htmlFor="schoolTypePrimary">Primary</label></div>
+              <div><input type="radio" defaultChecked={formValues.schoolType === 'Secondary'} name="schoolType" onClick={onChange('schoolType')} id="schoolTypeSecondary" value="Secondary"/><label htmlFor="schoolTypeSecondary">Secondary</label></div>
+              <div><input type="radio" defaultChecked={formValues.schoolType !== 'Primary' && formValues.schoolType !== 'Secondary'} name="schoolType" onClick={onChange('schoolType')} id="schoolTypeOther" value="Other"/><label htmlFor="schoolTypeOther">Other</label>
+              <input type="text" defaultValue={(formValues.schoolType !== 'Primary' && formValues.schoolType !== 'Secondary') ? formValues.schoolType : ''} onChange={onChange('schoolTypeOtherText')} id="schoolTypeOtherText" className="other-field"/>
               </div>
             </fieldset>
 

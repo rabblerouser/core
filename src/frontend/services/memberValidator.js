@@ -57,6 +57,7 @@ const memberFieldsChecks =
     participantLastName: isValidOptionalName,
     participantBirthYear:  isValidYear,
     schoolType: isValidName,
+    schoolTypeOtherText: isValidOptionalName,
     additionalInfo: isValidOptionalTextBlock,
     pastoralNotes: isValidOptionalTextBlock
 };

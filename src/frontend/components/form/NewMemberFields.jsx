@@ -60,7 +60,7 @@ const NewMemberFields = ({ invalidFields, labs, onChange, formValues }) => {
 
             <fieldset>
               <legend>What type of school does the participant attend?</legend>
-              <InlineError errorFor={ isValidationError('schoolType') ? 'schoolType' : '' }/>
+              <InlineError errorFor={ isValidationError('schoolType') || isValidationError('schoolTypeOtherText') ? 'schoolType' : '' }/>
               <div><input type="radio" name="schoolType" onClick={onChange('schoolType')} id="schoolTypePrimary" value="Primary" /><label htmlFor="schoolTypePrimary">Primary</label></div>
               <div><input type="radio" name="schoolType" onClick={onChange('schoolType')} id="schoolTypeSecondary" value="Secondary"/><label htmlFor="schoolTypeSecondary">Secondary</label></div>
               <div><input type="radio" name="schoolType" onClick={onChange('schoolType')} id="schoolTypeOther" value="Other"/><label htmlFor="schoolTypeOther">Other</label>
