@@ -17,6 +17,7 @@ describe('participant adapter', () => {
             schoolType: 'Primary',
             memberSince: '2016-03-08T22:34:23.721Z',
             additionalInfo: 'Some additional info',
+            pastoralNotes: 'Some pastoral notes',
             groups: [{id: 1, name: 'Group name'}],
             labId: '1234'
         }];
@@ -36,6 +37,7 @@ describe('participant adapter', () => {
                     schoolType: 'Primary',
                     memberSince: '2016-03-08T22:34:23.721Z',
                     additionalInfo: 'Some additional info',
+                    pastoralNotes: 'Some pastoral notes',
                     groups: [{id: 1, name: 'Group name'}],
                     branchId:'1234'
                 }]
@@ -61,6 +63,7 @@ describe('participant adapter', () => {
                     schoolType: 'Primary',
                     memberSince: '2016-03-08T22:34:23.721Z',
                     additionalInfo: 'Some additional info',
+                    pastoralNotes: 'Some pastoral notes',
                     groups: [{id: 1, name: 'Group name'}],
                     branchId:'1234'
                 }],
@@ -116,6 +119,7 @@ describe('participant adapter', () => {
             schoolType: 'Primary',
             memberSince: '2016-03-08T22:34:23.721Z',
             additionalInfo: 'Some additional info',
+            pastoralNotes: 'Some pastoral notes',
             groups: [{id: 1, name: 'Group name'}],
             labId: '1234'
         };
@@ -134,6 +138,7 @@ describe('participant adapter', () => {
                 schoolType: 'Primary',
                 memberSince: '2016-03-08T22:34:23.721Z',
                 additionalInfo: 'Some additional info',
+                pastoralNotes: 'Some pastoral notes',
                 groups: [{id: 1, name: 'Group name'}],
                 branchId:'1234'
             };
@@ -156,6 +161,7 @@ describe('participant adapter', () => {
                 schoolType: 'Primary',
                 memberSince: '2016-03-08T22:34:23.721Z',
                 additionalInfo: 'Some additional info',
+                pastoralNotes: 'Some pastoral notes',
                 groups: [{id: 1, name: 'Group name'}],
                 branchId:'1234',
                 createdAt: '2016-03-13T08:17:37.037Z',

@@ -21,7 +21,8 @@ describe('memberValidator', () => {
       let optionalFields = {
           'contactLastName': 'Sherlock',
           'lastName': 'Holmes',
-          'additionalInfo':  'More info for you!'
+          'additionalInfo':  'More info for you!',
+          'pastoralNotes': 'Some extra detail'
       };
 
       let validMemberWithOptionalFields = Object.assign({}, validMember, optionalFields);

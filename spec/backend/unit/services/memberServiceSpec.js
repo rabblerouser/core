@@ -341,6 +341,7 @@ describe('memberService', () => {
                 expect(sampleMember.contactLastName).not.toBeNull();
                 expect(sampleMember.schoolType).not.toBeNull();
                 expect(sampleMember.additionalInfo).not.toBeNull();
+                expect(sampleMember.pastoralNotes).not.toBeNull();
             })
             .then(done, done.fail);
         });
@@ -365,6 +366,7 @@ describe('memberService', () => {
                 expect(sampleMember.contactLastName).not.toBeNull();
                 expect(sampleMember.schoolType).not.toBeNull();
                 expect(sampleMember.additionalInfo).not.toBeNull();
+                expect(sampleMember.pastoralNotes).not.toBeNull();
             })
             .then(done, done.fail);
         });

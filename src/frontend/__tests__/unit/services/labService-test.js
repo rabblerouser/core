@@ -155,6 +155,7 @@ describe('labService', () => {
             dateOfBirth: '1990',
             schoolType: 'Primary',
             memberSince: '2016-03-08T22:34:23.721Z',
+            pastoralNotes: 'Some pastoral notes',
             additionalInfo: 'Some additional info',
             groups: [{id: 1, name: 'Group name'}],
             branchId: '1234'
@@ -171,6 +172,7 @@ describe('labService', () => {
             participantBirthYear: '1990',
             schoolType: 'Primary',
             memberSince: '2016-03-08T22:34:23.721Z',
+            pastoralNotes: 'Some pastoral notes',
             additionalInfo: 'Some additional info',
             groups: [{id: 1, name: 'Group name'}],
             labId: '1234'
@@ -194,7 +196,7 @@ describe('labService', () => {
                            JSON.stringify({members: validParticipantsPayload})]);
             });
 
-          it('should return a list of the labs', (done) => {
+          it('should return a list of the participants for the lab', (done) => {
             labService.getLabParticipants('112-11-21-2')
               .then((participants) => {
                 expect(participants).toEqual(validResult);

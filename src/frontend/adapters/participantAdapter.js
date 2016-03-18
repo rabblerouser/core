@@ -34,6 +34,7 @@ let parseParticipantDetails = (data) => {
         memberSince: data.memberSince,
         additionalInfo: data.additionalInfo,
         groups: parseGroups(data.groups),
+        pastoralNotes: data.pastoralNotes,
         labId: data.branchId
     };
 };

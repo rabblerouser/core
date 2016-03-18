@@ -16,7 +16,8 @@ describe('memberValidator', () => {
           'schoolType': 'Primary',
           'contactLastName': 'Sherlock',
           'participantLastName': 'Holmes',
-          'additionalInfo':  'More info for you!'
+          'additionalInfo':  'More info for you!',
+          'pastoralNotes': 'Pastoral deets'
       };
 
       let validMemberWithOptional = {
@@ -29,7 +30,8 @@ describe('memberValidator', () => {
         'schoolType': 'Primary',
         'contactLastName': '',
         'participantLastName': '',
-        'additionalInfo':  ''
+        'additionalInfo':  '',
+        'pastoralNotes': ''
       };
 
       it('should return empty array of errors on valid member', () => {
@@ -55,7 +57,6 @@ describe('memberValidator', () => {
             'schoolType': '',
             'contactLastName': '',
             'participantLastName': '',
-            'additionalInfo':  ''
         };
         let expectedErrors = ['contactName','contactEmail','contactNumber','participantName','participantBirthYear','schoolType'];
           expect(memberValidator.isValid(invalidMember)).toEqual(expectedErrors);

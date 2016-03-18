@@ -55,6 +55,7 @@ describe('membersController', () => {
                     schoolType: 'Primary',
                     branchId: 'some-id-1',
                     additionalInfo: null,
+                    pastoralNotes: null,
                     id: null,
                     groups: null
                 }

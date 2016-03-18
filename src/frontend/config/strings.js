@@ -37,7 +37,8 @@ export const ApplicationFormFieldLabels = {
   labSelection: 'Lab to join',
   additionalInfo: 'Additional information',
   groupName: 'Group name',
-  groupDescription: 'Description'
+  groupDescription: 'Description',
+  pastoralNotes: 'Pastoral notes'
 };
 
 export const FormValidationErrors = {
@@ -51,6 +52,7 @@ export const FormValidationErrors = {
   schoolType: {name: 'School type', message: 'Please select a school type.'},
   labSelection: {name: 'Lab to join', message: 'Please select a lab to join.'},
   additionalInfo: {name: 'Additional info', message: 'Maximum 2000 characters'},
+  pastoralNotes: {name: 'Pastoral notes', message: 'Maximum 2000 characters'},
   groupName: {name: 'Name', message: 'Please enter a group name. No symbols allowed.'},
   groupDescription: {name: 'Description', message: 'Please enter a description (maximum 2000 characters).'}
 };

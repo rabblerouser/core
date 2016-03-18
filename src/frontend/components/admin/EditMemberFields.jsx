@@ -11,7 +11,7 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups }) => {
     function isValidationError(fieldName) {
         return _.indexOf(invalidFields, fieldName) > -1;
     }
-    
+
     return (
         <div className="field-group">
             <h2>{formValues.participantName} {formValues.participantLastName}</h2>
@@ -67,6 +67,10 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups }) => {
 
             <FormFieldLabel fieldName="additionalInfo" isOptional={true} hasError={isValidationError('additionalInfo')} />
             <textarea defaultValue={formValues.additionalInfo} onChange={onChange('additionalInfo')} id="additionalInfo" className="additionalInfo"/>
+
+            <FormFieldLabel fieldName="pastoralNotes" isOptional={true} hasError={isValidationError('pastoralNotes')} />
+            <textarea defaultValue={formValues.pastoralNotes} onChange={onChange('pastoralNotes')} id="pastoralNotes" className="pastoralNotes"/>
+
           </div>
     )
 }

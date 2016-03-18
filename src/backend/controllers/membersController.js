@@ -57,6 +57,8 @@ function parseMember(req) {
       contactLastName: req.body.contactLastName,
       branchId: req.body.branchId,
       additionalInfo: req.body.additionalInfo,
+      pastoralNotes: req.body.pastoralNotes,
+
       groups: req.body.groups
   };
 }
@@ -81,7 +83,6 @@ function handleError(res) {
 
 let register = (req, res) => {
     let newMember = parseMember(req);
-
     let validationErrors = memberValidator.isValid(newMember);
 
     if (validationErrors.length > 0) {
