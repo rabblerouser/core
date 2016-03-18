@@ -79,7 +79,7 @@ NewMemberFields.propTypes = {
     invalidFields: React.PropTypes.array,
     labs: React.PropTypes.array,
     onChange: React.PropTypes.func,
-    formValues: React.PropTypes.array
+    formValues: React.PropTypes.object
 };
 
 export default NewMemberFields
