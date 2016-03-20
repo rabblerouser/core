@@ -71,6 +71,11 @@ ul.details-section-selector {
     border-bottom: 1px solid #062C40;
     margin: 0;
     margin-top: 15px;
+
+    @include media($mobile) {
+        border: none;
+    }
+
 }
 ul.details-section-selector li {
     display: inline;
@@ -81,7 +86,10 @@ ul.details-section-selector li {
     cursor: pointer;
     color: #062C40;
     @include media($mobile) {
-        display: none;
+        display: block;
+        border-radius: 3px;
+        margin-top: 3px;
+        padding: 3px;
     }
 
     span {
@@ -99,17 +107,12 @@ ul.details-section-selector li.selected {
     border-bottom: 1px solid #fff;
     cursor: default;
     font-weight: bold;
-    margin-right: 5px;
-    margin-left: 5px;
     @include media($mobile) {
-        display: block;
+        background: #eee;
         border: none;
-        padding: 5px;
-        margin-right: 0;
     }
 }
 ul.details-section-selector li.selected:hover {
-    background: #fff;
     color: #062C40;
 }
 
