@@ -8,4 +8,4 @@ module.exports = function requireAuth(req, res, next) {
         return;
     }
     next();
-}
+};
