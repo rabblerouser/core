@@ -85,7 +85,7 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
     );
 
     return (
-        <div className="field-group" id='groups'>
+        <div>
             <ul className="details-section-selector">
                 <li className={selectedSection === 'groups' ? 'selected':''} onClick={onSelectSection('groups')}><span>Groups</span></li>
                 <li className={selectedSection === 'details' ? 'selected':''} onClick={onSelectSection('details')}><span>Details</span></li>

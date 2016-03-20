@@ -85,9 +85,15 @@ export default class EditMemberForm extends Component {
     render() {
         return (
             <section className="form-container">
-                <header>
-                    <span>Edit participant: {this.props.participant.participantName} {this.props.participant.participantLastName}</span>
-                    <button onClick={this.saveChanges.bind(this)}>Save</button>
+                <header className="details-header">
+                    <span className='title'>
+                        Edit details for
+                        <br />
+                        {this.props.participant.participantName + ' ' + this.props.participant.participantLastName}
+                    </span>
+                    <span className='actions'>
+                        <button onClick={this.saveChanges.bind(this)}>Save</button>
+                    </span>
                 </header>
                 <EditMemberFields onChange={this.onChange.bind(this)}
                               invalidFields={this.state.invalidFields}

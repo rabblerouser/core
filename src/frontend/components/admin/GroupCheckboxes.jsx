@@ -16,12 +16,12 @@ const GroupCheckboxes = ({participantGroups, groupOptions, onChange}) => {
             {groupOptions.map(
                 group => {
                     return (<div>
-                                <label htmlFor={group.id} key={group.id}>{group.name}</label>
                                 <input type="checkbox"
                                         id={group.id}
                                         onChange={onChange}
                                         defaultChecked={isSelected(group)}
                                         value={group.id} />
+                                <label htmlFor={group.id} key={group.id}>{group.name}</label>
                             </div>);
                 }
             )}
