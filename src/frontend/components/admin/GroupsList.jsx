@@ -1,8 +1,8 @@
 'use strict';
 import React from 'react';
-import GroupListEntry from './GroupListEntry.jsx';
 export default ({ groups , onSelect}) => {
-    let groupEntries = groups.map( group => (<GroupListEntry key={group.id} group={group} onSelect={onSelect} />));
+
+    let groupEntries = groups.map( group => (<option key={group.id} value={group.id}>{ group.name }</option>));
 
     function selectAll() {
         onSelect();

@@ -1,23 +1,35 @@
+'use strict';
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import $ from 'jquery';
 import adminService from '../../services/adminService.js';
 
-export default class AdminHeader extends Component {
-    constructor(props) {
-        super(props);
+const AdminHeader = ({labs, selectedLab, onSelectLab}) => {
+    let labEntries = labs.map( lab => (<option key={lab.id} value={lab.id}>{lab.name}</option>));
+
+    function selectLab(event) {
+        onSelectLab(event.target.value);
     }
 
-    logout() {
+    function logout() {
         adminService.logout();
     }
-
-    render() {
-        return (
-            <div className="header">
-                <span>{this.props.lab}</span>
-                <button onClick={this.logout} className="logout">Logout</button>
+    return (
+        <header className="admin-header header">
+            <span className='admin-actions'>
+                <select defaultValue={selectedLab.id} onChange={''}>
+                   { labEntries }
+                </select>
+                <button onClick={logout} className="logout">Logout</button>
+            </span>
+            <span>
                 <img src ='/images/the_lab_logo.svg'/>
-            </div>);
-    }
-}
+            </span>
+        </header>);
+};
+
+AdminHeader.propTypes = {
+    labs: React.PropTypes.array,
+    selectedLab: React.PropTypes.object
+};
+
+export default AdminHeader

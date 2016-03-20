@@ -136,7 +136,7 @@ export default class AdminDashboard extends Component {
     render() {
         return (
             <div className="admin-container">
-                <AdminHeader lab={ this.state.currentLab.name }/>
+                <AdminHeader selectedLab={this.state.currentLab} labs={this.state.labs}/>
                 <UserMessageView
                     messages={this.state.userMessages}
                     errors={this.state.pageErrors}

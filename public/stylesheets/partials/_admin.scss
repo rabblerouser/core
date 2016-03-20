@@ -53,6 +53,26 @@
 .login_body span {
     color: red;
 }
+
+header.admin-header{
+
+    .admin-actions {
+        max-width: 300px;
+        margin-left: auto;
+    }
+}
+
+.admin-actions {
+    display: flex;
+
+    select {
+        flex-grow: 2;
+        margin: 0;
+
+    }
+}
+
+
 /* --------------------------------------------------------------------------------------
 
    GROUP TABS

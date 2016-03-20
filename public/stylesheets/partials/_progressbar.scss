@@ -5,7 +5,7 @@
 -------------------------------------------------------------------------------------- */
 
 .header { /* General header styles */
-  margin-top: 25px;
+  margin-top: 5px;
   position: relative;
   text-align: center;
   margin-bottom: 40px;
@@ -20,28 +20,24 @@
     @include media($tablet) {
       width: 50%;
     }
-
-
 }
 
-  button.logout {
-    background: none;
-    border: none;
-    padding: 0;
-    float: right;
-    color: #062C40;
-    border-radius: 0;
-    font-weight: normal;
-    font-size: 1.1em;
+button.logout {
+  background: none;
+  border: none;
+  padding: 0.3em;
+  color: #062C40;
+  border-radius: 0;
+  font-weight: normal;
+  font-size: 1.1em;
+  min-width: 4em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
 
-  }
-
-  button.logout:hover {
-   
-    text-decoration:underline;  
-
-  }
-
+button.logout:hover {
+  text-decoration:underline;
+}
 
  /* Progress bar content */
 
