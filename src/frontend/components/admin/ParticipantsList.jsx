@@ -15,56 +15,45 @@ function tableColumns(onSave) {
     return [
         {
             property: 'participantName',
-            header: 'Participant',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].participantName + " " + participants[rowIndex].participantLastName,
-            headerClass: classnames('participant')
+            header: 'Participant name',
+            cell: (nothing, participants, rowIndex) => {
+                return {
+                    value: <span>{participants[rowIndex].participantName + " " + participants[rowIndex].participantLastName}</span>
+                }
+            },
+            headerClass: classnames('name participant')
         },
         {
             property: 'contactFirstName',
-            header: 'Parent / Guardian',
+            header: 'Contact name',
             cell: (nothing, participants, rowIndex) => participants[rowIndex].contactName + " " + participants[rowIndex].contactLastName,
-            headerClass: classnames('parent')
+            headerClass: classnames('name parent')
         },
         {
             property: 'contactNumber',
             header: 'Contact information',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactNumber + " " + participants[rowIndex].contactEmail,
+            cell: (nothing, participants, rowIndex) => {
+                return {
+                    value:
+                        <dl>
+                            <dd>{participants[rowIndex].contactNumber}</dd>
+                            <dd>{participants[rowIndex].contactEmail}</dd>
+                        </dl>
+
+                }
+            },
             headerClass: classnames('contact')
         },
         {
-            property: 'participantBirthYear',
-            header: 'Birth year',
-            cell: (dob) => dob.substring(0,4),
-            headerClass: classnames('birth-year')
-        },
-        {
-            property: 'schoolType',
-            header: 'School type',
-            headerClass: classnames('school-type')
-        },
-        {
             property: 'memberSince',
-            header: 'Date registered',
+            header: 'Date applied',
             cell: (date) => moment(date).format('YYYY/MM/DD'),
-            headerClass: classnames('date-registered')
+            headerClass: classnames('date date-registered')
         },
         {
-            property: 'additionalInfo',
+            property: 'pastoralNotes',
             header: 'Notes',
             headerClass: classnames('notes')
-        },
-        {
-            property: 'groups',
-            header: 'Groups',
-            cell: (groups, participants, rowIndex) => {
-                let groupDetails =  participants[rowIndex].allGroups.filter((group) => {
-                     return groups.includes(group.id);
-                 });
-                return {
-                 value: <ParticipantGroupsList editable={false} groups={ groupDetails } />
-                }
-            },
-            headerClass: classnames('groups')
         },
         {
             cell: (nothing, participants, rowIndex) => {

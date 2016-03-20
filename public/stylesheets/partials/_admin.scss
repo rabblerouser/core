@@ -288,17 +288,14 @@ header.details-header {
             padding-bottom: 10px;
         }
     }
-    th.notes {
-        width: 20%;
+    th.name {
+        width: 10%;
     }
     th.contact {
         width: 15%;
     }
-    th.birth-year {
-        width: 75px;
-    }
-    th.date-registered {
-        width: 110px;
+    th.date {
+        width: 10%;
     }
     th:last-child {
         width: 50px;
@@ -333,6 +330,9 @@ header.details-header {
     }
     td li {
         display: block;
+    }
+    td dl {
+        margin: 0;
     }
     td button {
         background: none;

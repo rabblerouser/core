@@ -18,7 +18,7 @@ export default class AdminDashboard extends Component {
             participants: [],
             groups: [],
             labs: [],
-            selectedGroupId: '',
+            selectedGroupId: 'unassigned',
             currentLab: {},
             filteredParticipantList: [],
             userMessages: [],
@@ -83,7 +83,7 @@ export default class AdminDashboard extends Component {
 
     updateGroupSelection(selected) {
         let groups = this.state.groups.map(group => {
-            return Object.assign({}, group, { selected: selected !== undefined && group.id === selected });
+            return Object.assign({}, group, { selected: group.id === selected });
         });
         this.setState({groups: groups});
     }
@@ -134,7 +134,7 @@ export default class AdminDashboard extends Component {
     }
 
     getSelectedGroup() {
-        if(this.state.selectedGroupId === undefined) {
+        if(this.state.selectedGroupId === 'all' || this.state.selectedGroupId === 'unassigned') {
             return;
         }
         return this.state.groups.find(group => group.id === this.state.selectedGroupId);

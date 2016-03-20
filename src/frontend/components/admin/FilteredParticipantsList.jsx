@@ -5,7 +5,11 @@ import ParticipantsList from './ParticipantsList.jsx';
 const FilteredParticipantsList = ({ groupFilter, participants, groups, onSaveParticipant }) => {
 
     function filterParticipantsList() {
-        return !groupFilter ? participants : participants.filter( participant => participant.groups.includes(groupFilter) );
+        switch(groupFilter) {
+            case 'all' : return participants;
+            case 'unassigned' : return participants.filter( participant => participant.groups.length === 0);
+            default: return participants.filter( participant => participant.groups.includes(groupFilter));
+        }
     }
 
     return (
