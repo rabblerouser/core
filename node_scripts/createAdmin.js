@@ -59,6 +59,9 @@ function setupAdmin(branches) {
             admin.password = password;
             return admin;
         });
+    })
+    .then(function(admin) {
+        return Object.assign({}, admin, {type: 'BRANCH'});
     });
 }
 
