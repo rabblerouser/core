@@ -3,49 +3,39 @@
    LOGIN SCREEN AND ADMIN DASHBOARD
 
 -------------------------------------------------------------------------------------- */
-
-.login_form, .admin_dashboard {
+.login_form,
+.admin_dashboard {
     background-color: $blue-light;
     max-width: 350px;
-    margin: auto;
-    margin-top: 10%;
+    margin: 10% auto auto;
     padding: 2em;
     border-top: 7px solid $blue-darker;
     text-align: center;
 }
-
-
-.login_form input, .admin_dashboard input{
+.login_form input,
+.admin_dashboard input {
     height: 3em;
     width: 100%;
 }
-
-
 .login_body h1 {
     font-size: 20px;
     line-height: 26px;
     color: $blue-darker;
     text-align: center;
 }
-
-
 .admin-button {
     margin-bottom: 10px;
 }
-
-
-.admin_dashboard a{
+.admin_dashboard a {
     text-decoration: underline;
 }
-
 .login_body .error {
-  border: 1px solid red;
-  border-radius: 3px;
-  background: #FAD9D9;
-  padding: 10px;
-  margin: 20px auto;
+    border: 1px solid red;
+    border-radius: 3px;
+    background: #FAD9D9;
+    padding: 10px;
+    margin: 20px auto;
 }
-
 .user_messages {
     li {
         border: 1px solid;
@@ -56,538 +46,356 @@
         margin: 20px auto;
     }
     .error {
-      border-color: red;
-      background: #FAD9D9;
+        border-color: red;
+        background: #FAD9D9;
     }
 }
-
 .login_body span {
-  color: red;
+    color: red;
 }
-
-
-
 /* --------------------------------------------------------------------------------------
 
    GROUP TABS
 
 -------------------------------------------------------------------------------------- */
-
 nav {
-  margin-top: 3em;
-  width: 98%;
-  margin: auto;
-
-
-             @include media($mobile) {
-
-      width: 98%;
-      margin: 15px auto;
-
-
-
-        }
+    margin-top: 3em;
+    width: 98%;
+    margin: auto;
+    @include media($mobile) {
+        width: 98%;
+        margin: 15px auto;
+    }
 }
-
-#groups ul {
-  border-bottom: 1px solid #062C40;
-  margin: 0;
-  padding: 0;
-  padding-bottom: 8px;
-  padding-left: 20px;
-
-             @include media($mobile) {
-
-
-          padding-left: 0px
-
-
-        }
+ul.details-section-selector {
+    border-bottom: 1px solid #062C40;
+    margin: 0;
+    padding: 0 0 8px 20px;
+    @include media($mobile) {
+        padding-left: 0;
+    }
 }
-
-#groups li {
-  display: inline;
-  font-size: 1.2em;
-  margin: 0;
-  padding: 10px 15px 8px 15px;
-  cursor: pointer;
-  color: #062C40;
-
-             @include media($mobile) {
-
-
-          display:none
-
-
-        }
-
+ul.details-section-selector li {
+    display: inline;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 10px 15px 8px;
+    cursor: pointer;
+    color: #062C40;
+    @include media($mobile) {
+        display: none;
+    }
 }
-
-#groups li:hover {
-  background: #062C40;
-  color: #fff;
+ul.details-section-selector li:hover {
+    background: #062C40;
+    color: #fff;
 }
-
-
-#groups li.selected {
-  border-top: 1px solid #062C40;
-  border-right: 1px solid #062C40;
-  border-left: 1px solid #062C40;
-  border-bottom: 1px solid #fff;
-  padding: 10px 15px 9px 15px;
-  cursor: default;
-  font-weight: bold;
-  margin-right: 5px;
-  margin-left: 5px;
-
-           @include media($mobile) {
-
-
-          display:block;
-          border: none;
-          padding: 5px;
-          margin-right: 0;
-
-
-        }
-
+ul.details-section-selector li.selected {
+    border-top: 1px solid #062C40;
+    border-right: 1px solid #062C40;
+    border-left: 1px solid #062C40;
+    border-bottom: 1px solid #fff;
+    padding: 10px 15px 9px;
+    cursor: default;
+    font-weight: bold;
+    margin-right: 5px;
+    margin-left: 5px;
+    @include media($mobile) {
+        display: block;
+        border: none;
+        padding: 5px;
+        margin-right: 0;
+    }
 }
-
-#groups li.selected:hover {
-  background: #fff;
-  color: #062C40;
-
+ul.details-section-selector li.selected:hover {
+    background: #fff;
+    color: #062C40;
 }
-
-#groups li.new {
-  float:right;
-  margin-top: -10px;
-}
-
-.new span {
-  text-decoration: underline;
-}
-
-#groups li.new button {
-
-  margin: 0;
-  padding: 10px 15px 8px 15px;
-  cursor: pointer;
-  color: #062C40;
-  background:none;
-  font-weight: normal;
-  border-radius: 0;
-  font-size: 1em;
-  margin-top: -3px;
-
-}
-
-#groups li.new button:hover {
-color: #fff;
- background: #062C40;
-
-}
-
-#groups li.new:hover {
-  background: none;
-
-}
-
 
 /* --------------------------------------------------------------------------------------
 
    SECRETARY VIEW
 
 -------------------------------------------------------------------------------------- */
-
 .admin-container {
     h1 {
-      font-size:1.2em;
+        font-size: 1.2em;
     }
-
     table {
-      table-layout: fixed;
-      margin: auto;
-      width: 98%;
-      margin-top: 20px;
-
-                   @include media($mobile) {
-
-      width: 98%;
-      margin: auto;
-
-
+        table-layout: fixed;
+        margin: auto;
+        width: 98%;
+        margin-top: 20px;
+        @include media($mobile) {
+            width: 98%;
+            margin: auto;
         }
     }
-
     thead {
-
-      @include media($mobile) {
-            display:none;
+        @include media($mobile) {
+            display: none;
         }
     }
-
     tr {
         border: none;
-         @include media($mobile) {
-
-
-
-        }
+        @include media($mobile) {}
     }
-
     th {
-      background-color:$blue-darker;
-      color:$white;
-      font-size: 14px;
-      padding-left: 10px;
-      padding-right: 10px;
-      padding-top:18px;
-      padding-bottom: 18px;
-      word-wrap: break-word;
-      font-weight:normal;
-      vertical-align: top;
-      font-size: 1em;
-      line-height: 1.2em;
-      padding-right: 20px;
+        background-color: $blue-darker;
+        color: $white;
+        font-size: 14px;
+        padding: 18px 10px;
+        word-wrap: break-word;
+        font-weight: normal;
+        vertical-align: top;
+        font-size: 1em;
+        line-height: 1.2em;
+        padding-right: 20px;
     }
-
-
     th:last-child {
-      border-right: none;
+        border-right: none;
     }
-
-    th.sort-desc, th.sort-asc {
-
-      background: #062C40;
-
+    th.sort-desc,
+    th.sort-asc {
+        background: #062C40;
     }
-
     th.sort-desc:before {
-      content: "\f0ab";
-      font-family: FontAwesome;
-      text-align: right;
-      display:block;
-      float:right;
-      padding-right: 0px;
-      margin-right: -15px;
+        content: "\f0ab";
+        font-family: FontAwesome;
+        text-align: right;
+        display: block;
+        float: right;
+        padding-right: 0;
+        margin-right: -15px;
     }
-
     th.sort-asc:before {
-      content: "\f0aa";
-      font-family: FontAwesome;
-      text-align: right;
-      display:block;
-      float:right;
-      padding-right: 0px;
-      margin-right: -15px;
+        content: "\f0aa";
+        font-family: FontAwesome;
+        text-align: right;
+        display: block;
+        float: right;
+        padding-right: 0;
+        margin-right: -15px;
     }
-
     th:hover {
-      background: #00476B;
-      cursor: pointer;
-
+        background: #00476B;
+        cursor: pointer;
     }
-
     th:hover:before {
-
-      cursor: pointer;
-      content: "\f0ab";
-      font-family: FontAwesome;
-      text-align: right;
-      display:block;
-      float:right;
-      padding-right: 0px;
-      margin-right: -15px;
+        cursor: pointer;
+        content: "\f0ab";
+        font-family: FontAwesome;
+        text-align: right;
+        display: block;
+        float: right;
+        padding-right: 0;
+        margin-right: -15px;
     }
-
     th.edit:hover {
-      background-color:$blue-darker;
-      cursor:default;
+        background-color: $blue-darker;
+        cursor: default;
     }
-
     th.edit:hover:before {
-
-      cursor: default;
-      content: none;
-
-      text-align: right;
-      display:block;
-      float:right;
-      padding-right: 0px;
-      margin-right: -15px;
+        cursor: default;
+        content: none;
+        text-align: right;
+        display: block;
+        float: right;
+        padding-right: 0;
+        margin-right: -15px;
     }
-
     th.sort-desc:hover:before {
-      cursor: pointer;
-      content: "\f0aa";
-      font-family: FontAwesome;
-      text-align: right;
-      display:block;
-      float:right;
-      padding-right: 0px;
-      margin-right: -15px;
+        cursor: pointer;
+        content: "\f0aa";
+        font-family: FontAwesome;
+        text-align: right;
+        display: block;
+        float: right;
+        padding-right: 0;
+        margin-right: -15px;
     }
-
-
-
-
-
-
-
-
-
     tr:nth-child(even) {
-      background-color: $white;
+        background-color: $white;
     }
-
     tr:nth-child(odd) {
-      background-color: $blue-light;
+        background-color: $blue-light;
     }
-
     tr td:first-child {
-
-      @include media($mobile) {
-        font-weight: bold;
-        font-size: 0.9em;
-        padding: 10px 5px;
-
-        }
-
-
-    }
-
-       tr td:last-child {
-
-      @include media($mobile) {
-
-        padding-bottom: 10px;
-
-        }
-
-
-    }
-
-
-
-  th.notes {
-      width: 20%;
-  }
-  th.contact {
-    width: 15%;
-    }
-
-  th.birth-year {
-    width: 75px;
-  }
-
-  th.date-registered {
-    width: 110px;
-  }
-
-  th:last-child {
-     width: 50px;
-  }
-
-  td:nth-of-type(5), td:nth-of-type(7) {
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 10px;
-  }
-
-   td:nth-of-type(5):hover, td:nth-of-type(7):hover {
- white-space: normal;
- overflow: visible;
-
-
-
-    padding-right: 10px;
-  }
-
-
-
-
-
-    td {
-      color:$blue-darker;
-      text-align: left;
-      padding-left: 10px;
-      word-wrap: break-word;
-      font-size: 14px;
-      vertical-align:top;
         @include media($mobile) {
-            display:block;
-            padding: 0px 10px;
+            font-weight: bold;
+            font-size: 0.9em;
+            padding: 10px 5px;
         }
     }
-
+    tr td:last-child {
+        @include media($mobile) {
+            padding-bottom: 10px;
+        }
+    }
+    th.notes {
+        width: 20%;
+    }
+    th.contact {
+        width: 15%;
+    }
+    th.birth-year {
+        width: 75px;
+    }
+    th.date-registered {
+        width: 110px;
+    }
+    th:last-child {
+        width: 50px;
+    }
+    td:nth-of-type(5),
+    td:nth-of-type(7) {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 10px;
+    }
+    td:nth-of-type(5):hover,
+    td:nth-of-type(7):hover {
+        white-space: normal;
+        overflow: visible;
+        padding-right: 10px;
+    }
+    td {
+        color: $blue-darker;
+        text-align: left;
+        padding-left: 10px;
+        word-wrap: break-word;
+        font-size: 14px;
+        vertical-align: top;
+        @include media($mobile) {
+            display: block;
+            padding: 0 10px;
+        }
+    }
     td ul {
-      list-style: none
-
+        list-style: none;
     }
-
     td li {
-      display: block;
+        display: block;
     }
-
     td button {
-
-      background: none;
-      color: #0073ae;
-      padding: 0;
-      margin: 0;
-      border: 0;
-      font-size: 1.3em;
-      padding: 5px;
+        background: none;
+        color: #0073ae;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        font-size: 1.3em;
+        padding: 5px;
     }
-
     td button:hover {
-
-      background: #062C40;
-      color: #fff;
-
+        background: #062C40;
+        color: #fff;
     }
-
     td button span {
-      display: none;
+        display: none;
     }
-
-      td button:after {
-      content: "\f040";
-      font-family: FontAwesome;
-
+    td button:after {
+        content: "\f040";
+        font-family: FontAwesome;
     }
-
     .navigation {
-      text-align: center;
-      margin-top: 20%;
+        text-align: center;
+        margin-top: 20%;
     }
-
     .verified {
-      color: $green;
+        color: $green;
     }
-
     .unverified {
-      color: $red;
+        color: $red;
     }
-
     table a {
         text-decoration: underline;
     }
-
     .validationErrors {
-      margin: auto;
-      width: 90%;
-      margin-bottom: -3%;
+        margin: auto;
+        width: 90%;
+        margin-bottom: -3%;
     }
 }
-
-
 /* --------------------------------------------------------------------------------------
 
    OVERLAYS
 
 -------------------------------------------------------------------------------------- */
-
 .ReactModalPortal .form-container {
-
-  h2 {
-  font-size: 1.2em;
-  }
-
-  input {
-    padding: 8px;
-    margin-bottom: 15px;
-  }
-
-  input[type="text"] {
-    width: 100%;
-  }
-
-  textarea {
-    height: 200px;
-    border: 1px solid #4da8d4;
-  }
-
-  .selectGroups {
-  margin-top: 20px;
-  padding: 10px;
-  padding-bottom: 0;
-  border-radius: 3px;
-  margin-bottom: 20px;
-  }
+    h2 {
+        font-size: 1.2em;
+    }
+    input {
+        padding: 8px;
+        margin-bottom: 15px;
+    }
+    input[type="text"] {
+        width: 100%;
+    }
+    textarea {
+        height: 200px;
+        border: 1px solid #4da8d4;
+    }
+    .selectGroups {
+        margin-top: 20px;
+        padding: 10px 10px 0;
+        border-radius: 3px;
+        margin-bottom: 20px;
+    }
 }
-
-
 /* --------------------------------------------------------------------------------------
 
    GROUP DESCRIPTION
 
 -------------------------------------------------------------------------------------- */
-
-
 .groupDetails {
-  width: 98%;
-  margin: auto;
-  margin-top: 10px;
-  padding: 10px;
-  margin-bottom: 30px;
+    width: 98%;
+    margin: 10px auto auto;
+    padding: 10px;
+    margin-bottom: 30px;
 }
-
 .groupDetails dt {
-  font-size: 1.2em;
-  margin-bottom: 15px;
-  @include media($mobile) {
-            display:none;
-
-        }
-}
-
-.groupDetails dd {
-  font-size: 1.1em;
-  margin-bottom: 15px;
+    font-size: 1.2em;
+    margin-bottom: 15px;
     @include media($mobile) {
-
-            margin-top: -20px;
-        }
+        display: none;
+    }
 }
-
-
+.groupDetails dd {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    @include media($mobile) {
+        margin-top: -20px;
+    }
+}
 .groupDetails button {
-
-      background: none;
-      color: #0073ae;
-      padding: 0;
-      margin: 0;
-      border: 0;
-      font-size: 1.3em;
-      padding: 5px;
-      display: inline;
-      float:left;
-      margin-right: 15px;
-    }
-
+    background: none;
+    color: #0073ae;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-size: 1.3em;
+    padding: 5px;
+    display: inline;
+    float: left;
+    margin-right: 15px;
+}
 .groupDetails button:hover {
-
-      background: #062C40;
-      color: #fff;
-
-    }
-
+    background: #062C40;
+    color: #fff;
+}
 .groupDetails button span {
-      display: none;
-    }
-
+    display: none;
+}
 .groupDetails button.editGroup:after {
-      content: "\f040";
-      font-family: FontAwesome;
-
-    }
-
+    content: "\f040";
+    font-family: FontAwesome;
+}
 .groupDetails button.deleteGroup:after {
-      content: "\f1f8";
-      font-family: FontAwesome;
-
-    }
+    content: "\f1f8";
+    font-family: FontAwesome;
+}
