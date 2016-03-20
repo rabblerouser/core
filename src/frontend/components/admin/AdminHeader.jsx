@@ -16,7 +16,7 @@ const AdminHeader = ({labs, selectedLab, onSelectLab}) => {
     return (
         <header className="admin-header header">
             <span className='admin-actions'>
-                <select defaultValue={selectedLab.id} onChange={()=> {}}>
+                <select defaultValue={selectedLab.id} onChange={selectLab}>
                    { labEntries }
                 </select>
                 <button onClick={logout} className="logout">Logout</button>

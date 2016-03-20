@@ -56,6 +56,10 @@ export default class AdminDashboard extends Component {
                         this.setUserMessage('Participant successfully saved');
                     })
                     .catch(this.handleError.bind(this));
+            },
+            onSelectLab: (id) => {
+                let lab = this.state.labs.find(lab => lab.id === id);
+                this.updateLabSelection(lab);
             }
         };
     }
@@ -115,16 +119,19 @@ export default class AdminDashboard extends Component {
         labService.getMyLabs()
             .then( (labs) => {
                 this.setState({labs: labs});
-                this.setState({currentLab: labs[0]});
-                labService.getLabParticipants(this.state.currentLab.id)
-                        .then( participants => { this.setState({participants: participants});
-                                                 this.filterParticipantList();
-                                                });
-                labService.getLabGroups(this.state.currentLab.id)
-                        .then( groups => { this.setState({groups: groups}); });
+                this.updateLabSelection(labs[0]);
             });
     }
 
+    updateLabSelection(lab) {
+        this.setState({currentLab: lab});
+        labService.getLabParticipants(lab.id)
+                .then( participants => { this.setState({participants: participants});
+                                         this.filterParticipantList();
+                                        });
+        labService.getLabGroups(lab.id)
+                .then( groups => { this.setState({groups: groups}); });
+    }
 
     getSelectedGroup() {
         if(this.state.selectedGroupId === undefined) {
@@ -136,7 +143,7 @@ export default class AdminDashboard extends Component {
     render() {
         return (
             <div className="admin-container">
-                <AdminHeader selectedLab={this.state.currentLab} labs={this.state.labs}/>
+                <AdminHeader selectedLab={this.state.currentLab} labs={this.state.labs} onSelectLab={this.state.onSelectLab}/>
                 <UserMessageView
                     messages={this.state.userMessages}
                     errors={this.state.pageErrors}
