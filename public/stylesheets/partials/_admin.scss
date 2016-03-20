@@ -87,6 +87,23 @@ nav {
         margin: 15px auto;
     }
 }
+
+
+section.groups-view {
+    .select {
+        min-width: 200px;
+        margin: 0;
+        display: inline-block;
+    }
+}
+
+
+/* --------------------------------------------------------------------------------------
+
+   EDIT DETAILS
+
+-------------------------------------------------------------------------------------- */
+
 ul.details-section-selector {
     border-bottom: 1px solid #062C40;
     margin: 0;
@@ -388,27 +405,32 @@ header.details-header {
    GROUP DESCRIPTION
 
 -------------------------------------------------------------------------------------- */
-.groupDetails {
+.group-details {
     width: 98%;
     margin: 10px auto auto;
     padding: 10px;
-    margin-bottom: 30px;
 }
-.groupDetails dt {
+.group-details header {
+    border: 0;
+    border-bottom: 1px;
+    border-style: solid
+}
+
+.group-details dt {
     font-size: 1.2em;
     margin-bottom: 15px;
     @include media($mobile) {
         display: none;
     }
 }
-.groupDetails dd {
+.group-details dd {
     font-size: 1.1em;
     margin-bottom: 15px;
     @include media($mobile) {
         margin-top: -20px;
     }
 }
-.groupDetails button {
+.group-details button {
     background: none;
     color: #0073ae;
     padding: 0;
@@ -417,21 +439,20 @@ header.details-header {
     font-size: 1.3em;
     padding: 5px;
     display: inline;
-    float: left;
-    margin-right: 15px;
+    margin-left: 15px;
 }
-.groupDetails button:hover {
+.group-details button:hover {
     background: #062C40;
     color: #fff;
 }
-.groupDetails button span {
+.group-details button span {
     display: none;
 }
-.groupDetails button.editGroup:after {
+.group-details button.editGroup:after {
     content: "\f040";
     font-family: FontAwesome;
 }
-.groupDetails button.deleteGroup:after {
+.group-details button.deleteGroup:after {
     content: "\f1f8";
     font-family: FontAwesome;
 }

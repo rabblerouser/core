@@ -25,23 +25,21 @@ export default class AddGroupModalLauncher extends Component {
             }
         };
         return (
-            <div>
                 <button onClick={this.launchEditForm.bind(this)}
                     className="newGroup"
                     title="New group">
                     <span>New group</span>
+                    <Modal
+                        isOpen={this.state.modalIsOpen}
+                        onRequestClose={this.closeEditForm.bind(this)}
+                        style={customStyle}>
+                        <EditGroupForm
+                            title="New group"
+                            onSave={this.props.onSave}
+                            group={{}}
+                            onSuccess={this.closeEditForm.bind(this)}/>
+                    </Modal>
                 </button>
-                <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeEditForm.bind(this)}
-                    style={customStyle}>
-                    <EditGroupForm
-                        title="New group"
-                        onSave={this.props.onSave}
-                        group={{}}
-                        onSuccess={this.closeEditForm.bind(this)}/>
-                </Modal>
-            </div>
         )
     }
 }

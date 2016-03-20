@@ -1,12 +1,11 @@
 'use strict';
 import React from 'react';
-import GroupActions from './GroupActions.jsx';
+import GroupHeader from './GroupHeader.jsx';
 import GroupDetails from './GroupDetails.jsx';
 
 export default ({ selectedGroup, onSave, onDelete }) => (
-    <section className="groupDetails">
-        
+    <section className="group-details">
+        <GroupHeader onSave={ onSave } onDelete={ onDelete } group={ selectedGroup }/>
         <GroupDetails group={ selectedGroup }/>
-        <GroupActions onSave={ onSave } onDelete={ onDelete } group={ selectedGroup }/>
     </section>
 )

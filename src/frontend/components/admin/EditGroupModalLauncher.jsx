@@ -27,12 +27,10 @@ export default class EditGroupModalLauncher extends Component {
             }
         };
         return (
-            <div>
-                <button onClick={this.launchEditForm.bind(this)}
-                    className="editGroup"
-                    title="Edit details">
-                    <span>Edit details</span>
-                </button>
+            <button onClick={this.launchEditForm.bind(this)}
+                className="editGroup"
+                title="Edit details">
+                <span>Edit details</span>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeEditForm.bind(this)}
@@ -43,7 +41,7 @@ export default class EditGroupModalLauncher extends Component {
                         group={this.props.group}
                         onSuccess={this.closeEditForm.bind(this)}/>
                 </Modal>
-            </div>
+            </button>
         )
     }
 }

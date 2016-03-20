@@ -19,7 +19,7 @@ export default class AdminDashboard extends Component {
             groups: [],
             labs: [],
             selectedGroupId: '',
-            currentLab: '',
+            currentLab: {},
             filteredParticipantList: [],
             userMessages: [],
             pageErrors: [],
