@@ -13,7 +13,8 @@ export default class EditMemberForm extends Component {
         this.state = {
             id: props.participant.id,
             invalidFields: [],
-            fieldValues: props.participant
+            fieldValues: props.participant,
+            selectedSection: ''
         };
     }
 
@@ -73,15 +74,28 @@ export default class EditMemberForm extends Component {
         };
     }
 
+    onSelect(section) {
+        let editMemberComponent = this;
+
+        return function() {
+            editMemberComponent.setState({selectedSection: section});
+        };
+    }
+
     render() {
         return (
             <section className="form-container">
+                <header>
+                    <span>Edit participant: {this.props.participant.participantName} {this.props.participant.participantLastName}</span>
+                    <button onClick={this.saveChanges.bind(this)}>Save</button>
+                </header>
                 <EditMemberFields onChange={this.onChange.bind(this)}
                               invalidFields={this.state.invalidFields}
                               groups={this.props.participant.allGroups}
                               formValues={this.props.participant}
+                              selectedSection={this.state.selectedSection}
+                              onSelectSection={this.onSelect.bind(this)}
                 />
-                <button onClick={this.saveChanges.bind(this)}>Save</button>
             </section>
         )
     }

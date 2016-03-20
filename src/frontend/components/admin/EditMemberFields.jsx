@@ -6,21 +6,35 @@ import InlineError from '../form/InlineError.jsx';
 import GroupCheckboxes from './GroupCheckboxes.jsx';
 
 
-const EditMemberFields = ({ invalidFields, onChange, formValues, groups }) => {
+const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selectedSection, onSelectSection }) => {
 
     function isValidationError(fieldName) {
         return _.indexOf(invalidFields, fieldName) > -1;
     }
 
-    return (
-        <div className="field-group">
-            <h2>{formValues.participantName} {formValues.participantLastName}</h2>
+    let sections = {};
+    if(selectedSection === '') {
+        selectedSection = 'groups';
+    }
+
+    sections.groups = (
+        <section>
             <FormFieldLabel fieldName="groups" isOptional={false} hasError={isValidationError('groups')} />
-
             <GroupCheckboxes onChange={onChange('groups')}
-                             groupOptions={groups}
-                             participantGroups={formValues.groups} />
+                groupOptions={groups}
+                participantGroups={formValues.groups} />
+        </section>
+    );
 
+    sections.notes = (
+        <section>
+            <FormFieldLabel fieldName="pastoralNotes" isOptional={true} hasError={isValidationError('pastoralNotes')} />
+            <textarea defaultValue={formValues.pastoralNotes} onChange={onChange('pastoralNotes')} id="pastoralNotes" className="pastoralNotes"/>
+        </section>
+    );
+
+    sections.details = (
+        <section>
             <fieldset className="field-pair">
               <legend>Parent / Guardian name</legend>
               <div className="sub-field">
@@ -67,10 +81,17 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups }) => {
 
             <FormFieldLabel fieldName="additionalInfo" isOptional={true} hasError={isValidationError('additionalInfo')} />
             <textarea defaultValue={formValues.additionalInfo} onChange={onChange('additionalInfo')} id="additionalInfo" className="additionalInfo"/>
+        </section>
+    );
 
-            <FormFieldLabel fieldName="pastoralNotes" isOptional={true} hasError={isValidationError('pastoralNotes')} />
-            <textarea defaultValue={formValues.pastoralNotes} onChange={onChange('pastoralNotes')} id="pastoralNotes" className="pastoralNotes"/>
-
+    return (
+        <div className="field-group" id='groups'>
+            <ul className="details-section-selector">
+                <li className={selectedSection === 'groups' ? 'selected':''} onClick={onSelectSection('groups')}><span>Groups</span></li>
+                <li className={selectedSection === 'details' ? 'selected':''} onClick={onSelectSection('details')}><span>Details</span></li>
+                <li className={selectedSection === 'notes' ? 'selected':''} onClick={onSelectSection('notes')}><span>Pastoral notes</span></li>
+            </ul>
+            {sections[selectedSection]}
           </div>
     )
 }
@@ -79,7 +100,8 @@ EditMemberFields.propTypes = {
     invalidFields: React.PropTypes.array,
     onChange: React.PropTypes.func,
     formValues: React.PropTypes.object,
-    groups: React.PropTypes.array
+    groups: React.PropTypes.array,
+    selectedSection: React.PropTypes.string
 };
 
 export default EditMemberFields
