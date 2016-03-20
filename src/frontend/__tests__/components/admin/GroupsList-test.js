@@ -5,8 +5,6 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import GroupsList from '../../../components/admin/GroupsList.jsx';
 import sd from 'skin-deep';
-import GroupListEntry from '../../../components/admin/GroupListEntry.jsx';
-
 
 describe('GroupList', () => {
 
