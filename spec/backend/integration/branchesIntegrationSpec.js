@@ -1,6 +1,7 @@
 'use strict';
 require('../../support/specHelper');
 const integrationTestHelpers = require('./integrationTestHelpers.js');
+const sample = require('lodash').sample;
 
 let request = require('supertest-as-promised');
 const instanceUrl = process.env.INSTANCE_URL;
@@ -100,6 +101,41 @@ describe('Branches Integration Test', () => {
                 .then((res) => {
                     expect(res.body.branches).not.toBeNull();
                     expect(res.body.branches.length).toEqual(3);
+                    expect(sample(res.body.r));
+                });
+        })
+        .then(done, done.fail);
+    });
+
+    it('should return branches notes for super admins', (done) => {
+        let agent = request.agent(app);
+
+        integrationTestHelpers.createBranch()
+        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+        .then(() => {
+            return agent.get('/admin/branches')
+                .expect(200)
+                .then((res) => {
+                    expect(res.body.branches).not.toBeNull();
+                    expect(sample(res.body.branches).notes).not.toBeNull();
+                });
+        })
+        .then(done, done.fail);
+    });
+
+    it('should not return branches notes for branch admins', (done) => {
+        let agent = request.agent(app);
+
+        integrationTestHelpers.createBranch()
+        .tap(integrationTestHelpers.createUser)
+        .tap(integrationTestHelpers.authenticateOrganiser(agent))
+        .then(() => {
+            return agent.get('/admin/branches')
+                .expect(200)
+                .then((res) => {
+                    expect(res.body.branches).not.toBeNull();
+                    expect(sample(res.body.branches).notes).toBeUndefined();
                 });
         })
         .then(done, done.fail);

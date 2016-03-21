@@ -17,7 +17,14 @@ let transformAdmin = dbResult => {
 };
 
 let transformBranch = dbResult => {
-    return dbResult.dataValues;
+    if (dbResult.dataValues) {
+        return {
+            id: dbResult.dataValues.id,
+            name: dbResult.dataValues.name,
+            notes: dbResult.dataValues.notes,
+            contact: dbResult.dataValues.contact
+        };
+    }
 };
 
 let transformGroup = dbResult => {
@@ -97,7 +104,7 @@ function findById(id) {
 
     return Branch.findById(id)
         .then((result) => {
-            return result ? result.dataValues : {};
+            return result ? transformBranch(result) : {};
         }).catch(handleError('[find-branch-by-id-error]', `Error when looking up branch with id: ${id}`));
 }
 

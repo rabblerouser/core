@@ -36,10 +36,15 @@ function authenticateSuperAdmin(someAgent) {
 }
 
 function createBranch() {
-    return Branch.create({name:'Fake Branch', id: uuid.v4()})
-        .then((sequelizeResult) => {
-            return sequelizeResult.dataValues;
-        });
+    return Branch.create({
+        name:'Fake Branch',
+        id: uuid.v4(),
+        notes: 'Some notes for this branch, only meant to be seen by super users',
+        conact: 'jerry@seinfield.com'
+    })
+    .then((sequelizeResult) => {
+        return sequelizeResult.dataValues;
+    });
 }
 
 function createGroupInBranch(branchId) {

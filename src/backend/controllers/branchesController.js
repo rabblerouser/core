@@ -55,6 +55,7 @@ function findBranches(admin) {
 
     return branchService.findById(admin.branchId)
     .then((result) => {
+        delete result.notes;
         return [result];
     });
 }
