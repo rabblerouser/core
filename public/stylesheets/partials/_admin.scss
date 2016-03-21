@@ -540,6 +540,11 @@ header.details-header {
     display: inline;
     margin-left: 15px;
 }
+
+#group-details button.editGroup {
+    margin-left: 0;
+}
+
 #group-details button:hover {
     background: #062C40;
     color: #fff;
