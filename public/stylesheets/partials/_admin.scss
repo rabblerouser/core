@@ -54,23 +54,76 @@
     color: red;
 }
 
-header.admin-header{
+/* --------------------------------------------------------------------------------------
 
-    .admin-actions {
-        max-width: 300px;
-        margin-left: auto;
+   ADMIN HEADER BANNER
+
+-------------------------------------------------------------------------------------- */
+
+header.admin-header {
+
+    background: #0073ae; 
+    margin: 0; 
+    padding: 0;
+    text-align: left;
+    padding: 10px;
+    margin-bottom: 20px;
+    display:flex;
+    flex-align: center;
+    @include media($mobile) {
+        flex-direction: column;
+        padding: 5px 20px 20px 20px;
     }
-}
-
-.admin-actions {
-    display: flex;
 
     select {
-        flex-grow: 2;
+        width: auto;
+        flex-grow: 1;
+        flex-align: center;
         margin: 0;
+        margin-top: 10px;
+    }
+
+    button.logout {
+        width: auto;
+        flex-grow: 1;
+        flex-align: center;
+        color: #fff;
+        @include media($mobile) {
+            text-align: left;
+            padding-left: 2px;
+            padding-top: 15px;
+            margin: 0;
+            color: #fff;
+        margin-top: 2px;
+        font-size: 1em;
+        }
 
     }
+
+
+
+    span {
+        flex-grow: 4;
+        flex-align: center;
+        img {
+            margin-left: 10px;
+            height: 50px;
+             @include media($mobile) {
+                 margin-left: 0;
+            }
+        }
+
+    }
+
+
+
 }
+
+
+
+
+
+
 
 
 /* --------------------------------------------------------------------------------------
@@ -174,6 +227,9 @@ header.details-header {
 
 -------------------------------------------------------------------------------------- */
 .admin-container {
+    .groups-view, .user_messages {
+        padding: 10px;
+    }
     h1 {
         font-size: 1.2em;
     }

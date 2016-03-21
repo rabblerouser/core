@@ -15,15 +15,19 @@ const AdminHeader = ({labs, selectedLab, onSelectLab}) => {
     }
     return (
         <header className="admin-header header">
-            <span className='admin-actions'>
-                <select defaultValue={selectedLab.id} onChange={selectLab}>
-                   { labEntries }
-                </select>
-                <button onClick={logout} className="logout">Logout</button>
-            </span>
             <span>
                 <img src ='/images/the_lab_logo.svg'/>
             </span>
+            <select defaultValue={selectedLab.id} onChange={selectLab}>
+                   { labEntries }
+            </select>
+            <button onClick={logout} className="logout">Logout</button>
+
+                
+                
+       
+            
+
         </header>);
 };
 
