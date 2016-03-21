@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
         id: { type: DataTypes.UUID, defaultValue: uuid.v4(), primaryKey: true },
         email: { type: DataTypes.STRING, unique: true },
         password: DataTypes.STRING,
+        name: { type: DataTypes.STRING },
+        phoneNumber: { type: DataTypes.STRING },
         type: { type: DataTypes.STRING, defaultValue: adminType.branch, allowNull: false}
     }, {
         classMethods: {
