@@ -71,7 +71,7 @@ let makeMember = (branchId) => {
     };
 };
 
-function createFakeMembers(agent, numberOfMembers) {
+function createMembers(agent, numberOfMembers) {
     return function(branch) {
         let createTheseMembers = [];
         times(numberOfMembers, () => {
@@ -91,7 +91,7 @@ module.exports = {
     createUser: createUser,
     authenticate: authenticate,
     createBranch: createBranch,
-    createFakeMembers: createFakeMembers,
+    createMembers: createMembers,
     makeMember: makeMember,
     createGroupInBranch: createGroupInBranch
 };

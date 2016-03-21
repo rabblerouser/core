@@ -133,7 +133,7 @@ describe('Groups Integration Test', () => {
         it('responds with a 200', (done) => {
             integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createUser)
-                .tap(integrationTestHelpers.createFakeMembers(agent, 2))
+                .tap(integrationTestHelpers.createMembers(agent, 2))
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
@@ -154,7 +154,7 @@ describe('Groups Integration Test', () => {
         it('responds with a 400 when members is empty', (done) => {
             integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createUser)
-                .tap(integrationTestHelpers.createFakeMembers(agent, 2))
+                .tap(integrationTestHelpers.createMembers(agent, 2))
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
@@ -173,7 +173,7 @@ describe('Groups Integration Test', () => {
         it('responds with a 500 and an empty body when there is an error', (done) => {
             integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createUser)
-                .tap(integrationTestHelpers.createFakeMembers(agent, 2))
+                .tap(integrationTestHelpers.createMembers(agent, 2))
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })

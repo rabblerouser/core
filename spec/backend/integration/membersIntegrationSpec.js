@@ -141,7 +141,7 @@ describe('MemberIntegrationTests', () => {
         it('finds a list of members for an organiser', (done) => {
             integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createUser)
-            .tap(integrationTestHelpers.createFakeMembers(agent, 3))
+            .tap(integrationTestHelpers.createMembers(agent, 3))
             .tap(integrationTestHelpers.authenticate(agent))
             .then((branch) => {
                 return agent.get(`/branches/${branch.id}/members`);
@@ -153,7 +153,7 @@ describe('MemberIntegrationTests', () => {
         it('only authenticated organisers can access the members list', (done) => {
 
             integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createFakeMembers(agent, 3))
+            .tap(integrationTestHelpers.createMembers(agent, 3))
             .then((branch) => {
                 return agent.get(`/branches/${branch.id}/members`);
             })
@@ -172,7 +172,7 @@ describe('MemberIntegrationTests', () => {
             integrationTestHelpers.createBranch()
             .tap(setState(browserState, 'branch'))
             .tap(integrationTestHelpers.createUser)
-            .then(integrationTestHelpers.createFakeMembers(agent, 1))
+            .then(integrationTestHelpers.createMembers(agent, 1))
             .then(() => {
                 return Q.all([
                     integrationTestHelpers.createGroupInBranch(browserState.branch.id),
