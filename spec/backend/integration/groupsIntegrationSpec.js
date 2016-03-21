@@ -46,7 +46,7 @@ describe('Groups Integration Test', () => {
         it('should return 200 when the group is successfully created', (done) => {
             integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createUser)
-            .tap(integrationTestHelpers.authenticate(agent))
+            .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((branch) => {
                 return agent.post(`/branches/${branch.id}/groups`)
                     .set('Content-Type', 'application/json')
@@ -60,7 +60,7 @@ describe('Groups Integration Test', () => {
         it('should return 400 if group input data is not valid', (done) => {
             integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createUser)
-            .tap(integrationTestHelpers.authenticate(agent))
+            .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((branch) => {
                 return agent.post(`/branches/${branch.id}/groups`)
                     .set('Content-Type', 'application/json')
@@ -78,7 +78,7 @@ describe('Groups Integration Test', () => {
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
-                .tap(integrationTestHelpers.authenticate(agent))
+                .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((branchGroup) => {
                     return agent.put(`/branches/${branchGroup.branchId}/groups/${branchGroup.groupId}`)
                     .set('Content-Type', 'application/json')
@@ -97,7 +97,7 @@ describe('Groups Integration Test', () => {
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
-                .tap(integrationTestHelpers.authenticate(agent))
+                .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((branchGroup) => {
                     return agent.delete(`/branches/${branchGroup.branchId}/groups/${branchGroup.groupId}`)
                     .expect(200);
@@ -108,7 +108,7 @@ describe('Groups Integration Test', () => {
         it('should return a 400 if the input data is not valid', (done) => {
             integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createUser)
-                .tap(integrationTestHelpers.authenticate(agent))
+                .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((branch) => {
                     return agent.delete(`/branches/${branch.id}/groups/whatevs`)
                     .expect(400);
@@ -120,7 +120,7 @@ describe('Groups Integration Test', () => {
         it('should return 500 when trying to delete a group that does not exist', (done) => {
             integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createUser)
-                .tap(integrationTestHelpers.authenticate(agent))
+                .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((branch) => {
                     return agent.delete(`/branches/${branch.id}/groups/${uuid.v4()}`)
                     .expect(500);
@@ -137,7 +137,7 @@ describe('Groups Integration Test', () => {
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
-                .tap(integrationTestHelpers.authenticate(agent))
+                .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then(getMemberAndReturnMemberAndGroup(agent))
                 .spread((members, branchGroup) => {
                     let branchId = branchGroup.branchId;
@@ -158,7 +158,7 @@ describe('Groups Integration Test', () => {
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
-                .tap(integrationTestHelpers.authenticate(agent))
+                .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((branchGroup) => {
                     let branchId = branchGroup.branchId;
 
@@ -177,7 +177,7 @@ describe('Groups Integration Test', () => {
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
-                .tap(integrationTestHelpers.authenticate(agent))
+                .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((branchGroup) => {
                     let badMemberIds = [1, 2];
 

@@ -56,7 +56,7 @@ let getGroupsForBranch = () => {
     let agent = request.agent(app);
 
     return Q(integrationTestHelpers.createUser({id: branchId}))
-    .tap(integrationTestHelpers.authenticate(agent))
+    .tap(integrationTestHelpers.authenticateOrganiser(agent))
     .then(() => {
         return agent
             .get(`/branches/${branchId}/groups`)
