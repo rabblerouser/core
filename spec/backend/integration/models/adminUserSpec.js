@@ -41,9 +41,7 @@ describe('AdminUser', () => {
                     expect(cb).toHaveBeenCalledWith(null, false);
                 }).then(done, done.fail);
         });
-    });
 
-    describe('instance', () => {
         it('has an encrypted password', (done) => {
         return AdminUser.create({ email: email, password: password })
             .then((user) => {
