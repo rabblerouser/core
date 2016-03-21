@@ -41,6 +41,10 @@ var isValidEmail = (email) => {
     return validator.isEmail(email);
 };
 
+var isValidOptionalPhoneNumber = (input) => {
+  return isEmpty(input) || /^[-+\s()\d]+$/.test(input);
+};
+
 var isValidPhoneNumber = (input) => {
   return /^[-+\s()\d]+$/.test(input);
 };
@@ -70,6 +74,7 @@ module.exports = {
     isValidOptionalName: isValidOptionalName,
     isValidEmail: isValidEmail,
     isValidPhone: isValidPhone,
+    isValidOptionalPhone: isValidOptionalPhoneNumber,
     isValidDate: isValidDate,
     isValidText: isValidText,
     isValidOptionalTextBlock: isValidOptionalTextBlock,
