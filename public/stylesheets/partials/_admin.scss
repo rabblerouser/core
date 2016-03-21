@@ -286,23 +286,24 @@ header.details-header {
         @include media($mobile) {}
     }
     th {
-        background-color: $blue-darker;
-        color: $white;
+        background-color: #fff;
+        color: #666;
         font-size: 14px;
-        padding: 18px 10px;
+        padding: 18px 10px 5px 10px;
         word-wrap: break-word;
         font-weight: normal;
         vertical-align: top;
         font-size: 1em;
         line-height: 1.2em;
         padding-right: 20px;
+        border-bottom: 2px solid #ccc;
     }
     th:last-child {
         border-right: none;
     }
     th.sort-desc,
     th.sort-asc {
-        background: #062C40;
+        background: #E6E6E7;
     }
     th.sort-desc:before {
         content: "\f0ab";
@@ -323,7 +324,7 @@ header.details-header {
         margin-right: -15px;
     }
     th:hover {
-        background: #00476B;
+        background: #E6E6E7;
         cursor: pointer;
     }
     th:hover:before {
@@ -360,10 +361,11 @@ header.details-header {
         margin-right: -15px;
     }
     tr:nth-child(even) {
-        background-color: $white;
+        background-color: $blue-light;
     }
     tr:nth-child(odd) {
-        background-color: $blue-light;
+        
+        background-color: $white;
     }
     tr td:first-child {
         @include media($mobile) {
