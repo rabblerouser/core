@@ -13,7 +13,6 @@ const adminFieldsChecks =
     name: inputValidator.isValidOptionalName,
     email: inputValidator.isValidEmail,
     phoneNumber: inputValidator.isValidOptionalPhone,
-    password: inputValidator.isValidName,
     branchId: isValidBranch
 };
 

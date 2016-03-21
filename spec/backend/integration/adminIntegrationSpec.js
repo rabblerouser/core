@@ -2,13 +2,10 @@
 const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
-const sample = require('lodash').sample;
-const pluck = require('lodash').pluck;
 let integrationTestHelpers = require('./integrationTestHelpers.js');
-let Q = require('../../support/specHelper').Q;
 let uuid = require('node-uuid');
 
-let hasNewAdmin = (res) => {
+let hasAdmin = (res) => {
     if (!(res.body.email)) {
         throw new Error('missing created admin');
     }
@@ -20,6 +17,38 @@ let makeAdminUser = (branch) => {
         password: 'organiser',
         branchId: branch.id,
         id: uuid.v4()
+    };
+};
+
+let makeAdminUserUpdates = (admin) => {
+    return {
+        email: admin.email,
+        password: 'no password',
+        branchId: admin.branchId,
+        id: admin.id,
+        name: 'some name',
+        phoneNumber: '04030403'
+    };
+};
+
+let makeInvalidAdminUserUpdates = (admin) => {
+    return {
+        email: 'bad-email',
+        password: 'no password',
+        branchId: admin.branchId,
+        id: admin.id,
+        name: 'some name',
+        phoneNumber: '04030403'
+    };
+};
+
+let makeAdminUserUpdateWithoutPassword = (admin) => {
+    return {
+        email: admin.email,
+        branchId: admin.branchId,
+        id: admin.id,
+        name: 'some name',
+        phoneNumber: '04030403'
     };
 };
 
@@ -36,12 +65,12 @@ describe('AdminIntegrationTests', () => {
         agent = request.agent(app);
     });
 
-    describe('Add', () => {
+    describe('add', () => {
         beforeEach((done) => {
             integrationTestHelpers.createBranch().nodeify(done);
         });
 
-        it('should return 200 and a created admin user when the input is valid', (done) => {
+        it('should return 200 and a created user when the input is valid', (done) => {
             integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createUser)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
@@ -50,7 +79,7 @@ describe('AdminIntegrationTests', () => {
                     .set('Content-Type', 'application/json')
                     .send(makeAdminUser(branch))
                     .expect(200)
-                    .then(hasNewAdmin);
+                    .then(hasAdmin);
             })
             .then(done, done.fail);
         });
@@ -84,7 +113,7 @@ describe('AdminIntegrationTests', () => {
         });
     });
 
-    describe('delete admin', () => {
+    describe('delete', () => {
         it('should return a 200 when the admin is successfully deleted', (done) => {
             integrationTestHelpers.createBranch()
                 .then(integrationTestHelpers.createUser)
@@ -118,4 +147,65 @@ describe('AdminIntegrationTests', () => {
                 .then(done, done.fail);
         });
     });
+
+    describe('update', () => {
+        it('should return 200 and an updated user when the input is valid', (done) => {
+            integrationTestHelpers.createBranch()
+            .then(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.authenticateOrganiser(agent))
+            .then((adminUser) => {
+                return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
+                    .set('Content-Type', 'application/json')
+                    .send(makeAdminUserUpdates(adminUser))
+                    .expect(200)
+                    .then(hasAdmin);
+            })
+            .then(done, done.fail);
+        });
+
+        it('should allow update without the password field in the payload', (done) => {
+            integrationTestHelpers.createBranch()
+            .then(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.authenticateOrganiser(agent))
+            .then((adminUser) => {
+                return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(makeAdminUserUpdateWithoutPassword(adminUser))
+                    .expect(200)
+                    .then(hasAdmin);
+            })
+            .then(done, done.fail);
+        });
+
+        it('should return 400 if the input is null', (done) => {
+            integrationTestHelpers.createBranch()
+            .then(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.authenticateOrganiser(agent))
+            .then((adminUser) => {
+                return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(null)
+                    .expect(400);
+            })
+            .then(done, done.fail);
+        });
+
+        it('should return 400 if the input is incomplete', (done) => {
+            integrationTestHelpers.createBranch()
+            .then(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.authenticateOrganiser(agent))
+            .then((adminUser) => {
+                return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/whatevs`)
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(makeInvalidAdminUserUpdates(adminUser))
+                    .expect(400);
+            })
+            .then(done, done.fail);
+        });
+
+    });
+
 });

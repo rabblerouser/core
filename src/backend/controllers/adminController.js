@@ -40,7 +40,7 @@ function create(req, res) {
     let validationErrors = adminValidator.isValid(newAdmin);
 
     if (validationErrors.length > 0) {
-        logger.info('[create-new-member-validation-error]', {errors: validationErrors});
+        logger.info('[create-new-user-validation-error]', {errors: validationErrors});
         return res.status(400).json({ errors: validationErrors});
     }
 
@@ -54,7 +54,29 @@ function create(req, res) {
     });
 }
 
+function update(req, res) {
+    let branchId = req.params.branchId;
+    let admin = parseAdmin(req);
+    admin.branchId = branchId;
+    let validationErrors = adminValidator.isValid(admin);
+
+    if (validationErrors.length > 0 || !admin.id || !branchId || admin.id !== req.params.id) {
+        logger.info('[update-user-validation-error]', {errors: validationErrors});
+        return res.status(400).json({ errors: validationErrors});
+    }
+
+    return adminService.updateAdmin(admin)
+    .then((updatedAdmin) => {
+        res.status(200).json(updatedAdmin);
+    })
+    .catch((error) => {
+        logger.error(`Failed updating the admin user with id:${admin.id}`, error);
+        res.sendStatus(500);
+    });
+}
+
 module.exports = {
     delete: deleteAdmin,
-    create: create
+    create: create,
+    update: update
 };

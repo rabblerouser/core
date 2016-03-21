@@ -39,7 +39,7 @@ router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], me
 
 router.get('/branches/:branchId/admins', [requireAuth, branchAuthorization], branchesController.admins);
 router.post('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.create);
-router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization], branchesController.updateAdmin);
+router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization], adminController.update);
 router.delete('/branches/:branchId/admins/:adminId', [requireAuth, branchAuthorization], adminController.delete);
 
 
