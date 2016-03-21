@@ -1,30 +1,10 @@
 'use strict';
-const specHelper = require('../../support/specHelper'),
-    Branch = specHelper.models.Branch,
-    Group = specHelper.models.Group,
-    integrationTestHelpers = require('./integrationTestHelpers.js'),
-    Q = specHelper.Q;
+require('../../support/specHelper');
+const integrationTestHelpers = require('./integrationTestHelpers.js');
 
 let request = require('supertest-as-promised');
 const instanceUrl = process.env.INSTANCE_URL;
-let app;
-
-function seed() {
-    let branchWithGroups;
-    return Branch.create({
-            id: 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174',
-            name: 'Branch name groups'
-        }).then(function(branch) {
-            branchWithGroups = branch;
-            return Group.create({
-                name: 'Waiting List',
-                description: 'This is a description of the waiting list'
-            });
-        })
-        .then(function(group) {
-            return branchWithGroups.addGroup(group);
-        });
-}
+let app = instanceUrl ? instanceUrl : require('../../../src/backend/app');
 
 let listOfBranches = (res) => {
     if (!('branches' in res.body)) {
@@ -51,41 +31,7 @@ let getBranches = () => {
         .expect(listOfBranches);
 };
 
-let getGroupsForBranch = () => {
-    const branchId = 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174';
-    let agent = request.agent(app);
-
-    return Q(integrationTestHelpers.createUser({id: branchId}))
-    .tap(integrationTestHelpers.authenticateOrganiser(agent))
-    .then(() => {
-        return agent
-            .get(`/branches/${branchId}/groups`)
-            .expect(200)
-            .expect(listOfGroups);
-    });
-};
-
-let getAdminsForBranch = () => {
-    const branchId = 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174';
-    let agent = request.agent(app);
-
-    return Q(integrationTestHelpers.createUser({id: branchId}))
-    .tap(integrationTestHelpers.authenticate(agent))
-    .then(() => {
-        return agent
-            .get(`/branches/${branchId}/admins`)
-            .expect(200)
-            .expect(listOfAdmins);
-    });
-};
-
-
 describe('Branches Integration Test', () => {
-
-    beforeEach((done) => {
-        app = instanceUrl ? instanceUrl : require('../../../src/backend/app');
-        seed().nodeify(done);
-    });
 
     it('should return a list of branches', (done) => {
         getBranches()
@@ -93,14 +39,34 @@ describe('Branches Integration Test', () => {
     }, 60000);
 
     it('should return a list of groups for a branch', (done) => {
-        getGroupsForBranch()
-            .then(done, done.fail);
-    }, 60000);
+        let agent = request.agent(app);
+
+        integrationTestHelpers.createBranch()
+        .tap(integrationTestHelpers.createUser)
+        .tap(integrationTestHelpers.authenticateOrganiser(agent))
+        .then((branch) => {
+            return agent
+                .get(`/branches/${branch.id}/groups`)
+                .expect(200)
+                .expect(listOfGroups);
+        })
+        .then(done, done.fail);
+    });
 
     it('should return a list of admins for a branch', (done) => {
-        getAdminsForBranch()
-            .then(done, done.fail);
-    }, 60000);
+        let agent = request.agent(app);
+
+        integrationTestHelpers.createBranch()
+        .tap(integrationTestHelpers.createUser)
+        .tap(integrationTestHelpers.authenticateOrganiser(agent))
+        .then((branch) => {
+            return agent
+                .get(`/branches/${branch.id}/admins`)
+                .expect(200)
+                .expect(listOfAdmins);
+        })
+        .then(done, done.fail);
+    });
 
     it('should return the list of branches the admin user has access to', (done) => {
         let agent = request.agent(app);
@@ -120,7 +86,7 @@ describe('Branches Integration Test', () => {
         .then(done, done.fail);
     });
 
-    fit('should return a list of all branches for a super admin', (done) => {
+    it('should return a list of all branches for a super admin', (done) => {
         let agent = request.agent(app);
 
         integrationTestHelpers.createBranch()
