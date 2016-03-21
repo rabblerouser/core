@@ -5,7 +5,7 @@ var winston = require('winston'),
 const winstonLogger = new (winston.Logger)({
     transports: [new (winston.transports.Console)({
         timestamp: () => {
-            return `[${moment().format()}]`;
+            return `[${moment().toISOString()}]`;
         },
         formatter: (options) => {
             return options.timestamp() +' '+ options.level.toUpperCase() +' '+ (undefined !== options.message ? options.message : '') +

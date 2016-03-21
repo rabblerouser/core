@@ -1,4 +1,4 @@
-{
+ {
   "app": {
     "publicUrl": "http://localhost:3000"
   },
@@ -12,5 +12,6 @@
     "proxy": false,
     "secureCookie": false
   },
-  "logFormat": "[:date[iso]] :remote-addr - :remote-user \":method :url HTTP/:http-version\" :status :res[content-length] \":referrer\" \":user-agent\""
+  "logFormat": "[:date[iso]] :method :url :status :response-time ms - :req[header]"
+
 }
