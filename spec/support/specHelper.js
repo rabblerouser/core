@@ -13,6 +13,7 @@ var models = require('../../src/backend/models'),
     Member = models.Member,
     Branch = models.Branch,
     AdminUser = models.AdminUser,
+    BranchGroup = models.BranchGroup,
     Group = models.Group;
 
 var terminalReporter = new reporters.TerminalReporter({
@@ -26,14 +27,18 @@ beforeEach((done) => {
     Address.truncate({cascade: true})
     .then(() => {
         return Member.truncate({cascade: true});
-    }).then(() => {
-        return AdminUser.truncate();
     })
     .then(() => {
-        return Branch.truncate({cascade: true});
+        return AdminUser.truncate({cascade: true});
+    })
+    .then(() => {
+        return BranchGroup.truncate({cascade: true});
     })
     .then(() => {
         return Group.truncate({cascade: true});
+    })
+    .then(() => {
+        return Branch.truncate({cascade: true});
     })
     .nodeify(done);
 });

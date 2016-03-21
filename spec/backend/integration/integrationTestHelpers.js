@@ -8,11 +8,11 @@ let models = require('../../../src/backend/models'),
 let adminType = require('../../../src/backend/security/adminType');
 
 function createUser(branch) {
-    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id });
+    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id, id: uuid.v4()});
 }
 
 function createSuperAdmin() {
-    return AdminUser.create({ email: 'super@thelab.org', password: 'super', type: adminType.super});
+    return AdminUser.create({ email: 'super@thelab.org', password: 'super', type: adminType.super, id: uuid.v4()});
 }
 
 function authenticateOrganiser(someAgent) {
