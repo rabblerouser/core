@@ -11,9 +11,8 @@ module.exports = function login(req, res) {
     if (!user) {
         return res.render('login', {error: 'Wrong username or password'});
     }
-    req.logIn(user, function() {
-      res.redirect('/admin');
-    });
+
+    res.redirect('/admin');
 
   })(req, res);
 };
