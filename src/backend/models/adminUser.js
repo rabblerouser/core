@@ -42,9 +42,16 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
-    AdminUser.hook('beforeCreate', (userAccount, options) => {
+    AdminUser.hook('beforeCreate', (userAccount) => {
         let hash = bcrypt.hashSync(userAccount.password);
         userAccount.password = hash;
+    });
+
+    AdminUser.hook('beforeUpdate', (userAccount) => {
+        if (userAccount.changed('password')) {
+            let hash = bcrypt.hashSync(userAccount.password);
+            userAccount.password = hash;
+        }
     });
 
     return AdminUser;

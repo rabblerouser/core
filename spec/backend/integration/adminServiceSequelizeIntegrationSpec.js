@@ -6,7 +6,7 @@ const specHelper = require('../../support/specHelper'),
     AdminUser = specHelper.models.AdminUser;
 
 var uuid = require('node-uuid');
-var branchService = require('../../../src/backend/services/branchService');
+var adminService = require('../../../src/backend/services/adminService');
 
 function seed() {
     let branchWithGroups;
@@ -53,41 +53,21 @@ function seed() {
         });
 }
 
-describe('branchService', () => {
+describe('adminServiceSequelizeIntegrationSpec', () => {
 
     beforeEach((done) => {
         seed().nodeify(done);
     });
 
-    describe('groupsInBranch', () => {
+    describe('admin', () => {
 
         it('should return the branches groups if it has some', (done) => {
-            let branchWithGroupsId = 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174';
-            branchService.groupsInBranch(branchWithGroupsId)
+            let branchWithAdminsId = 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174';
+            adminService.admins(branchWithAdminsId)
                 .then((result) => {
-                    expect(result.length).toEqual(2);
+                    expect(result.length).toEqual(1);
                 }).then(done, done.fail);
         });
 
-        it('should return no groups if the branch has none', (done) => {
-            let branchWithNoGroupsId = 'aa3538ae-763d-49d9-ac23-2281ba2145e4';
-            branchService.groupsInBranch(branchWithNoGroupsId)
-                .then((result) => {
-                    expect(result).toEqual([]);
-                }).then(done, done.fail);
-        });
-
-        describe('sad scenarios', () => {
-            it('should handle an invalid branchId', (done) => {
-                let invalidBranchId = 'invalidId';
-                branchService.groupsInBranch(invalidBranchId)
-                    .then(() => {
-                        done.fail('This should not have succeded');
-                    })
-                    .catch((error) => {
-                        expect(error.message).toEqual('Error when looking up groups in branch with id: invalidId');
-                    }).then(done, done.fail);
-            });
-        });
     });
 });

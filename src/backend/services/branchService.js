@@ -2,8 +2,7 @@
 
 const models = require('../models'),
     logger = require('../lib/logger'),
-    Branch = models.Branch,
-    AdminUser = models.AdminUser;
+    Branch = models.Branch;
 
 function handleError(logMessage, userMessage) {
     return function(error) {
@@ -11,10 +10,6 @@ function handleError(logMessage, userMessage) {
         throw new Error(userMessage);
     };
 }
-
-let transformAdmin = dbResult => {
-    return dbResult.dataValues;
-};
 
 let transformBranch = dbResult => {
     if (dbResult.dataValues) {
@@ -30,12 +25,6 @@ let transformBranch = dbResult => {
 let transformGroup = dbResult => {
     return dbResult.dataValues;
 };
-
-function transformAdmins(adapter) {
-    return function (dbResult) {
-        return dbResult.map(adapter);
-    };
-}
 
 function transformBranches(adapter) {
     return function (dbResult) {
@@ -60,29 +49,6 @@ let list = () => {
     return Branch.findAll(query)
         .then(transformBranches(transformBranch))
         .catch(handleError('[branches-list-error]', 'An error has occurred while fetching branches'));
-};
-
-let admins = (id) => {
-
-    let query = {
-        attributes: [
-            'id',
-            'name',
-            'email',
-            'phoneNumber'
-        ],
-        where: {branchId: id}
-    };
-
-    return AdminUser.findAll(query)
-        .then(result => {
-            if(!result) {
-                throw('');
-            }
-            return result;
-        })
-        .then(transformAdmins(transformAdmin))
-        .catch(handleError('[find-admins-in-branch-by-id-error]', `Error when looking up admins in branch with id: ${id}`));
 };
 
 function groupsInBranch(id) {
@@ -110,7 +76,6 @@ function findById(id) {
 
 module.exports = {
     list: list,
-    admins: admins,
     findById: findById,
     groupsInBranch: groupsInBranch
 };

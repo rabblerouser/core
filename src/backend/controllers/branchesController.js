@@ -1,8 +1,10 @@
 'use strict';
 
 let branchService = require('../services/branchService');
+let adminService = require('../services/adminService');
 let logger = require('../lib/logger');
 let adminType = require('../security/adminType');
+let validator = require('../lib/inputValidator');
 
 function list(req, res) {
     return branchService.list()
@@ -15,7 +17,7 @@ function list(req, res) {
 }
 
 function admins(req, res) {
-    return branchService.admins(req.params.branchId)
+    return adminService.admins(req.params.branchId)
         .then((list) => {
             res.status(200).json({admins: list});
         })
@@ -29,6 +31,39 @@ function admins(req, res) {
                     break;
             }
         });
+}
+
+function parseAdmin(req) {
+    let admin = {id: req.body.id};
+    if (req.body.name !== undefined ) { admin.name = req.body.name; }
+    if (req.body.email !== undefined) { admin.email = req.body.email; }
+    if (req.body.phoneNumber !== undefined) { admin.phoneNumber = req.body.phoneNumber; }
+    if (req.body.password !== undefined) { admin.password = req.body.password; }
+    return admin;
+}
+
+function adminDataValid(admin) {
+    return validator.isValidOptionalName(admin.name)  &&
+           validator.isValidEmail(admin.email) &&
+           validator.isValidPhone(admin.phoneNumber);
+}
+
+function updateAdmin(req, res) {
+    let admin = parseAdmin(req);
+
+    if (!adminDataValid(admin) || !admin.id) {
+        logger.info('[update-admin-validation-error]');
+        return res.status(400).json();
+    }
+
+    return adminService.updateAdmin(admin)
+    .then((updatedAdmin) => {
+        res.status(200).json(updatedAdmin);
+    })
+    .catch((error) => {
+        logger.error(`Failed updating the admin with id:${admin.id}`, error);
+        res.sendStatus(500);
+    });
 }
 
 function groupsByBranch(req, res) {
@@ -76,5 +111,6 @@ module.exports = {
     list: list,
     branchesForAdmin: branchesForAdmin,
     groupsByBranch: groupsByBranch,
-    admins: admins
+    admins: admins,
+    updateAdmin: updateAdmin
 };

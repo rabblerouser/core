@@ -2,7 +2,8 @@
 
 const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
-      branchService = require('../../../../src/backend/services/branchService');
+      branchService = require('../../../../src/backend/services/branchService'),
+      adminService = require('../../../../src/backend/services/adminService');
 
 var branchesController = require('../../../../src/backend/controllers/branchesController');
 
@@ -67,18 +68,18 @@ describe('branchesController', () => {
         beforeEach(() => {
             res = {status: sinon.stub().returns({json: sinon.spy()})};
             req = { params: { id: 1} };
-            sinon.stub(branchService, 'admins').withArgs(req.params.id);
+            sinon.stub(adminService, 'admins').withArgs(req.params.id);
         });
 
         afterEach(() => {
-            branchService.admins.restore();
+            adminService.admins.restore();
         });
 
 
         describe('when the branch id is valid and has groups', () => {
 
             it('responds with a list of branches', (done) => {
-                branchService.admins.returns(Promise.resolve(fakeAdminsList()));
+                adminService.admins.returns(Promise.resolve(fakeAdminsList()));
                 branchesController.admins(req, res)
                 .then(() => {
                     expect(res.status).toHaveBeenCalled(200);
@@ -89,7 +90,7 @@ describe('branchesController', () => {
 
         describe('when the branch id is invalid', () => {
             it('should return a 400', (done) => {
-                branchService.admins.returns(Promise.reject('invalid branch id'));
+                adminService.admins.returns(Promise.reject('invalid branch id'));
                 branchesController.admins(req, res)
                 .then(() => {
                    expect(res.status).toHaveBeenCalled(400);
@@ -99,7 +100,7 @@ describe('branchesController', () => {
 
         describe('when there is a general error from the service', () => {
             it('should return a 500', (done) => {
-                branchService.admins.returns(Promise.reject('anything at all'));
+                adminService.admins.returns(Promise.reject('anything at all'));
                 branchesController.groupsByBranch(req, res)
                 .then(() => {
                    expect(res.status).toHaveBeenCalled(500);
