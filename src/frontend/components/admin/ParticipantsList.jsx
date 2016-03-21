@@ -11,6 +11,10 @@ const classnames = require('classnames');
 import ParticipantGroupsList from './ParticipantGroupsList.jsx';
 import EditMemberModalLauncher from './EditMemberModalLauncher.jsx';
 
+function nullToBlank(input) {
+    return input === null ? "" : input;
+}
+
 function tableColumns(onSave) {
     return [
         {
@@ -18,7 +22,7 @@ function tableColumns(onSave) {
             header: 'Participant name',
             cell: (nothing, participants, rowIndex) => {
                 return {
-                    value: <span>{participants[rowIndex].participantName + " " + participants[rowIndex].participantLastName}</span>
+                    value: <span>{participants[rowIndex].participantName + " " + nullToBlank(participants[rowIndex].participantLastName)}</span>
                 }
             },
             headerClass: classnames('name participant')
@@ -26,7 +30,7 @@ function tableColumns(onSave) {
         {
             property: 'contactFirstName',
             header: 'Contact name',
-            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactName + " " + participants[rowIndex].contactLastName,
+            cell: (nothing, participants, rowIndex) => participants[rowIndex].contactName + " " + nullToBlank(participants[rowIndex].contactLastName),
             headerClass: classnames('name parent')
         },
         {
