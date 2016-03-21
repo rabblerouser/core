@@ -73,29 +73,11 @@ describe('membersController', () => {
         });
 
         describe('when it receives a good request', () => {
-            let expectedMemberCreateValues;
             let createdMember = {id:'1234', membershipType: 'full', email: 'sherlock@holmes.co.uk'};
 
             beforeEach(() => {
                 validateMemberStub.returns([]);
                 createMemberPromise.resolve(createdMember);
-
-                expectedMemberCreateValues = {
-                    firstName: 'Sherlock',
-                    lastName: 'Holmes',
-                    email: 'sherlock@holmes.co.uk',
-                    gender: 'detective genius',
-                    dateOfBirth: '22/12/1900',
-                    primaryPhoneNumber: '0396291146',
-                    secondaryPhoneNumber: '0394291146',
-                    residentialAddress: residentialAddress,
-                    postalAddress: postalAddress,
-                    membershipType: 'full',
-                    contactFirstName: 'Jaime',
-                    contactLastName: 'Garzon',
-                    schoolType: 'Primary',
-                    branchId: 'some-id-1'
-                };
             });
 
             it('creates a new member', (done) => {
