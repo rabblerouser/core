@@ -102,22 +102,40 @@ describe('Branches Integration Test', () => {
             .then(done, done.fail);
     }, 60000);
 
-    it('should return a list of branches for an admin user', (done) => {
+    it('should return the list of branches the admin user has access to', (done) => {
         let agent = request.agent(app);
 
         integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createUser)
-            .tap(integrationTestHelpers.authenticate(agent))
-            .then((branch) => {
-                return agent.get('/admin/branches')
-                    .expect(200)
-                    .then((res) => {
-                        expect(res.body.branches).not.toBeNull();
-                        expect(res.body.branches.length).toEqual(1);
-                        expect(res.body.branches[0].id).toEqual(branch.id);
-                    });
-            })
-            .then(done, done.fail);
+        .tap(integrationTestHelpers.createUser)
+        .tap(integrationTestHelpers.authenticateOrganiser(agent))
+        .then((branch) => {
+            return agent.get('/admin/branches')
+                .expect(200)
+                .then((res) => {
+                    expect(res.body.branches).not.toBeNull();
+                    expect(res.body.branches.length).toEqual(1);
+                    expect(res.body.branches[0].id).toEqual(branch.id);
+                });
+        })
+        .then(done, done.fail);
     });
 
+    fit('should return a list of all branches for a super admin', (done) => {
+        let agent = request.agent(app);
+
+        integrationTestHelpers.createBranch()
+        .then(integrationTestHelpers.createBranch)
+        .then(integrationTestHelpers.createBranch)
+        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+        .then(() => {
+            return agent.get('/admin/branches')
+                .expect(200)
+                .then((res) => {
+                    expect(res.body.branches).not.toBeNull();
+                    expect(res.body.branches.length).toEqual(3);
+                });
+        })
+        .then(done, done.fail);
+    });
 });

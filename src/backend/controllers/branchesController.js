@@ -2,6 +2,7 @@
 
 let branchService = require('../services/branchService');
 let logger = require('../lib/logger');
+let adminType = require('../security/adminType');
 
 function list(req, res) {
     return branchService.list()
@@ -47,10 +48,22 @@ function groupsByBranch(req, res) {
         });
 }
 
+function findBranches(admin) {
+    if (admin.type === adminType.super) {
+        return branchService.list();
+    }
+
+    return branchService.findById(admin.branchId)
+    .then((result) => {
+        return [result];
+    });
+}
+
 function branchesForAdmin(req, res) {
-    return branchService.findById(req.user.branchId)
-        .then((oneForNow) => {
-            res.status(200).json({branches: [oneForNow]});
+    return findBranches(req.user)
+        .then((result) => {
+
+            res.status(200).json({branches: result});
         })
         .catch(() => {
             logger.error('[branches-for-admin]', `Error when retrieving branches for user: ${req.user ? req.user.email : 'unknown'}`);
