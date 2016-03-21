@@ -11,8 +11,8 @@ function createUser(branch) {
     return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id });
 }
 
-function createSuperAdmin(branch) {
-    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id, type: adminType.super});
+function createSuperAdmin() {
+    return AdminUser.create({ email: 'super@thelab.org', password: 'super', type: adminType.super});
 }
 
 function authenticateOrganiser(someAgent) {
@@ -21,6 +21,16 @@ function authenticateOrganiser(someAgent) {
             .post('/login')
             .set('Content-Type', 'application/json')
             .send({ email: 'orgnsr@thelab.org', password: 'organiser' })
+            .expect(302);
+    };
+}
+
+function authenticateSuperAdmin(someAgent) {
+    return function() {
+        return someAgent
+            .post('/login')
+            .set('Content-Type', 'application/json')
+            .send({ email: 'super@thelab.org', password: 'super' })
             .expect(302);
     };
 }
@@ -99,5 +109,6 @@ module.exports = {
     createMembers: createMembers,
     makeMember: makeMember,
     createGroupInBranch: createGroupInBranch,
-    createSuperAdmin: createSuperAdmin
+    createSuperAdmin: createSuperAdmin,
+    authenticateSuperAdmin: authenticateSuperAdmin
 };
