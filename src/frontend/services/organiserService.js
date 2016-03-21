@@ -1,5 +1,4 @@
 'use strict';
-
 const Q = require('q');
 const $ = require('jquery');
 
@@ -17,8 +16,11 @@ function adaptOrganiser(organiser) {
         name: organiser.name,
         phoneNumber: organiser.phoneNumber,
         email: organiser.email,
-        password: organiser.password
     };
+
+    if(organiser.password) {
+        adapted.password = organiser.password;
+    }
 
     return adapted;
 }
@@ -26,7 +28,7 @@ function adaptOrganiser(organiser) {
 const update = function (organiser, branchId) {
     return Q($.ajax({
           type: 'PUT',
-          url: `/branches/${branchId}/admin/${organiser.id}`,
+          url: `/branches/${branchId}/admins/${organiser.id}`,
           data: adaptOrganiser(organiser)
       }))
       .catch(handleResponseError)

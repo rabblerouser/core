@@ -25,6 +25,11 @@ export default class EditOrganiserForm extends Component {
     saveChanges() {
         let organiser = Object.assign({}, this.props.organiser, this.state.fieldValues);
         let errors = organiserValidator.isValid(organiser);
+        if(this.state.fieldValues.confirmedPassword !==
+            this.state.fieldValues.password) {
+                errors.push('confirmedPassword');
+        }
+
         this.setState({invalidFields: errors});
         if(errors.length === 0) {
             this.props.onSuccess();
@@ -36,24 +41,12 @@ export default class EditOrganiserForm extends Component {
         let editOrganiserComponent = this;
 
         return function(event) {
-            let newValue;
-            switch(event.target.type) {
-                case 'checkbox':
-                    newValue = {[fieldName] : editOrganiserComponent.checkboxChange(fieldName, event.target.value, event.target.checked)};
-                    break;
-                default:
-                    newValue = {[fieldName] : event.target.value};
-                    break;
-            }
+            let newValue = {[fieldName] : event.target.value};
             let newFieldValues = Object.assign({}, editOrganiserComponent.state.fieldValues, newValue);
             editOrganiserComponent.setState({
                 fieldValues: newFieldValues
             });
         };
-    }
-
-    checkboxChange(fieldName, fieldValue, isChecked) {
-        return isChecked;
     }
 
     render() {

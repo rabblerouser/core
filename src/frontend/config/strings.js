@@ -39,7 +39,9 @@ export const ApplicationFormFieldLabels = {
   groupName: 'Group name',
   groupDescription: 'Description',
   pastoralNotes: 'Pastoral notes',
-  name: 'Name'
+  name: 'Name',
+  password: 'Password',
+  confirmedPassword: 'Confirm Password'
 };
 
 export const FormValidationErrors = {
@@ -57,5 +59,6 @@ export const FormValidationErrors = {
   pastoralNotes: {name: 'Pastoral notes', message: 'Maximum 2000 characters'},
   groupName: {name: 'Name', message: 'Please enter a group name. No symbols allowed.'},
   groupDescription: {name: 'Description', message: 'Please enter a description (maximum 2000 characters).'},
-  name: {name: 'Name', message: 'Please enter a name. No symbols allowed.'}
+  name: {name: 'Name', message: 'Please enter a name. No symbols allowed.'},
+  confirmedPassword: {name: 'Confirm password', message: 'Passwords must match'}
 };
