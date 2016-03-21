@@ -108,7 +108,7 @@ function list(req, res) {
         return;
     }
 
-    return memberService.list(req.user.branchId)
+    return memberService.list(req.params.branchId)
     .then((members) => {
         res.status(200).json({members: members});
     })

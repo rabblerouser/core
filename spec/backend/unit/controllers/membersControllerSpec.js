@@ -105,7 +105,10 @@ describe('membersController', () => {
         let serviceStub, req, res;
 
         beforeEach(() => {
-            req = {user: {banchId: 'some-id-1'}};
+            req = {
+                params: {banchId: 'some-id-1'},
+                user: {banchId: 'some-id-1'}
+            };
             serviceStub = sinon.stub(memberService, 'list');
         });
 
