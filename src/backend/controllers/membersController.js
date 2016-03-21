@@ -1,14 +1,16 @@
 'use strict';
 
-let memberService = require('../services/memberService');
-let memberValidator = require('../lib/memberValidator');
-let logger = require('../lib/logger');
+const _ = require('lodash');
+const isEmpty = _.isEmpty;
+const memberService = require('../services/memberService');
+const memberValidator = require('../lib/memberValidator');
+const logger = require('../lib/logger');
 
 function isAddressEmpty(address){
   return  !address ||
-            (address.address === '' &&
-            address.suburb === '' &&
-            address.postcode === '');
+            (isEmpty(address.address) &&
+            isEmpty(address.suburb) &&
+            isEmpty(address.postcode));
 }
 
 function residentialAddress(input) {
@@ -39,11 +41,15 @@ function postalAddress(input) {
   };
 }
 
+function blankToNull(input) {
+    return isEmpty(input) ? null : input;
+}
+
 function parseMember(req) {
   return {
       id: req.body.id,
       firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      lastName: blankToNull(req.body.lastName),
       email: req.body.email,
       gender: req.body.gender,
       primaryPhoneNumber: req.body.primaryPhoneNumber,
@@ -54,7 +60,7 @@ function parseMember(req) {
       membershipType: req.body.membershipType,
       schoolType: req.body.schoolType,
       contactFirstName: req.body.contactFirstName,
-      contactLastName: req.body.contactLastName,
+      contactLastName: blankToNull(req.body.contactLastName),
       branchId: req.body.branchId,
       additionalInfo: req.body.additionalInfo,
       pastoralNotes: req.body.pastoralNotes,
