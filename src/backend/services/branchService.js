@@ -2,7 +2,8 @@
 
 const models = require('../models'),
     logger = require('../lib/logger'),
-    Branch = models.Branch;
+    Branch = models.Branch,
+    AdminUser = models.AdminUser;
 
 function handleError(logMessage, userMessage) {
     return function(error) {
@@ -11,6 +12,10 @@ function handleError(logMessage, userMessage) {
     };
 }
 
+let transformAdmin = dbResult => {
+    return dbResult.dataValues;
+};
+
 let transformBranch = dbResult => {
     return dbResult.dataValues;
 };
@@ -18,6 +23,12 @@ let transformBranch = dbResult => {
 let transformGroup = dbResult => {
     return dbResult.dataValues;
 };
+
+function transformAdmins(adapter) {
+    return function (dbResult) {
+        return dbResult.map(adapter);
+    };
+}
 
 function transformBranches(adapter) {
     return function (dbResult) {
@@ -44,6 +55,21 @@ let list = () => {
         .catch(handleError('[branches-list-error]', 'An error has occurred while fetching branches'));
 };
 
+let admins = (id) => {
+
+    return AdminUser.findAll({
+      where: { branchId: id}
+    })
+        .then(result => {
+            if(!result) {
+                throw('');
+            }
+            return result;
+        })
+        .then(transformAdmins(transformAdmin))
+        .catch(handleError('[find-admins-in-branch-by-id-error]', `Error when looking up admins in branch with id: ${id}`));
+};
+
 function groupsInBranch(id) {
     return Branch.findById(id)
         .then(result => {
@@ -53,7 +79,7 @@ function groupsInBranch(id) {
             return result.getGroups();
         })
         .then(transformGroups(transformGroup))
-        .catch(handleError('[find-branch-by-id-error]', `Error when looking up branch with id: ${id}`));
+        .catch(handleError('[find-groups-in-branch-by-id-error]', `Error when looking up groups in branch with id: ${id}`));
 }
 
 function findById(id) {
@@ -69,6 +95,7 @@ function findById(id) {
 
 module.exports = {
     list: list,
+    admins: admins,
     findById: findById,
     groupsInBranch: groupsInBranch
 };

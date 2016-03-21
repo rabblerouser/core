@@ -14,25 +14,20 @@ function list(req, res) {
 }
 
 function admins(req, res) {
-        res.status(200).json(
-            {
-                admins: [
-                    {
-                        firstName: 'Joey',
-                        lastName: 'Jo jo',
-                        contactNumber: '0404 234 342',
-                        contactEmail: 'joe@joey.com',
-                        id: '1234'
-                    },
-                    {
-                        firstName: 'Charles',
-                        lastName: 'Darwin',
-                        contactNumber: null,
-                        contactEmail: 'charles@joey.com',
-                        id: '1235'
-                    }
-                ]
-            });
+    return branchService.admins(req.params.id)
+        .then((list) => {
+            res.status(200).json({admins: list});
+        })
+        .catch((error) => {
+            switch (error) {
+                case 'invalid branch id' :
+                    res.status(400);
+                    break;
+                default:
+                    res.status(500);
+                    break;
+            }
+        });
 }
 
 function groupsByBranch(req, res) {

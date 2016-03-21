@@ -38,6 +38,12 @@ let listOfGroups = (res) => {
     }
 };
 
+let listOfAdmins = (res) => {
+    if (!('admins' in res.body)) {
+        throw new Error('admins not found');
+    }
+};
+
 let getBranches = () => {
     return request(app)
         .get('/branches')
@@ -59,6 +65,21 @@ let getGroupsForBranch = () => {
     });
 };
 
+let getAdminsForBranch = () => {
+    const branchId = 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174';
+    let agent = request.agent(app);
+
+    return Q(integrationTestHelpers.createUser({id: branchId}))
+    .tap(integrationTestHelpers.authenticate(agent))
+    .then(() => {
+        return agent
+            .get(`/branches/${branchId}/admins`)
+            .expect(200)
+            .expect(listOfAdmins);
+    });
+};
+
+
 describe('Branches Integration Test', () => {
 
     beforeEach((done) => {
@@ -73,6 +94,11 @@ describe('Branches Integration Test', () => {
 
     it('should return a list of groups for a branch', (done) => {
         getGroupsForBranch()
+            .then(done, done.fail);
+    }, 60000);
+
+    it('should return a list of admins for a branch', (done) => {
+        getAdminsForBranch()
             .then(done, done.fail);
     }, 60000);
 

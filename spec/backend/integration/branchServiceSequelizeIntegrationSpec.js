@@ -2,7 +2,8 @@
 
 const specHelper = require('../../support/specHelper'),
     Branch = specHelper.models.Branch,
-    Group = specHelper.models.Group;
+    Group = specHelper.models.Group,
+    AdminUser = specHelper.models.AdminUser;
 
 var uuid = require('node-uuid');
 var branchService = require('../../../src/backend/services/branchService');
@@ -39,6 +40,16 @@ function seed() {
         })
         .then(function(group) {
             return branchWithGroups.addGroup(group);
+        })
+        .then(function() {
+            return AdminUser.create({
+                id: 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174',
+                email: 'some.email@email.com',
+                password: 'some password',
+                phoneNumber: '101010',
+                name: 'Danny Dan Dan',
+                branchId: 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174'
+            });
         });
 }
 
@@ -46,6 +57,17 @@ describe('branchService', () => {
 
     beforeEach((done) => {
         seed().nodeify(done);
+    });
+
+    describe('admin', () => {
+
+        it('should return the branches groups if it has some', (done) => {
+            let branchWithAdminsId = 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174';
+            branchService.admins(branchWithAdminsId)
+                .then((result) => {
+                    expect(result.length).toEqual(1);
+                }).then(done, done.fail);
+        });
 
     });
 
@@ -75,7 +97,7 @@ describe('branchService', () => {
                         done.fail('This should not have succeded');
                     })
                     .catch((error) => {
-                        expect(error.message).toEqual('Error when looking up branch with id: invalidId');
+                        expect(error.message).toEqual('Error when looking up groups in branch with id: invalidId');
                     }).then(done, done.fail);
             });
         });
