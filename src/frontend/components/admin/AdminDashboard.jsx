@@ -6,6 +6,8 @@ import FilteredParticipantsList from './FilteredParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './GroupsView.jsx';
+import LabDetailsView from './LabDetailsView.jsx';
+import OrganisersView from './OrganisersView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 import memberService from '../../services/memberService.js';
@@ -19,14 +21,15 @@ export default class AdminDashboard extends Component {
             groups: [],
             labs: [],
             selectedGroupId: 'unassigned',
-            currentLab: {},
+            selectedLab: {},
             filteredParticipantList: [],
             userMessages: [],
             pageErrors: [],
+            organisers: [],
             onSaveGroup: (groupDetails) => {
                 this.clearMessages();
                 let saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ? groupService.createGroup : groupService.updateGroup;
-                saveAction(groupDetails, this.state.currentLab.id)
+                saveAction(groupDetails, this.state.selectedLab.id)
                 .then((savedGroup) => {
                     this.updateGroups(this.state.groups, savedGroup);
                     this.setUserMessage('Group successfully saved');
@@ -40,7 +43,7 @@ export default class AdminDashboard extends Component {
             },
             onDeleteGroup: (selected) => {
                 this.clearMessages();
-                groupService.deleteGroup(selected, this.state.currentLab.id)
+                groupService.deleteGroup(selected, this.state.selectedLab.id)
                 .then(()=> {
                     this.setState({groups: this.findAndRemoveGroup(this.state.groups, selected)});
                     this.setState({selectedGroupId: ''});
@@ -50,7 +53,7 @@ export default class AdminDashboard extends Component {
             },
             onSaveParticipant: (participant) => {
                 this.clearMessages();
-                memberService.update(participant, this.state.currentLab.id)
+                memberService.update(participant, this.state.selectedLab.id)
                     .then((savedParticipant) => {
                         this.updateParticipants(this.state.participants, savedParticipant);
                         this.setUserMessage('Participant successfully saved');
@@ -124,13 +127,16 @@ export default class AdminDashboard extends Component {
     }
 
     updateLabSelection(lab) {
-        this.setState({currentLab: lab});
+        this.setState({selectedLab: lab});
         labService.getLabParticipants(lab.id)
                 .then( participants => { this.setState({participants: participants});
                                          this.filterParticipantList();
                                         });
         labService.getLabGroups(lab.id)
                 .then( groups => { this.setState({groups: groups}); });
+
+        labService.getOrganisers(lab.id)
+                .then( organisers => {this.setState({organisers: organisers.admins})});
     }
 
     getSelectedGroup() {
@@ -143,10 +149,17 @@ export default class AdminDashboard extends Component {
     render() {
         return (
             <div className="admin-container">
-                <AdminHeader selectedLab={this.state.currentLab} labs={this.state.labs} onSelectLab={this.state.onSelectLab}/>
+                <AdminHeader selectedLab={this.state.selectedLab} labs={this.state.labs} onSelectLab={this.state.onSelectLab}/>
                 <UserMessageView
                     messages={this.state.userMessages}
                     errors={this.state.pageErrors}
+                />
+            <LabDetailsView
+                    selectedLab={this.state.selectedLab}
+                />
+
+            <OrganisersView
+                    organisers={this.state.organisers}
                 />
                 <GroupsView
                     selectedGroup={this.getSelectedGroup()}
@@ -155,12 +168,12 @@ export default class AdminDashboard extends Component {
                     onDeleteGroup={this.state.onDeleteGroup}
                     onSelectGroup={this.state.onSelectGroup}
                 />
-            <FilteredParticipantsList
-                    groupFilter={ this.state.selectedGroupId }
-                    groups={ this.state.groups }
-                    participants={ this.state.participants }
-                    onSaveParticipant= { this.state.onSaveParticipant }
-                />
+                <FilteredParticipantsList
+                        groupFilter={ this.state.selectedGroupId }
+                        groups={ this.state.groups }
+                        participants={ this.state.participants }
+                        onSaveParticipant= { this.state.onSaveParticipant }
+                    />
             </div>);
     }
 }

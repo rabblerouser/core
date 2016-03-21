@@ -54,9 +54,19 @@ const getLabParticipants = function (lab) {
     .catch(handleResponseError);
 };
 
+const getOrganisers = function (lab) {
+    return Q($.ajax({
+          type: 'GET',
+          url: `/${Resources.labListEndPoint}/${lab}/admins`,
+          dataType: 'json',
+      }))
+      .catch(handleResponseError);
+}
+
 export default {
     getLabList: getLabList,
     getMyLabs: getMyLabs,
     getLabGroups: getLabGroups,
-    getLabParticipants: getLabParticipants
+    getLabParticipants: getLabParticipants,
+    getOrganisers: getOrganisers
 };

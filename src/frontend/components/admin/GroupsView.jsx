@@ -9,6 +9,7 @@ export default ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGro
                                                             onDelete={onDeleteGroup} />) : '';
     return (
         <section className='groups-view'>
+            <header>Lab Groups</header>
             <GroupsList
                 groups={groups}
                 onSelect={onSelectGroup}
