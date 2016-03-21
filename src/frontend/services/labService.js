@@ -5,6 +5,7 @@ import { Resources } from '../config/strings';
 import groupAdapter from '../adapters/groupAdapter.js';
 import labAdapter from '../adapters/labAdapter.js';
 import participantAdapter from '../adapters/participantAdapter.js';
+import organiserAdapter from '../adapters/organiserAdapter.js';
 
 
 const handleResponseError = function(error) {
@@ -60,6 +61,7 @@ const getOrganisers = function (lab) {
           url: `/${Resources.labListEndPoint}/${lab}/admins`,
           dataType: 'json',
       }))
+      .then(organiserAdapter.parseOrganisers)
       .catch(handleResponseError);
 }
 

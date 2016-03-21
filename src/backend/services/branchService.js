@@ -57,9 +57,17 @@ let list = () => {
 
 let admins = (id) => {
 
-    return AdminUser.findAll({
-      where: { branchId: id}
-    })
+    let query = {
+        attributes: [
+            'id',
+            'name',
+            'email',
+            'phoneNumber'
+        ],
+        where: {branchId: id}
+    };
+
+    return AdminUser.findAll(query)
         .then(result => {
             if(!result) {
                 throw('');

@@ -14,7 +14,7 @@ function list(req, res) {
 }
 
 function admins(req, res) {
-    return branchService.admins(req.params.id)
+    return branchService.admins(req.params.branchId)
         .then((list) => {
             res.status(200).json({admins: list});
         })

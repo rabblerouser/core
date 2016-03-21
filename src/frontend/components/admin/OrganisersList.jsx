@@ -11,27 +11,17 @@ function tableColumns() {
     return [
         {
             property: 'name',
-            header: 'Organiser name',
-            cell: (nothing, organisers, rowIndex) => {
-                return {
-                    value: <span>{organisers[rowIndex].firstName + " " + organisers[rowIndex].lastName}</span>
-                }
-            },
-            headerClass: classnames('name participant')
+            header: 'Name',
+            headerClass: classnames('name')
         },
         {
-            property: 'contactNumber',
-            header: 'Contact information',
-            cell: (nothing, organisers, rowIndex) => {
-                return {
-                    value:
-                        <dl>
-                            <dd>{organisers[rowIndex].contactNumber}</dd>
-                            <dd>{organisers[rowIndex].contactEmail}</dd>
-                        </dl>
-
-                }
-            },
+            property: 'phoneNumber',
+            header: 'Phone',
+            headerClass: classnames('contact')
+        },
+        {
+            property: 'email',
+            header: 'Email',
             headerClass: classnames('contact')
         }
     ];

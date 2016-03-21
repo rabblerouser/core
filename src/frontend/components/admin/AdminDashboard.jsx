@@ -134,9 +134,8 @@ export default class AdminDashboard extends Component {
                                         });
         labService.getLabGroups(lab.id)
                 .then( groups => { this.setState({groups: groups}); });
-
         labService.getOrganisers(lab.id)
-                .then( organisers => {this.setState({organisers: organisers.admins})});
+                .then( organisers => {this.setState({organisers: organisers})});
     }
 
     getSelectedGroup() {
