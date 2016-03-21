@@ -11,6 +11,7 @@ import OrganisersView from './OrganisersView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 import memberService from '../../services/memberService.js';
+import organiserService from '../../services/organiserService.js';
 import { AdminDashboard as Strings } from '../../config/strings.js';
 
 export default class AdminDashboard extends Component {
@@ -63,6 +64,15 @@ export default class AdminDashboard extends Component {
             onSelectLab: (id) => {
                 let lab = this.state.labs.find(lab => lab.id === id);
                 this.updateLabSelection(lab);
+            },
+            onSaveOrganiser: (organiser) => {
+                this.clearMessages();
+                organiserService.update(organiser, this.state.selectedLab.id)
+                    .then((savedOrganiser) => {
+                        this.updateOrganisers(this.state.organisers, savedOrganiser);
+                        this.setUserMessage('Organiser successfully saved');
+                    })
+                    .catch(this.handleError.bind(this));
             }
         };
     }
@@ -153,12 +163,12 @@ export default class AdminDashboard extends Component {
                     messages={this.state.userMessages}
                     errors={this.state.pageErrors}
                 />
-            <LabDetailsView
+                <LabDetailsView
                     selectedLab={this.state.selectedLab}
                 />
-
-            <OrganisersView
+                <OrganisersView
                     organisers={this.state.organisers}
+                    onSaveOrganiser={this.state.onSaveOrganiser}
                 />
                 <GroupsView
                     selectedGroup={this.getSelectedGroup()}
@@ -168,11 +178,11 @@ export default class AdminDashboard extends Component {
                     onSelectGroup={this.state.onSelectGroup}
                 />
                 <FilteredParticipantsList
-                        groupFilter={ this.state.selectedGroupId }
-                        groups={ this.state.groups }
-                        participants={ this.state.participants }
-                        onSaveParticipant= { this.state.onSaveParticipant }
-                    />
+                    groupFilter={ this.state.selectedGroupId }
+                    groups={ this.state.groups }
+                    participants={ this.state.participants }
+                    onSaveParticipant= { this.state.onSaveParticipant }
+                />
             </div>);
     }
 }

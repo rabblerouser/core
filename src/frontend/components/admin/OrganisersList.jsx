@@ -6,8 +6,10 @@ import {sortByOrder, map} from 'lodash';
 const Table = require('reactabular').Table;
 import sortColumn from '../../lib/sortColumn.js';
 const classnames = require('classnames');
+import EditOrganiserModalLauncher from './EditOrganiserModalLauncher.jsx';
 
-function tableColumns() {
+
+function tableColumns(onSave) {
     return [
         {
             property: 'name',
@@ -23,6 +25,14 @@ function tableColumns() {
             property: 'email',
             header: 'Email',
             headerClass: classnames('contact')
+        },
+        {
+            cell: (nothing, organiser, rowIndex) => {
+                return {
+                    value: <EditOrganiserModalLauncher organiser={organiser[rowIndex]} onSave={ onSave }/>
+                };
+            },
+            headerClass: classnames('edit')
         }
     ];
 }
@@ -32,7 +42,7 @@ export default class OrganisersList extends Component {
     constructor(props) {
         super(props);
         this.state  = {
-            columns: tableColumns(),
+            columns: tableColumns(this.props.onSave),
             columnNames: {
                 onClick: (column) => {
                     sortColumn(

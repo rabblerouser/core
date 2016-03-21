@@ -98,7 +98,7 @@ export default class EditMemberForm extends Component {
                 <EditMemberFields onChange={this.onChange.bind(this)}
                               invalidFields={this.state.invalidFields}
                               groups={this.props.participant.allGroups}
-                              formValues={this.props.participant}
+                              formValues={this.state.fieldValues}
                               selectedSection={this.state.selectedSection}
                               onSelectSection={this.onSelect.bind(this)}
                 />
