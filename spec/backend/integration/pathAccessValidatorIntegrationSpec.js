@@ -40,4 +40,18 @@ describe('PathAccessValidator Integration tests', () => {
         })
         .then(done, done.fail);
     });
+
+    it('should respond 200 when a super admin is trying to access data for a branch', (done) => {
+        integrationTestHelpers.createBranch()
+        .then(integrationTestHelpers.createSuperAdmin)
+        .then(integrationTestHelpers.authenticate(agent))
+        .then(integrationTestHelpers.createBranch)
+        .then((aDifferentBranch) => {
+            return agent.get(`/branches/${aDifferentBranch.id}/members`);
+        })
+        .then((res) => {
+            expect(res.status).toEqual(200);
+        })
+        .then(done, done.fail);
+    });
 });

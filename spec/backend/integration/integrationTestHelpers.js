@@ -5,9 +5,14 @@ let models = require('../../../src/backend/models'),
     AdminUser = models.AdminUser,
     Branch = models.Branch,
     Group = models.Group;
+let adminType = require('../../../src/backend/security/adminType');
 
 function createUser(branch) {
     return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id });
+}
+
+function createSuperAdmin(branch) {
+    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id, type: adminType.super});
 }
 
 function authenticate(someAgent) {
@@ -93,5 +98,6 @@ module.exports = {
     createBranch: createBranch,
     createMembers: createMembers,
     makeMember: makeMember,
-    createGroupInBranch: createGroupInBranch
+    createGroupInBranch: createGroupInBranch,
+    createSuperAdmin: createSuperAdmin
 };

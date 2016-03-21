@@ -2,12 +2,17 @@
 
 const specificBranch = /branches\/([\d\w-]+)\//;
 const logger = require('../lib/logger');
+const adminType = require('./adminType');
 
 function isRequestingProtectedData(req) {
     return req.path.match(specificBranch);
 }
 
 function isUserAllowedToAccessBranch(user, path) {
+    if (user.type === adminType.super) {
+        return true;
+    }
+
     let branchIdInPath = path.match(specificBranch);
     return branchIdInPath && user ? user.branchId === branchIdInPath[1] : false;
 
