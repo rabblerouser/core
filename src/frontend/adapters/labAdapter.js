@@ -14,7 +14,9 @@ let parseLabDetails = (data) => {
     }
     return {
         id: parseString(data.id),
-        name: parseString(data.name)
+        name: parseString(data.name),
+        notes: data.notes,
+        contact: data.contact
     };
 };
 

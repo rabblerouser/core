@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     var Branch = sequelize.define('Branch', {
         id: { type: DataTypes.UUID, defaultValue: uuid.v4(), primaryKey: true },
         name: DataTypes.STRING,
+        notes: DataTypes.STRING(2000),
+        contact: DataTypes.STRING,
         key: { type: DataTypes.UUID, defaultValue: uuid.v4()}
     }, {
         classMethods: {

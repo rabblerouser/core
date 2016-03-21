@@ -7,11 +7,16 @@ describe('lab adapter', () => {
 
         let validResult = [{
             id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-            name: 'Lab 1'
+            name: 'Lab 1',
+            notes: 'note',
+            contact: 'somebody'
+
         },
         {
             id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
-            name: 'Lab 2'
+            name: 'Lab 2',
+            notes: 'note',
+            contact: 'somebody'
         }];
 
         describe('when the payload is valid', () => {
@@ -20,11 +25,15 @@ describe('lab adapter', () => {
                 branches: [
                     {
                         id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-                        name: 'Lab 1'
+                        name: 'Lab 1',
+                        notes: 'note',
+                        contact: 'somebody'
                     },
                     {
                         id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
-                        name: 'Lab 2'
+                        name: 'Lab 2',
+                        notes: 'note',
+                        contact: 'somebody'
                     }
                 ]
             };
@@ -39,11 +48,15 @@ describe('lab adapter', () => {
                 branches: [
                     {
                         id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-                        name: 'Lab 1'
+                        name: 'Lab 1',
+                        notes: 'note',
+                        contact: 'somebody'
                     },
                     {
                         id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
-                        name: 'Lab 2'
+                        name: 'Lab 2',
+                        notes: 'note',
+                        contact: 'somebody'
                     }
                 ],
                 somethingElse: []
@@ -76,14 +89,18 @@ describe('lab adapter', () => {
 
         let validResult = {
             id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-            name: 'Lab 1'
+            name: 'Lab 1',
+            notes: 'note',
+            contact: 'somebody'
         };
 
         describe('when the payload is valid', () => {
 
             let validPayload = {
                 id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-                name: 'Lab 1'
+                name: 'Lab 1',
+                notes: 'note',
+                contact: 'somebody'
             };
 
             it('should return a lab object', () => {
@@ -95,6 +112,8 @@ describe('lab adapter', () => {
             let validPayloadWithExtras = {
                 id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
                 name: 'Lab 1',
+                notes: 'note',
+                contact: 'somebody',
                 createdAt: '2016-03-13T08:17:37.037Z',
                 updatedAt: '2016-03-13T08:17:37.037Z',
                 deletedAt: null

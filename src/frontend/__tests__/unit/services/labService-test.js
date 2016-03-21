@@ -305,11 +305,15 @@ describe('labService', () => {
           [
               {
                   id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-                  name: 'Lab 1'
+                  name: 'Lab 1',
+                  notes: 'note',
+                  contact: 'somebody'
               },
               {
                   id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
-                  name: 'Lab 2'
+                  name: 'Lab 2',
+                  notes: 'note',
+                  contact: 'somebody'
               }
           ];
 
@@ -408,11 +412,15 @@ describe('labService', () => {
           [
               {
                   id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-                  name: 'Lab 1'
+                  name: 'Lab 1',
+                  notes: 'note',
+                  contact: 'somebody'
               },
               {
                   id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
-                  name: 'Lab 2'
+                  name: 'Lab 2',
+                  notes: 'note',
+                  contact: 'somebody'
               }
           ];
 
