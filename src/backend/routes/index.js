@@ -34,6 +34,7 @@ router.get('/admin', [requireAuth], function (req, res) {
 
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.edit);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.list);
+router.get('/branches/:branchId/admins', [requireAuth, branchAuthorization], branchesController.admins);
 
 router.post('/branches/:branchId/groups/:groupId/members', [requireAuth, branchAuthorization], groupsController.addMembers);
 router.get('/branches/:id/groups', [requireAuth, branchAuthorization], branchesController.groupsByBranch);

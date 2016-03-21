@@ -13,6 +13,28 @@ function list(req, res) {
         });
 }
 
+function admins(req, res) {
+        res.status(200).json(
+            {
+                admins: [
+                    {
+                        firstName: 'Joey',
+                        lastName: 'Jo jo',
+                        contactNumber: '0404 234 342',
+                        contactEmail: 'joe@joey.com',
+                        id: '1234'
+                    },
+                    {
+                        firstName: 'Charles',
+                        lastName: 'Darwin',
+                        contactNumber: null,
+                        contactEmail: 'charles@joey.com',
+                        id: '1235'
+                    }
+                ]
+            });
+}
+
 function groupsByBranch(req, res) {
     return branchService.groupsInBranch(req.params.id)
         .then((list) => {
@@ -44,5 +66,6 @@ function branchesForAdmin(req, res) {
 module.exports = {
     list: list,
     branchesForAdmin: branchesForAdmin,
-    groupsByBranch: groupsByBranch
+    groupsByBranch: groupsByBranch,
+    admins: admins
 };
