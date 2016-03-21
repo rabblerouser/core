@@ -84,7 +84,7 @@ describe('organiser adapter', () => {
             };
 
             it('should return a organiser object', () => {
-                expect(organiserAdapter.parseOrganiser(validPayload)).toEqual(validResult);
+                expect(organiserAdapter.parseOrganiserDetails(validPayload)).toEqual(validResult);
             });
         });
 
@@ -99,7 +99,7 @@ describe('organiser adapter', () => {
             };
 
             it('should return a organiser object', () => {
-                expect(organiserAdapter.parseOrganiser(validPayloadWithExtras)).toEqual(validResult);
+                expect(organiserAdapter.parseOrganiserDetails(validPayloadWithExtras)).toEqual(validResult);
             });
 
         });
