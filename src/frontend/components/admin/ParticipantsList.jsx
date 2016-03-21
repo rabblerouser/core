@@ -71,8 +71,6 @@ function tableColumns(onSave) {
 }
 
 export default class ParticipantsList extends Component {
-
-
     constructor(props) {
         super(props);
         this.state  = {
