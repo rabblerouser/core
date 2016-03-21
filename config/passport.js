@@ -18,7 +18,8 @@ passport.deserializeUser((id, done) => {
     .then((dbResult) => {
         return {
             email: dbResult.email,
-            branchId: dbResult.branchId
+            branchId: dbResult.branchId,
+            type: dbResult.type
         };
     })
     .nodeify(done)

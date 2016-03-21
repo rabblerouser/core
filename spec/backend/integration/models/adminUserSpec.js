@@ -5,8 +5,8 @@ const specHelper = require('../../../support/specHelper.js'),
       AdminUser = require('../../../../src/backend/models/index').AdminUser;
 
 describe('AdminUser', () => {
-    let email = 'iamapirate@thehighseas.com',
-        password = 'yaaaar';
+    let email = 'orgnisr@thelab.org.au',
+        password = 'orgnisr';
 
     describe('authenticate', () => {
         let cb;
