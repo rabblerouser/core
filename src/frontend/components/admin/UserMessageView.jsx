@@ -6,7 +6,7 @@ export default ({messages, errors}) => {
     let messageItems = messages.map( (entry) => { return (<li>{entry}</li>);});
 
     return (
-        <section className="user_messages">
+        <section className="admin-section" id="user-messages">
             <ul>
                 {errorItems}
                 {messageItems}

@@ -2,8 +2,8 @@ import React from 'react';
 import OrganisersList from './OrganisersList.jsx';
 
 const OrganisersView = ({ organisers }) => (
-    <section>
-        <header>Lab Organisers</header>
+    <section className="admin-section">
+        <h3>Lab Organisers</h3>
         <OrganisersList organisers={organisers} />
     </section>
 );

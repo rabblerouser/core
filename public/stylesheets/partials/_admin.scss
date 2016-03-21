@@ -36,7 +36,7 @@
     padding: 10px;
     margin: 20px auto;
 }
-.user_messages {
+#user_messages {
     li {
         border: 1px solid;
         border-color: $green-darker;
@@ -80,7 +80,8 @@ header.admin-header {
         flex-grow: 1;
         flex-align: center;
         margin: 0;
-        margin-top: 10px;
+        margin-top: 7px;
+        font-size: 1em;
     }
 
     button.logout {
@@ -88,6 +89,26 @@ header.admin-header {
         flex-grow: 1;
         flex-align: center;
         color: #fff;
+        padding: 0;
+        margin: 0;
+
+        display:inline;
+
+        border-radius: 0;
+
+background: none;
+    border: none;
+  
+
+    border-radius: 0;
+    font-weight: bold;
+    font-size: 1.1em;
+ 
+
+
+
+
+
         @include media($mobile) {
             text-align: left;
             padding-left: 2px;
@@ -97,6 +118,9 @@ header.admin-header {
         margin-top: 2px;
         font-size: 1em;
         }
+    button.logout:hover {
+        color:red;
+    }
 
     }
 
@@ -142,11 +166,11 @@ nav {
 }
 
 
-section.groups-view {
+section#groups-view {
     .select {
         min-width: 200px;
         margin: 0;
-        display: inline-block;
+        display: inline;
     }
 }
 
@@ -227,17 +251,26 @@ header.details-header {
 
 -------------------------------------------------------------------------------------- */
 .admin-container {
-    .groups-view, .user_messages {
+    .admin-section {
         padding: 10px;
+        .admin-section {
+            padding: 0;
+        }
+        .admin-section#description {
+            padding: 10px;
+        }
+        h3 {
+        margin-top: 10px;
+        margin-bottom: 15px;
+        }
     }
     h1 {
         font-size: 1.2em;
     }
     table {
         table-layout: fixed;
-        margin: auto;
-        width: 98%;
-        margin-top: 20px;
+        margin-top: 0;
+
         @include media($mobile) {
             width: 98%;
             margin: auto;
@@ -461,32 +494,40 @@ header.details-header {
    GROUP DESCRIPTION
 
 -------------------------------------------------------------------------------------- */
-.group-details {
-    width: 98%;
-    margin: 10px auto auto;
-    padding: 10px;
+#group-details {
+
 }
-.group-details header {
+
+#group-details header {
     border: 0;
     border-bottom: 1px;
     border-style: solid
 }
 
-.group-details dt {
+#group-details .select, select {
+    display:inline;
+}
+
+#group-details select {
+    margin-bottom: 0;
+    font-size: 1em;
+}
+
+#group-details dt {
     font-size: 1.2em;
     margin-bottom: 15px;
     @include media($mobile) {
         display: none;
     }
 }
-.group-details dd {
+#group-details dd {
     font-size: 1.1em;
     margin-bottom: 15px;
     @include media($mobile) {
         margin-top: -20px;
     }
 }
-.group-details button {
+#group-details button {
     background: none;
     color: #0073ae;
     padding: 0;
@@ -497,18 +538,28 @@ header.details-header {
     display: inline;
     margin-left: 15px;
 }
-.group-details button:hover {
+#group-details button:hover {
     background: #062C40;
     color: #fff;
 }
-.group-details button span {
+#group-details button span {
     display: none;
 }
-.group-details button.editGroup:after {
+#group-details button.editGroup:after {
     content: "\f040";
     font-family: FontAwesome;
 }
-.group-details button.deleteGroup:after {
+#group-details button.deleteGroup:after {
     content: "\f1f8";
     font-family: FontAwesome;
+}
+
+#group-details button.newGroup:after {
+    content: "\f067";
+    font-family: FontAwesome;
+}
+
+#lab-details dl {
+    margin: 0;
+    padding: 0;
 }

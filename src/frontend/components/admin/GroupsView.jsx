@@ -8,8 +8,8 @@ export default ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGro
                                                             onSave={onSaveGroup}
                                                             onDelete={onDeleteGroup} />) : '';
     return (
-        <section className='groups-view'>
-            <header>Lab Groups</header>
+        <section className='admin-section' id="group-details">
+            <h3>Lab Groups</h3>
             <GroupsList
                 groups={groups}
                 onSelect={onSelectGroup}

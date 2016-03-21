@@ -2,9 +2,9 @@
 import React from 'react';
 
 export default ({ group }) => (
-        <dl>
-            <dd>
+        <div>
+            <p>
                 { group.description }
-        	</dd>
-       </dl>
+        	</p>
+       </div>
 )

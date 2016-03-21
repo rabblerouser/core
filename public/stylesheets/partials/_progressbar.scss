@@ -4,7 +4,7 @@
 
 -------------------------------------------------------------------------------------- */
 
-.header { /* General header styles */
+#form .header { /* General header styles */
   margin-top: 5px;
   position: relative;
   text-align: center;
@@ -16,6 +16,7 @@
 
   img {  /* Logo */
     height: 100px;
+    margin-bottom: 30px;
 
     @include media($tablet) {
       width: 50%;
@@ -114,7 +115,7 @@ button.logout:hover {
       height: 42px;
       line-height: 34px;
       position: absolute;
-      margin-left: -20px;
+      margin-left: -40px;
       top: -52px;
       width: 42px;
       z-index: 99;

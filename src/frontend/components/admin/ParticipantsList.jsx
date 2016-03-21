@@ -95,7 +95,9 @@ export default class ParticipantsList extends Component {
         });
 
         return (
-            <Table columns={this.state.columns} data={lessHacky} columnNames={this.state.columnNames}/>
+            <section className="admin-section">
+                <Table columns={this.state.columns} data={lessHacky} columnNames={this.state.columnNames}/>
+            </section>
         );
     }
 }

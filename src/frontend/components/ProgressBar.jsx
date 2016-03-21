@@ -18,10 +18,10 @@ export default class ProgressBar extends Component {
 
     render() {
        return <div className="header">
-                 <img src ='/images/the_lab_logo.svg'/>
+                 <img src ='/images/the_lab_logo_signup_page.png'/>
                  <ul className="progress-bar">
-                     <li className={this.getClass(1)} id="progress-details">Details<br/><br/><br/></li>
-                     <li className={this.getClass(2)} id="progress-finished">Finish<br/><br/><br/></li>
+                     <li className={this.getClass(1)} id="progress-details">Details</li>
+                     <li className={this.getClass(2)} id="progress-finished">Finish</li>
                  </ul>
 
              </div>
