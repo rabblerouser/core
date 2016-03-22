@@ -75,6 +75,14 @@ const getOrganisers = function (lab) {
       .catch(handleResponseError);
 };
 
+const deleteLab = (lab) => {
+    return Q($.ajax({
+          type: 'DELETE',
+          url: `/branches/${lab.id}/`
+      }))
+      .catch(handleResponseError);
+};
+
 const create = function (lab) {
     return Q($.ajax({
           type: 'POST',
@@ -99,6 +107,7 @@ const update = function (lab) {
 export default {
     create: create,
     update: update,
+    delete: deleteLab,
     getLabList: getLabList,
     getMyLabs: getMyLabs,
     getLabGroups: getLabGroups,

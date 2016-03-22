@@ -1,18 +1,15 @@
 import React from 'react';
-import AddLabModalLauncher from './AddLabModalLauncher.jsx';
-import EditLabModalLauncher from './EditLabModalLauncher.jsx';
+import LabHeader from './LabHeader.jsx';
 
-const LabDetailsView = ({ selectedLab, onSaveLab }) => (
+const LabDetailsView = ({ selectedLab, onSaveLab, onDeleteLab }) => (
     <section className="admin-section" id="lab-details">
         <h3>{selectedLab.name} Lab
-            <AddLabModalLauncher
+            <LabHeader
                 onSave={onSaveLab}
+                onDelete={onDeleteLab}
+                lab={selectedLab}
             />
         </h3>
-
-        <span className="actions">
-            <EditLabModalLauncher onSave={ onSaveLab } lab={ selectedLab }/>
-        </span>
         <dl>
             <dh>Contact</dh>
             <dd>{selectedLab.contact}</dd>
