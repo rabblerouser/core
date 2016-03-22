@@ -13,8 +13,7 @@ export default class EditOrganiserForm extends Component {
         this.state = {
             id: props.organiser.id,
             invalidFields: [],
-            fieldValues: props.organiser,
-            selectedSection: ''
+            fieldValues: props.organiser
         };
     }
 
@@ -22,12 +21,28 @@ export default class EditOrganiserForm extends Component {
       return this.state.invalidFields.includes(fieldName);
     }
 
+    isNewUser() {
+        return this.props.organiser === {};
+    }
+
+    passwordChanged() {
+        return this.state.fieldValues.password;
+    }
+
+    passwordConfirmedTest() {
+        return this.state.fieldValues.confirmedPassword !==
+            this.state.fieldValues.password ? ['confirmedPassword'] : [];
+    }
+
     saveChanges() {
         let organiser = Object.assign({}, this.props.organiser, this.state.fieldValues);
-        let errors = organiserValidator.isValid(organiser);
-        if(this.state.fieldValues.confirmedPassword !==
-            this.state.fieldValues.password) {
-                errors.push('confirmedPassword');
+        let errors;
+        if(this.passwordChanged()) {
+
+            errors = (organiserValidator.isValid(organiser));
+            errors = errors.concat(this.passwordConfirmedTest());
+        } else {
+            errors = (organiserValidator.isValidWithoutPassword(organiser));
         }
 
         this.setState({invalidFields: errors});
@@ -64,7 +79,6 @@ export default class EditOrganiserForm extends Component {
                 </header>
                 <EditOrganiserFields onChange={this.onChange.bind(this)}
                               invalidFields={this.state.invalidFields}
-                              groups={this.props.organiser.allGroups}
                               formValues={this.state.fieldValues}
                 />
             </section>

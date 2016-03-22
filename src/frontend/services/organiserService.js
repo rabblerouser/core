@@ -1,6 +1,8 @@
 'use strict';
-const Q = require('q');
-const $ = require('jquery');
+import Q from 'q';
+import $ from 'jquery';
+import organiserAdapter from '../adapters/organiserAdapter.js';
+
 
 const handleResponseError = function(error) {
 
@@ -34,7 +36,7 @@ const update = function (organiser, branchId) {
       .catch(handleResponseError)
       .then((data) => {
           if(data.id) {
-              return data;
+              return organiserAdapter.parseOrganiserDetails(data);
           }
           throw new Error('INVALID ORGANISER');
       });
