@@ -3,6 +3,7 @@
 let branchService = require('../services/branchService');
 let logger = require('../lib/logger');
 let adminType = require('../security/adminType');
+let branchValidator = require('../lib/branchValidator');
 
 function list(req, res) {
     return branchService.list()
@@ -12,6 +13,34 @@ function list(req, res) {
         .catch(() => {
             res.sendStatus(500);
         });
+}
+
+function parseBranch(req) {
+    let branch = {id: req.body.id};
+    if (req.body.name !== undefined ) { branch.name = req.body.name; }
+    if (req.body.notes !== undefined) { branch.email = req.body.email; }
+    if (req.body.contact !== undefined) { branch.phoneNumber = req.body.phoneNumber; }
+    return branch;
+}
+
+function create(req, res) {
+
+    let newBranch = parseBranch(req);
+    let validationErrors = branchValidator.isValid(newBranch);
+
+    if (validationErrors.length > 0) {
+        logger.info('[create-new-branch-validation-error]', {errors: validationErrors});
+        return res.status(400).json({ errors: validationErrors});
+    }
+
+    return branchService.create(newBranch)
+    .then((newBranch) => {
+        res.status(200).json(newBranch);
+    })
+    .catch((error) => {
+        logger.error(`Failed creating a new branch`, error);
+        return res.status(500);
+    });
 }
 
 function groupsByBranch(req, res) {
@@ -57,6 +86,7 @@ function branchesForAdmin(req, res) {
 
 module.exports = {
     list: list,
+    create: create,
     branchesForAdmin: branchesForAdmin,
     groupsByBranch: groupsByBranch
 };

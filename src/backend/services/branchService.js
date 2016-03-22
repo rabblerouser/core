@@ -1,8 +1,14 @@
 'use strict';
 
-const models = require('../models'),
+const Q = require('q'),
+    models = require('../models'),
     logger = require('../lib/logger'),
-    Branch = models.Branch;
+    Branch = models.Branch,
+    uuid = require('node-uuid');
+
+function createHash() {
+  return uuid.v4();
+}
 
 function handleError(logMessage, userMessage) {
     return function(error) {
@@ -10,6 +16,26 @@ function handleError(logMessage, userMessage) {
         throw new Error(userMessage);
     };
 }
+
+function handleError(logMessage, userMessage) {
+    return function(error) {
+        logger.error(logMessage, { error: error.toString() });
+        throw new Error(userMessage);
+    };
+}
+
+function logEvent(saveResult) {
+    logger.info('[admin-user-sign-up-event]', saveResult.dataValues);
+}
+
+function save(branch) {
+  return Branch.create.bind(Branch)(branch);
+}
+
+let setupNewBranch = (newBranch) => {
+    return Object.assign({}, newBranch, {id: createHash()});
+};
+
 
 let transformBranch = dbResult => {
     if (dbResult.dataValues) {
@@ -37,6 +63,14 @@ function transformGroups(adapter) {
         return dbResult.map(adapter);
     };
 }
+
+let create = (newBranch) => {
+    return Q.all(setupNewBranch(newBranch))
+          .then(save)
+          .tap(logEvent)
+          .then(transformBranch)
+          .catch(handleError('Create branch failed'));
+};
 
 let list = () => {
     let query = {
@@ -76,6 +110,7 @@ function findById(id) {
 
 module.exports = {
     list: list,
+    create: create,
     findById: findById,
     groupsInBranch: groupsInBranch
 };

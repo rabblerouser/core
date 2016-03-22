@@ -32,7 +32,21 @@ let getBranches = () => {
         .expect(listOfBranches);
 };
 
+let makeBranch = () => {
+    return {
+        name: 'Melbourne',
+        notes: 'organiser',
+        contact: 'hey i\'m a contact',
+    };
+};
+
 describe('Branches Integration Test', () => {
+
+    let agent;
+
+    beforeEach(() => {
+        agent = request.agent(app);
+    });
 
     it('should return a list of branches', (done) => {
         getBranches()
@@ -40,8 +54,6 @@ describe('Branches Integration Test', () => {
     }, 60000);
 
     it('should return a list of groups for a branch', (done) => {
-        let agent = request.agent(app);
-
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createUser)
         .tap(integrationTestHelpers.authenticateOrganiser(agent))
@@ -55,8 +67,6 @@ describe('Branches Integration Test', () => {
     });
 
     it('should return a list of admins for a branch', (done) => {
-        let agent = request.agent(app);
-
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createUser)
         .tap(integrationTestHelpers.authenticateOrganiser(agent))
@@ -70,8 +80,6 @@ describe('Branches Integration Test', () => {
     });
 
     it('should return the list of branches the admin user has access to', (done) => {
-        let agent = request.agent(app);
-
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createUser)
         .tap(integrationTestHelpers.authenticateOrganiser(agent))
@@ -88,8 +96,6 @@ describe('Branches Integration Test', () => {
     });
 
     it('should return a list of all branches for a super admin', (done) => {
-        let agent = request.agent(app);
-
         integrationTestHelpers.createBranch()
         .then(integrationTestHelpers.createBranch)
         .then(integrationTestHelpers.createBranch)
@@ -108,8 +114,6 @@ describe('Branches Integration Test', () => {
     });
 
     it('should return branches notes for super admins', (done) => {
-        let agent = request.agent(app);
-
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createSuperAdmin)
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
@@ -125,8 +129,6 @@ describe('Branches Integration Test', () => {
     });
 
     it('should not return branches notes for branch admins', (done) => {
-        let agent = request.agent(app);
-
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createUser)
         .tap(integrationTestHelpers.authenticateOrganiser(agent))
@@ -139,5 +141,47 @@ describe('Branches Integration Test', () => {
                 });
         })
         .then(done, done.fail);
+    });
+
+    describe('add', () => {
+
+        it('should return 200 and a created branch when the input is valid', (done) => {
+            integrationTestHelpers.createSuperAdmin()
+                .then(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(() => {
+                    return agent.post(`/branches`)
+                        .set('Content-Type', 'application/json')
+                        .send(makeBranch())
+                        .expect(200)
+                        .then(getBranches);
+            })
+            .then(done, done.fail);
+        });
+
+        it('should return 400 if the input is null', (done) => {
+            integrationTestHelpers.createSuperAdmin()
+                .then(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(() => {
+                    return agent.post(`/branches`)
+                        .set('Content-Type', 'application/json')
+                        .set('Accept', 'application/json')
+                        .send(null)
+                        .expect(400);
+            })
+            .then(done, done.fail);
+        });
+
+        it('should return 400 if the input is incomplete', (done) => {
+            integrationTestHelpers.createSuperAdmin()
+                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(() => {
+                    return agent.post(`/branches`)
+                        .set('Content-Type', 'application/json')
+                        .set('Accept', 'application/json')
+                        .send({invalid:'invalid'})
+                        .expect(400);
+            })
+            .then(done, done.fail);
+        });
     });
 });

@@ -15,7 +15,6 @@ router.get('/', function (req, res) {
 });
 
 router.post('/register', membersController.register);
-router.get('/branches', branchesController.list);
 
 router.post('/login', login);
 router.get('/login', function (req, res) {
@@ -33,6 +32,8 @@ router.get('/admin', [requireAuth], function (req, res) {
     res.render('admin', {title: 'The Lab Admin'});
 });
 
+router.get('/branches', branchesController.list);
+router.post('/branches', branchesController.create);
 
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.edit);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.list);

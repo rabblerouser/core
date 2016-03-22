@@ -2,7 +2,8 @@
 
 const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
-      branchService = require('../../../../src/backend/services/branchService');
+      branchService = require('../../../../src/backend/services/branchService'),
+      branchValidator = require('../../../../src/backend/lib/branchValidator');
 
 var branchesController = require('../../../../src/backend/controllers/branchesController');
 
@@ -21,6 +22,13 @@ function fakeBranchesList() {
             name: 'Hawthorn'
         }
     ];
+}
+
+function branch() {
+    return {
+        id:'some-id-1',
+        name: 'Geelong'
+    };
 }
 
 function fakeGroupsList() {
@@ -43,6 +51,88 @@ function noGroupsList() {
 }
 
 describe('branchesController', () => {
+
+    describe('create', () => {
+        let req, res;
+
+        describe('when the payload is valid', () => {
+
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    body: {
+                        name: 'some-name'
+                    }
+                };
+                sinon.stub(branchValidator, 'isValid').returns([]);
+                sinon.stub(branchService, 'create');
+            });
+
+            afterEach(() => {
+                branchService.create.restore();
+                branchValidator.isValid.restore();
+            });
+
+            it('responds with successful update', (done) => {
+                branchService.create.returns(Promise.resolve(branch()));
+                branchesController.create(req, res)
+                .then(() => {
+                    expect(res.status).toHaveBeenCalled(200);
+                    expect(res.status().json).toHaveBeenCalledWith(branch());
+                }).then(done, done.fail);
+            });
+
+        });
+
+        describe('when the payload provided is invalid', () => {
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    body: {
+                        name: 'invalid'
+                    }
+                };
+                sinon.stub(branchValidator, 'isValid').returns(['name']);
+            });
+
+            afterEach(() => {
+                branchValidator.isValid.restore();
+            });
+
+            it('should return a 400', () => {
+                branchesController.create(req, res);
+                expect(res.status).toHaveBeenCalled(400);
+            });
+
+        });
+
+        describe('when there is a general error from the service', () => {
+
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    body: {
+                        name: 'some name'
+                    }
+                };
+                sinon.stub(branchValidator, 'isValid').returns([]);
+                sinon.stub(branchService, 'create');
+            });
+
+            afterEach(() => {
+                branchService.create.restore();
+                branchValidator.isValid.restore();
+            });
+
+            it('should return a 500', (done) => {
+                branchService.create.returns(Promise.reject('anything at all'));
+                branchesController.create(req, res)
+                .then(() => {
+                   expect(res.status).toHaveBeenCalled(500);
+                }).then(done, done.fail);
+            });
+        });
+    });
 
     describe('list', () => {
         let req, res;
