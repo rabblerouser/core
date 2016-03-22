@@ -48,7 +48,7 @@ export default class EditGroupForm extends Component {
                 <input id="groupName" type="text" placeholder="e.g. Tuesday 4.30pm" defaultValue="" value={this.state.name} onChange={this.updateName.bind(this)}/>
                     <FormFieldLabel fieldName="groupDescription" isOptional={false} hasError={this.isValidationError('description')} />
                 <textarea id="groupDescription" type="type" placeholder="Describe your group" defaultValue="" value={this.state.description} onChange={this.updateDescription.bind(this)}/>
-                    <button onClick={this.saveChanges.bind(this)}>Save</button>
+                    <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
             </section>
         );
     }

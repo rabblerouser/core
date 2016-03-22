@@ -60,7 +60,7 @@ export default class AddOrganiserForm extends Component {
                         Add new organiser
                     </span>
                     <span className='actions'>
-                        <button onClick={this.saveChanges.bind(this)}>Save</button>
+                        <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
                     </span>
                 </header>
                 <AddOrganiserFields onChange={this.onChange.bind(this)}

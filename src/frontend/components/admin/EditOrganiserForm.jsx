@@ -74,7 +74,7 @@ export default class EditOrganiserForm extends Component {
                         {this.props.organiser.email}
                     </span>
                     <span className='actions'>
-                        <button onClick={this.saveChanges.bind(this)}>Save</button>
+                        <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
                     </span>
                 </header>
                 <EditOrganiserFields onChange={this.onChange.bind(this)}
