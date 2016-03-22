@@ -48,6 +48,7 @@ describe('inputValidator', () => {
         [
             'little',
             'a'.repeat(201),
+            undefined,
             null
         ].forEach((testCase) => {
             it(`Should return false given password is ${testCase}`, () => {

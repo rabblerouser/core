@@ -65,7 +65,7 @@ var isValidYear = (number) => {
 };
 
 var isValidPassword = (input) => {
-    return /^(.){7,200}$/.test(input);
+    return (!!input) && /^(.){7,200}$/.test(input);
 };
 
 function isValidUUID(input) {
