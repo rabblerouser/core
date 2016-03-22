@@ -10,13 +10,14 @@ export default ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGro
     return (
         <section className='admin-section' id="group-details">
             <h3>Lab Groups</h3>
+            <AddGroupModalLauncher
+                onSave={onSaveGroup}
+            />
             <GroupsList
                 groups={groups}
                 onSelect={onSelectGroup}
             />
-            <AddGroupModalLauncher
-                onSave={onSaveGroup}
-            />
+            
             { detailsView }
         </section>
     )

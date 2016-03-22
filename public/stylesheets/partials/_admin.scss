@@ -272,21 +272,21 @@ header.details-header {
         margin-top: 0;
 
         @include media($mobile) {
-            width: 98%;
-            margin: auto;
+            
         }
     }
     thead {
         @include media($mobile) {
             display: none;
         }
+
     }
     tr {
         border: none;
         @include media($mobile) {}
     }
     th {
-        background-color: #fff;
+        background-color: $white;
         color: #666;
         font-size: 14px;
         padding: 18px 10px 5px 10px;
@@ -297,6 +297,9 @@ header.details-header {
         line-height: 1.2em;
         padding-right: 20px;
         border-bottom: 2px solid #ccc;
+        @include media($tablet) {
+            font-size: 0.8em;
+        }
     }
     th:last-child {
         border-right: none;
@@ -338,7 +341,7 @@ header.details-header {
         margin-right: -15px;
     }
     th.edit:hover {
-        background-color: $blue-darker;
+        background-color: $white;
         cursor: default;
     }
     th.edit:hover:before {
@@ -379,11 +382,23 @@ header.details-header {
             padding-bottom: 10px;
         }
     }
-    th.name {
+    th.name, td:nth-of-type(1), td:nth-of-type(2) {
         width: 15%;
+        @include media($tablet) {
+            width: 15%;
+        }
+        @include media($mobile) {
+            width: auto;
+        }
     }
-    th.contact {
+    th.contact, td:nth-of-type(3) {
         width: 15%;
+        @include media($tablet) {
+            width: 25%;
+        }
+        @include media($mobile) {
+            width: auto;
+        }
     }
     th.date {
         width: 10%;
@@ -498,73 +513,92 @@ header.details-header {
 -------------------------------------------------------------------------------------- */
 #group-details {
 
-}
+    header {
+        border: 0;
+        border-bottom: 1px;
+        border-style: solid
+    }
 
-#group-details header {
-    border: 0;
-    border-bottom: 1px;
-    border-style: solid
-}
+    h3 {
+        float:left;
+    }
 
-#group-details .select, select {
-    display:inline;
-}
+    .select, select {
+        display:block;
+        margin-top: 20px;
+    }
 
-#group-details select {
-    margin-bottom: 0;
-    font-size: 1em;
-}
+    select {
+        margin-bottom: 0;
+        font-size: 1em;
+    }
 
-#group-details dt {
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    @include media($mobile) {
+    dt {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+        @include media($mobile) {
+            display: none;
+        }
+    }
+    dd {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+        @include media($mobile) {
+            margin-top: -20px;
+        }
+    }
+    button {
+        background: none;
+        color: #0073ae;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        font-size: 1.3em;
+        padding: 5px;
+        display: inline;
+        margin-left: 15px;
+        @include media($mobile) {
+           
+        }
+    }
+
+    button.editGroup {
+        margin-left: 0;
+    }
+
+    button.newGroup {
+        margin-top: 2px;
+    }
+
+    button:hover {
+        background: #062C40;
+        color: #fff;
+    }
+    button span {
         display: none;
+        @include media($mobile) {
+            display: block;
+        }
+    }
+    button.editGroup:after {
+        content: "\f040";
+        font-family: FontAwesome;
+    }
+    button.deleteGroup:after {
+        content: "\f1f8";
+        font-family: FontAwesome;
+    }
+
+    button.newGroup:after {
+        content: "\f067";
+        font-family: FontAwesome;
+        @include media($mobile) {
+            content: none;
+        }
     }
 }
-#group-details dd {
-    font-size: 1.1em;
-    margin-bottom: 15px;
-    @include media($mobile) {
-        margin-top: -20px;
-    }
-}
-#group-details button {
-    background: none;
-    color: #0073ae;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    font-size: 1.3em;
-    padding: 5px;
-    display: inline;
-    margin-left: 15px;
-}
 
-#group-details button.editGroup {
-    margin-left: 0;
-}
 
-#group-details button:hover {
-    background: #062C40;
-    color: #fff;
-}
-#group-details button span {
-    display: none;
-}
-#group-details button.editGroup:after {
-    content: "\f040";
-    font-family: FontAwesome;
-}
-#group-details button.deleteGroup:after {
-    content: "\f1f8";
-    font-family: FontAwesome;
-}
-
-#group-details button.newGroup:after {
-    content: "\f067";
-    font-family: FontAwesome;
-}
 
 #lab-details dl {
     margin: 0;
