@@ -140,7 +140,7 @@ describe('MemberIntegrationTests', () => {
     describe('list of members', () => {
         it('finds a list of members for an organiser', (done) => {
             integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.createMembers(agent, 3))
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((branch) => {
@@ -171,7 +171,7 @@ describe('MemberIntegrationTests', () => {
         beforeEach((done) => {
             integrationTestHelpers.createBranch()
             .tap(setState(browserState, 'branch'))
-            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.createBranchAdmin)
             .then(integrationTestHelpers.createMembers(agent, 1))
             .then(() => {
                 return Q.all([

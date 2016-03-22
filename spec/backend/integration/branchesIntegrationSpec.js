@@ -67,7 +67,7 @@ describe('Branches Integration Test', () => {
 
     it('should return a list of groups for a branch', (done) => {
         integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createUser)
+        .tap(integrationTestHelpers.createBranchAdmin)
         .tap(integrationTestHelpers.authenticateOrganiser(agent))
         .then((branch) => {
             return agent
@@ -80,7 +80,7 @@ describe('Branches Integration Test', () => {
 
     it('should return a list of admins for a branch', (done) => {
         integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createUser)
+        .tap(integrationTestHelpers.createBranchAdmin)
         .tap(integrationTestHelpers.authenticateOrganiser(agent))
         .then((branch) => {
             return agent
@@ -93,7 +93,7 @@ describe('Branches Integration Test', () => {
 
     it('should return the list of branches the admin user has access to', (done) => {
         integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createUser)
+        .tap(integrationTestHelpers.createBranchAdmin)
         .tap(integrationTestHelpers.authenticateOrganiser(agent))
         .then((branch) => {
             return agent.get('/admin/branches')
@@ -142,7 +142,7 @@ describe('Branches Integration Test', () => {
 
     it('should not return branches notes for branch admins', (done) => {
         integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createUser)
+        .tap(integrationTestHelpers.createBranchAdmin)
         .tap(integrationTestHelpers.authenticateOrganiser(agent))
         .then(() => {
             return agent.get('/admin/branches')
@@ -169,7 +169,7 @@ describe('Branches Integration Test', () => {
 
         it('should return a 400 if the input data is not valid', (done) => {
             integrationTestHelpers.createBranch()
-                .then(integrationTestHelpers.createUser)
+                .then(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.createSuperAdmin)
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
                 .then(() => {

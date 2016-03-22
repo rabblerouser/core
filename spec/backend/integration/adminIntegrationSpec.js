@@ -72,7 +72,7 @@ describe('AdminIntegrationTests', () => {
 
         it('should return 200 and a created user when the input is valid', (done) => {
             integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((branch) => {
                 return agent.post(`/branches/${branch.id}/admins`)
@@ -86,7 +86,7 @@ describe('AdminIntegrationTests', () => {
 
         it('should return 400 if the input is null', (done) => {
             integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((branch) => {
                 return agent.post(`/branches/${branch.id}/admins`)
@@ -100,7 +100,7 @@ describe('AdminIntegrationTests', () => {
 
         it('should return 400 if the input is incomplete', (done) => {
             integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((branch) => {
                 return agent.post(`/branches/${branch.id}/admins`)
@@ -116,7 +116,7 @@ describe('AdminIntegrationTests', () => {
     describe('delete', () => {
         it('should return a 200 when the admin is successfully deleted', (done) => {
             integrationTestHelpers.createBranch()
-                .then(integrationTestHelpers.createUser)
+                .then(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((adminUser) => {
                     return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
@@ -127,7 +127,7 @@ describe('AdminIntegrationTests', () => {
 
         it('should return a 400 if the input data is not valid', (done) => {
             integrationTestHelpers.createBranch()
-                .then(integrationTestHelpers.createUser)
+                .then(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((adminUser) => {
                     return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/whatevs`)
@@ -138,7 +138,7 @@ describe('AdminIntegrationTests', () => {
 
         it('should return 500 when trying to delete a admin that does not exist', (done) => {
             integrationTestHelpers.createBranch()
-                .then(integrationTestHelpers.createUser)
+                .then(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((adminUser) => {
                     return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/${uuid.v4()}`)
@@ -151,7 +151,7 @@ describe('AdminIntegrationTests', () => {
     describe('update', () => {
         it('should return 200 and an updated user when the input is valid', (done) => {
             integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createUser)
+            .then(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((adminUser) => {
                 return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
@@ -165,7 +165,7 @@ describe('AdminIntegrationTests', () => {
 
         it('should allow update without the password field in the payload', (done) => {
             integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createUser)
+            .then(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((adminUser) => {
                 return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
@@ -180,7 +180,7 @@ describe('AdminIntegrationTests', () => {
 
         it('should return 400 if the input is null', (done) => {
             integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createUser)
+            .then(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((adminUser) => {
                 return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
@@ -194,7 +194,7 @@ describe('AdminIntegrationTests', () => {
 
         it('should return 400 if the input is incomplete', (done) => {
             integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createUser)
+            .then(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((adminUser) => {
                 return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/whatevs`)

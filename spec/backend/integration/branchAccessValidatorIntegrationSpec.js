@@ -13,7 +13,7 @@ describe('PathAccessValidator Integration tests', () => {
 
     it('should respond with 401 when users try to access they are NOT entitled to see', (done) => {
         integrationTestHelpers.createBranch()
-        .then(integrationTestHelpers.createUser)
+        .then(integrationTestHelpers.createBranchAdmin)
         .then(integrationTestHelpers.authenticateOrganiser(agent))
         .then(() => {
             let aDifferentBranchId = 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174';
@@ -28,7 +28,7 @@ describe('PathAccessValidator Integration tests', () => {
 
     it('should respond with 401 when users try to access a branch path with no branch id', (done) => {
         integrationTestHelpers.createBranch()
-        .then(integrationTestHelpers.createUser)
+        .then(integrationTestHelpers.createBranchAdmin)
         .then(integrationTestHelpers.authenticateOrganiser(agent))
         .then(() => {
             let aDifferentBranchId;

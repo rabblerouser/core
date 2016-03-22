@@ -61,7 +61,7 @@ describe('Groups Integration Test', () => {
     describe('create group for a branch', () => {
         it('should return 200 when the group is successfully created', (done) => {
             integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((branch) => {
                 return agent.post(`/branches/${branch.id}/groups`)
@@ -75,7 +75,7 @@ describe('Groups Integration Test', () => {
 
         it('should return 400 if group input data is not valid', (done) => {
             integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.authenticateOrganiser(agent))
             .then((branch) => {
                 return agent.post(`/branches/${branch.id}/groups`)
@@ -90,7 +90,7 @@ describe('Groups Integration Test', () => {
     describe('update group', () => {
         it('should return a 200 when the group is successfully updated', (done) => {
             integrationTestHelpers.createBranch()
-                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createBranchAdmin)
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
@@ -109,7 +109,7 @@ describe('Groups Integration Test', () => {
     describe('delete group', () => {
         it('should return a 200 when the group is successfully deleted', (done) => {
             integrationTestHelpers.createBranch()
-                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createBranchAdmin)
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
@@ -123,7 +123,7 @@ describe('Groups Integration Test', () => {
 
         it('should return a 200 when a group with participants is deleted', (done) => {
             integrationTestHelpers.createBranch()
-                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.createMembers(agent, 2))
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
@@ -140,7 +140,7 @@ describe('Groups Integration Test', () => {
 
         it('should return a 400 if the input data is not valid', (done) => {
             integrationTestHelpers.createBranch()
-                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((branch) => {
                     return agent.delete(`/branches/${branch.id}/groups/whatevs`)
@@ -152,7 +152,7 @@ describe('Groups Integration Test', () => {
         /*This should return a different code, but requires more work, so will address later*/
         it('should return 500 when trying to delete a group that does not exist', (done) => {
             integrationTestHelpers.createBranch()
-                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateOrganiser(agent))
                 .then((branch) => {
                     return agent.delete(`/branches/${branch.id}/groups/${uuid.v4()}`)
@@ -165,7 +165,7 @@ describe('Groups Integration Test', () => {
     describe('adding a member to a group', () => {
         it('responds with a 200', (done) => {
             integrationTestHelpers.createBranch()
-                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.createMembers(agent, 2))
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
@@ -186,7 +186,7 @@ describe('Groups Integration Test', () => {
 
         it('responds with a 400 when members is empty', (done) => {
             integrationTestHelpers.createBranch()
-                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.createMembers(agent, 2))
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
@@ -205,7 +205,7 @@ describe('Groups Integration Test', () => {
 
         it('responds with a 500 and an empty body when there is an error', (done) => {
             integrationTestHelpers.createBranch()
-                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.createMembers(agent, 2))
                 .then((branch) => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);

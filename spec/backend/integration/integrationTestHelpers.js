@@ -7,7 +7,7 @@ let models = require('../../../src/backend/models'),
     Group = models.Group;
 let adminType = require('../../../src/backend/security/adminType');
 
-function createUser(branch) {
+function createBranchAdmin(branch) {
     return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id, id: uuid.v4()});
 }
 
@@ -108,7 +108,7 @@ function createMembers(agent, numberOfMembers) {
 }
 
 module.exports = {
-    createUser: createUser,
+    createBranchAdmin: createBranchAdmin,
     authenticateOrganiser: authenticateOrganiser,
     createBranch: createBranch,
     createMembers: createMembers,
