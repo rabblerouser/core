@@ -279,8 +279,8 @@ describe('Branches Integration Test', () => {
 
         it('should return 400 if the input is incomplete', (done) => {
             integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createUser)
-            .tap(integrationTestHelpers.authenticateOrganiser(agent))
+            .then(integrationTestHelpers.createSuperAdmin)
+            .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
             .then(() => {
                 return agent.put(`/branches/whatevs`)
                     .set('Content-Type', 'application/json')

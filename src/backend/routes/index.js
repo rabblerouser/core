@@ -7,6 +7,7 @@ var branchesController = require('../controllers/branchesController');
 var groupsController = require('../controllers/groupsController');
 var adminController = require('../controllers/adminController');
 var branchAuthorization = require('../security/pathAccessValidator');
+let superAdminOnly = require('../security/superAdminOnlyValidator');
 let requireAuth = require('../security/authenticationRequired');
 let login = require('../security/loginHandler');
 
@@ -28,14 +29,16 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/admin/branches', [requireAuth], branchesController.branchesForAdmin);
+
+router.post('/branches', [requireAuth, superAdminOnly], branchesController.create);
+router.put('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.update);
+router.delete('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.delete);
+
 router.get('/admin', [requireAuth], function (req, res) {
     res.render('admin', {title: 'The Lab Admin'});
 });
 
 router.get('/branches', branchesController.list);
-router.post('/branches', branchesController.create);
-router.put('/branches/:branchId', branchesController.update);
-router.delete('/branches/:branchId', branchesController.delete);
 
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.edit);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.list);
