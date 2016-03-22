@@ -18,8 +18,8 @@ function list(req, res) {
 function parseBranch(req) {
     let branch = {id: req.body.id};
     if (req.body.name !== undefined ) { branch.name = req.body.name; }
-    if (req.body.notes !== undefined) { branch.email = req.body.email; }
-    if (req.body.contact !== undefined) { branch.phoneNumber = req.body.phoneNumber; }
+    if (req.body.notes !== undefined) { branch.notes = req.body.notes; }
+    if (req.body.contact !== undefined) { branch.contact = req.body.contact; }
     return branch;
 }
 

@@ -87,7 +87,9 @@ let list = () => {
     let query = {
         attributes: [
             'id',
-            'name'
+            'name',
+            'contact',
+            'notes'
         ]
     };
 
