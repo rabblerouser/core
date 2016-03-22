@@ -25,7 +25,6 @@ export default class AdminDashboard extends Component {
             labs: [],
             selectedGroupId: 'unassigned',
             selectedLab: {},
-            filteredParticipantList: [],
             userMessages: [],
             pageErrors: [],
             organisers: [],
@@ -49,7 +48,6 @@ export default class AdminDashboard extends Component {
                 groupService.deleteGroup(selected, this.state.selectedLab.id)
                 .then(()=> {
                     this.removeAndUpdateGroups(this.state.groups, selected);
-                    this.setState({selectedGroupId: ''});
                     this.setUserMessage('Group successfully deleted');
                 })
                 .catch(this.handleError.bind(this));
@@ -82,7 +80,7 @@ export default class AdminDashboard extends Component {
                 labService.delete(selected, this.state.selectedLab.id)
                 .then(()=> {
                     this.removeAndUpdateLabs(this.state.labs, selected);
-                    this.setState({selectedLab: this.state.labs[0]});
+                    this.updateLabSelection(this.state.labs[0]);
                     this.setUserMessage('Lab successfully deleted');
                 })
                 .catch(this.handleError.bind(this));
@@ -169,6 +167,13 @@ export default class AdminDashboard extends Component {
 
     removeAndUpdateGroups(collection, element) {
         this.removeAndUpdate('groups', collection, element);
+        let updatedParticipants = this.state.participants;
+        updatedParticipants = updatedParticipants.map(p => {
+            p.groups = _.reject(p.groups, g => g === element.id);
+            return p;
+        });
+        this.setState({participants: updatedParticipants});
+        this.setState({selectedGroupId: 'unassigned'});
     }
 
     removeAndUpdateOrganisers(collection, element) {
@@ -199,7 +204,7 @@ export default class AdminDashboard extends Component {
         labService.getLabGroups(lab.id)
                 .then( groups => { this.setState({groups: groups}); });
         labService.getOrganisers(lab.id)
-                .then( organisers => {this.setState({organisers: organisers})});
+                .then( organisers => {this.setState({organisers: organisers});});
     }
 
     getSelectedGroup() {
