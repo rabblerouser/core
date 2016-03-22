@@ -64,6 +64,18 @@ function transformGroups(adapter) {
     };
 }
 
+let deleteBranch = (id) => {
+    return Branch.destroy({where: {id: id}})
+    .then((result) => {
+        if(!result) {
+            throw 'No records were deleted';
+        }
+
+        logger.info('[delete-branch]', `branch with id ${id} deleted`);
+    })
+    .catch(handleError('[delete-branch-failed]', `An error has occurred while deleting the branch with id: ${id}`));
+};
+
 let create = (newBranch) => {
     return Q.all(setupNewBranch(newBranch))
           .then(save)
@@ -125,6 +137,7 @@ module.exports = {
     list: list,
     create: create,
     update: update,
+    delete: deleteBranch,
     findById: findById,
     groupsInBranch: groupsInBranch
 };

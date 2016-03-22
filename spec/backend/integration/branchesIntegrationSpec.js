@@ -2,6 +2,7 @@
 require('../../support/specHelper');
 const integrationTestHelpers = require('./integrationTestHelpers.js');
 const sample = require('lodash').sample;
+let uuid = require('node-uuid');
 
 let request = require('supertest-as-promised');
 const instanceUrl = process.env.INSTANCE_URL;
@@ -152,6 +153,42 @@ describe('Branches Integration Test', () => {
                 });
         })
         .then(done, done.fail);
+    });
+
+    describe('delete', () => {
+        it('should return a 200 when the branch is successfully deleted', (done) => {
+            integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createSuperAdmin)
+                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then((branch) => {
+                    return agent.delete(`/branches/${branch.id}/`)
+                    .expect(200);
+                })
+                .then(done, done.fail);
+        });
+
+        it('should return a 400 if the input data is not valid', (done) => {
+            integrationTestHelpers.createBranch()
+                .then(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createSuperAdmin)
+                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(() => {
+                    return agent.delete(`/branches/whatevs/`)
+                    .expect(400);
+                })
+                .then(done, done.fail);
+        });
+
+        it('should return 500 when trying to delete a branch that does not exist', (done) => {
+            integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createSuperAdmin)
+                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(() => {
+                    return agent.delete(`/branches/${uuid.v4()}/`)
+                    .expect(500);
+                })
+                .then(done, done.fail);
+        });
     });
 
     describe('add', () => {

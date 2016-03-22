@@ -3,6 +3,7 @@
 let branchService = require('../services/branchService');
 let logger = require('../lib/logger');
 let adminType = require('../security/adminType');
+let validator = require('../lib/inputValidator');
 let branchValidator = require('../lib/branchValidator');
 
 function list(req, res) {
@@ -21,6 +22,24 @@ function parseBranch(req) {
     if (req.body.notes !== undefined) { branch.notes = req.body.notes; }
     if (req.body.contact !== undefined) { branch.contact = req.body.contact; }
     return branch;
+}
+
+function deleteBranch(req, res) {
+    let branchId = req.params.branchId;
+
+    if (!(validator.isValidUUID(branchId))) {
+        logger.error(`Failed deleting the admin with branchId: ${branchId}`);
+        return res.sendStatus(400);
+    }
+
+    return branchService.delete(branchId)
+    .then(() => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        logger.error(`Failed deleting the admin with branchId: ${branchId}}`, error);
+        res.sendStatus(500);
+    });
 }
 
 function create(req, res) {
@@ -112,6 +131,7 @@ module.exports = {
     list: list,
     create: create,
     update: update,
+    delete: deleteBranch,
     branchesForAdmin: branchesForAdmin,
     groupsByBranch: groupsByBranch
 };
