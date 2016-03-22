@@ -29,8 +29,5 @@
   become_user: "{{ app_user}}"
   command: npm install --production chdir="{{ app_path }}"
 
-- name: set enviroment variables
-  command: export DATABASE_URL="postgres://{{db_user}}:{{db_password}}@localhost:5432/{{db_names[0]}}"
-
 - name: re/start lab-assistant
   service: name=lab-assistant enabled=yes state=restarted
