@@ -2,8 +2,7 @@
 
 let request = require('supertest-as-promised'),
     _ = require('lodash'),
-    integrationTestHelpers = require('./integrationTestHelpers'),
-    agent;
+    integrationTestHelpers = require('./integrationTestHelpers');
 let uuid = require('node-uuid');
 
 const instance_url = process.env.INSTANCE_URL;
@@ -37,7 +36,24 @@ function assertCreatedGroup(res) {
     expect(response.name).toEqual('Waiting List');
 }
 
+function addMembersToGroup(agent) {
+    return function(members, branchGroup) {
+        let branchId = branchGroup.branchId;
+        let memberIds = _.pluck(members, 'id');
+
+        return agent.post(`/branches/${branchId}/groups/${branchGroup.groupId}/members`)
+            .set('Content-Type', 'application/json')
+            .send({memberIds: memberIds})
+            .expect(200)
+            .then(() => {
+                return branchGroup;
+            });
+    };
+}
+
 describe('Groups Integration Test', () => {
+    let agent;
+
     beforeEach(() => {
         agent = request.agent(app);
     });
@@ -98,6 +114,23 @@ describe('Groups Integration Test', () => {
                     return integrationTestHelpers.createGroupInBranch(branch.id);
                 })
                 .tap(integrationTestHelpers.authenticateOrganiser(agent))
+                .then((branchGroup) => {
+                    return agent.delete(`/branches/${branchGroup.branchId}/groups/${branchGroup.groupId}`)
+                    .expect(200);
+                })
+                .then(done, done.fail);
+        });
+
+        it('should return a 200 when a group with participants is deleted', (done) => {
+            integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createUser)
+                .tap(integrationTestHelpers.createMembers(agent, 2))
+                .then((branch) => {
+                    return integrationTestHelpers.createGroupInBranch(branch.id);
+                })
+                .tap(integrationTestHelpers.authenticateOrganiser(agent))
+                .then(getMemberAndReturnMemberAndGroup(agent))
+                .spread(addMembersToGroup(agent))
                 .then((branchGroup) => {
                     return agent.delete(`/branches/${branchGroup.branchId}/groups/${branchGroup.groupId}`)
                     .expect(200);
