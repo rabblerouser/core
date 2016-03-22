@@ -105,6 +105,10 @@ export default class AdminDashboard extends Component {
         this.updateElements('groups', collection, element);
     }
 
+    updateOrganisers(collection, element) {
+        this.updateElements('groups', collection, element);
+    }
+
     updateParticipants(collection, element) {
         this.updateElements('participants', collection, element);
     }
