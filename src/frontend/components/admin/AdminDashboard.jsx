@@ -65,6 +65,16 @@ export default class AdminDashboard extends Component {
                 let lab = this.state.labs.find(lab => lab.id === id);
                 this.updateLabSelection(lab);
             },
+            onSaveLab: (labDetails) => {
+                this.clearMessages();
+                let saveAction = this.state.labs.find(lab => lab.id === labDetails.id) === undefined ? labService.create : labService.update;
+                saveAction(labDetails, this.state.selectedLab.id)
+                    .then((savedLab) => {
+                        this.updateLabs(this.state.labs, savedLab);
+                        this.setUserMessage('Labs successfully saved');
+                    })
+                    .catch(this.handleError.bind(this));
+            },
             onSaveOrganiser: (organiserDetails) => {
                 this.clearMessages();
                 let saveAction = this.state.organisers.find(organiser => organiser.id === organiserDetails.id) === undefined ? organiserService.create : organiserService.update;
@@ -117,6 +127,10 @@ export default class AdminDashboard extends Component {
 
     updateOrganisers(collection, element) {
         this.updateElements('organisers', collection, element);
+    }
+
+    updateLabs(collection, element) {
+        this.updateElements('labs', collection, element);
     }
 
     updateParticipants(collection, element) {
@@ -189,6 +203,7 @@ export default class AdminDashboard extends Component {
                 />
                 <LabDetailsView
                     selectedLab={this.state.selectedLab}
+                    onSaveLab={this.state.onSaveLab}
                 />
                 <OrganisersView
                     organisers={this.state.organisers}

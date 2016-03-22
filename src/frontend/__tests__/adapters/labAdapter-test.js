@@ -71,7 +71,7 @@ describe('lab adapter', () => {
         describe('when the payload is invalid', () => {
             [
                 {
-                    id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
+                    id: '',
                     name: 'Lab'
                 },
                 {branches: {}},

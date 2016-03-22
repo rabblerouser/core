@@ -15,6 +15,19 @@ const handleResponseError = function(error) {
   }
 };
 
+function adaptLab(lab) {
+    let adapted = {
+        id: lab.id,
+        name: lab.name,
+        contact: lab.contact
+    };
+
+    if(lab.notes) {
+        adapted.notes = lab.notes;
+    }
+    return adapted;
+}
+
 const getMyLabs = function () {
     return Q($.ajax({
           type: 'GET',
@@ -63,9 +76,20 @@ const getOrganisers = function (lab) {
       }))
       .then(organiserAdapter.parseOrganisers)
       .catch(handleResponseError);
-}
+};
+
+const create = function (lab) {
+    return Q($.ajax({
+          type: 'POST',
+          url: `/branches/`,
+          data: adaptLab(lab)
+      }))
+      .then(labAdapter.parseLab)
+      .catch(handleResponseError);
+};
 
 export default {
+    create: create,
     getLabList: getLabList,
     getMyLabs: getMyLabs,
     getLabGroups: getLabGroups,

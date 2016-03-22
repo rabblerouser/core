@@ -3,8 +3,141 @@ import labService from '../../../services/labService';
 
 describe('labService', () => {
 
-    let validData = {data: 'valid'};
+    let server;
+    let validData = {
+        id: '1234',
+        name: 'melbourne',
+        notes: undefined,
+        contact: undefined
+    };
     let invalidData = {data: 'invalid'};
+    let lab = {
+        id: '1234',
+        name: 'melbourne'
+    };
+
+
+    beforeEach(() => {
+        server = sinon.fakeServer.create();
+        server.respondImmediately = true;
+    });
+
+    afterEach(() => {
+        server.restore();
+    });
+
+    describe('create', () => {
+
+        describe('when the lab provided is valid', () => {
+
+            beforeEach(() => {
+                server.respondWith('POST', '/branches/', [200, {
+                        'Content-Type': 'application/json'
+                    },
+                    JSON.stringify(validData)
+                ]);
+            });
+
+            it('should send a request to save a new lab for the branch', (done) => {
+
+                labService.create(lab)
+                    .then((result) => {
+                        expect(result).toEqual(validData);
+                        done();
+                    })
+                    .fail(() => {
+                        done.fail('Expected promise to succeeed');
+                    });
+            });
+
+        });
+
+        describe('when the lab returns but in an invalid format', () => {
+
+            beforeEach(() => {
+                server.respondWith('POST', '/branches/', [200, {
+                        'Content-Type': 'application/json'
+                    },
+                    JSON.stringify(invalidData)
+                ]);
+            });
+
+            it('should return an error that return data was invalid', (done) => {
+
+                labService.create(lab)
+                    .then(() => {
+                        done.fail('Expected promise to be rejected');
+                    })
+                    .fail((error) => {
+                        expect(error.message).toEqual('NOT AVAILABLE');
+                        done();
+                    });
+            });
+        });
+
+        describe('when the remote rejects the request', () => {
+
+            describe('with a 500 server error', () => {
+
+                beforeEach(() => {
+                    server.respondWith('POST', '/branches/', [500, {
+                        'Content-Type': 'application/json'
+                    }, '']);
+                });
+
+                it('should return a general server error', (done) => {
+                    labService.create(lab)
+                        .then(() => {
+                            done.fail('Expected promise to be rejected');
+                        })
+                        .fail((error) => {
+                            expect(error.message).toEqual('NOT AVAILABLE');
+                            done();
+                        });
+                });
+            });
+
+            describe('with a 401 unauthorised error', () => {
+
+                beforeEach(() => {
+                    server.respondWith('POST', '/branches/', [401, {
+                        'Content-Type': 'application/json'
+                    }, '']);
+                });
+
+                it('should return an error that the remote endpoint was not found', (done) => {
+                    labService.create(lab)
+                        .then(() => {
+                            done.fail('Expected promise to be rejected');
+                        })
+                        .fail((error) => {
+                            expect(error.message).toEqual('NOT FOUND');
+                            done();
+                        });
+                });
+            });
+
+            describe('with a 404 not found error', () => {
+                beforeEach(() => {
+                    server.respondWith('POST', '/branches/', [404, {
+                        'Content-Type': 'application/json'
+                    }, '']);
+                });
+
+                it('should return an error that the remote endpoint was not found', (done) => {
+                    labService.create(lab)
+                        .then(() => {
+                            done.fail('Expected promise to be rejected');
+                        })
+                        .fail((error) => {
+                            expect(error.message).toEqual('NOT FOUND');
+                            done();
+                        });
+                });
+            });
+        });
+    });
+
 
     describe('getLabGroups', () => {
 
@@ -21,16 +154,6 @@ describe('labService', () => {
                     description: 'Hi'
                 }
             ];
-
-        let server;
-        beforeEach(() => {
-          server = sinon.fakeServer.create();
-          server.respondImmediately = true;
-        });
-
-        afterEach(() => {
-          server.restore();
-        });
 
         describe('when the groups are retrieved in a valid format', () => {
 
@@ -178,16 +301,6 @@ describe('labService', () => {
             labId: '1234'
         }];
 
-        let server;
-        beforeEach(() => {
-          server = sinon.fakeServer.create();
-          server.respondImmediately = true;
-        });
-
-        afterEach(() => {
-          server.restore();
-        });
-
         describe('when the participants are retrieved in a valid format', () => {
 
             beforeEach(() => {
@@ -317,16 +430,6 @@ describe('labService', () => {
               }
           ];
 
-      let server;
-      beforeEach(() => {
-        server = sinon.fakeServer.create();
-        server.respondImmediately = true;
-      });
-
-      afterEach(() => {
-        server.restore();
-      });
-
       describe('when the labs are retrieved in a valid format', () => {
 
         beforeEach(() => {
@@ -423,16 +526,6 @@ describe('labService', () => {
                   contact: 'somebody'
               }
           ];
-
-    let server;
-    beforeEach(() => {
-      server = sinon.fakeServer.create();
-      server.respondImmediately = true;
-    });
-
-    afterEach(() => {
-      server.restore();
-    });
 
     describe('when the labs are retrieved in a valid format', () => {
 
