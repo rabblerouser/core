@@ -87,7 +87,7 @@ header.admin-header {
     padding: 0;
     text-align: left;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     display:flex;
     flex-align: center;
     @include media($mobile) {
@@ -611,6 +611,12 @@ td .buttons {
     display: inline; 
     margin-left: 10px;
     
+}
+
+td .buttons:nth-of-type(1) {
+    @include media($mobile) {
+        margin-left: 0;
+    }
 }
 
 #lab-organisers th.edit {
