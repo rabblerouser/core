@@ -34,6 +34,28 @@ describe('inputValidator', () => {
         });
     });
 
+    describe('isValidPassword', () => {
+        [
+            'I am a great password cause I\'m long',
+            '1 have $ymbol$. 1 w1ll b3 4gott3n',
+            '12345678910'
+        ].forEach((testCase) => {
+            it(`Should return true given a password ${testCase}`, () => {
+                expect(inputValidator.isValidPassword(testCase)).toBe(true);
+            });
+        });
+
+        [
+            'little',
+            '     spaced out passwords are a weird',
+            null
+        ].forEach((testCase) => {
+            it(`Should return false given password is ${testCase}`, () => {
+                expect(inputValidator.isValidPassword(testCase)).toBe(false);
+            });
+        });
+    });
+
     describe('isValidPhoneNumber', () => {
         [
             '+61472817381',

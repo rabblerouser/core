@@ -64,6 +64,11 @@ var isValidYear = (number) => {
     return year <= currentYear && year >= 1900;
 };
 
+// No leading white spaces, any combination of characters between 8 and 29
+var isValidPassword = (input) => {
+    return /^(\S)(.){7,30}/.test(input);
+};
+
 function isValidUUID(input) {
     return validator.isUUID(input, 4);
 }
@@ -80,5 +85,6 @@ module.exports = {
     isValidOptionalTextBlock: isValidOptionalTextBlock,
     isValidTextBlock: isValidTextBlock,
     isValidUUID: isValidUUID,
-    isValidYear: isValidYear
+    isValidYear: isValidYear,
+    isValidPassword: isValidPassword
 };
