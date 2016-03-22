@@ -62,9 +62,8 @@ let deleteAdmin = (id) => {
 
         logger.info('[delete-admin]', `admin with id ${id} deleted`);
     })
-    .catch(handleError('[delete-group-failed]', `An error has occurred while deleting the admin with id: ${id}`));
+    .catch(handleError('[delete-admin-failed]', `An error has occurred while deleting the admin with id: ${id}`));
 };
-
 
 let updateAdmin = (newValues) => {
 
