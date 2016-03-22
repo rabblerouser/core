@@ -557,6 +557,7 @@ button.new {
     margin-top: 3px;
 }
 
+
 button:hover {
     background: #062C40;
     color: #fff;
@@ -568,6 +569,7 @@ button span {
 button.edit:after {
     content: "\f040";
     font-family: FontAwesome;
+
 }
 
 button.delete:after {

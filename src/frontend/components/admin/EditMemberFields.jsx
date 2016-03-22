@@ -27,16 +27,16 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
     );
 
     sections.notes = (
-        <section>
+        <section id="pastoral-notes">
             <FormFieldLabel fieldName="pastoralNotes" isOptional={true} hasError={isValidationError('pastoralNotes')} />
             <textarea defaultValue={formValues.pastoralNotes} onChange={onChange('pastoralNotes')} id="pastoralNotes" className="pastoralNotes"/>
         </section>
     );
 
     sections.details = (
-        <section>
+        <section id="details">
             <fieldset className="field-pair">
-              <legend>Parent / Guardian name</legend>
+              <legend>Contact name</legend>
               <div className="sub-field">
 
              <FormFieldLabel fieldName="contactName" isOptional={false} hasError={isValidationError('contactName')} />

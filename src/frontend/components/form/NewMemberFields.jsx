@@ -24,7 +24,7 @@ const NewMemberFields = ({ invalidFields, labs, onChange, formValues }) => {
             </select>
 
             <fieldset className="field-pair">
-              <legend>Parent / Guardian name</legend>
+              <legend>Contact name</legend>
               <div className="sub-field">
 
              <FormFieldLabel fieldName="contactName" isOptional={false} hasError={isValidationError('contactName')} />

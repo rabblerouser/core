@@ -64,6 +64,12 @@
     margin: 0px auto;
 }
 
+.ReactModal__Overlay .form-container section {
+    background:none;
+    color: #000;
+    
+}
+
 
 /* --------------------------------------------------------------------------------------
 
@@ -152,10 +158,10 @@
     }
 
     fieldset {
-    border: none;
-    background: none;
-    margin: 15px 0px; 
-    padding: 0;
+        border: none;
+        background: none;
+        margin: 15px 0px; 
+        padding: 0;
     }
 
     fieldset label {
@@ -218,11 +224,11 @@ select {
 }
 
 input[type="email"] {
-  max-width: 250px;
+  max-width: 350px;
 }
 
 input[type="tel"] {
-  max-width: 250px;
+  max-width: 200px;
 }
 
 input[type="text"].other-field {
@@ -255,6 +261,21 @@ input[type="text"], select {
   max-width: 350px;
 }
 
+.ReactModal__Overlay .form-container section fieldset.selectGroups  {
+    padding: 0;          
+    
+}
+
+
+.ReactModal__Overlay .form-container section .selectGroups label {
+    font-size: 16px;            
+    
+}
+
+.ReactModal__Overlay .form-container section#pastoral-notes  {
+    padding-top: 15px;          
+    
+}
 
 
 
@@ -375,7 +396,10 @@ input[type="text"], select {
 
 
 .ReactModal__Content.ReactModal__Content--after-open{
-        max-width: 360px;
+        max-width: 80%;
+        @include media($mobile) {
+            max-width: 360px;
+        }
         margin: 10px !important;
         top: 0 !important;
         left: 10px !important;
