@@ -27,6 +27,13 @@ function adaptOrganiser(organiser) {
     return adapted;
 }
 
+const deleteOrganiser = (organiser, labId) => {
+    return Q($.ajax({
+          type: 'DELETE',
+          url: `/branches/${labId}/admins/${organiser.id}`
+      }))
+      .catch(handleResponseError);
+};
 
 const create = function (organiser, labId) {
     return Q($.ajax({
@@ -51,4 +58,5 @@ const update = function (organiser, labId) {
 export default {
     update: update,
     create: create,
+    delete: deleteOrganiser
 };

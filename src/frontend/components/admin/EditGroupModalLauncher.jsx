@@ -28,7 +28,7 @@ export default class EditGroupModalLauncher extends Component {
         };
         return (
             <button onClick={this.launchEditForm.bind(this)}
-                className="editGroup"
+                className="edit"
                 title="Edit details">
                 <span>Edit details</span>
                 <Modal

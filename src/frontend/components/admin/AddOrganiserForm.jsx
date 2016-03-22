@@ -33,7 +33,6 @@ export default class AddOrganiserForm extends Component {
         let organiser = Object.assign({}, this.state.fieldValues);
         let errors = (organiserValidator.isValid(organiser));
         errors = errors.concat(this.passwordConfirmedTest());
-        console.log(errors);
         this.setState({invalidFields: errors});
         if(errors.length === 0) {
             this.props.onSuccess();

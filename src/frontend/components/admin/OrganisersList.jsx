@@ -7,9 +7,9 @@ const Table = require('reactabular').Table;
 import sortColumn from '../../lib/sortColumn.js';
 const classnames = require('classnames');
 import EditOrganiserModalLauncher from './EditOrganiserModalLauncher.jsx';
+import DeleteOrganiserButton from './DeleteOrganiserButton.jsx';
 
-
-function tableColumns(onSave) {
+function tableColumns(onSave, onDelete) {
     return [
         {
             property: 'name',
@@ -29,7 +29,10 @@ function tableColumns(onSave) {
         {
             cell: (nothing, organiser, rowIndex) => {
                 return {
-                    value: <EditOrganiserModalLauncher organiser={organiser[rowIndex]} onSave={ onSave }/>
+                    value: (<div>
+                                <EditOrganiserModalLauncher organiser={organiser[rowIndex]} onSave={ onSave }/>
+                                <DeleteOrganiserButton organiser={organiser[rowIndex]} onDelete={ onDelete }/>
+                            </div>)
                 };
             },
             headerClass: classnames('edit')
@@ -42,7 +45,7 @@ export default class OrganisersList extends Component {
     constructor(props) {
         super(props);
         this.state  = {
-            columns: tableColumns(this.props.onSave),
+            columns: tableColumns(this.props.onSave, this.props.onDelete),
             columnNames: {
                 onClick: (column) => {
                     sortColumn(

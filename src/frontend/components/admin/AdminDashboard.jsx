@@ -46,7 +46,7 @@ export default class AdminDashboard extends Component {
                 this.clearMessages();
                 groupService.deleteGroup(selected, this.state.selectedLab.id)
                 .then(()=> {
-                    this.setState({groups: this.findAndRemoveGroup(this.state.groups, selected)});
+                    this.removeAndUpdateGroups(this.state.groups, selected);
                     this.setState({selectedGroupId: ''});
                     this.setUserMessage('Group successfully deleted');
                 })
@@ -74,6 +74,15 @@ export default class AdminDashboard extends Component {
                         this.setUserMessage('Organiser successfully saved');
                     })
                     .catch(this.handleError.bind(this));
+            },
+            onDeleteOrganiser: (selected) => {
+                this.clearMessages();
+                organiserService.delete(selected, this.state.selectedLab.id)
+                .then(()=> {
+                    this.removeAndUpdateOrganisers(this.state.organisers, selected);
+                    this.setUserMessage('Organiser successfully deleted');
+                })
+                .catch(this.handleError.bind(this));
             }
         };
     }
@@ -128,9 +137,19 @@ export default class AdminDashboard extends Component {
         this.setState(state);
     }
 
-    findAndRemoveGroup(groups, selected) {
-        let group = groups.find(group => group.id === selected.id);
-        return _.without(groups, group);
+    removeAndUpdateGroups(collection, element) {
+        thisremoveAndUpdate('groups', collection, element);
+    }
+
+    removeAndUpdateOrganisers(collection, element) {
+        this.removeAndUpdate('organisers', collection, element);
+    }
+
+    removeAndUpdate(collectionName, collection, element) {
+        let oldElement = collection.find(item => item.id === element.id);
+        let state = {};
+        state[collectionName] = _.without(collection, oldElement);
+        this.setState(state);
     }
 
     componentDidMount() {
@@ -174,6 +193,7 @@ export default class AdminDashboard extends Component {
                 <OrganisersView
                     organisers={this.state.organisers}
                     onSaveOrganiser={this.state.onSaveOrganiser}
+                    onDeleteOrganiser={this.state.onDeleteOrganiser}
                 />
                 <GroupsView
                     selectedGroup={this.getSelectedGroup()}

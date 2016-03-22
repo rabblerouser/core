@@ -8,6 +8,6 @@ export default ({ onDelete, group }) => {
             onDelete(group);
         }
     };
-    
-    return (<button onClick={deleteGroup} className="deleteGroup" title="Delete group"><span>Delete group</span></button>)
+
+    return (<button onClick={deleteGroup} className="delete" title="Delete group"><span>Delete group</span></button>)
 }

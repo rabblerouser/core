@@ -62,8 +62,8 @@
 
 header.admin-header {
 
-    background: #0073ae; 
-    margin: 0; 
+    background: #0073ae;
+    margin: 0;
     padding: 0;
     text-align: left;
     padding: 10px;
@@ -98,12 +98,12 @@ header.admin-header {
 
 background: none;
     border: none;
-  
+
 
     border-radius: 0;
     font-weight: bold;
     font-size: 1.1em;
- 
+
 
 
 
@@ -272,7 +272,7 @@ header.details-header {
         margin-top: 0;
 
         @include media($mobile) {
-            
+
         }
     }
     thead {
@@ -367,7 +367,7 @@ header.details-header {
         background-color: $blue-light;
     }
     tr:nth-child(odd) {
-        
+
         background-color: $white;
     }
     tr td:first-child {
@@ -431,6 +431,10 @@ header.details-header {
             padding: 0 10px;
         }
     }
+    td button {
+        margin: 0;
+    }
+
     td ul {
         list-style: none;
     }
@@ -440,25 +444,13 @@ header.details-header {
     td dl {
         margin: 0;
     }
-    td button {
-        background: none;
-        color: #0073ae;
-        padding: 0;
-        margin: 0;
-        border: 0;
-        font-size: 1.3em;
-        padding: 5px;
-    }
+
     td button:hover {
         background: #062C40;
         color: #fff;
     }
     td button span {
         display: none;
-    }
-    td button:after {
-        content: "\f040";
-        font-family: FontAwesome;
     }
     .navigation {
         text-align: center;
@@ -547,58 +539,46 @@ header.details-header {
             margin-top: -20px;
         }
     }
-    button {
-        background: none;
-        color: #0073ae;
-        padding: 0;
-        margin: 0;
-        border: 0;
-        font-size: 1.3em;
-        padding: 5px;
-        display: inline;
-        margin-left: 15px;
-        @include media($mobile) {
-           
-        }
-    }
-
-    button.editGroup {
-        margin-left: 0;
-    }
-
-    button.newGroup {
-        margin-top: 2px;
-    }
-
-    button:hover {
-        background: #062C40;
-        color: #fff;
-    }
-    button span {
-        display: none;
-        @include media($mobile) {
-            display: block;
-        }
-    }
-    button.editGroup:after {
-        content: "\f040";
-        font-family: FontAwesome;
-    }
-    button.deleteGroup:after {
-        content: "\f1f8";
-        font-family: FontAwesome;
-    }
-
-    button.newGroup:after {
-        content: "\f067";
-        font-family: FontAwesome;
-        @include media($mobile) {
-            content: none;
-        }
-    }
+}
+button {
+    background: none;
+    color: #0073ae;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-size: 1.3em;
+    padding: 5px;
+    display: inline;
+    margin-right: 15px;
 }
 
+button.new {
+    margin-left: 10px;
+    margin-top: 3px;
+}
 
+button:hover {
+    background: #062C40;
+    color: #fff;
+}
+button span {
+    display: none;
+}
+
+button.edit:after {
+    content: "\f040";
+    font-family: FontAwesome;
+}
+
+button.delete:after {
+    content: "\f1f8";
+    font-family: FontAwesome;
+}
+
+button.new:after {
+    content: "\f067";
+    font-family: FontAwesome;
+}
 
 #lab-details dl {
     margin: 0;
