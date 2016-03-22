@@ -2,7 +2,7 @@
 const invalidDataError = 'INVALID DATA';
 
 let parseOrganiserDetails = (data) => {
-    if(!data) {
+    if(!data || !data.id) {
         throw(invalidDataError);
     }
     return {

@@ -1,9 +1,14 @@
 import React from 'react';
 import OrganisersList from './OrganisersList.jsx';
+import AddOrganiserModalLauncher from './AddOrganiserModalLauncher.jsx';
 
 const OrganisersView = ({ organisers, onSaveOrganiser }) => (
     <section className="admin-section">
-        <h3>Lab Organisers</h3>
+        <h3>Lab Organisers 
+            <AddOrganiserModalLauncher
+                onSave={onSaveOrganiser}
+            />
+        </h3>
         <OrganisersList onSave={onSaveOrganiser} organisers={organisers} />
     </section>
 );

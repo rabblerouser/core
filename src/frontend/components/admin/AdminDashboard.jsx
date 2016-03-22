@@ -65,9 +65,10 @@ export default class AdminDashboard extends Component {
                 let lab = this.state.labs.find(lab => lab.id === id);
                 this.updateLabSelection(lab);
             },
-            onSaveOrganiser: (organiser) => {
+            onSaveOrganiser: (organiserDetails) => {
                 this.clearMessages();
-                organiserService.update(organiser, this.state.selectedLab.id)
+                let saveAction = this.state.organisers.find(organiser => organiser.id === organiserDetails.id) === undefined ? organiserService.create : organiserService.update;
+                saveAction(organiserDetails, this.state.selectedLab.id)
                     .then((savedOrganiser) => {
                         this.updateOrganisers(this.state.organisers, savedOrganiser);
                         this.setUserMessage('Organiser successfully saved');

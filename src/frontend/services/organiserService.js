@@ -27,21 +27,28 @@ function adaptOrganiser(organiser) {
     return adapted;
 }
 
-const update = function (organiser, branchId) {
+
+const create = function (organiser, labId) {
     return Q($.ajax({
-          type: 'PUT',
-          url: `/branches/${branchId}/admins/${organiser.id}`,
+          type: 'POST',
+          url: `/branches/${labId}/admins`,
           data: adaptOrganiser(organiser)
       }))
-      .catch(handleResponseError)
-      .then((data) => {
-          if(data.id) {
-              return organiserAdapter.parseOrganiserDetails(data);
-          }
-          throw new Error('INVALID ORGANISER');
-      });
+      .then(organiserAdapter.parseOrganiserDetails)
+      .catch(handleResponseError);
+};
+
+const update = function (organiser, labId) {
+    return Q($.ajax({
+          type: 'PUT',
+          url: `/branches/${labId}/admins/${organiser.id}`,
+          data: adaptOrganiser(organiser)
+      }))
+      .then(organiserAdapter.parseOrganiserDetails)
+      .catch(handleResponseError);
 };
 
 export default {
-    update: update
+    update: update,
+    create: create,
 };
