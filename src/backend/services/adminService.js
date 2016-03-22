@@ -22,7 +22,12 @@ function logEvent(saveResult) {
 }
 
 let transformAdmin = dbResult => {
-    return dbResult.dataValues;
+    return {
+        id: dbResult.dataValues.id,
+        name: dbResult.dataValues.name,
+        phoneNumber: dbResult.dataValues.phoneNumber,
+        email: dbResult.dataValues.email
+    };
 };
 
 function transformAdmins(adapter) {
@@ -44,9 +49,7 @@ let create = (newAdmin) => {
     return Q.all(setupNewAdmin(newAdmin))
           .then(save)
           .tap(logEvent)
-          .then((savedAdmin) => {
-            return  savedAdmin.dataValues;
-          })
+          .then(transformAdmin)
           .catch(handleError('Create admin user failed'));
 };
 
