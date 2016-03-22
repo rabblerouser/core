@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import GroupsList from '../../../components/admin/GroupsList.jsx';
+import GroupsList from '../../../components/admin/groupView/GroupsList.jsx';
 import sd from 'skin-deep';
 
 describe('GroupList', () => {

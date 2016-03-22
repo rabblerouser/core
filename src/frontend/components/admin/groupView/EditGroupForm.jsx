@@ -1,7 +1,7 @@
 'use strict';
 import React, {Component} from 'react';
-import FormFieldLabel from '../form/FormFieldLabel.jsx';
-import groupValidator from '../../services/groupValidator.js';
+import FormFieldLabel from '../../form/FormFieldLabel.jsx';
+import groupValidator from '../../../services/groupValidator.js';
 
 export default class EditGroupForm extends Component {
 

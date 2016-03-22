@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import {sortByOrder, map} from 'lodash';
 const Table = require('reactabular').Table;
-import sortColumn from '../../lib/sortColumn.js';
+import sortColumn from '../../../lib/sortColumn.js';
 const classnames = require('classnames');
 import EditOrganiserModalLauncher from './EditOrganiserModalLauncher.jsx';
 import DeleteOrganiserButton from './DeleteOrganiserButton.jsx';

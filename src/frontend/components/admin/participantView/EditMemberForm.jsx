@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore';
 import EditMemberFields from './EditMemberFields.jsx';
-import memberValidator from '../../services/memberValidator';
+import memberValidator from '../../../services/memberValidator';
 
 export default class EditMemberForm extends Component {
 
@@ -87,7 +87,7 @@ export default class EditMemberForm extends Component {
             <section className="form-container">
                 <header className="details-header">
                     <span className='title'>
-                        
+
                         {this.props.participant.participantName + ' ' + this.props.participant.participantLastName}
                     </span>
                     <span className='actions'>

@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore';
 import AddOrganiserFields from './AddOrganiserFields.jsx';
-import organiserValidator from '../../services/organiserValidator';
+import organiserValidator from '../../../services/organiserValidator';
 
 export default class AddOrganiserForm extends Component {
 

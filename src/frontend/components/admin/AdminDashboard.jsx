@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import $ from 'jquery';
 import _ from 'underscore';
-import FilteredParticipantsList from './FilteredParticipantsList.jsx';
+
+import FilteredParticipantsList from './participantView/FilteredParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
-import GroupsView from './GroupsView.jsx';
+import GroupsView from './groupView/GroupsView.jsx';
 import LabDetailsView from './labView/LabDetailsView.jsx';
-import OrganisersView from './OrganisersView.jsx';
+import OrganisersView from './organiserView/OrganisersView.jsx';
+
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 import memberService from '../../services/memberService.js';
