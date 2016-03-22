@@ -76,7 +76,7 @@ function update(req, res) {
     })
     .catch((error) => {
         logger.error(`Failed updating the admin user with id:${admin.id}`, error);
-        res.sendStatus(500);
+        res.status(500);
     });
 }
 

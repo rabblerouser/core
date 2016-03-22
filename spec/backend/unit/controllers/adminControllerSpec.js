@@ -300,7 +300,7 @@ describe('adminController', () => {
 
             it('should return a 500', (done) => {
                 adminService.updateAdmin.returns(Promise.reject('anything at all'));
-                adminController.forBranch(req, res)
+                adminController.update(req, res)
                 .then(() => {
                    expect(res.status).toHaveBeenCalled(500);
                 }).then(done, done.fail);
