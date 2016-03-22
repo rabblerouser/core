@@ -34,6 +34,7 @@ router.get('/admin', [requireAuth], function (req, res) {
 
 router.get('/branches', branchesController.list);
 router.post('/branches', branchesController.create);
+router.put('/branches/:branchId', branchesController.update);
 
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.edit);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.list);

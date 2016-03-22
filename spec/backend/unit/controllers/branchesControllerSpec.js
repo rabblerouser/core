@@ -134,6 +134,158 @@ describe('branchesController', () => {
         });
     });
 
+    describe('update', () => {
+        let req, res;
+
+        describe('when the branch id is valid and the admin id is valid', () => {
+
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    params: { branchId: 1},
+                    body: {
+                        id: 1,
+                        name: 'some name'
+                    }
+                };
+                sinon.stub(branchValidator, 'isValid').returns([]);
+                sinon.stub(branchService, 'update').withArgs(req.params.id);
+            });
+
+            afterEach(() => {
+                branchService.update.restore();
+                branchValidator.isValid.restore();
+            });
+
+            it('responds with successful update', (done) => {
+                branchService.update.returns(Promise.resolve(branch()));
+                branchesController.update(req, res)
+                .then(() => {
+                    expect(res.status).toHaveBeenCalled(200);
+                    expect(res.status().json).toHaveBeenCalledWith(branch());
+                }).then(done, done.fail);
+            });
+
+        });
+
+        describe('when the branch id is undefined', () => {
+
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    params: { id: 'some-key'},
+                    body: {
+                        id: 'some-key',
+                        email: 'some-email',
+                        name: 'some name',
+                        phone: 'some phone'
+                    }
+                };
+            });
+
+            it('should return a 400', () => {
+                branchesController.update(req, res);
+                expect(res.status).toHaveBeenCalled(400);
+            });
+        });
+
+        describe('when the branch id is undefined', () => {
+
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    params: {},
+                    body: {
+                        id: 'some-key',
+                        email: 'some-email',
+                        name: 'some name',
+                        phone: 'some phone'
+                    }
+                };
+            });
+
+            it('should return a 400', () => {
+                branchesController.update(req, res);
+                expect(res.status).toHaveBeenCalled(400);
+            });
+        });
+
+        describe('when the branch id doesn\'t match the one in the payload', () => {
+
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    params: { branchId: 'some-other-key'},
+                    body: {
+                        id: 'some-key',
+                        email: 'some-email',
+                        name: 'some name',
+                        phone: 'some phone'
+                    }
+                };
+
+                it('should return a 400', (done) => {
+                    branchesController.update(req, res)
+                    .then(() => {
+                       expect(res.status).toHaveBeenCalled(400);
+                    }).then(done, done.fail);
+                });
+            });
+        });
+
+        describe('when the payload provided is invalid', () => {
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    params: { branchId: 1},
+                    body: {
+                        email: 'some phone'
+                    }
+                };
+                sinon.stub(branchValidator, 'isValid').returns(['email']);
+            });
+
+            afterEach(() => {
+                branchValidator.isValid.restore();
+            });
+
+            it('should return a 400', () => {
+                branchesController.update(req, res);
+                expect(res.status).toHaveBeenCalled(400);
+            });
+
+        });
+
+        describe('when there is a general error from the service', () => {
+
+            beforeEach(() => {
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                req = {
+                    params: { branchId: 'some-key'},
+                    body: {
+                        id: 'some-key',
+                        name: 'some name'
+                    }
+                };
+                sinon.stub(branchValidator, 'isValid').returns([]);
+                sinon.stub(branchService, 'update').withArgs(req.params.id);
+            });
+
+            afterEach(() => {
+                branchService.update.restore();
+                branchValidator.isValid.restore();
+            });
+
+            it('should return a 500', (done) => {
+                branchService.update.returns(Promise.reject('anything at all'));
+                branchesController.update(req, res)
+                .then(() => {
+                   expect(res.status).toHaveBeenCalled(500);
+                }).then(done, done.fail);
+            });
+        });
+    });
+
     describe('list', () => {
         let req, res;
 

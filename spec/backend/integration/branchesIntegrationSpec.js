@@ -40,6 +40,17 @@ let makeBranch = () => {
     };
 };
 
+let makeBranchUpdates = (branch) => {
+    branch.name = 'New Name!';
+    return branch;
+};
+
+let hasBranch = (res) => {
+    if (!(res.body.id)) {
+        throw new Error('missing created branch');
+    }
+};
+
 describe('Branches Integration Test', () => {
 
     let agent;
@@ -183,5 +194,65 @@ describe('Branches Integration Test', () => {
             })
             .then(done, done.fail);
         });
+    });
+
+    describe('update', () => {
+        it('should return 200 and an updated branch when the input is valid', (done) => {
+            integrationTestHelpers.createBranch()
+            .tap(integrationTestHelpers.createSuperAdmin)
+            .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+            .then((branch) => {
+                return agent.put(`/branches/${branch.id}/`)
+                    .set('Content-Type', 'application/json')
+                    .send(makeBranchUpdates(branch))
+                    .expect(200)
+                    .then(hasBranch);
+            })
+            .then(done, done.fail);
+        });
+
+        it('should allow update without the password field in the payload', (done) => {
+            integrationTestHelpers.createBranch()
+            .tap(integrationTestHelpers.createSuperAdmin)
+            .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+            .then((branch) => {
+                return agent.put(`/branches/${branch.id}`)
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(makeBranchUpdates(branch))
+                    .expect(200)
+                    .then(hasBranch);
+            })
+            .then(done, done.fail);
+        });
+
+        it('should return 400 if the input is null', (done) => {
+            integrationTestHelpers.createBranch()
+            .tap(integrationTestHelpers.createSuperAdmin)
+            .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+            .then((branch) => {
+                return agent.put(`/branches/${branch.id}`)
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(null)
+                    .expect(400);
+            })
+            .then(done, done.fail);
+        });
+
+        it('should return 400 if the input is incomplete', (done) => {
+            integrationTestHelpers.createBranch()
+            .then(integrationTestHelpers.createUser)
+            .tap(integrationTestHelpers.authenticateOrganiser(agent))
+            .then(() => {
+                return agent.put(`/branches/whatevs`)
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send({invalid: 'invalid'})
+                    .expect(400);
+            })
+            .then(done, done.fail);
+        });
+
     });
 });

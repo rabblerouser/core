@@ -72,6 +72,17 @@ let create = (newBranch) => {
           .catch(handleError('Create branch failed'));
 };
 
+
+let update = (newValues) => {
+    return Branch.findOne({where: {id: newValues.id}})
+    .then( branch => {
+        return branch.update(newValues);
+    })
+    .tap(() => logger.info('[update-branch]', `branch with id ${newValues.id} updated`))
+    .then(transformBranch)
+    .catch(handleError(`Error when editing branch with id ${newValues.id}`));
+};
+
 let list = () => {
     let query = {
         attributes: [
@@ -111,6 +122,7 @@ function findById(id) {
 module.exports = {
     list: list,
     create: create,
+    update: update,
     findById: findById,
     groupsInBranch: groupsInBranch
 };

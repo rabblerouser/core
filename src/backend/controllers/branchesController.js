@@ -43,6 +43,30 @@ function create(req, res) {
     });
 }
 
+function update(req, res) {
+    let branch = parseBranch(req);
+
+    if (!branch.id || branch.id !== req.params.branchId) {
+        logger.info('[update-branch-validation-error]', {errors: ['invalid params']});
+        return res.status(400).json({ errors: ['invalid params']});
+    }
+
+    let validationErrors = branchValidator.isValid(branch);
+    if (validationErrors.length > 0) {
+        logger.info('[update-branch-validation-error]', {errors: validationErrors});
+        return res.status(400).json({ errors: validationErrors});
+    }
+
+    return branchService.update(branch)
+    .then((updatedBranch) => {
+        res.status(200).json(updatedBranch);
+    })
+    .catch((error) => {
+        logger.error(`Failed updating the branch id:${branch.id}`, error);
+        res.status(500);
+    });
+}
+
 function groupsByBranch(req, res) {
     return branchService.groupsInBranch(req.params.id)
         .then((list) => {
@@ -87,6 +111,7 @@ function branchesForAdmin(req, res) {
 module.exports = {
     list: list,
     create: create,
+    update: update,
     branchesForAdmin: branchesForAdmin,
     groupsByBranch: groupsByBranch
 };
