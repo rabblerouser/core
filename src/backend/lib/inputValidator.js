@@ -64,9 +64,8 @@ var isValidYear = (number) => {
     return year <= currentYear && year >= 1900;
 };
 
-// No leading white spaces, any combination of characters between 8 and 29
 var isValidPassword = (input) => {
-    return /^(\S)(.){7,30}/.test(input);
+    return /^(.){7,200}$/.test(input);
 };
 
 function isValidUUID(input) {

@@ -60,5 +60,6 @@ export const FormValidationErrors = {
   groupName: {name: 'Name', message: 'Please enter a group name. No symbols allowed.'},
   groupDescription: {name: 'Description', message: 'Please enter a description (maximum 2000 characters).'},
   name: {name: 'Name', message: 'Please enter a name. No symbols allowed.'},
-  confirmedPassword: {name: 'Confirm password', message: 'Passwords must match'}
+  confirmedPassword: {name: 'Confirm password', message: 'Passwords must match'},
+  password: {name: 'Password', message: 'Passwords must be at least 8 characters'}
 };

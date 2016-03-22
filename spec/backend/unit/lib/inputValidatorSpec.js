@@ -36,8 +36,8 @@ describe('inputValidator', () => {
 
     describe('isValidPassword', () => {
         [
-            'I am a great password cause I\'m long',
-            '1 have $ymbol$. 1 w1ll b3 4gott3n',
+            'I am a long password',
+            '1 w1ll b3 4gott3n',
             '12345678910'
         ].forEach((testCase) => {
             it(`Should return true given a password ${testCase}`, () => {
@@ -47,7 +47,7 @@ describe('inputValidator', () => {
 
         [
             'little',
-            '     spaced out passwords are a weird',
+            'a'.repeat(201),
             null
         ].forEach((testCase) => {
             it(`Should return false given password is ${testCase}`, () => {
