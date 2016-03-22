@@ -9,5 +9,5 @@ export default ({ onDelete, organiser }) => {
         }
     };
 
-    return (<button onClick={deleteOrganiser} className="delete" title="Delete organiser"><span>Delete organiser</span></button>)
+    return (<div className="buttons"><button onClick={deleteOrganiser} className="delete" title="Delete organiser"><span>Delete organiser</span></button></div>)
 }

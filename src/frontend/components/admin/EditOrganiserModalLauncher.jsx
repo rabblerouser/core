@@ -30,7 +30,7 @@ export default class EditOrganiserModalLauncher extends Component {
 
         };
         return (
-            <div>
+            <div className="buttons">
                 <button className="edit" onClick={this.launchEditForm.bind(this)}><span>Edit organiser</span></button>
                 <Modal
                     isOpen={this.state.modalIsOpen}

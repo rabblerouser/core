@@ -36,7 +36,7 @@
     padding: 10px;
     margin: 20px auto;
 }
-#user_messages {
+#user-messages {
     li {
         border: 1px solid;
         border-color: $green-darker;
@@ -382,7 +382,7 @@ header.details-header {
             padding-bottom: 10px;
         }
     }
-    th.name, td:nth-of-type(1), td:nth-of-type(2) {
+    #participant-list th.name, #participant-list td:nth-of-type(1), #participant-list td:nth-of-type(2) {
         width: 15%;
         @include media($tablet) {
             width: 15%;
@@ -391,7 +391,7 @@ header.details-header {
             width: auto;
         }
     }
-    th.contact, td:nth-of-type(3) {
+    #participant-list th.contact, #participant-list td:nth-of-type(3) {
         width: 15%;
         @include media($tablet) {
             width: 25%;
@@ -585,4 +585,14 @@ button.new:after {
 #lab-details dl {
     margin: 0;
     padding: 0;
+}
+
+td .buttons {
+    display: inline; 
+    margin-left: 10px;
+    
+}
+
+#lab-organisers th.edit {
+    width: 80px;
 }

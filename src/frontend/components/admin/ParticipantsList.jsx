@@ -95,7 +95,7 @@ export default class ParticipantsList extends Component {
         });
 
         return (
-            <section className="admin-section">
+            <section className="admin-section" id="participant-list">
                 <Table columns={this.state.columns} data={lessHacky} columnNames={this.state.columnNames}/>
             </section>
         );
