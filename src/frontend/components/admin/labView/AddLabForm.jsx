@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore';
 import AddLabFields from './AddLabFields.jsx';
-import labValidator from '../../services/labValidator';
+import labValidator from '../../../services/labValidator';
 
 export default class AddLabForm extends Component {
 

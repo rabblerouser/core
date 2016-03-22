@@ -41,7 +41,9 @@ export const ApplicationFormFieldLabels = {
   pastoralNotes: 'Pastoral notes',
   name: 'Name',
   password: 'Password',
-  confirmedPassword: 'Confirm Password'
+  confirmedPassword: 'Confirm Password',
+  notes: 'Admin Notes',
+  contact: 'Contact information'
 };
 
 export const FormValidationErrors = {

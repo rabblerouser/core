@@ -1,8 +1,8 @@
 'use strict';
 import React, {Component} from 'react';
-import FormFieldLabel from '../form/FormFieldLabel.jsx';
-import { ApplicationForm as Strings, Resources } from '../../config/strings.js';
-import InlineError from '../form/InlineError.jsx';
+import FormFieldLabel from '../../form/FormFieldLabel.jsx';
+import { ApplicationForm as Strings, Resources } from '../../../config/strings.js';
+import InlineError from '../../form/InlineError.jsx';
 
 const EditLabFields = ({ invalidFields, onChange, formValues}) => {
 

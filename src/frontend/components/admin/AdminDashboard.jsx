@@ -6,7 +6,7 @@ import FilteredParticipantsList from './FilteredParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './GroupsView.jsx';
-import LabDetailsView from './LabDetailsView.jsx';
+import LabDetailsView from './labView/LabDetailsView.jsx';
 import OrganisersView from './OrganisersView.jsx';
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';

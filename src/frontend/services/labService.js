@@ -19,12 +19,9 @@ function adaptLab(lab) {
     let adapted = {
         id: lab.id,
         name: lab.name,
-        contact: lab.contact
+        contact: lab.contact,
+        notes: lab.notes
     };
-
-    if(lab.notes) {
-        adapted.notes = lab.notes;
-    }
     return adapted;
 }
 
@@ -88,8 +85,20 @@ const create = function (lab) {
       .catch(handleResponseError);
 };
 
+const update = function (lab) {
+    return Q($.ajax({
+          type: 'PUT',
+          url: `/branches/${lab.id}/`,
+          data: adaptLab(lab)
+      }))
+      .then(labAdapter.parseLab)
+      .catch(handleResponseError);
+};
+
+
 export default {
     create: create,
+    update: update,
     getLabList: getLabList,
     getMyLabs: getMyLabs,
     getLabGroups: getLabGroups,
