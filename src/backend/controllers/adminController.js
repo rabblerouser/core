@@ -50,7 +50,7 @@ function create(req, res) {
     })
     .catch((error) => {
         logger.error(`Failed creating a new admin user: branchId: ${branchId}}`, error);
-        res.sendStatus(500);
+        return res.status(500);
     });
 }
 
@@ -58,9 +58,14 @@ function update(req, res) {
     let branchId = req.params.branchId;
     let admin = parseAdmin(req);
     admin.branchId = branchId;
-    let validationErrors = adminValidator.isValid(admin);
 
-    if (validationErrors.length > 0 || !admin.id || !branchId || admin.id !== req.params.id) {
+    if (!admin.id || !branchId || admin.id !== req.params.id) {
+        logger.info('[update-user-validation-error]', {errors: ['invalid params']});
+        return res.status(400).json({ errors: ['invalid params']});
+    }
+
+    let validationErrors = adminValidator.isValid(admin);
+    if (validationErrors.length > 0) {
         logger.info('[update-user-validation-error]', {errors: validationErrors});
         return res.status(400).json({ errors: validationErrors});
     }
@@ -75,8 +80,26 @@ function update(req, res) {
     });
 }
 
+function forBranch(req, res) {
+    return adminService.admins(req.params.branchId)
+        .then((list) => {
+            res.status(200).json({admins: list});
+        })
+        .catch((error) => {
+            switch (error) {
+                case 'invalid branch id' :
+                    res.status(400);
+                    break;
+                default:
+                    res.status(500);
+                    break;
+            }
+        });
+}
+
 module.exports = {
     delete: deleteAdmin,
     create: create,
-    update: update
+    update: update,
+    forBranch: forBranch
 };

@@ -37,11 +37,10 @@ router.get('/admin', [requireAuth], function (req, res) {
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.edit);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.list);
 
-router.get('/branches/:branchId/admins', [requireAuth, branchAuthorization], branchesController.admins);
+router.get('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.forBranch);
 router.post('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.create);
 router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization], adminController.update);
 router.delete('/branches/:branchId/admins/:adminId', [requireAuth, branchAuthorization], adminController.delete);
-
 
 router.post('/branches/:branchId/groups/:groupId/members', [requireAuth, branchAuthorization], groupsController.addMembers);
 router.get('/branches/:id/groups', [requireAuth, branchAuthorization], branchesController.groupsByBranch);

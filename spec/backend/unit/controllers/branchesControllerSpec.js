@@ -2,8 +2,7 @@
 
 const specHelper = require('../../../support/specHelper'),
       sinon = specHelper.sinon,
-      branchService = require('../../../../src/backend/services/branchService'),
-      adminService = require('../../../../src/backend/services/adminService');
+      branchService = require('../../../../src/backend/services/branchService');
 
 var branchesController = require('../../../../src/backend/controllers/branchesController');
 
@@ -39,75 +38,11 @@ function fakeGroupsList() {
     ];
 }
 
-function fakeAdminsList() {
-    return [
-        {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone'
-        },
-        {
-            id: 'some-key2',
-            email: 'some-email2',
-            name: 'some name',
-            phone: 'some phone'
-        }
-    ];
-}
-
 function noGroupsList() {
     return [];
 }
 
 describe('branchesController', () => {
-
-    describe('admins', () => {
-        let req, res;
-
-        beforeEach(() => {
-            res = {status: sinon.stub().returns({json: sinon.spy()})};
-            req = { params: { id: 1} };
-            sinon.stub(adminService, 'admins').withArgs(req.params.id);
-        });
-
-        afterEach(() => {
-            adminService.admins.restore();
-        });
-
-
-        describe('when the branch id is valid and has groups', () => {
-
-            it('responds with a list of branches', (done) => {
-                adminService.admins.returns(Promise.resolve(fakeAdminsList()));
-                branchesController.admins(req, res)
-                .then(() => {
-                    expect(res.status).toHaveBeenCalled(200);
-                    expect(res.status().json).toHaveBeenCalledWith({admins: fakeAdminsList()});
-                }).then(done, done.fail);
-            });
-        });
-
-        describe('when the branch id is invalid', () => {
-            it('should return a 400', (done) => {
-                adminService.admins.returns(Promise.reject('invalid branch id'));
-                branchesController.admins(req, res)
-                .then(() => {
-                   expect(res.status).toHaveBeenCalled(400);
-                }).then(done, done.fail);
-            });
-        });
-
-        describe('when there is a general error from the service', () => {
-            it('should return a 500', (done) => {
-                adminService.admins.returns(Promise.reject('anything at all'));
-                branchesController.groupsByBranch(req, res)
-                .then(() => {
-                   expect(res.status).toHaveBeenCalled(500);
-                }).then(done, done.fail);
-            });
-        });
-    });
 
     describe('list', () => {
         let req, res;

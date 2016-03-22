@@ -1,7 +1,6 @@
 'use strict';
 
 let branchService = require('../services/branchService');
-let adminService = require('../services/adminService');
 let logger = require('../lib/logger');
 let adminType = require('../security/adminType');
 
@@ -12,23 +11,6 @@ function list(req, res) {
         })
         .catch(() => {
             res.sendStatus(500);
-        });
-}
-
-function admins(req, res) {
-    return adminService.admins(req.params.branchId)
-        .then((list) => {
-            res.status(200).json({admins: list});
-        })
-        .catch((error) => {
-            switch (error) {
-                case 'invalid branch id' :
-                    res.status(400);
-                    break;
-                default:
-                    res.status(500);
-                    break;
-            }
         });
 }
 
@@ -76,6 +58,5 @@ function branchesForAdmin(req, res) {
 module.exports = {
     list: list,
     branchesForAdmin: branchesForAdmin,
-    groupsByBranch: groupsByBranch,
-    admins: admins,
+    groupsByBranch: groupsByBranch
 };
