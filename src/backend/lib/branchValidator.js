@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const branchFieldsChecks =
 {
-    name: inputValidator.isValidName,
+    name: inputValidator.isValidText,
     notes: inputValidator.isValidOptionalTextBlock,
     contact: inputValidator.isValidOptionalTextBlock
 };

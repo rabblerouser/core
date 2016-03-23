@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 const labFieldsChecks =
 {
-    name: inputValidator.isValidName
+    name: inputValidator.isValidText
 };
 
 var isValidDetails = (lab) => {
