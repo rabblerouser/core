@@ -105,6 +105,25 @@ export default class AdminDashboard extends Component {
                     this.setUserMessage('Organiser successfully deleted');
                 })
                 .catch(this.handleError.bind(this));
+            },
+            onSaveNetworkAdmin: (details) => {
+                this.clearMessages();
+                let saveAction = this.state.networkAdmins.find(admin => admin.id === details.id) === undefined ? adminService.createNetworkAdmin : adminService.updateNetworkAdmin;
+                saveAction(details)
+                    .then((savedAdmin) => {
+                        this.updateNetworkAdmins(this.state.networkAdmins, savedAdmin);
+                        this.setUserMessage('Network admin successfully saved');
+                    })
+                    .catch(this.handleError.bind(this));
+            },
+            onDeleteNetworkAdmin: (selected) => {
+                this.clearMessages();
+                adminService.deleteNetworkAdmin(selected)
+                .then(()=> {
+                    this.removeAndUpdateNetworkAdmins(this.state.networkAdmins, selected);
+                    this.setUserMessage('Network admin successfully deleted');
+                })
+                .catch(this.handleError.bind(this));
             }
         };
     }
@@ -135,6 +154,10 @@ export default class AdminDashboard extends Component {
 
     updateGroups(collection, element) {
         this.updateElements('groups', collection, element);
+    }
+
+    updateNetworksAdmins(collection, element) {
+        this.updateElements('networkAdmins', collection, element);
     }
 
     updateOrganisers(collection, element) {
@@ -182,6 +205,10 @@ export default class AdminDashboard extends Component {
         this.removeAndUpdate('organisers', collection, element);
     }
 
+    removeAndUpdateNetworkAdmins(collection, element) {
+        this.removeAndUpdate('networkAdmins', collection, element);
+    }
+
     removeAndUpdate(collectionName, collection, element) {
         let oldElement = collection.find(item => item.id === element.id);
         let state = {};
@@ -195,6 +222,11 @@ export default class AdminDashboard extends Component {
                 this.setState({labs: labs});
                 this.updateLabSelection(labs[0]);
             });
+        adminService.getNetworkAdmins()
+            .then( (admins) => {
+                this.setState({networkAdmins: admins});
+            });
+
     }
 
     updateLabSelection(lab) {
@@ -251,8 +283,8 @@ export default class AdminDashboard extends Component {
                 <AdminsView
                     title={'Network Admins'}
                     organisers={this.state.networkAdmins}
-                    onSaveOrganiser={this.state.onSaveOrganiser}
-                    onDeleteOrganiser={this.state.onDeleteOrganiser}
+                    onSaveOrganiser={this.state.onSaveNetworkAdmin}
+                    onDeleteOrganiser={this.state.onDeleteNetworkAdmin}
                 />
             </div>);
     }

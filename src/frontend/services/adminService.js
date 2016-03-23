@@ -16,7 +16,6 @@ const logout = function () {
     window.location.href = '/logout';
 };
 
-
 function adaptAdmin(admin) {
     let adapted = {
         id: admin.id,
@@ -32,14 +31,42 @@ function adaptAdmin(admin) {
     return adapted;
 }
 
-const getNetworkAdmins = function () {
+const deleteNetworkAdmin = (admin) => {
+    return Q($.ajax({
+          type: 'DELETE',
+          url: `/admins/${admin.id}`
+      }))
+      .catch(handleResponseError);
+};
+
+const getNetworkAdmins = () => {
   return Q($.ajax({
         type: 'GET',
-        url: `/${Resources.networkAdminEndPoint}/`,
+        url: `/${Resources.networkAdminEndPoint}`,
         dataType: 'json',
     }))
     .then(adminAdapter.parseAdmins)
     .catch(handleResponseError);
+};
+
+const createNetworkAdmin = (admin) => {
+    return Q($.ajax({
+          type: 'POST',
+          url: `/admins`,
+          data: adaptAdmin(admin)
+      }))
+      .then(adminAdapter.parseAdminDetails)
+      .catch(handleResponseError);
+};
+
+const updateNetworkAdmin = function (admin) {
+    return Q($.ajax({
+          type: 'PUT',
+          url: `/admins/${admin.id}`,
+          data: adaptAdmin(admin)
+      }))
+      .then(adminAdapter.parseAdminDetails)
+      .catch(handleResponseError);
 };
 
 const deleteOrganiser = (organiser, labId) => {
@@ -75,5 +102,8 @@ export default {
     update: update,
     create: create,
     delete: deleteOrganiser,
-    getNetworkAdmins: getNetworkAdmins
+    getNetworkAdmins: getNetworkAdmins,
+    createNetworkAdmin: createNetworkAdmin,
+    updateNetworkAdmin: updateNetworkAdmin,
+    deleteNetworkAdmin: deleteNetworkAdmin
 };
