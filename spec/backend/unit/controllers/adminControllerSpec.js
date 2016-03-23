@@ -50,13 +50,13 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isBranchAdminValid').returns([]);
+                sinon.stub(adminValidator, 'isValid').returns([]);
                 sinon.stub(adminService, 'create');
             });
 
             afterEach(() => {
                 adminService.create.restore();
-                adminValidator.isBranchAdminValid.restore();
+                adminValidator.isValid.restore();
             });
 
             it('responds with successful update', (done) => {
@@ -107,7 +107,7 @@ describe('adminController', () => {
             });
 
             afterEach(() => {
-                adminValidator.isBranchAdminValid.restore();
+                adminValidator.isValid.restore();
             });
 
             it('should return a 400', () => {
@@ -136,7 +136,7 @@ describe('adminController', () => {
 
             afterEach(() => {
                 adminService.create.restore();
-                adminValidator.isBranchAdminValid.restore();
+                adminValidator.isValid.restore();
             });
 
             it('should return a 500', (done) => {
@@ -171,7 +171,7 @@ describe('adminController', () => {
 
             afterEach(() => {
                 adminService.updateAdmin.restore();
-                adminValidator.isBranchAdminValid.restore();
+                adminValidator.isValid.restore();
             });
 
             it('responds with successful update', (done) => {
@@ -266,7 +266,7 @@ describe('adminController', () => {
             });
 
             afterEach(() => {
-                adminValidator.isBranchAdminValid.restore();
+                adminValidator.isValid.restore();
             });
 
             it('should return a 400', () => {
@@ -295,7 +295,7 @@ describe('adminController', () => {
 
             afterEach(() => {
                 adminService.updateAdmin.restore();
-                adminValidator.isBranchAdminValid.restore();
+                adminValidator.isValid.restore();
             });
 
             it('should return a 500', (done) => {

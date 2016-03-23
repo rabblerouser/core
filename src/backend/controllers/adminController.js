@@ -33,6 +33,7 @@ function parseAdmin(req) {
     return admin;
 }
 
+<<<<<<< HEAD
 function createSuperAdmin(req, res) {
     let newAdmin = parseAdmin(req);
 
@@ -46,11 +47,13 @@ function createSuperAdmin(req, res) {
     });
 }
 
+=======
+>>>>>>> parent of c2a9a56... renamed isValid to isBranchAdminValid
 function create(req, res) {
     let branchId = req.params.branchId;
     let newAdmin = parseAdmin(req);
     newAdmin.branchId = branchId;
-    let validationErrors = adminValidator.isBranchAdminValid(newAdmin);
+    let validationErrors = adminValidator.isValid(newAdmin);
 
     if (validationErrors.length > 0) {
         logger.info('[create-new-user-validation-error]', {errors: validationErrors});
@@ -77,7 +80,7 @@ function update(req, res) {
         return res.status(400).json({ errors: ['invalid params']});
     }
 
-    let validationErrors = adminValidator.isBranchAdminValid(admin);
+    let validationErrors = adminValidator.isValid(admin);
     if (validationErrors.length > 0) {
         logger.info('[update-user-validation-error]', {errors: validationErrors});
         return res.status(400).json({ errors: validationErrors});
