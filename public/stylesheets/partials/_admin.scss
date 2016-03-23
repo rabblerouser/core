@@ -444,6 +444,20 @@ header.details-header {
             padding: 0 10px;
         }
     }
+
+    td:nth-of-type(5) {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 10px;
+    }
+    
+    td:nth-of-type(5):hover {
+        white-space: normal;
+        overflow: visible;
+        padding-right: 10px;
+    }
+
     td button {
         margin: 0;
     }
@@ -465,6 +479,7 @@ header.details-header {
     td button span {
         display: none;
     }
+
     .navigation {
         text-align: center;
         margin-top: 20%;

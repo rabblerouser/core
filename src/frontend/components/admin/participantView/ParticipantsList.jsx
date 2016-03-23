@@ -56,7 +56,7 @@ function tableColumns(onSave) {
         },
         {
             property: 'pastoralNotes',
-            header: 'Notes',
+            header: 'Pastoral notes',
             headerClass: classnames('notes')
         },
         {
