@@ -1,6 +1,7 @@
 'use strict';
 
 let passport = require('passport');
+const adminType = require('./adminType');
 
 module.exports = function login(req, res) {
   passport.authenticate('local', function(err, user, info) {
@@ -12,7 +13,12 @@ module.exports = function login(req, res) {
         return res.render('login', {error: 'Wrong username or password'});
     }
     req.logIn(user, function() {
-      res.redirect('/admin');
+        if(req.user.type === adminType.super) {
+            res.redirect('/networkAdmin');
+        }
+        else {
+            res.redirect('/admin');
+        }
     });
 
   })(req, res);

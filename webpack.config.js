@@ -3,7 +3,9 @@ require('webpack');
 module.exports = {
     entry: {
         main:'./src/frontend/components/App.jsx',
-        admin: './src/frontend/components/admin/AdminDashboard.jsx'
+        admin: './src/frontend/components/admin/AdminDashboard.jsx',
+        networkAdmin: './src/frontend/components/admin/NetworkAdminDashboard.jsx',
+
     },
     output: {
         path: './public/javascript',

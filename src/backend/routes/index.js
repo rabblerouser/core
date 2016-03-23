@@ -38,6 +38,10 @@ router.get('/admin', [requireAuth], function (req, res) {
     res.render('admin', {title: 'The Lab Admin'});
 });
 
+router.get('/networkAdmin', [requireAuth], function (req, res) {
+    res.render('networkAdmin', {title: 'The Lab Admin'});
+});
+
 router.get('/branches', branchesController.list);
 
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.edit);

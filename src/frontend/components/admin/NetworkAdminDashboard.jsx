@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+import $ from 'jquery';
 import _ from 'underscore';
 
 import FilteredParticipantsList from './participantView/FilteredParticipantsList.jsx';
 import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './groupView/GroupsView.jsx';
+import LabDetailsView from './labView/LabDetailsView.jsx';
 import OrganisersView from './organiserView/OrganisersView.jsx';
 
 import labService from '../../services/labService.js';
@@ -62,6 +64,26 @@ export default class AdminDashboard extends Component {
             onSelectLab: (id) => {
                 let lab = this.state.labs.find(lab => lab.id === id);
                 this.updateLabSelection(lab);
+            },
+            onSaveLab: (labDetails) => {
+                this.clearMessages();
+                let saveAction = this.state.labs.find(lab => lab.id === labDetails.id) === undefined ? labService.create : labService.update;
+                saveAction(labDetails, this.state.selectedLab.id)
+                    .then((savedLab) => {
+                        this.updateLabs(this.state.labs, savedLab);
+                        this.setUserMessage('Labs successfully saved');
+                    })
+                    .catch(this.handleError.bind(this));
+            },
+            onDeleteLab: (selected) => {
+                this.clearMessages();
+                labService.delete(selected, this.state.selectedLab.id)
+                .then(()=> {
+                    this.removeAndUpdateLabs(this.state.labs, selected);
+                    this.updateLabSelection(this.state.labs[0]);
+                    this.setUserMessage('Lab successfully deleted');
+                })
+                .catch(this.handleError.bind(this));
             },
             onSaveOrganiser: (organiserDetails) => {
                 this.clearMessages();
@@ -199,6 +221,11 @@ export default class AdminDashboard extends Component {
                 <UserMessageView
                     messages={this.state.userMessages}
                     errors={this.state.pageErrors}
+                />
+                <LabDetailsView
+                    selectedLab={this.state.selectedLab}
+                    onSaveLab={this.state.onSaveLab}
+                    onDeleteLab={this.state.onDeleteLab}
                 />
                 <OrganisersView
                     organisers={this.state.organisers}
