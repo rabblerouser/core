@@ -50,14 +50,14 @@ let create = (newAdmin) => {
           .then(save)
           .tap(logEvent)
           .then(transformAdmin)
-          .catch(handleError('Create admin user failed'));
+          .catch(handleError('[create-admin-failed]', 'Create admin user failed'));
 };
 
 let deleteAdmin = (id) => {
     return AdminUser.destroy({where: {id: id}})
     .then((result) => {
         if(!result) {
-            throw 'No records were deleted';
+            throw new Error('No records were deleted');
         }
 
         logger.info('[delete-admin]', `admin with id ${id} deleted`);
@@ -73,7 +73,7 @@ let updateAdmin = (newValues) => {
     })
     .tap(() => logger.info('[update-admin]', `admin with id ${newValues.id} updated`))
     .then(transformAdmin)
-    .catch(handleError(`Error when editing admin with id ${newValues.id}`));
+    .catch(handleError('[update-admin-failed]', `Error when editing admin with id ${newValues.id}`));
 
 };
 
