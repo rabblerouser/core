@@ -367,5 +367,49 @@ describe('AdminIntegrationTests', () => {
                 .then(done, done.fail);
             });
         });
+
+        fdescribe('delete', () => {
+
+            let browserState = {};
+
+            beforeEach((done) => {
+                integrationTestHelpers.createSuperAdmin()
+                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(postSuperAdmin(agent))
+                .then((response) => {
+                    browserState.superAdmin = response.body;
+                })
+                .then(done, done.fail);
+            });
+
+            afterEach(() => {
+                browserState = {};
+            });
+
+            it('should return a 200 when a super admin is successfully created', (done) => {
+                return agent.delete(`/admins/${browserState.superAdmin.id}`)
+                    .expect(200)
+                    .then(done, done.fail);
+            });
+
+            it('should return a 400 when the payload is invalid', (done) => {
+                return agent.delete(`/admins/whatevs`)
+                    .expect(400)
+                    .then(done, done.fail);
+            });
+
+            it('should allow only super admins to update super admins', (done) => {
+                let specialAgent = request.agent(app);
+
+                integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createBranchAdmin)
+                .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
+                .then(() => {
+                    return specialAgent.delete(`/admins/someId`)
+                    .expect(401);
+                })
+                .then(done, done.fail);
+            });
+        });
     });
 });

@@ -158,7 +158,7 @@ function list(req, res) {
 function deleteSuperAdmin(req, res) {
     let adminId = req.params.adminId;
 
-    if (validator.isValidUUID(adminId)) {
+    if (!validator.isValidUUID(adminId)) {
         logger.error(`Failed deleting the super admin with id:${adminId}`);
         return res.sendStatus(400);
     }
