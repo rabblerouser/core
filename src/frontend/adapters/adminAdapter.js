@@ -1,7 +1,7 @@
 'use strict';
 const invalidDataError = 'INVALID DATA';
 
-let parseOrganiserDetails = (data) => {
+let parseAdminDetails = (data) => {
     if(!data || !data.id) {
         throw(invalidDataError);
     }
@@ -13,14 +13,14 @@ let parseOrganiserDetails = (data) => {
     };
 };
 
-let parseOrganisers = (data) => {
+let parseAdmins = (data) => {
     if(!data || !Array.isArray(data.admins)) {
         throw(invalidDataError);
     }
-    return data.admins.map(parseOrganiserDetails);
+    return data.admins.map(parseAdminDetails);
 };
 
 export default {
-    parseOrganiserDetails: parseOrganiserDetails,
-    parseOrganisers: parseOrganisers
+    parseAdminDetails: parseAdminDetails,
+    parseAdmins: parseAdmins
 };

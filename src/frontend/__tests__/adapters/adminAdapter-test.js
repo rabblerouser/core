@@ -1,9 +1,9 @@
 'use strict';
-import organiserAdapter from '../../adapters/organiserAdapter.js';
+import adminAdapter from '../../adapters/adminAdapter.js';
 
-describe('organiser adapter', () => {
+describe('admin adapter', () => {
 
-    describe('parseOrganisers', () => {
+    describe('parseAdmins', () => {
 
         let validResult = [{
             id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
@@ -23,8 +23,8 @@ describe('organiser adapter', () => {
                 }]
             };
 
-            it('should return an array of organisers', () => {
-                expect(organiserAdapter.parseOrganisers(validPayload)).toEqual(validResult);
+            it('should return an array of admins', () => {
+                expect(adminAdapter.parseAdmins(validPayload)).toEqual(validResult);
             });
         });
 
@@ -40,8 +40,8 @@ describe('organiser adapter', () => {
                 somethingElse: []
             };
 
-            it('should return an array of organisers', () => {
-                expect(organiserAdapter.parseOrganisers(validPayload)).toEqual(validResult);
+            it('should return an array of admins', () => {
+                expect(adminAdapter.parseAdmins(validPayload)).toEqual(validResult);
             });
         });
 
@@ -59,13 +59,13 @@ describe('organiser adapter', () => {
                 null
             ].forEach((testCase) => {
                 it(`Should throw an error on invalid data: ${testCase}`, () => {
-                    expect(() => {organiserAdapter.parseOrganisers(testCase);}).toThrow();
+                    expect(() => {adminAdapter.parseAdmins(testCase);}).toThrow();
                 });
             });
         });
     });
 
-    describe('parseOrganiser', () => {
+    describe('parseAdmin', () => {
 
         let validResult = {
             id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
@@ -83,8 +83,8 @@ describe('organiser adapter', () => {
                 phoneNumber: 'Jo'
             };
 
-            it('should return a organiser object', () => {
-                expect(organiserAdapter.parseOrganiserDetails(validPayload)).toEqual(validResult);
+            it('should return a admin object', () => {
+                expect(adminAdapter.parseAdminDetails(validPayload)).toEqual(validResult);
             });
         });
 
@@ -98,8 +98,8 @@ describe('organiser adapter', () => {
                 memberSince: '2016-03-08T22:34:23.721Z'
             };
 
-            it('should return a organiser object', () => {
-                expect(organiserAdapter.parseOrganiserDetails(validPayloadWithExtras)).toEqual(validResult);
+            it('should return a admin object', () => {
+                expect(adminAdapter.parseAdminDetails(validPayloadWithExtras)).toEqual(validResult);
             });
 
         });

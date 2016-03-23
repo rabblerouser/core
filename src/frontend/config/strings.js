@@ -5,6 +5,7 @@ export const Resources = {
   myLabListEndPoint: 'admin/branches',
   applicationsEndPoint: 'register',
   groupListEndPoint: 'groups',
+  networkAdminEndPoint: 'admins',
   theLabContactEmail: 'admin@thelab.org.au',
   theLabHome: 'http://thelab.org.au/'
 };

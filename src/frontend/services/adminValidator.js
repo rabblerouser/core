@@ -2,7 +2,7 @@
 import inputValidator from '../../backend/lib/inputValidator';
 import _ from 'lodash';
 
-const organiserFieldsChecks =
+const adminFieldsChecks =
 {
     name: inputValidator.isValidOptionalName,
     email: inputValidator.isValidEmail,
@@ -16,26 +16,26 @@ const withPasswordFieldCheck = {
     password: inputValidator.isValidPassword
 };
 
-var isValidDetails = (organiser, checkPassword) => {
-    let fieldsChecks = checkPassword ? withPasswordFieldCheck : organiserFieldsChecks;
-    return _.reduce(fieldsChecks, function(errors, checkFn, organiserFieldKey) {
-        if (!organiser || !checkFn(organiser[organiserFieldKey])){
-            errors.push(organiserFieldKey);
+var isValidDetails = (admin, checkPassword) => {
+    let fieldsChecks = checkPassword ? withPasswordFieldCheck : adminFieldsChecks;
+    return _.reduce(fieldsChecks, function(errors, checkFn, adminFieldKey) {
+        if (!admin || !checkFn(admin[adminFieldKey])){
+            errors.push(adminFieldKey);
         }
         return errors;
     },[]);
 };
 
-var isValid = (organiser) => {
+var isValid = (admin) => {
     var errors = [
-        isValidDetails(organiser, true)
+        isValidDetails(admin, true)
     ];
     return _.flatten(errors);
 };
 
-var isValidWithoutPassword = (organiser) => {
+var isValidWithoutPassword = (admin) => {
     var errors = [
-        isValidDetails(organiser, false)
+        isValidDetails(admin, false)
     ];
     return _.flatten(errors);
 };

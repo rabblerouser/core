@@ -8,12 +8,13 @@ import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './groupView/GroupsView.jsx';
 import LabDetailsView from './labView/LabDetailsView.jsx';
-import OrganisersView from './organiserView/OrganisersView.jsx';
+import AdminsView from './adminsView/AdminsView.jsx';
 
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 import memberService from '../../services/memberService.js';
-import organiserService from '../../services/organiserService.js';
+import adminService from '../../services/adminService.js';
+
 import { AdminDashboard as Strings } from '../../config/strings.js';
 
 export default class AdminDashboard extends Component {
@@ -28,6 +29,7 @@ export default class AdminDashboard extends Component {
             userMessages: [],
             pageErrors: [],
             organisers: [],
+            networkAdmins: [],
             onSaveGroup: (groupDetails) => {
                 this.clearMessages();
                 let saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ? groupService.createGroup : groupService.updateGroup;
@@ -87,7 +89,7 @@ export default class AdminDashboard extends Component {
             },
             onSaveOrganiser: (organiserDetails) => {
                 this.clearMessages();
-                let saveAction = this.state.organisers.find(organiser => organiser.id === organiserDetails.id) === undefined ? organiserService.create : organiserService.update;
+                let saveAction = this.state.organisers.find(organiser => organiser.id === organiserDetails.id) === undefined ? adminService.create : adminService.update;
                 saveAction(organiserDetails, this.state.selectedLab.id)
                     .then((savedOrganiser) => {
                         this.updateOrganisers(this.state.organisers, savedOrganiser);
@@ -97,7 +99,7 @@ export default class AdminDashboard extends Component {
             },
             onDeleteOrganiser: (selected) => {
                 this.clearMessages();
-                organiserService.delete(selected, this.state.selectedLab.id)
+                adminService.delete(selected, this.state.selectedLab.id)
                 .then(()=> {
                     this.removeAndUpdateOrganisers(this.state.organisers, selected);
                     this.setUserMessage('Organiser successfully deleted');
@@ -227,7 +229,8 @@ export default class AdminDashboard extends Component {
                     onSaveLab={this.state.onSaveLab}
                     onDeleteLab={this.state.onDeleteLab}
                 />
-                <OrganisersView
+                <AdminsView
+                    title={'Organisers'}
                     organisers={this.state.organisers}
                     onSaveOrganiser={this.state.onSaveOrganiser}
                     onDeleteOrganiser={this.state.onDeleteOrganiser}
@@ -244,6 +247,12 @@ export default class AdminDashboard extends Component {
                     groups={ this.state.groups }
                     participants={ this.state.participants }
                     onSaveParticipant= { this.state.onSaveParticipant }
+                />
+                <AdminsView
+                    title={'Network Admins'}
+                    organisers={this.state.networkAdmins}
+                    onSaveOrganiser={this.state.onSaveOrganiser}
+                    onDeleteOrganiser={this.state.onDeleteOrganiser}
                 />
             </div>);
     }

@@ -1,7 +1,7 @@
 'use strict';
-import organiserService from '../../../services/organiserService';
+import adminService from '../../../services/adminService';
 
-describe('organiserService', () => {
+describe('adminService', () => {
 
     let server;
     let validData = {
@@ -13,7 +13,7 @@ describe('organiserService', () => {
     let invalidData = {
         invalid: 'invalid'
     };
-    let organiser = {
+    let admin = {
         id: '5678',
         email: 'jim@jim.com'
     };
@@ -39,9 +39,9 @@ describe('organiserService', () => {
                 ]);
             });
 
-            it('should send a request to delete the organiser from the lab', (done) => {
+            it('should send a request to delete the admin from the lab', (done) => {
 
-                organiserService.delete(organiser, lab)
+                adminService.delete(admin, lab)
                     .then((result) => {
                         expect(result).toEqual('good');
                         done();
@@ -63,7 +63,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return a general server error', (done) => {
-                    organiserService.delete(organiser, lab)
+                    adminService.delete(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })
@@ -83,7 +83,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return an error that the remote endpoint was not found', (done) => {
-                    organiserService.delete(organiser, lab)
+                    adminService.delete(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })
@@ -102,7 +102,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return an error that the remote endpoint was not found', (done) => {
-                    organiserService.delete(organiser, lab)
+                    adminService.delete(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })
@@ -118,7 +118,7 @@ describe('organiserService', () => {
 
     describe('create', () => {
 
-        describe('when the organiser provided is valid', () => {
+        describe('when the admin provided is valid', () => {
 
             beforeEach(() => {
                 server.respondWith('POST', '/branches/1234/admins', [200, {
@@ -128,9 +128,9 @@ describe('organiserService', () => {
                 ]);
             });
 
-            it('should send a request to save a new organiser for the branch', (done) => {
+            it('should send a request to save a new admin for the branch', (done) => {
 
-                organiserService.create(organiser, lab)
+                adminService.create(admin, lab)
                     .then((result) => {
                         expect(result).toEqual(validData);
                         done();
@@ -142,7 +142,7 @@ describe('organiserService', () => {
 
         });
 
-        describe('when the organiser returns but in an invalid format', () => {
+        describe('when the admin returns but in an invalid format', () => {
 
             beforeEach(() => {
                 server.respondWith('POST', '/branches/1234/admins', [200, {
@@ -155,7 +155,7 @@ describe('organiserService', () => {
 
             it('should return an error that return data was invalid', (done) => {
 
-                organiserService.create(organiser, lab)
+                adminService.create(admin, lab)
                     .then(() => {
                         done.fail('Expected promise to be rejected');
                     })
@@ -177,7 +177,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return a general server error', (done) => {
-                    organiserService.create(organiser, lab)
+                    adminService.create(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })
@@ -197,7 +197,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return an error that the remote endpoint was not found', (done) => {
-                    organiserService.create(organiser, lab)
+                    adminService.create(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })
@@ -216,7 +216,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return an error that the remote endpoint was not found', (done) => {
-                    organiserService.create(organiser, lab)
+                    adminService.create(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })
@@ -233,7 +233,7 @@ describe('organiserService', () => {
 
     describe('update', () => {
 
-        describe('when the organiser provided is valid', () => {
+        describe('when the admin provided is valid', () => {
 
             beforeEach(() => {
                 server.respondWith('PUT', '/branches/1234/admins/5678', [200, {
@@ -243,9 +243,9 @@ describe('organiserService', () => {
                 ]);
             });
 
-            it('should send a request to update the organiser for the branch', (done) => {
+            it('should send a request to update the admin for the branch', (done) => {
 
-                organiserService.update(organiser, lab)
+                adminService.update(admin, lab)
                     .then((result) => {
                         expect(result).toEqual(validData);
                         done();
@@ -256,7 +256,7 @@ describe('organiserService', () => {
             });
         });
 
-        describe('when the organiser returns but in an invalid format', () => {
+        describe('when the admin returns but in an invalid format', () => {
 
             beforeEach(() => {
                 server.respondWith('PUT', '/branches/1234/admins/5678', [200, {
@@ -269,7 +269,7 @@ describe('organiserService', () => {
 
             it('should return an error that return data was invalid', (done) => {
 
-                organiserService.update(organiser, lab)
+                adminService.update(admin, lab)
                     .then(() => {
                         done.fail('Expected promise to be rejected');
                     })
@@ -291,7 +291,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return a general server error', (done) => {
-                    organiserService.update(organiser, lab)
+                    adminService.update(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })
@@ -311,7 +311,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return an error that the remote endpoint was not found', (done) => {
-                    organiserService.update(organiser, lab)
+                    adminService.update(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })
@@ -330,7 +330,7 @@ describe('organiserService', () => {
                 });
 
                 it('should return an error that the remote endpoint was not found', (done) => {
-                    organiserService.update(organiser, lab)
+                    adminService.update(admin, lab)
                         .then(() => {
                             done.fail('Expected promise to be rejected');
                         })

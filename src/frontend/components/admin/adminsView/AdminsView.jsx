@@ -2,9 +2,10 @@ import React from 'react';
 import OrganisersList from './OrganisersList.jsx';
 import AddOrganiserModalLauncher from './AddOrganiserModalLauncher.jsx';
 
-const OrganisersView = ({ organisers, onSaveOrganiser, onDeleteOrganiser }) => (
+const AdminsView = ({ title, organisers, onSaveOrganiser, onDeleteOrganiser }) => (
     <section className="admin-section" id="lab-organisers">
-        <h3>Organisers
+        <h3>
+            {title}
             <AddOrganiserModalLauncher
                 onSave={onSaveOrganiser}
             />
@@ -13,9 +14,10 @@ const OrganisersView = ({ organisers, onSaveOrganiser, onDeleteOrganiser }) => (
     </section>
 );
 
-OrganisersView.propTypes = {
+AdminsView.propTypes = {
+    title: React.PropTypes.string,
     organisers : React.PropTypes.array,
     onSaveOrganiser : React.PropTypes.func
 };
 
-export default OrganisersView
+export default AdminsView

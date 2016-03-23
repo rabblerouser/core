@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore';
 import AddOrganiserFields from './AddOrganiserFields.jsx';
-import organiserValidator from '../../../services/organiserValidator';
+import validator from '../../../services/adminValidator';
 
 export default class AddOrganiserForm extends Component {
 
@@ -31,7 +31,7 @@ export default class AddOrganiserForm extends Component {
 
     saveChanges() {
         let organiser = Object.assign({}, this.state.fieldValues);
-        let errors = (organiserValidator.isValid(organiser));
+        let errors = (validator.isValid(organiser));
         errors = errors.concat(this.passwordConfirmedTest());
         this.setState({invalidFields: errors});
         if(errors.length === 0) {

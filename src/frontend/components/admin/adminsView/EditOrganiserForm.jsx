@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore';
 import EditOrganiserFields from './EditOrganiserFields.jsx';
-import organiserValidator from '../../../services/organiserValidator';
+import validator from '../../../services/adminValidator';
 
 export default class EditOrganiserForm extends Component {
 
@@ -39,10 +39,10 @@ export default class EditOrganiserForm extends Component {
         let errors;
         if(this.passwordChanged()) {
 
-            errors = (organiserValidator.isValid(organiser));
+            errors = (validator.isValid(organiser));
             errors = errors.concat(this.passwordConfirmedTest());
         } else {
-            errors = (organiserValidator.isValidWithoutPassword(organiser));
+            errors = (validator.isValidWithoutPassword(organiser));
         }
 
         this.setState({invalidFields: errors});
