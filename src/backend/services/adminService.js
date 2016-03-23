@@ -2,6 +2,7 @@
 const Q = require('q'),
     models = require('../models'),
     logger = require('../lib/logger'),
+    adminType = require('../security/adminType'),
     moment = require('moment'),
     AdminUser = models.AdminUser,
     uuid = require('node-uuid');
@@ -77,6 +78,31 @@ let updateAdmin = (newValues) => {
 
 };
 
+let superAdmins = () => {
+
+    let query = {
+        attributes: [
+            'id',
+            'name',
+            'email',
+            'phoneNumber'
+        ],
+        where: {
+            type: adminType.super
+        }
+    };
+
+    return AdminUser.findAll(query)
+        .then(result => {
+            if(!result) {
+                throw('');
+            }
+            return result;
+        })
+        .then(transformAdmins(transformAdmin))
+        .catch(handleError('[find-super-admins]', `Error when looking up super admins`));
+};
+
 let admins = (id) => {
 
     let query = {
@@ -104,5 +130,6 @@ module.exports = {
     admins: admins,
     updateAdmin: updateAdmin,
     create: create,
-    delete: deleteAdmin
+    delete: deleteAdmin,
+    superAdmins: superAdmins
 };

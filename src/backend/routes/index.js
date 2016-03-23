@@ -37,6 +37,7 @@ router.get('/networkAdmin', [requireAuth], function (req, res) {
     res.render('networkAdmin', {title: 'The Lab Admin'});
 });
 
+router.get('/admins', [requireAuth, superAdminOnly], adminController.list);
 router.post('/admins', [requireAuth, superAdminOnly], adminController.createSuperAdmin);
 router.put('/admins', [requireAuth, superAdminOnly], adminController.updateSuperAdmin);
 // router.delete('/admins', [requireAuth, superAdminOnly], adminController.deleteSuperAdmin);

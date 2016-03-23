@@ -4,6 +4,7 @@ let adminService = require('../services/adminService');
 let logger = require('../lib/logger');
 let validator = require('../lib/inputValidator');
 let adminValidator = require('../lib/adminValidator');
+let adminType = require('../security/adminType');
 
 function deleteAdmin(req, res) {
     let branchId = req.params.branchId;
@@ -35,6 +36,7 @@ function parseAdmin(req) {
 
 function createSuperAdmin(req, res) {
     let newAdmin = parseAdmin(req);
+    newAdmin.type = adminType.super;
     let validationErrors = adminValidator.isSuperAdminValid(newAdmin);
 
     if (validationErrors.length > 0) {
@@ -48,7 +50,7 @@ function createSuperAdmin(req, res) {
     })
     .catch((error) => {
         logger.error(`Failed creating a new super admin`, error);
-        return res.status(500);
+        return res.sendStatus(500);
     });
 }
 
@@ -70,7 +72,7 @@ function create(req, res) {
     })
     .catch((error) => {
         logger.error(`Failed creating a new admin user: branchId: ${branchId}}`, error);
-        return res.status(500);
+        return res.sendStatus(500);
     });
 }
 function updateSuperAdmin(req, res) {
@@ -94,7 +96,7 @@ function updateSuperAdmin(req, res) {
     })
     .catch((error) => {
         logger.error(`Failed updating the admin user with id:${admin.id}`, error);
-        res.status(500);
+        res.sendStatus(500);
     });
 }
 
@@ -121,7 +123,7 @@ function update(req, res) {
     })
     .catch((error) => {
         logger.error(`Failed updating the admin user with id:${admin.id}`, error);
-        res.status(500);
+        res.sendStatus(500);
     });
 }
 
@@ -133,12 +135,23 @@ function forBranch(req, res) {
         .catch((error) => {
             switch (error) {
                 case 'invalid branch id' :
-                    res.status(400);
+                    res.sendStatus(400);
                     break;
                 default:
-                    res.status(500);
+                    res.sendStatus(500);
                     break;
             }
+        });
+}
+
+function list(req, res) {
+    return adminService.superAdmins()
+        .then((list) => {
+            res.status(200).json({admins: list});
+        })
+        .catch((error) => {
+            logger.error('Error when getting super admins list', error);
+            res.sendStatus(500);
         });
 }
 
@@ -148,5 +161,6 @@ module.exports = {
     createSuperAdmin: createSuperAdmin,
     updateSuperAdmin: updateSuperAdmin,
     update: update,
-    forBranch: forBranch
+    forBranch: forBranch,
+    list: list
 };

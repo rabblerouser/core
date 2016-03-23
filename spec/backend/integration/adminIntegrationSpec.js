@@ -6,18 +6,30 @@ let request = require('supertest-as-promised');
 let integrationTestHelpers = require('./integrationTestHelpers.js');
 let uuid = require('node-uuid');
 
+
 let hasAdmin = (res) => {
     if (!(res.body.email)) {
         throw new Error('missing created admin');
     }
 };
 
-let makeSuperAdmin = () => {
+let makeSuperAdmin = (email) => {
+    email = email || 'supaAdmin@thelab.org';
     return {
-        email: 'supaAdmin@thelab.org',
+        email: email,
         password: 'supaP@sw0r dddd!!'
     };
 };
+
+function postSuperAdmin(someAgent, email) {
+    return function() {
+        return someAgent.post('/admins')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(makeSuperAdmin(email))
+        .expect(200);
+    };
+}
 
 let makeAdminUser = (branch) => {
     return {
@@ -269,13 +281,7 @@ describe('AdminIntegrationTests', () => {
             beforeEach((done) => {
                 integrationTestHelpers.createSuperAdmin()
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-                .then(() => {
-                    return agent.post('/admins')
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(makeSuperAdmin())
-                    .expect(200);
-                })
+                .then(postSuperAdmin(agent))
                 .then((response) => {
                     browserState.superAdmin = response.body;
                 })
@@ -323,6 +329,39 @@ describe('AdminIntegrationTests', () => {
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
                     .send(makeSuperAdmin())
+                    .expect(401);
+                })
+                .then(done, done.fail);
+            });
+        });
+
+        describe('list', () => {
+            it('should return a 200 when a super admins list is retrieved', (done) => {
+                integrationTestHelpers.createSuperAdmin()
+                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(postSuperAdmin(agent, 'bal@asd.co'))
+                .then(postSuperAdmin(agent))
+                .then(() => {
+                    return agent.get('/admins')
+                    .expect(200)
+                    .then((response) => {
+                        let theOneCreatedToAuthenticateTheRequest = 1;
+                        expect(response.body).not.toBeNull();
+                        expect(response.body.admins).not.toBeNull();
+                        expect(response.body.admins.length).toEqual(2 + theOneCreatedToAuthenticateTheRequest);
+                    });
+                })
+                .then(done, done.fail);
+            });
+
+            it('should allow only super admins to get the admins list', (done) => {
+                let specialAgent = request.agent(app);
+
+                integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createBranchAdmin)
+                .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
+                .then(() => {
+                    return specialAgent.get('/admins')
                     .expect(401);
                 })
                 .then(done, done.fail);
