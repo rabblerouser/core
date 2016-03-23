@@ -198,7 +198,7 @@ export default class AdminDashboard extends Component {
                 />
                 <AdminsView
                     title='Organisers'
-                    organisers={this.state.organisers}
+                    admins={this.state.organisers}
                     onSaveOrganiser={this.state.onSaveOrganiser}
                     onDeleteOrganiser={this.state.onDeleteOrganiser}
                 />
