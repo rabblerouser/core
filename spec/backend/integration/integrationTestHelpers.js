@@ -15,7 +15,7 @@ function createSuperAdmin() {
     return AdminUser.create({ email: 'super@thelab.org', password: 'super', type: adminType.super, id: uuid.v4()});
 }
 
-function authenticateOrganiser(someAgent) {
+function authenticateBranchAdmin(someAgent) {
     return function() {
         return someAgent
             .post('/login')
@@ -109,7 +109,7 @@ function createMembers(agent, numberOfMembers) {
 
 module.exports = {
     createBranchAdmin: createBranchAdmin,
-    authenticateOrganiser: authenticateOrganiser,
+    authenticateBranchAdmin: authenticateBranchAdmin,
     createBranch: createBranch,
     createMembers: createMembers,
     makeMember: makeMember,

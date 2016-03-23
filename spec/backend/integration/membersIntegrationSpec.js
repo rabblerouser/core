@@ -142,7 +142,7 @@ describe('MemberIntegrationTests', () => {
             integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.createMembers(agent, 3))
-            .tap(integrationTestHelpers.authenticateOrganiser(agent))
+            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then((branch) => {
                 return agent.get(`/branches/${branch.id}/members`);
             })
@@ -180,7 +180,7 @@ describe('MemberIntegrationTests', () => {
                 ]);
             })
             .tap(setState(browserState, 'groups'))
-            .tap(integrationTestHelpers.authenticateOrganiser(agent))
+            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then(getMembers(agent, browserState))
             .tap(setState(browserState, 'members'))
             .then(done, done.fail);

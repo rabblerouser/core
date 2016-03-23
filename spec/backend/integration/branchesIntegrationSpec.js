@@ -68,7 +68,7 @@ describe('Branches Integration Test', () => {
     it('should return a list of groups for a branch', (done) => {
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateOrganiser(agent))
+        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
         .then((branch) => {
             return agent
                 .get(`/branches/${branch.id}/groups`)
@@ -81,7 +81,7 @@ describe('Branches Integration Test', () => {
     it('should return a list of admins for a branch', (done) => {
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateOrganiser(agent))
+        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
         .then((branch) => {
             return agent
                 .get(`/branches/${branch.id}/admins`)
@@ -94,7 +94,7 @@ describe('Branches Integration Test', () => {
     it('should return the list of branches the admin user has access to', (done) => {
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateOrganiser(agent))
+        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
         .then((branch) => {
             return agent.get('/admin/branches')
                 .expect(200)
@@ -143,7 +143,7 @@ describe('Branches Integration Test', () => {
     it('should not return branches notes for branch admins', (done) => {
         integrationTestHelpers.createBranch()
         .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateOrganiser(agent))
+        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
         .then(() => {
             return agent.get('/admin/branches')
                 .expect(200)

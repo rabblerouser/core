@@ -16,7 +16,7 @@ describe('SuperAdminOnlyValidator Integration tests', () => {
     it('should respond with 401 when users try to access something they are NOT entitled to see', (done) => {
             integrationTestHelpers.createBranch()
             .then(integrationTestHelpers.createBranchAdmin)
-            .then(integrationTestHelpers.authenticateOrganiser(agent))
+            .then(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then(() => {
                 return agent.post(`/branches`)
                 .set('Content-Type', 'application/json')
