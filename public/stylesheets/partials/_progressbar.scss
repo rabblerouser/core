@@ -18,8 +18,9 @@
     height: 100px;
     margin-bottom: 30px;
 
-    @include media($tablet) {
-      width: 50%;
+    @include media($mobile) {
+      height:auto;
+      
     }
 }
 
