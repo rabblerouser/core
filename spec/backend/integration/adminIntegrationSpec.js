@@ -295,7 +295,7 @@ describe('AdminIntegrationTests', () => {
             it('should return a 200 when a super admin is successfully created', (done) => {
                 let withUpdates = Object.assign({}, browserState.superAdmin, {name: 'My New Name'});
 
-                return agent.put('/admins')
+                return agent.put(`/admins/${browserState.superAdmin.id}`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
                     .send(withUpdates)
@@ -310,7 +310,7 @@ describe('AdminIntegrationTests', () => {
             });
 
             it('should return a 400 when the payload is invalid', (done) => {
-                return agent.put('/admins')
+                return agent.put(`/admins/${browserState.superAdmin.id}`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
                     .send({email: 'supaAdmin@thelab.org'})
@@ -325,7 +325,7 @@ describe('AdminIntegrationTests', () => {
                 .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
                 .then(() => {
-                    return specialAgent.put('/admins')
+                    return specialAgent.put(`/admins/${browserState.superAdmin.id}`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
                     .send(makeSuperAdmin())
