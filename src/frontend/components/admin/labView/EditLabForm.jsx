@@ -49,7 +49,7 @@ export default class EditGroupForm extends Component {
                         Edit lab
                     </span>
                     <span className='actions'>
-                        <button onClick={this.saveChanges.bind(this)}>Save</button>
+                        <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
                     </span>
                 </header>
                 <EditLabFields onChange={this.onChange.bind(this)}

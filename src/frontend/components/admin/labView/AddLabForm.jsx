@@ -50,7 +50,7 @@ export default class AddLabForm extends Component {
                         Add new lab
                     </span>
                     <span className='actions'>
-                        <button onClick={this.saveChanges.bind(this)}>Save</button>
+                        <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
                     </span>
                 </header>
                 <AddLabFields onChange={this.onChange.bind(this)}

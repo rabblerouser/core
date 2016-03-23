@@ -11,9 +11,9 @@ const LabDetailsView = ({ selectedLab, onSaveLab, onDeleteLab }) => (
             />
         </h3>
         <dl>
-            <dh>Contact</dh>
+            <dt>Contact</dt>
             <dd>{selectedLab.contact}</dd>
-            <dh>Notes</dh>
+            <dt>Notes</dt>
             <dd>{selectedLab.notes}</dd>
         </dl>
     </section>

@@ -44,6 +44,7 @@
         background-color: $green-light;
         padding: 10px;
         margin: 20px auto;
+        list-style: none;
     }
     .error {
         border-color: red;
@@ -111,23 +112,13 @@ header.admin-header {
         color: #fff;
         padding: 0;
         margin: 0;
-
         display:inline;
-
         border-radius: 0;
-
-background: none;
-    border: none;
-
-
-    border-radius: 0;
-    font-weight: bold;
-    font-size: 1.1em;
-
-
-
-
-
+        background: none;
+        border: none;
+        border-radius: 0;
+        font-weight: bold;
+        font-size: 1.1em;
 
         @include media($mobile) {
             text-align: left;
@@ -135,15 +126,14 @@ background: none;
             padding-top: 15px;
             margin: 0;
             color: #fff;
-        margin-top: 2px;
-        font-size: 1em;
+            margin-top: 2px;
+            font-size: 1em;
         }
+    }
+    
     button.logout:hover {
         color:red;
     }
-
-    }
-
 
 
     span {
@@ -158,8 +148,6 @@ background: none;
         }
 
     }
-
-
 
 }
 
@@ -272,7 +260,7 @@ header.details-header {
 -------------------------------------------------------------------------------------- */
 .admin-container {
     .admin-section {
-        padding: 10px;
+        padding: 10px 20px;
         .admin-section {
             padding: 0;
         }
@@ -280,8 +268,11 @@ header.details-header {
             padding: 10px;
         }
         h3 {
-        margin-top: 10px;
+        margin-top: 15px;
         margin-bottom: 15px;
+        font-size: 18px;
+        padding-top: 15px;
+        border-top: 1px dotted #ccc;
         }
     }
     h1 {
@@ -307,8 +298,8 @@ header.details-header {
     }
     th {
         background-color: $white;
-        color: #666;
-        font-size: 14px;
+        color: $labels-headings-color;
+        font-size: $labels-headings-size;
         padding: 18px 10px 5px 10px;
         word-wrap: break-word;
         font-weight: normal;
@@ -316,7 +307,7 @@ header.details-header {
         font-size: 1em;
         line-height: 1.2em;
         padding-right: 20px;
-        border-bottom: 2px solid #ccc;
+        
         @include media($tablet) {
             font-size: 0.8em;
         }
@@ -384,11 +375,11 @@ header.details-header {
         margin-right: -15px;
     }
     tr:nth-child(even) {
-        background-color: $blue-light;
+        background-color: $white;
     }
     tr:nth-child(odd) {
-
-        background-color: $white;
+        background-color: $blue-light;
+        
     }
     tr td:first-child {
         @include media($mobile) {
@@ -426,25 +417,13 @@ header.details-header {
     th:last-child {
         width: 50px;
     }
-    td:nth-of-type(5),
-    td:nth-of-type(7) {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding-right: 10px;
-    }
-    td:nth-of-type(5):hover,
-    td:nth-of-type(7):hover {
-        white-space: normal;
-        overflow: visible;
-        padding-right: 10px;
-    }
+
     td {
         color: $blue-darker;
         text-align: left;
         padding-left: 10px;
         word-wrap: break-word;
-        font-size: 14px;
+        font-size: $body-content-size;
         vertical-align: top;
         @include media($mobile) {
             display: block;
@@ -507,6 +486,10 @@ header.details-header {
     input[type="text"] {
         width: 100%;
     }
+
+    input[type="password"] {
+        width: 350px;
+    }
     textarea {
         height: 200px;
         border: 1px solid #4da8d4;
@@ -529,10 +512,6 @@ header.details-header {
         border: 0;
         border-bottom: 1px;
         border-style: solid
-    }
-
-    h3 {
-        float:left;
     }
 
     .select, select {
@@ -602,10 +581,35 @@ button.new:after {
     font-family: FontAwesome;
 }
 
-#lab-details dl {
-    margin: 0;
-    padding: 0;
+
+#lab-details {
+
+    dl {
+        margin: 0;
+        padding: 0;
+    }
+
+    dt {
+        font-weight: normal;
+        color: $labels-headings-color;
+        font-size: $labels-headings-size;
+        
+    }
+
+    dd {
+       
+        margin-bottom: 20px;
+        font-size: $body-content-size;
+    }
+
+    dd:last-of-type {
+       
+        margin-bottom: inherit;
+        
+    }
 }
+
+
 
 td .buttons {
     display: inline; 
@@ -622,3 +626,4 @@ td .buttons:nth-of-type(1) {
 #lab-organisers th.edit {
     width: 80px;
 }
+
