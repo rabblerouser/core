@@ -14,10 +14,10 @@ module.exports = function login(req, res) {
     }
     req.logIn(user, function() {
         if(req.user.type === adminType.super) {
-            res.redirect('/networkadmin');
+            res.redirect('/dashboard/admin');
         }
         else {
-            res.redirect('/admin');
+            res.redirect('/dashboard');
         }
     });
 

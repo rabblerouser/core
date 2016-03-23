@@ -29,12 +29,12 @@ router.get('/logout', function (req, res) {
     });
 });
 
-router.get('/admin', [requireAuth], function (req, res) {
-    res.render('admin', {title: 'The Lab Admin'});
+router.get('/dashboard', [requireAuth], function (req, res) {
+    res.render('dashboard', {title: 'The Lab Admin'});
 });
 
-router.get('/networkadmin', [requireAuth], function (req, res) {
-    res.render('networkadmin', {title: 'The Lab Admin'});
+router.get('/dashboard/admin', [requireAuth], function (req, res) {
+    res.render('admin', {title: 'The Lab Admin'});
 });
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.list);
