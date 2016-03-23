@@ -59,10 +59,6 @@ export default class AdminDashboard extends Component {
                     })
                     .catch(this.handleError.bind(this));
             },
-            onSelectLab: (id) => {
-                let lab = this.state.labs.find(lab => lab.id === id);
-                this.updateLabSelection(lab);
-            },
             onSaveOrganiser: (organiserDetails) => {
                 this.clearMessages();
                 let saveAction = this.state.organisers.find(organiser => organiser.id === organiserDetails.id) === undefined ? organiserService.create : organiserService.update;
@@ -195,7 +191,7 @@ export default class AdminDashboard extends Component {
     render() {
         return (
             <div className="admin-container">
-                <AdminHeader selectedLab={this.state.selectedLab} labs={this.state.labs} onSelectLab={this.state.onSelectLab}/>
+                <AdminHeader selectedLab={this.state.selectedLab} labs={this.state.labs}/>
                 <UserMessageView
                     messages={this.state.userMessages}
                     errors={this.state.pageErrors}

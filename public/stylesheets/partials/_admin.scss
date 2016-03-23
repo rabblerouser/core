@@ -105,6 +105,16 @@ header.admin-header {
         font-size: 1em;
     }
 
+    span.currentlab {
+        width: auto;
+        flex-grow: 4;
+        font-weight: normal;
+        flex-align: center;
+        padding-top: 13px;
+        font-size: 1.2em;
+        color: white;
+    }
+
     button.logout {
         width: auto;
         flex-grow: 1;
@@ -612,9 +622,9 @@ button.new:after {
 
 
 td .buttons {
-    display: inline; 
+    display: inline;
     margin-left: 10px;
-    
+
 }
 
 td .buttons:nth-of-type(1) {

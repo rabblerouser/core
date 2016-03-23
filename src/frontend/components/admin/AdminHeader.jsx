@@ -4,7 +4,13 @@ import {render} from 'react-dom';
 import adminService from '../../services/adminService.js';
 
 const AdminHeader = ({labs, selectedLab, onSelectLab}) => {
-    let labEntries = labs.map( lab => (<option key={lab.id} value={lab.id}>{lab.name}</option>));
+
+    function mapLabOptions() {
+        return labs.map( lab => (<option key={lab.id} value={lab.id}>{lab.name}</option>));
+    };
+
+    let labDescription = onSelectLab ? (<select defaultValue={selectedLab.id} onChange={selectLab}>{ mapLabOptions() }</select>)
+    : (<span className='currentlab'>{selectedLab.name}</span>)
 
     function selectLab(event) {
         onSelectLab(event.target.value);
@@ -18,16 +24,8 @@ const AdminHeader = ({labs, selectedLab, onSelectLab}) => {
             <span>
                 <img src ='/images/the_lab_logo.svg'/>
             </span>
-            <select defaultValue={selectedLab.id} onChange={selectLab}>
-                   { labEntries }
-            </select>
+            {labDescription}
             <button onClick={logout} className="logout">Logout</button>
-
-                
-                
-       
-            
-
         </header>);
 };
 
