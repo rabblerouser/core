@@ -75,6 +75,10 @@ button.save {
     white-space: nowrap;
 }
 
+dd.textblock {
+    white-space: pre;
+}
+
 /* --------------------------------------------------------------------------------------
 
    ADMIN HEADER BANNER
@@ -140,7 +144,7 @@ header.admin-header {
             font-size: 1em;
         }
     }
-    
+
     button.logout:hover {
         text-decoration: underline;
     }
@@ -281,7 +285,7 @@ header.details-header {
         margin-top: 15px;
         margin-bottom: 15px;
         font-size: 18px;
-       
+
         }
     }
     #lab-details, #lab-organisers {
@@ -321,7 +325,7 @@ header.details-header {
         font-size: 1em;
         line-height: 1.2em;
         padding-right: 20px;
-        
+
         @include media($tablet) {
             font-size: 0.8em;
         }
@@ -393,7 +397,7 @@ header.details-header {
     }
     tr:nth-child(odd) {
         background-color: $blue-light;
-        
+
     }
     tr td:first-child {
         @include media($mobile) {
@@ -451,9 +455,9 @@ header.details-header {
         text-overflow: ellipsis;
         padding-right: 10px;
     }
-    
+
     td:nth-of-type(5):hover {
-        white-space: normal;
+        white-space: pre;
         overflow: visible;
         padding-right: 10px;
     }
@@ -610,35 +614,21 @@ button.new:after {
     font-family: FontAwesome;
 }
 
-
-#lab-details {
-
-    dl {
-        margin: 0;
-        padding: 0;
-    }
-
-    dt {
-        font-weight: normal;
-        color: $labels-headings-color;
-        font-size: $labels-headings-size;
-        
-    }
-
-    dd {
-       
-        margin-bottom: 20px;
-        font-size: $body-content-size;
-    }
-
-    dd:last-of-type {
-       
-        margin-bottom: inherit;
-        
-    }
+dl dt {
+    font-weight: normal;
+    color: $labels-headings-color;
+    font-size: $labels-headings-size;
 }
 
+dd {
+    margin: 0;
+    margin-bottom: 20px;
+    font-size: $body-content-size;
+}
 
+dd:last-of-type {
+    margin-bottom: inherit;
+}
 
 td .buttons {
     display: inline;
@@ -655,4 +645,3 @@ td .buttons:nth-of-type(1) {
 #lab-organisers th.edit {
     width: 80px;
 }
-
