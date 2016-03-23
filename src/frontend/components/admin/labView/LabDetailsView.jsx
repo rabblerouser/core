@@ -12,9 +12,9 @@ const LabDetailsView = ({ selectedLab, onSaveLab, onDeleteLab }) => (
         </h3>
         <dl>
             <dt>Contact</dt>
-            <dd>{selectedLab.contact}</dd>
+            <dd className="textblock">{selectedLab.contact}</dd>
             <dt>Notes</dt>
-            <dd>{selectedLab.notes}</dd>
+            <dd className="textblock">{selectedLab.notes}</dd>
         </dl>
     </section>
 );
