@@ -33,11 +33,15 @@ function parseAdmin(req) {
     return admin;
 }
 
+function createSuperAdmin(req, res) {
+    let newAdmin = parseAdmin(req);
+}
+
 function create(req, res) {
     let branchId = req.params.branchId;
     let newAdmin = parseAdmin(req);
     newAdmin.branchId = branchId;
-    let validationErrors = adminValidator.isValid(newAdmin);
+    let validationErrors = adminValidator.isBranchAdminValid(newAdmin);
 
     if (validationErrors.length > 0) {
         logger.info('[create-new-user-validation-error]', {errors: validationErrors});
@@ -64,7 +68,7 @@ function update(req, res) {
         return res.status(400).json({ errors: ['invalid params']});
     }
 
-    let validationErrors = adminValidator.isValid(admin);
+    let validationErrors = adminValidator.isBranchAdminValid(admin);
     if (validationErrors.length > 0) {
         logger.info('[update-user-validation-error]', {errors: validationErrors});
         return res.status(400).json({ errors: validationErrors});

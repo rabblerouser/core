@@ -16,8 +16,8 @@ const adminFieldsChecks =
     branchId: isValidBranch
 };
 
-var isValidDetails = (admin) => {
-    return _.reduce(adminFieldsChecks, function(errors, checkFn, adminFieldKey) {
+var isValidDetails = (admin, fields) => {
+    return _.reduce(fields, function(errors, checkFn, adminFieldKey) {
         if (!admin || !checkFn(admin[adminFieldKey])){
             errors.push(adminFieldKey);
         }
@@ -25,13 +25,13 @@ var isValidDetails = (admin) => {
     },[]);
 };
 
-var isValid = (admin) => {
+var isBranchAdminValid = (admin) => {
     var errors = [
-        isValidDetails(admin)
+        isValidDetails(admin, adminFieldsChecks)
     ];
     return _.flatten(errors);
 };
 
 module.exports = {
-    isValid: isValid,
+    isBranchAdminValid: isBranchAdminValid
 };
