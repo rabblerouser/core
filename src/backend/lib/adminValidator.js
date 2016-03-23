@@ -24,6 +24,12 @@ const noPasswordRequired =
     branchId: isValidBranch
 };
 
+const superAdminNoPasswordRequired =
+{
+    name: inputValidator.isValidOptionalName,
+    email: inputValidator.isValidEmail,
+    phoneNumber: inputValidator.isValidOptionalPhone
+};
 const passwordRequired = {
     name: inputValidator.isValidOptionalName,
     email: inputValidator.isValidEmail,
@@ -55,6 +61,13 @@ var isValidWithoutPassword = (admin) => {
     return _.flatten(errors);
 };
 
+var isSuperAdminValidWithoutPassword = (admin) => {
+    var errors = [
+        isValidDetails(admin, superAdminNoPasswordRequired)
+    ];
+    return _.flatten(errors);
+};
+
 var isSuperAdminValid = (admin) => {
     var errors = [
         isValidDetails(admin, superAdminPasswordRequired)
@@ -65,5 +78,6 @@ var isSuperAdminValid = (admin) => {
 module.exports = {
     isValid: isValid,
     isValidWithoutPassword: isValidWithoutPassword,
-    isSuperAdminValid: isSuperAdminValid
+    isSuperAdminValid: isSuperAdminValid,
+    isSuperAdminValidWithoutPassword: isSuperAdminValidWithoutPassword,
 };

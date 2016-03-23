@@ -262,5 +262,71 @@ describe('AdminIntegrationTests', () => {
             });
         });
 
+        describe('update', () => {
+
+            let browserState = {};
+
+            beforeEach((done) => {
+                integrationTestHelpers.createSuperAdmin()
+                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(() => {
+                    return agent.post('/admins')
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(makeSuperAdmin())
+                    .expect(200);
+                })
+                .then((response) => {
+                    browserState.superAdmin = response.body;
+                })
+                .then(done, done.fail);
+            });
+
+            afterEach(() => {
+                browserState = {};
+            });
+
+            it('should return a 200 when a super admin is successfully created', (done) => {
+                let withUpdates = Object.assign({}, browserState.superAdmin, {name: 'My New Name'});
+
+                return agent.put('/admins')
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(withUpdates)
+                    .expect(200)
+                    .then((response) => {
+                        expect(response.body).not.toBeNull();
+                        expect(response.body.id).not.toBeNull();
+                        expect(response.body.email).toEqual(browserState.superAdmin.email);
+                        expect(response.body.name).toEqual('My New Name');
+                    })
+                    .then(done, done.fail);
+            });
+
+            it('should return a 400 when the payload is invalid', (done) => {
+                return agent.put('/admins')
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send({email: 'supaAdmin@thelab.org'})
+                    .expect(400)
+                    .then(done, done.fail);
+            });
+
+            it('should allow only super admins to update super admins', (done) => {
+                let specialAgent = request.agent(app);
+
+                integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createBranchAdmin)
+                .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
+                .then(() => {
+                    return specialAgent.put('/admins')
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(makeSuperAdmin())
+                    .expect(401);
+                })
+                .then(done, done.fail);
+            });
+        });
     });
 });

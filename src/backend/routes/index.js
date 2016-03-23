@@ -38,8 +38,10 @@ router.get('/networkAdmin', [requireAuth], function (req, res) {
 });
 
 router.post('/admins', [requireAuth, superAdminOnly], adminController.createSuperAdmin);
-router.get('/admin/branches', [requireAuth], branchesController.branchesForAdmin);
+router.put('/admins', [requireAuth, superAdminOnly], adminController.updateSuperAdmin);
+// router.delete('/admins', [requireAuth, superAdminOnly], adminController.deleteSuperAdmin);
 
+router.get('/admin/branches', [requireAuth], branchesController.branchesForAdmin);
 router.post('/branches', [requireAuth, superAdminOnly], branchesController.create);
 router.put('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.update);
 router.delete('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.delete);

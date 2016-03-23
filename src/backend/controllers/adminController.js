@@ -73,6 +73,30 @@ function create(req, res) {
         return res.status(500);
     });
 }
+function updateSuperAdmin(req, res) {
+    let admin = parseAdmin(req);
+    admin.id = req.body.id;
+
+    if (!admin.id) {
+        logger.info('[update-user-validation-error]', {errors: ['invalid params']});
+        return res.status(400).json({ errors: ['invalid params']});
+    }
+
+    let validationErrors = adminValidator.isSuperAdminValidWithoutPassword(admin);
+    if (validationErrors.length > 0) {
+        logger.info('[update-user-validation-error]', {errors: validationErrors});
+        return res.status(400).json({ errors: validationErrors});
+    }
+
+    return adminService.updateAdmin(admin)
+    .then((updatedAdmin) => {
+        res.status(200).json(updatedAdmin);
+    })
+    .catch((error) => {
+        logger.error(`Failed updating the admin user with id:${admin.id}`, error);
+        res.status(500);
+    });
+}
 
 function update(req, res) {
     let branchId = req.params.branchId;
@@ -122,6 +146,7 @@ module.exports = {
     delete: deleteAdmin,
     create: create,
     createSuperAdmin: createSuperAdmin,
+    updateSuperAdmin: updateSuperAdmin,
     update: update,
     forBranch: forBranch
 };
