@@ -14,11 +14,18 @@ export default class EditMemberForm extends Component {
         this.state = {
             id: props.participant.id,
             invalidFields: [],
-            fieldValues: props.participant,
             selectedSection: '',
             userMessages: [],
-            pageErrors: []
+            pageErrors: [],
+            fieldValues: this.mapParticipantToFields(props.participant)
         };
+    }
+
+    mapParticipantToFields(participant) {
+        if(participant.schoolType === 'Primary' || participant.schoolType === 'Secondary') {
+            return Object.assign({}, participant);
+        }
+        return Object.assign({}, participant, {schoolTypeOtherText: participant.schoolType, schoolType: 'Other'});
     }
 
     getGroupDetails() {
@@ -33,7 +40,6 @@ export default class EditMemberForm extends Component {
         if (fieldValues.schoolType === 'Other') {
             return fieldValues.schoolTypeOtherText;
         }
-
         return fieldValues.schoolType;
     }
 
@@ -100,7 +106,7 @@ export default class EditMemberForm extends Component {
                         <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
                     </span>
 
-                    
+
                 </header>
                 <UserMessageView
                         messages={this.state.userMessages}
