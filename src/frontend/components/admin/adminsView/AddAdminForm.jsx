@@ -3,10 +3,10 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore';
-import AddOrganiserFields from './AddOrganiserFields.jsx';
+import AddAdminFields from './AddAdminFields.jsx';
 import validator from '../../../services/adminValidator';
 
-export default class AddOrganiserForm extends Component {
+export default class AddAdminForm extends Component {
 
     constructor(props) {
         super(props);
@@ -21,7 +21,7 @@ export default class AddOrganiserForm extends Component {
     }
 
     isNewUser() {
-        return this.props.organiser === {};
+        return this.props.admin === {};
     }
 
     passwordConfirmedTest() {
@@ -31,7 +31,7 @@ export default class AddOrganiserForm extends Component {
 
     saveChanges() {
         let organiser = Object.assign({}, this.state.fieldValues);
-        let errors = (validator.isValid(organiser));
+        let errors = (validator.isValid(admin));
         errors = errors.concat(this.passwordConfirmedTest());
         this.setState({invalidFields: errors});
         if(errors.length === 0) {
@@ -41,12 +41,12 @@ export default class AddOrganiserForm extends Component {
     }
 
     onChange(fieldName) {
-        let addOrganiserComponent = this;
+        let addAdminComponent = this;
 
         return function(event) {
             let newValue = {[fieldName] : event.target.value};
-            let newFieldValues = Object.assign({}, addOrganiserComponent.state.fieldValues, newValue);
-            addOrganiserComponent.setState({
+            let newFieldValues = Object.assign({}, addAdminComponent.state.fieldValues, newValue);
+            addAdminComponent.setState({
                 fieldValues: newFieldValues
             });
         };
@@ -57,13 +57,13 @@ export default class AddOrganiserForm extends Component {
             <section className="form-container">
                 <header className="details-header">
                     <span className='title'>
-                        Add new organiser
+                        Add new
                     </span>
                     <span className='actions'>
                         <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
                     </span>
                 </header>
-                <AddOrganiserFields onChange={this.onChange.bind(this)}
+                <AddAdminFields onChange={this.onChange.bind(this)}
                               invalidFields={this.state.invalidFields}
                               formValues={this.state.fieldValues}
                 />

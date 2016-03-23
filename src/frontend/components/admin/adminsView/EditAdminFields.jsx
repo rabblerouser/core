@@ -4,7 +4,7 @@ import FormFieldLabel from '../../form/FormFieldLabel.jsx';
 import { ApplicationForm as Strings, Resources } from '../../../config/strings.js';
 import InlineError from '../../form/InlineError.jsx';
 
-const EditOrganiserFields = ({ invalidFields, onChange, formValues}) => {
+const EditAdminFields = ({ invalidFields, onChange, formValues}) => {
 
     function isValidationError(fieldName) {
         return _.indexOf(invalidFields, fieldName) > -1;
@@ -30,10 +30,10 @@ const EditOrganiserFields = ({ invalidFields, onChange, formValues}) => {
     )
 }
 
-EditOrganiserFields.propTypes = {
+EditAdminFields.propTypes = {
     invalidFields: React.PropTypes.array,
     onChange: React.PropTypes.func,
     formValues: React.PropTypes.object,
 };
 
-export default EditOrganiserFields
+export default EditAdminFields

@@ -6,8 +6,8 @@ import {sortByOrder, map} from 'lodash';
 const Table = require('reactabular').Table;
 import sortColumn from '../../../lib/sortColumn.js';
 const classnames = require('classnames');
-import EditOrganiserModalLauncher from './EditOrganiserModalLauncher.jsx';
-import DeleteOrganiserButton from './DeleteOrganiserButton.jsx';
+import EditAdminModalLauncher from './EditAdminModalLauncher.jsx';
+import DeleteAdminButton from './DeleteAdminButton.jsx';
 
 function tableColumns(onSave, onDelete) {
     return [
@@ -27,11 +27,11 @@ function tableColumns(onSave, onDelete) {
             headerClass: classnames('contact')
         },
         {
-            cell: (nothing, organiser, rowIndex) => {
+            cell: (nothing, admin, rowIndex) => {
                 return {
                     value: (<div>
-                                <EditOrganiserModalLauncher organiser={organiser[rowIndex]} onSave={ onSave }/>
-                                <DeleteOrganiserButton organiser={organiser[rowIndex]} onDelete={ onDelete }/>
+                                <EditAdminModalLauncher admin={admin[rowIndex]} onSave={ onSave }/>
+                                <DeleteAdminButton admin={admin[rowIndex]} onDelete={ onDelete }/>
                             </div>)
                 };
             },
@@ -40,7 +40,7 @@ function tableColumns(onSave, onDelete) {
     ];
 }
 
-export default class OrganisersList extends Component {
+export default class AdminsList extends Component {
 
     constructor(props) {
         super(props);
@@ -59,7 +59,7 @@ export default class OrganisersList extends Component {
     }
 
     render() {
-        let data = sortColumn.sort(this.props.organisers, this.state.sortingColumn, sortByOrder);
+        let data = sortColumn.sort(this.props.admins, this.state.sortingColumn, sortByOrder);
 
         return (
             <Table columns={this.state.columns} data={data} columnNames={this.state.columnNames}/>

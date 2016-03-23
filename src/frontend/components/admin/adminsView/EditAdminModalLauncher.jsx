@@ -3,10 +3,10 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 
-import EditOrganiserForm from './EditOrganiserForm.jsx';
+import EditAdminForm from './EditAdminForm.jsx';
 import Modal from 'react-modal';
 
-export default class EditOrganiserModalLauncher extends Component {
+export default class EditAdminModalLauncher extends Component {
     constructor(props) {
         super(props);
         this.state = {modalIsOpen: false};
@@ -31,12 +31,12 @@ export default class EditOrganiserModalLauncher extends Component {
         };
         return (
             <div className="buttons">
-                <button className="edit" onClick={this.launchEditForm.bind(this)}><span>Edit organiser</span></button>
+                <button className="edit" onClick={this.launchEditForm.bind(this)}><span>Edit admin</span></button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onRequestClose={this.closeEditForm.bind(this)} style={customStyle}>
-                    <EditOrganiserForm
-                        organiser={this.props.organiser}
+                    <EditAdminForm
+                        admin={this.props.admin}
                         onSave={this.props.onSave}
                         onSuccess={this.closeEditForm.bind(this)}/>
                 </Modal>

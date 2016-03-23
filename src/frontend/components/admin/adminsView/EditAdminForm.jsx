@@ -3,17 +3,17 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import _ from 'underscore';
-import EditOrganiserFields from './EditOrganiserFields.jsx';
+import EditAdminFields from './EditAdminFields.jsx';
 import validator from '../../../services/adminValidator';
 
-export default class EditOrganiserForm extends Component {
+export default class EditAdminForm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            id: props.organiser.id,
+            id: props.admin.id,
             invalidFields: [],
-            fieldValues: props.organiser
+            fieldValues: props.admin
         };
     }
 
@@ -22,7 +22,7 @@ export default class EditOrganiserForm extends Component {
     }
 
     isNewUser() {
-        return this.props.organiser === {};
+        return this.props.admin === {};
     }
 
     passwordChanged() {
@@ -35,30 +35,30 @@ export default class EditOrganiserForm extends Component {
     }
 
     saveChanges() {
-        let organiser = Object.assign({}, this.props.organiser, this.state.fieldValues);
+        let admin = Object.assign({}, this.props.admin, this.state.fieldValues);
         let errors;
         if(this.passwordChanged()) {
 
-            errors = (validator.isValid(organiser));
+            errors = (validator.isValid(admin));
             errors = errors.concat(this.passwordConfirmedTest());
         } else {
-            errors = (validator.isValidWithoutPassword(organiser));
+            errors = (validator.isValidWithoutPassword(admin));
         }
 
         this.setState({invalidFields: errors});
         if(errors.length === 0) {
             this.props.onSuccess();
-            this.props.onSave(organiser);
+            this.props.onSave(admin);
         }
     }
 
     onChange(fieldName) {
-        let editOrganiserComponent = this;
+        let editAdminComponent = this;
 
         return function(event) {
             let newValue = {[fieldName] : event.target.value};
-            let newFieldValues = Object.assign({}, editOrganiserComponent.state.fieldValues, newValue);
-            editOrganiserComponent.setState({
+            let newFieldValues = Object.assign({}, editAdminComponent.state.fieldValues, newValue);
+            editAdminComponent.setState({
                 fieldValues: newFieldValues
             });
         };
@@ -69,13 +69,13 @@ export default class EditOrganiserForm extends Component {
             <section className="form-container">
                 <header className="details-header">
                     <span className='title'>
-                        Edit details for {this.props.organiser.email}
+                        Edit details for {this.props.admin.email}
                     </span>
                     <span className='actions'>
                         <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
                     </span>
                 </header>
-                <EditOrganiserFields onChange={this.onChange.bind(this)}
+                <EditAdminFields onChange={this.onChange.bind(this)}
                               invalidFields={this.state.invalidFields}
                               formValues={this.state.fieldValues}
                 />

@@ -1,23 +1,23 @@
 import React from 'react';
-import OrganisersList from './OrganisersList.jsx';
-import AddOrganiserModalLauncher from './AddOrganiserModalLauncher.jsx';
+import AdminsList from './AdminsList.jsx';
+import AddAdminModalLauncher from './AddAdminModalLauncher.jsx';
 
-const AdminsView = ({ title, organisers, onSaveOrganiser, onDeleteOrganiser }) => (
-    <section className="admin-section" id="lab-organisers">
+const AdminsView = ({ title, admins, onSaveAdmin, onDeleteAdmin }) => (
+    <section className="admin-section" id="lab-admins">
         <h3>
             {title}
-            <AddOrganiserModalLauncher
-                onSave={onSaveOrganiser}
+            <AddAdminModalLauncher
+                onSave={onSaveAdmin}
             />
         </h3>
-        <OrganisersList onSave={onSaveOrganiser} onDelete={onDeleteOrganiser} organisers={organisers} />
+        <AdminsList onSave={onSaveAdmin} onDelete={onDeleteAdmin} admins={admins} />
     </section>
 );
 
 AdminsView.propTypes = {
     title: React.PropTypes.string,
-    organisers : React.PropTypes.array,
-    onSaveOrganiser : React.PropTypes.func
+    admins : React.PropTypes.array,
+    onSaveAdmin : React.PropTypes.func
 };
 
 export default AdminsView

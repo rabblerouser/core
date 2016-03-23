@@ -1,10 +1,10 @@
 'use strict';
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import AddOrganiserForm from './AddOrganiserForm.jsx';
+import AddAdminForm from './AddAdminForm.jsx';
 import Modal from 'react-modal';
 
-export default class AddOrganiserModalLauncher extends Component {
+export default class AddAdminModalLauncher extends Component {
     constructor(props) {
         super(props);
         this.state = {modalIsOpen: false};
@@ -27,13 +27,13 @@ export default class AddOrganiserModalLauncher extends Component {
         return (
                 <button onClick={this.launchAddForm.bind(this)}
                     className="new"
-                    title="New organiser">
-                    <span>New organiser</span>
+                    title="New">
+                    <span>New</span>
                     <Modal
                         isOpen={this.state.modalIsOpen}
                         onRequestClose={this.closeAddForm.bind(this)}
                         style={customStyle}>
-                        <AddOrganiserForm
+                        <AddAdminForm
                             onSave={this.props.onSave}
                             onSuccess={this.closeAddForm.bind(this)}/>
                     </Modal>
