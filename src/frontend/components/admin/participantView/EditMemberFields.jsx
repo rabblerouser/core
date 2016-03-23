@@ -4,6 +4,7 @@ import FormFieldLabel from '../../form/FormFieldLabel.jsx';
 import { ApplicationForm as Strings, Resources } from '../../../config/strings.js';
 import InlineError from '../../form/InlineError.jsx';
 import GroupCheckboxes from './GroupCheckboxes.jsx';
+const moment = require('moment');
 
 
 const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selectedSection, onSelectSection }) => {
@@ -35,6 +36,10 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
 
     sections.details = (
         <section id="details">
+            <dl>
+                <dt>Date applied</dt>
+                <dd>{moment(formValues.memberSince).format('YYYY/MM/DD')}</dd>
+            </dl>
             <fieldset className="field-pair">
               <legend>Contact name</legend>
               <div className="sub-field">
@@ -78,9 +83,10 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
               <input type="text" defaultValue={formValues.schoolTypeOtherText} onChange={onChange('schoolTypeOtherText')} id="schoolTypeOtherText" className="other-field"/>
               </div>
             </fieldset>
-
-            <FormFieldLabel fieldName="additionalInfo" isOptional={true} hasError={isValidationError('additionalInfo')} />
-            <textarea defaultValue={formValues.additionalInfo} onChange={onChange('additionalInfo')} id="additionalInfo" className="additionalInfo"/>
+            <dl>
+                <dt>Additional info</dt>
+                <dd className='textblock'>{formValues.additionalInfo}</dd>                
+            </dl>
         </section>
     );
 
