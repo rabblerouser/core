@@ -5,6 +5,7 @@ import {render} from 'react-dom';
 import _ from 'underscore';
 import EditMemberFields from './EditMemberFields.jsx';
 import memberValidator from '../../../services/memberValidator';
+import UserMessageView from '../UserMessageView.jsx';
 
 export default class EditMemberForm extends Component {
 
@@ -14,7 +15,9 @@ export default class EditMemberForm extends Component {
             id: props.participant.id,
             invalidFields: [],
             fieldValues: props.participant,
-            selectedSection: ''
+            selectedSection: '',
+            userMessages: [],
+            pageErrors: []
         };
     }
 
@@ -41,6 +44,9 @@ export default class EditMemberForm extends Component {
         if(errors.length === 0) {
             this.props.onSuccess();
             this.props.onSave(participant);
+        }
+        else {
+            this.setState({pageErrors: ['Please check for errors']});
         }
     }
 
@@ -93,7 +99,13 @@ export default class EditMemberForm extends Component {
                     <span className='actions'>
                         <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
                     </span>
+
+                    
                 </header>
+                <UserMessageView
+                        messages={this.state.userMessages}
+                        errors={this.state.pageErrors}
+                    />
                 <EditMemberFields onChange={this.onChange.bind(this)}
                               invalidFields={this.state.invalidFields}
                               groups={this.props.participant.allGroups}

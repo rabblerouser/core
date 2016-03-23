@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 
-export default ({messages, errors}) => {
+let UserMessageView = ({messages, errors}) => {
     let errorItems = errors.map( (entry) => { return (<li className='error'>{entry}</li>);});
     let messageItems = messages.map( (entry) => { return (<li>{entry}</li>);});
 
@@ -14,3 +14,10 @@ export default ({messages, errors}) => {
         </section>
     )
 }
+
+UserMessageView.propTypes = {
+    messages: React.PropTypes.array,
+    errors: React.PropTypes.array   
+}
+
+export default UserMessageView;
