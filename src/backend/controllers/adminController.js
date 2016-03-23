@@ -25,7 +25,7 @@ function deleteAdmin(req, res) {
 }
 
 function parseAdmin(req) {
-    let admin = {id: req.body.id};
+    let admin = {};
     if (req.body.name !== undefined ) { admin.name = req.body.name; }
     if (req.body.email !== undefined) { admin.email = req.body.email; }
     if (req.body.phoneNumber !== undefined) { admin.phoneNumber = req.body.phoneNumber; }
@@ -33,9 +33,14 @@ function parseAdmin(req) {
     return admin;
 }
 
-<<<<<<< HEAD
 function createSuperAdmin(req, res) {
     let newAdmin = parseAdmin(req);
+    let validationErrors = adminValidator.isSuperAdminValid(newAdmin);
+
+    if (validationErrors.length > 0) {
+        logger.info('[create-new-admin-validation-error]', {errors: validationErrors});
+        return res.status(400).json({ errors: validationErrors});
+    }
 
     return adminService.create(newAdmin)
     .then((newAdmin) => {
@@ -47,16 +52,15 @@ function createSuperAdmin(req, res) {
     });
 }
 
-=======
->>>>>>> parent of c2a9a56... renamed isValid to isBranchAdminValid
 function create(req, res) {
-    let branchId = req.params.branchId;
     let newAdmin = parseAdmin(req);
+    let branchId = req.params.branchId;
     newAdmin.branchId = branchId;
+
     let validationErrors = adminValidator.isValid(newAdmin);
 
     if (validationErrors.length > 0) {
-        logger.info('[create-new-user-validation-error]', {errors: validationErrors});
+        logger.info('[create-new-admin-validation-error]', {errors: validationErrors});
         return res.status(400).json({ errors: validationErrors});
     }
 
@@ -74,13 +78,14 @@ function update(req, res) {
     let branchId = req.params.branchId;
     let admin = parseAdmin(req);
     admin.branchId = branchId;
+    admin.id = req.body.id;
 
     if (!admin.id || !branchId || admin.id !== req.params.id) {
         logger.info('[update-user-validation-error]', {errors: ['invalid params']});
         return res.status(400).json({ errors: ['invalid params']});
     }
 
-    let validationErrors = adminValidator.isValid(admin);
+    let validationErrors = adminValidator.isValidWithoutPassword(admin);
     if (validationErrors.length > 0) {
         logger.info('[update-user-validation-error]', {errors: validationErrors});
         return res.status(400).json({ errors: validationErrors});

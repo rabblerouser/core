@@ -8,7 +8,15 @@ var isValidBranch = (name) => {
            name.length < 256;
 };
 
-const adminFieldsChecks =
+const superAdminPasswordRequired =
+{
+    name: inputValidator.isValidOptionalName,
+    email: inputValidator.isValidEmail,
+    phoneNumber: inputValidator.isValidOptionalPhone,
+    password: inputValidator.isValidPassword
+};
+
+const noPasswordRequired =
 {
     name: inputValidator.isValidOptionalName,
     email: inputValidator.isValidEmail,
@@ -16,8 +24,16 @@ const adminFieldsChecks =
     branchId: isValidBranch
 };
 
-var isValidDetails = (admin) => {
-    return _.reduce(adminFieldsChecks, function(errors, checkFn, adminFieldKey) {
+const passwordRequired = {
+    name: inputValidator.isValidOptionalName,
+    email: inputValidator.isValidEmail,
+    phoneNumber: inputValidator.isValidOptionalPhone,
+    branchId: isValidBranch,
+    password: inputValidator.isValidPassword
+};
+
+var isValidDetails = (admin, fieldsChecks) => {
+    return _.reduce(fieldsChecks, function(errors, checkFn, adminFieldKey) {
         if (!admin || !checkFn(admin[adminFieldKey])){
             errors.push(adminFieldKey);
         }
@@ -27,11 +43,27 @@ var isValidDetails = (admin) => {
 
 var isValid = (admin) => {
     var errors = [
-        isValidDetails(admin)
+        isValidDetails(admin, passwordRequired)
+    ];
+    return _.flatten(errors);
+};
+
+var isValidWithoutPassword = (admin) => {
+    var errors = [
+        isValidDetails(admin, noPasswordRequired)
+    ];
+    return _.flatten(errors);
+};
+
+var isSuperAdminValid = (admin) => {
+    var errors = [
+        isValidDetails(admin, superAdminPasswordRequired)
     ];
     return _.flatten(errors);
 };
 
 module.exports = {
     isValid: isValid,
+    isValidWithoutPassword: isValidWithoutPassword,
+    isSuperAdminValid: isSuperAdminValid
 };

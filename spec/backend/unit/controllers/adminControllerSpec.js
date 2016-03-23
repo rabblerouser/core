@@ -165,13 +165,13 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isValid').returns([]);
+                sinon.stub(adminValidator, 'isValidWithoutPassword').returns([]);
                 sinon.stub(adminService, 'updateAdmin').withArgs(req.params.id);
             });
 
             afterEach(() => {
                 adminService.updateAdmin.restore();
-                adminValidator.isValid.restore();
+                adminValidator.isValidWithoutPassword.restore();
             });
 
             it('responds with successful update', (done) => {
@@ -262,11 +262,11 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isValid').returns(['email']);
+                sinon.stub(adminValidator, 'isValidWithoutPassword').returns(['email']);
             });
 
             afterEach(() => {
-                adminValidator.isValid.restore();
+                adminValidator.isValidWithoutPassword.restore();
             });
 
             it('should return a 400', () => {
@@ -289,13 +289,13 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isValid').returns([]);
+                sinon.stub(adminValidator, 'isValidWithoutPassword').returns([]);
                 sinon.stub(adminService, 'updateAdmin').withArgs(req.params.id);
             });
 
             afterEach(() => {
                 adminService.updateAdmin.restore();
-                adminValidator.isValid.restore();
+                adminValidator.isValidWithoutPassword.restore();
             });
 
             it('should return a 500', (done) => {

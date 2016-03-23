@@ -237,7 +237,15 @@ describe('AdminIntegrationTests', () => {
                     .then(done, done.fail);
             });
 
-            it('should return a 400 when the payload is invalid');
+            it('should return a 400 when the payload is invalid', (done) => {
+                return agent.post('/admins')
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send({email: 'supaAdmin@thelab.org'})
+                    .expect(400)
+                    .then(done, done.fail);
+            });
+
             it('should allow only super admins to add super admins');
         });
 
