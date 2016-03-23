@@ -52,7 +52,7 @@ export default class EditMemberForm extends Component {
             this.props.onSave(participant);
         }
         else {
-            this.setState({pageErrors: ['Please check for errors']});
+            this.setState({pageErrors: ['Your updates could not be saved. Please check the details.']});
         }
     }
 
