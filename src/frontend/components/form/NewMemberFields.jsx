@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import FormFieldLabel from './FormFieldLabel.jsx';
 import { ApplicationForm as Strings, Resources } from '../../config/strings.js';
 import InlineError from './InlineError.jsx';
+import _ from 'underscore';
 
 const NewMemberFields = ({ invalidFields, labs, onChange, formValues }) => {
 
@@ -17,7 +18,7 @@ const NewMemberFields = ({ invalidFields, labs, onChange, formValues }) => {
             <select defaultValue="" required id="labSelection" className="labSelection" onChange={onChange('labSelection')}>
                 <option value="" disabled>{Strings.labPlaceholder}</option>
                 {
-                  labs.map(function(lab) {
+                  _.sortBy(labs, 'name').map(function(lab) {
                     return <option value={lab.id}>{lab.name}</option>;
                   })
                 }

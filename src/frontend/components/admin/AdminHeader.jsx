@@ -2,11 +2,12 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import adminService from '../../services/adminService.js';
+import _ from 'underscore';
 
 const AdminHeader = ({labs, selectedLab, onSelectLab}) => {
 
     function mapLabOptions() {
-        return labs.map( lab => (<option key={lab.id} value={lab.id}>{lab.name}</option>));
+        return _.sortBy(labs, 'name').map( lab => (<option key={lab.id} value={lab.id}>{lab.name}</option>));
     };
 
     let labDescription = onSelectLab ? (<select defaultValue={selectedLab.id} onChange={selectLab}>{ mapLabOptions() }</select>)

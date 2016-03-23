@@ -1,8 +1,9 @@
 'use strict';
 import React from 'react';
+import _ from 'underscore';
 export default ({ groups , onSelect}) => {
 
-    let groupEntries = groups.map( group => (<option key={group.id} value={group.id}>{ group.name }</option>));
+    let groupEntries = _.sortBy(groups, 'name').map( group => (<option key={group.id} value={group.id}>{ group.name }</option>));
 
     function selectAll() {
         onSelect();
