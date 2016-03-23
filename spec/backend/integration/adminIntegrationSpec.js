@@ -368,7 +368,7 @@ describe('AdminIntegrationTests', () => {
             });
         });
 
-        fdescribe('delete', () => {
+        describe('delete', () => {
 
             let browserState = {};
 
