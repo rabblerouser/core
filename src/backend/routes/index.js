@@ -16,6 +16,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/register', membersController.register);
+router.get('/branches', branchesController.list);
 
 router.post('/login', login);
 router.get('/login', function (req, res) {
@@ -28,12 +29,6 @@ router.get('/logout', function (req, res) {
     });
 });
 
-router.get('/admin/branches', [requireAuth], branchesController.branchesForAdmin);
-
-router.post('/branches', [requireAuth, superAdminOnly], branchesController.create);
-router.put('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.update);
-router.delete('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.delete);
-
 router.get('/admin', [requireAuth], function (req, res) {
     res.render('admin', {title: 'The Lab Admin'});
 });
@@ -42,7 +37,12 @@ router.get('/networkAdmin', [requireAuth], function (req, res) {
     res.render('networkAdmin', {title: 'The Lab Admin'});
 });
 
-router.get('/branches', branchesController.list);
+router.post('/admins', [requireAuth, superAdminOnly], adminController.createSuperAdmin);
+router.get('/admin/branches', [requireAuth], branchesController.branchesForAdmin);
+
+router.post('/branches', [requireAuth, superAdminOnly], branchesController.create);
+router.put('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.update);
+router.delete('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.delete);
 
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.edit);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.list);

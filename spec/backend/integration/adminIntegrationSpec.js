@@ -212,7 +212,34 @@ describe('AdminIntegrationTests', () => {
             })
             .then(done, done.fail);
         });
-
     });
 
+    describe('super admins', () => {
+        describe('add', () => {
+
+            beforeEach((done) => {
+                integrationTestHelpers.createSuperAdmin()
+                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .then(done, done.fail);
+            });
+
+            it('should return a 200 when a super admin is successfully created', (done) => {
+                return agent.post('/admins')
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(makeSuperAdmin())
+                    .expect(200)
+                    .then((response) => {
+                        expect(response.body).not.toBeNull();
+                        expect(response.body.id).not.toBeNull();
+                        expect(response.body.email).not.toBeNull();
+                    })
+                    .then(done, done.fail);
+            });
+
+            it('should return a 400 when the payload is invalid');
+            it('should allow only super admins to add super admins');
+        });
+
+    });
 });

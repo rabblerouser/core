@@ -35,6 +35,15 @@ function parseAdmin(req) {
 
 function createSuperAdmin(req, res) {
     let newAdmin = parseAdmin(req);
+
+    return adminService.create(newAdmin)
+    .then((newAdmin) => {
+        res.status(200).json(newAdmin);
+    })
+    .catch((error) => {
+        logger.error(`Failed creating a new super admin`, error);
+        return res.status(500);
+    });
 }
 
 function create(req, res) {
@@ -104,6 +113,7 @@ function forBranch(req, res) {
 module.exports = {
     delete: deleteAdmin,
     create: create,
+    createSuperAdmin: createSuperAdmin,
     update: update,
     forBranch: forBranch
 };
