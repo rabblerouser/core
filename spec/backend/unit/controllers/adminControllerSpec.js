@@ -188,7 +188,7 @@ describe('adminController', () => {
         describe('when the branch id is undefined', () => {
 
             beforeEach(() => {
-                res = {sendStatus: sinon.spy()};
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
                 req = {
                     params: { id: 'some-key'},
                     body: {
@@ -202,7 +202,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.update(req, res);
-                expect(res.sendStatus).toHaveBeenCalled(400);
+                expect(res.status).toHaveBeenCalled(400);
             });
         });
 
@@ -252,7 +252,7 @@ describe('adminController', () => {
 
         describe('when the payload provided is invalid', () => {
             beforeEach(() => {
-                res = {sendStatus: sinon.spy()};
+                res = {status: sinon.stub().returns({json: sinon.spy()})};
                 req = {
                     params: { branchId: 1, id: 'some-key'},
                     body: {
@@ -271,7 +271,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.update(req, res);
-                expect(res.sendStatus).toHaveBeenCalled(400);
+                expect(res.status).toHaveBeenCalled(400);
             });
 
         });
