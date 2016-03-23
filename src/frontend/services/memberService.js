@@ -29,6 +29,7 @@ function adaptMember(member) {
         gender: member.gender,
         membershipType: member.membershipType,
         pastoralNotes: member.pastoralNotes,
+        additionalInfo: member.additionalInfo,
         groups: member.groups
     };
 
