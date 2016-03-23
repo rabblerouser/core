@@ -156,7 +156,7 @@ export default class AdminDashboard extends Component {
         this.updateElements('groups', collection, element);
     }
 
-    updateNetworksAdmins(collection, element) {
+    updateNetworkAdmins(collection, element) {
         this.updateElements('networkAdmins', collection, element);
     }
 
@@ -263,9 +263,9 @@ export default class AdminDashboard extends Component {
                 />
                 <AdminsView
                     title={'Organisers'}
-                    organisers={this.state.organisers}
-                    onSaveOrganiser={this.state.onSaveOrganiser}
-                    onDeleteOrganiser={this.state.onDeleteOrganiser}
+                    admins={this.state.organisers}
+                    onSaveAdmin={this.state.onSaveOrganiser}
+                    onDeleteAdmin={this.state.onDeleteOrganiser}
                 />
                 <GroupsView
                     selectedGroup={this.getSelectedGroup()}
@@ -282,9 +282,9 @@ export default class AdminDashboard extends Component {
                 />
                 <AdminsView
                     title={'Network Admins'}
-                    organisers={this.state.networkAdmins}
-                    onSaveOrganiser={this.state.onSaveNetworkAdmin}
-                    onDeleteOrganiser={this.state.onDeleteNetworkAdmin}
+                    admins={this.state.networkAdmins}
+                    onSaveAdmin={this.state.onSaveNetworkAdmin}
+                    onDeleteAdmin={this.state.onDeleteNetworkAdmin}
                 />
             </div>);
     }

@@ -30,13 +30,13 @@ export default class AddAdminForm extends Component {
     }
 
     saveChanges() {
-        let organiser = Object.assign({}, this.state.fieldValues);
+        let admin = Object.assign({}, this.state.fieldValues);
         let errors = (validator.isValid(admin));
         errors = errors.concat(this.passwordConfirmedTest());
         this.setState({invalidFields: errors});
         if(errors.length === 0) {
             this.props.onSuccess();
-            this.props.onSave(organiser);
+            this.props.onSave(admin);
         }
     }
 
