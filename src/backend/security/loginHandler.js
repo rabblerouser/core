@@ -14,7 +14,7 @@ module.exports = function login(req, res) {
     }
     req.logIn(user, function() {
         if(req.user.type === adminType.super) {
-            res.redirect('/networkAdmin');
+            res.redirect('/networkadmin');
         }
         else {
             res.redirect('/admin');
