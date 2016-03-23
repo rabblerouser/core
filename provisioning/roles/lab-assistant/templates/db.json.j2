@@ -3,8 +3,9 @@
     "{{ node_env }}": {
         "username": "{{ db_user }}",
         "password": "{{ db_password }}",
-        "database": "lab-assistant",
-        "host": "127.0.0.1",
+        "database": "{{ db_names[0] }}",
+        "host": "{{ db_host }}",
+        "port": "{{ db_port }}",
         "dialect": "postgres"
     }
 }

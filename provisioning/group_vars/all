@@ -5,3 +5,5 @@ db_names:
   - lab-assistant
 db_user: lab-assistant
 db_password: lab-assistant
+db_host: 127.0.0.1
+db_port: 5432
