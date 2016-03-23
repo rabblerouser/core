@@ -103,7 +103,7 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isValid').returns(['email']);
+                sinon.stub(adminValidator, 'isBranchAdminValid').returns(['email']);
             });
 
             afterEach(() => {
@@ -130,7 +130,7 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isValid').returns([]);
+                sinon.stub(adminValidator, 'isBranchAdminValid').returns([]);
                 sinon.stub(adminService, 'create');
             });
 
@@ -165,7 +165,7 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isValid').returns([]);
+                sinon.stub(adminValidator, 'isBranchAdminValid').returns([]);
                 sinon.stub(adminService, 'updateAdmin').withArgs(req.params.id);
             });
 
@@ -262,7 +262,7 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isValid').returns(['email']);
+                sinon.stub(adminValidator, 'isBranchAdminValid').returns(['email']);
             });
 
             afterEach(() => {
@@ -289,7 +289,7 @@ describe('adminController', () => {
                         phone: 'some phone'
                     }
                 };
-                sinon.stub(adminValidator, 'isValid').returns([]);
+                sinon.stub(adminValidator, 'isBranchAdminValid').returns([]);
                 sinon.stub(adminService, 'updateAdmin').withArgs(req.params.id);
             });
 
