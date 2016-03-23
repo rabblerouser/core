@@ -79,7 +79,7 @@ function updateSuperAdmin(req, res) {
     let admin = parseAdmin(req);
     admin.id = req.body.id;
 
-    if (!admin.id) {
+    if (!admin.id || admin.id !== req.params.adminId) {
         logger.info('[update-user-validation-error]', {errors: ['invalid params']});
         return res.status(400).json({ errors: ['invalid params']});
     }
@@ -155,7 +155,26 @@ function list(req, res) {
         });
 }
 
+function deleteSuperAdmin(req, res) {
+    let adminId = req.params.adminId;
+
+    if (validator.isValidUUID(adminId)) {
+        logger.error(`Failed deleting the super admin with id:${adminId}`);
+        return res.sendStatus(400);
+    }
+
+    return adminService.delete(adminId)
+    .then(() => {
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        logger.error(`Failed deleting the admin with id:${adminId}`, error);
+        res.sendStatus(500);
+    });
+}
+
 module.exports = {
+    deleteSuperAdmin: deleteSuperAdmin,
     delete: deleteAdmin,
     create: create,
     createSuperAdmin: createSuperAdmin,
