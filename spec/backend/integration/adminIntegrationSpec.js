@@ -1,4 +1,5 @@
 'use strict';
+require('../../support/specHelper');
 const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/backend/app');
 let request = require('supertest-as-promised');
@@ -11,12 +12,18 @@ let hasAdmin = (res) => {
     }
 };
 
+let makeSuperAdmin = () => {
+    return {
+        email: 'supaAdmin@thelab.org',
+        password: 'supaP@sw0r dddd!!'
+    };
+};
+
 let makeAdminUser = (branch) => {
     return {
         email: 'newOrgnrr@thelab.org',
         password: 'organiser',
-        branchId: branch.id,
-        id: uuid.v4()
+        branchId: branch.id
     };
 };
 
