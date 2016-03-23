@@ -216,7 +216,6 @@ describe('AdminIntegrationTests', () => {
 
     describe('super admins', () => {
         describe('add', () => {
-
             beforeEach((done) => {
                 integrationTestHelpers.createSuperAdmin()
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
@@ -246,7 +245,21 @@ describe('AdminIntegrationTests', () => {
                     .then(done, done.fail);
             });
 
-            it('should allow only super admins to add super admins');
+            it('should allow only super admins to add super admins', (done) => {
+                let specialAgent = request.agent(app);
+
+                integrationTestHelpers.createBranch()
+                .tap(integrationTestHelpers.createBranchAdmin)
+                .tap(integrationTestHelpers.authenticateOrganiser(specialAgent))
+                .then(() => {
+                    return specialAgent.post('/admins')
+                    .set('Content-Type', 'application/json')
+                    .set('Accept', 'application/json')
+                    .send(makeSuperAdmin())
+                    .expect(401);
+                })
+                .then(done, done.fail);
+            });
         });
 
     });
