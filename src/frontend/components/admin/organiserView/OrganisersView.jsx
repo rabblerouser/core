@@ -4,7 +4,7 @@ import AddOrganiserModalLauncher from './AddOrganiserModalLauncher.jsx';
 
 const OrganisersView = ({ organisers, onSaveOrganiser, onDeleteOrganiser }) => (
     <section className="admin-section" id="lab-organisers">
-        <h3>Lab Organisers
+        <h3>Organisers
             <AddOrganiserModalLauncher
                 onSave={onSaveOrganiser}
             />

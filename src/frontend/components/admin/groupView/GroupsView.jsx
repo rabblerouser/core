@@ -9,15 +9,15 @@ export default ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGro
                                                             onDelete={onDeleteGroup} />) : '';
     return (
         <section className='admin-section' id="group-details">
-            <h3>Lab Groups <AddGroupModalLauncher
+            <h3>Groups <AddGroupModalLauncher
                 onSave={onSaveGroup}
             /></h3>
-            
+
             <GroupsList
                 groups={groups}
                 onSelect={onSelectGroup}
             />
-            
+
             { detailsView }
         </section>
     )
