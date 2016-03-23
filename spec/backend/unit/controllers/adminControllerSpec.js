@@ -120,7 +120,7 @@ describe('adminController', () => {
         describe('when there is a general error from the service', () => {
 
             beforeEach(() => {
-                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                res = {sendStatus: sinon.spy()};
                 req = {
                     params: { branchId: 1},
                     body: {
@@ -143,7 +143,7 @@ describe('adminController', () => {
                 adminService.create.returns(Promise.reject('anything at all'));
                 adminController.create(req, res)
                 .then(() => {
-                   expect(res.status).toHaveBeenCalled(500);
+                   expect(res.sendStatus).toHaveBeenCalled(500);
                 }).then(done, done.fail);
             });
         });
@@ -188,7 +188,7 @@ describe('adminController', () => {
         describe('when the branch id is undefined', () => {
 
             beforeEach(() => {
-                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                res = {sendStatus: sinon.spy()};
                 req = {
                     params: { id: 'some-key'},
                     body: {
@@ -202,7 +202,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.update(req, res);
-                expect(res.status).toHaveBeenCalled(400);
+                expect(res.sendStatus).toHaveBeenCalled(400);
             });
         });
 
@@ -252,7 +252,7 @@ describe('adminController', () => {
 
         describe('when the payload provided is invalid', () => {
             beforeEach(() => {
-                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                res = {sendStatus: sinon.spy()};
                 req = {
                     params: { branchId: 1, id: 'some-key'},
                     body: {
@@ -271,7 +271,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.update(req, res);
-                expect(res.status).toHaveBeenCalled(400);
+                expect(res.sendStatus).toHaveBeenCalled(400);
             });
 
         });
@@ -279,7 +279,7 @@ describe('adminController', () => {
         describe('when there is a general error from the service', () => {
 
             beforeEach(() => {
-                res = {status: sinon.stub().returns({json: sinon.spy()})};
+                res = {sendStatus: sinon.spy()};
                 req = {
                     params: { branchId: 1, id: 'some-key'},
                     body: {
@@ -302,7 +302,7 @@ describe('adminController', () => {
                 adminService.updateAdmin.returns(Promise.reject('anything at all'));
                 adminController.update(req, res)
                 .then(() => {
-                   expect(res.status).toHaveBeenCalled(500);
+                   expect(res.sendStatus).toHaveBeenCalled(500);
                 }).then(done, done.fail);
             });
         });
@@ -336,20 +336,24 @@ describe('adminController', () => {
 
         describe('when the branch id is invalid', () => {
             it('should return a 400', (done) => {
+                res = {sendStatus: sinon.spy()};
+
                 adminService.admins.returns(Promise.reject('invalid branch id'));
                 adminController.forBranch(req, res)
                 .then(() => {
-                   expect(res.status).toHaveBeenCalled(400);
+                   expect(res.sendStatus).toHaveBeenCalled(400);
                 }).then(done, done.fail);
             });
         });
 
         describe('when there is a general error from the service', () => {
             it('should return a 500', (done) => {
+                res = {sendStatus: sinon.spy()};
+
                 adminService.admins.returns(Promise.reject('anything at all'));
                 adminController.forBranch(req, res)
                 .then(() => {
-                   expect(res.status).toHaveBeenCalled(500);
+                   expect(res.sendStatus).toHaveBeenCalled(500);
                 }).then(done, done.fail);
             });
         });
