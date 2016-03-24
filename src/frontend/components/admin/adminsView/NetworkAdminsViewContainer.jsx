@@ -6,7 +6,6 @@ export default class NetworkAdminsViewContainer extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             admins: [],
             onSave: (adminDetails) => {
@@ -48,9 +47,9 @@ export default class NetworkAdminsViewContainer extends Component {
         this.setState({admins: _.without(collection, oldElement)});
     }
 
-    componentWillReceiveProps() {
-        if(this.props.labId) {
-            adminService.getNetworkAdmins(this.props.labId)
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.labId && nextProps.labId !== this.props.labId) {
+            adminService.getNetworkAdmins(nextProps.labId)
                     .then( admins => {
                         this.setState({admins: admins});
                     });

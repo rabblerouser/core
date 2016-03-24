@@ -48,9 +48,9 @@ export default class OrganiserViewContainer extends Component {
         this.setState({admins: _.without(collection, oldElement)});
     }
 
-    componentWillReceiveProps() {
-        if(this.props.labId) {
-            labService.getOrganisers(this.props.labId)
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.labId && nextProps.labId !== this.props.labId) {
+            labService.getOrganisers(nextProps.labId)
                     .then( admins => {
                         this.setState({admins: admins});
                     });
