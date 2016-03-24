@@ -10,7 +10,7 @@
 ### END INIT INFO
 
 dir="{{ app_path }}"
-cmd="NODE_ENV={{ node_env }} npm start"
+cmd="NODE_ENV={{ node_env }} SESSION_SECRET={{ session_secret }} npm start"
 
 user="{{ app_user }}"
 
