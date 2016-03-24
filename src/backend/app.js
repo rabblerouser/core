@@ -18,14 +18,14 @@ const express = require('express'),
       config = require('config'),
       SequelizeSessionStore = require('connect-session-sequelize')(session.Store),
       db = require('./db/connection'),
+      compress = require('compression'),
       sessionStore = new SequelizeSessionStore({db: db});
 
 sessionStore.sync();
-
+app.use(compress());
 app.set('views', path.join(__dirname, '../frontend/views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-
 app.use(favicon(path.join(__dirname, '../../public', 'images', 'favicon.ico')));
 app.use(helmet());
 app.use(logger(config.logFormat));
