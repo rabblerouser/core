@@ -3,7 +3,7 @@ import AdminsList from './AdminsList.jsx';
 import AddAdminModalLauncher from './AddAdminModalLauncher.jsx';
 
 const AdminsView = ({ title, admins, onSaveAdmin, onDeleteAdmin }) => (
-    <section className="admin-section" id="lab-admins">
+    <section className="admin-section" id="organisers">
         <h3>
             {title}
             <AddAdminModalLauncher
