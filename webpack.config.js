@@ -1,5 +1,4 @@
-require('webpack');
-
+var webpack = require('webpack');
 module.exports = {
     entry: {
         main:'./src/frontend/components/App.jsx',
@@ -31,6 +30,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-    ]
+    plugins: process.env.NODE_ENV ? [
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
+    ] : []
 };
