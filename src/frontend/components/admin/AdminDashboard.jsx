@@ -6,12 +6,11 @@ import FilteredParticipantsList from './participantView/FilteredParticipantsList
 import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './groupView/GroupsView.jsx';
-import AdminsView from './adminsView/AdminsView.jsx';
+import OrganisersViewContainer from './adminsView/OrganisersViewContainer.jsx';
 
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 import memberService from '../../services/memberService.js';
-import adminService from '../../services/adminService.js';
 import { AdminDashboard as Strings } from '../../config/strings.js';
 
 export default class AdminDashboard extends Component {
@@ -58,25 +57,6 @@ export default class AdminDashboard extends Component {
                         this.setUserMessage('Participant successfully saved');
                     })
                     .catch(this.handleError.bind(this));
-            },
-            onSaveOrganiser: (organiserDetails) => {
-                this.clearMessages();
-                let saveAction = this.state.organisers.find(organiser => organiser.id === organiserDetails.id) === undefined ? adminService.create : adminService.update;
-                saveAction(organiserDetails, this.state.selectedLab.id)
-                    .then((savedOrganiser) => {
-                        this.updateOrganisers(this.state.organisers, savedOrganiser);
-                        this.setUserMessage('Organiser successfully saved');
-                    })
-                    .catch(this.handleError.bind(this));
-            },
-            onDeleteOrganiser: (selected) => {
-                this.clearMessages();
-                adminService.delete(selected, this.state.selectedLab.id)
-                .then(()=> {
-                    this.removeAndUpdateOrganisers(this.state.organisers, selected);
-                    this.setUserMessage('Organiser successfully deleted');
-                })
-                .catch(this.handleError.bind(this));
             }
         };
     }
@@ -107,10 +87,6 @@ export default class AdminDashboard extends Component {
 
     updateGroups(collection, element) {
         this.updateElements('groups', collection, element);
-    }
-
-    updateOrganisers(collection, element) {
-        this.updateElements('organisers', collection, element);
     }
 
     updateLabs(collection, element) {
@@ -150,17 +126,6 @@ export default class AdminDashboard extends Component {
         this.setState({selectedGroupId: 'unassigned'});
     }
 
-    removeAndUpdateOrganisers(collection, element) {
-        this.removeAndUpdate('organisers', collection, element);
-    }
-
-    removeAndUpdate(collectionName, collection, element) {
-        let oldElement = collection.find(item => item.id === element.id);
-        let state = {};
-        state[collectionName] = _.without(collection, oldElement);
-        this.setState(state);
-    }
-
     componentDidMount() {
         labService.getMyLabs()
             .then( (labs) => {
@@ -177,8 +142,6 @@ export default class AdminDashboard extends Component {
                                         });
         labService.getLabGroups(lab.id)
                 .then( groups => { this.setState({groups: groups}); });
-        labService.getOrganisers(lab.id)
-                .then( organisers => {this.setState({organisers: organisers});});
     }
 
     getSelectedGroup() {
@@ -196,11 +159,11 @@ export default class AdminDashboard extends Component {
                     messages={this.state.userMessages}
                     errors={this.state.pageErrors}
                 />
-                <AdminsView
-                    title='Organisers'
-                    admins={this.state.organisers}
-                    onSaveAdmin={this.state.onSaveOrganiser}
-                    onDeleteAdmin={this.state.onDeleteOrganiser}
+                <OrganisersViewContainer
+                    labId={this.state.selectedLab.id}
+                    onPreAction={this.clearMessages.bind(this)}
+                    onActionError={this.handleError.bind(this)}
+                    onActionSuccess={this.setUserMessage.bind(this)}
                 />
                 <GroupsView
                     selectedGroup={this.getSelectedGroup()}

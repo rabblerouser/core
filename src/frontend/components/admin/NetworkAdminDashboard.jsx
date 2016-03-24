@@ -8,12 +8,12 @@ import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
 import GroupsView from './groupView/GroupsView.jsx';
 import LabDetailsView from './labView/LabDetailsView.jsx';
-import AdminsView from './adminsView/AdminsView.jsx';
+import OrganisersViewContainer from './adminsView/OrganisersViewContainer.jsx';
+import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer.jsx';
 
 import labService from '../../services/labService.js';
 import groupService from '../../services/groupService.js';
 import memberService from '../../services/memberService.js';
-import adminService from '../../services/adminService.js';
 
 import { AdminDashboard as Strings } from '../../config/strings.js';
 
@@ -86,44 +86,6 @@ export default class AdminDashboard extends Component {
                     this.setUserMessage('Lab successfully deleted');
                 })
                 .catch(this.handleError.bind(this));
-            },
-            onSaveOrganiser: (organiserDetails) => {
-                this.clearMessages();
-                let saveAction = this.state.organisers.find(organiser => organiser.id === organiserDetails.id) === undefined ? adminService.create : adminService.update;
-                saveAction(organiserDetails, this.state.selectedLab.id)
-                    .then((savedOrganiser) => {
-                        this.updateOrganisers(this.state.organisers, savedOrganiser);
-                        this.setUserMessage('Organiser successfully saved');
-                    })
-                    .catch(this.handleError.bind(this));
-            },
-            onDeleteOrganiser: (selected) => {
-                this.clearMessages();
-                adminService.delete(selected, this.state.selectedLab.id)
-                .then(()=> {
-                    this.removeAndUpdateOrganisers(this.state.organisers, selected);
-                    this.setUserMessage('Organiser successfully deleted');
-                })
-                .catch(this.handleError.bind(this));
-            },
-            onSaveNetworkAdmin: (details) => {
-                this.clearMessages();
-                let saveAction = this.state.networkAdmins.find(admin => admin.id === details.id) === undefined ? adminService.createNetworkAdmin : adminService.updateNetworkAdmin;
-                saveAction(details)
-                    .then((savedAdmin) => {
-                        this.updateNetworkAdmins(this.state.networkAdmins, savedAdmin);
-                        this.setUserMessage('Network admin successfully saved');
-                    })
-                    .catch(this.handleError.bind(this));
-            },
-            onDeleteNetworkAdmin: (selected) => {
-                this.clearMessages();
-                adminService.deleteNetworkAdmin(selected)
-                .then(()=> {
-                    this.removeAndUpdateNetworkAdmins(this.state.networkAdmins, selected);
-                    this.setUserMessage('Network admin successfully deleted');
-                })
-                .catch(this.handleError.bind(this));
             }
         };
     }
@@ -154,14 +116,6 @@ export default class AdminDashboard extends Component {
 
     updateGroups(collection, element) {
         this.updateElements('groups', collection, element);
-    }
-
-    updateNetworkAdmins(collection, element) {
-        this.updateElements('networkAdmins', collection, element);
-    }
-
-    updateOrganisers(collection, element) {
-        this.updateElements('organisers', collection, element);
     }
 
     updateLabs(collection, element) {
@@ -201,14 +155,6 @@ export default class AdminDashboard extends Component {
         this.setState({selectedGroupId: 'unassigned'});
     }
 
-    removeAndUpdateOrganisers(collection, element) {
-        this.removeAndUpdate('organisers', collection, element);
-    }
-
-    removeAndUpdateNetworkAdmins(collection, element) {
-        this.removeAndUpdate('networkAdmins', collection, element);
-    }
-
     removeAndUpdate(collectionName, collection, element) {
         let oldElement = collection.find(item => item.id === element.id);
         let state = {};
@@ -221,12 +167,8 @@ export default class AdminDashboard extends Component {
             .then( (labs) => {
                 this.setState({labs: labs});
                 this.updateLabSelection(labs[0]);
+                console.log(labs);
             });
-        adminService.getNetworkAdmins()
-            .then( (admins) => {
-                this.setState({networkAdmins: admins});
-            });
-
     }
 
     updateLabSelection(lab) {
@@ -261,11 +203,11 @@ export default class AdminDashboard extends Component {
                     onSaveLab={this.state.onSaveLab}
                     onDeleteLab={this.state.onDeleteLab}
                 />
-                <AdminsView
-                    title={'Organisers'}
-                    admins={this.state.organisers}
-                    onSaveAdmin={this.state.onSaveOrganiser}
-                    onDeleteAdmin={this.state.onDeleteOrganiser}
+                <OrganisersViewContainer
+                    labId={this.state.selectedLab.id}
+                    onPreAction={this.clearMessages.bind(this)}
+                    onActionError={this.handleError.bind(this)}
+                    onActionSuccess={this.setUserMessage.bind(this)}
                 />
                 <GroupsView
                     selectedGroup={this.getSelectedGroup()}
@@ -280,12 +222,12 @@ export default class AdminDashboard extends Component {
                     participants={ this.state.participants }
                     onSaveParticipant= { this.state.onSaveParticipant }
                 />
-                <AdminsView
-                    title={'Network Admins'}
-                    admins={this.state.networkAdmins}
-                    onSaveAdmin={this.state.onSaveNetworkAdmin}
-                    onDeleteAdmin={this.state.onDeleteNetworkAdmin}
-                />
+                <NetworkAdminsViewContainer
+                        labId={this.state.selectedLab.id}
+                        onPreAction={this.clearMessages.bind(this)}
+                        onActionError={this.handleError.bind(this)}
+                        onActionSuccess={this.setUserMessage.bind(this)}
+                    />
             </div>);
     }
 }
