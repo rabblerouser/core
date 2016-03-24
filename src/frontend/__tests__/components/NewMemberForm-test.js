@@ -21,6 +21,6 @@ describe('NewMemberForm', () => {
         let newMemberForm = TestUtils.renderIntoDocument(<NewMemberForm />);
 
         var heading = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'h1');
-        expect(ReactDOM.findDOMNode(heading).textContent).toBe('Details');
+        expect(ReactDOM.findDOMNode(heading).textContent).toBe('Register for The Lab');
     });
 });
