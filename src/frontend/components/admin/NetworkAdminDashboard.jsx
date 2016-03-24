@@ -145,8 +145,3 @@ export default class AdminDashboard extends Component {
 }
 
 render(<AdminDashboard />, document.getElementById('app'));
-
-/*
-
-
-    */
