@@ -83,7 +83,7 @@ export default class Details extends Component {
     render() {
         return (
             <section>
-                <h1 className="form-title">Details</h1>
+                <h1 className="form-title">Register for The Lab</h1>
                 <div className="form-body">
                     <Errors invalidFields={this.state.errorNames}
                             scrollToError={this.state.scrollToError}
