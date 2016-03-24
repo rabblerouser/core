@@ -77,10 +77,16 @@ button.logout:hover {
         content: '5';
       }
     }
+
+
   }
 }
 
+#form .header li.visited:nth-child(1)::after {
+  content: '';
+}
 
+  
 
 /* Progress bar styles */
 
