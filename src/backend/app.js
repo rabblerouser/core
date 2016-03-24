@@ -38,7 +38,7 @@ app.use(session({
     proxy: config.session.proxy,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: config.session.secureCookie }
+    cookie: { domain: config.session.domain, secure: config.session.secureCookie }
 }));
 app.use(passport.initialize());
 app.use(passport.session());

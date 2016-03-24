@@ -3,6 +3,7 @@
     "sendEmails": false
   },
   "session": {
+    "domain": "register.thelab.org.au",
     "proxy": true,
     "secureCookie": true
   },
