@@ -3,8 +3,8 @@
 let passport = require('passport');
 const adminType = require('./adminType');
 
-module.exports = function login(req, res) {
-  passport.authenticate('local', function(err, user, info) {
+module.exports = function login(req, res, next) {
+  passport.authenticate('local', function(err, user) {
     if (err) {
         return res.render('error');
     }
@@ -12,7 +12,12 @@ module.exports = function login(req, res) {
     if (!user) {
         return res.render('login', {error: 'Wrong username or password'});
     }
-    req.logIn(user, function() {
+    req.logIn(user, function(err) {
+        if (err) {
+            next(err);
+        }
+
+        console.log('=======', req.cookies['connect.sid']);
         if(req.user.type === adminType.super) {
             res.redirect('/dashboard/admin');
         }
@@ -21,5 +26,5 @@ module.exports = function login(req, res) {
         }
     });
 
-  })(req, res);
+  })(req, res, next);
 };

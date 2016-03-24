@@ -15,6 +15,7 @@ const express = require('express'),
       passport = require('passport'),
       neat = require('node-neat'),
       app = express(),
+      cookieParser = require('cookie-parser'),
       config = require('config'),
       SequelizeSessionStore = require('connect-session-sequelize')(session.Store),
       db = require('./db/connection'),
@@ -22,6 +23,7 @@ const express = require('express'),
       sessionStore = new SequelizeSessionStore({db: db});
 
 sessionStore.sync();
+app.use(cookieParser());
 app.use(compress());
 app.set('views', path.join(__dirname, '../frontend/views'));
 app.engine('html', require('ejs').renderFile);
