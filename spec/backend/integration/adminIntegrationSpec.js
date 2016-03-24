@@ -34,7 +34,7 @@ function postSuperAdmin(someAgent, email) {
 let makeAdminUser = (branch) => {
     return {
         email: 'newOrgnrr@thelab.org',
-        password: 'organiser',
+        password: 'ooooooorganiser',
         branchId: branch.id
     };
 };
@@ -42,7 +42,7 @@ let makeAdminUser = (branch) => {
 let makeAdminUserUpdates = (admin) => {
     return {
         email: admin.email,
-        password: 'no password',
+        password: 'nooo password',
         branchId: admin.branchId,
         id: admin.id,
         name: 'some name',
@@ -53,7 +53,7 @@ let makeAdminUserUpdates = (admin) => {
 let makeInvalidAdminUserUpdates = (admin) => {
     return {
         email: 'bad-email',
-        password: 'no password',
+        password: 'nooo password',
         branchId: admin.branchId,
         id: admin.id,
         name: 'some name',

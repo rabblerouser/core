@@ -19,7 +19,7 @@ const EditAdminFields = ({ invalidFields, onChange, formValues}) => {
             <FormFieldLabel fieldName="contactNumber" hasError={isValidationError('phoneNumber')} />
             <input type="tel" defaultValue={formValues.phoneNumber} onChange={onChange('phoneNumber')} id="contactNumber" className="contactNumber"/>
             <FormFieldLabel fieldName="password" hasError={isValidationError('password')} />
-            <aside>Password must be at least 8 characters.</aside>
+            <aside>Password must be at least 12 characters.</aside>
             <input type="password" onChange={onChange('password')} id="password" className="password"/>
             <FormFieldLabel fieldName="confirmedPassword" hasError={isValidationError('confirmedPassword')} />
             <input type="password" onChange={onChange('confirmedPassword')} id="confirmedPassword" className="password"/>

@@ -46,7 +46,7 @@ describe('inputValidator', () => {
         });
 
         [
-            'little',
+            'toolittle',
             'a'.repeat(201),
             undefined,
             null
