@@ -316,7 +316,7 @@ header.details-header {
     }
     th {
         background-color: $white;
-        color: $labels-headings-color;
+        color: $blue-darker;
         font-size: $labels-headings-size;
         padding: 18px 10px 5px 10px;
         word-wrap: break-word;
@@ -437,7 +437,7 @@ header.details-header {
     }
 
     td {
-        color: $blue-darker;
+        color: $black;
         text-align: left;
         padding-left: 10px;
         word-wrap: break-word;
