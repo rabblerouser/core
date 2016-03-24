@@ -193,7 +193,7 @@ describe('inputValidator', () => {
             undefined,
             'A valid text block',
             'Flo the 1st<',
-            'a'.repeat(257)
+            'a'.repeat(99999)
         ];
 
         validTestCases.forEach((input) => {
@@ -203,7 +203,7 @@ describe('inputValidator', () => {
         });
 
         let testCases = [
-            'a'.repeat(2000)
+            'a'.repeat(100000)
         ];
 
         testCases.forEach((input) => {
@@ -215,12 +215,12 @@ describe('inputValidator', () => {
 
     describe('isValidTextBlock', () => {
       it('Should be valid if it is a big string', () => {
-        expect(inputValidator.isValidTextBlock(Array(1999).join('a'))).toBe(true);
+        expect(inputValidator.isValidTextBlock('a'.repeat(99999))).toBe(true);
       });
 
       [
           '',
-          'a'.repeat(2000),
+          'a'.repeat(100000),
           null,
           undefined
       ].forEach((testCase) => {

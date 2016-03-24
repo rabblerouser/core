@@ -18,7 +18,8 @@ const memberFieldsChecks =
     dateOfBirth: inputValidator.isValidDate,
     branchId: isValidBranch,
     schoolType: inputValidator.isValidString,
-    additionalInfo: inputValidator.isValidOptionalTextBlock
+    additionalInfo: inputValidator.isValidOptionalTextBlock,
+    pastoralNotes: inputValidator.isValidOptionalTextBlock
 };
 
 var isValidDetails = (member) => {

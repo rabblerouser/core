@@ -30,11 +30,11 @@ var isValidText = (text) => {
 };
 
 var isValidOptionalTextBlock = (block) => {
-    return isEmpty(block) ||  block.length < 2000;
+    return isEmpty(block) ||  block.length < 100000;
 };
 
 var isValidTextBlock = (block) => {
-    return !!block && block.length < 2000;
+    return !!block && block.length < 100000;
 };
 
 var isValidEmail = (email) => {

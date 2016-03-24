@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
         contactFirstName: DataTypes.STRING,
         contactLastName: DataTypes.STRING,
         schoolType: { type: DataTypes.STRING, allowNull : true},
-        additionalInfo: { type: DataTypes.STRING(2000), allowNull : true},
-        pastoralNotes: { type: DataTypes.STRING(2000), allowNull : true}
+        additionalInfo: { type: DataTypes.TEXT, allowNull : true},
+        pastoralNotes: { type: DataTypes.TEXT, allowNull : true}
     }, {
         classMethods: {
             associate: (models) => {
