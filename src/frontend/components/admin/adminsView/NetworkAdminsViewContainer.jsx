@@ -33,9 +33,15 @@ export default class NetworkAdminsViewContainer extends Component {
 
     updateAdmins(collection, element) {
         let newElements = collection.slice(0);
-        _.extend(newElements.find (g => g.id === element.id), element);
+        let oldElement = newElements.find (g => g.id === element.id);
+        if(oldElement) {
+            Object.assign(oldElement, element);
+        }
+        else {
+            newElements.push(element);
+        }
         this.setState({admins: newElements});
-    }
+    } 
 
     componentDidMount() {
         adminService.getNetworkAdmins()
