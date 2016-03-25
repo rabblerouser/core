@@ -135,7 +135,6 @@ export default class AdminDashboard extends Component {
                     onActionSuccess={this.setUserMessage.bind(this)}
                 />
                 <NetworkAdminsViewContainer
-                        labId={this.state.selectedLab.id}
                         onPreAction={this.clearMessages.bind(this)}
                         onActionError={this.handleError.bind(this)}
                         onActionSuccess={this.setUserMessage.bind(this)}

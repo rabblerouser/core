@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import AdminsView from './AdminsView.jsx';
 import adminService from '../../../services/adminService.js';
+import _ from 'underscore';
 
 export default class NetworkAdminsViewContainer extends Component {
 
@@ -11,7 +12,7 @@ export default class NetworkAdminsViewContainer extends Component {
             onSave: (adminDetails) => {
                 this.props.onPreAction();
                 let saveAction = this.state.admins.find(admin => admin.id === adminDetails.id) === undefined ? adminService.createNetworkAdmin : adminService.updateNetworkAdmin;
-                saveAction(adminDetails, this.props.labId)
+                saveAction(adminDetails)
                     .then((savedAdmin) => {
                         this.updateAdmins(this.state.admins, savedAdmin);
                         this.props.onActionSuccess('Network admin successfully saved');
@@ -22,7 +23,7 @@ export default class NetworkAdminsViewContainer extends Component {
                 this.props.onPreAction();
                 adminService.deleteNetworkAdmin(selected)
                 .then(()=> {
-                    this.removeAndUpdate(this.state.admins, selected);
+                    this.setState({admins: _.without(this.state.admins, selected)});
                     this.props.onActionSuccess('Network admin successfully deleted');
                 })
                 .catch(this.props.onActionError);
@@ -32,28 +33,13 @@ export default class NetworkAdminsViewContainer extends Component {
 
     updateAdmins(collection, element) {
         let newElements = collection.slice(0);
-        let oldElement = newElements.find (g => g.id === element.id);
-        if(oldElement) {
-            Object.assign(oldElement, element);
-        }
-        else {
-            newElements.push(element);
-        }
+        _.extend(newElements.find (g => g.id === element.id), element);
         this.setState({admins: newElements});
     }
 
-    removeAndUpdate(collection, element) {
-        let oldElement = collection.find(item => item.id === element.id);
-        this.setState({admins: _.without(collection, oldElement)});
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.labId && nextProps.labId !== this.props.labId) {
-            adminService.getNetworkAdmins(nextProps.labId)
-                    .then( admins => {
-                        this.setState({admins: admins});
-                    });
-        }
+    componentDidMount() {
+        adminService.getNetworkAdmins()
+            .then( admins => this.setState({admins: admins}) );
     }
 
     render() {
@@ -71,8 +57,7 @@ export default class NetworkAdminsViewContainer extends Component {
 NetworkAdminsViewContainer.propTypes = {
     onPreAction: React.PropTypes.func,
     onActionError: React.PropTypes.func,
-    onActionSuccess: React.PropTypes.func,
-    labId : React.PropTypes.string
+    onActionSuccess: React.PropTypes.func
 };
 
 export default NetworkAdminsViewContainer
