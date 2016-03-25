@@ -30,8 +30,8 @@ function tableColumns(onSave, onDelete) {
             cell: (nothing, admin, rowIndex) => {
                 return {
                     value: (<div>
-                                <EditAdminModalLauncher admin={admin[rowIndex]} onSave={ onSave }/>
-                                <DeleteAdminButton admin={admin[rowIndex]} onDelete={ onDelete }/>
+                                <EditAdminModalLauncher type={this.props.type} admin={admin[rowIndex]} onSave={ onSave }/>
+                                <DeleteAdminButton type={this.props.type} admin={admin[rowIndex]} onDelete={ onDelete }/>
                             </div>)
                 };
             },
@@ -62,7 +62,10 @@ export default class AdminsList extends Component {
         let data = sortColumn.sort(this.props.admins, this.state.sortingColumn, sortByOrder);
 
         return (
+            <section>
             <Table columns={this.state.columns} data={data} columnNames={this.state.columnNames}/>
+            { this.props.admins.length === 0 ? (<aside className="no-entries">{this.props.type ? 'No ' + this.props.type.toLowerCase()+ 's' : ''}</aside>) : ''}
+        </section>
         );
     }
 }

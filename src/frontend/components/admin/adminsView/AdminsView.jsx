@@ -2,15 +2,16 @@ import React from 'react';
 import AdminsList from './AdminsList.jsx';
 import AddAdminModalLauncher from './AddAdminModalLauncher.jsx';
 
-const AdminsView = ({ title, admins, onSaveAdmin, onDeleteAdmin }) => (
+const AdminsView = ({ type, admins, onSaveAdmin, onDeleteAdmin }) => (
     <section className="admin-section" id="organisers">
         <h3>
-            {title}
+            {type}s
             <AddAdminModalLauncher
+                type={type}
                 onSave={onSaveAdmin}
             />
         </h3>
-        <AdminsList onSave={onSaveAdmin} onDelete={onDeleteAdmin} admins={admins} />
+        <AdminsList type={type} onSave={onSaveAdmin} onDelete={onDeleteAdmin} admins={admins} />
     </section>
 );
 

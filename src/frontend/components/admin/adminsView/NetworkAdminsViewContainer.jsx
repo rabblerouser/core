@@ -45,7 +45,7 @@ export default class NetworkAdminsViewContainer extends Component {
     render() {
         return (
             <AdminsView
-                title='Network Admins'
+                type={'Network Admin'}
                 admins={this.state.admins}
                 onSaveAdmin={this.state.onSave}
                 onDeleteAdmin={this.state.onDelete}

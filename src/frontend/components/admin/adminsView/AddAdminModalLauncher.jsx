@@ -34,6 +34,7 @@ export default class AddAdminModalLauncher extends Component {
                         onRequestClose={this.closeAddForm.bind(this)}
                         style={customStyle}>
                         <AddAdminForm
+                            type={this.props.type}
                             onSave={this.props.onSave}
                             onSuccess={this.closeAddForm.bind(this)}/>
                     </Modal>

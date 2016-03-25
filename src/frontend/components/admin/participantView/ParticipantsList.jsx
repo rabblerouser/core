@@ -97,6 +97,7 @@ export default class ParticipantsList extends Component {
         return (
             <section className="admin-section" id="participant-list">
                 <Table columns={this.state.columns} data={lessHacky} columnNames={this.state.columnNames}/>
+                { this.props.participants.length === 0 ? (<aside className="no-entries">No participants</aside>) : ''}
             </section>
         );
     }
