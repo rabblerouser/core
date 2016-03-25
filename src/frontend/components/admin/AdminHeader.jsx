@@ -10,7 +10,7 @@ const AdminHeader = ({labs, selectedLab, onSelectLab}) => {
         return _.sortBy(labs, 'name').map( lab => (<option key={lab.id} value={lab.id}>{lab.name}</option>));
     };
 
-    let labDescription = onSelectLab ? (<select defaultValue={selectedLab.id} onChange={selectLab}>{ mapLabOptions() }</select>)
+    let labDescription = onSelectLab ? (<select value={selectedLab.id} onChange={selectLab}>{ mapLabOptions() }</select>)
     : (<span className='currentlab'>{selectedLab.name}</span>)
 
     function selectLab(event) {
