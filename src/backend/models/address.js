@@ -8,10 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     state: DataTypes.STRING,
     postcode: {type: DataTypes.STRING, validate: {len: [4,17]}}
   }, {
+    paranoid: true,
     classMethods: {
       associate: (models) => {
-          Address.hasOne(models.Member, {foreignKey: "postalAddressId"});
-          Address.hasOne(models.Member, {foreignKey: "residentialAddressId"});
+          Address.hasOne(models.Member, {foreignKey: 'postalAddressId'});
+          Address.hasOne(models.Member, {foreignKey: 'residentialAddressId'});
       }
     }
   });

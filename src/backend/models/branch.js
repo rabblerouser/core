@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         contact: DataTypes.STRING,
         key: { type: DataTypes.UUID, defaultValue: uuid.v4()}
     }, {
+        paranoid: true,
         classMethods: {
             associate: (models) => {
                 Branch.belongsToMany(models.Group, { through: 'BranchGroups', foreignKey: 'branchId' });

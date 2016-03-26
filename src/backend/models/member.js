@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         additionalInfo: { type: DataTypes.TEXT, allowNull : true},
         pastoralNotes: { type: DataTypes.TEXT, allowNull : true}
     }, {
+        paranoid: true,
         classMethods: {
             associate: (models) => {
                 Member.belongsTo(models.Address, { as: 'postalAddress', foreignKey: 'postalAddressId' });
