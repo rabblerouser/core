@@ -25,6 +25,8 @@ function deleteAdmin(req, res) {
     });
 }
 
+
+
 function parseAdmin(req) {
     let admin = {};
     if (req.body.name !== undefined ) { admin.name = req.body.name; }
