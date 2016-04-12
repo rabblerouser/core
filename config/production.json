@@ -3,7 +3,7 @@
     "sendEmails": false
   },
   "session": {
-    "domain": "register.thelab.org.au",
+    "domain": "rabble-rousr.herokuapp.com",
     "proxy": true,
     "secureCookie": true
   },
