@@ -67,9 +67,10 @@
     "winston": "^2.1.1"
   },
   "devDependencies": {
-    "babel-eslint": "^5.0.0-beta6",
+    "babel-eslint": "^6.0.0",
     "casperjs": "^1.1.0-beta3",
     "core-js": "^2.0.3",
+    "eslint": "^2.7.0",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
     "jasmine-reporters": "^2.1.1",
