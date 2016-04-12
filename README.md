@@ -36,16 +36,6 @@
 
         npm test
 
-0. Run the acceptance tests
-
-        1. First set up a admin email and admin password:
-                export ACCEPTANCE_EMAIL=some email here
-                export ACCEPTANCE_PASSWORD=some password here
-        2. Start the server:
-                npm start
-        3. Then run:
-                npm run acceptanceTests
-
 0. Start the server
 
         npm start
