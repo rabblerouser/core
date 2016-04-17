@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^6.0.2",
-    "casperjs": "^1.1.0-beta3",
+    "casperjs": "^1.1.0",
     "core-js": "^2.0.3",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
@@ -82,7 +82,7 @@
     "karma-sinon": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
-    "phantomjs": "^1.9.19",
+    "phantomjs-prebuilt": "^2.1.7",
     "query-string": "^3.0.0",
     "react-addons-test-utils": "0.14.7",
     "sinon": "^1.17.2",
