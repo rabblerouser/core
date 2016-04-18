@@ -1,6 +1,6 @@
-# Lab Assistant
+# rabblerouser-core
 
-[![Build Status](https://snap-ci.com/thelabtw/lab-assistant/branch/master/build_image)](https://snap-ci.com/thelabtw/lab-assistant/branch/master)
+[![Build Status](https://snap-ci.com/rabble-rousr/rabble-rousr/branch/master/build_image)](https://snap-ci.com/rabble-rousr/rabble-rousr/branch/master)
 
 ## Dev setup
 
@@ -8,7 +8,7 @@
 0. Install [ansible](https://docs.ansible.com/ansible/intro_installation.html)
 0. Clone the project
 
-        git clone https://github.com/thelabtw/lab-assistant.git
+        git clone https://github.com/rabble-rousr/rabble-rousr.git
 
 0. Start the vagrant vm
 
