@@ -8,7 +8,7 @@
 0. Install [ansible](https://docs.ansible.com/ansible/intro_installation.html)
 0. Clone the project
 
-        git clone https://github.com/rabble-rousr/rabble-rousr.git
+        git clone https://github.com/rabblerouser/rabblerouser-core.git
 
 0. Start the vagrant vm
 
