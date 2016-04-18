@@ -1,5 +1,5 @@
-require('./casperHelper');
-var registrationPage = require('./pages/registrationPage');
+require('casperHelper');
+var registrationPage = require('pages/registrationPage');
 var then = casper.then.bind(casper);
 
 casper.test.begin('I should get validation errors if I don\'t fill in the form', 2, function suite(test) {
@@ -19,11 +19,11 @@ casper.test.begin('I should get validation errors if I don\'t fill in the form',
     });
 });
 
-casper.test.begin('I should be able to register', 2, function suite(test) {
+casper.test.begin('I should be able to register', 3, function suite(test) {
 
     registrationPage.startAtRegister();
     then(function() {
-        test.assertEquals(registrationPage.progressMessage(), 'Register for The Lab')
+        test.assertEquals(registrationPage.progressMessage(), 'Register for The Lab');
     });
 
     registrationPage.fillForm.lab('Bega (NSW)');
@@ -41,7 +41,7 @@ casper.test.begin('I should be able to register', 2, function suite(test) {
 
     then(function() {
         test.assertEquals(registrationPage.validationErrors(), "");
-        this.waitFor(function check() {
+        casper.wait(200, function () {
             return test.assertEquals(registrationPage.progressMessage(), 'Finish');
         });
     });

@@ -1,5 +1,10 @@
 var PATH = '/';
 
+var startAtRegister = function startAtRegister() {
+    var baseUrl = casper.cli.get('url');
+    casper.start(baseUrl + PATH);
+}
+
 var input = function(id) {
     return function(text) {
         casper.then(function() {
@@ -48,16 +53,13 @@ var clickButton = function(id) {
     }
 }
 
-var startAtRegister = function() {
-    var baseUrl = casper.cli.get('url');
-    casper.start(baseUrl + PATH);
-}
-
 var textAtClass = function(className) {
-    return casper.evaluate(function() {
-        var field = document.querySelector('.validationErrors');
-        return field === null ? null : field.innerText;
-    });
+    return function() {
+        return casper.evaluate(function(name) {
+            var field = document.querySelector('.' + name);
+            return field === null ? null : field.innerText;
+        }, className);
+    };
 }
 
 module.exports = {
@@ -76,6 +78,6 @@ module.exports = {
         additionalInfo: input('additionalInfo')
     },
     clickContinue: clickLabeledButton('Register'),
-    progressMessage: textAtClass('.form-title'),
-    validationErrors: textAtClass('.validationErrors')
-};
+    progressMessage: textAtClass('form-title'),
+    validationErrors: textAtClass('validationErrors')
+}
