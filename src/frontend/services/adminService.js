@@ -17,7 +17,7 @@ const logout = () => {
   window.location.href = '/logout';
 };
 
-function adaptAdmin(admin) {
+const adaptAdmin = admin => {
   const adapted = {
     id: admin.id,
     name: admin.name,
@@ -30,7 +30,7 @@ function adaptAdmin(admin) {
   }
 
   return adapted;
-}
+};
 
 const deleteNetworkAdmin = admin => (
   Q($.ajax({

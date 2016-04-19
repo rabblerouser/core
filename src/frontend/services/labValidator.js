@@ -1,28 +1,19 @@
-'use strict';
 import inputValidator from '../../backend/lib/inputValidator';
 import _ from 'lodash';
 
-const labFieldsChecks =
-{
-    name: inputValidator.isValidText
+const labFieldsChecks = {
+  name: inputValidator.isValidText,
 };
 
-var isValidDetails = (lab) => {
-    return _.reduce(labFieldsChecks, function(errors, checkFn, labFieldKey) {
-        if (!lab || !checkFn(lab[labFieldKey])){
-            errors.push(labFieldKey);
-        }
-        return errors;
-    },[]);
-};
+const isValidDetails = lab => (
+  _.reduce(labFieldsChecks, (errors, checkFn, labFieldKey) => {
+    if (!lab || !checkFn(lab[labFieldKey])) {
+      errors.push(labFieldKey);
+    }
+    return errors;
+  }, [])
+);
 
-var isValid = (lab) => {
-    var errors = [
-        isValidDetails(lab)
-    ];
-    return _.flatten(errors);
-};
+const isValid = lab => _.flatten([isValidDetails(lab)]);
 
-module.exports = {
-    isValid: isValid
-};
+export default { isValid };

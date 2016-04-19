@@ -17,4 +17,4 @@ const isValidDetails = group => (
 
 const isValid = group => _.flatten([isValidDetails(group)]);
 
-module.exports = { isValid };
+export default { isValid };
