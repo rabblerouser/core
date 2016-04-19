@@ -101,7 +101,7 @@ export default {
   logout,
   update,
   create,
-  deleteOrganiser,
+  delete: deleteOrganiser,
   getNetworkAdmins,
   createNetworkAdmin,
   updateNetworkAdmin,
