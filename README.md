@@ -1,6 +1,6 @@
 # rabblerouser-core
 
-[![Build Status](https://snap-ci.com/rabble-rousr/rabble-rousr/branch/master/build_image)](https://snap-ci.com/rabble-rousr/rabble-rousr/branch/master)
+[![Build Status](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master/build_image)](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master)
 
 ## Dev setup
 
