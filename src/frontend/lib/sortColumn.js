@@ -1,36 +1,36 @@
-'use strict';
+import { isString } from 'lodash';
 
-import {isString} from 'lodash';
+const sortColumn = (columns, column, done) => {
+  // reset old classes
+  columns.forEach(col => {
+    col.headerClass = col.headerClass.replace('sort-asc', '');
+    col.headerClass = col.headerClass.replace('sort-desc', '');
+  });
 
-module.exports = function (columns, column, done) {
-    // reset old classes
-    columns.forEach(function (col) {
-        col.headerClass = col.headerClass.replace('sort-asc', '');
-        col.headerClass = col.headerClass.replace('sort-desc', '');
-    });
+  column.sort = column.sort === 'asc' ? 'desc' : 'asc';
 
-    column.sort = column.sort === 'asc' ? 'desc' : 'asc';
+  // push sorting hint
+  column.headerClass += ` sort-${column.sort}`;
 
-    // push sorting hint
-    column.headerClass += ' sort-' + column.sort;
-
-    done({
-        sortingColumn: column,
-        columns: columns
-    });
+  done({
+    sortingColumn: column,
+    columns,
+  });
 };
 
 // sorter === lodash sortByOrder
 // https://lodash.com/docs#sortByOrder
-module.exports.sort = function (data, column, sorter) {
-    if (!column) {
-        return data;
-    }
+sortColumn.sort = (data, column, sorter) => {
+  if (!column) {
+    return data;
+  }
 
-    let sortFn = function (row) {
-        let value = row[column.property];
-        return isString(value) ? value.toLowerCase() : value;
-    };
+  const sortFn = row => {
+    const value = row[column.property];
+    return isString(value) ? value.toLowerCase() : value;
+  };
 
-    return sorter(data, [sortFn], [column.sort]);
+  return sorter(data, [sortFn], [column.sort]);
 };
+
+export default sortColumn;

@@ -6,7 +6,7 @@ import TestUtils from 'react-addons-test-utils';
 import NewMemberForm from '../../components/NewMemberForm.jsx';
 import $ from 'jquery';
 
-let windowLocationUtil = require('../../lib/windowLocationUtil.js');
+import windowLocationUtil from '../../lib/windowLocationUtil.js';
 
 describe('NewMemberForm', () => {
     it('should exist', () => {

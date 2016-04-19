@@ -1,7 +1,3 @@
-'use strict';
-
-module.exports ={
-  getQueryParameters: function() {
-    return window.location.search;
-  }
+export default {
+  getQueryParameters: () => window.location.search,
 };
