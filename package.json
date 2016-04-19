@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint --ext js,jsx src",
     "postinstall": "./node_modules/webpack/bin/webpack.js --config ./webpack.config.js --progress --colors -p",
     "prestart": "node_modules/sequelize-cli/bin/sequelize --config config/db.json db:migrate",
     "start": "node ./bin/www",
