@@ -1,10 +1,10 @@
 'use strict';
+/*jshint expr: true*/
 
-const specHelper = require('../../../support/specHelper'),
-      sinon = specHelper.sinon,
-      Group = specHelper.models.Group,
-      Branch = specHelper.models.Branch,
-      Q = specHelper.Q;
+const models = require('../../../../src/backend/models');
+let Group = models.Group;
+let Branch = models.Branch;
+const Q = require('q');
 
 var groupService = require('../../../../src/backend/services/groupService');
 
@@ -41,10 +41,11 @@ describe('groupService', () => {
                 .returns(Promise.resolve(fakeGroupsListFromDb()));
 
             groupService.list().then((result) => {
-                expect(result.length).toEqual(2);
-                expect(result[0].name).toEqual('Waiting list');
-                expect(result[0].description).toEqual('The waiting list group');
-            }).then(done, done.fail);
+                expect(result.length).to.equal(2);
+                expect(result[0].name).to.equal('Waiting list');
+                expect(result[0].description).to.equal('The waiting list group');
+            }).then(done)
+            .catch(done);
         });
 
         describe('sad scenario', () => {
@@ -56,10 +57,11 @@ describe('groupService', () => {
                     done.fail('This should not have succeded');
                 })
                 .catch((error) => {
-                    expect(Group.findAll).toHaveBeenCalled();
-                    expect(error.message).toEqual('An error has occurred while fetching groups');
+                    expect(Group.findAll).to.have.been.called;
+                    expect(error.message).to.equal('An error has occurred while fetching groups');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
         });
     });
@@ -84,11 +86,12 @@ describe('groupService', () => {
                 done.fail('This should not have succeded');
             })
             .catch((error) => {
-                expect(Branch.findById).toHaveBeenCalled();
-                expect(Group.create).not.toHaveBeenCalled();
-                expect(error.message).toEqual('An error has occurred while creating group for branch with id: some-branch-id');
+                expect(Branch.findById).to.have.been.called;
+                expect(Group.create).not.to.have.been.called;
+                expect(error.message).to.equal('An error has occurred while creating group for branch with id: some-branch-id');
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch(done);
         });
 
         it('should handle when there is an error creating the branch', (done) => {
@@ -100,11 +103,12 @@ describe('groupService', () => {
                 done.fail('This should not have succeded');
             })
             .catch((error) => {
-                expect(Branch.findById).toHaveBeenCalled();
-                expect(Group.create).toHaveBeenCalled();
-                expect(error.message).toEqual('An error has occurred while creating group for branch with id: some-branch-id');
+                expect(Branch.findById).to.have.been.called;
+                expect(Group.create).to.have.been.called;
+                expect(error.message).to.equal('An error has occurred while creating group for branch with id: some-branch-id');
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch(done);
         });
     });
 
@@ -125,10 +129,11 @@ describe('groupService', () => {
 
             groupService.update({id: 'some-group-id', name: 'A group', description: 'description'}, 'some-group-id')
             .then(() => {
-                expect(Group.findById).toHaveBeenCalled();
-                expect(Group.update).toHaveBeenCalled();
+                expect(Group.findById).to.have.been.called;
+                expect(Group.update).to.have.been.called;
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch(done);
         });
 
         describe('sad scenario', () => {
@@ -142,11 +147,12 @@ describe('groupService', () => {
                     done.fail('This should not have succeded');
                 })
                 .catch((error) => {
-                    expect(Group.findById).toHaveBeenCalled();
-                    expect(Group.update).not.toHaveBeenCalled();
-                    expect(error.message).toEqual('An error has occurred while updating a group with id: some-group-id');
+                    expect(Group.findById).to.have.been.called;
+                    expect(Group.update).not.to.have.been.called;
+                    expect(error.message).to.equal('An error has occurred while updating a group with id: some-group-id');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
 
             it('should handle errors when updating', (done) => {
@@ -158,11 +164,12 @@ describe('groupService', () => {
                     done.fail('This should not have succeded');
                 })
                 .catch((error) => {
-                    expect(Group.findById).toHaveBeenCalled();
-                    expect(Group.update).toHaveBeenCalled();
-                    expect(error.message).toEqual('An error has occurred while updating a group with id: some-group-id');
+                    expect(Group.findById).to.have.been.called;
+                    expect(Group.update).to.have.been.called;
+                    expect(error.message).to.equal('An error has occurred while updating a group with id: some-group-id');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
         });
 
@@ -182,9 +189,10 @@ describe('groupService', () => {
 
             groupService.delete('some-group-id')
             .then(() => {
-                expect(Group.destroy).toHaveBeenCalledWith({where: {id: 'some-group-id'}});
+                expect(Group.destroy).to.have.been.calledWith({where: {id: 'some-group-id'}});
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch(done);
         });
 
         describe('this went bad', () => {
@@ -197,10 +205,11 @@ describe('groupService', () => {
                     done.fail('this should have failed');
                 })
                 .catch((error) => {
-                    expect(Group.destroy).toHaveBeenCalled();
-                    expect(error.message).toEqual('An error has occurred while deleting the group with id: null');
+                    expect(Group.destroy).to.have.been.called;
+                    expect(error.message).to.equal('An error has occurred while deleting the group with id: null');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
 
             it('should handle when deleting the group fails', (done) => {
@@ -211,10 +220,11 @@ describe('groupService', () => {
                     done.fail('this should have failed');
                 })
                 .catch((error) => {
-                    expect(Group.destroy).toHaveBeenCalled();
-                    expect(error.message).toEqual('An error has occurred while deleting the group with id: some-group-id');
+                    expect(Group.destroy).to.have.been.called;
+                    expect(error.message).to.equal('An error has occurred while deleting the group with id: some-group-id');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
         });
     });
