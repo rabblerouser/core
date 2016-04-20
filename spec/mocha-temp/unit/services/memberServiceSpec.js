@@ -2,17 +2,11 @@
 
 const models = require('../../../../src/backend/models'),
   Member = models.Member,
-  sinon = require('sinon'),
-  chai = require('chai'),
-  expect = chai.expect,
   Q = require('q'),
   moment = require('moment'),
   uuid = require('node-uuid'),
   sample = require('lodash').sample,
-  times = require('lodash').times,
-  sinonChai = require('sinon-chai');
-
-chai.use(sinonChai);
+  times = require('lodash').times;
 
 var memberService = require('../../../../src/backend/services/memberService');
 var branchService = require('../../../../src/backend/services/branchService');

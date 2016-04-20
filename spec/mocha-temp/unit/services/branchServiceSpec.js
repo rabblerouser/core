@@ -1,14 +1,8 @@
 'use strict';
 
-const sinon = require('sinon'),
-      chai = require('chai'),
-      expect = chai.expect,
-      Q = require('q'),
-      sinonChai = require('sinon-chai'),
+const Q = require('q'),
       models = require('../../../../src/backend/models'),
       Branch = models.Branch;
-
-chai.use(sinonChai);
 
 var branchService = require('../../../../src/backend/services/branchService');
 
