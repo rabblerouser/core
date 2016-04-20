@@ -32,6 +32,7 @@
       "after": false,
       "expect": false,
       "jasmine": false,
-      "casper": false
+      "casper": false,
+      "sinon": false
   }
 }

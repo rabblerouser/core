@@ -1,4 +1,5 @@
 'use strict';
+/*jshint expr: true*/
 
 const models = require('../../../../src/backend/models'),
   Member = models.Member,
