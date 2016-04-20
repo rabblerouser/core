@@ -1,11 +1,8 @@
-'use strict';
 import memberAdapter from '../../adapters/memberAdapter.js';
 
 describe('member request adapter', () => {
-
   describe('prepareNewMemberPayload', () => {
-
-    let fields = {
+    const fields = {
       labSelection: 'i',
       contactName: 'g',
       contactLastName: 'h',
@@ -16,10 +13,10 @@ describe('member request adapter', () => {
       participantBirthYear: '2000',
       schoolType: 'Other',
       schoolTypeOtherText: 'home',
-      additionalInfo: 'j'
+      additionalInfo: 'j',
     };
 
-    let expectedPayload = {
+    const expectedPayload = {
       firstName: 'a',
       lastName: 'b',
       email: 'c',
@@ -29,11 +26,11 @@ describe('member request adapter', () => {
       contactFirstName: 'g',
       contactLastName: 'h',
       branchId: 'i',
-      additionalInfo: 'j'
+      additionalInfo: 'j',
     };
 
     it('should convert to the correct fieldnames for the api', () => {
-      let result = memberAdapter.prepareNewMemberPayload(fields);
+      const result = memberAdapter.prepareNewMemberPayload(fields);
       expect(result).toEqual(expectedPayload);
     });
   });
