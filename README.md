@@ -4,6 +4,7 @@
 
 ## Dev setup
 
+0. Install [virtual box](https://www.virtualbox.org/)
 0. Install [vagrant](https://www.vagrantup.com/downloads.html)
 0. Install [ansible](https://docs.ansible.com/ansible/intro_installation.html)
 0. Clone the project
