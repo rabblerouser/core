@@ -167,7 +167,7 @@ describe('memberService', () => {
             branchService.findById.restore();
         });
 
-        it.only('creates a new member in a new branch', (done) => {
+        it('creates a new member in a new branch', (done) => {
             residentialAddressPromise.resolve(fakeResidentialAddressFromDB());
             postalAddressPromise.resolve(fakePostalAddressFromDB());
             memberPromise.resolve(fakeResultFromDbWhenSavingMember(fakeResidentialAddressId, fakePostalAddressId));
@@ -204,11 +204,13 @@ describe('memberService', () => {
 
             memberService.createMember(fakeNewMember(fakeResidentialAddress(), fakePostalAddress()))
             .then(() => {
-                expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
+                expect(createMemberStub).to.have.been.calledWith(sinon.match({
                     residentialAddressId: fakeResidentialAddressId,
                     postalAddressId: fakePostalAddressId
                 }));
-            }).then(done, done.fail);
+            })
+            .then(done)
+            .catch(done);
         });
 
         it('creates a new member with no address', (done) => {
@@ -217,12 +219,14 @@ describe('memberService', () => {
 
             memberService.createMember(fakeNewMember())
             .then(() => {
-                expect(addressStub).not.toHaveBeenCalled();
-                expect(createMemberStub).toHaveBeenCalledWith(jasmine.objectContaining({
+                expect(addressStub).not.to.have.been.called;
+                expect(createMemberStub).to.have.been.calledWith(sinon.match({
                     residentialAddressId: null,
                     postalAddressId: null,
                 }));
-            }).then(done, done.fail);
+            })
+            .then(done)
+            .catch(done);
         });
 
         it('creates a new member with same residential and postal address', (done) => {
@@ -235,11 +239,13 @@ describe('memberService', () => {
 
             memberService.createMember(input)
             .then(() => {
-                expect(Member.create).toHaveBeenCalledWith(jasmine.objectContaining({
+                expect(Member.create).to.have.been.calledWith(sinon.match({
                     residentialAddressId: 1,
                     postalAddressId: 1
                 }));
-            }).then(done, done.fail);
+            })
+            .then(done)
+            .catch(done);
         });
 
         describe('things went bad', () => {
@@ -253,11 +259,12 @@ describe('memberService', () => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
                 .catch((error) => {
-                    expect(branchService.findById).toHaveBeenCalled();
-                    expect(Member.create).not.toHaveBeenCalled();
-                    expect(error).toEqual('Create Member failed');
+                    expect(branchService.findById).to.have.been.called;
+                    expect(Member.create).not.to.have.been.called;
+                    expect(error).to.equal('Create Member failed');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
 
             it('handles db errors when saving the residential address', (done) => {
@@ -270,10 +277,11 @@ describe('memberService', () => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
                 .catch((error) => {
-                    expect(Member.create).not.toHaveBeenCalled();
-                    expect(error).toEqual('Create Member failed');
+                    expect(Member.create).not.to.have.been.called;
+                    expect(error).to.equal('Create Member failed');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
 
             it('handles db errors when saving the postal address', (done) => {
@@ -287,10 +295,11 @@ describe('memberService', () => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
                 .catch((error) => {
-                    expect(Member.create).not.toHaveBeenCalled();
-                    expect(error).toEqual('Create Member failed');
+                    expect(Member.create).not.to.have.been.called;
+                    expect(error).to.equal('Create Member failed');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
 
             it('handles db erros when saving the member to the database', (done) => {
@@ -306,10 +315,11 @@ describe('memberService', () => {
                     done.fail('createMember should not have succeded. It should have failed.');
                 })
                 .catch((error) => {
-                    expect(Member.create).toHaveBeenCalled();
-                    expect(error).toEqual('Create Member failed');
+                    expect(Member.create).to.have.been.called;
+                    expect(error).to.equal('Create Member failed');
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
         });
     });
@@ -332,22 +342,23 @@ describe('memberService', () => {
             memberService.list('some-branch-id-1')
             .then((result) => {
                 let sampleMember = sample(result);
-                expect(result.length).toEqual(3);
+                expect(result.length).to.equal(3);
 
-                expect(sampleMember.branchId).toEqual('some-branch-id-1');
-                expect(sampleMember.id).not.toBeNull();
-                expect(sampleMember.email).not.toBeNull();
-                expect(sampleMember.firstName).not.toBeNull();
-                expect(sampleMember.lastName).not.toBeNull();
-                expect(sampleMember.primaryPhoneNumber).not.toBeNull();
-                expect(sampleMember.dateOfBirth).not.toBeNull();
-                expect(sampleMember.contactFirstName).not.toBeNull();
-                expect(sampleMember.contactLastName).not.toBeNull();
-                expect(sampleMember.schoolType).not.toBeNull();
-                expect(sampleMember.additionalInfo).not.toBeNull();
-                expect(sampleMember.pastoralNotes).not.toBeNull();
+                expect(sampleMember.branchId).to.equal('some-branch-id-1');
+                expect(sampleMember.id).to.not.be.null;
+                expect(sampleMember.email).to.not.be.null;
+                expect(sampleMember.firstName).to.not.be.null;
+                expect(sampleMember.lastName).to.not.be.null;
+                expect(sampleMember.primaryPhoneNumber).to.not.be.null;
+                expect(sampleMember.dateOfBirth).to.not.be.null;
+                expect(sampleMember.contactFirstName).to.not.be.null;
+                expect(sampleMember.contactLastName).to.not.be.null;
+                expect(sampleMember.schoolType).to.not.be.null;
+                expect(sampleMember.additionalInfo).to.not.be.null;
+                expect(sampleMember.pastoralNotes).to.not.be.null;
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch(done);
         });
 
         it('it should return the list of groups for each member', (done) => {
@@ -357,22 +368,23 @@ describe('memberService', () => {
             memberService.list('some-branch-id-1')
             .then((result) => {
                 let sampleMember = sample(result);
-                expect(result.length).toEqual(3);
+                expect(result.length).to.equal(3);
 
-                expect(sampleMember.branchId).toEqual('some-branch-id-1');
-                expect(sampleMember.id).not.toBeNull();
-                expect(sampleMember.email).not.toBeNull();
-                expect(sampleMember.firstName).not.toBeNull();
-                expect(sampleMember.lastName).not.toBeNull();
-                expect(sampleMember.primaryPhoneNumber).not.toBeNull();
-                expect(sampleMember.dateOfBirth).not.toBeNull();
-                expect(sampleMember.contactFirstName).not.toBeNull();
-                expect(sampleMember.contactLastName).not.toBeNull();
-                expect(sampleMember.schoolType).not.toBeNull();
-                expect(sampleMember.additionalInfo).not.toBeNull();
-                expect(sampleMember.pastoralNotes).not.toBeNull();
+                expect(sampleMember.branchId).to.equal('some-branch-id-1');
+                expect(sampleMember.id).to.not.be.null;
+                expect(sampleMember.email).to.not.be.null;
+                expect(sampleMember.firstName).to.not.be.null;
+                expect(sampleMember.lastName).to.not.be.null;
+                expect(sampleMember.primaryPhoneNumber).to.not.be.null;
+                expect(sampleMember.dateOfBirth).to.not.be.null;
+                expect(sampleMember.contactFirstName).to.not.be.null;
+                expect(sampleMember.contactLastName).to.not.be.null;
+                expect(sampleMember.schoolType).to.not.be.null;
+                expect(sampleMember.additionalInfo).to.not.be.null;
+                expect(sampleMember.pastoralNotes).to.not.be.null;
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch(done);
         });
 
         it('returns an empty list if there are no members associated with the branch', (done) => {
@@ -380,19 +392,22 @@ describe('memberService', () => {
 
             memberService.list('some-branch-id-1')
             .then((result) => {
-                expect(result.length).toEqual(0);
-                expect(Member.findAll).toHaveBeenCalled();
+                expect(result.length).to.equal(0);
+                expect(Member.findAll).to.have.been.called;
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch(done);
 
         });
 
         it('returns an empty list if no branch sent', (done) => {
             memberService.list(null)
             .then((result) => {
-                expect(Member.findAll).not.toHaveBeenCalled();
-                expect(result.length).toEqual(0);
-            }).then(done, done.fail);
+                expect(Member.findAll).not.to.have.been.called;
+                expect(result.length).to.equal(0);
+            })
+            .then(done)
+            .catch(done);
         });
 
         describe('sad path', () => {
@@ -406,9 +421,11 @@ describe('memberService', () => {
                     done.fail('This should not be resolving successfully');
                 })
                 .catch((error) => {
-                    expect(Member.findAll).toHaveBeenCalled();
-                    expect(error).toEqual('An error has occurred while fetching members');
-                }).then(done, done.fail);
+                    expect(Member.findAll).to.have.been.called;
+                    expect(error).to.equal('An error has occurred while fetching members');
+                })
+                .then(done)
+                .catch(done);
             });
         });
     });
