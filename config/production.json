@@ -3,7 +3,7 @@
     "sendEmails": false
   },
   "session": {
-    "domain": "rabble-rousr.herokuapp.com",
+    "domain": "rabblerouser-core.herokuapp.com",
     "proxy": true,
     "secureCookie": true
   },
