@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
+import React from 'react';
+import { render } from 'react-dom';
 import NewMemberForm from './NewMemberForm.jsx';
-import { Resources } from '../config/strings';
 
 const App = () => (
   <div className="container">

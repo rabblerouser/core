@@ -7,3 +7,6 @@ rules:
     - error
     - capIsNewExceptions:
       - Q
+  arrow-parens:
+    - error
+    - as-needed

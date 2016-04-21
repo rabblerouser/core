@@ -1,0 +1,8 @@
+#TODO: Remove this file - going to come back to these rules later:
+rules:
+  react/sort-comp:
+    - warn
+  react/prop-types:
+    - warn
+  react/jsx-no-bind:
+    - warn
