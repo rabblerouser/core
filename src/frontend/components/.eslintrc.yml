@@ -6,3 +6,5 @@ rules:
     - warn
   react/jsx-no-bind:
     - warn
+  react/no-set-state:
+    - warn
