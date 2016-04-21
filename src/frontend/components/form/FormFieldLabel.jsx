@@ -2,15 +2,18 @@ import { ApplicationFormFieldLabels as Labels } from '../../config/strings.js';
 import React from 'react';
 import InlineError from './InlineError.jsx';
 
-export default ({ fieldName, isOptional, hasError }) => {
 
-  let error = hasError && fieldName ? (<InlineError errorFor={ fieldName }/>) : "";
-  let optional = isOptional ? ( <span className='optional'> (optional)</span> ) :
-                              ( <span className='mandatory'></span> );
+const FormFieldLabel = props => {
+  const error = props.hasError && props.fieldName ? <InlineError errorFor={props.fieldName} /> : '';
+  const optional = props.isOptional ? <span className="optional"> (optional)</span> : <span className="mandatory" />;
+
   return (
-    <label className={ hasError ? 'invalid' : '' } htmlFor={ fieldName }>{Labels[fieldName]}
+    <label className={props.hasError ? 'invalid' : '' } htmlFor={props.fieldName}>
+      {Labels[props.fieldName]}
       { optional }
       { error }
     </label>
-  )
-}
+  );
+};
+
+export default FormFieldLabel;
