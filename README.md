@@ -124,3 +124,5 @@ Happy hacking!
 0. Setup run configuration to node and "javascript/file" to be bin/www
 
 0. Optionally install vagrant plugin
+
+
