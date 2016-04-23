@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { sortByOrder } from 'lodash';
-const Table = require('reactabular').Table;
+import { Table } from 'reactabular';
 import sortColumn from '../../../lib/sortColumn.js';
-const classnames = require('classnames');
+import classnames from 'classnames';
 import EditAdminModalLauncher from './EditAdminModalLauncher.jsx';
 import DeleteAdminButton from './DeleteAdminButton.jsx';
 

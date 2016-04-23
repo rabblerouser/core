@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { sortByOrder } from 'lodash';
-const Table = require('reactabular').Table;
+import { Table } from 'reactabular';
 import sortColumn from '../../../lib/sortColumn.js';
 import moment from 'moment';
 import classnames from 'classnames';
@@ -85,6 +85,8 @@ export default class ParticipantsList extends Component {
   render() {
     const data = sortColumn.sort(this.props.participants, this.state.sortingColumn, sortByOrder);
     const lessHacky = data.map(participant => {
+      /* eslint no-param-reassign: "warn"*/
+      // TODO: Don't mutate here, and remove eslint config above!
       participant.allGroups = this.props.groups;
       return participant;
     });

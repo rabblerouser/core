@@ -39,6 +39,8 @@ export default class ParticipantsViewContainer extends Component {
     const removedGroup = _.difference(oldGroups, newGroups)[0];
 
     const updatedParticipants = this.state.participants.map(participant => {
+      /* eslint no-param-reassign: "warn"*/
+      // TODO: Don't mutate here, and remove eslint config above!
       participant.groups = _.reject(participant.groups, group => group === removedGroup.id);
       return participant;
     });

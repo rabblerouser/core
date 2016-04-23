@@ -3,6 +3,8 @@ import { isString } from 'lodash';
 const sortColumn = (columns, column, done) => {
   // reset old classes
   columns.forEach(col => {
+    /* eslint no-param-reassign: "warn"*/
+    // TODO: Don't mutate here, and remove eslint config above!
     col.headerClass = col.headerClass.replace('sort-asc', '');
     col.headerClass = col.headerClass.replace('sort-desc', '');
   });
