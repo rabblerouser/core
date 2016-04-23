@@ -90,7 +90,7 @@ describe('participant adapter', () => {
         { participants: {} },
         {},
         null,
-      ].forEach((testCase) => {
+      ].forEach(testCase => {
         it(`Should throw an error on invalid data: ${testCase}`, () => {
           expect(() => {
             participantAdapter.parseParticipants(testCase);

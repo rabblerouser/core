@@ -1,13 +1,13 @@
 const invalidDataError = 'INVALID DATA';
 
-const parseString = (value) => {
+const parseString = value => {
   if (!value) {
     throw invalidDataError;
   }
   return value;
 };
 
-const parseGroupDetails = (data) => {
+const parseGroupDetails = data => {
   if (!data) {
     throw invalidDataError;
   }
@@ -18,7 +18,7 @@ const parseGroupDetails = (data) => {
   };
 };
 
-const parseGroups = (data) => {
+const parseGroups = data => {
   if (!data || !Array.isArray(data.groups)) {
     throw invalidDataError;
   }

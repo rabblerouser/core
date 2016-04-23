@@ -74,7 +74,7 @@ describe('lab adapter', () => {
         { branches: {} },
         {},
         null,
-      ].forEach((testCase) => {
+      ].forEach(testCase => {
         it(`Should throw an error on invalid data: ${testCase}`, () => {
           expect(() => {
             labAdapter.parseLabs(testCase);
@@ -127,7 +127,7 @@ describe('lab adapter', () => {
         { name: 'valid', id: '' },
         {},
         null,
-      ].forEach((testCase) => {
+      ].forEach(testCase => {
         it(`Should throw an error on invalid data: ${testCase}`, () => {
           expect(() => {
             labAdapter.parseLab(testCase);

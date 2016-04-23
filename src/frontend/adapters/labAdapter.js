@@ -1,13 +1,13 @@
 const invalidDataError = 'INVALID DATA';
 
-const parseString = (value) => {
+const parseString = value => {
   if (!value) {
     throw invalidDataError;
   }
   return value;
 };
 
-const parseLabDetails = (data) => {
+const parseLabDetails = data => {
   if (!data) {
     throw invalidDataError;
   }

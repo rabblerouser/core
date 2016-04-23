@@ -90,7 +90,7 @@ export default class Details extends Component {
             errorTitle={this.state.errorTitle}
           />
           <p>{Strings.instructions}</p>
-          <p><strong>{ Strings.byoReminder }</strong></p>
+          <p><strong>{Strings.byoReminder}</strong></p>
 
           <NewMemberFields
             onChange={this.onChange.bind(this)}

@@ -4,7 +4,7 @@ import { FormValidationErrors as Errors } from '../../config/strings.js';
 const InlineError = props => (
   <span className="invalid">
     <span className="errors">
-      { Errors[props.errorFor] ? Errors[props.errorFor].message : '' }
+      {Errors[props.errorFor] ? Errors[props.errorFor].message : ''}
     </span>
   </span>
 );

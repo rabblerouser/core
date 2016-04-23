@@ -68,7 +68,7 @@ describe('group adapter', () => {
         { groups: {} },
         {},
         null,
-      ].forEach((testCase) => {
+      ].forEach(testCase => {
         it(`Should throw an error on invalid data: ${testCase}`, () => {
           expect(() => {
             groupAdapter.parseGroups(testCase);
@@ -119,7 +119,7 @@ describe('group adapter', () => {
         { name: 'valid', description: 'valid', id: '' },
         {},
         null,
-      ].forEach((testCase) => {
+      ].forEach(testCase => {
         it(`Should throw an error on invalid data: ${testCase}`, () => {
           expect(() => {
             groupAdapter.parseGroup(testCase);

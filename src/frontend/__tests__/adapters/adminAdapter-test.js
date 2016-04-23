@@ -51,7 +51,7 @@ describe('admin adapter', () => {
         { admins: {} },
         {},
         null,
-      ].forEach((testCase) => {
+      ].forEach(testCase => {
         it(`Should throw an error on invalid data: ${testCase}`, () => {
           expect(() => {
             adminAdapter.parseAdmins(testCase);

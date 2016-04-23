@@ -36,9 +36,9 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should send a request to delete the admin from the lab', (done) => {
+      it('should send a request to delete the admin from the lab', done => {
         adminService.deleteNetworkAdmin(admin)
-          .then((result) => {
+          .then(result => {
             expect(result).toEqual('good');
             done();
           })
@@ -56,12 +56,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return a general server error', (done) => {
+        it('should return a general server error', done => {
           adminService.deleteNetworkAdmin(admin)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT AVAILABLE');
               done();
             });
@@ -75,12 +75,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.deleteNetworkAdmin(admin)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -94,12 +94,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.deleteNetworkAdmin(admin)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -118,9 +118,9 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should send a request to update the admin for the branch', (done) => {
+      it('should send a request to update the admin for the branch', done => {
         adminService.updateNetworkAdmin(admin)
-          .then((result) => {
+          .then(result => {
             expect(result).toEqual(validData);
             done();
           })
@@ -139,12 +139,12 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should return an error that return data was invalid', (done) => {
+      it('should return an error that return data was invalid', done => {
         adminService.updateNetworkAdmin(admin)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
-          .fail((error) => {
+          .fail(error => {
             expect(error.message).toEqual('NOT AVAILABLE');
             done();
           });
@@ -159,12 +159,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return a general server error', (done) => {
+        it('should return a general server error', done => {
           adminService.updateNetworkAdmin(admin)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT AVAILABLE');
               done();
             });
@@ -178,12 +178,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.updateNetworkAdmin(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -197,12 +197,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.updateNetworkAdmin(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -221,9 +221,9 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should send a request to save a new admin for the branch', (done) => {
+      it('should send a request to save a new admin for the branch', done => {
         adminService.createNetworkAdmin(admin, lab)
-          .then((result) => {
+          .then(result => {
             expect(result).toEqual(validData);
             done();
           })
@@ -242,12 +242,12 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should return an error that return data was invalid', (done) => {
+      it('should return an error that return data was invalid', done => {
         adminService.createNetworkAdmin(admin, lab)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
-          .fail((error) => {
+          .fail(error => {
             expect(error.message).toEqual('NOT AVAILABLE');
             done();
           });
@@ -262,12 +262,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return a general server error', (done) => {
+        it('should return a general server error', done => {
           adminService.createNetworkAdmin(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT AVAILABLE');
               done();
             });
@@ -281,12 +281,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.createNetworkAdmin(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -300,12 +300,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.createNetworkAdmin(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -339,9 +339,9 @@ describe('adminService', () => {
             JSON.stringify({ admins: validAdminPayload })]);
       });
 
-      it('should return a list of the labs', (done) => {
+      it('should return a list of the labs', done => {
         adminService.getNetworkAdmins()
-          .then((admins) => {
+          .then(admins => {
             expect(admins).toEqual(validAdminPayload);
           })
           .then(done, done.fail);
@@ -355,12 +355,12 @@ describe('adminService', () => {
             JSON.stringify({ invalid: invalidData })]);
       });
 
-      it('should return an error that return data was invalid', (done) => {
+      it('should return an error that return data was invalid', done => {
         adminService.getNetworkAdmins()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
-          .fail((error) => {
+          .fail(error => {
             expect(error.message).toEqual('NOT AVAILABLE');
             done();
           });
@@ -373,12 +373,12 @@ describe('adminService', () => {
         server.respondWith('GET', '/admins', [404, {}, '']);
       });
 
-      it('should return an error that the remote endpoint was not found', (done) => {
+      it('should return an error that the remote endpoint was not found', done => {
         adminService.getNetworkAdmins()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
-          .fail((error) => {
+          .fail(error => {
             expect(error.message).toEqual('NOT FOUND');
             done();
           });
@@ -390,12 +390,12 @@ describe('adminService', () => {
         server.respondWith('GET', '/admins', [500, {}, '']);
       });
 
-      it('should return a general server error', (done) => {
+      it('should return a general server error', done => {
         adminService.getNetworkAdmins()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
-          .fail((error) => {
+          .fail(error => {
             expect(error.message).toEqual('NOT AVAILABLE');
             done();
           });
@@ -413,9 +413,9 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should send a request to delete the admin from the lab', (done) => {
+      it('should send a request to delete the admin from the lab', done => {
         adminService.delete(admin, lab)
-          .then((result) => {
+          .then(result => {
             expect(result).toEqual('good');
             done();
           })
@@ -433,12 +433,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return a general server error', (done) => {
+        it('should return a general server error', done => {
           adminService.delete(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT AVAILABLE');
               done();
             });
@@ -452,12 +452,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.delete(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -471,12 +471,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.delete(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -495,9 +495,9 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should send a request to save a new admin for the branch', (done) => {
+      it('should send a request to save a new admin for the branch', done => {
         adminService.create(admin, lab)
-          .then((result) => {
+          .then(result => {
             expect(result).toEqual(validData);
             done();
           })
@@ -516,12 +516,12 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should return an error that return data was invalid', (done) => {
+      it('should return an error that return data was invalid', done => {
         adminService.create(admin, lab)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
-          .fail((error) => {
+          .fail(error => {
             expect(error.message).toEqual('NOT AVAILABLE');
             done();
           });
@@ -536,12 +536,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return a general server error', (done) => {
+        it('should return a general server error', done => {
           adminService.create(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT AVAILABLE');
               done();
             });
@@ -555,12 +555,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.create(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -574,12 +574,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.create(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -598,9 +598,9 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should send a request to update the admin for the branch', (done) => {
+      it('should send a request to update the admin for the branch', done => {
         adminService.update(admin, lab)
-          .then((result) => {
+          .then(result => {
             expect(result).toEqual(validData);
             done();
           })
@@ -619,12 +619,12 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should return an error that return data was invalid', (done) => {
+      it('should return an error that return data was invalid', done => {
         adminService.update(admin, lab)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
-          .fail((error) => {
+          .fail(error => {
             expect(error.message).toEqual('NOT AVAILABLE');
             done();
           });
@@ -639,12 +639,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return a general server error', (done) => {
+        it('should return a general server error', done => {
           adminService.update(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT AVAILABLE');
               done();
             });
@@ -658,12 +658,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.update(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });
@@ -677,12 +677,12 @@ describe('adminService', () => {
           }, '']);
         });
 
-        it('should return an error that the remote endpoint was not found', (done) => {
+        it('should return an error that the remote endpoint was not found', done => {
           adminService.update(admin, lab)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
-            .fail((error) => {
+            .fail(error => {
               expect(error.message).toEqual('NOT FOUND');
               done();
             });

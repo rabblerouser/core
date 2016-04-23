@@ -1,6 +1,6 @@
 const invalidDataError = 'INVALID DATA';
 
-const parseAdminDetails = (data) => {
+const parseAdminDetails = data => {
   if (!data || !data.id) {
     throw invalidDataError;
   }
@@ -12,7 +12,7 @@ const parseAdminDetails = (data) => {
   };
 };
 
-const parseAdmins = (data) => {
+const parseAdmins = data => {
   if (!data || !Array.isArray(data.admins)) {
     throw invalidDataError;
   }

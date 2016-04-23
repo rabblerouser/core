@@ -106,7 +106,7 @@ const NewMemberFields = props => {
         isOptional={false}
         hasError={isValidationError('participantBirthYear')}
       />
-      <aside>{ Strings.ageReminder }</aside>
+      <aside>{Strings.ageReminder}</aside>
       <input
         type="number"
         defaultValue={props.formValues.participantBirthYear}
@@ -121,7 +121,7 @@ const NewMemberFields = props => {
       <fieldset>
         <legend>What type of school does the participant attend?</legend>
         <InlineError
-          errorFor={isValidationError('schoolType') || isValidationError('schoolTypeOtherText') ? 'schoolType' : '' }
+          errorFor={isValidationError('schoolType') || isValidationError('schoolTypeOtherText') ? 'schoolType' : ''}
         />
         <div>
           <input
@@ -163,7 +163,7 @@ const NewMemberFields = props => {
       </fieldset>
 
       <FormFieldLabel fieldName="additionalInfo" isOptional hasError={isValidationError('additionalInfo')} />
-      <aside>{ Strings.additionalInfoAside }</aside>
+      <aside>{Strings.additionalInfoAside}</aside>
       <textarea
         defaultValue={props.formValues.additionalInfo}
         onChange={props.onChange('additionalInfo')}

@@ -8,10 +8,10 @@ const FormFieldLabel = props => {
   const optional = props.isOptional ? <span className="optional"> (optional)</span> : <span className="mandatory" />;
 
   return (
-    <label className={props.hasError ? 'invalid' : '' } htmlFor={props.fieldName}>
+    <label className={props.hasError ? 'invalid' : ''} htmlFor={props.fieldName}>
       {Labels[props.fieldName]}
-      { optional }
-      { error }
+      {optional}
+      {error}
     </label>
   );
 };
