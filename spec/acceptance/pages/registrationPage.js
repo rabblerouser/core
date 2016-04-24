@@ -1,83 +1,25 @@
-var PATH = '/';
+import { navigateTo,
+  inputById,
+  selectOptionById,
+  buttonPressByText,
+  buttonPressById,
+  textAtClass,
+} from './pageHelpers';
 
-var startAtRegister = function startAtRegister() {
-    var baseUrl = casper.cli.get('url');
-    casper.start(baseUrl + PATH);
-}
-
-var input = function(id) {
-    return function(text) {
-        casper.then(function() {
-            casper.sendKeys('#' + id, text);
-        });
-    };
-}
-
-var indexOfOption = function(select, option) {
-    for (var i=0; i<select.length;i++) {
-        if (select[i].childNodes[0].nodeValue === option){
-            return i;
-        }
-    }
-}
-
-var selectOption = function(id) {
-    return function(option) {
-        return casper.thenEvaluate(function(id, option, indexOfOption) {
-            var select = document.querySelector('select[id="' + id + '"]');
-            if(select === null) {
-                return;
-            }
-            select.selectedIndex = indexOfOption(select, option);
-            //Event needs to be fired for React to recognise the change
-            var evt = document.createEvent('HTMLEvents');
-            evt.initEvent('change', true, true);
-            select.dispatchEvent(evt);
-        }, id, option, indexOfOption);
-    }
-}
-
-var clickLabeledButton = function(label) {
-    return function() {
-        casper.then(function() {
-            this.clickLabel(label, 'button');
-        });
-    }
-}
-
-var clickButton = function(id) {
-    return function() {
-        casper.then(function() {
-            this.click('input[id="' + id + '"]');
-        });
-    }
-}
-
-var textAtClass = function(className) {
-    return function() {
-        return casper.evaluate(function(name) {
-            var field = document.querySelector('.' + name);
-            return field === null ? null : field.innerText;
-        }, className);
-    };
-}
-
-module.exports = {
-    startAtRegister: startAtRegister,
-    fillForm: {
-        lab: selectOption('labSelection'),
-        contactName: input('contactName'),
-        contactLastName: input('contactLastName'),
-        contactNumber: input('contactNumber'),
-        participantName: input('participantName'),
-        participantLastName: input('participantLastName'),
-        contactEmail: input('contactEmail'),
-        participantBirthYear: input('participantBirthYear'),
-        schoolTypeOther: clickButton('schoolTypeOther'),
-        schoolTypeOtherText: input('schoolTypeOtherText'),
-        additionalInfo: input('additionalInfo')
-    },
-    clickContinue: clickLabeledButton('Register'),
-    progressMessage: textAtClass('form-title'),
-    validationErrors: textAtClass('validationErrors')
-}
+export const startAtRegister = () => navigateTo('/');
+export const enterContactName = text => inputById('contactName', text);
+export const enterContactLastName = text => inputById('contactLastName', text);
+export const enterContactNumber = text => inputById('contactNumber', text);
+export const enterParticipantName = text => inputById('participantName', text);
+export const enterParticipantLastName = text => inputById('participantLastName', text);
+export const enterContactEmail = text => inputById('contactEmail', text);
+export const enterParticipantBirthYear = text => inputById('participantBirthYear', text);
+export const enterAdditionalInfo = text => inputById('additionalInfo', text);
+export const selectLab = selection => selectOptionById('labSelection', selection);
+export const enterOtherSchoolType = text => {
+  buttonPressById('schoolTypeOther');
+  inputById('schoolTypeOtherText', text);
+};
+export const clickRegister = () => buttonPressByText('Register');
+export const visibleProgressMessage = () => textAtClass('form-title');
+export const visibleValidationErrors = () => textAtClass('validationErrors');

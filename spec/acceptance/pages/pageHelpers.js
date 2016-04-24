@@ -1,0 +1,50 @@
+const casper = window.casper;
+
+function indexOfOption(select, option) {
+  for (let i = 0; i < select.length; i++) {
+    if (select[i].childNodes[0].nodeValue === option) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+export function navigateTo(url) {
+  const baseUrl = casper.cli.get('url');
+  casper.start(baseUrl + url);
+}
+
+export function inputById(id, text) {
+  return casper.then(() => casper.sendKeys(`#${id}`, text));
+}
+
+export function buttonPressById(id) {
+  return casper.then(() => {casper.click(`input[id=${id}]`);});
+}
+
+export function buttonPressByText(text) {
+  return casper.then(() => {
+    casper.clickLabel(text, 'button');
+  });
+}
+
+export function selectOptionById(id, option) {
+  return casper.thenEvaluate((evalId, evelOption, evalIndexOfOption) => {
+    const select = document.querySelector(`select[id=${evalId}]`);
+    if (select === null) {
+      return;
+    }
+    select.selectedIndex = evalIndexOfOption(select, evelOption);
+    // Event needs to be fired for React to recognise the change
+    const event = document.createEvent('HTMLEvents');
+    event.initEvent('change', true, true);
+    select.dispatchEvent(event);
+  }, id, option, indexOfOption);
+}
+
+export function innerTextByClass(className) {
+  return casper.evaluate(() => {
+    const field = document.querySelector(`.${className}`);
+    return field === null ? null : field.innerText;
+  });
+}
