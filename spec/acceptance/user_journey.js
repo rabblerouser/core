@@ -1,6 +1,7 @@
-require('casperHelper');
-var registrationPage = require('pages/registrationPage');
-var then = casper.then.bind(casper);
+import help from './casperHelper';
+import registrationPage from './pages/registrationPage';
+const casper = window.casper;
+const then = casper.then.bind(casper);
 
 casper.test.begin('I should get validation errors if I don\'t fill in the form', 2, function suite(test) {
 
@@ -26,7 +27,7 @@ casper.test.begin('I should be able to register', 3, function suite(test) {
         test.assertEquals(registrationPage.progressMessage(), 'Register for The Lab');
     });
 
-    registrationPage.fillForm.lab('Bega (NSW)');
+    registrationPage.fillForm.lab('Fake Branch');
     registrationPage.fillForm.contactName('Connor');
     registrationPage.fillForm.contactLastName('Melbourne');
     registrationPage.fillForm.contactNumber('01010101010');
