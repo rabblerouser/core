@@ -7,7 +7,7 @@ module.exports = {
     networkAdmin: './src/frontend/components/admin/NetworkAdminDashboard.jsx',
   },
   output: {
-    path: '../../public/javascript',
+    path: './public/javascript',
     filename: '[name].bundle.js',
   },
   module: {
