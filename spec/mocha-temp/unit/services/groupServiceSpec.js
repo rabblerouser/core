@@ -1,5 +1,4 @@
 'use strict';
-/*jshint expr: true*/
 
 const models = require('../../../../src/backend/models');
 let Group = models.Group;

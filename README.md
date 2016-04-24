@@ -69,16 +69,17 @@
 
 ### Linting
 
-Linting is still a work in progress, but eventually it will be added to the build, so you'll need to adhere to the style specified in our eslint configs. To run eslint across the whole codebase, do:
+We use eslint to enforce a consisten style across the project. Linting of the frontend code is already part of the build, and the backend will be soon as well. To run eslint use one of these commands:
 
-    npm run lint
+    npm run lint-frontend
+    npm run lint-backend
+    npm run lint #does both
 
 To lint just a specific file or directory:
 
     ./node_modules/.bin/eslint --ext js,jsx src/path/to/file
 
-If you're not sure how to fix an eslint error, you can look up the docs for specific rules using a URL like:
-http://eslint.org/docs/rules/arrow-parens. In this case, `arrow-parens` is the name of the rule.
+If you're not sure how to fix an eslint error, you can look up the docs for specific rules using a URL like: http://eslint.org/docs/rules/arrow-parens. In this case, `arrow-parens` is the name of the rule.
 
 We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) (slightly modified), which encourages use of many ES6 features. If you're not up to speed on ES6, this reference may come in handy: http://es6-features.org/.
 
@@ -108,10 +109,6 @@ We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/
 Happy hacking!
 
 ## Optional setup
-
-### JShint
-
-0. Install [plugin](http://jshint.com/install/)
 
 ### WebStorm
 

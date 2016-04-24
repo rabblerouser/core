@@ -1,5 +1,4 @@
 'use strict';
-/*jshint expr: true*/
 
 const Q = require('q'),
       models = require('../../../../src/backend/models'),
