@@ -1,0 +1,2 @@
+extends: '../.eslintrc.yml'
+#Only backend-specific stuff should go here. Inherit the rest from root.

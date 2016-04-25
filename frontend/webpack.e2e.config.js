@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './spec/acceptance/index.js',
+  entry: `${__dirname}/../backend/spec/acceptance/index.js`,
   output: {
     path: './e2e-tmp/',
     filename: 'test-bundle.js',

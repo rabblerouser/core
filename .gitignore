@@ -7,9 +7,9 @@ node_modules
 npm-debug.log
 .vagrant
 .DS_Store
-public/javascript
+backend/public/javascript
 .babel-cache
-public/stylesheets/style.css
+backend/public/stylesheets/style.css
 db/dumps
 screenshots
 

@@ -4,25 +4,9 @@
   "description": "A pluggable, extensible membership database for community organising",
   "private": true,
   "scripts": {
-    "lint-frontend": "cd frontend && npm run lint",
-    "test-frontend": "cd frontend && npm test",
-    "postinstall": "cd frontend && npm run build",
-    "lint": "npm run lint-frontend && npm run lint-backend",
-    "lint-backend": "eslint src/backend",
-    "prestart": "node_modules/sequelize-cli/bin/sequelize --config config/db.json db:migrate",
-    "start": "node ./bin/www",
-    "pretest": "NODE_ENV=test node_modules/sequelize-cli/bin/sequelize --config config/db.json db:migrate",
-    "test": "npm run lint-frontend && npm run serverTests && npm run tempTestTask && npm run test-frontend",
-    "serverTests": "NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js",
-    "tempTestTask": "mocha --check-leaks --timeout 10000 --compilers js:babel-core/register -r spec/support/specGlobals --recursive spec/mocha-temp/",
-    "componentTests": "NODE_ENV=test node ./node_modules/karma-cli/bin/karma start src/frontend/karma.conf.js",
-    "acceptanceTestsStaging": "NODE_ENV=test PHANTOMJS_EXECUTABLE=./node_modules/phantomjs/bin/phantomjs ./node_modules/casperjs/bin/casperjs --web-security=true --log-level=debug --verbose test spec/acceptance/user_journey.js spec/acceptance/admin_journey.js --url=https://lab-assistant-staging.herokuapp.com --email=$ACCEPTANCE_EMAIL --password=$ACCEPTANCE_PASSWORD | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
-    "pree2e": "webpack --config frontend/webpack.e2e.config.js",
-    "e2e": "NODE_ENV=test PHANTOMJS_EXECUTABLE=phantomjs casperjs --web-security=true --log-level=debug --verbose test e2e-tmp/test-bundle.js --url=http://localhost:3000 | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
-    "poste2e": "rm -rf ./e2e-tmp",
-    "bundle": "./node_modules/webpack/bin/webpack.js --config ./src/frontend/webpack.config.js --progress --colors --watch",
-    "dev:createSuperAdmin": "node ./node_scripts/createSuperAdmin.js",
-    "createSuperAdmin": "NODE_ENV=production node ./node_scripts/createSuperAdmin.js"
+    "ci": "cd frontend && npm run ci && cd ../backend && npm run ci",
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "cd backend && npm start"
   },
   "babel": {
     "presets": ["es2015", "react"]
