@@ -7,7 +7,7 @@
     "ci": "npm run lint && npm test",
     "lint": "eslint --ext js,jsx .",
     "start": "webpack --progress --colors --watch",
-    "test": "NODE_ENV=test karma start"
+    "test": "karma start"
   },
   "repository": {
     "type": "git",

@@ -4,9 +4,9 @@
   "description": "A pluggable, extensible membership database for community organising",
   "private": true,
   "scripts": {
-    "lint-frontend": "cd src/frontend && npm run lint",
-    "test-frontend": "cd src/frontend && npm test",
-    "postinstall": "cd src/frontend && npm run build",
+    "lint-frontend": "cd frontend && npm run lint",
+    "test-frontend": "cd frontend && npm test",
+    "postinstall": "cd frontend && npm run build",
 
     "lint": "npm run lint-frontend && npm run lint-backend",
     "lint-backend": "eslint src/backend",

@@ -1,7 +1,7 @@
-import inputValidator from '../../backend/lib/inputValidator';
+import inputValidator from '../../../src/backend/lib/inputValidator';
 import _ from 'lodash';
 
-const applicationFieldsChecks = {
+const memberFieldsChecks = {
   contactName: inputValidator.isValidName,
   contactLastName: inputValidator.isValidOptionalName,
   contactEmail: inputValidator.isValidEmail,
@@ -9,21 +9,21 @@ const applicationFieldsChecks = {
   participantName: inputValidator.isValidName,
   participantLastName: inputValidator.isValidOptionalName,
   participantBirthYear: inputValidator.isValidYear,
-  labSelection: inputValidator.isValidText,
   schoolType: inputValidator.isValidName,
   schoolTypeOtherText: inputValidator.isValidOptionalName,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
+  pastoralNotes: inputValidator.isValidOptionalTextBlock,
 };
 
-const isValidDetails = application => (
-  _.reduce(applicationFieldsChecks, (errors, checkFn, applicationFieldKey) => {
-    if (!application || !checkFn(application[applicationFieldKey])) {
-      errors.push(applicationFieldKey);
+const isValidDetails = member => (
+  _.reduce(memberFieldsChecks, (errors, checkFn, memberFieldKey) => {
+    if (!member || !checkFn(member[memberFieldKey])) {
+      errors.push(memberFieldKey);
     }
     return errors;
   }, [])
 );
 
-const isValid = application => _.flatten([isValidDetails(application)]);
+const isValid = member => _.flatten([isValidDetails(member)]);
 
 export default { isValid };

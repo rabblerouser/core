@@ -1,15 +1,15 @@
 const webpack = require('webpack');
 
-module.exports = function (config) {
+module.exports = config => {
   config.set({
     browsers: ['PhantomJS'],
     singleRun: true,
     frameworks: ['jasmine', 'sinon'],
     files: [
-      { pattern: 'webpack.test.config.js' },
+      { pattern: 'src/testIndex.js' },
     ],
     preprocessors: {
-      'webpack.test.config.js': ['webpack', 'sourcemap'],
+      'src/testIndex.js': ['webpack', 'sourcemap'],
     },
     reporters: ['dots'],
     webpack: {
