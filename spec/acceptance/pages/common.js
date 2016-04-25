@@ -28,6 +28,10 @@ export function buttonPressByText(text) {
   });
 }
 
+export function pageTitle() {
+  return casper.getTitle();
+}
+
 export function selectOptionById(id, option) {
   return casper.thenEvaluate((evalId, evelOption, evalIndexOfOption) => {
     const select = document.querySelector(`select[id=${evalId}]`);
@@ -43,8 +47,8 @@ export function selectOptionById(id, option) {
 }
 
 export function innerTextByClass(className) {
-  return casper.evaluate(() => {
-    const field = document.querySelector(`.${className}`);
+  return casper.evaluate(evalClassName => {
+    const field = document.querySelector(`.${evalClassName}`);
     return field === null ? null : field.innerText;
-  });
+  }, className);
 }
