@@ -51,10 +51,10 @@ export default class AddAdminForm extends Component {
       <section className="form-container">
         <header className="details-header">
           <span className="title">
-              Add new {this.props.type ? this.props.type.toLowerCase() : ''}
+            Add new {this.props.type ? this.props.type.toLowerCase() : ''}
           </span>
           <span className="actions">
-              <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
+            <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
           </span>
         </header>
         <AddAdminFields

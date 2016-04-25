@@ -10,9 +10,3 @@ rules:
   arrow-parens:
     - error
     - as-needed
-  react/jsx-curly-spacing:
-    - error
-    - never
-  react/jsx-equals-spacing:
-    - error
-    - never

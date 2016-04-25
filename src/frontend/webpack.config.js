@@ -2,12 +2,12 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    main: './src/frontend/components/App.jsx',
-    admin: './src/frontend/components/admin/AdminDashboard.jsx',
-    networkAdmin: './src/frontend/components/admin/NetworkAdminDashboard.jsx',
+    main: `${__dirname}/components/App.jsx`,
+    admin: `${__dirname}/components/admin/AdminDashboard.jsx`,
+    networkAdmin: `${__dirname}/components/admin/NetworkAdminDashboard.jsx`,
   },
   output: {
-    path: './public/javascript',
+    path: `${__dirname}/../../public/javascript`,
     filename: '[name].bundle.js',
   },
   module: {

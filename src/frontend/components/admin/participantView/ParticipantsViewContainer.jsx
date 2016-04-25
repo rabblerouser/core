@@ -85,5 +85,3 @@ ParticipantsViewContainer.propTypes = {
   onActionSuccess: React.PropTypes.func,
   labId: React.PropTypes.string,
 };
-
-export default ParticipantsViewContainer;

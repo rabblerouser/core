@@ -6,7 +6,7 @@ module.exports = function (config) {
     singleRun: true,
     frameworks: ['jasmine', 'sinon'],
     files: [
-      { pattern: 'webpack.test.config.js', watched: false },
+      { pattern: 'webpack.test.config.js' },
     ],
     preprocessors: {
       'webpack.test.config.js': ['webpack', 'sourcemap'],

@@ -40,10 +40,10 @@ export default class AddLabForm extends Component {
       <section className="form-container">
         <header className="details-header">
           <span className="title">
-              Add new lab
+            Add new lab
           </span>
           <span className="actions">
-              <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
+            <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
           </span>
         </header>
         <AddLabFields

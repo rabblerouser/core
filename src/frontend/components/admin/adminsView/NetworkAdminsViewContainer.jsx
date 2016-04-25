@@ -4,7 +4,6 @@ import adminService from '../../../services/adminService.js';
 import _ from 'underscore';
 
 export default class NetworkAdminsViewContainer extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -66,5 +65,3 @@ NetworkAdminsViewContainer.propTypes = {
   onActionError: React.PropTypes.func,
   onActionSuccess: React.PropTypes.func,
 };
-
-export default NetworkAdminsViewContainer;

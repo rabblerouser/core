@@ -21,7 +21,8 @@ const EditAdminFields = ({ invalidFields, onChange, formValues }) => {
       />
       <FormFieldLabel fieldName="password" hasError={isValidationError('password')} />
       <aside>Leave blank to keep existing password</aside>
-      <input type="password"
+      <input
+        type="password"
         placeholder="••••••••••••"
         onChange={onChange('password')}
         id="password"

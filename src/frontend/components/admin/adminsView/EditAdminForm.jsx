@@ -62,10 +62,10 @@ export default class EditAdminForm extends Component {
       <section className="form-container">
         <header className="details-header">
           <span className="title">
-              Edit details for {this.props.admin.email}
+            Edit details for {this.props.admin.email}
           </span>
           <span className="actions">
-              <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
+            <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
           </span>
         </header>
         <EditAdminFields
