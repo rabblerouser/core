@@ -6,7 +6,7 @@
   "scripts": {
     "lint-frontend": "cd src/frontend && npm run lint",
     "test-frontend": "cd src/frontend && npm test",
-    "postinstall": "cd src/frontend && npm build",
+    "postinstall": "cd src/frontend && npm run build",
 
     "lint": "npm run lint-frontend && npm run lint-backend",
     "lint-backend": "eslint src/backend",
