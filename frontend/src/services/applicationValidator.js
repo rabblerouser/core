@@ -1,4 +1,4 @@
-import inputValidator from '../../../backend/src/lib/inputValidator';
+import inputValidator from '../lib/inputValidator';
 import _ from 'lodash';
 
 const applicationFieldsChecks = {

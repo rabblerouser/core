@@ -13,7 +13,7 @@ export default class Details extends Component {
       invalidFields: [],
       errorNames: [],
       labs: [],
-      fieldValues: {},
+      fieldValues: props.formValues,
     };
   }
 

@@ -1,16 +1,16 @@
-import inputValidator from '../../../backend/src/lib/inputValidator';
+import inputValidator from '../lib/inputValidator';
 import _ from 'lodash';
 
 const adminFieldsChecks = {
   name: inputValidator.isValidOptionalName,
   email: inputValidator.isValidEmail,
-  phoneNumber: inputValidator.isValidOptionalPhone,
+  phoneNumber: inputValidator.isValidOptionalPhoneNumber,
 };
 
 const withPasswordFieldCheck = {
   name: inputValidator.isValidOptionalName,
   email: inputValidator.isValidEmail,
-  phoneNumber: inputValidator.isValidOptionalPhone,
+  phoneNumber: inputValidator.isValidOptionalPhoneNumber,
   password: inputValidator.isValidPassword,
 };
 
