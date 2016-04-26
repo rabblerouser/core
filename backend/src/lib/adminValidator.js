@@ -12,7 +12,7 @@ const superAdminPasswordRequired =
 {
     name: inputValidator.isValidOptionalName,
     email: inputValidator.isValidEmail,
-    phoneNumber: inputValidator.isValidOptionalPhone,
+    phoneNumber: inputValidator.isValidOptionalPhoneNumber,
     password: inputValidator.isValidPassword
 };
 
@@ -20,7 +20,7 @@ const noPasswordRequired =
 {
     name: inputValidator.isValidOptionalName,
     email: inputValidator.isValidEmail,
-    phoneNumber: inputValidator.isValidOptionalPhone,
+    phoneNumber: inputValidator.isValidOptionalPhoneNumber,
     branchId: isValidBranch
 };
 
@@ -28,12 +28,12 @@ const superAdminNoPasswordRequired =
 {
     name: inputValidator.isValidOptionalName,
     email: inputValidator.isValidEmail,
-    phoneNumber: inputValidator.isValidOptionalPhone
+    phoneNumber: inputValidator.isValidOptionalPhoneNumber
 };
 const passwordRequired = {
     name: inputValidator.isValidOptionalName,
     email: inputValidator.isValidEmail,
-    phoneNumber: inputValidator.isValidOptionalPhone,
+    phoneNumber: inputValidator.isValidOptionalPhoneNumber,
     branchId: isValidBranch,
     password: inputValidator.isValidPassword
 };
