@@ -9,6 +9,6 @@
     "start": "cd backend && npm start"
   },
   "dependencies": {
-    "debug": "~2.2.0",
+    "debug": "~2.2.0"
   }
 }
