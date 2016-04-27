@@ -27,7 +27,7 @@ const isValidOptionalTextBlock = block => isEmpty(block) || block.length < 10000
 
 const isValidTextBlock = block => !!block && block.length < 100000;
 
-const isValidEmail = email => validator.isEmail(email + '');
+const isValidEmail = email => validator.isEmail(`${email}`);
 
 const isValidOptionalPhoneNumber = input => isEmpty(input) || /^[-+\s()\d]+$/.test(input);
 
@@ -48,7 +48,7 @@ const isValidYear = number => {
 
 const isValidPassword = input => (!!input) && /^(.){11,200}$/.test(input);
 
-const isValidUUID = input => validator.isUUID(input + '', 4);
+const isValidUUID = input => validator.isUUID(`${input}`, 4);
 
 module.exports = {
   isValidString,
