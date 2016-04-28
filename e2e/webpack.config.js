@@ -1,5 +1,5 @@
 module.exports = {
-  entry: `${__dirname}/../backend/spec/acceptance/index.js`,
+  entry: `${__dirname}/spec/index.js`,
   output: {
     path: './e2e-tmp/',
     filename: 'test-bundle.js',
@@ -11,7 +11,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['es2015', 'react', 'stage-0'],
+          presets: ['es2015', 'stage-0'],
         },
       },
     ],

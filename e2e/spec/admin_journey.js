@@ -22,6 +22,38 @@ const adminCanUseTheDashboardForTheirLab = {
   },
 };
 
+//When I login
+// I can see my lab listed
+
+// I can add an oganiser
+// I can edit an organiser
+// I can remove and organiser
+
+// I can add a group
+// I can edit a group
+// I can remove group
+
+//When I login as a admin
+// I can see the current lab listed
+// I can switch labs
+
+// I can add a lab
+// I can edit a lab
+// I can remove a lab
+
+// I can add an admin
+// I can edit an admin
+// I can remove an admin
+
+// I can add an oganiser
+// I can edit an organiser
+// I can remove an organiser
+
+// I can add a group
+// I can edit a group
+// I can remove group
+
+
 export default [
   adminTriesToLoginWithWrongPassword,
   adminCanUseTheDashboardForTheirLab

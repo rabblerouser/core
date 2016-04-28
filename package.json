@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "ci": "cd frontend && npm run ci && cd ../backend && npm run ci",
-    "postinstall": "cd backend && npm install && cd ../frontend && npm install && npm run build",
-    "start": "cd backend && npm start"
+    "postinstall": "npm --prefix backend install & npm --prefix e2e install & npm --prefix frontend install && npm --prefix frontend build",
+    "start": "npm --prefix backend start"
   },
   "dependencies": {
     "debug": "~2.2.0"
