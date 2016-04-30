@@ -7,8 +7,8 @@
     "lint": "eslint .",
     "acceptanceTestsStaging": "NODE_ENV=test PHANTOMJS_EXECUTABLE=phantomjs casperjs --web-security=true --log-level=debug --verbose test spec/acceptance/user_journey.js spec/acceptance/admin_journey.js --url=https://lab-assistant-staging.herokuapp.com --email=$ACCEPTANCE_EMAIL --password=$ACCEPTANCE_PASSWORD | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
     "pree2e": "webpack --config webpack.config.js",
-    "e2e": "NODE_ENV=test PHANTOMJS_EXECUTABLE=phantomjs casperjs --web-security=true --log-level=debug --verbose test e2e-tmp/test-bundle.js --url=http://localhost:3000 | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
-    "poste2e": "rm -rf ./e2e-tmp"
+    "e2e": "NODE_ENV=test PHANTOMJS_EXECUTABLE=phantomjs casperjs --web-security=true --disk-cache=true --log-level=debug --verbose test tmp/test-bundle.js --url=http://localhost:3000 | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
+    "poste2e": "rm -r tmp"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,6 @@
   "devDependencies": {
     "babel-core": "^6.7.7",
     "babel-loader": "^6.2.4",
-    "babel-preset-stage-0": "^6.5.0",
     "babel-preset-es2015": "^6.6.0",
     "casperjs": "^1.1.0",
     "eslint": "^2.8.0",
@@ -34,6 +33,7 @@
     "eslint-plugin-import": "^1.5.0",
     "eslint-plugin-jsx-a11y": "^1.0.2",
     "eslint-plugin-react": "^5.0.1",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "phantomjs-prebuilt": "^2.1.7"
   }
 }

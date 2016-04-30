@@ -10,7 +10,8 @@ import { startAtRegister,
   enterContactEmail,
   enterParticipantBirthYear,
   enterAdditionalInfo,
-  enterOtherSchoolType,
+  selectSchoolType,
+  enterOtherSchool,
   selectLab } from './pages/registrationPage';
 const casper = window.casper;
 const then = casper.then.bind(casper);
@@ -22,7 +23,7 @@ const userHasValidationErrors = {
     then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
     clickRegister();
     then(() => test.assertNotEquals(visibleValidationErrors(), ''));
-    casper.wait(200, () => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
+    then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
   },
 };
 
@@ -39,7 +40,8 @@ const userRegisters = {
     enterParticipantLastName('Sydney');
     enterContactEmail('qoku@gmail.com');
     enterParticipantBirthYear('1990');
-    enterOtherSchoolType('Laboriosam');
+    selectSchoolType('Other');
+    enterOtherSchool('Home school');
     enterAdditionalInfo('More text');
     clickRegister();
     then(() => {

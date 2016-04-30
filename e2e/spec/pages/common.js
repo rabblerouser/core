@@ -11,7 +11,8 @@ function indexOfOption(select, option) {
 
 export function navigateTo(url) {
   const baseUrl = casper.cli.get('url');
-  casper.start(baseUrl + url);
+  return casper.start(baseUrl + url)
+  .then(() => casper.waitForSelector('body'));
 }
 
 export function inputById(id, text) {
@@ -19,13 +20,11 @@ export function inputById(id, text) {
 }
 
 export function buttonPressById(id) {
-  return casper.then(() => {casper.click(`input[id=${id}]`);});
+  return casper.then(() => casper.click(`input[id=${id}]`));
 }
 
 export function buttonPressByText(text) {
-  return casper.then(() => {
-    casper.clickLabel(text, 'button');
-  });
+  return casper.then(() => casper.clickLabel(text, 'button'));
 }
 
 export function pageTitle() {

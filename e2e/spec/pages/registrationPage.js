@@ -16,9 +16,8 @@ export const enterContactEmail = text => inputById('contactEmail', text);
 export const enterParticipantBirthYear = text => inputById('participantBirthYear', text);
 export const enterAdditionalInfo = text => inputById('additionalInfo', text);
 export const selectLab = selection => selectOptionById('labSelection', selection);
-export const enterOtherSchoolType = text =>
-  buttonPressById('schoolTypeOther')
-  .then(() => inputById('schoolTypeOtherText', text));
+export const selectSchoolType = selection => buttonPressById(`schoolType${selection}`);
+export const enterOtherSchool = text => inputById('schoolTypeOtherText', text);
 export const clickRegister = () => buttonPressByText('Register');
 export const visibleProgressMessage = () => innerTextByClass('form-title');
 export const visibleValidationErrors = () => innerTextByClass('validationErrors');
