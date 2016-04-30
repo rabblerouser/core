@@ -12,7 +12,7 @@ backend/public/javascript
 backend/public/stylesheets/style.css
 db/dumps
 screenshots
-
+*/tmp
 # IntelliJ nonsense
 .idea
 *.iml
