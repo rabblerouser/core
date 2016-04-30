@@ -5,7 +5,11 @@
   "private": true,
   "scripts": {
     "ci": "cd frontend && npm run ci && cd ../backend && npm run ci",
-    "postinstall": "npm --prefix backend install & npm --prefix e2e install & npm --prefix frontend install && npm --prefix frontend build",
+    "install": "npm run install:backend & npm run install:e2e & npm run install:frontend",
+    "install:backend": "npm --prefix backend install",
+    "install:e2e": "npm --prefix e2e install",
+    "install:frontend": "npm --prefix frontend install",
+    "postinstall:frontend": "npm --prefix frontend run build",
     "start": "npm --prefix backend start"
   },
   "dependencies": {
