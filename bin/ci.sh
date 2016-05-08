@@ -5,7 +5,6 @@ sudo yum install ansible
 
 ansible-playbook -i "localhost," -c local provisioning/ci.yml
 
-
 echo '###################################'
 echo '### Doing top-level npm install ###'
 echo '###################################'
@@ -17,8 +16,7 @@ echo '#####################################'
 echo '### Running frontend lint & tests ###'
 echo '#####################################'
 
-cd frontend
-npm run ci
+npm --prefix frontend run ci
 
 cd ..
 
@@ -26,7 +24,6 @@ echo '####################################'
 echo '### Running backend lint & tests ###'
 echo '####################################'
 
-cd backend
-npm run test
+npm --prefix backend run test
 
 #TODO: Acceptance tests? Or are those just part of the backend tests?
