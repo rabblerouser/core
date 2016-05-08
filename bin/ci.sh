@@ -16,7 +16,8 @@ echo '#####################################'
 echo '### Running frontend lint & tests ###'
 echo '#####################################'
 
-npm --prefix frontend run ci
+cd frontend
+npm run ci
 
 cd ..
 
@@ -24,6 +25,7 @@ echo '####################################'
 echo '### Running backend lint & tests ###'
 echo '####################################'
 
-npm --prefix backend run test
+cd backend
+npm run test
 
 #TODO: Acceptance tests? Or are those just part of the backend tests?
