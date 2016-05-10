@@ -234,12 +234,9 @@ describe('adminController', () => {
         };
       });
 
-      it('should return a 400', done => {
-        adminController.update(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(400);
-        }).then(done)
-        .catch(done);
+      it('should return a 400', () => {
+        adminController.update(req, res);
+        expect(res.status).to.have.been.calledWith(400);
       });
     });
 
