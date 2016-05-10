@@ -1,2 +1,11 @@
 extends: '../.eslintrc.yml'
 #Only backend-specific stuff should go here. Inherit the rest from root.
+
+env:
+  mocha: true
+  node: true
+  es6: true
+
+globals:
+  expect: true
+  sinon: true
