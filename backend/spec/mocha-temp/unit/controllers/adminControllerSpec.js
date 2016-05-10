@@ -31,7 +31,7 @@ function admin() {
     };
 }
 
-describe.only('adminController', () => {
+describe('adminController', () => {
 
     describe('create', () => {
         let req, res;
