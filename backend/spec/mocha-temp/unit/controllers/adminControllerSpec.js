@@ -1,27 +1,25 @@
 'use strict';
 
-const specHelper = require('../../../support/specHelper'),
-      sinon = specHelper.sinon,
-      adminService = require('../../../../src/services/adminService'),
-      adminValidator = require('../../../../src/lib/adminValidator');
+const adminService = require('../../../../src/services/adminService');
+const adminValidator = require('../../../../src/lib/adminValidator');
 
-var adminController = require('../../../../src/controllers/adminController');
+let adminController = require('../../../../src/controllers/adminController');
 
 function adminsList() {
-    return [
-        {
-              id: 'some-key',
-              email: 'some-email',
-              name: 'some name',
-              phone: 'some phone'
-        },
-        {
-              id: 'some-key2',
-              email: 'some-email2',
-              name: 'some name',
-              phone: 'some phone'
-        }
-    ];
+  return [
+    {
+      id: 'some-key',
+      email: 'some-email',
+      name: 'some name',
+      phone: 'some phone',
+    },
+    {
+      id: 'some-key2',
+      email: 'some-email2',
+      name: 'some name',
+      phone: 'some phone',
+    },
+  ];
 }
 
 function admin() {
@@ -33,7 +31,7 @@ function admin() {
     };
 }
 
-describe('adminController', () => {
+describe.only('adminController', () => {
 
     describe('create', () => {
         let req, res;
@@ -63,9 +61,10 @@ describe('adminController', () => {
                 adminService.create.returns(Promise.resolve(admin()));
                 adminController.create(req, res)
                 .then(() => {
-                    expect(res.status).toHaveBeenCalled(200);
-                    expect(res.status().json).toHaveBeenCalledWith(admin());
-                }).then(done, done.fail);
+                    expect(res.status).to.have.been.calledWith(200);
+                    expect(res.status().json).to.have.been.calledWith(admin());
+                }).then(done)
+                .catch(done);
             });
 
         });
@@ -87,7 +86,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.create(req, res);
-                expect(res.status).toHaveBeenCalled(400);
+                expect(res.status).to.have.been.calledWith(400);
             });
         });
 
@@ -112,7 +111,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.create(req, res);
-                expect(res.status).toHaveBeenCalled(400);
+                expect(res.status).to.have.been.calledWith(400);
             });
 
         });
@@ -143,8 +142,9 @@ describe('adminController', () => {
                 adminService.create.returns(Promise.reject('anything at all'));
                 adminController.create(req, res)
                 .then(() => {
-                   expect(res.sendStatus).toHaveBeenCalled(500);
-                }).then(done, done.fail);
+                   expect(res.sendStatus).to.have.been.calledWith(500);
+                }).then(done)
+                .catch(done);
             });
         });
     });
@@ -178,9 +178,10 @@ describe('adminController', () => {
                 adminService.updateAdmin.returns(Promise.resolve(admin()));
                 adminController.update(req, res)
                 .then(() => {
-                    expect(res.status).toHaveBeenCalled(200);
-                    expect(res.status().json).toHaveBeenCalledWith(admin());
-                }).then(done, done.fail);
+                    expect(res.status).to.have.been.calledWith(200);
+                    expect(res.status().json).to.have.been.calledWith(admin());
+                }).then(done)
+                .catch(done);
             });
 
         });
@@ -202,7 +203,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.update(req, res);
-                expect(res.status).toHaveBeenCalled(400);
+                expect(res.status).to.have.been.calledWith(400);
             });
         });
 
@@ -223,7 +224,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.update(req, res);
-                expect(res.status).toHaveBeenCalled(400);
+                expect(res.status).to.have.been.calledWith(400);
             });
         });
 
@@ -244,8 +245,9 @@ describe('adminController', () => {
                 it('should return a 400', (done) => {
                     adminController.update(req, res)
                     .then(() => {
-                       expect(res.status).toHaveBeenCalled(400);
-                    }).then(done, done.fail);
+                       expect(res.status).to.have.been.calledWith(400);
+                    }).then(done)
+                    .catch(done);
                 });
             });
         });
@@ -271,7 +273,7 @@ describe('adminController', () => {
 
             it('should return a 400', () => {
                 adminController.update(req, res);
-                expect(res.status).toHaveBeenCalled(400);
+                expect(res.status).to.have.been.calledWith(400);
             });
 
         });
@@ -302,8 +304,9 @@ describe('adminController', () => {
                 adminService.updateAdmin.returns(Promise.reject('anything at all'));
                 adminController.update(req, res)
                 .then(() => {
-                   expect(res.sendStatus).toHaveBeenCalled(500);
-                }).then(done, done.fail);
+                   expect(res.sendStatus).to.have.been.calledWith(500);
+                }).then(done)
+                .catch(done);
             });
         });
     });
@@ -328,9 +331,10 @@ describe('adminController', () => {
                 adminService.admins.returns(Promise.resolve(adminsList()));
                 adminController.forBranch(req, res)
                 .then(() => {
-                    expect(res.status).toHaveBeenCalled(200);
-                    expect(res.status().json).toHaveBeenCalledWith({admins: adminsList()});
-                }).then(done, done.fail);
+                    expect(res.status).to.have.been.calledWith(200);
+                    expect(res.status().json).to.have.been.calledWith({admins: adminsList()});
+                }).then(done)
+                .catch(done);
             });
         });
 
@@ -341,8 +345,9 @@ describe('adminController', () => {
                 adminService.admins.returns(Promise.reject('invalid branch id'));
                 adminController.forBranch(req, res)
                 .then(() => {
-                   expect(res.sendStatus).toHaveBeenCalled(400);
-                }).then(done, done.fail);
+                   expect(res.sendStatus).to.have.been.calledWith(400);
+                }).then(done)
+                .catch(done);
             });
         });
 
@@ -353,8 +358,9 @@ describe('adminController', () => {
                 adminService.admins.returns(Promise.reject('anything at all'));
                 adminController.forBranch(req, res)
                 .then(() => {
-                   expect(res.sendStatus).toHaveBeenCalled(500);
-                }).then(done, done.fail);
+                   expect(res.sendStatus).to.have.been.calledWith(500);
+                }).then(done)
+                .catch(done);
             });
         });
     });
