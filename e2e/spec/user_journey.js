@@ -13,41 +13,41 @@ import { startAtRegister,
   selectSchoolType,
   enterOtherSchool,
   selectLab } from './pages/registrationPage';
-const casper = window.casper;
-const then = casper.then.bind(casper);
 
 const userHasValidationErrors = {
   description: 'I should get validation errors if I don\'t fill in the form',
   testRun: test => {
-    startAtRegister();
-    then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
-    clickRegister();
-    then(() => test.assertNotEquals(visibleValidationErrors(), ''));
-    then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
+    startAtRegister()
+    .then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'))
+    .then(clickRegister)
+    .then(() => test.assertNotEquals(visibleValidationErrors(), ''))
+    .then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
   },
 };
+
+function fillValidForm() {
+  return selectLab('Fake Branch')
+  .then(() => enterContactName('Connor'))
+  .then(() => enterContactLastName('Melbourne'))
+  .then(() => enterContactNumber('01010101010'))
+  .then(() => enterParticipantName('Winston'))
+  .then(() => enterParticipantLastName('Sydney'))
+  .then(() => enterContactEmail('qoku@gmail.com'))
+  .then(() => enterParticipantBirthYear('1990'))
+  .then(() => selectSchoolType('Other'))
+  .then(() => enterOtherSchool('Home school'))
+  .then(() => enterAdditionalInfo('More text'));
+}
 
 const userRegisters = {
   description: 'I should be able to register',
   testRun: test => {
-    startAtRegister();
-    then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
-    selectLab('Fake Branch');
-    enterContactName('Connor');
-    enterContactLastName('Melbourne');
-    enterContactNumber('01010101010');
-    enterParticipantName('Winston');
-    enterParticipantLastName('Sydney');
-    enterContactEmail('qoku@gmail.com');
-    enterParticipantBirthYear('1990');
-    selectSchoolType('Other');
-    enterOtherSchool('Home school');
-    enterAdditionalInfo('More text');
-    clickRegister();
-    then(() => {
-      test.assertEquals(visibleValidationErrors(), '');
-      casper.wait(200, () => test.assertEquals(visibleProgressMessage(), 'Finish'));
-    });
+    startAtRegister()
+    .then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'))
+    .then(fillValidForm)
+    .then(clickRegister)
+    .then(() => test.assertEquals(visibleValidationErrors(), ''))
+    .then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
   },
 };
 
