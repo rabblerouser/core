@@ -16,15 +16,19 @@ export function navigateTo(url) {
 }
 
 export function inputById(id, text) {
-  return casper.then(() => casper.sendKeys(`#${id}`, text));
+  return casper.sendKeys(`#${id}`, text);
 }
 
 export function buttonPressById(id) {
-  return casper.then(() => casper.click(`input[id=${id}]`));
+  return casper.click(`input[id=${id}]`);
 }
 
 export function buttonPressByText(text) {
-  return casper.then(() => casper.clickLabel(text, 'button'));
+  return casper.clickLabel(text, 'button');
+}
+
+export function buttonPressBySelector(selector) {
+  casper.click(selector);
 }
 
 export function pageTitle() {
