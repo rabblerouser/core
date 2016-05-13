@@ -62,6 +62,7 @@ export default class OrganiserViewContainer extends Component {
     return (
       <AdminsView
         type={'Organiser'}
+        id="organisers"
         admins={this.state.admins}
         onSaveAdmin={this.state.onSave}
         onDeleteAdmin={this.state.onDelete}
