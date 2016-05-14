@@ -26,7 +26,7 @@ const userHasValidationErrors = {
 };
 
 function fillValidForm() {
-  return selectLab('Fake Branch')
+  return selectLab('Frankston (Vic)')
   .then(() => enterContactName('Connor'))
   .then(() => enterContactLastName('Melbourne'))
   .then(() => enterContactNumber('01010101010'))
