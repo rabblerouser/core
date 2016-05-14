@@ -10,13 +10,48 @@ import { startAtLogin,
   selectToEditLastOrganiser,
   deleteLastOrganiser,
   title,
+  confirmSuccess,
 } from './pages/adminPage';
+
+const addPageConfirmFilter = () => {
+  window.casper.setFilter('page.confirm', () => true);
+};
+
+const removePageConfirmFilter = () => {
+  window.casper.setFilter('page.confirm', () => false);
+};
 
 function login(email, password) {
   return enterEmail(email)
     .then(() => enterPassword(password))
     .then(clickLogin);
 }
+
+function fillNewOrganiser() {
+  return enterEmail('organiser@email.com')
+    .then(() => enterName('Sasha'))
+    .then(() => enterContactNumber('0401-223-443'))
+    .then(() => enterPassword('a long password'))
+    .then(() => enterConfirmedPassword('a long password'))
+    .then(() => clickSave())
+    .then(() => confirmSuccess());
+}
+
+function editLastOrganiser() {
+  return enterName('Sashana')
+    .then(clickSave)
+    .then(confirmSuccess);
+}
+
+const assertHasOrganiser = (test, email, name) => {
+  test.assertSelectorHasText('#organisers tbody tr:last-child', name, `the entry for ${name} is here`);
+  test.assertSelectorHasText('#organisers tbody tr:last-child', email, `the entry for ${email} is here`);
+};
+
+const assertDoesNotHaveOrganiser = (test, email, name) => {
+  test.assertSelectorDoesntHaveText('#organisers tbody tr:last-child', name, `the entry for ${name} is not here`);
+  test.assertSelectorDoesntHaveText('#organisers tbody tr:last-child', email, `the entry for ${email} is not here`);
+};
 
 const adminTriesToLoginWithWrongPassword = {
   description: 'I should not be able to login with the wrong credentials',
@@ -28,113 +63,79 @@ const adminTriesToLoginWithWrongPassword = {
   },
 };
 
-// When I login
-// I can see my lab listed
-const adminLogsInAndCanChooseLab = {
-  description: 'As an admin I should be able to login and select from a list of labs',
+const adminLogsIn = {
+  description: 'As an admin I should be able to login',
   testRun: test => {
     startAtLogin()
     .then(() => test.assertEquals(title(), 'Login', 'I am on the login page'))
-    .then(() => login('orgnsr@thelab.org', 'organiser'))
+    .then(() => login('super@thelab.org', 'super'))
     .then(() => test.assertEquals(title(), 'The Lab Admin', 'I am on the admin page'));
-    // Choose lab
   },
 };
 
-// ('#organisers button.new')
-// ('#organisers tr button.edit')
-// ('#organisers tr button.delete')
-
-
-// I can add an oganiser
-// I can edit an organiser
-// I can remove an organiser
-
-const fillNewOrganiser = () =>
-    enterEmail('organiser@email.com')
-    .then(() => enterName('Sasha'))
-    .then(() => enterContactNumber('0401-223-443'))
-    .then(() => enterPassword('a long password'))
-    .then(() => enterConfirmedPassword('a long password'))
-    .then(() => clickSave());
-
-const assertHasOrganiser = (test, email, name) => {
-  test.assertSelectorHasText('#organisers tr:last-child', email, `the entry for ${email} is here`);
-  test.assertSelectorHasText('#organisers tr:last-child', name, `the entry for ${name} is here`);
-};
-
-const assertDoesNotHaveOrganiser = (test, email, name) => {
-  test.assertSelectorDoesntHaveText('#organisers tr:last-child', email, `the entry for ${email} is not here`);
-  test.assertSelectorDoesntHaveText('#organisers tr:last-child', name, `the entry for ${name} is not here`);
-};
-
-const editLastOrganiser = () =>
-    enterName('Sashana')
-    .then(() => clickSave());
-
-const addPageConfirmFilter = () => {
-  window.casper.setFilter('page.confirm', () => true);
-};
-
-const removePageConfirmFilter = () => {
-  window.casper.setFilter('page.confirm', () => false);
-};
-
-
-const adminCanUpdateOrganisersWithinALab = {
-  description: 'As an admin I should be able to CRUD organisers for a lab',
+const adminCanAddAnOrganiser = {
+  description: 'As an admin I should be able to add an organiser to a lab',
   testRun: test => {
     startAtLogin()
     .then(() => login('super@thelab.org', 'super'))
+    .then(() =>
+      window.casper.waitForUrl(/dashboard\/admin$/)
+    )
+    .then(() => assertDoesNotHaveOrganiser(test, 'organiser@email.com', 'Sasha'))
     .then(clickNewOrganiser)
     .then(fillNewOrganiser)
+    .then(() => assertHasOrganiser(test, 'organiser@email.com', 'Sasha'));
+  },
+};
+
+const adminCanEditAnOrganiser = {
+  description: 'As an admin I should be able to edit an organiser for a lab',
+  testRun: test => {
+    startAtLogin()
+    .then(() => login('super@thelab.org', 'super'))
+    .then(() =>
+      window.casper.waitForUrl(/dashboard\/admin$/)
+    )
     .then(() => assertHasOrganiser(test, 'organiser@email.com', 'Sasha'))
     .then(selectToEditLastOrganiser)
-    .then(() => editLastOrganiser())
-    .then(() => assertDoesNotHaveOrganiser(test, 'organiser@email.com', 'Sasha'))
+    .then(editLastOrganiser)
+    .then(() => assertHasOrganiser(test, 'organiser@email.com', 'Sashana'));
+  },
+};
+
+const adminCanDeleteAnOrganiser = {
+  description: 'As an admin I should be able to delete an organiser for a lab',
+  testRun: test => {
+    startAtLogin()
+    .then(() => login('super@thelab.org', 'super'))
+    .then(() =>
+      window.casper.waitForUrl(/dashboard\/admin$/)
+    )
     .then(() => assertHasOrganiser(test, 'organiser@email.com', 'Sashana'))
     .then(addPageConfirmFilter)
     .then(deleteLastOrganiser)
     .then(removePageConfirmFilter)
+    .then(confirmSuccess)
     .then(() => assertDoesNotHaveOrganiser(test, 'organiser@email.com', 'Sashana'));
   },
 };
 
-
-// I can add a group
-// I can edit a group
-// I can remove group
-// ('#group-details button.new')
-// ('#group-details #description button.edit')
-// ('#group-details #description button.delete')
-
-// I can edit a participnt
-// ('#participant-list tr button.edit')
-
-
-// When I login as a admin
-// I can see the current lab listed
-// I can switch labs
-
-// I can add a lab
-// I can edit a lab
-// I can remove a lab
-
-// I can add an admin
-// I can edit an admin
-// I can remove an admin
-
-// I can add an oganiser
-// I can edit an organiser
-// I can remove an organiser
-
-// I can add a group
-// I can edit a group
-// I can remove group
-
+// Admin can add a group
+// Admin can edit a group
+// Admin can remove group
+// Admin can edit a participnt
+// Admin can switch labs
+// Admin can add a lab
+// Admin can edit a lab
+// Admin can remove a lab
+// Admin can add an admin
+// Admin can edit an admin
+// Admin can remove an admin
 
 export default [
-  adminLogsInAndCanChooseLab,
+  adminLogsIn,
   adminTriesToLoginWithWrongPassword,
-  adminCanUpdateOrganisersWithinALab,
+  adminCanAddAnOrganiser,
+  adminCanEditAnOrganiser,
+  adminCanDeleteAnOrganiser,
 ];

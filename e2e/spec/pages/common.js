@@ -55,3 +55,19 @@ export function innerTextByClass(className) {
     return field === null ? null : field.innerText;
   }, className);
 }
+
+export function innerTextBySelector(selector) {
+  return casper.evaluate(evalselector => {
+    const field = document.querySelector(`${evalselector}`);
+    return field === null ? null : field.innerText;
+  }, selector);
+}
+
+export function waitForInnerText(selector, text) {
+  return casper.then(() =>
+    casper.waitFor(() => {
+      const result = innerTextBySelector(selector);
+      return result.indexOf(text) > -1;
+    })
+  );
+}
