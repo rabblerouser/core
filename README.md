@@ -8,6 +8,36 @@ Rabble Rouser will offer it for free and let them spend their time and money bet
 
 Enabled by a membership registration core and a set of plugins.
 
+## Our goals
+
+### April 2017
+
+* We have build the stuff our users need the most
+* At least one closely allied organisation adopts RR
+* Sponsorship to fund development
+
+### April 2019
+
+* The community is building plugins for RR
+* Rabble Rouser as a service
+* Lots of sponsors fund ongoing development
+* Adopted by lots of progressive campaigning organisations around the world
+
+### April 2021
+
+* Active and self-sustaining open source community
+* Rabble Rouser conference
+* Permanent Rabble Rouser team
+* Rabble Rouser is the de-facto choice for campaigning organisations
+
+## Our challenges
+
+* Distributed team
+* Competing priorities
+* Decision making
+* Maintaining commitment
+
+
 [![Build Status](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master/build_image)](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master)
 
 ## Dev setup
