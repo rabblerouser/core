@@ -1,4 +1,7 @@
 extends: 'airbnb'
+parserOptions:
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
 rules:
   max-len:
     - error
