@@ -1,6 +1,6 @@
 import moment from 'moment';
 import Q from 'q';
-import $ from 'jquery';
+import ajax from './ajax';
 
 const handleResponseError = error => {
   switch (error.status) {
@@ -56,7 +56,7 @@ const adaptMember = member => {
 };
 
 const update = (member, branchId) => (
-  Q($.ajax({
+  Q(ajax({
     type: 'PUT',
     url: `/branches/${branchId}/members/${member.id}`,
     data: adaptMember(member),

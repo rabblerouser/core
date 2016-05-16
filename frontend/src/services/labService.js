@@ -1,5 +1,5 @@
 import Q from 'q';
-import $ from 'jquery';
+import ajax from './ajax';
 import { Resources } from '../config/strings';
 import groupAdapter from '../adapters/groupAdapter.js';
 import labAdapter from '../adapters/labAdapter.js';
@@ -24,7 +24,7 @@ const adaptLab = lab => ({
 });
 
 const getMyLabs = () => (
-  Q($.ajax({
+  Q(ajax({
     type: 'GET',
     url: `/${Resources.myLabListEndPoint}`,
     dataType: 'json',
@@ -34,7 +34,7 @@ const getMyLabs = () => (
 );
 
 const getLabList = () => (
-  Q($.ajax({
+  Q(ajax({
     type: 'GET',
     url: `/${Resources.labListEndPoint}`,
     dataType: 'json',
@@ -44,7 +44,7 @@ const getLabList = () => (
 );
 
 const getLabGroups = lab => (
-  Q($.ajax({
+  Q(ajax({
     type: 'GET',
     url: `/${Resources.labListEndPoint}/${lab}/groups`,
     dataType: 'json',
@@ -54,7 +54,7 @@ const getLabGroups = lab => (
 );
 
 const getLabParticipants = lab => (
-  Q($.ajax({
+  Q(ajax({
     type: 'GET',
     url: `/${Resources.labListEndPoint}/${lab}/members`,
     dataType: 'json',
@@ -64,7 +64,7 @@ const getLabParticipants = lab => (
 );
 
 const getOrganisers = lab => (
-  Q($.ajax({
+  Q(ajax({
     type: 'GET',
     url: `/${Resources.labListEndPoint}/${lab}/admins`,
     dataType: 'json',
@@ -74,7 +74,7 @@ const getOrganisers = lab => (
 );
 
 const deleteLab = lab => (
-  Q($.ajax({
+  Q(ajax({
     type: 'DELETE',
     url: `/branches/${lab.id}/`,
   }))
@@ -82,7 +82,7 @@ const deleteLab = lab => (
 );
 
 const create = lab => (
-  Q($.ajax({
+  Q(ajax({
     type: 'POST',
     url: '/branches/',
     data: adaptLab(lab),
@@ -92,7 +92,7 @@ const create = lab => (
 );
 
 const update = lab => (
-  Q($.ajax({
+  Q(ajax({
     type: 'PUT',
     url: `/branches/${lab.id}/`,
     data: adaptLab(lab),

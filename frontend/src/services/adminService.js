@@ -1,5 +1,5 @@
 import Q from 'q';
-import $ from 'jquery';
+import ajax from './ajax';
 import adminAdapter from '../adapters/adminAdapter.js';
 import { Resources } from '../config/strings';
 
@@ -33,14 +33,14 @@ const adaptAdmin = admin => {
 };
 
 const deleteNetworkAdmin = admin => (
-  Q($.ajax({
+  Q(ajax({
     type: 'DELETE',
     url: `/admins/${admin.id}`,
   })).catch(handleResponseError)
 );
 
 const getNetworkAdmins = () => (
-  Q($.ajax({
+  Q(ajax({
     type: 'GET',
     url: `/${Resources.networkAdminEndPoint}`,
     dataType: 'json',
@@ -50,7 +50,7 @@ const getNetworkAdmins = () => (
 );
 
 const createNetworkAdmin = admin => (
-  Q($.ajax({
+  Q(ajax({
     type: 'POST',
     url: '/admins',
     data: adaptAdmin(admin),
@@ -60,7 +60,7 @@ const createNetworkAdmin = admin => (
 );
 
 const updateNetworkAdmin = admin => (
-  Q($.ajax({
+  Q(ajax({
     type: 'PUT',
     url: `/admins/${admin.id}`,
     data: adaptAdmin(admin),
@@ -70,7 +70,7 @@ const updateNetworkAdmin = admin => (
 );
 
 const deleteOrganiser = (organiser, labId) => (
-  Q($.ajax({
+  Q(ajax({
     type: 'DELETE',
     url: `/branches/${labId}/admins/${organiser.id}`,
   }))
@@ -78,7 +78,7 @@ const deleteOrganiser = (organiser, labId) => (
 );
 
 const create = (organiser, labId) => (
-  Q($.ajax({
+  Q(ajax({
     type: 'POST',
     url: `/branches/${labId}/admins`,
     data: adaptAdmin(organiser),
@@ -88,7 +88,7 @@ const create = (organiser, labId) => (
 );
 
 const update = (organiser, labId) => (
-  Q($.ajax({
+  Q(ajax({
     type: 'PUT',
     url: `/branches/${labId}/admins/${organiser.id}`,
     data: adaptAdmin(organiser),

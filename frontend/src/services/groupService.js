@@ -1,5 +1,5 @@
 import Q from 'q';
-import $ from 'jquery';
+import ajax from './ajax';
 import groupAdapter from '../adapters/groupAdapter.js';
 
 const handleResponseError = error => {
@@ -13,7 +13,7 @@ const handleResponseError = error => {
 };
 
 const createGroup = (group, labId) => (
-  Q($.ajax({
+  Q(ajax({
     type: 'POST',
     url: `/branches/${labId}/groups`,
     data: group,
@@ -23,7 +23,7 @@ const createGroup = (group, labId) => (
 );
 
 const updateGroup = (group, labId) => (
-  Q($.ajax({
+  Q(ajax({
     type: 'PUT',
     url: `/branches/${labId}/groups/${group.id}`,
     data: group,
@@ -33,7 +33,7 @@ const updateGroup = (group, labId) => (
 );
 
 const deleteGroup = (group, labId) => (
-  Q($.ajax({
+  Q(ajax({
     type: 'DELETE',
     url: `/branches/${labId}/groups/${group.id}`,
   }))

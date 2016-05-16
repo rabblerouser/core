@@ -4,7 +4,7 @@ import Details from './Details.jsx';
 import ProgressBar from './ProgressBar.jsx';
 import Finished from './Finished.jsx';
 import { ApplicationForm, Resources } from '../config/strings';
-import $ from 'jquery';
+import ajax from '../services/ajax';
 
 export default class NewMemberForm extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ export default class NewMemberForm extends Component {
   }
 
   postAndContinue(fieldValues) {
-    $.ajax({
+    ajax({
       type: 'POST',
       url: `/${Resources.applicationsEndPoint}`,
       data: fieldValues,
