@@ -1,5 +1,13 @@
 # rabblerouser-core
 
+## Our vision
+
+Rabble Rouser is for campaigning organisations who need tools to mobilise and organise their members and the community.
+
+Rabble Rouser will offer it for free and let them spend their time and money better.
+
+Enabled by a membership registration core and a set of plugins.
+
 [![Build Status](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master/build_image)](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master)
 
 ## Dev setup
