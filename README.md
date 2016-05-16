@@ -1,5 +1,7 @@
 # rabblerouser-core
 
+[![Build Status](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master/build_image)](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master)
+
 ## Our vision
 
 Rabble Rouser is for campaigning organisations who need tools to mobilise and organise their members and the community.
@@ -37,8 +39,6 @@ Enabled by a membership registration core and a set of plugins.
 * Decision making
 * Maintaining commitment
 
-
-[![Build Status](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master/build_image)](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master)
 
 ## Dev setup
 
