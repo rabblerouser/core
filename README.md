@@ -40,7 +40,7 @@ It will have a membership registration core and a set of plugins.
 * Maintaining commitment
 
 
-## Dev setup
+## Development setup
 
 0. Install [VirtualBox](https://www.virtualbox.org/)
 0. Install [Vagrant](https://www.vagrantup.com/downloads.html)
@@ -136,7 +136,7 @@ We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/
 
         npm run createAdmin
 
-### Pull a copy of the staging db from heroku
+### Pull a copy of the staging database from Heroku
 
 0. heroku pg:backups capture --app <app_name>
 
