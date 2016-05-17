@@ -14,16 +14,16 @@ It will have a membership registration core and a set of plugins.
 
 ### April 2017
 
-* We have build the stuff our users need the most
-* At least one closely allied organisation adopts RR
-* Sponsorship to fund development
+* We have built the stuff our users need the most
+* At least one closely allied organisation has adopted RR
+* We have sponsorship to fund development
 
 ### April 2019
 
 * The community is building plugins for RR
-* Rabble Rouser as a service
+* Rabble Rouser is offered as a service
 * Lots of sponsors fund ongoing development
-* Adopted by lots of progressive campaigning organisations around the world
+* Rabble Rouser is adopted by lots of progressive campaigning organisations around the world
 
 ### April 2021
 
@@ -42,18 +42,18 @@ It will have a membership registration core and a set of plugins.
 
 ## Dev setup
 
-0. Install [virtual box](https://www.virtualbox.org/)
-0. Install [vagrant](https://www.vagrantup.com/downloads.html)
-0. Install [ansible](https://docs.ansible.com/ansible/intro_installation.html)
+0. Install [VirtualBox](https://www.virtualbox.org/)
+0. Install [Vagrant](https://www.vagrantup.com/downloads.html)
+0. Install [Ansible](https://docs.ansible.com/ansible/intro_installation.html)
 0. Clone the project
 
         git clone https://github.com/rabblerouser/rabblerouser-core.git
 
-0. Start the vagrant vm
+0. Start the Vagrant VM
 
         vagrant up && vagrant provision
 
-0. Log onto the vm
+0. Log onto the VM
 
         vagrant ssh
 
@@ -69,7 +69,7 @@ It will have a membership registration core and a set of plugins.
 
         1. Run `which sendmail` in a terminal
         2. Add EMAIL_SERVER="Path to sendmail" to environment vars
-        3. Turn on the toggle `email.sendEmails` in each specific environment (config/default.json, config/staging.json, config/production.json)
+        3. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/staging.json`, `config/production.json`)
 
 0. Run the tests
 
@@ -107,7 +107,7 @@ It will have a membership registration core and a set of plugins.
 
 ### Linting
 
-We use eslint to enforce a consisten style across the project. Linting of the frontend code is already part of the build, and the backend will be soon as well. To run eslint use one of these commands:
+We use ESlint to enforce a consisten style across the project. Linting of the frontend code is already part of the build, and the backend will be soon as well. To run eslint use one of these commands:
 
     npm run lint-frontend
     npm run lint-backend
@@ -150,14 +150,14 @@ Happy hacking!
 
 ### WebStorm
 
-0. Install [webstorm](https://www.jetbrains.com/webstorm/download/)
+0. Install [WebStorm](https://www.jetbrains.com/webstorm/download/)
 
-0. Open preferences -> Languages and frameworks
+0. Open Preferences -> Languages and frameworks
 
-0. Change javascript to ECMAScript 6
+0. Change "JavaScript" to "ECMAScript 6"
 
-0. Setup run configuration to node and "javascript/file" to be bin/www
+0. Set Run Configuration to Node and `javascript/file` to `bin/www`
 
-0. Optionally install vagrant plugin
+0. Optionally install Vagrant plugin
 
 
