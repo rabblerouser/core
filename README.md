@@ -107,7 +107,7 @@ It will have a membership registration core and a set of plugins.
 
 ### Linting
 
-We use ESLint to enforce a consisten style across the project. Linting of the frontend code is already part of the build, and the backend will be soon as well. To run ESLint use one of these commands:
+We use ESLint to enforce a consistent style across the project. Linting of the frontend code is already part of the build, and the backend will be soon as well. To run ESLint use one of these commands:
 
     npm run lint-frontend
     npm run lint-backend
