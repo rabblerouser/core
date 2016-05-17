@@ -4,11 +4,11 @@
 
 ## Our vision
 
-Rabble Rouser is for campaigning organisations who need tools to mobilise and organise their members and the community.
+Rabble Rouser is for campaigning organisations who need tools to mobilise and organise their members and the community. 
 
-Rabble Rouser will offer it for free and let them spend their time and money better.
+Rabble Rouser will be offered for free, alllowing organisations to spend their time and money on the things that matter.
 
-Enabled by a membership registration core and a set of plugins.
+It will have a membership registration core and a set of plugins.
 
 ## Our goals
 
