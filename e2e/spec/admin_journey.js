@@ -68,7 +68,7 @@ const adminLogsIn = {
   testRun: test => {
     startAtLogin()
     .then(() => test.assertEquals(title(), 'Login', 'I am on the login page'))
-    .then(() => login('super@thelab.org', 'super'))
+    .then(() => login('admin@rr.com', 'apassword'))
     .then(() => test.assertEquals(title(), 'The Lab Admin', 'I am on the admin page'));
   },
 };
@@ -77,11 +77,10 @@ const adminCanAddAnOrganiser = {
   description: 'As an admin I should be able to add an organiser to a lab',
   testRun: test => {
     startAtLogin()
-    .then(() => login('super@thelab.org', 'super'))
+    .then(() => login('admin@rr.com', 'apassword'))
     .then(() =>
       window.casper.waitForUrl(/dashboard\/admin$/)
     )
-    .then(() => assertDoesNotHaveOrganiser(test, 'organiser@email.com', 'Sasha'))
     .then(clickNewOrganiser)
     .then(fillNewOrganiser)
     .then(() => assertHasOrganiser(test, 'organiser@email.com', 'Sasha'));
@@ -92,7 +91,7 @@ const adminCanEditAnOrganiser = {
   description: 'As an admin I should be able to edit an organiser for a lab',
   testRun: test => {
     startAtLogin()
-    .then(() => login('super@thelab.org', 'super'))
+    .then(() => login('admin@rr.com', 'apassword'))
     .then(() =>
       window.casper.waitForUrl(/dashboard\/admin$/)
     )
@@ -107,7 +106,7 @@ const adminCanDeleteAnOrganiser = {
   description: 'As an admin I should be able to delete an organiser for a lab',
   testRun: test => {
     startAtLogin()
-    .then(() => login('super@thelab.org', 'super'))
+    .then(() => login('admin@rr.com', 'apassword'))
     .then(() =>
       window.casper.waitForUrl(/dashboard\/admin$/)
     )
