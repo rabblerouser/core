@@ -2,15 +2,23 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    main: `${__dirname}/src/components/App.jsx`,
-    admin: `${__dirname}/src/components/admin/AdminDashboard.jsx`,
-    networkAdmin: `${__dirname}/src/components/admin/NetworkAdminDashboard.jsx`,
+    main: ['babel-polyfill', `${__dirname}/src/components/App.jsx`],
+    admin: ['babel-polyfill', `${__dirname}/src/components/admin/AdminDashboard.jsx`],
+    networkAdmin: ['babel-polyfill', `${__dirname}/src/components/admin/NetworkAdminDashboard.jsx`],
   },
   output: {
-    path: `${__dirname}/../backend/public/javascript`,
+    path: `${__dirname}/public/javascript`,
+    publicPath: 'javascript',
     filename: '[name].bundle.js',
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+      },
+    ],
     loaders: [
       {
         test: /\.css$/,
@@ -30,5 +38,33 @@ module.exports = {
       },
     ],
   },
-  plugins: process.env.NODE_ENV ? [new webpack.optimize.UglifyJsPlugin({ minimize: true })] : [],
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({ minimize: true }),
+    new webpack.DefinePlugin({ 'process.env': { API_HOST: JSON.stringify(process.env.API_HOST || null) } }),
+  ],
+  devtool: 'cheap-module-eval-source-map',
+  devServer: {
+    'hide-modules': true,
+    proxy: {
+      '*': {
+        target: 'http://localhost:3000',
+        secure: false,
+        bypass: req => {
+          if (req.method === 'GET') {
+            if (['/admin', '/dashboard', '/error', '/index', '/login'].indexOf(req.url) > -1) {
+              return `${req.url}.html`;
+            }
+            if (req.url === '/dashboard/admin') {
+              return '/admin.html';
+            }
+            if (req.url === '/' || req.url.startsWith('/stylesheets') || req.url.startsWith('/images')) {
+              return req.url;
+            }
+          }
+          return false;
+        },
+      },
+    },
+  },
+  node: { fs: 'empty' },
 };

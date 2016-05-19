@@ -14,8 +14,6 @@ describe('GroupList', () => {
     xit('has a single select element with options for each group provided plus the All Participants option', () => {
       const element = renderedTree.subTree('select');
       expect(element).not.toBeFalsy();
-      console.log('>>>>>>>>>>>>>', element.toString());
-      console.log('>>>>>>>>>>>>>', element.props.children);
       expect(element.props.children.length).toBe(3);
     });
   });

@@ -10,7 +10,7 @@ module.exports = function login(req, res) {
     }
 
     if (!user) {
-        return res.render('login', {error: 'Wrong username or password'});
+        return res.redirect('login');
     }
     req.logIn(user, function() {
         if(req.user.type === adminType.super) {

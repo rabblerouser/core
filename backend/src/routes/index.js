@@ -12,7 +12,7 @@ let requireAuth = require('../security/authenticationRequired');
 let login = require('../security/loginHandler');
 
 router.get('/', function (req, res) {
-    res.render('index', {title: 'The Lab - Sign Up'});
+    res.render('index');
 });
 
 router.post('/register', membersController.register);
@@ -30,11 +30,11 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/dashboard', [requireAuth], function (req, res) {
-    res.render('dashboard', {title: 'The Lab Admin'});
+    res.render('dashboard');
 });
 
 router.get('/dashboard/admin', [requireAuth], function (req, res) {
-    res.render('admin', {title: 'The Lab Admin'});
+    res.render('admin');
 });
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.list);
