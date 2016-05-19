@@ -6,6 +6,7 @@ Frontend for rabblerouser - A pluggable, extensible membership database for comm
 
  * React
  * Webpack + Babel
+ * Jasmine
 
 ## Running the tests
 
@@ -23,4 +24,4 @@ See the README.md in the root of the repo for more information about our lint se
 
 `npm start`
 
-File watching is temporarily broken, so you'll need to restart npm/webpack every time you change code at the moment. This will be fixed soon, hopefully with proper HMR (i.e. no page refreshing!).
+This starts the webpack-dev-server, so you should then load the code by going to `localhost:8080` in your browser.

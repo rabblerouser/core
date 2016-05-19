@@ -40,7 +40,7 @@ It will have a membership registration core and a set of plugins.
 * Maintaining commitment
 
 
-## Development setup
+## First-time setup
 
 0. Install [VirtualBox](https://www.virtualbox.org/)
 0. Install [Vagrant](https://www.vagrantup.com/downloads.html)
@@ -79,39 +79,39 @@ It will have a membership registration core and a set of plugins.
 
         npm start
 
-0. Re-bundling the UI
+0. Verify that the app works - Point your browser at http://localhost:3000
 
-    The frontend code must be re-compiled whenever it changes; `npm start` serves the compiled frontend code out of `/public`. We have a `postinstall` task that compiles any time `npm install` is run (i.e. on deployment).
+## Understanding this repository
 
-    When developing, the easiest way to keep the front-end up to date is to `cd` into the `src/frontend` directory and run the following command in a separate shell, which will watch the code and re-compile on changes. This can be run outside of the Vagrant VM, if you have `npm` installed on your host machine.
+This repository is split into the following directories:
 
-        npm start
+ * `backend`: The backend node.js API
+ * `bin`: Utility scripts, mostly for build/deploy tasks
+ * `e2e`: End-to-end tests built with casperjs
+ * `frontend`: The frontend React.js webapp
+ * `provisioning`: Ansible scripts for environment setup (local and deployed)
 
-### Tests
+Because the frontend, backend, and E2E tests are all written in JavaScript, each one has its own `package.json` file for
+dependencies and tasks. There is also another `package.json` at the top-level of the repo, which simply orchestrates the
+tasks contained within the sub-projects.
 
-0. Run server side tests
+### I want to work on the backend code
 
-        npm run serverTests
+1. From the root directory, `npm install` - Compile the frontend assets and copy them into the backend/public
+2. From the backend directory: `npm test` - Test your backend changes
+3. From the root or backend directory: `npm start` - Run the server
+4. Load the app in your browser: `http://localhost:3000`
 
-0. Run client side tests
+### I want to work on the frontend code
 
-        npm run test-frontend
-
-0. Run a specific server side test
-
-        NODE_ENV=test node --harmony node_modules/jasmine/bin/jasmine.js spec/integration/membersSpec.js
-
-0. Run smoke tests against an external target
-
-        NODE_ENV=test INSTANCE_URL=http://myinstance.mydomain.com node --harmony node_modules/jasmine/bin/jasmine.js spec/integration
+1. From the frontend directory: `npm test` - Test your frontend changes
+2. From the root or backend directory, **in a separate terminal**: `npm start` - Run the server
+3. From the frontend directory: `npm start` - Start the Webpack Dev Server, which watches files and re-compiles automatically
+4. Load the app in your browser: `http://localhost:8080`
 
 ### Linting
 
-We use ESLint to enforce a consistent style across the project. Linting of the frontend code is already part of the build, and the backend will be soon as well. To run ESLint use one of these commands:
-
-    npm run lint-frontend
-    npm run lint-backend
-    npm run lint #does both
+We use ESLint to enforce a consistent style across the project. Linting of the frontend code is already part of the build, and the backend will be soon as well. To run ESLint just do `npm run lint` in one of the frontend, backend, or e2e directories.
 
 To lint just a specific file or directory:
 
@@ -145,19 +145,3 @@ We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/
 0. (in the VM) pg_restore --verbose --clean --no-acl --no-owner -h localhost -U lab-assistant -d lab-assistant db/dumps/latest.dump
 
 Happy hacking!
-
-## Optional setup
-
-### WebStorm
-
-0. Install [WebStorm](https://www.jetbrains.com/webstorm/download/)
-
-0. Open Preferences -> Languages and frameworks
-
-0. Change "JavaScript" to "ECMAScript 6"
-
-0. Set Run Configuration to Node and `javascript/file` to `bin/www`
-
-0. Optionally install Vagrant plugin
-
-
