@@ -11,8 +11,5 @@
     "postinstall:frontend": "npm --prefix frontend run build && bin/copy_assets.sh",
     "start": "npm --prefix backend start",
     "test": "npm --prefix frontend run ci && npm --prefix backend run ci"
-  },
-  "dependencies": {
-    "debug": "~2.2.0"
   }
 }

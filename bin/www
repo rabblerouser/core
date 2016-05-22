@@ -5,7 +5,6 @@
  */
 
 var app = require('../backend/src/app');
-var debug = require('debug')('lab-assistant:server');
 var http = require('http');
 
 /**
@@ -86,5 +85,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
 }
