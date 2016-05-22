@@ -10,7 +10,7 @@ import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer.
 import labService from '../../services/labService.js';
 import { AdminDashboard as Strings } from '../../config/strings.js';
 
-export default class AdminDashboard extends Component {
+export default class NetworkAdminDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -138,4 +138,4 @@ export default class AdminDashboard extends Component {
   }
 }
 
-render(<AdminDashboard />, document.getElementById('app'));
+render(<NetworkAdminDashboard />, document.getElementById('app'));

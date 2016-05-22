@@ -7,7 +7,7 @@ const parseString = value => {
   return value;
 };
 
-const parseLabDetails = data => {
+const parseBranch = data => {
   if (!data) {
     throw invalidDataError;
   }
@@ -19,14 +19,14 @@ const parseLabDetails = data => {
   };
 };
 
-const parseLabs = data => {
+const parseBranches = data => {
   if (!data || !Array.isArray(data.branches)) {
     throw invalidDataError;
   }
-  return data.branches.map(parseLabDetails);
+  return data.branches.map(parseBranch);
 };
 
 export default {
-  parseLab: parseLabDetails,
-  parseLabs,
+  parseBranch,
+  parseBranches,
 };

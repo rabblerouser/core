@@ -2,7 +2,7 @@ import Q from 'q';
 import ajax from './ajax';
 import { Resources } from '../config/strings';
 import groupAdapter from '../adapters/groupAdapter.js';
-import labAdapter from '../adapters/labAdapter.js';
+import branchAdapter from '../adapters/branchAdapter.js';
 import participantAdapter from '../adapters/participantAdapter.js';
 import adminAdapter from '../adapters/adminAdapter.js';
 
@@ -29,7 +29,7 @@ const getMyLabs = () => (
     url: `/${Resources.myLabListEndPoint}`,
     dataType: 'json',
   }))
-    .then(labAdapter.parseLabs)
+    .then(branchAdapter.parseBranches)
     .catch(handleResponseError)
 );
 
@@ -39,7 +39,7 @@ const getLabList = () => (
     url: `/${Resources.labListEndPoint}`,
     dataType: 'json',
   }))
-    .then(labAdapter.parseLabs)
+    .then(branchAdapter.parseBranches)
     .catch(handleResponseError)
 );
 
@@ -87,7 +87,7 @@ const create = lab => (
     url: '/branches/',
     data: adaptLab(lab),
   }))
-    .then(labAdapter.parseLab)
+    .then(branchAdapter.parseBranch)
     .catch(handleResponseError)
 );
 
@@ -97,7 +97,7 @@ const update = lab => (
     url: `/branches/${lab.id}/`,
     data: adaptLab(lab),
   }))
-    .then(labAdapter.parseLab)
+    .then(branchAdapter.parseBranch)
     .catch(handleResponseError)
 );
 
