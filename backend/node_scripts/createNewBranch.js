@@ -5,10 +5,10 @@ var readline = require('readline');
 
 var rl = readline.createInterface({input: process.stdin, output: process.stdout});
 
-rl.question('Please enter the new Lab name: ', function (name) {
+rl.question('Please enter the new Branch name: ', function (name) {
     Branch.create({name: name})
     .then(function (branch) {
-        console.log('Lab: "' + branch.name + '" created.');
+        console.log('Branch: "' + branch.name + '" created.');
         process.exit(0);
     }).catch(function (err) {
         console.log('Error: ' + err);

@@ -14,7 +14,7 @@ let hasAdmin = (res) => {
 };
 
 let makeSuperAdmin = (email) => {
-    email = email || 'supaAdmin@thelab.org';
+    email = email || 'supaAdmin@rabblerouser.org';
     return {
         email: email,
         password: 'supaP@sw0r dddd!!'
@@ -33,7 +33,7 @@ function postSuperAdmin(someAgent, email) {
 
 let makeAdminUser = (branch) => {
     return {
-        email: 'newOrgnrr@thelab.org',
+        email: 'newOrgnrr@rabblerouser.org',
         password: 'ooooooorganiser',
         branchId: branch.id
     };
@@ -252,7 +252,7 @@ describe('AdminIntegrationTests', () => {
                 return agent.post('/admins')
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
-                    .send({email: 'supaAdmin@thelab.org'})
+                    .send({email: 'supaAdmin@rabblerouser.org'})
                     .expect(400)
                     .then(done, done.fail);
             });
@@ -313,7 +313,7 @@ describe('AdminIntegrationTests', () => {
                 return agent.put(`/admins/${browserState.superAdmin.id}`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
-                    .send({email: 'supaAdmin@thelab.org'})
+                    .send({email: 'supaAdmin@rabblerouser.org'})
                     .expect(400)
                     .then(done, done.fail);
             });

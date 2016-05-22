@@ -6,7 +6,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../config/db.json')[env];
 
 let cls = require('continuation-local-storage');
-Sequelize.cls = cls.createNamespace('lab-assistant');
+Sequelize.cls = cls.createNamespace('rabblerouser');
 
 var connection;
 

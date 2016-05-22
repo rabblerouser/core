@@ -8,11 +8,11 @@ let models = require('../../../src/models'),
 let adminType = require('../../../src/security/adminType');
 
 function createBranchAdmin(branch) {
-    return AdminUser.create({ email: 'orgnsr@thelab.org', password: 'organiser', branchId: branch.id, id: uuid.v4()});
+    return AdminUser.create({ email: 'orgnsr@rabblerouser.org', password: 'organiser', branchId: branch.id, id: uuid.v4()});
 }
 
 function createSuperAdmin() {
-    return AdminUser.create({ email: 'super@thelab.org', password: 'super', type: adminType.super, id: uuid.v4()});
+    return AdminUser.create({ email: 'super@rabblerouser.org', password: 'super', type: adminType.super, id: uuid.v4()});
 }
 
 function authenticateBranchAdmin(someAgent) {
@@ -20,7 +20,7 @@ function authenticateBranchAdmin(someAgent) {
         return someAgent
             .post('/login')
             .set('Content-Type', 'application/json')
-            .send({ email: 'orgnsr@thelab.org', password: 'organiser' })
+            .send({ email: 'orgnsr@rabblerouser.org', password: 'organiser' })
             .expect(302);
     };
 }
@@ -30,7 +30,7 @@ function authenticateSuperAdmin(someAgent) {
         return someAgent
             .post('/login')
             .set('Content-Type', 'application/json')
-            .send({ email: 'super@thelab.org', password: 'super' })
+            .send({ email: 'super@rabblerouser.org', password: 'super' })
             .expect(302);
     };
 }

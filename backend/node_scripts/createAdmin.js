@@ -40,9 +40,9 @@ function getAllBranches() {
 }
 
 function setupAdmin(branches) {
-    return question('Please enter the number of the lab you want to create an organiser for: ')
-    .then(function (lab) {
-        return branches[lab];
+    return question('Please enter the number of the branch you want to create an organiser for: ')
+    .then(function (branchId) {
+        return branches[branchId];
     })
     .then(function(branch) {
         return question('Email: ')
