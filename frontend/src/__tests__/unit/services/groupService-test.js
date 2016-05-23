@@ -15,7 +15,7 @@ describe('groupService', () => {
     name: 'name',
     description: 'description',
   };
-  const lab = 1234;
+  const branchId = 1234;
 
   beforeEach(() => {
     server = sinon.fakeServer.create();
@@ -36,8 +36,8 @@ describe('groupService', () => {
         ]);
       });
 
-      it('should send a request to delete the group from the lab', done => {
-        groupService.deleteGroup(group, lab)
+      it('should send a request to delete the group from the branch', done => {
+        groupService.deleteGroup(group, branchId)
           .then(result => {
             expect(result).toEqual('good');
             done();
@@ -57,7 +57,7 @@ describe('groupService', () => {
         });
 
         it('should return a general server error', done => {
-          groupService.deleteGroup(group, lab)
+          groupService.deleteGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -76,7 +76,7 @@ describe('groupService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          groupService.deleteGroup(group, lab)
+          groupService.deleteGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -95,7 +95,7 @@ describe('groupService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          groupService.deleteGroup(group, lab)
+          groupService.deleteGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -119,7 +119,7 @@ describe('groupService', () => {
       });
 
       it('should send a request to save a new group for the branch', done => {
-        groupService.createGroup(group, lab)
+        groupService.createGroup(group, branchId)
           .then(result => {
             expect(result).toEqual(validData);
             done();
@@ -140,7 +140,7 @@ describe('groupService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        groupService.createGroup(group, lab)
+        groupService.createGroup(group, branchId)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -160,7 +160,7 @@ describe('groupService', () => {
         });
 
         it('should return a general server error', done => {
-          groupService.createGroup(group, lab)
+          groupService.createGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -179,7 +179,7 @@ describe('groupService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          groupService.createGroup(group, lab)
+          groupService.createGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -198,7 +198,7 @@ describe('groupService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          groupService.createGroup(group, lab)
+          groupService.createGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -222,7 +222,7 @@ describe('groupService', () => {
       });
 
       it('should send a request to update the group for the branch', done => {
-        groupService.updateGroup(group, lab)
+        groupService.updateGroup(group, branchId)
           .then(result => {
             expect(result).toEqual(validData);
             done();
@@ -243,7 +243,7 @@ describe('groupService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        groupService.updateGroup(group, lab)
+        groupService.updateGroup(group, branchId)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -263,7 +263,7 @@ describe('groupService', () => {
         });
 
         it('should return a general server error', done => {
-          groupService.updateGroup(group, lab)
+          groupService.updateGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -282,7 +282,7 @@ describe('groupService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          groupService.updateGroup(group, lab)
+          groupService.updateGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -301,7 +301,7 @@ describe('groupService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          groupService.updateGroup(group, lab)
+          groupService.updateGroup(group, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })

@@ -15,7 +15,7 @@ describe('adminService', () => {
     id: '5678',
     email: 'jim@jim.com',
   };
-  const lab = 1234;
+  const branchId = 1234;
 
   beforeEach(() => {
     server = sinon.fakeServer.create();
@@ -36,7 +36,7 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should send a request to delete the admin from the lab', done => {
+      it('should send a request to delete the admin from the branch', done => {
         adminService.deleteNetworkAdmin(admin)
           .then(result => {
             expect(result).toEqual('good');
@@ -179,7 +179,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.updateNetworkAdmin(admin, lab)
+          adminService.updateNetworkAdmin(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -198,7 +198,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.updateNetworkAdmin(admin, lab)
+          adminService.updateNetworkAdmin(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -222,7 +222,7 @@ describe('adminService', () => {
       });
 
       it('should send a request to save a new admin for the branch', done => {
-        adminService.createNetworkAdmin(admin, lab)
+        adminService.createNetworkAdmin(admin, branchId)
           .then(result => {
             expect(result).toEqual(validData);
             done();
@@ -243,7 +243,7 @@ describe('adminService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        adminService.createNetworkAdmin(admin, lab)
+        adminService.createNetworkAdmin(admin, branchId)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -263,7 +263,7 @@ describe('adminService', () => {
         });
 
         it('should return a general server error', done => {
-          adminService.createNetworkAdmin(admin, lab)
+          adminService.createNetworkAdmin(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -282,7 +282,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.createNetworkAdmin(admin, lab)
+          adminService.createNetworkAdmin(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -301,7 +301,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.createNetworkAdmin(admin, lab)
+          adminService.createNetworkAdmin(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -339,7 +339,7 @@ describe('adminService', () => {
             JSON.stringify({ admins: validAdminPayload })]);
       });
 
-      it('should return a list of the labs', done => {
+      it('should return a list of the branches', done => {
         adminService.getNetworkAdmins()
           .then(admins => {
             expect(admins).toEqual(validAdminPayload);
@@ -413,8 +413,8 @@ describe('adminService', () => {
         ]);
       });
 
-      it('should send a request to delete the admin from the lab', done => {
-        adminService.delete(admin, lab)
+      it('should send a request to delete the admin from the branch', done => {
+        adminService.delete(admin, branchId)
           .then(result => {
             expect(result).toEqual('good');
             done();
@@ -434,7 +434,7 @@ describe('adminService', () => {
         });
 
         it('should return a general server error', done => {
-          adminService.delete(admin, lab)
+          adminService.delete(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -453,7 +453,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.delete(admin, lab)
+          adminService.delete(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -472,7 +472,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.delete(admin, lab)
+          adminService.delete(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -496,7 +496,7 @@ describe('adminService', () => {
       });
 
       it('should send a request to save a new admin for the branch', done => {
-        adminService.create(admin, lab)
+        adminService.create(admin, branchId)
           .then(result => {
             expect(result).toEqual(validData);
             done();
@@ -517,7 +517,7 @@ describe('adminService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        adminService.create(admin, lab)
+        adminService.create(admin, branchId)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -537,7 +537,7 @@ describe('adminService', () => {
         });
 
         it('should return a general server error', done => {
-          adminService.create(admin, lab)
+          adminService.create(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -556,7 +556,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.create(admin, lab)
+          adminService.create(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -575,7 +575,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.create(admin, lab)
+          adminService.create(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -599,7 +599,7 @@ describe('adminService', () => {
       });
 
       it('should send a request to update the admin for the branch', done => {
-        adminService.update(admin, lab)
+        adminService.update(admin, branchId)
           .then(result => {
             expect(result).toEqual(validData);
             done();
@@ -620,7 +620,7 @@ describe('adminService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        adminService.update(admin, lab)
+        adminService.update(admin, branchId)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -640,7 +640,7 @@ describe('adminService', () => {
         });
 
         it('should return a general server error', done => {
-          adminService.update(admin, lab)
+          adminService.update(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -659,7 +659,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.update(admin, lab)
+          adminService.update(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -678,7 +678,7 @@ describe('adminService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          adminService.update(admin, lab)
+          adminService.update(admin, branchId)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
