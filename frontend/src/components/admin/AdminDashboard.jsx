@@ -79,13 +79,13 @@ export default class AdminDashboard extends Component {
           errors={this.state.pageErrors}
         />
         <OrganisersViewContainer
-          labId={this.state.selectedLab.id}
+          branchId={this.state.selectedLab.id}
           onPreAction={this.clearMessages.bind(this)}
           onActionError={this.handleError.bind(this)}
           onActionSuccess={this.setUserMessage.bind(this)}
         />
         <GroupsViewContainer
-          labId={this.state.selectedLab.id}
+          branchId={this.state.selectedLab.id}
           onPreAction={this.clearMessages.bind(this)}
           onActionError={this.handleError.bind(this)}
           onActionSuccess={this.setUserMessage.bind(this)}

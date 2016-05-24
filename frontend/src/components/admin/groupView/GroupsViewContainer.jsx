@@ -17,7 +17,7 @@ export default class GroupsViewContainer extends Component {
         const saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ?
           groupService.createGroup :
           groupService.updateGroup;
-        saveAction(groupDetails, this.props.labId)
+        saveAction(groupDetails, this.props.branchId)
           .then(savedGroup => {
             this.update(this.state.groups, savedGroup);
             this.props.onActionSuccess('Group saved');
@@ -31,7 +31,7 @@ export default class GroupsViewContainer extends Component {
       },
       onDelete: selected => {
         this.props.onPreAction();
-        groupService.deleteGroup(selected, this.props.labId)
+        groupService.deleteGroup(selected, this.props.branchId)
           .then(() => {
             this.removeAndUpdateGroups(this.state.groups, selected);
             this.props.onActionSuccess('Group deleted');
@@ -69,8 +69,8 @@ export default class GroupsViewContainer extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.labId && nextProps.labId !== this.props.labId) {
-      branchService.getBranchGroups(nextProps.labId)
+    if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
+      branchService.getBranchGroups(nextProps.branchId)
         .then(groups => {
           this.setState({ groups });
         });
@@ -100,7 +100,7 @@ export default class GroupsViewContainer extends Component {
           onPreAction={this.props.onPreAction}
           onActionError={this.props.onActionError}
           onActionSuccess={this.props.onActionSuccess}
-          labId={this.props.labId}
+          branchId={this.props.branchId}
         />
       </section>
     );
@@ -111,5 +111,5 @@ GroupsViewContainer.propTypes = {
   onPreAction: React.PropTypes.func,
   onActionError: React.PropTypes.func,
   onActionSuccess: React.PropTypes.func,
-  labId: React.PropTypes.string,
+  branchId: React.PropTypes.string,
 };

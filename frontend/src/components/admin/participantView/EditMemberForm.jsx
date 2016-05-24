@@ -40,16 +40,16 @@ export default class EditMemberForm extends Component {
   }
 
   saveChanges() {
-    const participant = Object.assign(
+    const member = Object.assign(
       {},
       this.props.participant,
       this.state.fieldValues, { schoolType: this.getSchoolType(this.state.fieldValues) }
     );
-    const errors = memberValidator.isValid(participant);
+    const errors = memberValidator.isValid(member);
     this.setState({ invalidFields: errors });
     if (errors.length === 0) {
       this.props.onSuccess();
-      this.props.onSave(participant);
+      this.props.onSave(member);
     } else {
       this.setState({ pageErrors: ['Your updates could not be saved. Please check the details.'] });
     }

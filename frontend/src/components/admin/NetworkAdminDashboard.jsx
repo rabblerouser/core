@@ -118,13 +118,13 @@ export default class NetworkAdminDashboard extends Component {
           onDeleteLab={this.state.onDeleteLab}
         />
         <OrganisersViewContainer
-          labId={this.state.selectedLab.id}
+          branchId={this.state.selectedLab.id}
           onPreAction={this.clearMessages.bind(this)}
           onActionError={this.handleError.bind(this)}
           onActionSuccess={this.setUserMessage.bind(this)}
         />
         <GroupsViewContainer
-          labId={this.state.selectedLab.id}
+          branchId={this.state.selectedLab.id}
           onPreAction={this.clearMessages.bind(this)}
           onActionError={this.handleError.bind(this)}
           onActionSuccess={this.setUserMessage.bind(this)}

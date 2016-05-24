@@ -458,7 +458,7 @@ describe('branchService', () => {
       pastoralNotes: 'Some pastoral notes',
       additionalInfo: 'Some additional info',
       groups: [{ id: 1, name: 'Group name' }],
-      labId: '1234',
+      branchId: '1234',
     }];
 
     describe('when the participants are retrieved in a valid format', () => {
@@ -562,7 +562,7 @@ describe('branchService', () => {
   });
 
   describe('getMyBranches', () => {
-    const validLabsPayload =
+    const validBranchesPayload =
       [
         {
           id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
@@ -582,13 +582,13 @@ describe('branchService', () => {
       beforeEach(() => {
         server.respondWith('GET', '/admin/branches',
           [200, { 'Content-Type': 'application/json' },
-            JSON.stringify({ branches: validLabsPayload })]);
+            JSON.stringify({ branches: validBranchesPayload })]);
       });
 
       it('should return a list of the labs', done => {
         branchService.getMyBranches()
           .then(branches => {
-            expect(branches).toEqual(validLabsPayload);
+            expect(branches).toEqual(validBranchesPayload);
           })
           .then(done, done.fail);
       });
@@ -649,7 +649,7 @@ describe('branchService', () => {
   });
 
   describe('getBranches', () => {
-    const validLabsPayload =
+    const validBranchesPayload =
       [
         {
           id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
@@ -669,13 +669,13 @@ describe('branchService', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches',
           [200, { 'Content-Type': 'application/json' },
-            JSON.stringify({ branches: validLabsPayload })]);
+            JSON.stringify({ branches: validBranchesPayload })]);
       });
 
       it('should return a list of the labs', done => {
         branchService.getBranches()
           .then(branches => {
-            expect(branches).toEqual(validLabsPayload);
+            expect(branches).toEqual(validBranchesPayload);
           })
           .then(done, done.fail);
       });

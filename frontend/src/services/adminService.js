@@ -69,28 +69,28 @@ const updateNetworkAdmin = admin => (
     .catch(handleResponseError)
 );
 
-const deleteOrganiser = (organiser, labId) => (
+const deleteOrganiser = (organiser, branchId) => (
   Q(ajax({
     type: 'DELETE',
-    url: `/branches/${labId}/admins/${organiser.id}`,
+    url: `/branches/${branchId}/admins/${organiser.id}`,
   }))
     .catch(handleResponseError)
 );
 
-const create = (organiser, labId) => (
+const create = (organiser, branchId) => (
   Q(ajax({
     type: 'POST',
-    url: `/branches/${labId}/admins`,
+    url: `/branches/${branchId}/admins`,
     data: adaptAdmin(organiser),
   }))
     .then(adminAdapter.parseAdminDetails)
     .catch(handleResponseError)
 );
 
-const update = (organiser, labId) => (
+const update = (organiser, branchId) => (
   Q(ajax({
     type: 'PUT',
-    url: `/branches/${labId}/admins/${organiser.id}`,
+    url: `/branches/${branchId}/admins/${organiser.id}`,
     data: adaptAdmin(organiser),
   }))
     .then(adminAdapter.parseAdminDetails)

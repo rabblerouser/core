@@ -34,7 +34,7 @@ const parseParticipantDetails = data => {
     additionalInfo: data.additionalInfo,
     groups: parseGroups(data.groups),
     pastoralNotes: data.pastoralNotes,
-    labId: data.branchId,
+    branchId: data.branchId,
   };
 };
 

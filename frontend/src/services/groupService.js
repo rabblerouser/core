@@ -12,30 +12,30 @@ const handleResponseError = error => {
   }
 };
 
-const createGroup = (group, labId) => (
+const createGroup = (group, branchId) => (
   Q(ajax({
     type: 'POST',
-    url: `/branches/${labId}/groups`,
+    url: `/branches/${branchId}/groups`,
     data: group,
   }))
     .then(groupAdapter.parseGroup)
     .catch(handleResponseError)
 );
 
-const updateGroup = (group, labId) => (
+const updateGroup = (group, branchId) => (
   Q(ajax({
     type: 'PUT',
-    url: `/branches/${labId}/groups/${group.id}`,
+    url: `/branches/${branchId}/groups/${group.id}`,
     data: group,
   }))
     .then(groupAdapter.parseGroup)
     .catch(handleResponseError)
 );
 
-const deleteGroup = (group, labId) => (
+const deleteGroup = (group, branchId) => (
   Q(ajax({
     type: 'DELETE',
-    url: `/branches/${labId}/groups/${group.id}`,
+    url: `/branches/${branchId}/groups/${group.id}`,
   }))
     .catch(handleResponseError)
 );

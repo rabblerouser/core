@@ -16,7 +16,7 @@ describe('participant adapter', () => {
       additionalInfo: 'Some additional info',
       pastoralNotes: 'Some pastoral notes',
       groups: [{ id: 1, name: 'Group name' }],
-      labId: '1234',
+      branchId: '1234',
     }];
 
     describe('when the payload is valid', () => {
@@ -115,7 +115,7 @@ describe('participant adapter', () => {
       additionalInfo: 'Some additional info',
       pastoralNotes: 'Some pastoral notes',
       groups: [{ id: 1, name: 'Group name' }],
-      labId: '1234',
+      branchId: '1234',
     };
 
     describe('when the payload is valid', () => {

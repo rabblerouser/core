@@ -14,7 +14,7 @@ export default class OrganiserViewContainer extends Component {
         const saveAction = this.state.admins.find(admin => admin.id === adminDetails.id) === undefined ?
           adminService.create :
           adminService.update;
-        saveAction(adminDetails, this.props.labId)
+        saveAction(adminDetails, this.props.branchId)
           .then(savedAdmin => {
             this.updateAdmins(this.state.admins, savedAdmin);
             this.props.onActionSuccess('Organiser successfully saved');
@@ -23,7 +23,7 @@ export default class OrganiserViewContainer extends Component {
       },
       onDelete: selected => {
         this.props.onPreAction();
-        adminService.delete(selected, this.props.labId)
+        adminService.delete(selected, this.props.branchId)
           .then(() => {
             this.removeAndUpdate(this.state.admins, selected);
             this.props.onActionSuccess('Organiser successfully deleted');
@@ -50,8 +50,8 @@ export default class OrganiserViewContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.labId && nextProps.labId !== this.props.labId) {
-      branchService.getBranchAdmins(nextProps.labId)
+    if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
+      branchService.getBranchAdmins(nextProps.branchId)
         .then(admins => {
           this.setState({ admins });
         });
@@ -75,5 +75,5 @@ OrganiserViewContainer.propTypes = {
   onPreAction: React.PropTypes.func,
   onActionError: React.PropTypes.func,
   onActionSuccess: React.PropTypes.func,
-  labId: React.PropTypes.string,
+  branchId: React.PropTypes.string,
 };

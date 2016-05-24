@@ -9,9 +9,9 @@ export default class ParticipantsViewContainer extends Component {
     super(props);
     this.state = {
       participants: [],
-      onSave: participant => {
+      onSave: member => {
         this.props.onPreAction();
-        memberService.update(participant, this.props.labId)
+        memberService.update(member, this.props.branchId)
           .then(savedParticipant => {
             this.update(this.state.participants, savedParticipant);
             this.props.onActionSuccess('Participant saved');
@@ -50,8 +50,8 @@ export default class ParticipantsViewContainer extends Component {
   componentWillReceiveProps(nextProps) {
     this.updateIfGroupRemoved(this.props.groups, nextProps.groups);
 
-    if (nextProps.labId && nextProps.labId !== this.props.labId) {
-      branchService.getBranchMembers(nextProps.labId)
+    if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
+      branchService.getBranchMembers(nextProps.branchId)
         .then(participants => {
           this.setState({ participants });
         });
@@ -83,5 +83,5 @@ ParticipantsViewContainer.propTypes = {
   onPreAction: React.PropTypes.func,
   onActionError: React.PropTypes.func,
   onActionSuccess: React.PropTypes.func,
-  labId: React.PropTypes.string,
+  branchId: React.PropTypes.string,
 };
