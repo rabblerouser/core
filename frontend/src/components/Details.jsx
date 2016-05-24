@@ -3,7 +3,7 @@ import Errors from './Errors.jsx';
 import NewMemberFields from './form/NewMemberFields.jsx';
 import applicationValidator from '../services/applicationValidator';
 import { ApplicationForm as Strings, FormValidationErrors as ErrorStrings, Resources } from '../config/strings.js';
-import labService from '../services/labService';
+import branchService from '../services/branchService';
 import memberAdapter from '../adapters/memberAdapter';
 
 export default class Details extends Component {
@@ -18,7 +18,7 @@ export default class Details extends Component {
   }
 
   componentDidMount() {
-    labService.getLabList()
+    branchService.getBranches()
       .then(labs => {
         this.setState({ labs });
       })

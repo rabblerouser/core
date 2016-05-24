@@ -6,7 +6,7 @@ import UserMessageView from './UserMessageView.jsx';
 import GroupsViewContainer from './groupView/GroupsViewContainer.jsx';
 import OrganisersViewContainer from './adminsView/OrganisersViewContainer.jsx';
 
-import labService from '../../services/labService.js';
+import branchService from '../../services/branchService.js';
 import { AdminDashboard as Strings } from '../../config/strings.js';
 
 export default class AdminDashboard extends Component {
@@ -59,7 +59,7 @@ export default class AdminDashboard extends Component {
   }
 
   componentDidMount() {
-    labService.getMyLabs()
+    branchService.getMyBranches()
       .then(labs => {
         this.setState({ labs });
         this.updateLabSelection(labs[0]);

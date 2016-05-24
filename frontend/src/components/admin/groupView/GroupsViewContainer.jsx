@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import GroupsView from './GroupsView.jsx';
-import labService from '../../../services/labService.js';
+import branchService from '../../../services/branchService.js';
 import groupService from '../../../services/groupService.js';
 import ParticipantsViewContainer from '../participantView/ParticipantsViewContainer.jsx';
 
@@ -70,7 +70,7 @@ export default class GroupsViewContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.labId && nextProps.labId !== this.props.labId) {
-      labService.getLabGroups(nextProps.labId)
+      branchService.getBranchGroups(nextProps.labId)
         .then(groups => {
           this.setState({ groups });
         });

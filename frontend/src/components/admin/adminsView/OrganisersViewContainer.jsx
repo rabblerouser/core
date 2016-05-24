@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AdminsView from './AdminsView.jsx';
-import labService from '../../../services/labService.js';
+import branchService from '../../../services/branchService.js';
 import adminService from '../../../services/adminService.js';
 import _ from 'lodash';
 
@@ -51,7 +51,7 @@ export default class OrganiserViewContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.labId && nextProps.labId !== this.props.labId) {
-      labService.getOrganisers(nextProps.labId)
+      branchService.getBranchAdmins(nextProps.labId)
         .then(admins => {
           this.setState({ admins });
         });

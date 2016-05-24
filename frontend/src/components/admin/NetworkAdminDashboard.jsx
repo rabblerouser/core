@@ -7,7 +7,7 @@ import LabDetailsView from './labView/LabDetailsView.jsx';
 import GroupsViewContainer from './groupView/GroupsViewContainer.jsx';
 import OrganisersViewContainer from './adminsView/OrganisersViewContainer.jsx';
 import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer.jsx';
-import labService from '../../services/labService.js';
+import branchService from '../../services/branchService.js';
 import { AdminDashboard as Strings } from '../../config/strings.js';
 
 export default class NetworkAdminDashboard extends Component {
@@ -25,8 +25,8 @@ export default class NetworkAdminDashboard extends Component {
       onSaveLab: labDetails => {
         this.clearMessages();
         const saveAction = this.state.labs.find(lab => lab.id === labDetails.id) === undefined ?
-          labService.create :
-          labService.update;
+          branchService.createBranch :
+          branchService.updateBranch;
         saveAction(labDetails, this.state.selectedLab.id)
           .then(savedLab => {
             this.updateLabs(this.state.labs, savedLab);
@@ -36,7 +36,7 @@ export default class NetworkAdminDashboard extends Component {
       },
       onDeleteLab: selected => {
         this.clearMessages();
-        labService.delete(selected, this.state.selectedLab.id)
+        branchService.deleteBranch(selected, this.state.selectedLab.id)
           .then(() => {
             this.removeAndUpdateLabs(this.state.labs, selected);
             this.updateLabSelection(this.state.labs[0]);
@@ -93,7 +93,7 @@ export default class NetworkAdminDashboard extends Component {
   }
 
   componentDidMount() {
-    labService.getMyLabs()
+    branchService.getMyBranches()
       .then(labs => {
         this.setState({ labs });
         this.updateLabSelection(labs[0]);

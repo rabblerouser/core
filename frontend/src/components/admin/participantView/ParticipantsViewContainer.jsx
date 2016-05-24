@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import FilteredParticipantsList from './FilteredParticipantsList.jsx';
-import labService from '../../../services/labService.js';
+import branchService from '../../../services/branchService.js';
 import memberService from '../../../services/memberService.js';
 
 export default class ParticipantsViewContainer extends Component {
@@ -51,7 +51,7 @@ export default class ParticipantsViewContainer extends Component {
     this.updateIfGroupRemoved(this.props.groups, nextProps.groups);
 
     if (nextProps.labId && nextProps.labId !== this.props.labId) {
-      labService.getLabParticipants(nextProps.labId)
+      branchService.getBranchMembers(nextProps.labId)
         .then(participants => {
           this.setState({ participants });
         });

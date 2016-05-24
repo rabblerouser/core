@@ -16,14 +16,14 @@ const handleResponseError = error => {
   }
 };
 
-const adaptLab = lab => ({
-  id: lab.id,
-  name: lab.name,
-  contact: lab.contact,
-  notes: lab.notes,
+const adaptBranch = branch => ({
+  id: branch.id,
+  name: branch.name,
+  contact: branch.contact,
+  notes: branch.notes,
 });
 
-const getMyLabs = () => (
+const getMyBranches = () => (
   Q(ajax({
     type: 'GET',
     url: `/${Resources.myLabListEndPoint}`,
@@ -33,7 +33,7 @@ const getMyLabs = () => (
     .catch(handleResponseError)
 );
 
-const getLabList = () => (
+const getBranches = () => (
   Q(ajax({
     type: 'GET',
     url: `/${Resources.labListEndPoint}`,
@@ -43,59 +43,59 @@ const getLabList = () => (
     .catch(handleResponseError)
 );
 
-const getLabGroups = lab => (
+const getBranchGroups = branchId => (
   Q(ajax({
     type: 'GET',
-    url: `/${Resources.labListEndPoint}/${lab}/groups`,
+    url: `/${Resources.labListEndPoint}/${branchId}/groups`,
     dataType: 'json',
   }))
     .then(groupAdapter.parseGroups)
     .catch(handleResponseError)
 );
 
-const getLabParticipants = lab => (
+const getBranchMembers = branchId => (
   Q(ajax({
     type: 'GET',
-    url: `/${Resources.labListEndPoint}/${lab}/members`,
+    url: `/${Resources.labListEndPoint}/${branchId}/members`,
     dataType: 'json',
   }))
     .then(participantAdapter.parseParticipants)
     .catch(handleResponseError)
 );
 
-const getOrganisers = lab => (
+const getBranchAdmins = branchId => (
   Q(ajax({
     type: 'GET',
-    url: `/${Resources.labListEndPoint}/${lab}/admins`,
+    url: `/${Resources.labListEndPoint}/${branchId}/admins`,
     dataType: 'json',
   }))
     .then(adminAdapter.parseAdmins)
     .catch(handleResponseError)
 );
 
-const deleteLab = lab => (
+const deleteBranch = branch => (
   Q(ajax({
     type: 'DELETE',
-    url: `/branches/${lab.id}/`,
+    url: `/branches/${branch.id}/`,
   }))
     .catch(handleResponseError)
 );
 
-const create = lab => (
+const createBranch = branch => (
   Q(ajax({
     type: 'POST',
     url: '/branches/',
-    data: adaptLab(lab),
+    data: adaptBranch(branch),
   }))
     .then(branchAdapter.parseBranch)
     .catch(handleResponseError)
 );
 
-const update = lab => (
+const updateBranch = branch => (
   Q(ajax({
     type: 'PUT',
-    url: `/branches/${lab.id}/`,
-    data: adaptLab(lab),
+    url: `/branches/${branch.id}/`,
+    data: adaptBranch(branch),
   }))
     .then(branchAdapter.parseBranch)
     .catch(handleResponseError)
@@ -103,12 +103,12 @@ const update = lab => (
 
 
 export default {
-  create,
-  update,
-  delete: deleteLab,
-  getLabList,
-  getMyLabs,
-  getLabGroups,
-  getLabParticipants,
-  getOrganisers,
+  createBranch,
+  updateBranch,
+  deleteBranch,
+  getBranches,
+  getMyBranches,
+  getBranchGroups,
+  getBranchMembers,
+  getBranchAdmins,
 };

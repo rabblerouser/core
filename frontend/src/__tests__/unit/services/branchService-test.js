@@ -1,6 +1,6 @@
-import labService from '../../../services/labService';
+import branchService from '../../../services/branchService';
 
-describe('labService', () => {
+describe('branchService', () => {
   let server;
   const validData = {
     id: '1234',
@@ -9,7 +9,7 @@ describe('labService', () => {
     contact: undefined,
   };
   const invalidData = { data: 'invalid' };
-  const lab = {
+  const branch = {
     id: '1234',
     name: 'melbourne',
   };
@@ -23,7 +23,7 @@ describe('labService', () => {
     server.restore();
   });
 
-  describe('delete', () => {
+  describe('deleteBranch', () => {
     describe('when the id is valid', () => {
       beforeEach(() => {
         server.respondWith('DELETE', '/branches/1234/', [200, {
@@ -33,8 +33,8 @@ describe('labService', () => {
         ]);
       });
 
-      it('should send a request to delete the organiser from the lab', done => {
-        labService.delete(lab)
+      it('should send a request to delete the organiser from the branch', done => {
+        branchService.deleteBranch(branch)
           .then(result => {
             expect(result).toEqual('good');
             done();
@@ -54,7 +54,7 @@ describe('labService', () => {
         });
 
         it('should return a general server error', done => {
-          labService.delete(lab)
+          branchService.deleteBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -73,7 +73,7 @@ describe('labService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          labService.delete(lab)
+          branchService.deleteBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -92,7 +92,7 @@ describe('labService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          labService.delete(lab)
+          branchService.deleteBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -105,7 +105,7 @@ describe('labService', () => {
     });
   });
 
-  describe('update', () => {
+  describe('updateBranch', () => {
     describe('when the branch provided is valid', () => {
       beforeEach(() => {
         server.respondWith('PUT', '/branches/1234/', [200, {
@@ -116,7 +116,7 @@ describe('labService', () => {
       });
 
       it('should send a request to update the branch', done => {
-        labService.update(lab)
+        branchService.updateBranch(branch)
           .then(result => {
             expect(result).toEqual(validData);
             done();
@@ -136,9 +136,8 @@ describe('labService', () => {
         ]);
       });
 
-
       it('should return an error that return data was invalid', done => {
-        labService.update(lab)
+        branchService.updateBranch(branch)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -158,7 +157,7 @@ describe('labService', () => {
         });
 
         it('should return a general server error', done => {
-          labService.update(lab)
+          branchService.updateBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -177,7 +176,7 @@ describe('labService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          labService.update(lab)
+          branchService.updateBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -196,7 +195,7 @@ describe('labService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          labService.update(lab)
+          branchService.updateBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -209,8 +208,8 @@ describe('labService', () => {
     });
   });
 
-  describe('create', () => {
-    describe('when the lab provided is valid', () => {
+  describe('createBranch', () => {
+    describe('when the branch provided is valid', () => {
       beforeEach(() => {
         server.respondWith('POST', '/branches/', [200, {
           'Content-Type': 'application/json',
@@ -219,8 +218,8 @@ describe('labService', () => {
         ]);
       });
 
-      it('should send a request to save a new lab for the branch', done => {
-        labService.create(lab)
+      it('should send a request to save a new branch for the branch', done => {
+        branchService.createBranch(branch)
           .then(result => {
             expect(result).toEqual(validData);
             done();
@@ -231,7 +230,7 @@ describe('labService', () => {
       });
     });
 
-    describe('when the lab returns but in an invalid format', () => {
+    describe('when the branch returns but in an invalid format', () => {
       beforeEach(() => {
         server.respondWith('POST', '/branches/', [200, {
           'Content-Type': 'application/json',
@@ -241,7 +240,7 @@ describe('labService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        labService.create(lab)
+        branchService.createBranch(branch)
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -261,7 +260,7 @@ describe('labService', () => {
         });
 
         it('should return a general server error', done => {
-          labService.create(lab)
+          branchService.createBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -280,7 +279,7 @@ describe('labService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          labService.create(lab)
+          branchService.createBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -299,7 +298,7 @@ describe('labService', () => {
         });
 
         it('should return an error that the remote endpoint was not found', done => {
-          labService.create(lab)
+          branchService.createBranch(branch)
             .then(() => {
               done.fail('Expected promise to be rejected');
             })
@@ -312,8 +311,7 @@ describe('labService', () => {
     });
   });
 
-
-  describe('getLabGroups', () => {
+  describe('getBranchGroups', () => {
     const validGroupsPayload =
       [
         {
@@ -335,8 +333,8 @@ describe('labService', () => {
             JSON.stringify({ groups: validGroupsPayload })]);
       });
 
-      it('should return a list of the labs', done => {
-        labService.getLabGroups('112-11-21-2')
+      it('should return a list of the branches', done => {
+        branchService.getBranchGroups('112-11-21-2')
           .then(groups => {
             expect(groups).toEqual(validGroupsPayload);
           })
@@ -346,7 +344,7 @@ describe('labService', () => {
 
     describe('when the branch id is undefined', () => {
       it('should return an error that the remote endpoint was not found', done => {
-        labService.getLabGroups()
+        branchService.getBranchGroups()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -365,7 +363,7 @@ describe('labService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        labService.getLabGroups('112-11-21-2')
+        branchService.getBranchGroups('112-11-21-2')
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -382,7 +380,7 @@ describe('labService', () => {
       });
 
       it('should return an error that the remote endpoint was not found', done => {
-        labService.getLabGroups('112-11-21-2')
+        branchService.getBranchGroups('112-11-21-2')
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -399,7 +397,7 @@ describe('labService', () => {
       });
 
       it('should return an error that the remote endpoint was not found', done => {
-        labService.getLabGroups('112-11-21-2')
+        branchService.getBranchGroups('112-11-21-2')
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -416,7 +414,7 @@ describe('labService', () => {
       });
 
       it('should return a general server error', done => {
-        labService.getLabGroups('112-11-21-2')
+        branchService.getBranchGroups('112-11-21-2')
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -428,7 +426,7 @@ describe('labService', () => {
     });
   });
 
-  describe('getLabParticipants', () => {
+  describe('getBranchMembers', () => {
     const validParticipantsPayload = [{
       id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
       firstName: 'Jo jo',
@@ -471,7 +469,7 @@ describe('labService', () => {
       });
 
       it('should return a list of the participants for the lab', done => {
-        labService.getLabParticipants('112-11-21-2')
+        branchService.getBranchMembers('112-11-21-2')
           .then(participants => {
             expect(participants).toEqual(validResult);
           })
@@ -481,7 +479,7 @@ describe('labService', () => {
 
     describe('when the branch id is undefined', () => {
       it('should return an error that the remote endpoint was not found', done => {
-        labService.getLabParticipants()
+        branchService.getBranchMembers()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -500,7 +498,7 @@ describe('labService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        labService.getLabParticipants('112-11-21-2')
+        branchService.getBranchMembers('112-11-21-2')
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -511,14 +509,13 @@ describe('labService', () => {
       });
     });
 
-
     describe('when the remote participants are 404 not found', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches/112-11-21-2/members', [404, {}, '']);
       });
 
       it('should return an error that the remote endpoint was not found', done => {
-        labService.getLabParticipants('112-11-21-2')
+        branchService.getBranchMembers('112-11-21-2')
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -535,7 +532,7 @@ describe('labService', () => {
       });
 
       it('should return an error that the remote endpoint was not found', done => {
-        labService.getLabParticipants('112-11-21-2')
+        branchService.getBranchMembers('112-11-21-2')
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -552,7 +549,7 @@ describe('labService', () => {
       });
 
       it('should return a general server error', done => {
-        labService.getLabParticipants('112-11-21-2')
+        branchService.getBranchMembers('112-11-21-2')
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -564,7 +561,7 @@ describe('labService', () => {
     });
   });
 
-  describe('getMyLabs', () => {
+  describe('getMyBranches', () => {
     const validLabsPayload =
       [
         {
@@ -589,7 +586,7 @@ describe('labService', () => {
       });
 
       it('should return a list of the labs', done => {
-        labService.getMyLabs()
+        branchService.getMyBranches()
           .then(branches => {
             expect(branches).toEqual(validLabsPayload);
           })
@@ -605,7 +602,7 @@ describe('labService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        labService.getMyLabs()
+        branchService.getMyBranches()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -616,14 +613,13 @@ describe('labService', () => {
       });
     });
 
-
     describe('when the remote labs are 404 not found', () => {
       beforeEach(() => {
         server.respondWith('GET', '/admin/branches', [404, {}, '']);
       });
 
       it('should return an error that the remote endpoint was not found', done => {
-        labService.getMyLabs()
+        branchService.getMyBranches()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -640,7 +636,7 @@ describe('labService', () => {
       });
 
       it('should return a general server error', done => {
-        labService.getMyLabs()
+        branchService.getMyBranches()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -652,7 +648,7 @@ describe('labService', () => {
     });
   });
 
-  describe('getLabList', () => {
+  describe('getBranches', () => {
     const validLabsPayload =
       [
         {
@@ -677,7 +673,7 @@ describe('labService', () => {
       });
 
       it('should return a list of the labs', done => {
-        labService.getLabList()
+        branchService.getBranches()
           .then(branches => {
             expect(branches).toEqual(validLabsPayload);
           })
@@ -693,7 +689,7 @@ describe('labService', () => {
       });
 
       it('should return an error that return data was invalid', done => {
-        labService.getLabList()
+        branchService.getBranches()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -704,14 +700,13 @@ describe('labService', () => {
       });
     });
 
-
     describe('when the remote labs are 404 not found', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches', [404, {}, '']);
       });
 
       it('should return an error that the remote endpoint was not found', done => {
-        labService.getLabList()
+        branchService.getBranches()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
@@ -728,7 +723,7 @@ describe('labService', () => {
       });
 
       it('should return a general server error', done => {
-        labService.getLabList()
+        branchService.getBranches()
           .then(() => {
             done.fail('Expected promise to be rejected');
           })
