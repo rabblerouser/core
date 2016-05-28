@@ -1,4 +1,4 @@
-Contributing to RabbleRouser - Frontend
+Contributing to Rabble Rouser - Frontend
 =======================================
 
 React architectural principles

@@ -1,6 +1,6 @@
 # rabblerouser-core-frontend
 
-Frontend for rabblerouser - A pluggable, extensible membership database for community organising
+Frontend for Rabble Rouser - A pluggable, extensible membership database for community organising
 
 ## Tech
 

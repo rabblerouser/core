@@ -1,4 +1,4 @@
-Contributing to RabbleRouser
+Contributing to Rabble Rouser
 ============================
 
 To contribute, fork the repo and submit a pull request. We like testing. Ideally TDDing. So please include tests where appropriate.
@@ -16,4 +16,3 @@ Our current architectural principles:
 * the environment should be as cheap as possible to run for small organisations, but can scale up when necessary
 
 All technical decisions should be filtered through these principles.
-
