@@ -95,19 +95,40 @@ Because the frontend, backend, and E2E tests are all written in JavaScript, each
 dependencies and tasks. There is also another `package.json` at the top-level of the repo, which simply orchestrates the
 tasks contained within the sub-projects.
 
-### I want to work on the backend code
+The following sections assume that you've done the first time setup above.
 
-1. From the root directory, `npm install` - Compile the frontend assets and copy them into the backend/public
-2. From the backend directory: `npm test` - Test your backend changes
-3. From the root or backend directory: `npm start` - Run the server
-4. Load the app in your browser: `http://localhost:3000`
+### I want to work on the backend
+**Automated testing workflow:**
 
-### I want to work on the frontend code
+1. Make your changes
+2. From the backend directory: `npm test`
+3. Goto #1
 
-1. From the frontend directory: `npm test` - Test your frontend changes
-2. From the root or backend directory, **in a separate terminal**: `npm start` - Run the server
-3. From the frontend directory: `npm start` - Start the Webpack Dev Server, which watches files and re-compiles automatically
-4. Load the app in your browser: `http://localhost:8080`
+**Manual testing workflow:**
+1. From the root directory: `npm start`
+2. Make your changes
+3. Point your browser at `http://localhost:3000`
+4. Goto #2
+
+### I want to work on the frontend javascript
+**Automated testing workflow:**
+1. Make your changes
+2. From the frontend directory: `npm test`
+3. Goto #1
+
+**Manual testing workflow:**
+1. From the backend directory: `npm start`
+2. From the frontend directory: `npm start`
+3. Make your changes
+4. Point your browser at `http://localhost:8080`
+5. Goto #3
+
+### I want to work on the frontend styles
+1. From the backend directory: `npm start`
+2. Make your changes
+3. From the root directory: `npm run build`
+4. Point your browser at `http://localhost:3000`
+5. Goto #2
 
 ### Linting
 

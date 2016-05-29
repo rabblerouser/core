@@ -8,7 +8,8 @@
     "install:backend": "npm --prefix backend install",
     "install:e2e": "npm --prefix e2e install",
     "install:frontend": "npm --prefix frontend install",
-    "postinstall:frontend": "npm --prefix frontend run build && bin/copy_assets.sh",
+    "build": "npm --prefix frontend run build && bin/copy_assets.sh",
+    "prestart": "npm run build",
     "start": "npm --prefix backend start",
     "test": "npm --prefix frontend run ci && npm --prefix backend run ci"
   }
