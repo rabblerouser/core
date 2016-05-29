@@ -13,7 +13,7 @@ const AdminHeader = props => {
 
   const labDescription = props.onSelectLab ?
     <select value={props.selectedLab.id} onChange={selectLab}>{mapLabOptions()}</select> :
-    <span className="currentlab">{props.selectedLab.name}</span>;
+    <span className="currentBranch">{props.selectedLab.name}</span>;
 
   const logout = () => {
     adminService.logout();

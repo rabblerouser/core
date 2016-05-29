@@ -106,7 +106,7 @@ header.admin-header {
         font-size: 1em;
     }
 
-    span.currentlab {
+    span.currentBranch {
         width: auto;
         flex-grow: 4;
         font-weight: normal;
@@ -285,7 +285,7 @@ header.details-header {
 
         }
     }
-    #lab-details, #organisers, #participant-list {
+    #branchDetails, #organisers, #participant-list {
         padding-bottom: 15px;
         border-bottom: 1px dotted #ccc;
 
@@ -651,8 +651,4 @@ td .buttons:nth-of-type(1) {
     @include media($mobile) {
         margin-left: 0;
     }
-}
-
-#lab-organisers th.edit {
-    width: 80px;
 }
