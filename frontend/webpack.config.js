@@ -40,7 +40,6 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
-    new webpack.DefinePlugin({ 'process.env': { API_HOST: JSON.stringify(process.env.API_HOST || null) } }),
   ],
   devtool: 'cheap-module-eval-source-map',
   devServer: {
