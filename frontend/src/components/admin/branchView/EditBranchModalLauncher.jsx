@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import EditLabForm from './EditLabForm.jsx';
+import EditBranchForm from './EditBranchForm.jsx';
 import Modal from 'react-modal';
 
-export default class EditLabModalLauncher extends Component {
+export default class EditBranchModalLauncher extends Component {
   constructor(props) {
     super(props);
     this.state = { modalIsOpen: false };
@@ -22,10 +22,10 @@ export default class EditLabModalLauncher extends Component {
       <button onClick={this.launchEditForm.bind(this)} className="edit" title="Edit details">
         <span>Edit details</span>
         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm.bind(this)} style={customStyle}>
-          <EditLabForm
-            title="Edit lab"
+          <EditBranchForm
+            title="Edit branch"
             onSave={this.props.onSave}
-            lab={this.props.lab}
+            branch={this.props.branch}
             onSuccess={this.closeEditForm.bind(this)}
           />
         </Modal>

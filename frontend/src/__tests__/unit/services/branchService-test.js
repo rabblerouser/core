@@ -468,7 +468,7 @@ describe('branchService', () => {
             JSON.stringify({ members: validParticipantsPayload })]);
       });
 
-      it('should return a list of the participants for the lab', done => {
+      it('should return a list of the participants for the branch', done => {
         branchService.getBranchMembers('112-11-21-2')
           .then(participants => {
             expect(participants).toEqual(validResult);
@@ -566,26 +566,26 @@ describe('branchService', () => {
       [
         {
           id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-          name: 'Lab 1',
+          name: 'Branch 1',
           notes: 'note',
           contact: 'somebody',
         },
         {
           id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
-          name: 'Lab 2',
+          name: 'Branch 2',
           notes: 'note',
           contact: 'somebody',
         },
       ];
 
-    describe('when the labs are retrieved in a valid format', () => {
+    describe('when the branches are retrieved in a valid format', () => {
       beforeEach(() => {
         server.respondWith('GET', '/admin/branches',
           [200, { 'Content-Type': 'application/json' },
             JSON.stringify({ branches: validBranchesPayload })]);
       });
 
-      it('should return a list of the labs', done => {
+      it('should return a list of the branches', done => {
         branchService.getMyBranches()
           .then(branches => {
             expect(branches).toEqual(validBranchesPayload);
@@ -594,7 +594,7 @@ describe('branchService', () => {
       });
     });
 
-    describe('when the labs are retrieved in an invalid format', () => {
+    describe('when the branches are retrieved in an invalid format', () => {
       beforeEach(() => {
         server.respondWith('GET', '/admin/branches',
           [200, { 'Content-Type': 'application/json' },
@@ -613,7 +613,7 @@ describe('branchService', () => {
       });
     });
 
-    describe('when the remote labs are 404 not found', () => {
+    describe('when the remote branches are 404 not found', () => {
       beforeEach(() => {
         server.respondWith('GET', '/admin/branches', [404, {}, '']);
       });
@@ -653,26 +653,26 @@ describe('branchService', () => {
       [
         {
           id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-          name: 'Lab 1',
+          name: 'Branch 1',
           notes: 'note',
           contact: 'somebody',
         },
         {
           id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
-          name: 'Lab 2',
+          name: 'Branch 2',
           notes: 'note',
           contact: 'somebody',
         },
       ];
 
-    describe('when the labs are retrieved in a valid format', () => {
+    describe('when the branches are retrieved in a valid format', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches',
           [200, { 'Content-Type': 'application/json' },
             JSON.stringify({ branches: validBranchesPayload })]);
       });
 
-      it('should return a list of the labs', done => {
+      it('should return a list of the branches', done => {
         branchService.getBranches()
           .then(branches => {
             expect(branches).toEqual(validBranchesPayload);
@@ -681,7 +681,7 @@ describe('branchService', () => {
       });
     });
 
-    describe('when the labs are retrieved in an invalid format', () => {
+    describe('when the branches are retrieved in an invalid format', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches',
           [200, { 'Content-Type': 'application/json' },
@@ -700,7 +700,7 @@ describe('branchService', () => {
       });
     });
 
-    describe('when the remote labs are 404 not found', () => {
+    describe('when the remote branches are 404 not found', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches', [404, {}, '']);
       });

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-
 import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
 import GroupsViewContainer from './groupView/GroupsViewContainer.jsx';
 import OrganisersViewContainer from './adminsView/OrganisersViewContainer.jsx';
-
 import branchService from '../../services/branchService.js';
 import { AdminDashboard as Strings } from '../../config/strings.js';
 
@@ -13,8 +11,8 @@ export default class AdminDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      labs: [],
-      selectedLab: {},
+      branches: [],
+      selectedBranch: {},
       userMessages: [],
       pageErrors: [],
     };
@@ -37,55 +35,34 @@ export default class AdminDashboard extends Component {
     this.setState({ userMessages });
   }
 
-  updateLabs(collection, element) {
-    this.updateElements('labs', collection, element);
-  }
-
-  updateElements(collectionName, collection, element) {
-    const newElements = collection.slice(0);
-    const oldElement = newElements.find(g => g.id === element.id);
-    if (oldElement) {
-      Object.assign(oldElement, element);
-    } else {
-      newElements.push(element);
-    }
-    const state = {};
-    state[collectionName] = newElements;
-    this.setState(state);
-  }
-
-  removeAndUpdateLabs(collection, element) {
-    this.removeAndUpdate('labs', collection, element);
-  }
-
   componentDidMount() {
     branchService.getMyBranches()
-      .then(labs => {
-        this.setState({ labs });
-        this.updateLabSelection(labs[0]);
+      .then(branches => {
+        this.setState({ branches });
+        this.updateBranchSelection(branches[0]);
       });
   }
 
-  updateLabSelection(lab) {
-    this.setState({ selectedLab: lab });
+  updateBranchSelection(branch) {
+    this.setState({ selectedBranch: branch });
   }
 
   render() {
     return (
       <div className="admin-container">
-        <AdminHeader selectedLab={this.state.selectedLab} labs={this.state.labs} />
+        <AdminHeader selectedBranch={this.state.selectedBranch} branches={this.state.branches} />
         <UserMessageView
           messages={this.state.userMessages}
           errors={this.state.pageErrors}
         />
         <OrganisersViewContainer
-          branchId={this.state.selectedLab.id}
+          branchId={this.state.selectedBranch.id}
           onPreAction={this.clearMessages.bind(this)}
           onActionError={this.handleError.bind(this)}
           onActionSuccess={this.setUserMessage.bind(this)}
         />
         <GroupsViewContainer
-          branchId={this.state.selectedLab.id}
+          branchId={this.state.selectedBranch.id}
           onPreAction={this.clearMessages.bind(this)}
           onActionError={this.handleError.bind(this)}
           onActionSuccess={this.setUserMessage.bind(this)}

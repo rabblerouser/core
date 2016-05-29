@@ -9,7 +9,7 @@ const applicationFieldsChecks = {
   participantName: inputValidator.isValidName,
   participantLastName: inputValidator.isValidOptionalName,
   participantBirthYear: inputValidator.isValidYear,
-  labSelection: inputValidator.isValidText,
+  branchSelection: inputValidator.isValidText,
   schoolType: inputValidator.isValidName,
   schoolTypeOtherText: inputValidator.isValidOptionalName,
   additionalInfo: inputValidator.isValidOptionalTextBlock,

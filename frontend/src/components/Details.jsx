@@ -12,19 +12,19 @@ export default class Details extends Component {
     this.state = {
       invalidFields: [],
       errorNames: [],
-      labs: [],
+      branches: [],
       fieldValues: props.formValues,
     };
   }
 
   componentDidMount() {
     branchService.getBranches()
-      .then(labs => {
-        this.setState({ labs });
+      .then(branches => {
+        this.setState({ branches });
       })
       .catch(() => {
         this.setState({
-          errors: 'No labs',
+          errors: 'No branches',
           errorTitle: Strings.remoteLabListErrorTitle,
         });
       });
@@ -95,7 +95,7 @@ export default class Details extends Component {
           <NewMemberFields
             onChange={this.onChange.bind(this)}
             invalidFields={this.state.invalidFields}
-            labs={this.state.labs}
+            branches={this.state.branches}
             formValues={this.props.formValues}
           />
 

@@ -4,7 +4,7 @@ const GroupCheckboxes = ({ participantGroups, groupOptions, onChange }) => {
   const isSelected = testGroup => participantGroups.includes(testGroup.id);
 
   const groupOptionInputs = groupOptions.map(group => (
-    <div>
+    <div key={group.id}>
       <input
         type="checkbox"
         id={group.id}

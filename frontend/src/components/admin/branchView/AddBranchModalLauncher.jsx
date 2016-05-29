@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import AddLabForm from './AddLabForm.jsx';
+import AddBranchForm from './AddBranchForm.jsx';
 import Modal from 'react-modal';
 
-export default class AddLabModalLauncher extends Component {
+export default class AddBranchModalLauncher extends Component {
   constructor(props) {
     super(props);
     this.state = { modalIsOpen: false };
@@ -19,10 +19,10 @@ export default class AddLabModalLauncher extends Component {
   render() {
     const customStyle = { content: { bottom: 'none' } };
     return (
-      <button onClick={this.launchAddForm.bind(this)} className="new" title="New lab">
-        <span>New lab</span>
+      <button onClick={this.launchAddForm.bind(this)} className="new" title="New branch">
+        <span>New branch</span>
         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeAddForm.bind(this)} style={customStyle}>
-          <AddLabForm onSave={this.props.onSave} onSuccess={this.closeAddForm.bind(this)} />
+          <AddBranchForm onSave={this.props.onSave} onSuccess={this.closeAddForm.bind(this)} />
         </Modal>
       </button>
     );

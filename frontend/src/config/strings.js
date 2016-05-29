@@ -13,7 +13,7 @@ export const Resources = {
 export const ApplicationForm = {
   instructions: 'Please fill in the following information and we\'ll let you know when space becomes available at ' +
     'your preferred Lab.',
-  labPlaceholder: 'Select Lab',
+  branchPlaceholder: 'Select branch',
   byoReminder: 'Please be aware that participants will need to bring their own laptop.',
   ageReminder: 'Please note that our target age is between 10 and 16 years',
   additionalInfoAside: 'Is there anything else you think we should know?',
@@ -21,8 +21,8 @@ export const ApplicationForm = {
   validationErrorTitle: 'Please check the following fields:',
   remoteSubmitErrorTitle: 'Sorry, we could not register you this time. Please try again, or contact us at ' +
   `${Resources.theLabContactEmail}`,
-  remoteLabListErrorTitle: 'Sorry, we could not get the list of available labs at this time. Please try again, or ' +
-  `contact us at ${Resources.theLabContactEmail}`,
+  remoteLabListErrorTitle: 'Sorry, we could not get the list of available branches at this time. Please try again, ' +
+  `or contact us at ${Resources.theLabContactEmail}`,
 };
 
 export const AdminDashboard = {
@@ -39,7 +39,7 @@ export const ApplicationFormFieldLabels = {
   participantLastName: 'Last name',
   participantBirthYear: 'Participant\'s year of birth',
   schoolType: 'What type of school does your participant attend?',
-  labSelection: 'Lab to join',
+  branchSelection: 'Branch to join',
   additionalInfo: 'Additional information',
   groupName: 'Group name',
   groupDescription: 'Description',
@@ -64,7 +64,7 @@ export const FormValidationErrors = {
   participantBirthYear: { name: 'Participant\'s year of birth', message: 'Please select the year of birth.' },
   schoolType: { name: 'School type', message: 'Please select a school type. No symbols allowed.' },
   schoolTypeOtherText: { name: 'School type', message: 'No symbols allowed.' },
-  labSelection: { name: 'Lab to join', message: 'Please select a lab to join.' },
+  branchSelection: { name: 'Branch to join', message: 'Please select a branch to join.' },
   additionalInfo: { name: 'Additional info', message: 'Maximum 2000 characters' },
   pastoralNotes: { name: 'Pastoral notes', message: 'Maximum 2000 characters' },
   groupName: { name: 'Name', message: 'Please enter a group name. No symbols allowed.' },

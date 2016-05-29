@@ -67,7 +67,7 @@
 .ReactModal__Overlay .form-container section {
     background:none;
     color: #000;
-    
+
 }
 
 
@@ -133,7 +133,7 @@
 
 
     span { /* Mobile size of body text */
- 
+
     }
 
 
@@ -155,13 +155,13 @@
         color: $labels-headings-color;
         font-size: $labels-headings-size;
 
-   
+
     }
 
     fieldset {
         border: none;
         background: none;
-        margin: 15px 0px; 
+        margin: 15px 0px;
         padding: 0;
     }
 
@@ -217,7 +217,7 @@ select {
     }
 }
 
-#labSelection {
+#branchSelection {
   max-width: 250px;
 }
 
@@ -264,19 +264,19 @@ input[type="text"], select {
 }
 
 .ReactModal__Overlay .form-container section fieldset.selectGroups  {
-    padding: 0;          
-    
+    padding: 0;
+
 }
 
 
 .ReactModal__Overlay .form-container section .selectGroups label {
-    font-size: 16px;            
-    
+    font-size: 16px;
+
 }
 
 .ReactModal__Overlay .form-container section#pastoral-notes  {
-    padding-top: 15px;          
-    
+    padding-top: 15px;
+
 }
 
 

@@ -6,7 +6,7 @@ import Details from '../../components/Details.jsx';
 describe('Details step', () => {
   let detailsForm;
   const defaultFormValues = {
-    labSelection: '',
+    branchSelection: '',
     contactName: '',
     contactEmail: '',
     contactNumber: '',
@@ -24,18 +24,18 @@ describe('Details step', () => {
 
   it('should show list of invalid fields if the details entered were invalid', () => {
     const expectedErrors = 'Contact first nameEmail addressContact numberParticipant first nameParticipant\'s year ' +
-      'of birthLab to joinSchool type';
+      'of birthBranch to joinSchool type';
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
     expect(ReactDOM.findDOMNode(errors[0]).textContent).toMatch(expectedErrors);
   });
 
-  it('should show lab selection error message if it was not filled in', () => {
+  it('should show branch selection error message if it was not filled in', () => {
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
-    expect(ReactDOM.findDOMNode(errors[1]).textContent).toMatch(/Please select a lab to join./);
+    expect(ReactDOM.findDOMNode(errors[1]).textContent).toMatch(/Please select a branch to join./);
   });
 
   it('should show contact name error message if it was not filled in', () => {

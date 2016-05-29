@@ -11,17 +11,19 @@ const NewMemberFields = props => {
 
   return (
     <div className="field-group">
-      <FormFieldLabel fieldName="labSelection" isOptional={false} hasError={isValidationError('labSelection')} />
+      <FormFieldLabel fieldName="branchSelection" isOptional={false} hasError={isValidationError('branchSelection')} />
 
       <select
         defaultValue=""
-        required id="labSelection"
-        className="labSelection"
-        onChange={props.onChange('labSelection')}
+        required id="branchSelection"
+        className="branchSelection"
+        onChange={props.onChange('branchSelection')}
       >
-        <option value="" disabled>{Strings.labPlaceholder}</option>
+        <option value="" disabled>{Strings.branchPlaceholder}</option>
         {
-          _.sortBy(props.labs, 'name').map(lab => <option key={lab.id} value={lab.id}>{lab.name}</option>)
+          _.sortBy(props.branches, 'name').map(branch => (
+            <option key={branch.id} value={branch.id}>{branch.name}</option>
+          ))
         }
       </select>
 
@@ -176,7 +178,7 @@ const NewMemberFields = props => {
 
 NewMemberFields.propTypes = {
   invalidFields: React.PropTypes.array,
-  labs: React.PropTypes.array,
+  branches: React.PropTypes.array,
   onChange: React.PropTypes.func,
   formValues: React.PropTypes.object,
 };

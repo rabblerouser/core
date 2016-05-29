@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import _ from 'underscore';
 import AdminHeader from './AdminHeader.jsx';
 import UserMessageView from './UserMessageView.jsx';
-import LabDetailsView from './labView/LabDetailsView.jsx';
+import BranchDetailsView from './branchView/BranchDetailsView.jsx';
 import GroupsViewContainer from './groupView/GroupsViewContainer.jsx';
 import OrganisersViewContainer from './adminsView/OrganisersViewContainer.jsx';
 import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer.jsx';
@@ -14,33 +14,33 @@ export default class NetworkAdminDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      labs: [],
-      selectedLab: {},
+      branches: [],
+      selectedBranch: {},
       userMessages: [],
       pageErrors: [],
-      onSelectLab: id => {
-        const selectedLab = this.state.labs.find(lab => lab.id === id);
-        this.updateLabSelection(selectedLab);
+      onSelectBranch: id => {
+        const selectedBranch = this.state.branches.find(branch => branch.id === id);
+        this.updateBranchSelection(selectedBranch);
       },
-      onSaveLab: labDetails => {
+      onSaveBranch: branchDetails => {
         this.clearMessages();
-        const saveAction = this.state.labs.find(lab => lab.id === labDetails.id) === undefined ?
+        const saveAction = this.state.branches.find(branch => branch.id === branchDetails.id) === undefined ?
           branchService.createBranch :
           branchService.updateBranch;
-        saveAction(labDetails, this.state.selectedLab.id)
-          .then(savedLab => {
-            this.updateLabs(this.state.labs, savedLab);
-            this.setUserMessage('Labs successfully saved');
+        saveAction(branchDetails, this.state.selectedBranch.id)
+          .then(savedBranch => {
+            this.updateBranches(this.state.branches, savedBranch);
+            this.setUserMessage('Branches successfully saved');
           })
           .catch(this.handleError.bind(this));
       },
-      onDeleteLab: selected => {
+      onDeleteBranch: selected => {
         this.clearMessages();
-        branchService.deleteBranch(selected, this.state.selectedLab.id)
+        branchService.deleteBranch(selected, this.state.selectedBranch.id)
           .then(() => {
-            this.removeAndUpdateLabs(this.state.labs, selected);
-            this.updateLabSelection(this.state.labs[0]);
-            this.setUserMessage('Lab successfully deleted');
+            this.removeAndUpdateBranches(this.state.branches, selected);
+            this.updateBranchSelection(this.state.branches[0]);
+            this.setUserMessage('Branch successfully deleted');
           })
           .catch(this.handleError.bind(this));
       },
@@ -64,25 +64,19 @@ export default class NetworkAdminDashboard extends Component {
     this.setState({ userMessages });
   }
 
-  updateLabs(collection, element) {
-    this.updateElements('labs', collection, element);
-  }
-
-  updateElements(collectionName, collection, element) {
-    const newElements = collection.slice(0);
-    const oldElement = newElements.find(g => g.id === element.id);
-    if (oldElement) {
-      Object.assign(oldElement, element);
+  updateBranches(branches, savedBranch) {
+    const newBranches = branches.slice(0);
+    const oldBranch = newBranches.find(branch => branch.id === savedBranch.id);
+    if (oldBranch) {
+      Object.assign(oldBranch, savedBranch);
     } else {
-      newElements.push(element);
+      newBranches.push(savedBranch);
     }
-    const state = {};
-    state[collectionName] = newElements;
-    this.setState(state);
+    this.setState({ branches: newBranches });
   }
 
-  removeAndUpdateLabs(collection, element) {
-    this.removeAndUpdate('labs', collection, element);
+  removeAndUpdateBranches(collection, element) {
+    this.removeAndUpdate('branches', collection, element);
   }
 
   removeAndUpdate(collectionName, collection, element) {
@@ -94,37 +88,41 @@ export default class NetworkAdminDashboard extends Component {
 
   componentDidMount() {
     branchService.getMyBranches()
-      .then(labs => {
-        this.setState({ labs });
-        this.updateLabSelection(labs[0]);
+      .then(branches => {
+        this.setState({ branches });
+        this.updateBranchSelection(branches[0]);
       });
   }
 
-  updateLabSelection(lab) {
-    this.setState({ selectedLab: lab });
+  updateBranchSelection(branch) {
+    this.setState({ selectedBranch: branch });
   }
 
   render() {
     return (
       <div className="admin-container">
-        <AdminHeader selectedLab={this.state.selectedLab} labs={this.state.labs} onSelectLab={this.state.onSelectLab} />
+        <AdminHeader
+          selectedBranch={this.state.selectedBranch}
+          branches={this.state.branches}
+          onSelectBranch={this.state.onSelectBranch}
+        />
         <UserMessageView
           messages={this.state.userMessages}
           errors={this.state.pageErrors}
         />
-        <LabDetailsView
-          selectedLab={this.state.selectedLab}
-          onSaveLab={this.state.onSaveLab}
-          onDeleteLab={this.state.onDeleteLab}
+        <BranchDetailsView
+          selectedBranch={this.state.selectedBranch}
+          onSaveBranch={this.state.onSaveBranch}
+          onDeleteBranch={this.state.onDeleteBranch}
         />
         <OrganisersViewContainer
-          branchId={this.state.selectedLab.id}
+          branchId={this.state.selectedBranch.id}
           onPreAction={this.clearMessages.bind(this)}
           onActionError={this.handleError.bind(this)}
           onActionSuccess={this.setUserMessage.bind(this)}
         />
         <GroupsViewContainer
-          branchId={this.state.selectedLab.id}
+          branchId={this.state.selectedBranch.id}
           onPreAction={this.clearMessages.bind(this)}
           onActionError={this.handleError.bind(this)}
           onActionSuccess={this.setUserMessage.bind(this)}

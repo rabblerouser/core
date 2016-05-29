@@ -11,7 +11,7 @@ const prepareNewMemberPayload = fields => ({
   schoolType: mapSchoolType(fields.schoolType, fields.schoolTypeOtherText),
   contactFirstName: fields.contactName,
   contactLastName: fields.contactLastName,
-  branchId: fields.labSelection,
+  branchId: fields.branchSelection,
   additionalInfo: fields.additionalInfo,
 });
 

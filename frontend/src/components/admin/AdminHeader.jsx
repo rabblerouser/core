@@ -3,17 +3,17 @@ import adminService from '../../services/adminService.js';
 import _ from 'underscore';
 
 const AdminHeader = props => {
-  const mapLabOptions = () => (
-    _.sortBy(props.labs, 'name').map(lab => <option key={lab.id} value={lab.id}>{lab.name}</option>)
+  const mapBranchOptions = () => (
+    _.sortBy(props.branches, 'name').map(branch => <option key={branch.id} value={branch.id}>{branch.name}</option>)
   );
 
-  const selectLab = event => {
-    props.onSelectLab(event.target.value);
+  const selectBranch = event => {
+    props.onSelectBranch(event.target.value);
   };
 
-  const labDescription = props.onSelectLab ?
-    <select value={props.selectedLab.id} onChange={selectLab}>{mapLabOptions()}</select> :
-    <span className="currentBranch">{props.selectedLab.name}</span>;
+  const branchDescription = props.onSelectBranch ?
+    <select value={props.selectedBranch.id} onChange={selectBranch}>{mapBranchOptions()}</select> :
+    <span className="currentBranch">{props.selectedBranch.name}</span>;
 
   const logout = () => {
     adminService.logout();
@@ -22,15 +22,15 @@ const AdminHeader = props => {
   return (
     <header className="admin-header header">
       <span><img src="/images/the_lab_logo.svg" alt="The Lab" /></span>
-      {labDescription}
+      {branchDescription}
       <button onClick={logout} className="logout">Logout</button>
     </header>
   );
 };
 
 AdminHeader.propTypes = {
-  labs: React.PropTypes.array,
-  selectedLab: React.PropTypes.object,
+  branches: React.PropTypes.array,
+  selectedBranch: React.PropTypes.object,
 };
 
 export default AdminHeader;

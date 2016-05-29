@@ -23,7 +23,7 @@ export default class NewMemberForm extends Component {
       membershipType: 'full',
     };
     this.formValues = {
-      labSelection: '',
+      branchSelection: '',
       contactName: '',
       contactLastName: '',
       contactNumber: '',

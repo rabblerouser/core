@@ -3,7 +3,7 @@ import memberAdapter from '../../adapters/memberAdapter.js';
 describe('member request adapter', () => {
   describe('prepareNewMemberPayload', () => {
     const fields = {
-      labSelection: 'i',
+      branchSelection: 'i',
       contactName: 'g',
       contactLastName: 'h',
       contactNumber: 'd',

@@ -1,21 +1,21 @@
-import labValidator from '../../../services/labValidator';
+import branchValidator from '../../../services/branchValidator';
 
-describe('labValidator', () => {
+describe('branchValidator', () => {
   describe('isValid', () => {
-    const validLab = { name: 'Valid lab' };
+    const validBranch = { name: 'Valid branch' };
 
-    it('should return empty array of errors on valid lab', () => {
-      expect(labValidator.isValid(validLab)).toEqual([]);
+    it('should return empty array of errors on valid branch', () => {
+      expect(branchValidator.isValid(validBranch)).toEqual([]);
     });
 
-    it('should return array of errors on null lab', () => {
-      expect(labValidator.isValid(null).length).not.toBe(0);
+    it('should return array of errors on null branch', () => {
+      expect(branchValidator.isValid(null).length).not.toBe(0);
     });
 
     it('should return array of errors when missing data', () => {
-      const invalidLab = {};
+      const invalidBranch = {};
       const expectedErrors = ['name'];
-      expect(labValidator.isValid(invalidLab)).toEqual(expectedErrors);
+      expect(branchValidator.isValid(invalidBranch)).toEqual(expectedErrors);
     });
   });
 });
