@@ -69,7 +69,7 @@ const adminLogsIn = {
     startAtLogin()
     .then(() => test.assertEquals(title(), 'Login', 'I am on the login page'))
     .then(() => login('admin@rr.com', 'apassword'))
-    .then(() => test.assertEquals(title(), 'The Lab Admin', 'I am on the admin page'));
+    .then(() => test.assertEquals(title(), 'Rabble Rouser Admin', 'I am on the admin page'));
   },
 };
 
