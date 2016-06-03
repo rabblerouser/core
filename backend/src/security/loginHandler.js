@@ -1,25 +1,22 @@
 'use strict';
 
-let passport = require('passport');
+const passport = require('passport');
 const adminType = require('./adminType');
 
 module.exports = function login(req, res) {
-  passport.authenticate('local', function(err, user, info) {
+  passport.authenticate('local', (err, user) => {
     if (err) {
-        return res.render('error');
+      return res.render('error');
     }
-
     if (!user) {
-        return res.redirect('login');
+      return res.redirect('login');
     }
-    req.logIn(user, function() {
-        if(req.user.type === adminType.super) {
-            res.redirect('/dashboard/admin');
-        }
-        else {
-            res.redirect('/dashboard');
-        }
+    req.logIn(user, () => {
+      if (req.user.type === adminType.super) {
+        res.redirect('/dashboard/admin');
+      } else {
+        res.redirect('/dashboard');
+      }
     });
-
   })(req, res);
 };
