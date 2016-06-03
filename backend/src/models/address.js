@@ -1,20 +1,21 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  var Address = sequelize.define('Address', {
+  const Address = sequelize.define('Address', {
     country: DataTypes.STRING,
     address: DataTypes.STRING,
     suburb: DataTypes.STRING,
     state: DataTypes.STRING,
-    postcode: {type: DataTypes.STRING, validate: {len: [4,17]}}
+    postcode: { type: DataTypes.STRING, validate: { len: [4, 17] } },
   }, {
     paranoid: true,
     classMethods: {
-      associate: (models) => {
-          Address.hasOne(models.Member, {foreignKey: 'postalAddressId'});
-          Address.hasOne(models.Member, {foreignKey: 'residentialAddressId'});
-      }
-    }
+      associate: models => {
+        Address.hasOne(models.Member, { foreignKey: 'postalAddressId' });
+        Address.hasOne(models.Member, { foreignKey: 'residentialAddressId' });
+      },
+    },
   });
+
   return Address;
 };
