@@ -24,10 +24,6 @@ export function inputById(id, text) {
   return casper.sendKeys(`#${id}`, text);
 }
 
-export function buttonPressById(id) {
-  return casper.click(`input[id=${id}]`);
-}
-
 export function buttonPressByText(text) {
   return casper.clickLabel(text, 'button');
 }

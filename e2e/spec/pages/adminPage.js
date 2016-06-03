@@ -1,6 +1,5 @@
 import { navigateTo,
   inputById,
-  buttonPressById,
   buttonPressByText,
   pageTitle,
   buttonPressBySelector,
@@ -20,7 +19,7 @@ export const enterGroupDescription = description => inputById('groupDescription'
 export const selectGroup = selection => selectOptionById('groups', selection);
 export const clickEditCurrentGroup = () => buttonPressBySelector('#group-details button.edit');
 export const clickEditOrganiser = () => buttonPressBySelector('#organisers tbody tr:last-child button.edit');
-export const clickLogin = () => buttonPressById('login');
+export const clickLogin = () => buttonPressBySelector('input[id=login]');
 export const clickNewOrganiser = () => buttonPressBySelector('#organisers button.new');
 export const clickNewGroup = () => buttonPressBySelector('#group-details button.new');
 export const clickSave = () => buttonPressByText('Save');
