@@ -1,64 +1,63 @@
 'use strict';
-let nodemailer = require('nodemailer');
-var sendmailTransport = require('nodemailer-sendmail-transport');
-let Q = require('q');
-let config = require('config').email;
 
-let emailConfig = {
+const nodemailer = require('nodemailer');
+const sendmailTransport = require('nodemailer-sendmail-transport');
+const Q = require('q');
+const config = require('config').email;
+
+const emailConfig = {
   path: config.server,
-  args: ['-t']
+  args: ['-t'],
 };
 
-
 function sendEmail(options) {
-  var transport = nodemailer.createTransport(sendmailTransport(emailConfig));
-  var deferred = Q.defer();
-
+  const transport = nodemailer.createTransport(sendmailTransport(emailConfig));
+  const deferred = Q.defer();
   options.from = options.from || `Pirate Party <${config.membershipEmail}>`;
 
-  transport.sendMail(options, function(error, result){
-      if (error) {
-          deferred.reject(error);
-      } else {
-          deferred.resolve(result);
-      }
+  transport.sendMail(options, (error, result) => {
+    if (error) {
+      deferred.reject(error);
+    } else {
+      deferred.resolve(result);
+    }
   });
 
   return deferred.promise;
 }
 
-var sendHtmlEmail = function (options) {
-    if (!(options && options.to)) {
-        throw new Error(`Invalid email parameters`);
-    }
+const sendHtmlEmail = function (options) {
+  if (!(options && options.to)) {
+    throw new Error('Invalid email parameters');
+  }
 
-    let to = options.to instanceof Array ? options.to : [options.to];
+  const to = options.to instanceof Array ? options.to : [options.to];
 
-    var emailOptions = {
-        from: options.from,
-        to: to,
-        subject: options.subject,
-        html: options.body
-    };
+  const emailOptions = {
+    from: options.from,
+    to,
+    subject: options.subject,
+    html: options.body,
+  };
 
-    return sendEmail(emailOptions);
+  return sendEmail(emailOptions);
 };
 
 
-var sendPlainTextEmail = function (options) {
-  let to = options.to instanceof Array ? options.to : [options.to];
+const sendPlainTextEmail = function (options) {
+  const to = options.to instanceof Array ? options.to : [options.to];
 
-  var emailOptions = {
+  const emailOptions = {
     from: options.from,
-    to: to,
+    to,
     subject: options.subject,
-    text: options.body
+    text: options.body,
   };
 
   return sendEmail(emailOptions);
 };
 
 module.exports = {
-  sendHtmlEmail: sendHtmlEmail,
-  sendPlainTextEmail: sendPlainTextEmail
+  sendHtmlEmail,
+  sendPlainTextEmail,
 };
