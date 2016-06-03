@@ -1,143 +1,128 @@
 'use strict';
 
-const Q = require('q'),
-    models = require('../models'),
-    logger = require('../lib/logger'),
-    Branch = models.Branch,
-    uuid = require('node-uuid');
+const Q = require('q');
+const models = require('../models');
+const logger = require('../lib/logger');
+const Branch = models.Branch;
+const uuid = require('node-uuid');
 
 function createHash() {
   return uuid.v4();
 }
 
 function handleError(logMessage, userMessage) {
-    return function(error) {
-        logger.error(logMessage, { error: error.toString() });
-        throw new Error(userMessage);
-    };
-}
-
-function handleError(logMessage, userMessage) {
-    return function(error) {
-        logger.error(logMessage, { error: error.toString() });
-        throw new Error(userMessage);
-    };
+  return error => {
+    logger.error(logMessage, { error: error.toString() });
+    throw new Error(userMessage);
+  };
 }
 
 function logEvent(saveResult) {
-    logger.info('[admin-user-sign-up-event]', saveResult.dataValues);
+  logger.info('[admin-user-sign-up-event]', saveResult.dataValues);
 }
 
 function save(branch) {
   return Branch.create.bind(Branch)(branch);
 }
 
-let setupNewBranch = (newBranch) => {
-    return Object.assign({}, newBranch, {id: createHash()});
+const setupNewBranch = newBranch => Object.assign({}, newBranch, { id: createHash() });
+
+const transformBranch = dbResult => {
+  if (dbResult.dataValues) {
+    return {
+      id: dbResult.dataValues.id,
+      name: dbResult.dataValues.name,
+      notes: dbResult.dataValues.notes,
+      contact: dbResult.dataValues.contact,
+    };
+  }
+  return undefined;
 };
 
-
-let transformBranch = dbResult => {
-    if (dbResult.dataValues) {
-        return {
-            id: dbResult.dataValues.id,
-            name: dbResult.dataValues.name,
-            notes: dbResult.dataValues.notes,
-            contact: dbResult.dataValues.contact
-        };
-    }
-};
-
-let transformGroup = dbResult => {
-    return dbResult.dataValues;
-};
+const transformGroup = dbResult => dbResult.dataValues;
 
 function transformBranches(adapter) {
-    return function (dbResult) {
-        return dbResult.map(adapter);
-    };
+  return dbResult => dbResult.map(adapter);
 }
 
 function transformGroups(adapter) {
-    return function (dbResult) {
-        return dbResult.map(adapter);
-    };
+  return dbResult => dbResult.map(adapter);
 }
 
-let deleteBranch = (id) => {
-    return Branch.destroy({where: {id: id}})
-    .then((result) => {
-        if(!result) {
-            throw 'No records were deleted';
-        }
+const deleteBranch = id =>
+  Branch
+    .destroy({ where: { id } })
+    .then(result => {
+      if (!result) {
+        throw new Error('No records were deleted');
+      }
 
-        logger.info('[delete-branch]', `branch with id ${id} deleted`);
+      logger.info('[delete-branch]', `branch with id ${id} deleted`);
     })
     .catch(handleError('[delete-branch-failed]', `An error has occurred while deleting the branch with id: ${id}`));
-};
 
-let create = (newBranch) => {
-    return Q.all(setupNewBranch(newBranch))
-          .then(save)
-          .tap(logEvent)
-          .then(transformBranch)
-          .catch(handleError('Create branch failed'));
-};
+const create = newBranch =>
+  Q
+    .all(setupNewBranch(newBranch))
+    .then(save)
+    .tap(logEvent)
+    .then(transformBranch)
+    .catch(handleError('Create branch failed'));
 
 
-let update = (newValues) => {
-    return Branch.findOne({where: {id: newValues.id}})
-    .then( branch => {
-        return branch.update(newValues);
-    })
+const update = newValues =>
+  Branch
+    .findOne({ where: { id: newValues.id } })
+    .then(branch => branch.update(newValues))
     .tap(() => logger.info('[update-branch]', `branch with id ${newValues.id} updated`))
     .then(transformBranch)
     .catch(handleError(`Error when editing branch with id ${newValues.id}`));
-};
 
-let list = () => {
-    let query = {
-        attributes: [
-            'id',
-            'name',
-            'contact',
-            'notes'
-        ]
-    };
+const list = () => {
+  const query = {
+    attributes: [
+      'id',
+      'name',
+      'contact',
+      'notes',
+    ],
+  };
 
-    return Branch.findAll(query)
-        .then(transformBranches(transformBranch))
-        .catch(handleError('[branches-list-error]', 'An error has occurred while fetching branches'));
+  return Branch
+    .findAll(query)
+    .then(transformBranches(transformBranch))
+    .catch(handleError('[branches-list-error]', 'An error has occurred while fetching branches'));
 };
 
 function groupsInBranch(id) {
-    return Branch.findById(id)
-        .then(result => {
-            if(!result) {
-                throw('');
-            }
-            return result.getGroups();
-        })
-        .then(transformGroups(transformGroup))
-        .catch(handleError('[find-groups-in-branch-by-id-error]', `Error when looking up groups in branch with id: ${id}`));
+  return Branch
+    .findById(id)
+    .then(result => {
+      if (!result) {
+        throw new Error();
+      }
+      return result.getGroups();
+    })
+    .then(transformGroups(transformGroup))
+    .catch(handleError('[find-groups-in-branch-by-id-error]', `Error when looking up groups in branch with id: ${id}`));
 }
 
 function findById(id) {
-    if (!id) {
-        return Promise.resolve({});
-    }
+  if (!id) {
+    return Promise.resolve({});
+  }
 
-    return Branch.findById(id)
-        .then((result) => {
-            return result ? transformBranch(result) : {};
-        }).catch(handleError('[find-branch-by-id-error]', `Error when looking up branch with id: ${id}`));
+  return Branch
+    .findById(id)
+    .then(result => (result ? transformBranch(result) : {}))
+    .catch(handleError('[find-branch-by-id-error]', `Error when looking up branch with id: ${id}`));
 }
 
 module.exports = {
-    list: list,
-    create: create,
-    update: update,
-    delete: deleteBranch,
-    findById: findById,
-    groupsInBranch: groupsInBranch
+  list,
+  create,
+  update,
+  delete: deleteBranch,
+  findById,
+  groupsInBranch,
 };
