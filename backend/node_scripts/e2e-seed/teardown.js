@@ -1,5 +1,7 @@
 const models = require('../../src/models');
-Promise.all([models.Branch, models.AdminUser, models.Group].map(model => model.truncate({ cascade: true })))
+Promise.all([models.Branch, models.AdminUser, models.Group]
+  .map(model => model.destroy({ truncate: true, cascade: true, force: true }))
+)
 .then(() => process.stdout.write('Database cleared of branches, groups, admins, organisers.\n'))
 .then(() => process.exit(0))
 .catch(err => {
