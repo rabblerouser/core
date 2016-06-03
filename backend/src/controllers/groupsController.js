@@ -1,118 +1,111 @@
 'use strict';
 
-let groupService = require('../services/groupService');
-let logger = require('../lib/logger');
-let validator = require('../lib/inputValidator');
+const groupService = require('../services/groupService');
+const logger = require('../lib/logger');
+const validator = require('../lib/inputValidator');
 
 function list(req, res) {
-    return groupService.list()
-        .then((list) => {
-            res.status(200).json({groups: list});
-        })
-        .catch(() => {
-            res.sendStatus(500);
-        });
+  return groupService
+    .list()
+    .then(groups => res.status(200).json({ groups }))
+    .catch(() => res.sendStatus(500));
 }
 
 function addMembers(req, res) {
-    let groupId = req.params.groupId;
-    let branchId = req.params.branchId;
+  const groupId = req.params.groupId;
+  const branchId = req.params.branchId;
 
-    let memberIds = req.body.memberIds || [];
+  const memberIds = req.body.memberIds || [];
 
-    if (memberIds.length === 0) {
-        res.sendStatus(400);
-        return null;
-    }
+  if (memberIds.length === 0) {
+    res.sendStatus(400);
+    return null;
+  }
 
-    return groupService.addMembers(groupId, memberIds)
-        .then(() => {
-            res.sendStatus(200);
-        })
-        .catch((error) => {
-            logger.error(`Failed adding a member to groupId: ${groupId}, branchId: ${branchId}, members: ${memberIds.join()}`, error);
-            res.sendStatus(500);
-        });
+  return groupService.addMembers(groupId, memberIds)
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      logger.error(`Failed adding a member to groupId: ${groupId}, branchId: ${branchId}, members: ${memberIds.join()}`, error);
+      res.sendStatus(500);
+    });
 }
 
 function groupDataValid(group) {
-    return validator.isValidName(group.name) && validator.isValidName(group.description);
+  return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
 
 function create(req, res) {
-    let branchId = req.params.branchId;
-    let group = {
-        name: req.body.name,
-        description: req.body.description
-    };
+  const branchId = req.params.branchId;
+  const group = {
+    name: req.body.name,
+    description: req.body.description,
+  };
 
-    if (!groupDataValid(group)) {
-        res.sendStatus(400);
-        return;
-    }
+  if (!groupDataValid(group)) {
+    res.sendStatus(400);
+    return undefined;
+  }
 
-    return groupService.create(group, branchId)
-    .then((group) => {
-        res.status(200).json(group);
-    })
-    .catch((error) => {
-        logger.error(`Failed creating a new group: branchId: ${branchId}}`, error);
-        res.sendStatus(500);
+  return groupService.create(group, branchId)
+    .then(groupData => res.status(200).json(groupData))
+    .catch(error => {
+      logger.error(`Failed creating a new group: branchId: ${branchId}}`, error);
+      res.sendStatus(500);
     });
 }
 
 function deleteGroup(req, res) {
-    let branchId = req.params.branchId;
-    let groupId = req.params.groupId;
+  const branchId = req.params.branchId;
+  const groupId = req.params.groupId;
 
-    if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
-        logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}`);
-        return res.sendStatus(400);
-    }
+  if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
+    logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}`);
+    return res.sendStatus(400);
+  }
 
-    return groupService.delete(groupId)
+  return groupService.delete(groupId)
     .then(() => {
-        res.sendStatus(200);
+      res.sendStatus(200);
     })
-    .catch((error) => {
-        logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
-        res.sendStatus(500);
+    .catch(error => {
+      logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
+      res.sendStatus(500);
     });
 }
 
 function update(req, res) {
-    let branchId = req.params.branchId;
-    let groupId = req.params.groupId;
+  const branchId = req.params.branchId;
+  const groupId = req.params.groupId;
 
-    if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
-        logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`);
-        return res.sendStatus(400);
-    }
+  if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
+    logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`);
+    return res.sendStatus(400);
+  }
 
-    let group = {
-        name: req.body.name,
-        description: req.body.description
-    };
+  const group = {
+    name: req.body.name,
+    description: req.body.description,
+  };
 
-    if (!groupDataValid(group)) {
-        res.sendStatus(400);
-        return;
-    }
+  if (!groupDataValid(group)) {
+    res.sendStatus(400);
+    return undefined;
+  }
 
-    return groupService.update(group, groupId)
-    .then((group) => {
-        res.status(200).json(group);
-    })
-    .catch((error) => {
-        logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
-        res.sendStatus(500);
+  return groupService.update(group, groupId)
+    .then(groupData => res.status(200).json(groupData))
+    .catch(error => {
+      logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
+      res.sendStatus(500);
     });
 }
 
 module.exports = {
-    list: list,
-    addMembers: addMembers,
-    create: create,
-    delete: deleteGroup,
-    update: update
+  list,
+  addMembers,
+  create,
+  delete: deleteGroup,
+  update,
 };
