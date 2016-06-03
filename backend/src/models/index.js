@@ -1,36 +1,34 @@
 'use strict';
 
-const fs = require('fs'),
-      path = require('path'),
-      Sequelize = require('sequelize'),
-      indexDotJs = path.basename(module.filename),
-      pg = require('pg');
-
-let db = {};
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const indexDotJs = path.basename(module.filename);
+const pg = require('pg');
+const db = {};
 
 /* https://github.com/sequelize/sequelize/issues/3781 */
 (function becauseOfSomeSequelizeBug() {
-    delete pg.native;
-})();
+  delete pg.native;
+}());
 
-let connection = require(__dirname + '/../db/connection.js');
+const connection = require(`${__dirname}/../db/connection.js`);
 
 function sequelizeModelFile(filename) {
-    return (filename.indexOf('.') !== 0) && (filename !== indexDotJs) && (filename.slice(-3) === '.js');
+  return (filename.indexOf('.') !== 0) && (filename !== indexDotJs) && (filename.slice(-3) === '.js');
 }
 
 function lookForModelFilesInFolder(folder) {
-    return fs.readdirSync(folder)
-            .filter(sequelizeModelFile);
+  return fs.readdirSync(folder).filter(sequelizeModelFile);
 }
 
 lookForModelFilesInFolder(__dirname)
-.forEach(function(file) {
-    let model = connection.import(path.join(__dirname, file));
+  .forEach(file => {
+    const model = connection.import(path.join(__dirname, file));
     db[model.name] = model;
-});
+  });
 
-Object.keys(db).forEach(function(modelName) {
+Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
