@@ -2,11 +2,16 @@ const casper = window.casper;
 
 function indexOfOption(select, option) {
   for (let i = 0; i < select.length; i++) {
-    if (select[i].childNodes[0].nodeValue === option) {
+    if (!!select[i] && select[i].innerText === option) {
       return i;
     }
   }
   return -1;
+}
+
+function mapTextFromSelector(selector) {
+  const result = document.querySelector(selector);
+  return !!result ? Array.map(result.children, e => e.innerText) : [];
 }
 
 export function navigateTo(url) {
@@ -36,12 +41,12 @@ export function pageTitle() {
 }
 
 export function selectOptionById(id, option) {
-  return casper.thenEvaluate((evalId, evelOption, evalIndexOfOption) => {
+  return casper.thenEvaluate((evalId, evalOption, evalIndexOfOption) => {
     const select = document.querySelector(`select[id=${evalId}]`);
-    if (select === null) {
+    if (!select) {
       return;
     }
-    select.selectedIndex = evalIndexOfOption(select, evelOption);
+    select.selectedIndex = evalIndexOfOption(select, evalOption);
     // Event needs to be fired for React to recognise the change
     const event = document.createEvent('HTMLEvents');
     event.initEvent('change', true, true);
@@ -63,11 +68,39 @@ export function innerTextBySelector(selector) {
   }, selector);
 }
 
+export function itemBySelector(selector) {
+  return casper.evaluate(evalselector => {
+    const field = document.querySelector(`${evalselector}`);
+    return field === null ? null : field;
+  }, selector);
+}
+
 export function waitForInnerText(selector, text) {
-  return casper.then(() =>
-    casper.waitFor(() => {
-      const result = innerTextBySelector(selector);
-      return result.indexOf(text) > -1;
-    })
-  );
+  return casper.waitFor(() => {
+    const result = innerTextBySelector(selector);
+    return result.indexOf(text) > -1;
+  });
+}
+
+export function waitForNoInnerText(selector, text) {
+  return casper.waitFor(() => {
+    const result = innerTextBySelector(selector);
+    return result.indexOf(text) === -1;
+  });
+}
+
+export function waitForOptionInSelectById(selectId, option) {
+  return casper.waitFor(() => {
+    const options = casper.evaluate(
+      (selector, mapper) => mapper(selector), `select[id=${selectId}]`, mapTextFromSelector);
+    return options.indexOf(option) > -1;
+  });
+}
+
+export function waitForNoOptionInSelectById(selectId, option) {
+  return casper.waitFor(() => {
+    const options = casper.evaluate(
+      (selector, mapper) => mapper(selector), `select[id=${selectId}]`, mapTextFromSelector);
+    return options.indexOf(option) === -1;
+  });
 }
