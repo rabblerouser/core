@@ -5,28 +5,27 @@ const logger = require('../lib/logger');
 const adminType = require('./adminType');
 
 function isRequestingProtectedData(req) {
-    return req.path.match(specificBranch);
+  return req.path.match(specificBranch);
 }
 
 function isUserAllowedToAccessBranch(user, path) {
-    if (user.type === adminType.super) {
-        return true;
-    }
+  if (user.type === adminType.super) {
+    return true;
+  }
 
-    let branchIdInPath = path.match(specificBranch);
-    return branchIdInPath && user ? user.branchId === branchIdInPath[1] : false;
-
+  const branchIdInPath = path.match(specificBranch);
+  return branchIdInPath && user ? user.branchId === branchIdInPath[1] : false;
 }
 
 function canTheDataBeAccessed(req) {
-    return isRequestingProtectedData(req) && isUserAllowedToAccessBranch(req.user, req.path);
+  return isRequestingProtectedData(req) && isUserAllowedToAccessBranch(req.user, req.path);
 }
 
-module.exports = function(req, res, next) {
-    if (canTheDataBeAccessed(req)) {
-        next();
-    } else {
-        logger.info('[access-denied]', `User ${req.user ? req.user.email : 'unknown'} tried to access ${req.method} ${req.path}`);
-        res.sendStatus(401);
-    }
+module.exports = (req, res, next) => {
+  if (canTheDataBeAccessed(req)) {
+    next();
+  } else {
+    logger.info('[access-denied]', `User ${req.user ? req.user.email : 'unknown'} tried to access ${req.method} ${req.path}`);
+    res.sendStatus(401);
+  }
 };
