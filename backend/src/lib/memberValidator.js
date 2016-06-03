@@ -1,43 +1,37 @@
 'use strict';
 
-let inputValidator = require('./inputValidator');
+const inputValidator = require('./inputValidator');
 const _ = require('lodash');
 
-var isValidBranch = (name) => {
-    return inputValidator.isValidString(name, new RegExp('[\<\>\"\%\;\&\+]')) &&
-           name.length < 256;
+const isValidBranch = name =>
+  inputValidator.isValidString(name, new RegExp('[<>"%;&+]')) && name.length < 256;
+
+const memberFieldsChecks = {
+  contactFirstName: inputValidator.isValidName,
+  contactLastName: inputValidator.isValidOptionalName,
+  email: inputValidator.isValidEmail,
+  primaryPhoneNumber: inputValidator.isValidPhone,
+  firstName: inputValidator.isValidName,
+  dateOfBirth: inputValidator.isValidDate,
+  branchId: isValidBranch,
+  schoolType: inputValidator.isValidString,
+  additionalInfo: inputValidator.isValidOptionalTextBlock,
+  pastoralNotes: inputValidator.isValidOptionalTextBlock,
 };
 
-const memberFieldsChecks =
-{
-    contactFirstName: inputValidator.isValidName,
-    contactLastName: inputValidator.isValidOptionalName,
-    email: inputValidator.isValidEmail,
-    primaryPhoneNumber: inputValidator.isValidPhone,
-    firstName: inputValidator.isValidName,
-    dateOfBirth: inputValidator.isValidDate,
-    branchId: isValidBranch,
-    schoolType: inputValidator.isValidString,
-    additionalInfo: inputValidator.isValidOptionalTextBlock,
-    pastoralNotes: inputValidator.isValidOptionalTextBlock
-};
+const isValidDetails = member =>
+  _.reduce(memberFieldsChecks, (errors, checkFn, memberFieldKey) => {
+    if (!member || !checkFn(member[memberFieldKey])) {
+      errors.push(memberFieldKey);
+    }
+    return errors;
+  }, []);
 
-var isValidDetails = (member) => {
-    return _.reduce(memberFieldsChecks, function(errors, checkFn, memberFieldKey) {
-        if (!member || !checkFn(member[memberFieldKey])){
-            errors.push(memberFieldKey);
-        }
-        return errors;
-    },[]);
-};
-
-var isValid = (member) => {
-    var errors = [
-        isValidDetails(member)
-    ];
-    return _.flatten(errors);
+const isValid = member => {
+  const errors = [isValidDetails(member)];
+  return _.flatten(errors);
 };
 
 module.exports = {
-    isValid: isValid,
+  isValid,
 };
