@@ -9,26 +9,14 @@ import { startAtLogin,
   selectGroup,
   clickEditCurrentGroup,
   clickEditOrganiser,
-  clickDeleteCurrentGroup,
   clickLogin,
   clickNewOrganiser,
   clickNewGroup,
   clickSave,
-  clickDeleteOrganiser,
   title,
   waitForExisting,
-  waitForNotExisting,
   waitForGroupOption,
-  waitForNoGroupOption,
 } from './pages/adminPage';
-
-const addPageConfirmFilter = () => {
-  window.casper.setFilter('page.confirm', () => true);
-};
-
-const removePageConfirmFilter = () => {
-  window.casper.setFilter('page.confirm', () => false);
-};
 
 function login(email, password) {
   return enterEmail(email)
@@ -99,22 +87,6 @@ const adminCanEditAnOrganiser = {
   },
 };
 
-const adminCanDeleteAnOrganiser = {
-  description: 'As an admin I should be able to delete an organiser for a lab',
-  testRun: () => {
-    startAtLogin()
-    .then(() => login('admin@rr.com', 'apassword'))
-    .then(() =>
-      window.casper.waitForUrl(/dashboard\/admin$/)
-    )
-    .then(() => waitForExisting('Sashana'))
-    .then(addPageConfirmFilter)
-    .then(clickDeleteOrganiser)
-    .then(removePageConfirmFilter)
-    .then(() => waitForNotExisting('Sashana'));
-  },
-};
-
 function editGroup() {
   return enterGroupName('A group changed')
     .then(clickSave);
@@ -158,39 +130,17 @@ const adminCanEditAGroup = {
   },
 };
 
-const adminCanDeleteAGroup = {
-  description: 'As an admin I should be able to delete a group',
-  testRun: () => {
-    startAtLogin()
-    .then(() => login('admin@rr.com', 'apassword'))
-    .then(() =>
-      window.casper.waitForUrl(/dashboard\/admin$/)
-    )
-    .then(() => waitForGroupOption('A group changed'))
-    .then(() => selectGroup('A group changed'))
-    .then(addPageConfirmFilter)
-    .then(clickDeleteCurrentGroup)
-    .then(removePageConfirmFilter)
-    .then(() => waitForNoGroupOption('A group changed'));
-  },
-};
-
 // Admin can edit a participnt
-// Admin can switch labs
 // Admin can add a lab
 // Admin can edit a lab
-// Admin can remove a lab
 // Admin can add an admin
 // Admin can edit an admin
-// Admin can remove an admin
 
 export default [
   adminLogsIn,
   adminTriesToLoginWithWrongPassword,
   adminCanAddAnOrganiser,
   adminCanEditAnOrganiser,
-  adminCanDeleteAnOrganiser,
   adminCanAddAGroup,
   adminCanEditAGroup,
-  adminCanDeleteAGroup,
 ];

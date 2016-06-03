@@ -82,25 +82,10 @@ export function waitForInnerText(selector, text) {
   });
 }
 
-export function waitForNoInnerText(selector, text) {
-  return casper.waitFor(() => {
-    const result = innerTextBySelector(selector);
-    return result.indexOf(text) === -1;
-  });
-}
-
 export function waitForOptionInSelectById(selectId, option) {
   return casper.waitFor(() => {
     const options = casper.evaluate(
       (selector, mapper) => mapper(selector), `select[id=${selectId}]`, mapTextFromSelector);
     return options.indexOf(option) > -1;
-  });
-}
-
-export function waitForNoOptionInSelectById(selectId, option) {
-  return casper.waitFor(() => {
-    const options = casper.evaluate(
-      (selector, mapper) => mapper(selector), `select[id=${selectId}]`, mapTextFromSelector);
-    return options.indexOf(option) === -1;
   });
 }
