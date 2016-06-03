@@ -16,9 +16,7 @@ function deleteAdmin(req, res) {
   }
 
   return adminService.delete(adminId)
-  .then(() => {
-    res.sendStatus(200);
-  })
+  .then(() => res.sendStatus(200))
   .catch(error => {
     logger.error(`Failed deleting the admin with id:${adminId} and branchId: ${branchId}}`, error);
     res.sendStatus(500);
@@ -45,11 +43,9 @@ function createSuperAdmin(req, res) {
   }
 
   return adminService.create(newAdmin)
-  .then(result => {
-    res.status(200).json(result);
-  })
+  .then(result => res.status(200).json(result))
   .catch(error => {
-    logger.error(`Failed creating a new super admin`, error);
+    logger.error('Failed creating a new super admin', error);
     return res.sendStatus(500);
   });
 }
@@ -67,9 +63,7 @@ function create(req, res) {
   }
 
   return adminService.create(newAdmin)
-  .then(result => {
-    res.status(200).json(result);
-  })
+  .then(result => res.status(200).json(result))
   .catch(error => {
     logger.error(`Failed creating a new admin user: branchId: ${branchId}}`, error);
     return res.sendStatus(500);
@@ -91,9 +85,7 @@ function updateSuperAdmin(req, res) {
   }
 
   return adminService.updateAdmin(admin)
-  .then(updatedAdmin => {
-    res.status(200).json(updatedAdmin);
-  })
+  .then(updatedAdmin => res.status(200).json(updatedAdmin))
   .catch(error => {
     logger.error(`Failed updating the admin user with id:${admin.id}`, error);
     res.sendStatus(500);
@@ -118,9 +110,7 @@ function update(req, res) {
   }
 
   return adminService.updateAdmin(admin)
-  .then(updatedAdmin => {
-    res.status(200).json(updatedAdmin);
-  })
+  .then(updatedAdmin => res.status(200).json(updatedAdmin))
   .catch(error => {
     logger.error(`Failed updating the admin user with id:${admin.id}`, error);
     res.sendStatus(500);
@@ -129,9 +119,7 @@ function update(req, res) {
 
 function forBranch(req, res) {
   return adminService.admins(req.params.branchId)
-  .then(result => {
-    res.status(200).json({ admins: result });
-  })
+  .then(result => res.status(200).json({ admins: result }))
   .catch(error => {
     switch (error) {
       case 'invalid branch id' :
@@ -146,9 +134,7 @@ function forBranch(req, res) {
 
 function list(req, res) {
   return adminService.superAdmins()
-  .then(result => {
-    res.status(200).json({ admins: result });
-  })
+  .then(result => res.status(200).json({ admins: result }))
   .catch(error => {
     logger.error('Error when getting super admins list', error);
     res.sendStatus(500);
@@ -164,9 +150,7 @@ function deleteSuperAdmin(req, res) {
   }
 
   return adminService.delete(adminId)
-  .then(() => {
-    res.sendStatus(200);
-  })
+  .then(() => res.sendStatus(200))
   .catch(error => {
     logger.error(`Failed deleting the admin with id:${adminId}`, error);
     res.sendStatus(500);
@@ -174,12 +158,12 @@ function deleteSuperAdmin(req, res) {
 }
 
 module.exports = {
-  deleteSuperAdmin: deleteSuperAdmin,
+  deleteSuperAdmin,
   delete: deleteAdmin,
-  create: create,
-  createSuperAdmin: createSuperAdmin,
-  updateSuperAdmin: updateSuperAdmin,
-  update: update,
-  forBranch: forBranch,
-  list: list
+  create,
+  createSuperAdmin,
+  updateSuperAdmin,
+  update,
+  forBranch,
+  list,
 };
