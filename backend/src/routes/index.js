@@ -1,40 +1,37 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var membersController = require('../controllers/membersController');
-var branchesController = require('../controllers/branchesController');
-var groupsController = require('../controllers/groupsController');
-var adminController = require('../controllers/adminController');
-var branchAuthorization = require('../security/branchAccessValidator');
-let superAdminOnly = require('../security/superAdminOnlyValidator');
-let requireAuth = require('../security/authenticationRequired');
-let login = require('../security/loginHandler');
+const express = require('express');
+const router = new express.Router();
+const membersController = require('../controllers/membersController');
+const branchesController = require('../controllers/branchesController');
+const groupsController = require('../controllers/groupsController');
+const adminController = require('../controllers/adminController');
+const branchAuthorization = require('../security/branchAccessValidator');
+const superAdminOnly = require('../security/superAdminOnlyValidator');
+const requireAuth = require('../security/authenticationRequired');
+const login = require('../security/loginHandler');
 
-router.get('/', function (req, res) {
-    res.render('index');
-});
+router.get('/', (req, res) =>
+  res.render('index')
+);
 
 router.post('/register', membersController.register);
 router.get('/branches', branchesController.list);
-
 router.post('/login', login);
-router.get('/login', function (req, res) {
-    res.render('login', {error: ''});
-});
 
-router.get('/logout', function (req, res) {
-    req.session.destroy(() => {
-        res.redirect('/login');
-    });
-});
+router.get('/login', (req, res) =>
+  res.render('login', { error: '' })
+);
 
-router.get('/dashboard', [requireAuth], function (req, res) {
-    res.render('dashboard');
-});
+router.get('/logout', (req, res) =>
+  req.session.destroy(() => res.redirect('/login'))
+);
+
+router.get('/dashboard', [requireAuth], (req, res) =>
+  res.render('dashboard'));
 
 router.get('/dashboard/admin', [requireAuth], function (req, res) {
-    res.render('admin');
+  res.render('admin');
 });
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.list);
@@ -59,5 +56,5 @@ router.post('/branches/:branchId/groups/:groupId/members', [requireAuth, branchA
 router.get('/branches/:id/groups', [requireAuth, branchAuthorization], branchesController.groupsByBranch);
 router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.create);
 router.delete('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.delete);
-router.put('/branches/:branchId/groups/:groupId',  [requireAuth, branchAuthorization], groupsController.update);
+router.put('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.update);
 module.exports = router;
