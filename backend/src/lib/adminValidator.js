@@ -1,83 +1,70 @@
 'use strict';
 
-let inputValidator = require('./inputValidator');
+const inputValidator = require('./inputValidator');
 const _ = require('lodash');
 
-var isValidBranch = (name) => {
-    return inputValidator.isValidString(name, new RegExp('[\<\>\"\%\;\&\+]')) &&
-           name.length < 256;
+const isValidBranch = name =>
+  inputValidator.isValidString(name, new RegExp('[<>"%;&+]')) && name.length < 256;
+
+const superAdminPasswordRequired = {
+  name: inputValidator.isValidOptionalName,
+  email: inputValidator.isValidEmail,
+  phoneNumber: inputValidator.isValidOptionalPhoneNumber,
+  password: inputValidator.isValidPassword,
 };
 
-const superAdminPasswordRequired =
-{
-    name: inputValidator.isValidOptionalName,
-    email: inputValidator.isValidEmail,
-    phoneNumber: inputValidator.isValidOptionalPhoneNumber,
-    password: inputValidator.isValidPassword
+const noPasswordRequired = {
+  name: inputValidator.isValidOptionalName,
+  email: inputValidator.isValidEmail,
+  phoneNumber: inputValidator.isValidOptionalPhoneNumber,
+  branchId: isValidBranch,
 };
 
-const noPasswordRequired =
-{
-    name: inputValidator.isValidOptionalName,
-    email: inputValidator.isValidEmail,
-    phoneNumber: inputValidator.isValidOptionalPhoneNumber,
-    branchId: isValidBranch
+const superAdminNoPasswordRequired = {
+  name: inputValidator.isValidOptionalName,
+  email: inputValidator.isValidEmail,
+  phoneNumber: inputValidator.isValidOptionalPhoneNumber,
 };
 
-const superAdminNoPasswordRequired =
-{
-    name: inputValidator.isValidOptionalName,
-    email: inputValidator.isValidEmail,
-    phoneNumber: inputValidator.isValidOptionalPhoneNumber
-};
 const passwordRequired = {
-    name: inputValidator.isValidOptionalName,
-    email: inputValidator.isValidEmail,
-    phoneNumber: inputValidator.isValidOptionalPhoneNumber,
-    branchId: isValidBranch,
-    password: inputValidator.isValidPassword
+  name: inputValidator.isValidOptionalName,
+  email: inputValidator.isValidEmail,
+  phoneNumber: inputValidator.isValidOptionalPhoneNumber,
+  branchId: isValidBranch,
+  password: inputValidator.isValidPassword,
 };
 
-var isValidDetails = (admin, fieldsChecks) => {
-    return _.reduce(fieldsChecks, function(errors, checkFn, adminFieldKey) {
-        if (!admin || !checkFn(admin[adminFieldKey])){
-            errors.push(adminFieldKey);
-        }
-        return errors;
-    },[]);
+const isValidDetails = (admin, fieldsChecks) =>
+  _.reduce(fieldsChecks, (errors, checkFn, adminFieldKey) => {
+    if (!admin || !checkFn(admin[adminFieldKey])) {
+      errors.push(adminFieldKey);
+    }
+    return errors;
+  }, []);
+
+const isValid = admin => {
+  const errors = [isValidDetails(admin, passwordRequired)];
+  return _.flatten(errors);
 };
 
-var isValid = (admin) => {
-    var errors = [
-        isValidDetails(admin, passwordRequired)
-    ];
-    return _.flatten(errors);
+const isValidWithoutPassword = admin => {
+  const errors = [isValidDetails(admin, noPasswordRequired)];
+  return _.flatten(errors);
 };
 
-var isValidWithoutPassword = (admin) => {
-    var errors = [
-        isValidDetails(admin, noPasswordRequired)
-    ];
-    return _.flatten(errors);
+const isSuperAdminValidWithoutPassword = admin => {
+  const errors = [isValidDetails(admin, superAdminNoPasswordRequired)];
+  return _.flatten(errors);
 };
 
-var isSuperAdminValidWithoutPassword = (admin) => {
-    var errors = [
-        isValidDetails(admin, superAdminNoPasswordRequired)
-    ];
-    return _.flatten(errors);
-};
-
-var isSuperAdminValid = (admin) => {
-    var errors = [
-        isValidDetails(admin, superAdminPasswordRequired)
-    ];
-    return _.flatten(errors);
+const isSuperAdminValid = admin => {
+  const errors = [isValidDetails(admin, superAdminPasswordRequired)];
+  return _.flatten(errors);
 };
 
 module.exports = {
-    isValid: isValid,
-    isValidWithoutPassword: isValidWithoutPassword,
-    isSuperAdminValid: isSuperAdminValid,
-    isSuperAdminValidWithoutPassword: isSuperAdminValidWithoutPassword,
+  isValid,
+  isValidWithoutPassword,
+  isSuperAdminValid,
+  isSuperAdminValidWithoutPassword,
 };
