@@ -16,8 +16,8 @@ const emails = {
   welcome: {
     logger: email => logger.info('[welcome-email-sent]', { email }),
     subject: 'The Pirate Party - Welcome',
-    text() {
-      return `Welcome to the Pirate Party!
+    text: () =>
+      `Welcome to the Pirate Party!
 
       You can now start participating and getting involved towards the development of a more secure and transparent Australia.
 
@@ -25,8 +25,7 @@ const emails = {
 
       Best,
 
-      The Pirate Party`;
-    },
+      The Pirate Party`,
   },
 };
 
