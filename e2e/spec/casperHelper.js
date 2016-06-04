@@ -7,6 +7,11 @@ casper.on('page.error', function(message, trace) {
     this.echo(JSON.stringify(trace));
 });
 
+casper.options.onWaitTimeout = function() {
+    this.capture(`screenshots/timeout-${Date.now()}.png`);
+    this.test.fail('timed out wating (screenshot taken)');
+}
+
 casper.on('page.initialized', function() {
     this.evaluate(polyfillObjectAssign);
     this.evaluate(polyfillFunctionBind);
