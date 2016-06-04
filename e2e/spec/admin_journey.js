@@ -6,16 +6,22 @@ import { startAtLogin,
   enterConfirmedPassword,
   enterGroupName,
   enterGroupDescription,
+  enterBranchName,
+  enterBranchContact,
+  selectBranch,
   selectGroup,
   clickEditCurrentGroup,
   clickEditOrganiser,
+  clickEditBranch,
   clickLogin,
   clickNewOrganiser,
   clickNewGroup,
+  clickNewBranch,
   clickSave,
   title,
   waitForExisting,
   waitForGroupOption,
+  waitForBranchOption,
 } from './pages/adminPage';
 
 function login(email, password) {
@@ -85,15 +91,15 @@ const adminCanEditAnOrganiser = {
   },
 };
 
-function editGroup() {
-  return enterGroupName('A group changed')
-    .then(clickSave);
-}
-
 function fillNewGroup() {
   return enterGroupName('A group')
     .then(() => enterGroupDescription('This group does things'))
     .then(() => clickSave());
+}
+
+function editGroup() {
+  return enterGroupName('A group changed')
+    .then(clickSave);
 }
 
 const adminCanAddAGroup = {
@@ -120,9 +126,41 @@ const adminCanEditAGroup = {
   },
 };
 
+function fillNewBranch() {
+  return enterBranchName('A new branch')
+    .then(() => enterBranchContact('This branch contact'))
+    .then(() => clickSave());
+}
+
+function editBranch() {
+  return enterBranchName('A branch changed')
+    .then(clickSave);
+}
+
+const adminCanAddABranch = {
+  description: 'As an admin I should be able to add a branch',
+  testRun: () => {
+    adminLogin()
+    .then(clickNewBranch)
+    .then(fillNewBranch)
+    .then(() => waitForBranchOption('A new branch'))
+    .then(() => selectBranch('A new branch'))
+    .then(() => waitForExisting('This branch contact'));
+  },
+};
+
+const adminCanEditABranch = {
+  description: 'As an admin I should be able to edit a branch',
+  testRun: () => {
+    adminLogin()
+    .then(() => waitForBranchOption('A new branch'))
+    .then(clickEditBranch)
+    .then(editBranch)
+    .then(() => waitForBranchOption('A branch changed'));
+  },
+};
+
 // Admin can edit a participnt
-// Admin can add a lab
-// Admin can edit a lab
 // Admin can add an admin
 // Admin can edit an admin
 
@@ -133,4 +171,6 @@ export default [
   adminCanEditAnOrganiser,
   adminCanAddAGroup,
   adminCanEditAGroup,
+  adminCanAddABranch,
+  adminCanEditABranch,
 ];

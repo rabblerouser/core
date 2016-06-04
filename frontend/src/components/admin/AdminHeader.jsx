@@ -12,7 +12,7 @@ const AdminHeader = props => {
   };
 
   const branchDescription = props.onSelectBranch ?
-    <select value={props.selectedBranch.id} onChange={selectBranch}>{mapBranchOptions()}</select> :
+    <select id="branches" value={props.selectedBranch.id} onChange={selectBranch}>{mapBranchOptions()}</select> :
     <span className="currentBranch">{props.selectedBranch.name}</span>;
 
   const logout = () => {
