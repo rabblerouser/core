@@ -10,11 +10,13 @@ import { startAtLogin,
   enterBranchContact,
   selectBranch,
   selectGroup,
-  clickEditCurrentGroup,
   clickEditOrganiser,
+  clickEditAdmin,
+  clickEditCurrentGroup,
   clickEditBranch,
   clickLogin,
   clickNewOrganiser,
+  clickNewAdmin,
   clickNewGroup,
   clickNewBranch,
   clickSave,
@@ -91,6 +93,41 @@ const adminCanEditAnOrganiser = {
   },
 };
 
+function fillNewAdmin() {
+  return enterEmail('anotherAdmin@email.com')
+    .then(() => enterName('Chris'))
+    .then(() => enterContactNumber('0401-223-443'))
+    .then(() => enterPassword('a long password'))
+    .then(() => enterConfirmedPassword('a long password'))
+    .then(() => clickSave());
+}
+
+function editLastAdmin() {
+  return enterName('Christopher')
+    .then(clickSave);
+}
+
+const adminCanAddAnAdmin = {
+  description: 'As an admin I should be able to add an admin to a branch',
+  testRun: () => {
+    adminLogin()
+    .then(clickNewAdmin)
+    .then(fillNewAdmin)
+    .then(() => waitForExisting('Chris'));
+  },
+};
+
+const adminCanEditAnAdmin = {
+  description: 'As an admin I should be able to edit an admin for a branch',
+  testRun: () => {
+    adminLogin()
+    .then(() => waitForExisting('Chris'))
+    .then(clickEditAdmin)
+    .then(editLastAdmin)
+    .then(() => waitForExisting('Christopher'));
+  },
+};
+
 function fillNewGroup() {
   return enterGroupName('A group')
     .then(() => enterGroupDescription('This group does things'))
@@ -160,9 +197,8 @@ const adminCanEditABranch = {
   },
 };
 
+
 // Admin can edit a participnt
-// Admin can add an admin
-// Admin can edit an admin
 
 export default [
   adminLogsIn,
@@ -173,4 +209,6 @@ export default [
   adminCanEditAGroup,
   adminCanAddABranch,
   adminCanEditABranch,
+  adminCanAddAnAdmin,
+  adminCanEditAnAdmin,
 ];

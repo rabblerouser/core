@@ -21,10 +21,12 @@ export const enterBranchContact = description => inputById('contact', descriptio
 export const selectGroup = option => selectOptionById('groups', option);
 export const selectBranch = option => selectOptionById('branches', option);
 export const clickEditCurrentGroup = () => buttonPressBySelector('#group-details button.edit');
-export const clickEditOrganiser = () => buttonPressBySelector('#organisers tbody tr:last-child button.edit');
+export const clickEditOrganiser = () => buttonPressBySelector('#organisers tbody button.edit');
+export const clickEditAdmin = () => buttonPressBySelector('#admins tbody button.edit');
 export const clickEditBranch = () => buttonPressBySelector('#branchDetails button.edit');
 export const clickLogin = () => buttonPressBySelector('input[id=login]');
 export const clickNewOrganiser = () => buttonPressBySelector('#organisers button.new');
+export const clickNewAdmin = () => buttonPressBySelector('#admins button.new');
 export const clickNewGroup = () => buttonPressBySelector('#group-details button.new');
 export const clickNewBranch = () => buttonPressBySelector('#branchDetails button.new');
 export const clickSave = () => buttonPressByText('Save');
