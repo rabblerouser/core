@@ -8,17 +8,21 @@ import { startAtLogin,
   enterGroupDescription,
   enterBranchName,
   enterBranchContact,
+  enterParticipantName,
   selectBranch,
   selectGroup,
   clickEditOrganiser,
+  clickEditParticipant,
   clickEditAdmin,
   clickEditCurrentGroup,
   clickEditBranch,
   clickLogin,
+  clickLogout,
   clickNewOrganiser,
   clickNewAdmin,
   clickNewGroup,
   clickNewBranch,
+  clickDetailsTab,
   clickSave,
   title,
   waitForExisting,
@@ -50,11 +54,13 @@ function adminLogin() {
   );
 }
 
-const adminLogsIn = {
+const adminLogsInAndOut = {
   description: 'As an admin I should be able to login',
   testRun: test => {
     adminLogin()
-    .then(() => test.assertEquals(title(), 'Rabble Rouser Admin', 'I am on the admin page'));
+    .then(() => test.assertEquals(title(), 'Rabble Rouser Admin', 'I am on the admin page'))
+    .then(clickLogout)
+    .then(() => test.assertEquals(title(), 'Login', 'I am on the login page'));
   },
 };
 
@@ -163,6 +169,26 @@ const adminCanEditAGroup = {
   },
 };
 
+function editParticipant() {
+  return enterParticipantName('A changed name')
+    .then(clickSave);
+}
+
+const adminCanEditAParticipant = {
+  description: 'As an admin I should be able to edit a participant',
+  testRun: () => {
+    adminLogin()
+    .then(() => waitForGroupOption('A group with member'))
+    .then(() => selectGroup('A group with member'))
+    .then(() => waitForExisting('A name'))
+    .then(clickEditParticipant)
+    .then(clickDetailsTab)
+    .then(editParticipant);
+    // Disabled pending issue resolution: https://huboard.com/rabblerouser/rabblerouser-core#/issues/158499200
+    // .then(() => waitForExisting('A changed name'));
+  },
+};
+
 function fillNewBranch() {
   return enterBranchName('A new branch')
     .then(() => enterBranchContact('This branch contact'))
@@ -197,18 +223,16 @@ const adminCanEditABranch = {
   },
 };
 
-
-// Admin can edit a participnt
-
 export default [
-  adminLogsIn,
-  adminTriesToLoginWithWrongPassword,
   adminCanAddAnOrganiser,
   adminCanEditAnOrganiser,
   adminCanAddAGroup,
   adminCanEditAGroup,
+  adminCanEditAParticipant,
   adminCanAddABranch,
   adminCanEditABranch,
   adminCanAddAnAdmin,
   adminCanEditAnAdmin,
+  adminTriesToLoginWithWrongPassword,
+  adminLogsInAndOut,
 ];

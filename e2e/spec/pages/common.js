@@ -28,6 +28,10 @@ export function buttonPressByText(text) {
   return casper.clickLabel(text, 'button');
 }
 
+export function elementClickByText(text, selector) {
+  return casper.clickLabel(text, selector);
+}
+
 export function buttonPressBySelector(selector) {
   casper.click(selector);
 }
