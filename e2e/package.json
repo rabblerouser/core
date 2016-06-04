@@ -7,9 +7,9 @@
     "lint": "eslint .",
     "teardown": "node ../backend/node_scripts/e2e-seed/teardown.js",
     "prep-data": "npm run teardown && node ../backend/node_scripts/e2e-seed/admin.js && node ../backend/node_scripts/e2e-seed/branch-group-member-organiser.js",
-    "pretest": "rm -r screenshots && npm run prep-data && webpack",
+    "pretest": "rm -rf screenshots && npm run prep-data && webpack",
     "test": "PHANTOMJS_EXECUTABLE=phantomjs casperjs --web-security=true --disk-cache=true --log-level=warning --verbose test tmp/test-bundle.js --url=http://localhost:3000 | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
-    "posttest": "rm -r tmp"
+    "posttest": "rm -rf tmp"
   },
   "repository": {
     "type": "git",
