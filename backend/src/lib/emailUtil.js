@@ -26,7 +26,7 @@ function sendEmail(options) {
   return deferred.promise;
 }
 
-const sendHtmlEmail = function (options) {
+const sendHtmlEmail = options => {
   if (!(options && options.to)) {
     throw new Error('Invalid email parameters');
   }
@@ -44,7 +44,7 @@ const sendHtmlEmail = function (options) {
 };
 
 
-const sendPlainTextEmail = function (options) {
+const sendPlainTextEmail = options => {
   const to = options.to instanceof Array ? options.to : [options.to];
 
   const emailOptions = {

@@ -39,7 +39,7 @@ function parse(input, residentialAddress, postalAddress) {
 }
 
 function setupNewMember(newMember) {
-  return function (residentialAddress, postalAddress) {
+  return (residentialAddress, postalAddress) => {
     const memberToSave = parse(newMember, residentialAddress, postalAddress);
     return Object.assign({}, memberToSave, { id: createHash(), memberSince: moment() });
   };

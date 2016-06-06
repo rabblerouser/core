@@ -18,5 +18,6 @@ module.exports = function login(req, res) {
         res.redirect('/dashboard');
       }
     });
+    return undefined;
   })(req, res);
 };

@@ -91,8 +91,7 @@ function createGroup(input) {
 
     return Group.create(group)
       .tap(() => logger.info('[create-group]', `group with id ${group.id} created`))
-      .then(savedGroup => [branch, savedGroup])
-      .catch(console.log);
+      .then(savedGroup => [branch, savedGroup]);
   };
 }
 

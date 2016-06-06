@@ -30,7 +30,7 @@ router.get('/logout', (req, res) =>
 router.get('/dashboard', [requireAuth], (req, res) =>
   res.render('dashboard'));
 
-router.get('/dashboard/admin', [requireAuth], function (req, res) {
+router.get('/dashboard/admin', [requireAuth], (req, res) => {
   res.render('admin');
 });
 
@@ -52,7 +52,8 @@ router.post('/branches/:branchId/admins', [requireAuth, branchAuthorization], ad
 router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization], adminController.update);
 router.delete('/branches/:branchId/admins/:adminId', [requireAuth, branchAuthorization], adminController.delete);
 
-router.post('/branches/:branchId/groups/:groupId/members', [requireAuth, branchAuthorization], groupsController.addMembers);
+router.post('/branches/:branchId/groups/:groupId/members',
+  [requireAuth, branchAuthorization], groupsController.addMembers);
 router.get('/branches/:id/groups', [requireAuth, branchAuthorization], branchesController.groupsByBranch);
 router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.create);
 router.delete('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.delete);
