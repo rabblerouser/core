@@ -1,6 +1,11 @@
 extends: '../.eslintrc.yml'
 #Only backend-specific stuff should go here. Inherit the rest from root.
 
+rules:
+  strict: 0
+  max-len: 0
+  no-param-reassign: 0
+
 env:
   mocha: true
   node: true
