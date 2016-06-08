@@ -9,6 +9,7 @@ const AdminsView = ({ type, id = 'admins', admins, onSaveAdmin, onDeleteAdmin })
       <AddAdminModalLauncher type={type} onSave={onSaveAdmin} />
     </h3>
     <AdminListTable admins={admins} onSaveAdmin={onSaveAdmin} onDeleteAdmin={onDeleteAdmin} />
+    {admins.length === 0 && <aside className="no-entries">No entries found</aside>}
   </section>
 ;
 

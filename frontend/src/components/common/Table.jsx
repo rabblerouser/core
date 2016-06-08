@@ -15,7 +15,6 @@ const Table = ({ columns, data, onClickHeader }) => (
        {Object.keys(entry).map((key, ci) => <td key={`c${ci}`}>{entry[key]}</td>)}
       </tr>
     )}
-    {data.length === 0 && <tr><td><aside className="no-entries">No entries found</aside></td></tr>}
     </tbody>
   </table>
 );

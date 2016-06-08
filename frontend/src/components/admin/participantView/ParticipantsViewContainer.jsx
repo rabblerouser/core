@@ -67,12 +67,15 @@ export default class ParticipantsViewContainer extends Component {
 
   render() {
     return (
-      <FilteredParticipantsList
-        groupFilter={this.props.selectedGroupId}
-        groups={this.props.groups}
-        participants={this.state.participants}
-        onSaveParticipant={this.state.onSave}
-      />
+      <section className="admin-section" id="participant-list">
+        <FilteredParticipantsList
+          groupFilter={this.props.selectedGroupId}
+          groups={this.props.groups}
+          participants={this.state.participants}
+          onSaveParticipant={this.state.onSave}
+        />
+      {this.state.participants.length === 0 && <aside className="no-entries">No entries found</aside>}
+      </section>
     );
   }
 }
