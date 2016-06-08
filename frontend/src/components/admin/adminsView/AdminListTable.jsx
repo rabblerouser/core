@@ -12,8 +12,8 @@ const columns = [
 
 const mapFields = ({ name, email, phoneNumber }) => ({ name, email, phoneNumber });
 const mapActions = (admin, onSaveAdmin, onDeleteAdmin) => [
-  <EditAdminModalLauncher admin={admin} onSave={onSaveAdmin} />,
-  <DeleteAdminButton admin={admin} onDelete={onDeleteAdmin} />,
+  <EditAdminModalLauncher key={`${admin.id}-edit`} admin={admin} onSave={onSaveAdmin} />,
+  <DeleteAdminButton key={`${admin.id}-delete`} admin={admin} onDelete={onDeleteAdmin} />,
 ];
 
 const AdminListTable = ({ admins, onSaveAdmin, onDeleteAdmin }) =>

@@ -33,7 +33,10 @@ const mapFields = ({ participantName,
   }
 );
 const mapActions = (participant, onSaveMember, allGroups) => [
-  <EditMemberModalLauncher participant={Object.assign({}, participant, { allGroups })} onSave={onSaveMember} />,
+  <EditMemberModalLauncher
+    key={`${participant.id}-edit`}
+    participant={Object.assign({}, participant, { allGroups })} onSave={onSaveMember}
+  />,
 ];
 
 const ParticipantListTable = ({ participants, onSaveMember, groups }) =>
