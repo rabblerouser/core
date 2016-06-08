@@ -44,7 +44,6 @@
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-modal": "^1.2.1",
-    "reactabular": "^0.11.2",
     "underscore": "^1.8.3",
     "validator": "^5.2.0",
     "webpack": "^1.13.0"

@@ -1,5 +1,5 @@
 import React from 'react';
-import ParticipantsList from './ParticipantsList.jsx';
+import ParticipantListTable from './ParticipantListTable.jsx';
 
 const FilteredParticipantsList = ({ groupFilter, participants, groups, onSaveParticipant }) => {
   function filterParticipantsList() {
@@ -14,7 +14,7 @@ const FilteredParticipantsList = ({ groupFilter, participants, groups, onSavePar
   }
 
   return (
-    <ParticipantsList participants={filterParticipantsList()} groups={groups} onSave={onSaveParticipant} />
+    <ParticipantListTable participants={filterParticipantsList()} groups={groups} onSaveMember={onSaveParticipant} />
   );
 };
 
