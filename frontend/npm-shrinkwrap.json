@@ -60,7 +60,7 @@
             },
             "esutils": {
               "version": "2.0.2",
-              "from": "esutils@>=2.0.0 <3.0.0",
+              "from": "esutils@>=2.0.2 <3.0.0",
               "resolved": "https://registry.npmjs.org/esutils/-/esutils-2.0.2.tgz"
             },
             "js-tokens": {
@@ -939,7 +939,7 @@
             },
             "babel-helper-define-map": {
               "version": "6.9.0",
-              "from": "babel-helper-define-map@>=6.8.0 <7.0.0",
+              "from": "babel-helper-define-map@>=6.9.0 <7.0.0",
               "resolved": "https://registry.npmjs.org/babel-helper-define-map/-/babel-helper-define-map-6.9.0.tgz",
               "dependencies": {
                 "lodash": {
@@ -1561,7 +1561,7 @@
                         },
                         "debug": {
                           "version": "2.2.0",
-                          "from": "debug@>=2.2.0 <3.0.0",
+                          "from": "debug@>=2.2.0 <2.3.0",
                           "resolved": "https://registry.npmjs.org/debug/-/debug-2.2.0.tgz",
                           "dependencies": {
                             "ms": {
@@ -2698,7 +2698,7 @@
             },
             "babel-runtime": {
               "version": "6.9.2",
-              "from": "babel-runtime@>=6.9.1 <7.0.0",
+              "from": "babel-runtime@>=6.9.0 <7.0.0",
               "resolved": "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.9.2.tgz",
               "dependencies": {
                 "regenerator-runtime": {
@@ -2891,7 +2891,7 @@
                 },
                 "babel-traverse": {
                   "version": "6.9.0",
-                  "from": "babel-traverse@>=6.8.0 <7.0.0",
+                  "from": "babel-traverse@>=6.9.0 <7.0.0",
                   "resolved": "https://registry.npmjs.org/babel-traverse/-/babel-traverse-6.9.0.tgz",
                   "dependencies": {
                     "babel-code-frame": {
@@ -3111,7 +3111,7 @@
                 },
                 "debug": {
                   "version": "2.2.0",
-                  "from": "debug@>=2.2.0 <2.3.0",
+                  "from": "debug@>=2.2.0 <3.0.0",
                   "resolved": "https://registry.npmjs.org/debug/-/debug-2.2.0.tgz",
                   "dependencies": {
                     "ms": {
@@ -3138,7 +3138,7 @@
                       "dependencies": {
                         "js-tokens": {
                           "version": "1.0.3",
-                          "from": "js-tokens@>=1.0.1 <2.0.0",
+                          "from": "js-tokens@>=1.0.2 <2.0.0",
                           "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.3.tgz"
                         }
                       }
@@ -3466,7 +3466,7 @@
             },
             "babel-runtime": {
               "version": "6.9.2",
-              "from": "babel-runtime@>=6.9.1 <7.0.0",
+              "from": "babel-runtime@>=6.0.0 <7.0.0",
               "resolved": "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.9.2.tgz",
               "dependencies": {
                 "regenerator-runtime": {
@@ -3490,7 +3490,7 @@
             },
             "babel-runtime": {
               "version": "6.9.2",
-              "from": "babel-runtime@>=6.9.1 <7.0.0",
+              "from": "babel-runtime@>=6.0.0 <7.0.0",
               "resolved": "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.9.2.tgz",
               "dependencies": {
                 "regenerator-runtime": {
@@ -3585,7 +3585,7 @@
                             },
                             "js-tokens": {
                               "version": "1.0.3",
-                              "from": "js-tokens@>=1.0.2 <2.0.0",
+                              "from": "js-tokens@>=1.0.1 <2.0.0",
                               "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.3.tgz"
                             }
                           }
@@ -3707,7 +3707,7 @@
               "dependencies": {
                 "babel-types": {
                   "version": "6.10.0",
-                  "from": "babel-types@>=6.9.0 <7.0.0",
+                  "from": "babel-types@>=6.8.0 <7.0.0",
                   "resolved": "https://registry.npmjs.org/babel-types/-/babel-types-6.10.0.tgz",
                   "dependencies": {
                     "babel-traverse": {
@@ -4051,7 +4051,7 @@
                             },
                             "js-tokens": {
                               "version": "1.0.3",
-                              "from": "js-tokens@>=1.0.2 <2.0.0",
+                              "from": "js-tokens@>=1.0.1 <2.0.0",
                               "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.3.tgz"
                             }
                           }
@@ -4189,7 +4189,7 @@
                             },
                             "js-tokens": {
                               "version": "1.0.3",
-                              "from": "js-tokens@>=1.0.2 <2.0.0",
+                              "from": "js-tokens@>=1.0.1 <2.0.0",
                               "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.3.tgz"
                             }
                           }
@@ -6826,7 +6826,7 @@
                       "dependencies": {
                         "align-text": {
                           "version": "0.1.4",
-                          "from": "align-text@>=0.1.1 <0.2.0",
+                          "from": "align-text@>=0.1.3 <0.2.0",
                           "resolved": "https://registry.npmjs.org/align-text/-/align-text-0.1.4.tgz",
                           "dependencies": {
                             "kind-of": {
@@ -6867,7 +6867,7 @@
                       "dependencies": {
                         "align-text": {
                           "version": "0.1.4",
-                          "from": "align-text@>=0.1.1 <0.2.0",
+                          "from": "align-text@>=0.1.3 <0.2.0",
                           "resolved": "https://registry.npmjs.org/align-text/-/align-text-0.1.4.tgz",
                           "dependencies": {
                             "kind-of": {
