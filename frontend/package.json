@@ -49,6 +49,7 @@
     "webpack": "^1.13.0"
   },
   "devDependencies": {
+    "enzyme": "^2.3.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
     "karma-jasmine": "^0.3.8",
