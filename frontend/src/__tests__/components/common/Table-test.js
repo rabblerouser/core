@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from '../../../components/common/Table.jsx';
-import sd from 'skin-deep';
+import { shallow } from 'enzyme';
 
 describe('Table', () => {
   let rendered;
@@ -10,16 +10,16 @@ describe('Table', () => {
     const columns = [{ key: '' }, { key: '' }, { key: '' }];
 
     beforeEach(() => {
-      rendered = sd.shallowRender(<Table columns={columns} data={data} />);
+      rendered = shallow(<Table columns={columns} data={data} />);
     });
 
     it('creates a row for each datum', () => {
-      const renderedRows = rendered.subTree('tbody').everySubTree('tr');
+      const renderedRows = rendered.find('tbody tr');
       expect(renderedRows.length).toBe(data.length);
     });
 
     it('creates a column for each column', () => {
-      const renderedColumns = rendered.everySubTree('ColumnHeader');
+      const renderedColumns = rendered.find('ColumnHeader');
       expect(renderedColumns.length).toBe(columns.length);
     });
   });

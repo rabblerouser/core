@@ -1,20 +1,23 @@
 import React from 'react';
 import GroupsList from '../../../components/admin/groupView/GroupsList.jsx';
-import sd from 'skin-deep';
+import { shallow } from 'enzyme';
 
 describe('GroupList', () => {
-  let renderedTree = '';
-  describe('render', () => {
-    let sampleGroups = [{ name: 'A group' }, { name: 'Another group' }];
+  const sampleGroups = [{ name: 'A group' }, { name: 'Another group' }];
 
-    beforeEach(() => {
-      renderedTree = sd.shallowRender(<GroupsList groups={sampleGroups} onSave={''} />);
-    });
+  it('renders unassigned as a default option', () => {
+    const rendered = shallow(<GroupsList groups={sampleGroups} />);
+    expect(rendered.text()).toContain('Unassigned');
+  });
 
-    xit('has a single select element with options for each group provided plus the All Participants option', () => {
-      const element = renderedTree.subTree('select');
-      expect(element).not.toBeFalsy();
-      expect(element.props.children.length).toBe(3);
-    });
+  it('renders all aprticipants as a default option', () => {
+    const rendered = shallow(<GroupsList groups={sampleGroups} />);
+    expect(rendered.text()).toContain('All participants');
+  });
+
+  it('renders the groups as options', () => {
+    const rendered = shallow(<GroupsList groups={sampleGroups} />);
+    expect(rendered.text()).toContain('A group');
+    expect(rendered.text()).toContain('Another group');
   });
 });
