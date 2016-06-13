@@ -1,6 +1,7 @@
 extends: '../.eslintrc.yml'
+#Only frontend-specific stuff should go here. Inherit the rest from root.
+
 rules:
-  #Only frontend-specific stuff should go here. Inherit the rest from root.
   react/jsx-curly-spacing:
     - error
     - never
