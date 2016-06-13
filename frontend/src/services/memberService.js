@@ -1,6 +1,7 @@
 import moment from 'moment';
 import Q from 'q';
 import ajax from './ajax';
+import participantAdapter from '../adapters/participantAdapter.js';
 
 const handleResponseError = error => {
   switch (error.status) {
@@ -62,12 +63,7 @@ const update = (member, branchId) => (
     data: adaptMember(member),
   }))
     .catch(handleResponseError)
-    .then(data => {
-      if (data.id) {
-        return data;
-      }
-      throw new Error('INVALID MEMBER');
-    })
+    .then(participantAdapter.parseParticipant)
 );
 
 export default { update };

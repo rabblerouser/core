@@ -183,9 +183,8 @@ const adminCanEditAParticipant = {
     .then(() => waitForExisting('A name'))
     .then(clickEditParticipant)
     .then(clickDetailsTab)
-    .then(editParticipant);
-    // Disabled pending issue resolution: https://huboard.com/rabblerouser/rabblerouser-core#/issues/158499200
-    // .then(() => waitForExisting('A changed name'));
+    .then(editParticipant)
+    .then(() => waitForExisting('A changed name'));
   },
 };
 
