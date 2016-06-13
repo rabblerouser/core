@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import NewMemberForm from './NewMemberForm.jsx';
-import '../../public/stylesheets/style.scss';
 
 const App = () => (
   <div className="container">

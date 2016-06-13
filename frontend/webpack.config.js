@@ -1,6 +1,4 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const neat = require('node-neat').includePaths;
 
 module.exports = {
   entry: {
@@ -23,12 +21,12 @@ module.exports = {
     ],
     loaders: [
       {
-        test: /\.s?css$/,
-        loader: ExtractTextPlugin.extract('style-loader', `css?sourceMap!sass?sourceMap&includePaths[]=${neat}`),
+        test: /\.css$/,
+        loader: 'style!css',
       },
       {
-        test: /\.svg/,
-        loader: 'svg-url-loader',
+        test: /\.scss$/,
+        loader: 'style!css!sass',
       },
       {
         test: /\.jsx?$/,
@@ -41,7 +39,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new ExtractTextPlugin('style.css'),
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
   ],
   devtool: 'cheap-module-eval-source-map',
@@ -53,22 +50,16 @@ module.exports = {
         secure: false,
         bypass: req => {
           if (req.method === 'GET') {
-            if (['/dashboard', '/error', '/index', '/login'].indexOf(req.url) > -1) {
-              // Let WDS serve these routes, returning the corresponding html file contents
+            if (['/admin', '/dashboard', '/error', '/index', '/login'].indexOf(req.url) > -1) {
               return `${req.url}.html`;
             }
             if (req.url === '/dashboard/admin') {
-              // Same as above but the admin route is tricky
               return '/admin.html';
             }
             if (req.url === '/' || req.url.startsWith('/stylesheets') || req.url.startsWith('/images')) {
-              // Let WDS serve all of these files as static content (where '/' => '/index.html')
-              // Also, it will automatically do this for /javascript, because of the publicPath config
               return req.url;
             }
-            // TODO: Also handle webpack HMR live updates
           }
-          // Let all other requests proxy through to the target mentioned above
           return false;
         },
       },
