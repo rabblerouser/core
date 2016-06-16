@@ -9,7 +9,6 @@ npm-debug.log
 .DS_Store
 backend/public
 frontend/public/javascript
-frontend/public/stylesheets/style.css
 .babel-cache
 db/dumps
 screenshots

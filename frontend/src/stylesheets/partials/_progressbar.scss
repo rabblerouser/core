@@ -20,7 +20,7 @@
 
     @include media($mobile) {
       height:auto;
-      
+
     }
 }
 
@@ -86,7 +86,7 @@ button.logout:hover {
   content: '';
 }
 
-  
+
 
 /* Progress bar styles */
 
@@ -200,7 +200,7 @@ button.logout:hover {
 .progress-bar .visited:nth-child(2)::after,
 .progress-bar .visited:nth-child(3)::after,
 .progress-bar .visited:nth-child(4)::after{
-    background-image: url('../images/Tick.svg');
+    background-image: url('../../public/images/Tick.svg');
     background-size: 16px 16px;
     background-repeat: no-repeat;
     background-position: center;
