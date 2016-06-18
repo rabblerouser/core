@@ -27,3 +27,7 @@ export default class ProgressBar extends Component {
     );
   }
 }
+
+ProgressBar.propTypes = {
+  progress: React.PropTypes.number.isRequired,
+};

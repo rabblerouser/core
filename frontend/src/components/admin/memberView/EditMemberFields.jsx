@@ -202,6 +202,7 @@ EditMemberFields.propTypes = {
   formValues: React.PropTypes.object,
   groups: React.PropTypes.array,
   selectedSection: React.PropTypes.string,
+  onSelectSection: React.PropTypes.func,
 };
 
 export default EditMemberFields;

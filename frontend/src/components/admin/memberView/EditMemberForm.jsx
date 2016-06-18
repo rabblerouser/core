@@ -15,21 +15,37 @@ export default class EditMemberForm extends Component {
       pageErrors: [],
       fieldValues: this.mapMemberToFields(props.member),
     };
+    this.onSelect = this.onSelect.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.saveChanges = this.saveChanges.bind(this);
   }
 
-  mapMemberToFields(member) {
-    if (member.schoolType === 'Primary' || member.schoolType === 'Secondary') {
-      return Object.assign({}, member);
-    }
-    return Object.assign({}, member, { schoolTypeOtherText: member.schoolType, schoolType: 'Other' });
+  onChange(fieldName) {
+    const editMemberComponent = this;
+
+    return event => {
+      const newValue = {};
+      switch (event.target.type) {
+        case 'checkbox':
+          newValue[fieldName] = editMemberComponent.checkboxChange(fieldName, event.target.value, event.target.checked);
+          break;
+        default:
+          newValue[fieldName] = event.target.value;
+          break;
+      }
+      const newFieldValues = Object.assign({}, editMemberComponent.state.fieldValues, newValue);
+      editMemberComponent.setState({ fieldValues: newFieldValues });
+    };
+  }
+
+  onSelect(section) {
+    return () => {
+      this.setState({ selectedSection: section });
+    };
   }
 
   getGroupDetails() {
     return this.state;
-  }
-
-  isValidationError(fieldName) {
-    return this.state.invalidFields.includes(fieldName);
   }
 
   getSchoolType(fieldValues) {
@@ -37,6 +53,17 @@ export default class EditMemberForm extends Component {
       return fieldValues.schoolTypeOtherText;
     }
     return fieldValues.schoolType;
+  }
+
+  isValidationError(fieldName) {
+    return this.state.invalidFields.includes(fieldName);
+  }
+
+  mapMemberToFields(member) {
+    if (member.schoolType === 'Primary' || member.schoolType === 'Secondary') {
+      return Object.assign({}, member);
+    }
+    return Object.assign({}, member, { schoolTypeOtherText: member.schoolType, schoolType: 'Other' });
   }
 
   saveChanges() {
@@ -65,30 +92,6 @@ export default class EditMemberForm extends Component {
     return newValues;
   }
 
-  onChange(fieldName) {
-    const editMemberComponent = this;
-
-    return event => {
-      const newValue = {};
-      switch (event.target.type) {
-        case 'checkbox':
-          newValue[fieldName] = editMemberComponent.checkboxChange(fieldName, event.target.value, event.target.checked);
-          break;
-        default:
-          newValue[fieldName] = event.target.value;
-          break;
-      }
-      const newFieldValues = Object.assign({}, editMemberComponent.state.fieldValues, newValue);
-      editMemberComponent.setState({ fieldValues: newFieldValues });
-    };
-  }
-
-  onSelect(section) {
-    return () => {
-      this.setState({ selectedSection: section });
-    };
-  }
-
   render() {
     return (
       <section className="form-container">
@@ -96,21 +99,27 @@ export default class EditMemberForm extends Component {
           <span className="title">
             {`${this.props.member.memberName} ${this.props.member.memberLastName}`}
           </span>
-          <span className="actions"><button className="save" onClick={this.saveChanges.bind(this)}>Save</button></span>
+          <span className="actions"><button className="save" onClick={this.saveChanges}>Save</button></span>
         </header>
         <UserMessageView
           messages={this.state.userMessages}
           errors={this.state.pageErrors}
         />
         <EditMemberFields
-          onChange={this.onChange.bind(this)}
+          onChange={this.onChange}
           invalidFields={this.state.invalidFields}
           groups={this.props.member.allGroups}
           formValues={this.state.fieldValues}
           selectedSection={this.state.selectedSection}
-          onSelectSection={this.onSelect.bind(this)}
+          onSelectSection={this.onSelect}
         />
       </section>
     );
   }
 }
+
+EditMemberForm.propTypes = {
+  member: React.PropTypes.object.isRequired,
+  onSuccess: React.PropTypes.func.isRequired,
+  onSave: React.PropTypes.func.isRequired,
+};

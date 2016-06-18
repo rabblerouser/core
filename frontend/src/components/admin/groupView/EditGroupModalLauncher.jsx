@@ -6,6 +6,8 @@ export default class EditGroupModalLauncher extends Component {
   constructor(props) {
     super(props);
     this.state = { modalIsOpen: false };
+    this.launchEditForm = this.launchEditForm.bind(this);
+    this.closeEditForm = this.closeEditForm.bind(this);
   }
 
   launchEditForm() {
@@ -19,17 +21,22 @@ export default class EditGroupModalLauncher extends Component {
   render() {
     const customStyle = { content: { bottom: 'none' } };
     return (
-      <button onClick={this.launchEditForm.bind(this)} className="edit" title="Edit details">
+      <button onClick={this.launchEditForm} className="edit" title="Edit details">
         <span>Edit details</span>
-        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm.bind(this)} style={customStyle}>
+        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm} style={customStyle}>
           <EditGroupForm
             title="Edit group"
             onSave={this.props.onSave}
             group={this.props.group}
-            onSuccess={this.closeEditForm.bind(this)}
+            onSuccess={this.closeEditForm}
           />
         </Modal>
       </button>
     );
   }
 }
+
+EditGroupModalLauncher.propTypes = {
+  group: React.PropTypes.object,
+  onSave: React.PropTypes.func,
+};

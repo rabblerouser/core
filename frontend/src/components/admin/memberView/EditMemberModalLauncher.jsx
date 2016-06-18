@@ -6,6 +6,8 @@ export default class EditMemberModalLauncher extends Component {
   constructor(props) {
     super(props);
     this.state = { modalIsOpen: false };
+    this.launchEditForm = this.launchEditForm.bind(this);
+    this.closeEditForm = this.closeEditForm.bind(this);
   }
 
   launchEditForm() {
@@ -21,15 +23,20 @@ export default class EditMemberModalLauncher extends Component {
 
     return (
       <div>
-        <button className="edit" onClick={this.launchEditForm.bind(this)}><span>Edit groups</span></button>
-        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm.bind(this)} style={customStyle}>
+        <button className="edit" onClick={this.launchEditForm}><span>Edit groups</span></button>
+        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm} style={customStyle}>
           <EditMemberForm
             member={this.props.member}
             onSave={this.props.onSave}
-            onSuccess={this.closeEditForm.bind(this)}
+            onSuccess={this.closeEditForm}
           />
         </Modal>
       </div>
     );
   }
 }
+
+EditMemberModalLauncher.propTypes = {
+  member: React.PropTypes.object,
+  onSave: React.PropTypes.func,
+};
