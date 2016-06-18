@@ -69,12 +69,6 @@ It will have a membership registration core and a set of plugins.
 
         npm install
 
-0. Email configuration [Optional]
-
-        1. Run `which sendmail` in a terminal
-        2. Add EMAIL_SERVER="Path to sendmail" to environment vars
-        3. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/staging.json`, `config/production.json`)
-
 0. Run the tests
 
         npm test
@@ -84,6 +78,12 @@ It will have a membership registration core and a set of plugins.
         npm start
 
 0. Verify that the app works - Point your browser at http://localhost:3000
+
+0. Email configuration [Optional]
+
+        1. Run `which sendmail` in a terminal
+        2. Add EMAIL_SERVER="Path to sendmail" to environment vars
+        3. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/staging.json`, `config/production.json`)
 
 ## Understanding this repository
 
