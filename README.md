@@ -110,10 +110,12 @@ The following sections assume that you've done the first time setup above.
 
 **Manual testing workflow:**
 
-1. From the root directory: `npm build && npm start`
+1. From the root directory: `npm run build && npm start`
 2. Make your changes
 3. Point your browser at `http://localhost:3000`
 4. Goto #2
+
+Note: If you happen to change frontend code during this process, you'll need to do `npm run build` from the root again.
 
 ### I want to work on the frontend (javascript or styles)
 **Automated testing workflow:**
