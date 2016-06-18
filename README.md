@@ -114,7 +114,7 @@ The following sections assume that you've done the first time setup above.
 3. Point your browser at `http://localhost:3000`
 4. Goto #2
 
-### I want to work on the frontend javascript
+### I want to work on the frontend (javascript or styles)
 **Automated testing workflow:**
 1. Make your changes
 2. From the frontend directory: `npm test`
@@ -126,13 +126,6 @@ The following sections assume that you've done the first time setup above.
 3. Make your changes
 4. Point your browser at `http://localhost:8080`
 5. Goto #3
-
-### I want to work on the frontend styles
-1. From the backend directory: `npm start`
-2. Make your changes
-3. From the root directory: `npm run build`
-4. Point your browser at `http://localhost:3000`
-5. Goto #2
 
 ### Linting
 
