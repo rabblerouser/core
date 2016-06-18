@@ -1,5 +1,5 @@
 ---
-repo_url: https://github.com/thelabtw/lab-assistant.git
+repo_url: https://github.com/rabblerouser/rabblerouser-core.git
 git_sha: HEAD
 app_path: /opt/lab-assistant
 app_user: lab-assistant

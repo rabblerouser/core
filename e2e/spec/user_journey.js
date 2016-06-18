@@ -12,21 +12,21 @@ import { startAtRegister,
   enterAdditionalInfo,
   selectSchoolType,
   enterOtherSchool,
-  selectLab } from './pages/registrationPage';
+  selectBranch } from './pages/registrationPage';
 
 const userHasValidationErrors = {
   description: 'I should get validation errors if I don\'t fill in the form',
   testRun: test => {
     startAtRegister()
-    .then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'))
+    .then(() => test.assertEquals(visibleProgressMessage(), 'Register'))
     .then(clickRegister)
     .then(() => test.assertNotEquals(visibleValidationErrors(), ''))
-    .then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
+    .then(() => test.assertEquals(visibleProgressMessage(), 'Register'));
   },
 };
 
 function fillValidForm() {
-  return selectLab('A branch')
+  return selectBranch('A branch')
   .then(() => enterContactName('Connor'))
   .then(() => enterContactLastName('Melbourne'))
   .then(() => enterContactNumber('01010101010'))
@@ -43,11 +43,11 @@ const userRegisters = {
   description: 'I should be able to register',
   testRun: test => {
     startAtRegister()
-    .then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'))
+    .then(() => test.assertEquals(visibleProgressMessage(), 'Register'))
     .then(fillValidForm)
     .then(clickRegister)
     .then(() => test.assertEquals(visibleValidationErrors(), ''))
-    .then(() => test.assertEquals(visibleProgressMessage(), 'Register for The Lab'));
+    .then(() => test.assertEquals(visibleProgressMessage(), 'Register'));
   },
 };
 

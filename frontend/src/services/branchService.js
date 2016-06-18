@@ -26,7 +26,7 @@ const adaptBranch = branch => ({
 const getMyBranches = () => (
   Q(ajax({
     type: 'GET',
-    url: `/${Resources.myLabListEndPoint}`,
+    url: `/${Resources.myBranchListEndPoint}`,
     dataType: 'json',
   }))
     .then(branchAdapter.parseBranches)
@@ -36,7 +36,7 @@ const getMyBranches = () => (
 const getBranches = () => (
   Q(ajax({
     type: 'GET',
-    url: `/${Resources.labListEndPoint}`,
+    url: `/${Resources.branchListEndPoint}`,
     dataType: 'json',
   }))
     .then(branchAdapter.parseBranches)
@@ -46,7 +46,7 @@ const getBranches = () => (
 const getBranchGroups = branchId => (
   Q(ajax({
     type: 'GET',
-    url: `/${Resources.labListEndPoint}/${branchId}/groups`,
+    url: `/${Resources.branchListEndPoint}/${branchId}/groups`,
     dataType: 'json',
   }))
     .then(groupAdapter.parseGroups)
@@ -56,7 +56,7 @@ const getBranchGroups = branchId => (
 const getBranchMembers = branchId => (
   Q(ajax({
     type: 'GET',
-    url: `/${Resources.labListEndPoint}/${branchId}/members`,
+    url: `/${Resources.branchListEndPoint}/${branchId}/members`,
     dataType: 'json',
   }))
     .then(memberAdapter.parseMembers)
@@ -66,7 +66,7 @@ const getBranchMembers = branchId => (
 const getBranchAdmins = branchId => (
   Q(ajax({
     type: 'GET',
-    url: `/${Resources.labListEndPoint}/${branchId}/admins`,
+    url: `/${Resources.branchListEndPoint}/${branchId}/admins`,
     dataType: 'json',
   }))
     .then(adminAdapter.parseAdmins)

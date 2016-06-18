@@ -25,7 +25,7 @@ export default class Details extends Component {
       .catch(() => {
         this.setState({
           errors: 'No branches',
-          errorTitle: Strings.remoteLabListErrorTitle,
+          errorTitle: Strings.branchListErrorTitle,
         });
       });
   }
@@ -82,7 +82,7 @@ export default class Details extends Component {
   render() {
     return (
       <section>
-        <h1 className="form-title">Register for The Lab</h1>
+        <h1 className="form-title">Register</h1>
         <div className="form-body">
           <Errors
             invalidFields={this.state.errorNames}
@@ -101,7 +101,7 @@ export default class Details extends Component {
 
           <div className="navigation">
             <button onClick={this.submitDetails.bind(this)}>Register</button>
-            <p>or <a onClick={this.props.previousStep} href={Resources.theLabHome}>return to The Lab</a></p>
+            <p>or <a onClick={this.props.previousStep} href={Resources.homePage}>return home</a></p>
           </div>
         </div>
       </section>

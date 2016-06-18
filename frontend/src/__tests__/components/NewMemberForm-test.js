@@ -18,6 +18,6 @@ describe('NewMemberForm', () => {
     const newMemberForm = TestUtils.renderIntoDocument(<NewMemberForm />);
 
     const heading = TestUtils.findRenderedDOMComponentWithTag(newMemberForm, 'h1');
-    expect(ReactDOM.findDOMNode(heading).textContent).toBe('Register for The Lab');
+    expect(ReactDOM.findDOMNode(heading).textContent).toBe('Register');
   });
 });

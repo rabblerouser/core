@@ -1,18 +1,17 @@
 export const Resources = {
   privacyPolicy: 'https://pirateparty.org.au/privacy/',
-  labHost: 'http://localhost:3000',
-  labListEndPoint: 'branches',
-  myLabListEndPoint: 'admin/branches',
+  branchListEndPoint: 'branches',
+  myBranchListEndPoint: 'admin/branches',
   applicationsEndPoint: 'register',
   groupListEndPoint: 'groups',
   networkAdminEndPoint: 'admins',
-  theLabContactEmail: 'admin@thelab.org.au',
-  theLabHome: 'http://thelab.org.au/',
+  contactEmail: 'rabblerouserproject@gmail.com',
+  homePage: 'https://rabblerouser.team/',
 };
 
 export const ApplicationForm = {
   instructions: 'Please fill in the following information and we\'ll let you know when space becomes available at ' +
-    'your preferred Lab.',
+    'your preferred branch.',
   branchPlaceholder: 'Select branch',
   byoReminder: 'Please be aware that members will need to bring their own laptop.',
   ageReminder: 'Please note that our target age is between 10 and 16 years',
@@ -20,14 +19,14 @@ export const ApplicationForm = {
   submitButton: 'Submit',
   validationErrorTitle: 'Please check the following fields:',
   remoteSubmitErrorTitle: 'Sorry, we could not register you this time. Please try again, or contact us at ' +
-  `${Resources.theLabContactEmail}`,
-  remoteLabListErrorTitle: 'Sorry, we could not get the list of available branches at this time. Please try again, ' +
-  `or contact us at ${Resources.theLabContactEmail}`,
+  `${Resources.contactEmail}`,
+  branchListErrorTitle: 'Sorry, we could not get the list of available branches at this time. Please try again, ' +
+  `or contact us at ${Resources.contactEmail}`,
 };
 
 export const AdminDashboard = {
   RemoteSaveErrorMessage: 'Sorry, there was an issue saving the change. Please try again or contact ' +
-  `${Resources.theLabContactEmail} for support.`,
+  `${Resources.contactEmail} for support.`,
 };
 
 export const ApplicationFormFieldLabels = {
@@ -47,7 +46,7 @@ export const ApplicationFormFieldLabels = {
   name: 'Name',
   password: 'Password',
   confirmedPassword: 'Confirm password',
-  notes: 'Lab notes',
+  notes: 'Branch notes',
   contact: 'Contact information',
 };
 
