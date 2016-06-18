@@ -109,6 +109,7 @@ The following sections assume that you've done the first time setup above.
 3. Goto #1
 
 **Manual testing workflow:**
+
 1. From the root directory: `npm build && npm start`
 2. Make your changes
 3. Point your browser at `http://localhost:3000`
@@ -116,11 +117,13 @@ The following sections assume that you've done the first time setup above.
 
 ### I want to work on the frontend (javascript or styles)
 **Automated testing workflow:**
+
 1. Make your changes
 2. From the frontend directory: `npm test`
 3. Goto #1
 
 **Manual testing workflow:**
+
 1. From the backend directory: `npm start`
 2. From the frontend directory: `npm start`
 3. Make your changes
