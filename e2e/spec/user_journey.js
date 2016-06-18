@@ -5,10 +5,10 @@ import { startAtRegister,
   enterContactName,
   enterContactLastName,
   enterContactNumber,
-  enterParticipantName,
-  enterParticipantLastName,
+  enterMemberName,
+  enterMemberLastName,
   enterContactEmail,
-  enterParticipantBirthYear,
+  enterMemberBirthYear,
   enterAdditionalInfo,
   selectSchoolType,
   enterOtherSchool,
@@ -30,10 +30,10 @@ function fillValidForm() {
   .then(() => enterContactName('Connor'))
   .then(() => enterContactLastName('Melbourne'))
   .then(() => enterContactNumber('01010101010'))
-  .then(() => enterParticipantName('Winston'))
-  .then(() => enterParticipantLastName('Sydney'))
+  .then(() => enterMemberName('Winston'))
+  .then(() => enterMemberLastName('Sydney'))
   .then(() => enterContactEmail('qoku@gmail.com'))
-  .then(() => enterParticipantBirthYear('1990'))
+  .then(() => enterMemberBirthYear('1990'))
   .then(() => selectSchoolType('Other'))
   .then(() => enterOtherSchool('Home school'))
   .then(() => enterAdditionalInfo('More text'));

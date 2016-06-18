@@ -24,7 +24,7 @@ export default class EditMemberModalLauncher extends Component {
         <button className="edit" onClick={this.launchEditForm.bind(this)}><span>Edit groups</span></button>
         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm.bind(this)} style={customStyle}>
           <EditMemberForm
-            participant={this.props.participant}
+            member={this.props.member}
             onSave={this.props.onSave}
             onSuccess={this.closeEditForm.bind(this)}
           />

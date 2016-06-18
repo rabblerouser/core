@@ -74,54 +74,54 @@ const NewMemberFields = props => {
       />
 
       <fieldset className="field-pair">
-        <legend>Participant name</legend>
+        <legend>Member name</legend>
         <div className="sub-field">
           <FormFieldLabel
-            fieldName="participantName"
+            fieldName="memberName"
             isOptional={false}
-            hasError={isValidationError('participantName')}
+            hasError={isValidationError('memberName')}
           />
           <input
             type="text"
-            defaultValue={props.formValues.participantName}
-            onChange={props.onChange('participantName')}
-            id="participantName" className="participantName"
+            defaultValue={props.formValues.memberName}
+            onChange={props.onChange('memberName')}
+            id="memberName" className="memberName"
           />
         </div>
         <div className="sub-field">
           <FormFieldLabel
-            fieldName="participantLastName"
+            fieldName="memberLastName"
             isOptional={false}
-            hasError={isValidationError('participantLastName')}
+            hasError={isValidationError('memberLastName')}
           />
           <input
             type="text"
-            defaultValue={props.formValues.participantLastName}
-            onChange={props.onChange('participantLastName')}
-            id="participantLastName" className="participantLastName"
+            defaultValue={props.formValues.memberLastName}
+            onChange={props.onChange('memberLastName')}
+            id="memberLastName" className="memberLastName"
           />
         </div>
       </fieldset>
 
       <FormFieldLabel
-        fieldName="participantBirthYear"
+        fieldName="memberBirthYear"
         isOptional={false}
-        hasError={isValidationError('participantBirthYear')}
+        hasError={isValidationError('memberBirthYear')}
       />
       <aside>{Strings.ageReminder}</aside>
       <input
         type="number"
-        defaultValue={props.formValues.participantBirthYear}
-        onChange={props.onChange('participantBirthYear')}
+        defaultValue={props.formValues.memberBirthYear}
+        onChange={props.onChange('memberBirthYear')}
         placeholder="YYYY"
         min="1980"
         max="2016"
-        id="participantBirthYear"
-        className="participantBirthYear"
+        id="memberBirthYear"
+        className="memberBirthYear"
       />
 
       <fieldset>
-        <legend>What type of school does the participant attend?</legend>
+        <legend>What type of school does the member attend?</legend>
         <InlineError
           errorFor={isValidationError('schoolType') || isValidationError('schoolTypeOtherText') ? 'schoolType' : ''}
         />

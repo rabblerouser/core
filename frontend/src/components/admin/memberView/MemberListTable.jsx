@@ -4,7 +4,7 @@ import EditMemberModalLauncher from './EditMemberModalLauncher.jsx';
 import moment from 'moment';
 
 const columns = [
-  { type: 'name', field: 'participantName', label: 'Participant name' },
+  { type: 'name', field: 'memberName', label: 'Member name' },
   { type: 'name', field: 'contactFirstName', label: 'Contact name' },
   { type: 'name', field: 'contactNumber', label: 'Contact information' },
   { type: 'name', field: 'memberSince', label: 'Date applied' },
@@ -16,8 +16,8 @@ function nullToBlank(input) {
   return input === null ? '' : input;
 }
 
-const mapFields = ({ participantName,
-  participantLastName,
+const mapFields = ({ memberName,
+  memberLastName,
   contactName,
   contactLastName,
   contactNumber,
@@ -25,33 +25,33 @@ const mapFields = ({ participantName,
   memberSince,
   pastoralNotes }) => (
   {
-    participantName: `${participantName} ${nullToBlank(participantLastName)}`,
+    memberName: `${memberName} ${nullToBlank(memberLastName)}`,
     contactFirstName: `${contactName} ${nullToBlank(contactLastName)}`,
     contactNumber: `${contactNumber}\n${contactEmail}`,
     memberSince: moment(memberSince).format('YYYY/MM/DD'),
     pastoralNotes,
   }
 );
-const mapActions = (participant, onSaveMember, allGroups) => [
+const mapActions = (member, onSaveMember, allGroups) => [
   <EditMemberModalLauncher
-    key={`${participant.id}-edit`}
-    participant={Object.assign({}, participant, { allGroups })} onSave={onSaveMember}
+    key={`${member.id}-edit`}
+    member={Object.assign({}, member, { allGroups })} onSave={onSaveMember}
   />,
 ];
 
-const ParticipantListTable = ({ participants, onSaveMember, groups }) =>
+const MemberListTable = ({ members, onSaveMember, groups }) =>
   <SortedTable
     columns={columns}
-    data={participants.map(participant =>
-      Object.assign({}, mapFields(participant), { actions: mapActions(participant, onSaveMember, groups) })
+    data={members.map(member =>
+      Object.assign({}, mapFields(member), { actions: mapActions(member, onSaveMember, groups) })
     )}
-    sortOn="participantName"
+    sortOn="memberName"
   />;
 
-export default ParticipantListTable;
+export default MemberListTable;
 
-ParticipantListTable.propTypes = {
-  participants: React.PropTypes.array,
+MemberListTable.propTypes = {
+  members: React.PropTypes.array,
   groups: React.PropTypes.array,
   onSaveMember: React.PropTypes.func.isRequired,
 };

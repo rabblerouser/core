@@ -1,7 +1,7 @@
 import moment from 'moment';
 import Q from 'q';
 import ajax from './ajax';
-import participantAdapter from '../adapters/participantAdapter.js';
+import memberAdapter from '../adapters/memberAdapter.js';
 
 const handleResponseError = error => {
   switch (error.status) {
@@ -20,10 +20,10 @@ const adaptMember = member => {
     contactLastName: member.contactLastName,
     schoolType: member.schoolType,
     branchId: member.branchId,
-    firstName: member.participantName,
-    lastName: member.participantLastName,
+    firstName: member.memberName,
+    lastName: member.memberLastName,
     email: member.contactEmail,
-    dateOfBirth: moment(member.participantBirthYear).format('DD/MM/YYYY'),
+    dateOfBirth: moment(member.memberBirthYear).format('DD/MM/YYYY'),
     primaryPhoneNumber: member.contactNumber,
     secondaryPhoneNumber: member.secondaryPhoneNumber,
     gender: member.gender,
@@ -63,7 +63,7 @@ const update = (member, branchId) => (
     data: adaptMember(member),
   }))
     .catch(handleResponseError)
-    .then(participantAdapter.parseParticipant)
+    .then(memberAdapter.parseMember)
 );
 
 export default { update };

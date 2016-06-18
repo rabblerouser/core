@@ -12,7 +12,7 @@ describe('GroupList', () => {
 
   it('renders all aprticipants as a default option', () => {
     const rendered = shallow(<GroupsList groups={sampleGroups} />);
-    expect(rendered.text()).toContain('All participants');
+    expect(rendered.text()).toContain('All members');
   });
 
   it('renders the groups as options', () => {

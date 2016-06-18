@@ -12,10 +12,10 @@ export default ({ groups, onSelect }) => {
   return (
     <div className="select">
       <span className="arr"></span>
-      <select id="groups" defaultValue="All participants" onChange={selectGroup}>
+      <select id="groups" defaultValue="All members" onChange={selectGroup}>
         <option value="unassigned">Unassigned</option>
         {groupEntries}
-        <option value="all">All participants</option>
+        <option value="all">All members</option>
       </select>
     </div>
   );

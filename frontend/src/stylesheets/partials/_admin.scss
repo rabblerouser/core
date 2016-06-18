@@ -285,7 +285,7 @@ header.details-header {
 
         }
     }
-    #branchDetails, #organisers, #participant-list {
+    #branchDetails, #organisers, #member-list {
         padding-bottom: 15px;
         border-bottom: 1px dotted #ccc;
 
@@ -408,7 +408,7 @@ header.details-header {
             padding-bottom: 10px;
         }
     }
-    #participant-list th.name, #participant-list td:nth-of-type(1), #participant-list td:nth-of-type(2) {
+    #member-list th.name, #member-list td:nth-of-type(1), #member-list td:nth-of-type(2) {
         width: 15%;
         @include media($tablet) {
             width: 15%;
@@ -417,7 +417,7 @@ header.details-header {
             width: auto;
         }
     }
-    #participant-list th.contact, #participant-list td:nth-of-type(3) {
+    #member-list th.contact, #member-list td:nth-of-type(3) {
         width: 15%;
         @include media($tablet) {
             width: 25%;

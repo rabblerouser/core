@@ -10,11 +10,11 @@ describe('Details step', () => {
     contactName: '',
     contactEmail: '',
     contactNumber: '',
-    participantName: '',
-    participantBirthYear: '',
+    memberName: '',
+    memberBirthYear: '',
     schoolType: '',
     contactLastName: '',
-    participantLastName: '',
+    memberLastName: '',
     additionalInfo: '',
   };
 
@@ -23,7 +23,7 @@ describe('Details step', () => {
   });
 
   it('should show list of invalid fields if the details entered were invalid', () => {
-    const expectedErrors = 'Contact first nameEmail addressContact numberParticipant first nameParticipant\'s year ' +
+    const expectedErrors = 'Contact first nameEmail addressContact numberMember first nameMember\'s year ' +
       'of birthBranch to joinSchool type';
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
@@ -60,15 +60,15 @@ describe('Details step', () => {
     expect(errorText).toMatch(/Please enter a valid email address i.e. valid@email.com/);
   });
 
-  it('should show participant name error message if it was not filled in', () => {
+  it('should show member name error message if it was not filled in', () => {
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
     const errorText = ReactDOM.findDOMNode(errors[5]).textContent;
-    expect(errorText).toMatch(/Please enter the participant's name. No symbols allowed./);
+    expect(errorText).toMatch(/Please enter the member's name. No symbols allowed./);
   });
 
-  it('should show participant birth year error message if it was not filled in', () => {
+  it('should show member birth year error message if it was not filled in', () => {
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');

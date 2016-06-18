@@ -8,11 +8,11 @@ import { startAtLogin,
   enterGroupDescription,
   enterBranchName,
   enterBranchContact,
-  enterParticipantName,
+  enterMemberName,
   selectBranch,
   selectGroup,
   clickEditOrganiser,
-  clickEditParticipant,
+  clickEditMember,
   clickEditAdmin,
   clickEditCurrentGroup,
   clickEditBranch,
@@ -169,21 +169,21 @@ const adminCanEditAGroup = {
   },
 };
 
-function editParticipant() {
-  return enterParticipantName('A changed name')
+function editMember() {
+  return enterMemberName('A changed name')
     .then(clickSave);
 }
 
-const adminCanEditAParticipant = {
-  description: 'As an admin I should be able to edit a participant',
+const adminCanEditAMember = {
+  description: 'As an admin I should be able to edit a member',
   testRun: () => {
     adminLogin()
     .then(() => waitForGroupOption('A group with member'))
     .then(() => selectGroup('A group with member'))
     .then(() => waitForExisting('A name'))
-    .then(clickEditParticipant)
+    .then(clickEditMember)
     .then(clickDetailsTab)
-    .then(editParticipant)
+    .then(editMember)
     .then(() => waitForExisting('A changed name'));
   },
 };
@@ -227,7 +227,7 @@ export default [
   adminCanEditAnOrganiser,
   adminCanAddAGroup,
   adminCanEditAGroup,
-  adminCanEditAParticipant,
+  adminCanEditAMember,
   adminCanAddABranch,
   adminCanEditABranch,
   adminCanAddAnAdmin,

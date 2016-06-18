@@ -1,7 +1,7 @@
 import React from 'react';
 
-const GroupCheckboxes = ({ participantGroups, groupOptions, onChange }) => {
-  const isSelected = testGroup => participantGroups.includes(testGroup.id);
+const GroupCheckboxes = ({ memberGroups, groupOptions, onChange }) => {
+  const isSelected = testGroup => memberGroups.includes(testGroup.id);
 
   const groupOptionInputs = groupOptions.map(group => (
     <div key={group.id}>
@@ -24,7 +24,7 @@ const GroupCheckboxes = ({ participantGroups, groupOptions, onChange }) => {
 };
 
 GroupCheckboxes.propTypes = {
-  participantGroups: React.PropTypes.array,
+  memberGroups: React.PropTypes.array,
   groupOptions: React.PropTypes.array,
   onChange: React.PropTypes.func,
 };

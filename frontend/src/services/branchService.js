@@ -3,7 +3,7 @@ import ajax from './ajax';
 import { Resources } from '../config/strings';
 import groupAdapter from '../adapters/groupAdapter.js';
 import branchAdapter from '../adapters/branchAdapter.js';
-import participantAdapter from '../adapters/participantAdapter.js';
+import memberAdapter from '../adapters/memberAdapter.js';
 import adminAdapter from '../adapters/adminAdapter.js';
 
 const handleResponseError = error => {
@@ -59,7 +59,7 @@ const getBranchMembers = branchId => (
     url: `/${Resources.labListEndPoint}/${branchId}/members`,
     dataType: 'json',
   }))
-    .then(participantAdapter.parseParticipants)
+    .then(memberAdapter.parseMembers)
     .catch(handleResponseError)
 );
 

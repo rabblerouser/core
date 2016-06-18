@@ -427,7 +427,7 @@ describe('branchService', () => {
   });
 
   describe('getBranchMembers', () => {
-    const validParticipantsPayload = [{
+    const validMembersPayload = [{
       id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
       firstName: 'Jo jo',
       lastName: 'The 3rd',
@@ -446,13 +446,13 @@ describe('branchService', () => {
 
     const validResult = [{
       id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-      participantName: 'Jo jo',
-      participantLastName: 'The 3rd',
+      memberName: 'Jo jo',
+      memberLastName: 'The 3rd',
       contactName: 'Jo',
       contactLastName: 'The 2nd',
       contactNumber: '101010010',
       contactEmail: 'jo@jo.com',
-      participantBirthYear: '1990',
+      memberBirthYear: '1990',
       schoolType: 'Primary',
       memberSince: '2016-03-08T22:34:23.721Z',
       pastoralNotes: 'Some pastoral notes',
@@ -461,17 +461,17 @@ describe('branchService', () => {
       branchId: '1234',
     }];
 
-    describe('when the participants are retrieved in a valid format', () => {
+    describe('when the members are retrieved in a valid format', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches/112-11-21-2/members',
           [200, { 'Content-Type': 'application/json' },
-            JSON.stringify({ members: validParticipantsPayload })]);
+            JSON.stringify({ members: validMembersPayload })]);
       });
 
-      it('should return a list of the participants for the branch', done => {
+      it('should return a list of the members for the branch', done => {
         branchService.getBranchMembers('112-11-21-2')
-          .then(participants => {
-            expect(participants).toEqual(validResult);
+          .then(members => {
+            expect(members).toEqual(validResult);
           })
           .then(done, done.fail);
       });
@@ -490,7 +490,7 @@ describe('branchService', () => {
       });
     });
 
-    describe('when the participants are retrieved in an invalid format', () => {
+    describe('when the members are retrieved in an invalid format', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches/112-11-21-2/members',
           [200, { 'Content-Type': 'application/json' },
@@ -509,7 +509,7 @@ describe('branchService', () => {
       });
     });
 
-    describe('when the remote participants are 404 not found', () => {
+    describe('when the remote members are 404 not found', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches/112-11-21-2/members', [404, {}, '']);
       });
@@ -526,7 +526,7 @@ describe('branchService', () => {
       });
     });
 
-    describe('when the remote participants are 401 unauthorised', () => {
+    describe('when the remote members are 401 unauthorised', () => {
       beforeEach(() => {
         server.respondWith('GET', '/branches/112-11-21-2/members', [401, {}, '']);
       });

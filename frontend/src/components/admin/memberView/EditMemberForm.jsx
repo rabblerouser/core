@@ -8,20 +8,20 @@ export default class EditMemberForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.participant.id,
+      id: props.member.id,
       invalidFields: [],
       selectedSection: '',
       userMessages: [],
       pageErrors: [],
-      fieldValues: this.mapParticipantToFields(props.participant),
+      fieldValues: this.mapMemberToFields(props.member),
     };
   }
 
-  mapParticipantToFields(participant) {
-    if (participant.schoolType === 'Primary' || participant.schoolType === 'Secondary') {
-      return Object.assign({}, participant);
+  mapMemberToFields(member) {
+    if (member.schoolType === 'Primary' || member.schoolType === 'Secondary') {
+      return Object.assign({}, member);
     }
-    return Object.assign({}, participant, { schoolTypeOtherText: participant.schoolType, schoolType: 'Other' });
+    return Object.assign({}, member, { schoolTypeOtherText: member.schoolType, schoolType: 'Other' });
   }
 
   getGroupDetails() {
@@ -42,7 +42,7 @@ export default class EditMemberForm extends Component {
   saveChanges() {
     const member = Object.assign(
       {},
-      this.props.participant,
+      this.props.member,
       this.state.fieldValues, { schoolType: this.getSchoolType(this.state.fieldValues) }
     );
     const errors = memberValidator.isValid(member);
@@ -94,7 +94,7 @@ export default class EditMemberForm extends Component {
       <section className="form-container">
         <header className="details-header">
           <span className="title">
-            {`${this.props.participant.participantName} ${this.props.participant.participantLastName}`}
+            {`${this.props.member.memberName} ${this.props.member.memberLastName}`}
           </span>
           <span className="actions"><button className="save" onClick={this.saveChanges.bind(this)}>Save</button></span>
         </header>
@@ -105,7 +105,7 @@ export default class EditMemberForm extends Component {
         <EditMemberFields
           onChange={this.onChange.bind(this)}
           invalidFields={this.state.invalidFields}
-          groups={this.props.participant.allGroups}
+          groups={this.props.member.allGroups}
           formValues={this.state.fieldValues}
           selectedSection={this.state.selectedSection}
           onSelectSection={this.onSelect.bind(this)}

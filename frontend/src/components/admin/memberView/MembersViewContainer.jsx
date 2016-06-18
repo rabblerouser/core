@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import FilteredParticipantsList from './FilteredParticipantsList.jsx';
+import FilteredMembersList from './FilteredMembersList.jsx';
 import branchService from '../../../services/branchService.js';
 import memberService from '../../../services/memberService.js';
 
-export default class ParticipantsViewContainer extends Component {
+export default class MembersViewContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      participants: [],
+      members: [],
       onSave: member => {
         this.props.onPreAction();
         memberService.update(member, this.props.branchId)
-          .then(savedParticipant => {
-            this.update(this.state.participants, savedParticipant);
-            this.props.onActionSuccess('Participant saved');
+          .then(savedMember => {
+            this.update(this.state.members, savedMember);
+            this.props.onActionSuccess('Member saved');
           })
           .catch(this.props.onActionError);
       },
@@ -29,7 +29,7 @@ export default class ParticipantsViewContainer extends Component {
     } else {
       newElements.push(element);
     }
-    this.setState({ participants: newElements });
+    this.setState({ members: newElements });
   }
 
   updateIfGroupRemoved(oldGroups, newGroups) {
@@ -38,13 +38,13 @@ export default class ParticipantsViewContainer extends Component {
     }
     const removedGroup = _.difference(oldGroups, newGroups)[0];
 
-    const updatedParticipants = this.state.participants.map(participant => {
+    const updatedMembers = this.state.members.map(member => {
       /* eslint no-param-reassign: "warn"*/
       // TODO: Don't mutate here, and remove eslint config above!
-      participant.groups = _.reject(participant.groups, group => group === removedGroup.id);
-      return participant;
+      member.groups = _.reject(member.groups, group => group === removedGroup.id);
+      return member;
     });
-    this.setState({ participants: updatedParticipants });
+    this.setState({ members: updatedMembers });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,8 +52,8 @@ export default class ParticipantsViewContainer extends Component {
 
     if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
       branchService.getBranchMembers(nextProps.branchId)
-        .then(participants => {
-          this.setState({ participants });
+        .then(members => {
+          this.setState({ members });
         });
     }
   }
@@ -67,20 +67,20 @@ export default class ParticipantsViewContainer extends Component {
 
   render() {
     return (
-      <section className="admin-section" id="participant-list">
-        <FilteredParticipantsList
+      <section className="admin-section" id="member-list">
+        <FilteredMembersList
           groupFilter={this.props.selectedGroupId}
           groups={this.props.groups}
-          participants={this.state.participants}
-          onSaveParticipant={this.state.onSave}
+          members={this.state.members}
+          onSaveMember={this.state.onSave}
         />
-      {this.state.participants.length === 0 && <aside className="no-entries">No entries found</aside>}
+      {this.state.members.length === 0 && <aside className="no-entries">No entries found</aside>}
       </section>
     );
   }
 }
 
-ParticipantsViewContainer.propTypes = {
+MembersViewContainer.propTypes = {
   selectedGroupId: React.PropTypes.string,
   groups: React.PropTypes.array,
   onPreAction: React.PropTypes.func,

@@ -14,7 +14,7 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
   sections.groups = (
     <section>
       <FormFieldLabel fieldName="groups" isOptional={false} hasError={isValidationError('groups')} />
-      <GroupCheckboxes onChange={onChange('groups')} groupOptions={groups} participantGroups={formValues.groups} />
+      <GroupCheckboxes onChange={onChange('groups')} groupOptions={groups} memberGroups={formValues.groups} />
     </section>
   );
 
@@ -82,49 +82,49 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
       />
 
       <fieldset className="field-pair">
-        <legend>Participant name</legend>
+        <legend>Member name</legend>
         <div className="sub-field">
           <FormFieldLabel
-            fieldName="participantName"
+            fieldName="memberName"
             isOptional={false}
-            hasError={isValidationError('participantName')}
+            hasError={isValidationError('memberName')}
           />
           <input
             type="text"
-            defaultValue={formValues.participantName}
-            onChange={onChange('participantName')}
-            id="participantName" className="participantName"
+            defaultValue={formValues.memberName}
+            onChange={onChange('memberName')}
+            id="memberName" className="memberName"
           />
         </div>
         <div className="sub-field">
           <FormFieldLabel
-            fieldName="participantLastName"
+            fieldName="memberLastName"
             isOptional={false}
-            hasError={isValidationError('participantLastName')}
+            hasError={isValidationError('memberLastName')}
           />
           <input
             type="text"
-            defaultValue={formValues.participantLastName}
-            onChange={onChange('participantLastName')}
-            id="participantLastName" className="participantLastName"
+            defaultValue={formValues.memberLastName}
+            onChange={onChange('memberLastName')}
+            id="memberLastName" className="memberLastName"
           />
         </div>
       </fieldset>
 
       <FormFieldLabel
-        fieldName="participantBirthYear"
+        fieldName="memberBirthYear"
         isOptional={false}
-        hasError={isValidationError('participantBirthYear')}
+        hasError={isValidationError('memberBirthYear')}
       />
       <input
         type="number"
-        defaultValue={formValues.participantBirthYear}
-        onChange={onChange('participantBirthYear')}
+        defaultValue={formValues.memberBirthYear}
+        onChange={onChange('memberBirthYear')}
         placeholder="YYYY"
         min="1980"
         max="2016"
-        id="participantBirthYear"
-        className="participantBirthYear"
+        id="memberBirthYear"
+        className="memberBirthYear"
       />
 
       <fieldset>

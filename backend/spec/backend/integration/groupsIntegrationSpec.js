@@ -121,7 +121,7 @@ describe('Groups Integration Test', () => {
                 .then(done, done.fail);
         });
 
-        it('should return a 200 when a group with participants is deleted', (done) => {
+        it('should return a 200 when a group with members is deleted', (done) => {
             integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.createMembers(agent, 2))

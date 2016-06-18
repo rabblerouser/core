@@ -3,7 +3,7 @@ import _ from 'lodash';
 import GroupsView from './GroupsView.jsx';
 import branchService from '../../../services/branchService.js';
 import groupService from '../../../services/groupService.js';
-import ParticipantsViewContainer from '../participantView/ParticipantsViewContainer.jsx';
+import MembersViewContainer from '../memberView/MembersViewContainer.jsx';
 
 export default class GroupsViewContainer extends Component {
 
@@ -94,7 +94,7 @@ export default class GroupsViewContainer extends Component {
           onDeleteGroup={this.state.onDelete}
           onSelectGroup={this.state.onSelect}
         />
-        <ParticipantsViewContainer
+        <MembersViewContainer
           selectedGroupId={this.state.selectedGroupId}
           groups={this.state.groups}
           onPreAction={this.props.onPreAction}
