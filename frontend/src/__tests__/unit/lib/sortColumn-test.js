@@ -1,24 +1,20 @@
 import sortColumn from '../../../lib/sortColumn';
-import { sortByOrder } from 'lodash';
 
 describe('sortColumn', () => {
+  const columns = [{ field: 'toSort' }, { field: 'toLeave' }];
+
   it('sorts case-insensitively', () => {
-    const data = [
-      { name: 'crep' },
-      { name: 'Bllop' },
-      { name: 'Dart' },
-    ];
-    expect(sortColumn.sort(data, { property: 'name', sort: 'asc' }, sortByOrder))
-      .toEqual([{ name: 'Bllop' }, { name: 'crep' }, { name: 'Dart' }]);
+    const sorted = sortColumn('toSort', columns, [{ toSort: 'B' }, { toSort: 'a' }, { toSort: 'c' }]);
+    expect(sorted.data).toEqual([{ toSort: 'a' }, { toSort: 'B' }, { toSort: 'c' }]);
   });
 
-  it('maintains header classes after sort', () => {
-    const columns = [{
-      property: 'name',
-      headerClass: 'foo',
-    }];
-    sortColumn(columns, columns[0], () => {
-      expect(columns[0].headerClass).toContain('foo');
-    });
+  it('sets the direction on the columns', () => {
+    const sorted = sortColumn('toSort', columns, [{ toSort: 'B' }, { toSort: 'a' }, { toSort: 'c' }]);
+    expect(sorted.columns).toEqual([{ field: 'toSort', direction: 'asc' }, { field: 'toLeave', direction: 'none' }]);
+  });
+
+  it('should return the data unchanged if the field isn\'t present', () => {
+    const sorted = sortColumn('unknown', columns, [{ toSort: 'B' }, { toSort: 'a' }, { toSort: 'c' }]);
+    expect(sorted.data).toEqual([{ toSort: 'B' }, { toSort: 'a' }, { toSort: 'c' }]);
   });
 });

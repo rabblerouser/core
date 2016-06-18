@@ -1,38 +1,21 @@
-import { isString } from 'lodash';
+import { findWhere, sortByOrder, isString } from 'lodash';
 
-const sortColumn = (columns, column, done) => {
-  // reset old classes
-  columns.forEach(col => {
-    /* eslint no-param-reassign: "warn"*/
-    // TODO: Don't mutate here, and remove eslint config above!
-    col.headerClass = col.headerClass.replace('sort-asc', '');
-    col.headerClass = col.headerClass.replace('sort-desc', '');
-  });
+const SORT = { none: 'none', asc: 'asc', desc: 'desc' };
+const setDirection = curr => (curr === SORT.asc ? SORT.desc : SORT.asc);
 
-  column.sort = column.sort === 'asc' ? 'desc' : 'asc';
+function caseInsensitive(field) {
+  return d => (isString(d[field]) ? d[field].toLowerCase() : d[field]);
+}
 
-  // push sorting hint
-  column.headerClass += ` sort-${column.sort}`;
+const sortColumn = (field, columns, data) => {
+  const updatedColumns = columns.map(c =>
+    Object.assign({}, c, { direction: c.field === field ? setDirection(c.direction) : SORT.none })
+  );
+  const sortedColumn = findWhere(updatedColumns, { field });
+  const direction = !!sortedColumn && sortedColumn.direction === SORT.desc ? 'desc' : 'asc';
+  const sorted = sortByOrder(data, caseInsensitive(field), direction);
 
-  done({
-    sortingColumn: column,
-    columns,
-  });
-};
-
-// sorter === lodash sortByOrder
-// https://lodash.com/docs#sortByOrder
-sortColumn.sort = (data, column, sorter) => {
-  if (!column) {
-    return data;
-  }
-
-  const sortFn = row => {
-    const value = row[column.property];
-    return isString(value) ? value.toLowerCase() : value;
-  };
-
-  return sorter(data, [sortFn], [column.sort]);
+  return { columns: updatedColumns, data: sorted };
 };
 
 export default sortColumn;
