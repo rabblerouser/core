@@ -9,6 +9,8 @@ export default class EditGroupForm extends Component {
       invalidFields: [],
       fieldValues: this.props.branch,
     };
+    this.saveChanges = this.saveChanges.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   isValidationError(fieldName) {
@@ -40,10 +42,10 @@ export default class EditGroupForm extends Component {
       <section className="form-container">
         <header className="details-header">
           <span className="title">Edit branch</span>
-          <span className="actions"><button className="save" onClick={this.saveChanges.bind(this)}>Save</button></span>
+          <span className="actions"><button className="save" onClick={this.saveChanges}>Save</button></span>
         </header>
         <EditBranchFields
-          onChange={this.onChange.bind(this)}
+          onChange={this.onChange}
           invalidFields={this.state.invalidFields}
           formValues={this.state.fieldValues}
         />
@@ -51,3 +53,9 @@ export default class EditGroupForm extends Component {
     );
   }
 }
+
+EditGroupForm.propTypes = {
+  branch: React.PropTypes.object.isRequired,
+  onSuccess: React.PropTypes.func.isRequired,
+  onSave: React.PropTypes.func.isRequired,
+};

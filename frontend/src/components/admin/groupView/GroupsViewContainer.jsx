@@ -41,6 +41,22 @@ export default class GroupsViewContainer extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
+      branchService.getBranchGroups(nextProps.branchId)
+        .then(groups => {
+          this.setState({ groups });
+        });
+    }
+  }
+
+  getSelectedGroup() {
+    if (this.state.selectedGroupId === 'all' || this.state.selectedGroupId === 'unassigned') {
+      return null;
+    }
+    return this.state.groups.find(group => group.id === this.state.selectedGroupId);
+  }
+
   update(collection, element) {
     const newElements = collection.slice(0);
     const oldElement = newElements.find(g => g.id === element.id);
@@ -65,23 +81,6 @@ export default class GroupsViewContainer extends Component {
   removeAndUpdateGroups(collection, element) {
     this.removeAndUpdate(collection, element);
     this.setState({ selectedGroupId: 'unassigned' });
-  }
-
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
-      branchService.getBranchGroups(nextProps.branchId)
-        .then(groups => {
-          this.setState({ groups });
-        });
-    }
-  }
-
-  getSelectedGroup() {
-    if (this.state.selectedGroupId === 'all' || this.state.selectedGroupId === 'unassigned') {
-      return null;
-    }
-    return this.state.groups.find(group => group.id === this.state.selectedGroupId);
   }
 
   render() {

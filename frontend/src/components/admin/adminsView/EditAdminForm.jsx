@@ -11,10 +11,18 @@ export default class EditAdminForm extends Component {
       invalidFields: [],
       fieldValues: props.admin,
     };
+    this.saveChanges = this.saveChanges.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  isValidationError(fieldName) {
-    return this.state.invalidFields.includes(fieldName);
+  onChange(fieldName) {
+    const editAdminComponent = this;
+
+    return event => {
+      const newValue = { [fieldName]: event.target.value };
+      const newFieldValues = Object.assign({}, editAdminComponent.state.fieldValues, newValue);
+      editAdminComponent.setState({ fieldValues: newFieldValues });
+    };
   }
 
   isNewUser() {
@@ -47,14 +55,8 @@ export default class EditAdminForm extends Component {
     }
   }
 
-  onChange(fieldName) {
-    const editAdminComponent = this;
-
-    return event => {
-      const newValue = { [fieldName]: event.target.value };
-      const newFieldValues = Object.assign({}, editAdminComponent.state.fieldValues, newValue);
-      editAdminComponent.setState({ fieldValues: newFieldValues });
-    };
+  isValidationError(fieldName) {
+    return this.state.invalidFields.includes(fieldName);
   }
 
   render() {
@@ -65,11 +67,11 @@ export default class EditAdminForm extends Component {
             Edit details for {this.props.admin.email}
           </span>
           <span className="actions">
-            <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
+            <button className="save" onClick={this.saveChanges}>Save</button>
           </span>
         </header>
         <EditAdminFields
-          onChange={this.onChange.bind(this)}
+          onChange={this.onChange}
           invalidFields={this.state.invalidFields}
           formValues={this.state.fieldValues}
         />
@@ -77,3 +79,9 @@ export default class EditAdminForm extends Component {
     );
   }
 }
+
+EditAdminForm.propTypes = {
+  admin: React.PropTypes.object.isRequired,
+  onSuccess: React.PropTypes.func.isRequired,
+  onSave: React.PropTypes.func.isRequired,
+};

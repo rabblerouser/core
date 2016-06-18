@@ -31,6 +31,7 @@ const AdminHeader = props => {
 AdminHeader.propTypes = {
   branches: React.PropTypes.array,
   selectedBranch: React.PropTypes.object,
+  onSelectBranch: React.PropTypes.func.isRequired,
 };
 
 export default AdminHeader;

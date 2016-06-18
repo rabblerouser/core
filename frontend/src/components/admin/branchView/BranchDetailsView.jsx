@@ -17,6 +17,8 @@ const BranchDetailsView = ({ selectedBranch, onSaveBranch, onDeleteBranch }) => 
 
 BranchDetailsView.propTypes = {
   selectedBranch: React.PropTypes.object,
+  onSaveBranch: React.PropTypes.func,
+  onDeleteBranch: React.PropTypes.func,
 };
 
 export default BranchDetailsView;

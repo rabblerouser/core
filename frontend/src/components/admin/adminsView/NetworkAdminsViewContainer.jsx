@@ -32,6 +32,11 @@ export default class NetworkAdminsViewContainer extends Component {
     };
   }
 
+  componentDidMount() {
+    adminService.getNetworkAdmins()
+      .then(admins => this.setState({ admins }));
+  }
+
   updateAdmins(collection, element) {
     const newElements = collection.slice(0);
     const oldElement = newElements.find(g => g.id === element.id);
@@ -41,11 +46,6 @@ export default class NetworkAdminsViewContainer extends Component {
       newElements.push(element);
     }
     this.setState({ admins: newElements });
-  }
-
-  componentDidMount() {
-    adminService.getNetworkAdmins()
-      .then(admins => this.setState({ admins }));
   }
 
   render() {

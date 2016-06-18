@@ -45,6 +45,23 @@ export default class NetworkAdminDashboard extends Component {
           .catch(this.handleError.bind(this));
       },
     };
+    this.clearMessages = this.clearMessages.bind(this);
+    this.handleError = this.handleError.bind(this);
+    this.setUserMessage = this.setUserMessage.bind(this);
+  }
+
+  componentDidMount() {
+    branchService.getMyBranches()
+      .then(branches => {
+        this.setState({ branches });
+        this.updateBranchSelection(branches[0]);
+      });
+  }
+
+  setUserMessage(message) {
+    const userMessages = this.state.userMessages.slice(0);
+    userMessages.push(message);
+    this.setState({ userMessages });
   }
 
   clearMessages() {
@@ -56,12 +73,6 @@ export default class NetworkAdminDashboard extends Component {
     const pageErrors = this.state.pageErrors.slice(0);
     pageErrors.push(Strings.RemoteSaveErrorMessage);
     this.setState({ pageErrors });
-  }
-
-  setUserMessage(message) {
-    const userMessages = this.state.userMessages.slice(0);
-    userMessages.push(message);
-    this.setState({ userMessages });
   }
 
   updateBranches(branches, savedBranch) {
@@ -84,14 +95,6 @@ export default class NetworkAdminDashboard extends Component {
     const state = {};
     state[collectionName] = _.without(collection, oldElement);
     this.setState(state);
-  }
-
-  componentDidMount() {
-    branchService.getMyBranches()
-      .then(branches => {
-        this.setState({ branches });
-        this.updateBranchSelection(branches[0]);
-      });
   }
 
   updateBranchSelection(branch) {
@@ -117,20 +120,20 @@ export default class NetworkAdminDashboard extends Component {
         />
         <OrganisersViewContainer
           branchId={this.state.selectedBranch.id}
-          onPreAction={this.clearMessages.bind(this)}
-          onActionError={this.handleError.bind(this)}
-          onActionSuccess={this.setUserMessage.bind(this)}
+          onPreAction={this.clearMessages}
+          onActionError={this.handleError}
+          onActionSuccess={this.setUserMessage}
         />
         <GroupsViewContainer
           branchId={this.state.selectedBranch.id}
-          onPreAction={this.clearMessages.bind(this)}
-          onActionError={this.handleError.bind(this)}
-          onActionSuccess={this.setUserMessage.bind(this)}
+          onPreAction={this.clearMessages}
+          onActionError={this.handleError}
+          onActionSuccess={this.setUserMessage}
         />
         <NetworkAdminsViewContainer
-          onPreAction={this.clearMessages.bind(this)}
-          onActionError={this.handleError.bind(this)}
-          onActionSuccess={this.setUserMessage.bind(this)}
+          onPreAction={this.clearMessages}
+          onActionError={this.handleError}
+          onActionSuccess={this.setUserMessage}
         />
       </div>);
   }

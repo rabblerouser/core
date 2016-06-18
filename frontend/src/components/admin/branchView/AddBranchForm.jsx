@@ -9,20 +9,8 @@ export default class AddBranchForm extends Component {
       invalidFields: [],
       fieldValues: {},
     };
-  }
-
-  isValidationError(fieldName) {
-    return this.state.invalidFields.includes(fieldName);
-  }
-
-  saveChanges() {
-    const branch = Object.assign({}, this.state.fieldValues);
-    const errors = (branchValidator.isValid(branch));
-    this.setState({ invalidFields: errors });
-    if (errors.length === 0) {
-      this.props.onSuccess();
-      this.props.onSave(branch);
-    }
+    this.saveChanges = this.saveChanges.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   onChange(fieldName) {
@@ -35,6 +23,19 @@ export default class AddBranchForm extends Component {
     };
   }
 
+  isValidationError(fieldName) {
+    return this.state.invalidFields.includes(fieldName);
+  }
+
+  saveChanges() {
+    const branch = Object.assign({}, this.state.fieldValues);
+    const errors = (branchValidator.isValid(branch));
+    this.setState({ invalidFields: errors });
+    if (errors.length === 0) {
+      this.props.onSave(branch);
+    }
+  }
+
   render() {
     return (
       <section className="form-container">
@@ -43,11 +44,11 @@ export default class AddBranchForm extends Component {
             Add new branch
           </span>
           <span className="actions">
-            <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
+            <button className="save" onClick={this.saveChanges}>Save</button>
           </span>
         </header>
         <AddBranchFields
-          onChange={this.onChange.bind(this)}
+          onChange={this.onChange}
           invalidFields={this.state.invalidFields}
           formValues={this.state.fieldValues}
         />
@@ -55,3 +56,7 @@ export default class AddBranchForm extends Component {
     );
   }
 }
+
+AddBranchForm.propTypes = {
+  onSave: React.PropTypes.func.isRequired,
+};

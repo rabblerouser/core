@@ -33,6 +33,15 @@ export default class OrganiserViewContainer extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
+      branchService.getBranchAdmins(nextProps.branchId)
+        .then(admins => {
+          this.setState({ admins });
+        });
+    }
+  }
+
   updateAdmins(collection, element) {
     const newElements = collection.slice(0);
     const oldElement = newElements.find(g => g.id === element.id);
@@ -47,15 +56,6 @@ export default class OrganiserViewContainer extends Component {
   removeAndUpdate(collection, element) {
     const oldElement = collection.find(item => item.id === element.id);
     this.setState({ admins: _.without(collection, oldElement) });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
-      branchService.getBranchAdmins(nextProps.branchId)
-        .then(admins => {
-          this.setState({ admins });
-        });
-    }
   }
 
   render() {

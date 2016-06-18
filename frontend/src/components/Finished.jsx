@@ -17,4 +17,8 @@ const Finished = props => (
   </section>
 );
 
+Finished.propTypes = {
+  previousStep: React.PropTypes.func,
+};
+
 export default Finished;

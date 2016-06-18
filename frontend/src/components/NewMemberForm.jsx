@@ -40,6 +40,19 @@ export default class NewMemberForm extends Component {
     ReactDOM.findDOMNode(this).scrollIntoView();
   }
 
+  getForm() {
+    switch (this.state.step) {
+      case 1:
+        return (
+          <Details formValues={this.formValues} postAndContinue={this.postAndContinue} errors={this.state.errors} />
+        );
+      case 2:
+        return (<Finished email={this.formValues.email} nextStep={this.nextStep} />);
+      default:
+        return <div />;
+    }
+  }
+
   nextStep() {
     this.setState({ step: this.state.step + 1 });
   }
@@ -68,19 +81,6 @@ export default class NewMemberForm extends Component {
     });
   }
 
-  getForm() {
-    switch (this.state.step) {
-      case 1:
-        return (
-          <Details formValues={this.formValues} postAndContinue={this.postAndContinue} errors={this.state.errors} />
-        );
-      case 2:
-        return (<Finished email={this.formValues.email} nextStep={this.nextStep} />);
-      default:
-        return <div />;
-    }
-  }
-
   render() {
     return (
       <div>
@@ -90,3 +90,7 @@ export default class NewMemberForm extends Component {
     );
   }
 }
+
+NewMemberForm.propTypes = {
+  initialState: React.PropTypes.number,
+};
