@@ -857,30 +857,6 @@
         }
       }
     },
-    "node-neat": {
-      "version": "1.7.2",
-      "from": "node-neat@latest",
-      "resolved": "https://registry.npmjs.org/node-neat/-/node-neat-1.7.2.tgz",
-      "dependencies": {
-        "bourbon-neat": {
-          "version": "1.7.2",
-          "from": "bourbon-neat@1.7.2",
-          "resolved": "https://registry.npmjs.org/bourbon-neat/-/bourbon-neat-1.7.2.tgz"
-        },
-        "node-bourbon": {
-          "version": "4.2.8",
-          "from": "node-bourbon@>=4.2.3 <5.0.0",
-          "resolved": "https://registry.npmjs.org/node-bourbon/-/node-bourbon-4.2.8.tgz",
-          "dependencies": {
-            "bourbon": {
-              "version": "4.2.7",
-              "from": "bourbon@>=4.2.6 <5.0.0",
-              "resolved": "https://registry.npmjs.org/bourbon/-/bourbon-4.2.7.tgz"
-            }
-          }
-        }
-      }
-    },
     "node-uuid": {
       "version": "1.4.7",
       "from": "node-uuid@latest",
@@ -926,15 +902,15 @@
           "from": "https://registry.npmjs.org/socks/-/socks-1.1.9.tgz",
           "resolved": "https://registry.npmjs.org/socks/-/socks-1.1.9.tgz"
         },
-        "ip": {
-          "version": "1.1.2",
-          "from": "https://registry.npmjs.org/ip/-/ip-1.1.2.tgz",
-          "resolved": "https://registry.npmjs.org/ip/-/ip-1.1.2.tgz"
-        },
         "iconv-lite": {
           "version": "0.4.13",
           "from": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.13.tgz",
           "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.13.tgz"
+        },
+        "ip": {
+          "version": "1.1.2",
+          "from": "https://registry.npmjs.org/ip/-/ip-1.1.2.tgz",
+          "resolved": "https://registry.npmjs.org/ip/-/ip-1.1.2.tgz"
         },
         "libbase64": {
           "version": "0.1.0",
@@ -956,11 +932,6 @@
           "from": "https://registry.npmjs.org/smart-buffer/-/smart-buffer-1.0.4.tgz",
           "resolved": "https://registry.npmjs.org/smart-buffer/-/smart-buffer-1.0.4.tgz"
         },
-        "nodemailer-wellknown": {
-          "version": "0.1.8",
-          "from": "nodemailer-wellknown@0.1.8",
-          "resolved": "https://registry.npmjs.org/nodemailer-wellknown/-/nodemailer-wellknown-0.1.8.tgz"
-        },
         "addressparser": {
           "version": "1.0.1",
           "from": "addressparser@1.0.1",
@@ -975,6 +946,11 @@
           "version": "2.3.2",
           "from": "smtp-connection@2.3.2",
           "resolved": "https://registry.npmjs.org/smtp-connection/-/smtp-connection-2.3.2.tgz"
+        },
+        "nodemailer-wellknown": {
+          "version": "0.1.8",
+          "from": "nodemailer-wellknown@0.1.8",
+          "resolved": "https://registry.npmjs.org/nodemailer-wellknown/-/nodemailer-wellknown-0.1.8.tgz"
         }
       }
     },

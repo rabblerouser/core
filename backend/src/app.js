@@ -13,7 +13,6 @@ const helmet = require('helmet');
 const routes = require('./routes/index');
 const session = require('express-session');
 const passport = require('passport');
-const neat = require('node-neat');
 const app = express();
 const config = require('config');
 const SequelizeSessionStore = require('connect-session-sequelize')(session.Store);
