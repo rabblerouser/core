@@ -11,7 +11,6 @@ const bodyParser = require('body-parser');
 const expressSanitized = require('express-sanitized');
 const helmet = require('helmet');
 const routes = require('./routes/index');
-const sassMiddleware = require('node-sass-middleware');
 const session = require('express-session');
 const passport = require('passport');
 const neat = require('node-neat');
@@ -43,13 +42,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(sassMiddleware({
-  src: path.join(__dirname, '../public'),
-  dest: path.join(__dirname, '../public'),
-  debug: true,
-  outputStyle: 'compressed',
-  includePaths: neat.includePaths,
-}), express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', routes);
 

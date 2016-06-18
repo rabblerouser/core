@@ -45,7 +45,6 @@
     "moment": "^2.13.0",
     "morgan": "^1.7.0",
     "node-neat": "^1.7.2",
-    "node-sass-middleware": "^0.8.0",
     "node-uuid": "^1.4.7",
     "nodemailer": "^2.3.2",
     "nodemailer-sendmail-transport": "^1.0.0",
