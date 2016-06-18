@@ -109,7 +109,7 @@ The following sections assume that you've done the first time setup above.
 3. Goto #1
 
 **Manual testing workflow:**
-1. From the root directory: `npm start`
+1. From the root directory: `npm build && npm start`
 2. Make your changes
 3. Point your browser at `http://localhost:3000`
 4. Goto #2
