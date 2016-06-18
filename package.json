@@ -11,6 +11,8 @@
     "postinstall": "npm run build",
     "build": "npm --prefix frontend run build && bin/copy_assets.sh",
     "start": "npm --prefix backend start",
-    "test": "npm --prefix frontend run ci && npm --prefix backend run ci"
+    "test": "npm --prefix frontend run ci && npm --prefix backend run ci",
+    "e2e": "./bin/_run_e2e_tests.sh",
+    "precommit": "npm test && npm run e2e"
   }
 }

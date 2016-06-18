@@ -73,9 +73,17 @@ It will have a membership registration core and a set of plugins.
 
         npm test
 
+0. Run the e2e tests
+
+        npm run e2e
+
 0. Start the server
 
         npm start
+
+0. Precommit - runs tests and e2e
+
+        npm run precommit
 
 0. Verify that the app works - Point your browser at http://localhost:3000
 
