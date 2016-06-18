@@ -49,6 +49,10 @@ It will have a membership registration core and a set of plugins.
 
         git clone https://github.com/rabblerouser/rabblerouser-core.git
 
+0. Go to the project's folder
+
+        cd rabblerouser-core
+
 0. Start the Vagrant VM
 
         vagrant up && vagrant provision
