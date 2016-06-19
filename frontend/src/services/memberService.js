@@ -18,7 +18,6 @@ const adaptMember = member => {
     id: member.id,
     contactFirstName: member.contactName,
     contactLastName: member.contactLastName,
-    schoolType: member.schoolType,
     branchId: member.branchId,
     firstName: member.memberName,
     lastName: member.memberLastName,

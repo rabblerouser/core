@@ -22,7 +22,7 @@ Branch.create({ id: branchId, name: 'A branch' })
     contactFirstName: 'A name', contactLastName: 'surname',
     memberSince: new Date(), email: 'a@name.com', dateOfBirth: '01/01/1990', primaryPhoneNumber: '0',
     secondaryPhoneNumber: '1', residentialAddress: null, postalAddress: null, membershipType: 'full',
-    branchId, schoolType: 'Primary', additionalInfo: '' })
+    branchId, additionalInfo: '' })
 )
 .then(created => {
   group.addMember(created);

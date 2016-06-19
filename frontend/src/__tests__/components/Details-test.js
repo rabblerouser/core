@@ -12,7 +12,6 @@ describe('Details step', () => {
     contactNumber: '',
     memberName: '',
     memberBirthYear: '',
-    schoolType: '',
     contactLastName: '',
     memberLastName: '',
     additionalInfo: '',
@@ -24,7 +23,7 @@ describe('Details step', () => {
 
   it('should show list of invalid fields if the details entered were invalid', () => {
     const expectedErrors = 'Contact first nameEmail addressContact numberMember first nameMember\'s year ' +
-      'of birthBranch to joinSchool type';
+      'of birthBranch to join';
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
@@ -73,12 +72,5 @@ describe('Details step', () => {
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
     expect(ReactDOM.findDOMNode(errors[6]).textContent).toMatch(/Please select the year of birth./);
-  });
-
-  it('should show school type error message if it was not filled in', () => {
-    const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
-    TestUtils.Simulate.click(continueButton);
-    const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
-    expect(ReactDOM.findDOMNode(errors[7]).textContent).toMatch(/Please select a school type./);
   });
 });

@@ -115,7 +115,6 @@ function list(branchId) {
       'contactLastName',
       'dateOfBirth',
       'email',
-      'schoolType',
       'additionalInfo',
       'membershipType',
       'memberSince',

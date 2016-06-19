@@ -31,7 +31,6 @@ export default class NewMemberForm extends Component {
       memberName: '',
       memberLastName: '',
       memberBirthYear: '',
-      schoolType: '',
       additionalInfo: '',
     };
   }
@@ -69,7 +68,7 @@ export default class NewMemberForm extends Component {
   postAndContinue(fieldValues) {
     ajax({
       type: 'POST',
-      url: `/${Resources.applicationsEndPoint}`,
+      url: `/${Resources.registerEndPoint}`,
       data: fieldValues,
       success: value => {
         this.invoiceId = value.invoiceId;

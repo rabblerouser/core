@@ -1,7 +1,6 @@
 import React from 'react';
 import FormFieldLabel from './FormFieldLabel.jsx';
 import { ApplicationForm as Strings } from '../../config/strings.js';
-import InlineError from './InlineError.jsx';
 import _ from 'underscore';
 
 const NewMemberFields = props => {
@@ -119,50 +118,6 @@ const NewMemberFields = props => {
         id="memberBirthYear"
         className="memberBirthYear"
       />
-
-      <fieldset>
-        <legend>What type of school does the member attend?</legend>
-        <InlineError
-          errorFor={isValidationError('schoolType') || isValidationError('schoolTypeOtherText') ? 'schoolType' : ''}
-        />
-        <div>
-          <input
-            type="radio"
-            name="schoolType"
-            onClick={props.onChange('schoolType')}
-            id="schoolTypePrimary"
-            value="Primary"
-          />
-          <label htmlFor="schoolTypePrimary">Primary</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            name="schoolType"
-            onClick={props.onChange('schoolType')}
-            id="schoolTypeSecondary"
-            value="Secondary"
-          />
-          <label htmlFor="schoolTypeSecondary">Secondary</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            name="schoolType"
-            onClick={props.onChange('schoolType')}
-            id="schoolTypeOther"
-            value="Other"
-          />
-          <label htmlFor="schoolTypeOther">Other</label>
-          <input
-            type="text"
-            defaultValue={props.formValues.schoolType}
-            onChange={props.onChange('schoolTypeOtherText')}
-            id="schoolTypeOtherText"
-            className="other-field"
-          />
-        </div>
-      </fieldset>
 
       <FormFieldLabel fieldName="additionalInfo" isOptional hasError={isValidationError('additionalInfo')} />
       <aside>{Strings.additionalInfoAside}</aside>

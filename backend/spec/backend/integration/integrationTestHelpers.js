@@ -64,7 +64,6 @@ let makeMember = (branchId) => {
     return {
         'contactFirstName': 'Jaime',
         'contactLastName': 'Garzon',
-        'schoolType': 'Primary',
         'branchId': branchId,
         'firstName': 'Sherlock',
         'lastName': 'Holmes',

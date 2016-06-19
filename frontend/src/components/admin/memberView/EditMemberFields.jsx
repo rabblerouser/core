@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 import FormFieldLabel from '../../form/FormFieldLabel.jsx';
-import InlineError from '../../form/InlineError.jsx';
 import GroupCheckboxes from './GroupCheckboxes.jsx';
 import moment from 'moment';
 
@@ -127,52 +126,6 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
         className="memberBirthYear"
       />
 
-      <fieldset>
-        <legend>School type</legend>
-        <InlineError
-          errorFor={isValidationError('schoolType') || isValidationError('schoolTypeOtherText') ? 'schoolType' : ''}
-        />
-        <div>
-          <input
-            type="radio"
-            defaultChecked={formValues.schoolType === 'Primary'}
-            name="schoolType"
-            onClick={onChange('schoolType')}
-            id="schoolTypePrimary"
-            value="Primary"
-          />
-          <label htmlFor="schoolTypePrimary">Primary</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            defaultChecked={formValues.schoolType === 'Secondary'}
-            name="schoolType"
-            onClick={onChange('schoolType')}
-            id="schoolTypeSecondary"
-            value="Secondary"
-          />
-          <label htmlFor="schoolTypeSecondary">Secondary</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            defaultChecked={formValues.schoolType !== 'Primary' && formValues.schoolType !== 'Secondary'}
-            name="schoolType"
-            onClick={onChange('schoolType')}
-            id="schoolTypeOther"
-            value="Other"
-          />
-          <label htmlFor="schoolTypeOther">Other</label>
-          <input
-            type="text"
-            defaultValue={formValues.schoolTypeOtherText}
-            onChange={onChange('schoolTypeOtherText')}
-            id="schoolTypeOtherText"
-            className="other-field"
-          />
-        </div>
-      </fieldset>
       <dl>
         <dt>Additional info</dt>
         <dd className="textblock">{formValues.additionalInfo}</dd>

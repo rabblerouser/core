@@ -14,7 +14,6 @@ const memberFieldsChecks = {
   firstName: inputValidator.isValidName,
   dateOfBirth: inputValidator.isValidDate,
   branchId: isValidBranch,
-  schoolType: inputValidator.isValidString,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
   pastoralNotes: inputValidator.isValidOptionalTextBlock,
 };

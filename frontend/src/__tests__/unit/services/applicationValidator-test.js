@@ -9,7 +9,6 @@ describe('applicationValidator', () => {
       memberName: 'Holmes',
       memberBirthYear: '2000',
       branchSelection: 'Geelong',
-      schoolType: 'Primary',
       contactLastName: 'Sherlock',
       memberLastName: 'Holmes',
       additionalInfo: 'More info for you!',
@@ -22,7 +21,6 @@ describe('applicationValidator', () => {
       memberName: 'Holmes',
       memberBirthYear: '2000',
       branchSelection: 'Geelong',
-      schoolType: 'Primary',
       contactLastName: '',
       memberLastName: '',
       additionalInfo: '',
@@ -48,7 +46,6 @@ describe('applicationValidator', () => {
         memberName: '',
         memberBirthYear: '',
         branchSelection: '',
-        schoolType: '',
         contactLastName: '',
         memberLastName: '',
         additionalInfo: '',
@@ -60,7 +57,6 @@ describe('applicationValidator', () => {
         'memberName',
         'memberBirthYear',
         'branchSelection',
-        'schoolType',
       ];
       expect(applicationValidator.isValid(invalidApplication)).toEqual(expectedErrors);
     });

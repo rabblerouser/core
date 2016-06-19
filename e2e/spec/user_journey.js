@@ -10,8 +10,6 @@ import { startAtRegister,
   enterContactEmail,
   enterMemberBirthYear,
   enterAdditionalInfo,
-  selectSchoolType,
-  enterOtherSchool,
   selectBranch } from './pages/registrationPage';
 
 const userHasValidationErrors = {
@@ -34,8 +32,6 @@ function fillValidForm() {
   .then(() => enterMemberLastName('Sydney'))
   .then(() => enterContactEmail('qoku@gmail.com'))
   .then(() => enterMemberBirthYear('1990'))
-  .then(() => selectSchoolType('Other'))
-  .then(() => enterOtherSchool('Home school'))
   .then(() => enterAdditionalInfo('More text'));
 }
 

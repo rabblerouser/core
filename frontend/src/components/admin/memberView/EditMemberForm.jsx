@@ -44,34 +44,16 @@ export default class EditMemberForm extends Component {
     };
   }
 
-  getGroupDetails() {
-    return this.state;
-  }
-
-  getSchoolType(fieldValues) {
-    if (fieldValues.schoolType === 'Other') {
-      return fieldValues.schoolTypeOtherText;
-    }
-    return fieldValues.schoolType;
+  mapMemberToFields(member) {
+    return Object.assign({}, member);
   }
 
   isValidationError(fieldName) {
     return this.state.invalidFields.includes(fieldName);
   }
 
-  mapMemberToFields(member) {
-    if (member.schoolType === 'Primary' || member.schoolType === 'Secondary') {
-      return Object.assign({}, member);
-    }
-    return Object.assign({}, member, { schoolTypeOtherText: member.schoolType, schoolType: 'Other' });
-  }
-
   saveChanges() {
-    const member = Object.assign(
-      {},
-      this.props.member,
-      this.state.fieldValues, { schoolType: this.getSchoolType(this.state.fieldValues) }
-    );
+    const member = Object.assign({}, this.props.member, this.state.fieldValues);
     const errors = memberValidator.isValid(member);
     this.setState({ invalidFields: errors });
     if (errors.length === 0) {

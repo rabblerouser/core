@@ -52,7 +52,6 @@ describe('membersController', () => {
                     membershipType: 'full',
                     contactFirstName: 'Jaime',
                     contactLastName: 'Garzon',
-                    schoolType: 'Primary',
                     branchId: 'some-id-1',
                     additionalInfo: null,
                     pastoralNotes: null,

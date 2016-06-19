@@ -10,8 +10,6 @@ const applicationFieldsChecks = {
   memberLastName: inputValidator.isValidOptionalName,
   memberBirthYear: inputValidator.isValidYear,
   branchSelection: inputValidator.isValidText,
-  schoolType: inputValidator.isValidName,
-  schoolTypeOtherText: inputValidator.isValidOptionalName,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
 };
 

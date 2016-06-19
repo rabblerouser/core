@@ -30,7 +30,6 @@ const parseMember = data => {
     contactNumber: data.primaryPhoneNumber,
     contactEmail: data.email,
     memberBirthYear: parseYear(data.dateOfBirth),
-    schoolType: data.schoolType,
     memberSince: data.memberSince,
     additionalInfo: data.additionalInfo,
     groups: parseGroups(data.groups),
@@ -48,15 +47,12 @@ const parseMembers = data => {
 
 const mapDateOfBirth = value => `01/01/${value}`;
 
-const mapSchoolType = (value, optional) => (value === 'Other' ? optional : value);
-
 const prepareNewMemberPayload = fields => ({
   firstName: fields.memberName,
   lastName: fields.memberLastName,
   email: fields.contactEmail,
   primaryPhoneNumber: fields.contactNumber,
   dateOfBirth: mapDateOfBirth(fields.memberBirthYear),
-  schoolType: mapSchoolType(fields.schoolType, fields.schoolTypeOtherText),
   contactFirstName: fields.contactName,
   contactLastName: fields.contactLastName,
   branchId: fields.branchSelection,

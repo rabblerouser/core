@@ -79,7 +79,6 @@ function fakeNewMember(residentialAddress, postalAddress) {
             postalAddress: postalAddress,
             membershipType: 'full',
             branchId: 'some-branch-id-1',
-            schoolType: 'Primary',
             contactFirstName: 'Jaime',
             contactLastName: 'Garzon',
             additionalInfo: 'Lots of information'
@@ -180,7 +179,6 @@ describe('memberService', () => {
                     membershipType: 'full',
                     memberSince: sinon.match.any,
                     branchId: 'some-branch-id-1',
-                    schoolType: 'Primary',
                     contactFirstName: 'Jaime',
                     contactLastName: 'Garzon',
                     additionalInfo: 'Lots of information'
@@ -347,7 +345,6 @@ describe('memberService', () => {
                 expect(sampleMember.dateOfBirth).to.not.be.null;
                 expect(sampleMember.contactFirstName).to.not.be.null;
                 expect(sampleMember.contactLastName).to.not.be.null;
-                expect(sampleMember.schoolType).to.not.be.null;
                 expect(sampleMember.additionalInfo).to.not.be.null;
                 expect(sampleMember.pastoralNotes).to.not.be.null;
             })
@@ -373,7 +370,6 @@ describe('memberService', () => {
                 expect(sampleMember.dateOfBirth).to.not.be.null;
                 expect(sampleMember.contactFirstName).to.not.be.null;
                 expect(sampleMember.contactLastName).to.not.be.null;
-                expect(sampleMember.schoolType).to.not.be.null;
                 expect(sampleMember.additionalInfo).to.not.be.null;
                 expect(sampleMember.pastoralNotes).to.not.be.null;
             })

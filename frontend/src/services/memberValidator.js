@@ -9,8 +9,6 @@ const memberFieldsChecks = {
   memberName: inputValidator.isValidName,
   memberLastName: inputValidator.isValidOptionalName,
   memberBirthYear: inputValidator.isValidYear,
-  schoolType: inputValidator.isValidName,
-  schoolTypeOtherText: inputValidator.isValidOptionalName,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
   pastoralNotes: inputValidator.isValidOptionalTextBlock,
 };

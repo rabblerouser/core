@@ -39,8 +39,7 @@ export default class Details extends Component {
 
   handleValidationErrors(validationErrors, scrollToError) {
     const invalidFields = validationErrors;
-    const errors = [];
-    invalidFields.forEach(error => errors.push(ErrorStrings[error].name));
+    const errors = invalidFields.map(error => ErrorStrings[error].name);
 
     this.setState({
       invalidFields,
@@ -51,20 +50,9 @@ export default class Details extends Component {
   }
 
   onChange(fieldName) {
-    const detailsComponent = this;
-
-    return event => {
-      const newFieldValues = Object.assign({}, detailsComponent.state.fieldValues, { [fieldName]: event.target.value });
-      detailsComponent.setState({ fieldValues: newFieldValues });
-    };
-  }
-
-  getSchoolType(fieldValues) {
-    if (fieldValues.schoolType === 'Other') {
-      return fieldValues.schoolTypeOtherText;
-    }
-
-    return fieldValues.schoolType;
+    return event => (
+      this.setState({ fieldValues: { ...this.state.fieldValues, [fieldName]: event.target.value } })
+    );
   }
 
   submitDetails() {

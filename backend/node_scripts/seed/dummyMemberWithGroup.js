@@ -15,7 +15,7 @@ Member.truncate({cascade: true})
     })
     .then(function(branch) {
         newBranch = branch;
-        return Member.create({firstName: 'Sherlock', lastName: 'Holmes', gender: 'horse radish', memberSince: new Date(), email: 'sherlock@holmes.co.uk', dateOfBirth: '01/01/1990', primaryPhoneNumber: '0396291146', secondaryPhoneNumber: '0394291146', residentialAddress: null, postalAddress: null, membershipType: 'full', branchId: 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174', schoolType: 'Primary', contactFirstName: 'Jaime', contactLastName: 'Garzon', additionalInfo: 'Lots of information'});
+        return Member.create({firstName: 'Sherlock', lastName: 'Holmes', gender: 'horse radish', memberSince: new Date(), email: 'sherlock@holmes.co.uk', dateOfBirth: '01/01/1990', primaryPhoneNumber: '0396291146', secondaryPhoneNumber: '0394291146', residentialAddress: null, postalAddress: null, membershipType: 'full', branchId: 'fd4f7e67-66fe-4f7a-86a6-f031cb3af174', contactFirstName: 'Jaime', contactLastName: 'Garzon', additionalInfo: 'Lots of information'});
     })
   .then(function(member) {
     newMember = member;

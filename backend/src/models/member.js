@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
     memberSince: { type: DataTypes.DATE, allowNull: false },
     contactFirstName: DataTypes.STRING,
     contactLastName: DataTypes.STRING,
-    schoolType: { type: DataTypes.STRING, allowNull: true },
     additionalInfo: { type: DataTypes.TEXT, allowNull: true },
     pastoralNotes: { type: DataTypes.TEXT, allowNull: true },
   }, {
