@@ -2,7 +2,7 @@ import React from 'react';
 
 const DeleteGroupButton = ({ onDelete, group }) => {
   const deleteGroup = () => {
-    if (confirm('Are you sure you want to delete the current group?')) {
+    if (confirm('Are you sure you want to delete the current group?')) { // eslint-disable-line no-alert
       onDelete(group);
     }
   };

@@ -32,6 +32,7 @@ export default class AddBranchForm extends Component {
     const errors = (branchValidator.isValid(branch));
     this.setState({ invalidFields: errors });
     if (errors.length === 0) {
+      this.props.onSuccess();
       this.props.onSave(branch);
     }
   }
@@ -59,4 +60,5 @@ export default class AddBranchForm extends Component {
 
 AddBranchForm.propTypes = {
   onSave: React.PropTypes.func.isRequired,
+  onSuccess: React.PropTypes.func.isRequired,
 };

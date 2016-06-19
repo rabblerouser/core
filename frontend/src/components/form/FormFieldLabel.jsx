@@ -16,4 +16,10 @@ const FormFieldLabel = props => {
   );
 };
 
+FormFieldLabel.propTypes = {
+  hasError: React.PropTypes.bool,
+  fieldName: React.PropTypes.string,
+  isOptional: React.PropTypes.bool,
+};
+
 export default FormFieldLabel;

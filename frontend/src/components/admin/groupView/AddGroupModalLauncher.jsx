@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import EditGroupForm from './EditGroupForm.jsx';
 import Modal from 'react-modal';
 
-export default class AddGroupModalLauncher extends Component {
+class AddGroupModalLauncher extends Component {
   constructor(props) {
     super(props);
     this.state = { modalIsOpen: false };
+    this.launchEditForm = this.launchEditForm.bind(this);
+    this.closeEditForm = this.closeEditForm.bind(this);
   }
 
   launchEditForm() {
@@ -19,17 +21,23 @@ export default class AddGroupModalLauncher extends Component {
   render() {
     const customStyle = { content: { bottom: 'none' } };
     return (
-      <button onClick={this.launchEditForm.bind(this)} className="new" title="New group">
+      <button onClick={this.launchEditForm} className="new" title="New group">
         <span>New group</span>
-        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm.bind(this)} style={customStyle}>
+        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm} style={customStyle}>
           <EditGroupForm
             title="New group"
             onSave={this.props.onSave}
             group={{}}
-            onSuccess={this.closeEditForm.bind(this)}
+            onSuccess={this.closeEditForm}
           />
         </Modal>
       </button>
     );
   }
 }
+
+AddGroupModalLauncher.propTypes = {
+  onSave: React.PropTypes.func,
+};
+
+export default AddGroupModalLauncher;

@@ -13,6 +13,16 @@ export default class EditGroupForm extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  onChange(fieldName) {
+    const editBranchComponent = this;
+
+    return event => {
+      const newValue = { [fieldName]: event.target.value };
+      const newFieldValues = Object.assign({}, editBranchComponent.state.fieldValues, newValue);
+      editBranchComponent.setState({ fieldValues: newFieldValues });
+    };
+  }
+
   isValidationError(fieldName) {
     return this.state.invalidFields.includes(fieldName);
   }
@@ -25,16 +35,6 @@ export default class EditGroupForm extends Component {
       this.props.onSuccess();
       this.props.onSave(branch);
     }
-  }
-
-  onChange(fieldName) {
-    const editBranchComponent = this;
-
-    return event => {
-      const newValue = { [fieldName]: event.target.value };
-      const newFieldValues = Object.assign({}, editBranchComponent.state.fieldValues, newValue);
-      editBranchComponent.setState({ fieldValues: newFieldValues });
-    };
   }
 
   render() {

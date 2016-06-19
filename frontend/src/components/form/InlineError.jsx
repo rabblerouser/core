@@ -9,4 +9,8 @@ const InlineError = props => (
   </span>
 );
 
+InlineError.propTypes = {
+  errorFor: React.PropTypes.string,
+};
+
 export default InlineError;

@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'underscore';
 
-export default ({ groups, onSelect }) => {
+const GroupsList = ({ groups, onSelect }) => {
   const groupEntries = _.sortBy(groups, 'name').map(group => (
     <option key={group.id} value={group.id}>{group.name}</option>));
 
@@ -20,3 +20,10 @@ export default ({ groups, onSelect }) => {
     </div>
   );
 };
+
+GroupsList.propTypes = {
+  groups: React.PropTypes.array.isRequired,
+  onSelect: React.PropTypes.func.isRequired,
+};
+
+export default GroupsList;

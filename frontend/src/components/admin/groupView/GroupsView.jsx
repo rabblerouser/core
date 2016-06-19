@@ -3,7 +3,7 @@ import GroupsList from './GroupsList.jsx';
 import GroupDetailView from './GroupDetailView.jsx';
 import AddGroupModalLauncher from './AddGroupModalLauncher.jsx';
 
-export default ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGroup }) => {
+const GroupsView = ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGroup }) => {
   const detailsView = selectedGroup ? (
     <GroupDetailView
       selectedGroup={selectedGroup}
@@ -13,13 +13,21 @@ export default ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGro
   return (
     <section className="admin-section" id="group-details">
       <h3>Groups <AddGroupModalLauncher onSave={onSaveGroup} /></h3>
-
       <GroupsList
         groups={groups}
         onSelect={onSelectGroup}
       />
-
       {detailsView}
     </section>
   );
 };
+
+GroupsView.propTypes = {
+  selectedGroup: React.PropTypes.string,
+  groups: React.PropTypes.array,
+  onSelectGroup: React.PropTypes.func,
+  onSaveGroup: React.PropTypes.func,
+  onDeleteGroup: React.PropTypes.func,
+};
+
+export default GroupsView;

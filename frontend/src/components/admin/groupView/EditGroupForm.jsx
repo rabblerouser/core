@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FormFieldLabel from '../../form/FormFieldLabel.jsx';
 import groupValidator from '../../../services/groupValidator.js';
 
-export default class EditGroupForm extends Component {
+class EditGroupForm extends Component {
 
   constructor(props) {
     super(props);
@@ -12,6 +12,17 @@ export default class EditGroupForm extends Component {
       description: props.group.description,
       invalidFields: [],
     };
+    this.updateName = this.updateName.bind(this);
+    this.updateDescription = this.updateDescription.bind(this);
+    this.saveChanges = this.saveChanges.bind(this);
+  }
+
+  getGroupDetails() {
+    return this.state;
+  }
+
+  isValidationError(fieldName) {
+    return this.state.invalidFields.includes(fieldName);
   }
 
   updateName(event) {
@@ -31,14 +42,6 @@ export default class EditGroupForm extends Component {
     }
   }
 
-  getGroupDetails() {
-    return this.state;
-  }
-
-  isValidationError(fieldName) {
-    return this.state.invalidFields.includes(fieldName);
-  }
-
   render() {
     return (
       <section className="form-container">
@@ -50,7 +53,7 @@ export default class EditGroupForm extends Component {
           placeholder="e.g. Tuesday 4.30pm"
           defaultValue=""
           value={this.state.name}
-          onChange={this.updateName.bind(this)}
+          onChange={this.updateName}
         />
         <FormFieldLabel
           fieldName="groupDescription"
@@ -63,11 +66,20 @@ export default class EditGroupForm extends Component {
           placeholder="Describe your group"
           defaultValue=""
           value={this.state.description}
-          onChange={this.updateDescription.bind(this)}
+          onChange={this.updateDescription}
         />
-        <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
+        <button className="save" onClick={this.saveChanges}>Save</button>
       </section>
     );
   }
 
 }
+
+EditGroupForm.propTypes = {
+  title: React.PropTypes.string,
+  group: React.PropTypes.object,
+  onSuccess: React.PropTypes.func,
+  onSave: React.PropTypes.func,
+};
+
+export default EditGroupForm;

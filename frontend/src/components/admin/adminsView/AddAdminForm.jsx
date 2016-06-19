@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AddAdminFields from './AddAdminFields.jsx';
 import validator from '../../../services/adminValidator';
 
-export default class AddAdminForm extends Component {
+class AddAdminForm extends Component {
 
   constructor(props) {
     super(props);
@@ -10,14 +10,22 @@ export default class AddAdminForm extends Component {
       invalidFields: [],
       fieldValues: {},
     };
+    this.saveChanges = this.saveChanges.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(fieldName) {
+    const addAdminComponent = this;
+
+    return event => {
+      const newValue = { [fieldName]: event.target.value };
+      const newFieldValues = Object.assign({}, addAdminComponent.state.fieldValues, newValue);
+      addAdminComponent.setState({ fieldValues: newFieldValues });
+    };
   }
 
   isValidationError(fieldName) {
     return this.state.invalidFields.includes(fieldName);
-  }
-
-  isNewUser() {
-    return this.props.admin === {};
   }
 
   passwordConfirmedTest() {
@@ -36,16 +44,6 @@ export default class AddAdminForm extends Component {
     }
   }
 
-  onChange(fieldName) {
-    const addAdminComponent = this;
-
-    return event => {
-      const newValue = { [fieldName]: event.target.value };
-      const newFieldValues = Object.assign({}, addAdminComponent.state.fieldValues, newValue);
-      addAdminComponent.setState({ fieldValues: newFieldValues });
-    };
-  }
-
   render() {
     return (
       <section className="form-container">
@@ -54,11 +52,11 @@ export default class AddAdminForm extends Component {
             Add new {this.props.type ? this.props.type.toLowerCase() : ''}
           </span>
           <span className="actions">
-            <button className="save" onClick={this.saveChanges.bind(this)}>Save</button>
+            <button className="save" onClick={this.saveChanges}>Save</button>
           </span>
         </header>
         <AddAdminFields
-          onChange={this.onChange.bind(this)}
+          onChange={this.onChange}
           invalidFields={this.state.invalidFields}
           formValues={this.state.fieldValues}
         />
@@ -66,3 +64,11 @@ export default class AddAdminForm extends Component {
     );
   }
 }
+
+AddAdminForm.propTypes = {
+  type: React.PropTypes.string,
+  onSuccess: React.PropTypes.func.isRequired,
+  onSave: React.PropTypes.func.isRequired,
+};
+
+export default AddAdminForm;
