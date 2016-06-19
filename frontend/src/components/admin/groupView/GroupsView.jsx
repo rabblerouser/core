@@ -23,7 +23,7 @@ const GroupsView = ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDelet
 };
 
 GroupsView.propTypes = {
-  selectedGroup: React.PropTypes.string,
+  selectedGroup: React.PropTypes.object,
   groups: React.PropTypes.array,
   onSelectGroup: React.PropTypes.func,
   onSaveGroup: React.PropTypes.func,
