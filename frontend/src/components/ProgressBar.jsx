@@ -4,7 +4,6 @@ export default class ProgressBar extends Component {
   constructor(props) {
     super(props);
     this.getClass = this.getClass.bind(this);
-    this.logo_file_path = '/images/logo/logo_signup_page.png';
   }
 
   getClass(progressStep) {
@@ -19,7 +18,7 @@ export default class ProgressBar extends Component {
   render() {
     return (
       <div className="header">
-        <img src={this.logo_file_path} alt="Sign Up" />
+        <img src="/images/logo/logo_signup_page.png" alt="Sign Up" />
         <ul className="progress-bar">
           <li className={this.getClass(1)} id="progress-details">Details</li>
           <li className={this.getClass(2)} id="progress-finished">Finish</li>
