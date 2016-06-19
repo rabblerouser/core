@@ -2,7 +2,11 @@
   "name": "rabblerouser-core-frontend",
   "version": "0.1.0",
   "description": "Frontend for rabblerouser - A pluggable, extensible membership database for community organising",
+  "config": {
+    "organisation": "default"
+  },
   "scripts": {
+    "set-org-config": "rm -rf ./public/images/logo && cp -r ./org_config/$npm_package_config_organisation/* ./public/images",
     "build": "webpack --progress --colors ",
     "ci": "npm run lint && npm test",
     "lint": "eslint --ext js,jsx .",
