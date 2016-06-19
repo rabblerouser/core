@@ -7,4 +7,4 @@ rules:
   react/jsx-no-bind:
     - warn
   react/no-set-state:
-    - warn
+    - off
