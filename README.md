@@ -165,7 +165,7 @@ We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/
 
 0. Create an admin user to access the organiser views
 
-        npm run createAdmin
+        npm run createSuperAdmin
 
 ### Pull a copy of the staging database from Heroku
 
