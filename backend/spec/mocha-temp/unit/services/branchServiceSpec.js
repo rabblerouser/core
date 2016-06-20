@@ -1,8 +1,8 @@
 'use strict';
 
-const Q = require('q'),
-      models = require('../../../../src/models'),
-      Branch = models.Branch;
+const Q = require('q');
+const models = require('../../../../src/models');
+const Branch = models.Branch;
 
 var branchService = require('../../../../src/services/branchService');
 
