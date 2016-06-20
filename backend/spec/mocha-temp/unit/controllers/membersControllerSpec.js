@@ -1,12 +1,9 @@
 'use strict';
 
-const specHelper = require('../../../support/specHelper'),
-      sinon = specHelper.sinon,
-      Q = specHelper.Q,
-      memberService = require('../../../../src/services/memberService'),
-      memberValidator = require('../../../../src/lib/memberValidator');
-
-var membersController = require('../../../../src/controllers/membersController');
+const Q = require('q');
+const memberService = require('../../../../src/services/memberService');
+const memberValidator = require('../../../../src/lib/memberValidator');
+const membersController = require('../../../../src/controllers/membersController');
 
 describe('membersController', () => {
 
@@ -81,10 +78,12 @@ describe('membersController', () => {
 
             it('creates a new member', (done) => {
                 register(goodRequest, res)
-                .finally(() => {
-                    expect(res.status).toHaveBeenCalledWith(200);
-                    expect(res.status().json).toHaveBeenCalledWith({newMember: {email: createdMember.email}});
-                }).then(done, done.fail);
+                .then(() => {
+                    expect(res.status).to.have.been.calledWith(200);
+                    expect(res.status().json).to.have.been.calledWith({newMember: {email: createdMember.email}});
+                })
+                .then(done)
+                .catch(done);
             });
         });
 
@@ -93,8 +92,8 @@ describe('membersController', () => {
                 validateMemberStub.returns(['firstName']);
                 register(goodRequest, res);
 
-                expect(memberService.createMember).not.toHaveBeenCalled();
-                expect(res.status).toHaveBeenCalledWith(400);
+                expect(memberService.createMember).not.to.have.been.called;
+                expect(res.status).to.have.been.calledWith(400);
                 done();
             });
         });
@@ -121,11 +120,16 @@ describe('membersController', () => {
 
             membersController.list(req, res)
             .then(() => {
-                expect(serviceStub).toHaveBeenCalled();
-                expect(res.status).toHaveBeenCalledWith(200);
-                expect(res.status().json).toHaveBeenCalledWith(jasmine.objectContaining({ members: [{id: 'id1', firstName: 'Pepe', lastName: 'Perez'}]}));
+                expect(serviceStub).to.have.been.called;
+                expect(res.status).to.have.been.calledWith(200);
+                expect(res.status().json).to.have.been.calledWith(sinon.match({
+                  members: [
+                    {id: 'id1', firstName: 'Pepe', lastName: 'Perez'}
+                  ]
+                }));
             })
-            .then(done, done.fail);
+            .then(done)
+            .catch(done);
         });
 
         describe('oops, things are not working quite well', () => {
@@ -136,10 +140,11 @@ describe('membersController', () => {
 
                 membersController.list(req, res)
                 .then(() => {
-                    expect(res.sendStatus).toHaveBeenCalledWith(500);
-                    expect(serviceStub).toHaveBeenCalled();
+                    expect(res.sendStatus).to.have.been.calledWith(500);
+                    expect(serviceStub).to.have.been.called;
                 })
-                .then(done, done.fail);
+                .then(done)
+                .catch(done);
             });
 
             it('should handle when a session is not found', (done) => {
@@ -147,8 +152,8 @@ describe('membersController', () => {
                 res = {sendStatus: sinon.spy()};
 
                 membersController.list(req, res);
-                expect(res.sendStatus).toHaveBeenCalledWith(500);
-                expect(serviceStub).not.toHaveBeenCalled();
+                expect(res.sendStatus).to.have.been.calledWith(500);
+                expect(serviceStub).not.to.have.been.called;
                 done();
             });
         });
