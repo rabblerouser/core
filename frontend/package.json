@@ -6,7 +6,7 @@
     "skin": "default"
   },
   "scripts": {
-    "set-org-config": "rm -rf ./public/images/logo && cp -r ./skins/$npm_package_config_skin/* ./public/images",
+    "set-skin": "rm -rf ./public/images/logo && cp -r ./skins/$npm_package_config_skin/* ./public/images",
     "build": "webpack --progress --colors ",
     "ci": "npm run lint && npm test",
     "lint": "eslint --ext js,jsx .",

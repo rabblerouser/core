@@ -21,7 +21,7 @@ const AdminHeader = props => {
 
   return (
     <header className="admin-header header">
-      <span><img src="/images/the_lab_logo.svg" alt="The Lab" /></span>
+      <span><img src="/images/logo/logo_header.svg" alt="The Lab" /></span>
       {branchDescription}
       <button onClick={logout} className="logout">Logout</button>
     </header>
