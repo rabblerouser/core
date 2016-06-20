@@ -1,18 +1,16 @@
 'use strict';
 
 const moment = require('moment');
-require('../../../support/specHelper');
-
 var inputValidator = require('../../../../src/lib/inputValidator');
 
 describe('inputValidator', () => {
     describe('isValidName', () => {
         it('Should return true given an alpha name', () => {
-            expect(inputValidator.isValidName('aaa')).toBe(true);
+            expect(inputValidator.isValidName('aaa')).to.be.true;
         });
 
         it('Should return true if name is a alphanumeric', () => {
-            expect(inputValidator.isValidName('Flo the 1st')).toBe(true);
+            expect(inputValidator.isValidName('Flo the 1st')).to.be.true;
         });
 
         [
@@ -23,14 +21,14 @@ describe('inputValidator', () => {
             'Flo the 1st<'
         ].forEach((testCase) => {
             it(`Should return false if name is ${testCase}`, () => {
-                expect(inputValidator.isValidName(testCase)).toBe(false);
+                expect(inputValidator.isValidName(testCase)).to.be.false;
             });
         });
     });
 
     describe('isValidEmail', () => {
         it('Should return true given a string with an \'@\' and a \'.\'', () => {
-            expect(inputValidator.isValidEmail('aaa@attt.com')).toBe(true);
+            expect(inputValidator.isValidEmail('aaa@attt.com')).to.be.true;
         });
     });
 
@@ -41,7 +39,7 @@ describe('inputValidator', () => {
             '12345678910'
         ].forEach((testCase) => {
             it(`Should return true given a password ${testCase}`, () => {
-                expect(inputValidator.isValidPassword(testCase)).toBe(true);
+                expect(inputValidator.isValidPassword(testCase)).to.be.true;
             });
         });
 
@@ -52,7 +50,7 @@ describe('inputValidator', () => {
             null
         ].forEach((testCase) => {
             it(`Should return false given password is ${testCase}`, () => {
-                expect(inputValidator.isValidPassword(testCase)).toBe(false);
+                expect(inputValidator.isValidPassword(testCase)).to.be.false;
             });
         });
     });
@@ -70,7 +68,7 @@ describe('inputValidator', () => {
             '+18-1111-1111111'
         ].forEach((testCase) => {
             it(`Should return true given a string with a mobile phone number ${testCase}`, () => {
-                expect(inputValidator.isValidPhone(testCase)).toBe(true);
+                expect(inputValidator.isValidPhone(testCase)).to.be.true;
             });
         });
 
@@ -82,14 +80,14 @@ describe('inputValidator', () => {
             'words?'
         ].forEach((testCase) => {
             it(`Should return false if phone is ${testCase}`, () => {
-                expect(inputValidator.isValidPhone(testCase)).toBe(false);
+                expect(inputValidator.isValidPhone(testCase)).to.be.false;
             });
         });
     });
 
     describe('isValidDateOfBirth', () => {
         it('Should return true given a string with a dateOfBirth', () => {
-            expect(inputValidator.isValidDate('22/12/1900')).toBe(true);
+            expect(inputValidator.isValidDate('22/12/1900')).to.be.true;
         });
 
         let testCases = [
@@ -102,7 +100,7 @@ describe('inputValidator', () => {
 
         testCases.forEach((input) => {
             it(`Should return false given a ${input} dateOfBirth`, () => {
-                expect(inputValidator.isValidDate(input)).toBe(false);
+                expect(inputValidator.isValidDate(input)).to.be.false;
             });
         });
     });
@@ -114,7 +112,7 @@ describe('inputValidator', () => {
           '1999'
       ].forEach((testCase) => {
           it(`Should return true given a string with a birth year in range ${testCase}`, () => {
-              expect(inputValidator.isValidYear(testCase)).toBe(true);
+              expect(inputValidator.isValidYear(testCase)).to.be.true;
           });
       });
 
@@ -126,7 +124,7 @@ describe('inputValidator', () => {
           'words?'
       ].forEach((testCase) => {
           it(`Should return false given a non year string or out of range ${testCase}`, () => {
-              expect(inputValidator.isValidYear(testCase)).toBe(false);
+              expect(inputValidator.isValidYear(testCase)).to.be.false;
           });
       });
     });
@@ -141,7 +139,7 @@ describe('inputValidator', () => {
 
         validTestCases.forEach((input) => {
             it(`should return true if given a ${input} value`, () => {
-                expect(inputValidator.isValidOptionalName(input)).toBe(true);
+                expect(inputValidator.isValidOptionalName(input)).to.be.true;
             });
         });
 
@@ -152,7 +150,7 @@ describe('inputValidator', () => {
 
         testCases.forEach((input) => {
             it(`should return false if given a ${input} value`, () => {
-                expect(inputValidator.isValidOptionalName(input)).toBe(false);
+                expect(inputValidator.isValidOptionalName(input)).to.be.false;
             });
         });
     });
@@ -167,7 +165,7 @@ describe('inputValidator', () => {
 
         validTestCases.forEach((input) => {
             it(`should return true if given a ${input} value`, () => {
-                expect(inputValidator.isValidText(input)).toBe(true);
+                expect(inputValidator.isValidText(input)).to.be.true;
             });
         });
 
@@ -180,7 +178,7 @@ describe('inputValidator', () => {
 
         testCases.forEach((input) => {
             it(`should return false if given a ${input} value`, () => {
-                expect(inputValidator.isValidText(input)).toBe(false);
+                expect(inputValidator.isValidText(input)).to.be.false;
             });
         });
     });
@@ -198,7 +196,7 @@ describe('inputValidator', () => {
 
         validTestCases.forEach((input) => {
             it(`should return true if given a ${input} value`, () => {
-                expect(inputValidator.isValidOptionalTextBlock(input)).toBe(true);
+                expect(inputValidator.isValidOptionalTextBlock(input)).to.be.true;
             });
         });
 
@@ -208,14 +206,14 @@ describe('inputValidator', () => {
 
         testCases.forEach((input) => {
             it(`should return false if given a ${input} value`, () => {
-                expect(inputValidator.isValidOptionalTextBlock(input)).toBe(false);
+                expect(inputValidator.isValidOptionalTextBlock(input)).to.be.false;
             });
         });
     });
 
     describe('isValidTextBlock', () => {
       it('Should be valid if it is a big string', () => {
-        expect(inputValidator.isValidTextBlock('a'.repeat(99999))).toBe(true);
+        expect(inputValidator.isValidTextBlock('a'.repeat(99999))).to.be.true;
       });
 
       [
@@ -225,7 +223,7 @@ describe('inputValidator', () => {
           undefined
       ].forEach((testCase) => {
           it(`Should return false if the block is ${testCase}`, () => {
-              expect(inputValidator.isValidTextBlock(testCase)).toBe(false);
+              expect(inputValidator.isValidTextBlock(testCase)).to.be.false;
           });
       });
 
@@ -235,11 +233,11 @@ describe('inputValidator', () => {
     describe('isValidUUID', () => {
 
         it('should return true for V4 uuids', () => {
-            expect(inputValidator.isValidUUID('5d773d92-47fb-4ad5-90c0-72c1b6e4af3a')).toBe(true);
+            expect(inputValidator.isValidUUID('5d773d92-47fb-4ad5-90c0-72c1b6e4af3a')).to.be.true;
         });
 
         it('should return false for non V4 uuids', () => {
-            expect(inputValidator.isValidUUID('4df38c00-e65a-11e5-a8bf-ed9212c0336b')).toBe(false);
+            expect(inputValidator.isValidUUID('4df38c00-e65a-11e5-a8bf-ed9212c0336b')).to.be.false;
         });
 
 
@@ -252,7 +250,7 @@ describe('inputValidator', () => {
 
         testCases.forEach((input) => {
             it(`should return false if given a ${input} value`, () => {
-                expect(inputValidator.isValidUUID(input)).toBe(false);
+                expect(inputValidator.isValidUUID(input)).to.be.false;
             });
         });
     });
