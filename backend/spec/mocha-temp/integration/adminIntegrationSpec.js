@@ -1,11 +1,10 @@
 'use strict';
-require('../../support/specHelper');
+
 const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/app');
 let request = require('supertest-as-promised');
 let integrationTestHelpers = require('./integrationTestHelpers.js');
 let uuid = require('node-uuid');
-
 
 let hasAdmin = (res) => {
     if (!(res.body.email)) {
@@ -80,13 +79,17 @@ let makeInvalidUser = (branch) => {
 describe('AdminIntegrationTests', () => {
     let agent;
 
-    beforeEach(() => {
-        agent = request.agent(app);
+    beforeEach((done) => {
+      agent = request.agent(app);
+
+      integrationTestHelpers.resetDB()
+      .then(() => done())
+      .catch(() => done());
     });
 
     describe('add', () => {
         beforeEach((done) => {
-            integrationTestHelpers.createBranch().nodeify(done);
+            integrationTestHelpers.createBranch().then(() => done());
         });
 
         it('should return 200 and a created user when the input is valid', (done) => {
@@ -100,7 +103,8 @@ describe('AdminIntegrationTests', () => {
                     .expect(200)
                     .then(hasAdmin);
             })
-            .then(done, done.fail);
+            .then(() => done())
+            .catch(() => done());
         });
 
         it('should return 400 if the input is null', (done) => {
@@ -114,7 +118,8 @@ describe('AdminIntegrationTests', () => {
                     .send(null)
                     .expect(400);
             })
-            .then(done, done.fail);
+            .then(() => done())
+            .catch(() => done());
         });
 
         it('should return 400 if the input is incomplete', (done) => {
@@ -128,7 +133,8 @@ describe('AdminIntegrationTests', () => {
                     .send(makeInvalidUser(branch))
                     .expect(400);
             })
-            .then(done, done.fail);
+            .then(() => done())
+            .catch(() => done());
         });
     });
 
@@ -141,7 +147,8 @@ describe('AdminIntegrationTests', () => {
                     return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
                     .expect(200);
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
         });
 
         it('should return a 400 if the input data is not valid', (done) => {
@@ -152,7 +159,8 @@ describe('AdminIntegrationTests', () => {
                     return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/whatevs`)
                     .expect(400);
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
         });
 
         it('should return 500 when trying to delete a admin that does not exist', (done) => {
@@ -163,7 +171,8 @@ describe('AdminIntegrationTests', () => {
                     return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/${uuid.v4()}`)
                     .expect(500);
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
         });
     });
 
@@ -179,7 +188,8 @@ describe('AdminIntegrationTests', () => {
                     .expect(200)
                     .then(hasAdmin);
             })
-            .then(done, done.fail);
+            .then(() => done())
+            .catch(() => done());
         });
 
         it('should allow update without the password field in the payload', (done) => {
@@ -194,7 +204,8 @@ describe('AdminIntegrationTests', () => {
                     .expect(200)
                     .then(hasAdmin);
             })
-            .then(done, done.fail);
+            .then(() => done())
+            .catch(() => done());
         });
 
         it('should return 400 if the input is null', (done) => {
@@ -208,7 +219,8 @@ describe('AdminIntegrationTests', () => {
                     .send(null)
                     .expect(400);
             })
-            .then(done, done.fail);
+            .then(() => done())
+            .catch(() => done());
         });
 
         it('should return 400 if the input is incomplete', (done) => {
@@ -222,7 +234,8 @@ describe('AdminIntegrationTests', () => {
                     .send(makeInvalidAdminUserUpdates(adminUser))
                     .expect(400);
             })
-            .then(done, done.fail);
+            .then(() => done())
+            .catch(() => done());
         });
     });
 
@@ -231,7 +244,8 @@ describe('AdminIntegrationTests', () => {
             beforeEach((done) => {
                 integrationTestHelpers.createSuperAdmin()
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
             });
 
             it('should return a 200 when a super admin is successfully created', (done) => {
@@ -245,7 +259,8 @@ describe('AdminIntegrationTests', () => {
                         expect(response.body.id).not.toBeNull();
                         expect(response.body.email).not.toBeNull();
                     })
-                    .then(done, done.fail);
+                    .then(() => done())
+                    .catch(() => done());
             });
 
             it('should return a 400 when the payload is invalid', (done) => {
@@ -254,7 +269,8 @@ describe('AdminIntegrationTests', () => {
                     .set('Accept', 'application/json')
                     .send({email: 'supaAdmin@rabblerouser.org'})
                     .expect(400)
-                    .then(done, done.fail);
+                    .then(() => done())
+                    .catch(() => done());
             });
 
             it('should allow only super admins to add super admins', (done) => {
@@ -270,7 +286,8 @@ describe('AdminIntegrationTests', () => {
                     .send(makeSuperAdmin())
                     .expect(401);
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
             });
         });
 
@@ -281,11 +298,13 @@ describe('AdminIntegrationTests', () => {
             beforeEach((done) => {
                 integrationTestHelpers.createSuperAdmin()
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+                .tap(console.log)
                 .then(postSuperAdmin(agent))
                 .then((response) => {
                     browserState.superAdmin = response.body;
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch((err) => done(err, null));
             });
 
             afterEach(() => {
@@ -301,12 +320,13 @@ describe('AdminIntegrationTests', () => {
                     .send(withUpdates)
                     .expect(200)
                     .then((response) => {
-                        expect(response.body).not.toBeNull();
-                        expect(response.body.id).not.toBeNull();
-                        expect(response.body.email).toEqual(browserState.superAdmin.email);
-                        expect(response.body.name).toEqual('My New Name');
+                        expect(response.body).not.to.be.null;
+                        expect(response.body.id).not.to.be.null;
+                        expect(response.body.email).to.equal(browserState.superAdmin.email);
+                        expect(response.body.name).to.equal('My New Name');
                     })
-                    .then(done, done.fail);
+                    .then(() => done())
+                    .catch(() => done());
             });
 
             it('should return a 400 when the payload is invalid', (done) => {
@@ -315,7 +335,8 @@ describe('AdminIntegrationTests', () => {
                     .set('Accept', 'application/json')
                     .send({email: 'supaAdmin@rabblerouser.org'})
                     .expect(400)
-                    .then(done, done.fail);
+                    .then(() => done())
+                    .catch(() => done());
             });
 
             it('should allow only super admins to update super admins', (done) => {
@@ -331,7 +352,8 @@ describe('AdminIntegrationTests', () => {
                     .send(makeSuperAdmin())
                     .expect(401);
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
             });
         });
 
@@ -346,12 +368,13 @@ describe('AdminIntegrationTests', () => {
                     .expect(200)
                     .then((response) => {
                         let theOneCreatedToAuthenticateTheRequest = 1;
-                        expect(response.body).not.toBeNull();
-                        expect(response.body.admins).not.toBeNull();
-                        expect(response.body.admins.length).toEqual(2 + theOneCreatedToAuthenticateTheRequest);
+                        expect(response.body).not.to.be.null;
+                        expect(response.body.admins).not.to.be.null;
+                        expect(response.body.admins.length).to.equal(2 + theOneCreatedToAuthenticateTheRequest);
                     });
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
             });
 
             it('should allow only super admins to get the admins list', (done) => {
@@ -364,7 +387,8 @@ describe('AdminIntegrationTests', () => {
                     return specialAgent.get('/admins')
                     .expect(401);
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
             });
         });
 
@@ -373,29 +397,32 @@ describe('AdminIntegrationTests', () => {
             let browserState = {};
 
             beforeEach((done) => {
-                integrationTestHelpers.createSuperAdmin()
-                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-                .then(postSuperAdmin(agent))
-                .then((response) => {
-                    browserState.superAdmin = response.body;
-                })
-                .then(done, done.fail);
+              integrationTestHelpers.createSuperAdmin()
+              .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+              .then(postSuperAdmin(agent))
+              .then((response) => {
+                  browserState.superAdmin = response.body;
+              })
+              .then(() => done())
+              .catch(() => done());
             });
 
             afterEach(() => {
-                browserState = {};
+              browserState = {};
             });
 
             it('should return a 200 when a super admin is successfully created', (done) => {
                 return agent.delete(`/admins/${browserState.superAdmin.id}`)
                     .expect(200)
-                    .then(done, done.fail);
+                    .then(() => done())
+                    .catch(() => done());
             });
 
             it('should return a 400 when the payload is invalid', (done) => {
                 return agent.delete(`/admins/whatevs`)
                     .expect(400)
-                    .then(done, done.fail);
+                    .then(() => done())
+                    .catch(() => done());
             });
 
             it('should allow only super admins to update super admins', (done) => {
@@ -408,7 +435,8 @@ describe('AdminIntegrationTests', () => {
                     return specialAgent.delete(`/admins/someId`)
                     .expect(401);
                 })
-                .then(done, done.fail);
+                .then(() => done())
+                .catch(() => done());
             });
         });
     });
