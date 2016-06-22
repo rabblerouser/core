@@ -25,7 +25,7 @@ app.use(compress());
 app.set('views', path.join(__dirname, '../public/views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-app.use(favicon(path.join(__dirname, '../public', 'images', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../public', 'images', 'logo', 'favicon.ico'), {maxAge: 100}));
 app.use(helmet());
 app.use(logger(config.logFormat));
 app.use(bodyParser.json());
