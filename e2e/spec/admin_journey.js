@@ -143,7 +143,7 @@ function fillNewGroup() {
 }
 
 function editGroup() {
-  return enterGroupName('A group changed')
+  return enterGroupName(`${testID}A group changed`)
     .then(clickSave);
 }
 
@@ -218,6 +218,7 @@ const adminCanEditABranch = {
   testRun: () => {
     adminLogin()
     .then(() => waitForBranchOption(`${testID}A new branch`))
+    .then(() => selectBranch(`${testID}A new branch`))
     .then(clickEditBranch)
     .then(editBranch)
     .then(() => waitForBranchOption(`${testID}A branch changed`));
@@ -225,11 +226,11 @@ const adminCanEditABranch = {
 };
 
 export default [
+  adminCanEditAMember,
   adminCanAddAnOrganiser,
   adminCanEditAnOrganiser,
   adminCanAddAGroup,
   adminCanEditAGroup,
-  adminCanEditAMember,
   adminCanAddABranch,
   adminCanEditABranch,
   adminCanAddAnAdmin,
