@@ -11,5 +11,6 @@ until $(curl --output /dev/null --silent --head --fail http://localhost:3000); d
   sleep 5
 done
 echo "Oh hai server!"
+npm run seed &&
 npm --prefix e2e test
 exit 0
