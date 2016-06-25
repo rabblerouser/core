@@ -30,6 +30,8 @@ import { startAtLogin,
   waitForBranchOption,
 } from './pages/adminPage';
 
+const testID = Date.now();
+
 function login(email, password) {
   return enterEmail(email)
     .then(() => enterPassword(password))
@@ -65,7 +67,7 @@ const adminLogsInAndOut = {
 };
 
 function fillNewOrganiser() {
-  return enterEmail('organiser@email.com')
+  return enterEmail(`${testID}organiser@email.com`)
     .then(() => enterName('Sasha'))
     .then(() => enterContactNumber('0401-223-443'))
     .then(() => enterPassword('a long password'))
@@ -100,7 +102,7 @@ const adminCanEditAnOrganiser = {
 };
 
 function fillNewAdmin() {
-  return enterEmail('anotherAdmin@email.com')
+  return enterEmail(`${testID}anotherAdmin@email.com`)
     .then(() => enterName('Chris'))
     .then(() => enterContactNumber('0401-223-443'))
     .then(() => enterPassword('a long password'))
@@ -135,7 +137,7 @@ const adminCanEditAnAdmin = {
 };
 
 function fillNewGroup() {
-  return enterGroupName('A group')
+  return enterGroupName(`${testID}A group`)
     .then(() => enterGroupDescription('This group does things'))
     .then(() => clickSave());
 }
@@ -151,8 +153,8 @@ const adminCanAddAGroup = {
     adminLogin()
     .then(clickNewGroup)
     .then(fillNewGroup)
-    .then(() => waitForGroupOption('A group'))
-    .then(() => selectGroup('A group'))
+    .then(() => waitForGroupOption(`${testID}A group`))
+    .then(() => selectGroup(`${testID}A group`))
     .then(() => waitForExisting('This group does things'));
   },
 };
@@ -161,11 +163,11 @@ const adminCanEditAGroup = {
   description: 'As an admin I should be able to edit a group',
   testRun: () => {
     adminLogin()
-    .then(() => waitForGroupOption('A group'))
-    .then(() => selectGroup('A group'))
+    .then(() => waitForGroupOption(`${testID}A group`))
+    .then(() => selectGroup(`${testID}A group`))
     .then(clickEditCurrentGroup)
     .then(editGroup)
-    .then(() => waitForGroupOption('A group changed'));
+    .then(() => waitForGroupOption(`${testID}A group changed`));
   },
 };
 
@@ -189,13 +191,13 @@ const adminCanEditAMember = {
 };
 
 function fillNewBranch() {
-  return enterBranchName('A new branch')
+  return enterBranchName(`${testID}A new branch`)
     .then(() => enterBranchContact('This branch contact'))
     .then(() => clickSave());
 }
 
 function editBranch() {
-  return enterBranchName('A branch changed')
+  return enterBranchName(`${testID}A branch changed`)
     .then(clickSave);
 }
 
@@ -205,8 +207,8 @@ const adminCanAddABranch = {
     adminLogin()
     .then(clickNewBranch)
     .then(fillNewBranch)
-    .then(() => waitForBranchOption('A new branch'))
-    .then(() => selectBranch('A new branch'))
+    .then(() => waitForBranchOption(`${testID}A new branch`))
+    .then(() => selectBranch(`${testID}A new branch`))
     .then(() => waitForExisting('This branch contact'));
   },
 };
@@ -215,10 +217,10 @@ const adminCanEditABranch = {
   description: 'As an admin I should be able to edit a branch',
   testRun: () => {
     adminLogin()
-    .then(() => waitForBranchOption('A new branch'))
+    .then(() => waitForBranchOption(`${testID}A new branch`))
     .then(clickEditBranch)
     .then(editBranch)
-    .then(() => waitForBranchOption('A branch changed'));
+    .then(() => waitForBranchOption(`${testID}A branch changed`));
   },
 };
 
