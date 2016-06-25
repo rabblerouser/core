@@ -4,7 +4,7 @@
 
 ## Our vision
 
-Rabble Rouser is for campaigning organisations who need tools to mobilise and organise their members and the community. 
+Rabble Rouser is for campaigning organisations who need tools to mobilise and organise their members and the community.
 
 Rabble Rouser will be offered for free, alllowing organisations to spend their time and money on the things that matter.
 
@@ -68,6 +68,10 @@ It will have a membership registration core and a set of plugins.
 0. Install dependencies
 
         npm install
+
+0. Clear and seed the local database for dev and e2e testing
+
+        npm run seed
 
 0. Run the tests
 
