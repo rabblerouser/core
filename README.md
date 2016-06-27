@@ -171,6 +171,26 @@ We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/
 
         npm run createSuperAdmin
 
+### Change the skin
+
+The skins live in the `frontend/skins` directory. There's a default skin with a Rabble Rouser theme, and you can add your own by creating another directory. Look inside the default skin directory to see the directory structure you need. This might change over time.
+
+You can change which skin is being used:
+
+0. Change this setting in `frontend/package.json`:
+
+        "config": {
+          "skin": "default"
+        }
+
+0. `cd frontend`
+
+0. `npm run set-skin` to propagate the settings into the frontend
+
+0. `cd ..`
+
+0. `npm run build` to have the backend use them
+
 ### Pull a copy of the staging database from Heroku
 
 0. heroku pg:backups capture --app <app_name>
