@@ -12,5 +12,4 @@ until $(curl --output /dev/null --silent --head --fail http://localhost:3000); d
 done
 echo "Oh hai server!"
 npm run seed &&
-npm --prefix e2e test
-exit 0
+npm --prefix e2e run ci-test
