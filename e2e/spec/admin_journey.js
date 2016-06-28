@@ -51,9 +51,7 @@ const adminTriesToLoginWithWrongPassword = {
 function adminLogin() {
   return startAtLogin()
   .then(() => login('admin@rr.com', 'apassword'))
-  .then(() =>
-    window.casper.waitForUrl(/dashboard\/admin$/)
-  );
+  .waitForUrl(/dashboard\/admin$/);
 }
 
 const adminLogsInAndOut = {
