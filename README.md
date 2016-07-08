@@ -2,6 +2,10 @@
 
 [![Build Status](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master/build_image)](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master)
 
+Rabble Rouser core is the membership database component of the Rabble Rouser ecosystem. It provides a member sign up form and an administrative backend which allows editing of members.
+
+To find out more about the Rabble Rouser project, check out our [documentation repo](https://github.com/rabblerouser/rabblerouser-docs).
+
 ## First-time setup
 
 0. Install [VirtualBox](https://www.virtualbox.org/)
