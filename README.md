@@ -2,44 +2,6 @@
 
 [![Build Status](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master/build_image)](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master)
 
-## Our vision
-
-Rabble Rouser is for campaigning organisations who need tools to mobilise and organise their members and the community.
-
-Rabble Rouser will be offered for free, alllowing organisations to spend their time and money on the things that matter.
-
-It will have a membership registration core and a set of plugins.
-
-## Our goals
-
-### April 2017
-
-* We have built the stuff our users need the most
-* At least one closely allied organisation has adopted RR
-* We have sponsorship to fund development
-
-### April 2019
-
-* The community is building plugins for RR
-* Rabble Rouser is offered as a service
-* Lots of sponsors fund ongoing development
-* Rabble Rouser is adopted by lots of progressive campaigning organisations around the world
-
-### April 2021
-
-* Active and self-sustaining open source community
-* Rabble Rouser conference
-* Permanent Rabble Rouser team
-* Rabble Rouser is the de-facto choice for campaigning organisations
-
-## Our challenges
-
-* Distributed team
-* Competing priorities
-* Decision making
-* Maintaining commitment
-
-
 ## First-time setup
 
 0. Install [VirtualBox](https://www.virtualbox.org/)
