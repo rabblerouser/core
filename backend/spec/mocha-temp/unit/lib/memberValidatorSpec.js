@@ -6,7 +6,6 @@ describe('memberValidator', () => {
     describe('isValid', () => {
 
       let validMember = {
-        'contactFirstName': 'Jaime',
         'branchId': 'rururu-we-ew-ew',
         'firstName': 'Sherlock',
         'email': 'sherlock@holmes.co.uk',
@@ -16,7 +15,6 @@ describe('memberValidator', () => {
       };
 
       let optionalFields = {
-          'contactLastName': 'Sherlock',
           'lastName': 'Holmes',
           'additionalInfo':  'More info for you!',
           'pastoralNotes': 'Some extra detail'
@@ -40,14 +38,13 @@ describe('memberValidator', () => {
 
       it('should return array of errors when missing data', () => {
         let invalidMember = {
-            'contactFirstName': '',
             'email': '',
             'primaryPhoneNumber': '',
             'firstName': '',
             'dateOfBirth':  '',
             'branchId': '',
         };
-        let expectedErrors = ['contactFirstName','email','primaryPhoneNumber','firstName','dateOfBirth', 'branchId'];
+        let expectedErrors = ['email','primaryPhoneNumber','firstName','dateOfBirth', 'branchId'];
           expect(memberValidator.isValid(invalidMember)).to.have.members(expectedErrors);
 
       });

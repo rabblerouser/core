@@ -111,8 +111,6 @@ function list(branchId) {
       'lastName',
       'primaryPhoneNumber',
       'secondaryPhoneNumber',
-      'contactFirstName',
-      'contactLastName',
       'dateOfBirth',
       'email',
       'additionalInfo',

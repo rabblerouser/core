@@ -30,8 +30,6 @@ export const AdminDashboard = {
 };
 
 export const ApplicationFormFieldLabels = {
-  contactName: 'First name',
-  contactLastName: 'Last name',
   contactEmail: 'Email address',
   contactNumber: 'Contact number',
   memberName: 'First name',
@@ -50,8 +48,6 @@ export const ApplicationFormFieldLabels = {
 };
 
 export const FormValidationErrors = {
-  contactName: { name: 'Contact first name', message: 'Please enter a contact name. No symbols allowed.' },
-  contactLastName: { name: 'Contact last name', message: 'No symbols allowed.' },
   contactEmail: { name: 'Email address', message: 'Please enter a valid email address i.e. valid@email.com' },
   contactNumber: { name: 'Contact number', message: 'Please enter a valid phone number.' },
   memberName: {

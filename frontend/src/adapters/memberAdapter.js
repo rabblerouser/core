@@ -25,8 +25,6 @@ const parseMember = data => {
     id: data.id,
     memberName: data.firstName,
     memberLastName: data.lastName,
-    contactName: data.contactFirstName,
-    contactLastName: data.contactLastName,
     contactNumber: data.primaryPhoneNumber,
     contactEmail: data.email,
     memberBirthYear: parseYear(data.dateOfBirth),
@@ -53,8 +51,6 @@ const prepareNewMemberPayload = fields => ({
   email: fields.contactEmail,
   primaryPhoneNumber: fields.contactNumber,
   dateOfBirth: mapDateOfBirth(fields.memberBirthYear),
-  contactFirstName: fields.contactName,
-  contactLastName: fields.contactLastName,
   branchId: fields.branchSelection,
   additionalInfo: fields.additionalInfo,
 });

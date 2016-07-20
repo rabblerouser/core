@@ -2,8 +2,6 @@ import { startAtRegister,
   clickRegister,
   visibleProgressMessage,
   visibleValidationErrors,
-  enterContactName,
-  enterContactLastName,
   enterContactNumber,
   enterMemberName,
   enterMemberLastName,
@@ -25,8 +23,6 @@ const userHasValidationErrors = {
 
 function fillValidForm() {
   return selectBranch('A branch')
-  .then(() => enterContactName('Connor'))
-  .then(() => enterContactLastName('Melbourne'))
   .then(() => enterContactNumber('01010101010'))
   .then(() => enterMemberName('Winston'))
   .then(() => enterMemberLastName('Sydney'))

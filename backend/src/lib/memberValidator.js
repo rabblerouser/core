@@ -7,8 +7,6 @@ const isValidBranch = name =>
   inputValidator.isValidString(name, new RegExp('[<>"%;&+]')) && name.length < 256;
 
 const memberFieldsChecks = {
-  contactFirstName: inputValidator.isValidName,
-  contactLastName: inputValidator.isValidOptionalName,
   email: inputValidator.isValidEmail,
   primaryPhoneNumber: inputValidator.isValidPhone,
   firstName: inputValidator.isValidName,

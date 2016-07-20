@@ -16,8 +16,6 @@ const handleResponseError = error => {
 const adaptMember = member => {
   const adapted = {
     id: member.id,
-    contactFirstName: member.contactName,
-    contactLastName: member.contactLastName,
     branchId: member.branchId,
     firstName: member.memberName,
     lastName: member.memberLastName,

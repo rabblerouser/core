@@ -24,8 +24,6 @@ export default class NewMemberForm extends Component {
     };
     this.formValues = {
       branchSelection: '',
-      contactName: '',
-      contactLastName: '',
       contactNumber: '',
       contactEmail: '',
       memberName: '',

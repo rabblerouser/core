@@ -19,7 +19,6 @@ Branch.create({ id: branchId, name: 'A branch' })
 .then(() => process.stdout.write('Database seeded with group: \'a group with a member\'.\n'))
 .then(() => Member.create(
   { firstName: 'A name', lastName: 'surname', gender: 'social-construct',
-    contactFirstName: 'A name', contactLastName: 'surname',
     memberSince: new Date(), email: 'a@name.com', dateOfBirth: '01/01/1990', primaryPhoneNumber: '0',
     secondaryPhoneNumber: '1', residentialAddress: null, postalAddress: null, membershipType: 'full',
     branchId, additionalInfo: '' })

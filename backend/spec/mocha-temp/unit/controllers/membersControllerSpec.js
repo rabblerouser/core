@@ -47,8 +47,6 @@ describe('membersController', () => {
                     residentialAddress: residentialAddress,
                     postalAddress: postalAddress,
                     membershipType: 'full',
-                    contactFirstName: 'Jaime',
-                    contactLastName: 'Garzon',
                     branchId: 'some-id-1',
                     additionalInfo: null,
                     pastoralNotes: null,

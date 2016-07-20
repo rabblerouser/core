@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 
 describe('InlineError', () => {
   it('have text for the error field', () => {
-    const rendered = shallow(<InlineError errorFor="contactName" />);
-    expect(rendered.text()).toContain('Please enter a contact name. No symbols allowed.');
+    const rendered = shallow(<InlineError errorFor="memberName" />);
+    expect(rendered.text()).toContain('Please enter the member\'s name. No symbols allowed.');
   });
 });

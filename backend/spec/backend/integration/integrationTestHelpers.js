@@ -62,8 +62,6 @@ function createGroupInBranch(branchId) {
 
 let makeMember = (branchId) => {
     return {
-        'contactFirstName': 'Jaime',
-        'contactLastName': 'Garzon',
         'branchId': branchId,
         'firstName': 'Sherlock',
         'lastName': 'Holmes',

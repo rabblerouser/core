@@ -26,34 +26,6 @@ const NewMemberFields = props => {
         }
       </select>
 
-      <fieldset className="field-pair">
-        <legend>Contact name</legend>
-        <div className="sub-field">
-
-          <FormFieldLabel fieldName="contactName" isOptional={false} hasError={isValidationError('contactName')} />
-          <input
-            type="text"
-            defaultValue={props.formValues.contactName}
-            onChange={props.onChange('contactName')}
-            id="contactName"
-            className="contactName"
-          />
-        </div>
-        <div className="sub-field">
-          <FormFieldLabel
-            fieldName="contactLastName" isOptional={false}
-            hasError={isValidationError('contactLastName')}
-          />
-          <input
-            type="text"
-            defaultValue={props.formValues.contactLastName}
-            onChange={props.onChange('contactLastName')}
-            id="contactLastName"
-            className="contactLastName"
-          />
-        </div>
-      </fieldset>
-
       <FormFieldLabel fieldName="contactNumber" isOptional={false} hasError={isValidationError('contactNumber')} />
       <input
         type="tel"

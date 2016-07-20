@@ -7,8 +7,6 @@ import { navigateTo,
 } from './common';
 
 export const startAtRegister = () => navigateTo('/');
-export const enterContactName = text => inputById('contactName', text);
-export const enterContactLastName = text => inputById('contactLastName', text);
 export const enterContactNumber = text => inputById('contactNumber', text);
 export const enterMemberName = text => inputById('memberName', text);
 export const enterMemberLastName = text => inputById('memberLastName', text);

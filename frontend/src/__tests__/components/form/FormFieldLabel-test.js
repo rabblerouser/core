@@ -6,9 +6,9 @@ import { shallow } from 'enzyme';
 describe('FormFieldLabel', () => {
   describe('when there is a field name', () => {
     it('should have label text from configured strings', () => {
-      const element = shallow(<FormFieldLabel fieldName="contactName" />).find('label');
+      const element = shallow(<FormFieldLabel fieldName="memberName" />).find('label');
       expect(element).not.toBeFalsy();
-      expect(element.text()).toBe(Labels.contactName);
+      expect(element.text()).toBe(Labels.memberName);
     });
   });
 
@@ -21,7 +21,7 @@ describe('FormFieldLabel', () => {
 
   describe('when the field is not optional', () => {
     it('should not include the text (optional) as a span', () => {
-      const element = shallow(<FormFieldLabel fieldName="contactName" isOptional={false} />).find('span');
+      const element = shallow(<FormFieldLabel fieldName="memberName" isOptional={false} />).find('span');
       expect(element.prop('className')).toBe('mandatory');
       expect(element.text()).toBe('');
     });
@@ -29,14 +29,14 @@ describe('FormFieldLabel', () => {
 
   describe('when there is an error', () => {
     it('should include an InlineError element', () => {
-      const element = shallow(<FormFieldLabel fieldName="contactName" hasError />).find('InlineError');
+      const element = shallow(<FormFieldLabel fieldName="memberName" hasError />).find('InlineError');
       expect(element).not.toBeFalsy();
     });
   });
 
   describe('when there is no error', () => {
     it('should not include an InlineError element', () => {
-      const element = shallow(<FormFieldLabel fieldName="contactName" />).find('InlineError');
+      const element = shallow(<FormFieldLabel fieldName="memberName" />).find('InlineError');
       expect(element.length).toBe(0);
     });
   });

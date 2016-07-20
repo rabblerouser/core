@@ -32,35 +32,9 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
   sections.details = (
     <section id="details">
       <dl>
-        <dt>Date applied</dt>
+        <dt>Member since</dt>
         <dd>{moment(formValues.memberSince).format('YYYY/MM/DD')}</dd>
       </dl>
-      <fieldset className="field-pair">
-        <legend>Contact name</legend>
-        <div className="sub-field">
-          <FormFieldLabel fieldName="contactName" isOptional={false} hasError={isValidationError('contactName')} />
-          <input
-            type="text"
-            defaultValue={formValues.contactName}
-            onChange={onChange('contactName')}
-            id="contactName"
-            className="contactName"
-          />
-        </div>
-        <div className="sub-field">
-          <FormFieldLabel
-            fieldName="contactLastName"
-            isOptional={false}
-            hasError={isValidationError('contactLastName')}
-          />
-          <input
-            type="text"
-            defaultValue={formValues.contactLastName}
-            onChange={onChange('contactLastName')}
-            id="contactLastName" className="contactLastName"
-          />
-        </div>
-      </fieldset>
 
       <FormFieldLabel fieldName="contactNumber" isOptional={false} hasError={isValidationError('contactNumber')} />
       <input

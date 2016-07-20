@@ -58,8 +58,6 @@ function parseMember(req) {
     residentialAddress: residentialAddress(req.body.residentialAddress),
     postalAddress: postalAddress(req.body.postalAddress),
     membershipType: req.body.membershipType,
-    contactFirstName: req.body.contactFirstName,
-    contactLastName: blankToNull(req.body.contactLastName),
     branchId: req.body.branchId,
     additionalInfo: req.body.additionalInfo,
     pastoralNotes: req.body.pastoralNotes,
