@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const columns = [
   { type: 'name', field: 'memberName', label: 'Member name' },
-  { type: 'name', field: 'contactNumber', label: 'Contact number' },
+  { type: 'name', field: 'contactNumber', label: 'Contact information' },
   { type: 'name', field: 'memberSince', label: 'Member since' },
   { type: 'name', field: 'pastoralNotes', label: 'Pastoral notes' },
   { type: 'actions' },

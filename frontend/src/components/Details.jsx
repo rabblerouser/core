@@ -15,6 +15,8 @@ export default class Details extends Component {
       branches: [],
       fieldValues: props.formValues,
     };
+    this.onChange = this.onChange.bind(this);
+    this.submitDetails = this.submitDetails.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +39,12 @@ export default class Details extends Component {
     });
   }
 
+  onChange(fieldName) {
+    return event => (
+      this.setState({ fieldValues: { ...this.state.fieldValues, [fieldName]: event.target.value } })
+    );
+  }
+
   handleValidationErrors(validationErrors, scrollToError) {
     const invalidFields = validationErrors;
     const errors = invalidFields.map(error => ErrorStrings[error].name);
@@ -47,12 +55,6 @@ export default class Details extends Component {
       scrollToError,
       errorTitle: Strings.validationErrorTitle,
     });
-  }
-
-  onChange(fieldName) {
-    return event => (
-      this.setState({ fieldValues: { ...this.state.fieldValues, [fieldName]: event.target.value } })
-    );
   }
 
   submitDetails() {
@@ -78,21 +80,26 @@ export default class Details extends Component {
             errorTitle={this.state.errorTitle}
           />
           <p>{Strings.instructions}</p>
-          <p><strong>{Strings.byoReminder}</strong></p>
 
           <NewMemberFields
-            onChange={this.onChange.bind(this)}
+            onChange={this.onChange}
             invalidFields={this.state.invalidFields}
             branches={this.state.branches}
             formValues={this.props.formValues}
           />
 
           <div className="navigation">
-            <button onClick={this.submitDetails.bind(this)}>Register</button>
-            <p>or <a onClick={this.props.previousStep} href={Resources.homePage}>return home</a></p>
+            <button onClick={this.submitDetails}>Register</button>
+            <p>or <a href={Resources.homePage}>return home</a></p>
           </div>
         </div>
       </section>
     );
   }
 }
+
+Details.propTypes = {
+  formValues: React.PropTypes.object.isRequired,
+  errors: React.PropTypes.array.isRequired,
+  postAndContinue: React.PropTypes.func.isRequired,
+};

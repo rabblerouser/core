@@ -10,7 +10,6 @@ const memberFieldsChecks = {
   email: inputValidator.isValidEmail,
   primaryPhoneNumber: inputValidator.isValidPhone,
   firstName: inputValidator.isValidName,
-  dateOfBirth: inputValidator.isValidDate,
   branchId: isValidBranch,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
   pastoralNotes: inputValidator.isValidOptionalTextBlock,

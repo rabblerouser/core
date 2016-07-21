@@ -32,7 +32,6 @@ function parse(input, residentialAddress, postalAddress) {
 
 
   return Object.assign({}, input, {
-    dateOfBirth: input.dateOfBirth ? moment(input.dateOfBirth, 'DD/MM/YYYY').toDate() : null,
     residentialAddressId,
     postalAddressId,
   });
@@ -111,7 +110,6 @@ function list(branchId) {
       'lastName',
       'primaryPhoneNumber',
       'secondaryPhoneNumber',
-      'dateOfBirth',
       'email',
       'additionalInfo',
       'membershipType',

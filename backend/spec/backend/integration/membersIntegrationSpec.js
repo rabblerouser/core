@@ -19,7 +19,7 @@ function getMembers(someAgent, state) {
 
 function editMember(member, groups) {
     groups = groups || [];
-    return Object.assign({}, member, {dateOfBirth: '01/01/1986', groups: groups, branch: member.branchId});
+    return Object.assign({}, member, { groups: groups, branch: member.branchId });
 }
 
 let hasNewMember = (res) => {

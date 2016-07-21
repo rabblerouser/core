@@ -85,49 +85,6 @@ describe('inputValidator', () => {
         });
     });
 
-    describe('isValidDateOfBirth', () => {
-        it('Should return true given a string with a dateOfBirth', () => {
-            expect(inputValidator.isValidDate('22/12/1900')).to.be.true;
-        });
-
-        let testCases = [
-            null,
-            '',
-            '21 Dec 2015',
-            moment().add(7, 'days'),
-            '222/12/1900'
-        ];
-
-        testCases.forEach((input) => {
-            it(`Should return false given a ${input} dateOfBirth`, () => {
-                expect(inputValidator.isValidDate(input)).to.be.false;
-            });
-        });
-    });
-
-    describe('isValidYear', () => {
-      [
-          '2000',
-          '2016',
-          '1999'
-      ].forEach((testCase) => {
-          it(`Should return true given a string with a birth year in range ${testCase}`, () => {
-              expect(inputValidator.isValidYear(testCase)).to.be.true;
-          });
-      });
-
-      [
-          '',
-          '1899',
-          null,
-          '2017',
-          'words?'
-      ].forEach((testCase) => {
-          it(`Should return false given a non year string or out of range ${testCase}`, () => {
-              expect(inputValidator.isValidYear(testCase)).to.be.false;
-          });
-      });
-    });
 
     describe('isValidOptionalName', () => {
         let validTestCases = [

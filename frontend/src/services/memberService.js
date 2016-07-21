@@ -1,4 +1,3 @@
-import moment from 'moment';
 import Q from 'q';
 import ajax from './ajax';
 import memberAdapter from '../adapters/memberAdapter.js';
@@ -20,7 +19,6 @@ const adaptMember = member => {
     firstName: member.memberName,
     lastName: member.memberLastName,
     email: member.contactEmail,
-    dateOfBirth: moment(member.memberBirthYear).format('DD/MM/YYYY'),
     primaryPhoneNumber: member.contactNumber,
     secondaryPhoneNumber: member.secondaryPhoneNumber,
     gender: member.gender,

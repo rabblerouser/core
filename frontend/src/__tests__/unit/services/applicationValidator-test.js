@@ -6,7 +6,6 @@ describe('applicationValidator', () => {
       contactEmail: 'sherlock@holmes.co.uk',
       contactNumber: '0396291146',
       memberName: 'Holmes',
-      memberBirthYear: '2000',
       branchSelection: 'Geelong',
       memberLastName: 'Holmes',
       additionalInfo: 'More info for you!',
@@ -16,7 +15,6 @@ describe('applicationValidator', () => {
       contactEmail: 'sherlock@holmes.co.uk',
       contactNumber: '0396291146',
       memberName: 'Holmes',
-      memberBirthYear: '2000',
       branchSelection: 'Geelong',
       memberLastName: '',
       additionalInfo: '',
@@ -39,7 +37,6 @@ describe('applicationValidator', () => {
         contactEmail: '',
         contactNumber: '',
         memberName: '',
-        memberBirthYear: '',
         branchSelection: '',
         memberLastName: '',
         additionalInfo: '',
@@ -48,7 +45,6 @@ describe('applicationValidator', () => {
         'contactEmail',
         'contactNumber',
         'memberName',
-        'memberBirthYear',
         'branchSelection',
       ];
       expect(applicationValidator.isValid(invalidApplication)).toEqual(expectedErrors);

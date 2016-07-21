@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     gender: DataTypes.STRING,
     primaryPhoneNumber: DataTypes.STRING,
     secondaryPhoneNumber: DataTypes.STRING,
-    dateOfBirth: DataTypes.DATEONLY,
     membershipType: { type: DataTypes.STRING, defaultValue: 'full' },
     memberSince: { type: DataTypes.DATE, allowNull: false },
     additionalInfo: { type: DataTypes.TEXT, allowNull: true },

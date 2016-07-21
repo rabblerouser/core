@@ -6,7 +6,6 @@ const memberFieldsChecks = {
   contactNumber: inputValidator.isValidPhone,
   memberName: inputValidator.isValidName,
   memberLastName: inputValidator.isValidOptionalName,
-  memberBirthYear: inputValidator.isValidYear,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
   pastoralNotes: inputValidator.isValidOptionalTextBlock,
 };

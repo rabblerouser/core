@@ -74,23 +74,6 @@ const NewMemberFields = props => {
         </div>
       </fieldset>
 
-      <FormFieldLabel
-        fieldName="memberBirthYear"
-        isOptional={false}
-        hasError={isValidationError('memberBirthYear')}
-      />
-      <aside>{Strings.ageReminder}</aside>
-      <input
-        type="number"
-        defaultValue={props.formValues.memberBirthYear}
-        onChange={props.onChange('memberBirthYear')}
-        placeholder="YYYY"
-        min="1980"
-        max="2016"
-        id="memberBirthYear"
-        className="memberBirthYear"
-      />
-
       <FormFieldLabel fieldName="additionalInfo" isOptional hasError={isValidationError('additionalInfo')} />
       <aside>{Strings.additionalInfoAside}</aside>
       <textarea

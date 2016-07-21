@@ -28,7 +28,6 @@ export default class NewMemberForm extends Component {
       contactEmail: '',
       memberName: '',
       memberLastName: '',
-      memberBirthYear: '',
       additionalInfo: '',
     };
   }

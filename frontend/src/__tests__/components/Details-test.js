@@ -10,7 +10,6 @@ describe('Details step', () => {
     contactEmail: '',
     contactNumber: '',
     memberName: '',
-    memberBirthYear: '',
     memberLastName: '',
     additionalInfo: '',
   };
@@ -20,8 +19,7 @@ describe('Details step', () => {
   });
 
   it('should show list of invalid fields if the details entered were invalid', () => {
-    const expectedErrors = 'Email addressContact numberMember first nameMember\'s year ' +
-      'of birthBranch to join';
+    const expectedErrors = 'Email addressContact numberMember first nameBranch to join';
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
@@ -56,12 +54,5 @@ describe('Details step', () => {
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
     const errorText = ReactDOM.findDOMNode(errors[4]).textContent;
     expect(errorText).toMatch(/Please enter the member's name. No symbols allowed./);
-  });
-
-  it('should show member birth year error message if it was not filled in', () => {
-    const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
-    TestUtils.Simulate.click(continueButton);
-    const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
-    expect(ReactDOM.findDOMNode(errors[5]).textContent).toMatch(/Please select the year of birth./);
   });
 });

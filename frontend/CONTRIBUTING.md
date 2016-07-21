@@ -24,7 +24,7 @@ React architectural principles
 
 #### Testing
 * Test components as unit tests by using shallow rendering.
-* We (will) use Enzyme.
+* We use Enzyme.
 * Aim for coverage with end-to-end and unit tests (not so much integration).
 
 ##### Presentation components

@@ -41,7 +41,6 @@ describe('membersController', () => {
                     lastName: 'Holmes',
                     email: 'sherlock@holmes.co.uk',
                     gender: 'detective genius',
-                    dateOfBirth: '22/12/1900',
                     primaryPhoneNumber: '0396291146',
                     secondaryPhoneNumber: '0394291146',
                     residentialAddress: residentialAddress,

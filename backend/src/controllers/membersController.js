@@ -54,7 +54,6 @@ function parseMember(req) {
     gender: req.body.gender,
     primaryPhoneNumber: req.body.primaryPhoneNumber,
     secondaryPhoneNumber: req.body.secondaryPhoneNumber,
-    dateOfBirth: req.body.dateOfBirth,
     residentialAddress: residentialAddress(req.body.residentialAddress),
     postalAddress: postalAddress(req.body.postalAddress),
     membershipType: req.body.membershipType,

@@ -11,8 +11,6 @@ const models = require('../../../../src/models'),
 var memberService = require('../../../../src/services/memberService');
 var branchService = require('../../../../src/services/branchService');
 
-const fakeDateOfBirth = '22/12/1900';
-const formattedDateOfBirth = moment(fakeDateOfBirth, 'DD/MM/YYYY').toDate();
 const randomNewMemberId = 1;
 const fakeResidentialAddressId = 1;
 const fakePostalAddressId = 2;
@@ -72,7 +70,6 @@ function fakeNewMember(residentialAddress, postalAddress) {
             lastName: 'Holmes',
             gender: 'horse radish',
             email: 'sherlock@holmes.co.uk',
-            dateOfBirth: fakeDateOfBirth,
             primaryPhoneNumber: '0396291146',
             secondaryPhoneNumber: '0394291146',
             residentialAddress: residentialAddress,
@@ -89,7 +86,6 @@ function getExpectedNewMember(residentialAddressId, postalAddressId) {
         lastName: 'Holmes',
         gender: 'horse radish',
         email: 'sherlock@holmes.co.uk',
-        dateOfBirth: formattedDateOfBirth,
         primaryPhoneNumber: '0396291146',
         secondaryPhoneNumber: '0394291146',
         residentialAddressId: residentialAddressId,
@@ -171,7 +167,6 @@ describe('memberService', () => {
                     lastName: 'Holmes',
                     gender: 'horse radish',
                     email: 'sherlock@holmes.co.uk',
-                    dateOfBirth: formattedDateOfBirth,
                     primaryPhoneNumber: '0396291146',
                     secondaryPhoneNumber: '0394291146',
                     membershipType: 'full',
@@ -338,7 +333,6 @@ describe('memberService', () => {
                 expect(sampleMember.firstName).to.not.be.null;
                 expect(sampleMember.lastName).to.not.be.null;
                 expect(sampleMember.primaryPhoneNumber).to.not.be.null;
-                expect(sampleMember.dateOfBirth).to.not.be.null;
                 expect(sampleMember.additionalInfo).to.not.be.null;
                 expect(sampleMember.pastoralNotes).to.not.be.null;
             })
@@ -361,7 +355,6 @@ describe('memberService', () => {
                 expect(sampleMember.firstName).to.not.be.null;
                 expect(sampleMember.lastName).to.not.be.null;
                 expect(sampleMember.primaryPhoneNumber).to.not.be.null;
-                expect(sampleMember.dateOfBirth).to.not.be.null;
                 expect(sampleMember.additionalInfo).to.not.be.null;
                 expect(sampleMember.pastoralNotes).to.not.be.null;
             })

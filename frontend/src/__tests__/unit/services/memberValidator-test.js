@@ -6,7 +6,6 @@ describe('memberValidator', () => {
       contactEmail: 'sherlock@holmes.co.uk',
       contactNumber: '0396291146',
       memberName: 'Holmes',
-      memberBirthYear: '2000',
       branchId: 'Geelong',
       memberLastName: 'Holmes',
       additionalInfo: 'More info for you!',
@@ -17,7 +16,6 @@ describe('memberValidator', () => {
       contactEmail: 'sherlock@holmes.co.uk',
       contactNumber: '0396291146',
       memberName: 'Holmes',
-      memberBirthYear: '2000',
       branchId: 'Geelong',
       memberLastName: '',
       additionalInfo: '',
@@ -41,7 +39,6 @@ describe('memberValidator', () => {
         contactEmail: '',
         contactNumber: '',
         memberName: '',
-        memberBirthYear: '',
         branchId: '',
         memberLastName: '',
       };
@@ -49,7 +46,6 @@ describe('memberValidator', () => {
         'contactEmail',
         'contactNumber',
         'memberName',
-        'memberBirthYear',
       ];
       expect(memberValidator.isValid(invalidMember)).toEqual(expectedErrors);
     });

@@ -7,7 +7,6 @@
 // /////////////////////////////////////// //
 
 import validator from 'validator';
-import moment from 'moment';
 import { isEmpty } from 'lodash';
 
 const containsSpecialCharacters = (theString, restricted) => restricted.test(theString);
@@ -34,17 +33,6 @@ const isValidPhoneNumber = input => /^[-+\s()\d]+$/.test(input);
 
 const isValidPhone = phone => (!!phone) && isValidPhoneNumber(phone);
 
-const isValidDate = date => {
-  const formattedDate = moment(date, 'DD/MM/YYYY', true);
-  return formattedDate.isValid() && formattedDate.isSameOrBefore(moment());
-};
-
-const isValidYear = number => {
-  const currentYear = new Date().getFullYear();
-  const year = parseInt(number, 10);
-  return year <= currentYear && year >= 1900;
-};
-
 const isValidPassword = input => (!!input) && /^(.){11,200}$/.test(input);
 
 const isValidUUID = input => validator.isUUID(`${input}`, 4);
@@ -56,11 +44,9 @@ module.exports = {
   isValidEmail,
   isValidPhone,
   isValidOptionalPhoneNumber,
-  isValidDate,
   isValidText,
   isValidOptionalTextBlock,
   isValidTextBlock,
   isValidUUID,
-  isValidYear,
   isValidPassword,
 };

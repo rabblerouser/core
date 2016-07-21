@@ -66,7 +66,6 @@ let makeMember = (branchId) => {
         'firstName': 'Sherlock',
         'lastName': 'Holmes',
         'email': 'sherlock@holmes.co.uk',
-        'dateOfBirth': '01/01/1983',
         'primaryPhoneNumber': '0396291146',
         'secondaryPhoneNumber': null,
         'gender': 'horse radish',

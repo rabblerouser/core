@@ -88,7 +88,6 @@ describe('admin adapter', () => {
         name: 'Jo jo',
         email: 'The 3rd',
         phoneNumber: 'Jo',
-        dateOfBirth: '1990-01-01T00:00:00.000Z',
         memberSince: '2016-03-08T22:34:23.721Z',
       };
 

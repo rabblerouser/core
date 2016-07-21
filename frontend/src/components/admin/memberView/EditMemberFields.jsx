@@ -84,22 +84,6 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
         </div>
       </fieldset>
 
-      <FormFieldLabel
-        fieldName="memberBirthYear"
-        isOptional={false}
-        hasError={isValidationError('memberBirthYear')}
-      />
-      <input
-        type="number"
-        defaultValue={formValues.memberBirthYear}
-        onChange={onChange('memberBirthYear')}
-        placeholder="YYYY"
-        min="1980"
-        max="2016"
-        id="memberBirthYear"
-        className="memberBirthYear"
-      />
-
       <dl>
         <dt>Additional info</dt>
         <dd className="textblock">{formValues.additionalInfo}</dd>

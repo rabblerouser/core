@@ -6,7 +6,6 @@ import { startAtRegister,
   enterMemberName,
   enterMemberLastName,
   enterContactEmail,
-  enterMemberBirthYear,
   enterAdditionalInfo,
   selectBranch } from './pages/registrationPage';
 
@@ -27,7 +26,6 @@ function fillValidForm() {
   .then(() => enterMemberName('Winston'))
   .then(() => enterMemberLastName('Sydney'))
   .then(() => enterContactEmail('qoku@gmail.com'))
-  .then(() => enterMemberBirthYear('1990'))
   .then(() => enterAdditionalInfo('More text'));
 }
 
