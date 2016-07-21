@@ -50,8 +50,8 @@
     "node-neat": "^1.7.2",
     "node-sass": "^3.7.0",
     "q": "^1.4.1",
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
     "react-modal": "^1.2.1",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
@@ -70,7 +70,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "phantomjs-prebuilt": "^2.1.7",
-    "react-addons-test-utils": "^0.14.8",
+    "react-addons-test-utils": "^15.2.1",
     "sinon": "^1.17.3",
     "webpack-dev-server": "^1.14.1"
   }
