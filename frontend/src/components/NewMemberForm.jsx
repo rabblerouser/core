@@ -23,11 +23,11 @@ export default class NewMemberForm extends Component {
       membershipType: 'full',
     };
     this.formValues = {
-      branchSelection: '',
-      contactNumber: '',
-      contactEmail: '',
       memberName: '',
       memberLastName: '',
+      branchSelection: '',
+      contactEmail: '',
+      contactNumber: '',
       additionalInfo: '',
     };
   }

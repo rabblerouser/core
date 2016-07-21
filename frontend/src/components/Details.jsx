@@ -79,7 +79,6 @@ export default class Details extends Component {
             scrollToError={this.state.scrollToError}
             errorTitle={this.state.errorTitle}
           />
-          <p>{Strings.instructions}</p>
 
           <NewMemberFields
             onChange={this.onChange}

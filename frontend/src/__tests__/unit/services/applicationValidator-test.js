@@ -47,7 +47,10 @@ describe('applicationValidator', () => {
         'memberName',
         'branchSelection',
       ];
-      expect(applicationValidator.isValid(invalidApplication)).toEqual(expectedErrors);
+      const errors = applicationValidator.isValid(invalidApplication);
+      expectedErrors.forEach(error => {
+        expect(errors).toContain(error);
+      });
     });
   });
 });

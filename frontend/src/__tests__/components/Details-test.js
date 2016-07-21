@@ -19,25 +19,28 @@ describe('Details step', () => {
   });
 
   it('should show list of invalid fields if the details entered were invalid', () => {
-    const expectedErrors = 'Email addressContact numberMember first nameBranch to join';
+    const expectedErrors = ['Email address', 'Contact number', 'Member first name', 'Branch to join'];
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
-    expect(ReactDOM.findDOMNode(errors[0]).textContent).toMatch(expectedErrors);
+    expectedErrors.forEach(error => {
+      expect(ReactDOM.findDOMNode(errors[0]).textContent).toContain(error);
+    });
+  });
+
+  it('should show member name error message if it was not filled in', () => {
+    const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
+    TestUtils.Simulate.click(continueButton);
+    const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
+    const errorText = ReactDOM.findDOMNode(errors[1]).textContent;
+    expect(errorText).toMatch(/Please enter the member's name. No symbols allowed./);
   });
 
   it('should show branch selection error message if it was not filled in', () => {
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
-    expect(ReactDOM.findDOMNode(errors[1]).textContent).toMatch(/Please select a branch to join./);
-  });
-
-  it('should show contact number error message if it was not filled in', () => {
-    const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
-    TestUtils.Simulate.click(continueButton);
-    const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
-    expect(ReactDOM.findDOMNode(errors[2]).textContent).toMatch(/Please enter a valid phone number./);
+    expect(ReactDOM.findDOMNode(errors[2]).textContent).toMatch(/Please select a branch to join./);
   });
 
   it('should show contact email error message if it was not filled in', () => {
@@ -48,11 +51,10 @@ describe('Details step', () => {
     expect(errorText).toMatch(/Please enter a valid email address i.e. valid@email.com/);
   });
 
-  it('should show member name error message if it was not filled in', () => {
+  it('should show contact number error message if it was not filled in', () => {
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
-    const errorText = ReactDOM.findDOMNode(errors[4]).textContent;
-    expect(errorText).toMatch(/Please enter the member's name. No symbols allowed./);
+    expect(ReactDOM.findDOMNode(errors[4]).textContent).toMatch(/Please enter a valid phone number./);
   });
 });

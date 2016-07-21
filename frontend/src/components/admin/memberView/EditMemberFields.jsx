@@ -36,26 +36,7 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
         <dd>{moment(formValues.memberSince).format('YYYY/MM/DD')}</dd>
       </dl>
 
-      <FormFieldLabel fieldName="contactNumber" isOptional={false} hasError={isValidationError('contactNumber')} />
-      <input
-        type="tel"
-        defaultValue={formValues.contactNumber}
-        onChange={onChange('contactNumber')}
-        id="contactNumber"
-        className="contactNumber"
-      />
-
-      <FormFieldLabel fieldName="contactEmail" isOptional={false} hasError={isValidationError('contactEmail')} />
-      <input
-        type="email"
-        defaultValue={formValues.contactEmail}
-        onChange={onChange('contactEmail')}
-        id="contactEmail"
-        className="contactEmail"
-      />
-
       <fieldset className="field-pair">
-        <legend>Member name</legend>
         <div className="sub-field">
           <FormFieldLabel
             fieldName="memberName"
@@ -83,6 +64,24 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
           />
         </div>
       </fieldset>
+
+      <FormFieldLabel fieldName="contactEmail" isOptional={false} hasError={isValidationError('contactEmail')} />
+      <input
+        type="email"
+        defaultValue={formValues.contactEmail}
+        onChange={onChange('contactEmail')}
+        id="contactEmail"
+        className="contactEmail"
+      />
+
+      <FormFieldLabel fieldName="contactNumber" isOptional={false} hasError={isValidationError('contactNumber')} />
+      <input
+        type="tel"
+        defaultValue={formValues.contactNumber}
+        onChange={onChange('contactNumber')}
+        id="contactNumber"
+        className="contactNumber"
+      />
 
       <dl>
         <dt>Additional info</dt>

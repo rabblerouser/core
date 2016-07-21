@@ -10,8 +10,6 @@ export const Resources = {
 };
 
 export const ApplicationForm = {
-  instructions: 'Please fill in the following information and we\'ll let you know when space becomes available at ' +
-    'your preferred branch.',
   branchPlaceholder: 'Select branch',
   additionalInfoAside: 'Is there anything else you think we should know?',
   submitButton: 'Submit',

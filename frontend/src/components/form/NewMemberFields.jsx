@@ -10,42 +10,7 @@ const NewMemberFields = props => {
 
   return (
     <div className="field-group">
-      <FormFieldLabel fieldName="branchSelection" isOptional={false} hasError={isValidationError('branchSelection')} />
-
-      <select
-        defaultValue=""
-        required id="branchSelection"
-        className="branchSelection"
-        onChange={props.onChange('branchSelection')}
-      >
-        <option value="" disabled>{Strings.branchPlaceholder}</option>
-        {
-          _.sortBy(props.branches, 'name').map(branch => (
-            <option key={branch.id} value={branch.id}>{branch.name}</option>
-          ))
-        }
-      </select>
-
-      <FormFieldLabel fieldName="contactNumber" isOptional={false} hasError={isValidationError('contactNumber')} />
-      <input
-        type="tel"
-        defaultValue={props.formValues.contactNumber}
-        onChange={props.onChange('contactNumber')}
-        id="contactNumber"
-        className="contactNumber"
-      />
-
-      <FormFieldLabel fieldName="contactEmail" isOptional={false} hasError={isValidationError('contactEmail')} />
-      <input
-        type="email"
-        defaultValue={props.formValues.contactEmail}
-        onChange={props.onChange('contactEmail')}
-        id="contactEmail"
-        className="contactEmail"
-      />
-
       <fieldset className="field-pair">
-        <legend>Member name</legend>
         <div className="sub-field">
           <FormFieldLabel
             fieldName="memberName"
@@ -73,6 +38,39 @@ const NewMemberFields = props => {
           />
         </div>
       </fieldset>
+
+      <FormFieldLabel fieldName="branchSelection" isOptional={false} hasError={isValidationError('branchSelection')} />
+      <select
+        defaultValue=""
+        required id="branchSelection"
+        className="branchSelection"
+        onChange={props.onChange('branchSelection')}
+      >
+        <option value="" disabled>{Strings.branchPlaceholder}</option>
+        {
+          _.sortBy(props.branches, 'name').map(branch => (
+            <option key={branch.id} value={branch.id}>{branch.name}</option>
+          ))
+        }
+      </select>
+
+      <FormFieldLabel fieldName="contactEmail" isOptional={false} hasError={isValidationError('contactEmail')} />
+      <input
+        type="email"
+        defaultValue={props.formValues.contactEmail}
+        onChange={props.onChange('contactEmail')}
+        id="contactEmail"
+        className="contactEmail"
+      />
+
+      <FormFieldLabel fieldName="contactNumber" isOptional={false} hasError={isValidationError('contactNumber')} />
+      <input
+        type="tel"
+        defaultValue={props.formValues.contactNumber}
+        onChange={props.onChange('contactNumber')}
+        id="contactNumber"
+        className="contactNumber"
+      />
 
       <FormFieldLabel fieldName="additionalInfo" isOptional hasError={isValidationError('additionalInfo')} />
       <aside>{Strings.additionalInfoAside}</aside>

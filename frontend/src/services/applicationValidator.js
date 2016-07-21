@@ -2,11 +2,11 @@ import inputValidator from '../lib/inputValidator';
 import _ from 'lodash';
 
 const applicationFieldsChecks = {
-  contactEmail: inputValidator.isValidEmail,
-  contactNumber: inputValidator.isValidPhone,
   memberName: inputValidator.isValidName,
   memberLastName: inputValidator.isValidOptionalName,
   branchSelection: inputValidator.isValidText,
+  contactEmail: inputValidator.isValidEmail,
+  contactNumber: inputValidator.isValidPhone,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
 };
 
