@@ -2,29 +2,28 @@ import applicationValidator from '../../../services/applicationValidator';
 
 describe('applicationValidator', () => {
   describe('isValid', () => {
-    const validApplication = {
-      contactEmail: 'sherlock@holmes.co.uk',
-      contactNumber: '0396291146',
-      memberName: 'Holmes',
-      branchSelection: 'Geelong',
-      memberLastName: 'Holmes',
-      additionalInfo: 'More info for you!',
-    };
-
-    const validApplicationWithOptional = {
-      contactEmail: 'sherlock@holmes.co.uk',
-      contactNumber: '0396291146',
-      memberName: 'Holmes',
-      branchSelection: 'Geelong',
-      memberLastName: '',
-      additionalInfo: '',
-    };
-
     it('should return empty array of errors on valid member', () => {
+      const validApplication = {
+        contactEmail: 'sherlock@holmes.co.uk',
+        memberName: 'Holmes',
+        branchSelection: 'Geelong',
+        memberLastName: 'Holmes',
+        additionalInfo: 'More info for you!',
+      };
+
       expect(applicationValidator.isValid(validApplication)).toEqual([]);
     });
 
     it('should return empty array of errors on valid member with optional fields', () => {
+      const validApplicationWithOptional = {
+        contactEmail: 'sherlock@holmes.co.uk',
+        contactNumber: '0396291146',
+        memberName: 'Holmes',
+        branchSelection: 'Geelong',
+        memberLastName: '',
+        additionalInfo: '',
+      };
+
       expect(applicationValidator.isValid(validApplicationWithOptional)).toEqual([]);
     });
 
@@ -35,7 +34,6 @@ describe('applicationValidator', () => {
     it('should return array of errors when missing data', () => {
       const invalidApplication = {
         contactEmail: '',
-        contactNumber: '',
         memberName: '',
         branchSelection: '',
         memberLastName: '',
@@ -43,7 +41,6 @@ describe('applicationValidator', () => {
       };
       const expectedErrors = [
         'contactEmail',
-        'contactNumber',
         'memberName',
         'branchSelection',
       ];

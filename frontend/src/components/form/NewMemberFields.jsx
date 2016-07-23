@@ -63,7 +63,7 @@ const NewMemberFields = props => {
         className="contactEmail"
       />
 
-      <FormFieldLabel fieldName="contactNumber" isOptional={false} hasError={isValidationError('contactNumber')} />
+      <FormFieldLabel fieldName="contactNumber" isOptional hasError={isValidationError('contactNumber')} />
       <input
         type="tel"
         defaultValue={props.formValues.contactNumber}

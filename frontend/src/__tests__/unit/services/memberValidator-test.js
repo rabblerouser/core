@@ -4,7 +4,6 @@ describe('memberValidator', () => {
   describe('isValid', () => {
     const validMember = {
       contactEmail: 'sherlock@holmes.co.uk',
-      contactNumber: '0396291146',
       memberName: 'Holmes',
       branchId: 'Geelong',
       memberLastName: 'Holmes',
@@ -44,7 +43,6 @@ describe('memberValidator', () => {
       };
       const expectedErrors = [
         'contactEmail',
-        'contactNumber',
         'memberName',
       ];
       expect(memberValidator.isValid(invalidMember)).toEqual(expectedErrors);

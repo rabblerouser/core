@@ -9,13 +9,13 @@ describe('memberValidator', () => {
         'branchId': 'rururu-we-ew-ew',
         'firstName': 'Sherlock',
         'email': 'sherlock@holmes.co.uk',
-        'primaryPhoneNumber': '+263-64-8581786',
         'gender': 'horse radish',
       };
 
       let optionalFields = {
           'lastName': 'Holmes',
           'additionalInfo':  'More info for you!',
+          'primaryPhoneNumber': '+263-64-8581786',
           'pastoralNotes': 'Some extra detail'
       };
 
@@ -42,7 +42,7 @@ describe('memberValidator', () => {
             'firstName': '',
             'branchId': '',
         };
-        let expectedErrors = ['email','primaryPhoneNumber','firstName', 'branchId'];
+        let expectedErrors = ['email', 'firstName', 'branchId'];
           expect(memberValidator.isValid(invalidMember)).to.have.members(expectedErrors);
 
       });

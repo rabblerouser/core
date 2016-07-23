@@ -6,7 +6,7 @@ const applicationFieldsChecks = {
   memberLastName: inputValidator.isValidOptionalName,
   branchSelection: inputValidator.isValidText,
   contactEmail: inputValidator.isValidEmail,
-  contactNumber: inputValidator.isValidPhone,
+  contactNumber: inputValidator.isValidOptionalPhoneNumber,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
 };
 

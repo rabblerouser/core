@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const memberFieldsChecks = {
   contactEmail: inputValidator.isValidEmail,
-  contactNumber: inputValidator.isValidPhone,
+  contactNumber: inputValidator.isValidOptionalPhoneNumber,
   memberName: inputValidator.isValidName,
   memberLastName: inputValidator.isValidOptionalName,
   additionalInfo: inputValidator.isValidOptionalTextBlock,

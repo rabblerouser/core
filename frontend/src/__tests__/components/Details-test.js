@@ -15,11 +15,13 @@ describe('Details step', () => {
   };
 
   beforeEach(() => {
-    detailsForm = TestUtils.renderIntoDocument(<Details membershipType="full" formValues={defaultFormValues} />);
+    detailsForm = TestUtils.renderIntoDocument(
+      <Details membershipType="full" formValues={defaultFormValues} errors={[]} postAndContinue={() => {}} />
+    );
   });
 
   it('should show list of invalid fields if the details entered were invalid', () => {
-    const expectedErrors = ['Email address', 'Contact number', 'Member first name', 'Branch to join'];
+    const expectedErrors = ['Email address', 'Member first name', 'Branch to join'];
     const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
     TestUtils.Simulate.click(continueButton);
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
@@ -49,12 +51,5 @@ describe('Details step', () => {
     const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
     const errorText = ReactDOM.findDOMNode(errors[3]).textContent;
     expect(errorText).toMatch(/Please enter a valid email address i.e. valid@email.com/);
-  });
-
-  it('should show contact number error message if it was not filled in', () => {
-    const continueButton = TestUtils.findRenderedDOMComponentWithTag(detailsForm, 'button');
-    TestUtils.Simulate.click(continueButton);
-    const errors = TestUtils.scryRenderedDOMComponentsWithClass(detailsForm, 'errors');
-    expect(ReactDOM.findDOMNode(errors[4]).textContent).toMatch(/Please enter a valid phone number./);
   });
 });
