@@ -62,12 +62,13 @@ module.exports = {
               // Same as above but the admin route is tricky
               return '/admin.html';
             }
-            if (req.url === '/' || req.url.startsWith('/images')) {
+            const isHotUpdateRequest = req.url.match(/^\/javascript\w*\.hot-update\.json$]/);
+            if (isHotUpdateRequest || req.url === '/' || req.url.startsWith('/images')) {
+              // Let WDS handle requests for hot updates
               // Let WDS serve '/' as 'index.html', and all images as static content
               // Also, it will automatically do this for /javascript, because of the publicPath config
               return req.url;
             }
-            // TODO: Also handle webpack HMR live updates
           }
           // Let all other requests proxy through to the target mentioned above
           return false;
