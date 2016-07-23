@@ -1,12 +1,10 @@
 export const Resources = {
-  privacyPolicy: 'https://pirateparty.org.au/privacy/',
   branchListEndPoint: 'branches',
   myBranchListEndPoint: 'admin/branches',
   registerEndPoint: 'register',
   groupListEndPoint: 'groups',
   networkAdminEndPoint: 'admins',
-  contactEmail: 'rabblerouserproject@gmail.com',
-  homePage: 'https://rabblerouser.team/',
+  homePage: null, // TODO: Make customisable
 };
 
 export const ApplicationForm = {
@@ -14,15 +12,12 @@ export const ApplicationForm = {
   additionalInfoAside: 'Is there anything else you think we should know?',
   submitButton: 'Submit',
   validationErrorTitle: 'Please check the following fields:',
-  remoteSubmitErrorTitle: 'Sorry, we could not register you this time. Please try again, or contact us at ' +
-  `${Resources.contactEmail}`,
-  branchListErrorTitle: 'Sorry, we could not get the list of available branches at this time. Please try again, ' +
-  `or contact us at ${Resources.contactEmail}`,
+  remoteSubmitErrorTitle: 'Sorry, we could not register you this time. Please try again later.',
+  branchListErrorTitle: 'Sorry, we could not get the list of available branches at this time. Please try again later.',
 };
 
 export const AdminDashboard = {
-  RemoteSaveErrorMessage: 'Sorry, there was an issue saving the change. Please try again or contact ' +
-  `${Resources.contactEmail} for support.`,
+  RemoteSaveErrorMessage: 'Sorry, there was an issue saving the change. Please try again later.',
 };
 
 export const ApplicationFormFieldLabels = {

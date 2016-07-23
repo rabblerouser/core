@@ -62,7 +62,7 @@ module.exports = {
               // Same as above but the admin route is tricky
               return '/admin.html';
             }
-            const isHotUpdateRequest = req.url.match(/^\/javascript\w*\.hot-update\.json$]/);
+            const isHotUpdateRequest = req.url.match(/^\/javascript\w*\.hot-update\.json$/);
             if (isHotUpdateRequest || req.url === '/' || req.url.startsWith('/images')) {
               // Let WDS handle requests for hot updates
               // Let WDS serve '/' as 'index.html', and all images as static content

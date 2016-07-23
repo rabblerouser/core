@@ -89,7 +89,7 @@ export default class Details extends Component {
 
           <div className="navigation">
             <button onClick={this.submitDetails}>Register</button>
-            <p>or <a href={Resources.homePage}>return home</a></p>
+            {Resources.homePage && <p>or <a href={Resources.homePage}>return home</a></p>}
           </div>
         </div>
       </section>
