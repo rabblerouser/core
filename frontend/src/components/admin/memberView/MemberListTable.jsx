@@ -1,6 +1,7 @@
 import React from 'react';
 import SortedTable from '../../common/SortedTable.jsx';
 import EditMemberModalLauncher from './EditMemberModalLauncher.jsx';
+import DeleteButton from '../../common/DeleteButton.jsx';
 import moment from 'moment';
 
 const columns = [
@@ -28,21 +29,25 @@ const mapFields = ({ memberName,
     pastoralNotes,
   }
 );
-const mapActions = (member, onSaveMember, allGroups) => [
-  <EditMemberModalLauncher
-    key={`${member.id}-edit`}
-    member={Object.assign({}, member, { allGroups })} onSave={onSaveMember}
+const mapActions = (member, allGroups, onSaveMember, onDeleteMember) => [
+  <EditMemberModalLauncher key={`${member.id}-edit`} member={{ ...member, allGroups }} onSave={onSaveMember} />,
+  false && <DeleteButton
+    key={`${member.id}-delete`}
+    onDelete={() => onDeleteMember(member.id)}
+    confirmMessage="Are you sure you want to delete the selected member?"
+    title="Delete admin"
   />,
 ];
 
-const MemberListTable = ({ members, onSaveMember, groups }) =>
+const MemberListTable = ({ members, groups, onSaveMember }) => (
   <SortedTable
     columns={columns}
-    data={members.map(member =>
-      Object.assign({}, mapFields(member), { actions: mapActions(member, onSaveMember, groups) })
-    )}
+    data={members.map(member => (
+      { ...mapFields(member), actions: mapActions(member, groups, onSaveMember, () => {}) }
+    ))}
     sortOn="memberName"
-  />;
+  />
+);
 
 export default MemberListTable;
 

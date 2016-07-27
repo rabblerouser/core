@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import Table from './Table.jsx';
 import sortColumn from '../../lib/sortColumn.js';
 
-const SortedTable = class SortedTable extends Component {
-
-  onSort(field) {
-    this.setState(sortColumn(field, this.state.columns, this.state.data));
-  }
-
+class SortedTable extends Component {
   constructor(props) {
     super(props);
     this.onSort = this.onSort.bind(this);
@@ -16,6 +11,10 @@ const SortedTable = class SortedTable extends Component {
 
   componentWillReceiveProps(props) {
     this.setState(sortColumn(props.sortOn, props.columns, props.data));
+  }
+
+  onSort(field) {
+    this.setState(sortColumn(field, this.state.columns, this.state.data));
   }
 
   render() {
@@ -27,7 +26,7 @@ const SortedTable = class SortedTable extends Component {
       />
     );
   }
-};
+}
 
 export default SortedTable;
 

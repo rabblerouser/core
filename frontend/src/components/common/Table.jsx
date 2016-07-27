@@ -5,14 +5,14 @@ const Table = ({ columns, data, onClickHeader }) => (
   <table>
     <thead>
       <tr>
-      {columns.map(({ label, type, field }, hi) =>
-        <ColumnHeader key={`h${hi}`} label={label} type={type} onClick={() => onClickHeader(field)} />)}
+      {columns.map(({ label, type, field }, i) =>
+        <ColumnHeader key={i} label={label} type={type} onClick={() => onClickHeader(field)} />)}
       </tr>
     </thead>
     <tbody>
-    {data.map((entry, ri) =>
-      <tr key={`r${ri}`}>
-       {Object.keys(entry).map((key, ci) => <td key={`c${ci}`}>{entry[key]}</td>)}
+    {data.map((row, i) =>
+      <tr key={i}>
+       {Object.keys(row).map((col, j) => <td key={j}>{row[col]}</td>)}
       </tr>
     )}
     </tbody>
