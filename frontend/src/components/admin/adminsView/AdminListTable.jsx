@@ -1,7 +1,7 @@
 import React from 'react';
 import SortedTable from '../../common/SortedTable.jsx';
 import EditAdminModalLauncher from './EditAdminModalLauncher.jsx';
-import DeleteAdminButton from './DeleteAdminButton.jsx';
+import DeleteButton from '../../common/DeleteButton.jsx';
 
 const columns = [
   { type: 'name', field: 'name', label: 'Name' },
@@ -13,7 +13,12 @@ const columns = [
 const mapFields = ({ name, email, phoneNumber }) => ({ name, email, phoneNumber });
 const mapActions = (admin, onSaveAdmin, onDeleteAdmin) => [
   <EditAdminModalLauncher key={`${admin.id}-edit`} admin={admin} onSave={onSaveAdmin} />,
-  <DeleteAdminButton key={`${admin.id}-delete`} admin={admin} onDelete={onDeleteAdmin} />,
+  <DeleteButton
+    key={`${admin.id}-delete`}
+    confirmMessage="Are you sure you want to delete the selected person?"
+    title="Delete admin"
+    onDelete={() => onDeleteAdmin(admin)}
+  />,
 ];
 
 const AdminListTable = ({ admins, onSaveAdmin, onDeleteAdmin }) =>

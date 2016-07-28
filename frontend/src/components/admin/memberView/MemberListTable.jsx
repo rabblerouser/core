@@ -33,9 +33,9 @@ const mapActions = (member, allGroups, onSaveMember, onDeleteMember) => [
   <EditMemberModalLauncher key={`${member.id}-edit`} member={{ ...member, allGroups }} onSave={onSaveMember} />,
   false && <DeleteButton
     key={`${member.id}-delete`}
-    onDelete={() => onDeleteMember(member.id)}
     confirmMessage="Are you sure you want to delete the selected member?"
     title="Delete admin"
+    onDelete={() => onDeleteMember(member.id)}
   />,
 ];
 

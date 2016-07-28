@@ -1,11 +1,15 @@
 import React from 'react';
 import EditGroupModalLauncher from './EditGroupModalLauncher.jsx';
-import DeleteGroupButton from './DeleteGroupButton.jsx';
+import DeleteButton from '../../common/DeleteButton.jsx';
 
 const GroupHeader = ({ onSave, onDelete, group }) => (
   <span className="actions">
     <EditGroupModalLauncher onSave={onSave} group={group} />
-    <DeleteGroupButton onDelete={onDelete} group={group} />
+    <DeleteButton
+      confirmMessage="Are you sure you want to delete the current group?"
+      title="Delete group"
+      onDelete={() => onDelete(group)}
+    />
   </span>
 );
 
