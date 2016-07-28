@@ -4,13 +4,13 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from '../reducers';
 
-import AdminDashboard from './admin/AdminDashboard.jsx';
+import NetworkAdminDashboard from './admin/NetworkAdminDashboard.jsx';
 import '../stylesheets/style.scss';
 
 const App = () => (
   <div className="container">
     <div id="form" className="form-container">
-      <AdminDashboard />
+      <NetworkAdminDashboard />
     </div>
   </div>
 );

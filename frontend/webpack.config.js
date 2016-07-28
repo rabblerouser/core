@@ -5,8 +5,8 @@ const neat = require('node-neat').includePaths;
 module.exports = {
   entry: {
     main: ['babel-polyfill', `${__dirname}/src/components/App.jsx`],
-    admin: ['babel-polyfill', `${__dirname}/src/components/admin/AdminDashboard.jsx`],
-    networkAdmin: ['babel-polyfill', `${__dirname}/src/components/Admin.jsx`],
+    admin: ['babel-polyfill', `${__dirname}/src/components/Admin.jsx`],
+    networkAdmin: ['babel-polyfill', `${__dirname}/src/components/NetworkAdmin.jsx`],
   },
   output: {
     path: `${__dirname}/public/javascript`,

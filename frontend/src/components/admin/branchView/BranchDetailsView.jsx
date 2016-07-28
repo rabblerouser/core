@@ -56,11 +56,6 @@ const BranchDetailsView = ({
   );
 };
 
-const mapBlah = state => {
-  branches: getListOfBra
-  selectedBranch: getSelectedBranch(state)
-}
-
 const mapStateToProps = ({
   branches,
 }) => ({
@@ -68,7 +63,7 @@ const mapStateToProps = ({
   selectedBranch: branches.selectedBranch,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   onBranchUpdate: branch => dispatch(branchUpdated(branch)),
   onBranchRemoved: branch => dispatch(branchRemoved(branch)),
   onActivityStart: () => dispatch(clearMessages()),
