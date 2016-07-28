@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import _ from 'lodash';
 import FilteredMembersList from './FilteredMembersList.jsx';
 import branchService from '../../../services/branchService.js';
 import memberService from '../../../services/memberService.js';
 
-export default class MembersViewContainer extends Component {
+import {
+  clearMessages,
+  reportFailure,
+  reportSuccess,
+} from '../../../actions/';
+
+class MembersViewContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       members: [],
       onSave: member => {
-        this.props.onPreAction();
+        this.props.onActivityStart();
         memberService.update(member, this.props.branchId)
           .then(savedMember => {
             this.update(this.state.members, savedMember);
-            this.props.onActionSuccess('Member saved');
+            this.props.onActivitySuccess('Member saved');
           })
-          .catch(this.props.onActionError);
+          .catch(this.props.onActivityFailure);
       },
     };
   }
@@ -83,8 +91,22 @@ export default class MembersViewContainer extends Component {
 MembersViewContainer.propTypes = {
   selectedGroupId: React.PropTypes.string,
   groups: React.PropTypes.array,
-  onPreAction: React.PropTypes.func,
-  onActionError: React.PropTypes.func,
-  onActionSuccess: React.PropTypes.func,
+  onActivityStart: React.PropTypes.func,
+  onActivityFailure: React.PropTypes.func,
+  onActivitySuccess: React.PropTypes.func,
   branchId: React.PropTypes.string,
 };
+
+const mapDispatchToProps = dispatch => ({
+  onActivityStart: () => dispatch(clearMessages()),
+  onActivityFailure: error => dispatch(reportFailure(error)),
+  onActivitySuccess: success => dispatch(reportSuccess(success)),
+});
+
+const mapStateToProps = ({
+  branches,
+}) => ({
+  branchId: branches.selectedBranch.id,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MembersViewContainer);

@@ -1,34 +1,43 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import AdminsView from './AdminsView.jsx';
 import branchService from '../../../services/branchService.js';
 import adminService from '../../../services/adminService.js';
+
+import {
+  clearMessages,
+  reportFailure,
+  reportSuccess,
+} from '../../../actions/';
+
 import _ from 'lodash';
 
-export default class OrganiserViewContainer extends Component {
+class OrganiserViewContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       admins: [],
       onSave: adminDetails => {
-        this.props.onPreAction();
+        this.props.onActivityStart();
         const saveAction = this.state.admins.find(admin => admin.id === adminDetails.id) === undefined ?
           adminService.create :
           adminService.update;
         saveAction(adminDetails, this.props.branchId)
           .then(savedAdmin => {
             this.updateAdmins(this.state.admins, savedAdmin);
-            this.props.onActionSuccess('Organiser successfully saved');
+            this.props.onActivitySuccess('Organiser successfully saved');
           })
-          .catch(this.props.onActionError);
+          .catch(this.props.onActivityFailure);
       },
       onDelete: selected => {
-        this.props.onPreAction();
+        this.props.onActivityStart();
         adminService.delete(selected, this.props.branchId)
           .then(() => {
             this.removeAndUpdate(this.state.admins, selected);
-            this.props.onActionSuccess('Organiser successfully deleted');
+            this.props.onActivitySuccess('Organiser successfully deleted');
           })
-          .catch(this.props.onActionError);
+          .catch(this.props.onActivityFailure);
       },
     };
   }
@@ -71,9 +80,24 @@ export default class OrganiserViewContainer extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  onActivityStart: () => dispatch(clearMessages()),
+  onActivityFailure: error => dispatch(reportFailure(error)),
+  onActivitySuccess: success => dispatch(reportSuccess(success)),
+});
+
+const mapStateToProps = ({
+  branches,
+}) => ({
+  branchId: branches.selectedBranch.id,
+});
+
 OrganiserViewContainer.propTypes = {
   onPreAction: React.PropTypes.func,
-  onActionError: React.PropTypes.func,
-  onActionSuccess: React.PropTypes.func,
+  onActivityStart: React.PropTypes.func,
+  onActivityFailure: React.PropTypes.func,
+  onActivitySuccess: React.PropTypes.func,
   branchId: React.PropTypes.string,
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrganiserViewContainer);

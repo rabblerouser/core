@@ -1,17 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const UserMessageView = props => (
+const UserMessageView = ({ successMessages, failureMessages }) => (
   <section className="admin-section" id="user-messages">
     <ul>
-      {props.errors.map(entry => <li key={entry} className="error">{entry}</li>)}
-      {props.messages.map(entry => <li key={entry}>{entry}</li>)}
+      {failureMessages.map(entry => <li key={entry} className="error">{entry}</li>)}
+      {successMessages.map(entry => <li key={entry}>{entry}</li>)}
     </ul>
   </section>
 );
 
 UserMessageView.propTypes = {
-  messages: React.PropTypes.array,
-  errors: React.PropTypes.array,
+  successMessages: React.PropTypes.array,
+  failureMessages: React.PropTypes.array,
 };
 
-export default UserMessageView;
+const mapStateToProps = ({ appFeedback }) => ({
+  successMessages: appFeedback.successMessages,
+  failureMessages: appFeedback.failureMessages,
+});
+
+export default connect(mapStateToProps)(UserMessageView);

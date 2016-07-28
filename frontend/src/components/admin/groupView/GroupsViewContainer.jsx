@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+
 import GroupsView from './GroupsView.jsx';
 import branchService from '../../../services/branchService.js';
 import groupService from '../../../services/groupService.js';
 import MembersViewContainer from '../memberView/MembersViewContainer.jsx';
 
-export default class GroupsViewContainer extends Component {
+import {
+  clearMessages,
+  reportFailure,
+  reportSuccess,
+} from '../../../actions/';
+
+class GroupsViewContainer extends Component {
 
   constructor(props) {
     super(props);
@@ -13,30 +21,30 @@ export default class GroupsViewContainer extends Component {
       groups: [],
       selectedGroupId: 'unassigned',
       onSave: groupDetails => {
-        this.props.onPreAction();
+        this.props.onActivityStart();
         const saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ?
           groupService.createGroup :
           groupService.updateGroup;
         saveAction(groupDetails, this.props.branchId)
           .then(savedGroup => {
             this.update(this.state.groups, savedGroup);
-            this.props.onActionSuccess('Group saved');
+            this.props.onActivitySuccess('Group saved');
           })
-          .catch(this.props.onActionError);
+          .catch(this.props.onActivityFailure);
       },
       onSelect: selected => {
-        this.props.onPreAction();
+        this.props.onActivityStart();
         this.updateGroupSelection(selected);
         this.setState({ selectedGroupId: selected });
       },
       onDelete: selected => {
-        this.props.onPreAction();
+        this.props.onActivityStart();
         groupService.deleteGroup(selected, this.props.branchId)
           .then(() => {
             this.removeAndUpdateGroups(this.state.groups, selected);
-            this.props.onActionSuccess('Group deleted');
+            this.props.onActivitySuccess('Group deleted');
           })
-          .catch(this.props.onActionError);
+          .catch(this.props.onActivityFailure);
       },
     };
   }
@@ -96,10 +104,6 @@ export default class GroupsViewContainer extends Component {
         <MembersViewContainer
           selectedGroupId={this.state.selectedGroupId}
           groups={this.state.groups}
-          onPreAction={this.props.onPreAction}
-          onActionError={this.props.onActionError}
-          onActionSuccess={this.props.onActionSuccess}
-          branchId={this.props.branchId}
         />
       </section>
     );
@@ -107,8 +111,22 @@ export default class GroupsViewContainer extends Component {
 }
 
 GroupsViewContainer.propTypes = {
-  onPreAction: React.PropTypes.func,
-  onActionError: React.PropTypes.func,
-  onActionSuccess: React.PropTypes.func,
+  onActivityStart: React.PropTypes.func,
+  onActivityFailure: React.PropTypes.func,
+  onActivitySuccess: React.PropTypes.func,
   branchId: React.PropTypes.string,
 };
+
+const mapDispatchToProps = dispatch => ({
+  onActivityStart: () => dispatch(clearMessages()),
+  onActivityFailure: error => dispatch(reportFailure(error)),
+  onActivitySuccess: success => dispatch(reportSuccess(success)),
+});
+
+const mapStateToProps = ({
+  branches,
+}) => ({
+  branchId: branches.selectedBranch.id,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupsViewContainer);

@@ -1,33 +1,41 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import AdminsView from './AdminsView.jsx';
 import adminService from '../../../services/adminService.js';
 import _ from 'underscore';
 
-export default class NetworkAdminsViewContainer extends Component {
+import {
+  clearMessages,
+  reportFailure,
+  reportSuccess,
+} from '../../../actions/';
+
+class NetworkAdminsViewContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       admins: [],
       onSave: adminDetails => {
-        this.props.onPreAction();
+        this.props.onActivityStart();
         const saveAction = this.state.admins.find(admin => admin.id === adminDetails.id) === undefined ?
           adminService.createNetworkAdmin :
           adminService.updateNetworkAdmin;
         saveAction(adminDetails)
           .then(savedAdmin => {
             this.updateAdmins(this.state.admins, savedAdmin);
-            this.props.onActionSuccess('Network admin successfully saved');
+            this.props.onActivitySuccess('Network admin successfully saved');
           })
-          .catch(this.props.onActionError);
+          .catch(this.props.onActivityFailure);
       },
       onDelete: selected => {
-        this.props.onPreAction();
+        this.props.onActivityStart();
         adminService.deleteNetworkAdmin(selected)
           .then(() => {
             this.setState({ admins: _.without(this.state.admins, selected) });
-            this.props.onActionSuccess('Network admin successfully deleted');
+            this.props.onActivitySuccess('Network admin successfully deleted');
           })
-          .catch(this.props.onActionError);
+          .catch(this.props.onActivityFailure);
       },
     };
   }
@@ -61,7 +69,21 @@ export default class NetworkAdminsViewContainer extends Component {
 }
 
 NetworkAdminsViewContainer.propTypes = {
-  onPreAction: React.PropTypes.func,
-  onActionError: React.PropTypes.func,
-  onActionSuccess: React.PropTypes.func,
+  onActivityStart: React.PropTypes.func,
+  onActivityFailure: React.PropTypes.func,
+  onActivitySuccess: React.PropTypes.func,
 };
+
+const mapDispatchToProps = dispatch => ({
+  onActivityStart: () => dispatch(clearMessages()),
+  onActivityFailure: error => dispatch(reportFailure(error)),
+  onActivitySuccess: success => dispatch(reportSuccess(success)),
+});
+
+const mapStateToProps = ({
+  branches,
+}) => ({
+  branchId: branches.selectedBranch.id,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NetworkAdminsViewContainer);
