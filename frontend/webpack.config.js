@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     main: ['babel-polyfill', `${__dirname}/src/components/App.jsx`],
     admin: ['babel-polyfill', `${__dirname}/src/components/admin/AdminDashboard.jsx`],
-    networkAdmin: ['babel-polyfill', `${__dirname}/src/components/admin/NetworkAdminDashboard.jsx`],
+    networkAdmin: ['babel-polyfill', `${__dirname}/src/components/Admin.jsx`],
   },
   output: {
     path: `${__dirname}/public/javascript`,
