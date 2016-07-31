@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import { getBranches } from './index';
 
 import {
   BRANCH_LIST_UPDATED,
@@ -9,7 +10,7 @@ import {
 
 const initialState = {
   availableBranches: [],
-  selectedBranch: {}, //selected branch id
+  selectedBranch: {},
 };
 
 export default (state = initialState, action) => {
@@ -37,3 +38,8 @@ export default (state = initialState, action) => {
     default : return state;
   }
 };
+
+export const getSelectedBranch = state => getBranches(state).selectedBranch;
+export const getSelectedBranchId = state => getBranches(state).selectedBranch.id;
+export const getAvailableBranches = state => getBranches(state).availableBranches;
+export const getCanSelectBranch = state => getBranches(state).availableBranches.length > 0;

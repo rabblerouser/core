@@ -11,6 +11,10 @@ import {
   reportSuccess,
 } from '../../../actions/';
 
+import {
+  getSelectedBranchId,
+} from '../../../reducers/branchReducers';
+
 import _ from 'lodash';
 
 class OrganiserViewContainer extends Component {
@@ -86,10 +90,8 @@ const mapDispatchToProps = dispatch => ({
   onActivitySuccess: success => dispatch(reportSuccess(success)),
 });
 
-const mapStateToProps = ({
-  branches,
-}) => ({
-  branchId: branches.selectedBranch.id,
+const mapStateToProps = state => ({
+  branchId: getSelectedBranchId(state),
 });
 
 OrganiserViewContainer.propTypes = {

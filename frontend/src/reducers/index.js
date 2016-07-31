@@ -8,3 +8,4 @@ export default combineReducers({
   appFeedback: appFeedbackReducers,
 });
 
+export const getBranches = state => state.branches;

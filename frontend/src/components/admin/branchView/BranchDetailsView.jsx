@@ -11,6 +11,11 @@ import {
   reportSuccess,
 } from '../../../actions/';
 
+import {
+  getSelectedBranch,
+  getAvailableBranches,
+} from '../../../reducers/branchReducers';
+
 const BranchDetailsView = ({
   selectedBranch,
   onBranchUpdate,
@@ -56,11 +61,9 @@ const BranchDetailsView = ({
   );
 };
 
-const mapStateToProps = ({
-  branches,
-}) => ({
-  branches: branches.availableBranches,
-  selectedBranch: branches.selectedBranch,
+const mapStateToProps = state => ({
+  branches: getAvailableBranches(state),
+  selectedBranch: getSelectedBranch(state),
 });
 
 const mapDispatchToProps = dispatch => ({

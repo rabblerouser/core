@@ -11,6 +11,11 @@ import {
   reportSuccess,
 } from '../../../actions/';
 
+import {
+  getSelectedBranchId,
+} from '../../../reducers/branchReducers';
+
+
 class NetworkAdminsViewContainer extends Component {
   constructor(props) {
     super(props);
@@ -80,10 +85,8 @@ const mapDispatchToProps = dispatch => ({
   onActivitySuccess: success => dispatch(reportSuccess(success)),
 });
 
-const mapStateToProps = ({
-  branches,
-}) => ({
-  branchId: branches.selectedBranch.id,
+const mapStateToProps = state => ({
+  branchId: getSelectedBranchId(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkAdminsViewContainer);

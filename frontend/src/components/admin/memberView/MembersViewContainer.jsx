@@ -7,6 +7,10 @@ import branchService from '../../../services/branchService.js';
 import memberService from '../../../services/memberService.js';
 
 import {
+  getSelectedBranchId,
+} from '../../../reducers/branchReducers';
+
+import {
   clearMessages,
   reportFailure,
   reportSuccess,
@@ -103,10 +107,8 @@ const mapDispatchToProps = dispatch => ({
   onActivitySuccess: success => dispatch(reportSuccess(success)),
 });
 
-const mapStateToProps = ({
-  branches,
-}) => ({
-  branchId: branches.selectedBranch.id,
+const mapStateToProps = state => ({
+  branchId: getSelectedBranchId(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MembersViewContainer);
