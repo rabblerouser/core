@@ -7,6 +7,7 @@ export const branchListUpdated = branches => (
   {
     type: BRANCH_LIST_UPDATED,
     branches,
+    selectedBranch: branches.length > 0 ? branches[0].id : '',
   }
 );
 
@@ -27,6 +28,6 @@ export const branchUpdated = branch => (
 export const branchRemoved = branch => (
   {
     type: BRANCH_REMOVED,
-    branch,
+    branchId: branch.id,
   }
 );
