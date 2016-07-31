@@ -8,13 +8,9 @@ import NetworkAdminDashboard from './admin/NetworkAdminDashboard.jsx';
 import '../stylesheets/style.scss';
 
 const App = () => (
-  <div className="container">
-    <div id="form" className="form-container">
-      <NetworkAdminDashboard />
-    </div>
-  </div>
+  <NetworkAdminDashboard />
 );
-const store = createStore(reducer);
+const store = createStore(reducer, window.devToolsExtension && window.devToolsExtension());
 
 render(
   <Provider store={store}>
