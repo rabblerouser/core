@@ -1,4 +1,9 @@
 export const LOGOUT = 'LOGOUT';
 import adminService from '../services/adminService.js';
 
-export const logout = () => adminService.logout();
+export const logout = () => (
+  {
+    type: LOGOUT,
+    placeholder: adminService.logout(),
+  }
+);

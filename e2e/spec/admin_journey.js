@@ -141,7 +141,7 @@ function fillNewGroup() {
 }
 
 function editGroup() {
-  return enterGroupName(`${testID}A group changed`)
+  return enterGroupName(' changed')
     .then(clickSave);
 }
 
@@ -195,7 +195,7 @@ function fillNewBranch() {
 }
 
 function editBranch() {
-  return enterBranchName(`${testID}A branch changed`)
+  return enterBranchName(' changed')
     .then(clickSave);
 }
 
@@ -219,7 +219,7 @@ const adminCanEditABranch = {
     .then(() => selectBranch(`${testID}A new branch`))
     .then(clickEditBranch)
     .then(editBranch)
-    .then(() => waitForBranchOption(`${testID}A branch changed`));
+    .then(() => waitForBranchOption(`${testID}A new branch changed`));
   },
 };
 
