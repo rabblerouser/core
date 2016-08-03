@@ -1,4 +1,4 @@
-import groupValidator from '../../../services/groupValidator';
+import groupValidator from '../groupValidator';
 
 describe('groupValidator', () => {
   describe('isValid', () => {

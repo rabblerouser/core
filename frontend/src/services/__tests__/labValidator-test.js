@@ -1,4 +1,4 @@
-import branchValidator from '../../../services/branchValidator';
+import branchValidator from '../branchValidator';
 
 describe('branchValidator', () => {
   describe('isValid', () => {

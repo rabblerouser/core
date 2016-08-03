@@ -61,4 +61,12 @@ const update = (member, branchId) => (
     .then(memberAdapter.parseMember)
 );
 
-export default { update };
+const deleteMember = (memberId, branchId) => (
+  Q(ajax({
+    type: 'DELETE',
+    url: `/branches/${branchId}/members/${memberId}`,
+  }))
+    .catch(handleResponseError)
+);
+
+export default { update, deleteMember };

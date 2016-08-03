@@ -1,4 +1,4 @@
-import memberValidator from '../../../services/memberValidator';
+import memberValidator from '../memberValidator';
 
 describe('memberValidator', () => {
   describe('isValid', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from '../../../components/common/Table.jsx';
+import Table from '../Table.jsx';
 import { shallow } from 'enzyme';
 
 describe('Table', () => {

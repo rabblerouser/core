@@ -1,4 +1,4 @@
-import groupService from '../../../services/groupService';
+import groupService from '../groupService';
 
 describe('groupService', () => {
   let server;

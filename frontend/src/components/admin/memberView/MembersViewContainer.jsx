@@ -16,21 +16,14 @@ import {
   reportSuccess,
 } from '../../../actions/';
 
-class MembersViewContainer extends Component {
+export class MembersViewContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       members: [],
-      onSave: member => {
-        this.props.onActivityStart();
-        memberService.update(member, this.props.branchId)
-          .then(savedMember => {
-            this.update(this.state.members, savedMember);
-            this.props.onActivitySuccess('Member saved');
-          })
-          .catch(this.props.onActivityFailure);
-      },
     };
+    this.saveMember = this.saveMember.bind(this);
+    this.deleteMember = this.deleteMember.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,11 +37,24 @@ class MembersViewContainer extends Component {
     }
   }
 
-  getSelectedGroup() {
-    if (this.props.selectedGroupId === 'all' || this.props.selectedGroupId === 'unassigned') {
-      return null;
-    }
-    return this.props.groups.find(group => group.id === this.props.selectedGroupId);
+  saveMember(member) {
+    this.props.onActivityStart();
+    memberService.update(member, this.props.branchId)
+      .then(savedMember => {
+        this.update(this.state.members, savedMember);
+        this.props.onActivitySuccess('Member saved');
+      })
+      .catch(this.props.onActivityFailure);
+  }
+
+  deleteMember(member) {
+    this.props.onActivityStart();
+    return memberService.deleteMember(member.id, this.props.branchId)
+      .then(() => {
+        this.setState({ members: _.without(this.state.members, member) });
+        this.props.onActivitySuccess('Member successfully deleted');
+      })
+      .catch(this.props.onActivityFailure);
   }
 
   update(collection, element) {
@@ -84,7 +90,8 @@ class MembersViewContainer extends Component {
           groupFilter={this.props.selectedGroupId}
           groups={this.props.groups}
           members={this.state.members}
-          onSaveMember={this.state.onSave}
+          onSaveMember={this.saveMember}
+          onDeleteMember={this.deleteMember}
         />
       {this.state.members.length === 0 && <aside className="no-entries">No entries found</aside>}
       </section>

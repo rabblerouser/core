@@ -35,15 +35,15 @@ const mapActions = (member, allGroups, onSaveMember, onDeleteMember) => [
     key={`${member.id}-delete`}
     confirmMessage="Are you sure you want to delete the selected member?"
     title="Delete admin"
-    onDelete={() => onDeleteMember(member.id)}
+    onDelete={() => onDeleteMember(member)}
   />,
 ];
 
-const MemberListTable = ({ members, groups, onSaveMember }) => (
+const MemberListTable = ({ members, groups, onSaveMember, onDeleteMember }) => (
   <SortedTable
     columns={columns}
     data={members.map(member => (
-      { ...mapFields(member), actions: mapActions(member, groups, onSaveMember, () => {}) }
+      { ...mapFields(member), actions: mapActions(member, groups, onSaveMember, onDeleteMember) }
     ))}
     sortOn="memberName"
   />
@@ -55,4 +55,5 @@ MemberListTable.propTypes = {
   members: React.PropTypes.array,
   groups: React.PropTypes.array,
   onSaveMember: React.PropTypes.func.isRequired,
+  onDeleteMember: React.PropTypes.func.isRequired,
 };

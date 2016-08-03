@@ -1,4 +1,4 @@
-import applicationValidator from '../../../services/applicationValidator';
+import applicationValidator from '../applicationValidator';
 
 describe('applicationValidator', () => {
   describe('isValid', () => {

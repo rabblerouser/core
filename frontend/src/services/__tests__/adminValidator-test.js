@@ -1,4 +1,4 @@
-import adminValidator from '../../../services/adminValidator';
+import adminValidator from '../adminValidator';
 
 describe('adminValidator', () => {
   describe('isValidWithoutPassword', () => {

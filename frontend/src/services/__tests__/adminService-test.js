@@ -1,4 +1,4 @@
-import adminService from '../../../services/adminService';
+import adminService from '../adminService';
 
 describe('adminService', () => {
   let server;

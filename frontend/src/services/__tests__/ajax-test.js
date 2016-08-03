@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import ajax from '../../../services/ajax';
+import ajax from '../ajax';
 
 describe('ajax', () => {
   it('passes args through', () => {

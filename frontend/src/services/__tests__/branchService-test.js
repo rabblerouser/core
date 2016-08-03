@@ -1,4 +1,4 @@
-import branchService from '../../../services/branchService';
+import branchService from '../branchService';
 
 describe('branchService', () => {
   let server;
