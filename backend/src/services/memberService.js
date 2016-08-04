@@ -167,8 +167,20 @@ function edit(input) {
     .catch(handleError(`Error when editing member with id ${input.id}`));
 }
 
+const deleteMember = id =>
+  Member.destroy({ where: { id } })
+    .then(result => {
+      if (!result) {
+        throw new Error('No records were deleted');
+      }
+
+      logger.info('[delete-member]', `member with id ${id} deleted`);
+    })
+    .catch(handleError(`An error has occurred while deleting the member with id: ${id}`));
+
 module.exports = {
   createMember,
   list,
   edit,
+  delete: deleteMember,
 };

@@ -99,7 +99,7 @@ describe('branchService', () => {
 
         it('should return an empty object when id is null', (done) => {
             branchService.findById(null)
-            .then((result) => {console.log(result);
+            .then((result) => {
                 expect(Branch.findById).not.to.have.been.called;
                 expect(result).to.eql({});
             })

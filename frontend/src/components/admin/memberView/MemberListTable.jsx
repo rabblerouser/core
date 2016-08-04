@@ -8,7 +8,6 @@ const columns = [
   { type: 'name', field: 'memberName', label: 'Member name' },
   { type: 'name', field: 'contactNumber', label: 'Contact information' },
   { type: 'name', field: 'memberSince', label: 'Member since' },
-  { type: 'name', field: 'pastoralNotes', label: 'Pastoral notes' },
   { type: 'actions' },
 ];
 
@@ -16,22 +15,16 @@ function nullToBlank(input) {
   return input === null ? '' : input;
 }
 
-const mapFields = ({ memberName,
-  memberLastName,
-  contactNumber,
-  contactEmail,
-  memberSince,
-  pastoralNotes }) => (
+const mapFields = ({ memberName, memberLastName, contactNumber, contactEmail, memberSince }) => (
   {
     memberName: `${memberName} ${nullToBlank(memberLastName)}`,
     contactNumber: `${contactNumber}\n${contactEmail}`,
     memberSince: moment(memberSince).format('YYYY/MM/DD'),
-    pastoralNotes,
   }
 );
 const mapActions = (member, allGroups, onSaveMember, onDeleteMember) => [
   <EditMemberModalLauncher key={`${member.id}-edit`} member={{ ...member, allGroups }} onSave={onSaveMember} />,
-  false && <DeleteButton
+  <DeleteButton
     key={`${member.id}-delete`}
     confirmMessage="Are you sure you want to delete the selected member?"
     title="Delete admin"

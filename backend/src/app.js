@@ -27,7 +27,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(favicon(path.join(__dirname, '../public', 'images', 'logo', 'favicon.ico'), {maxAge: 100}));
 app.use(helmet());
-app.use(logger(config.logFormat));
+process.env.NODE_ENV !== 'test' && app.use(logger(config.logFormat));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitized());

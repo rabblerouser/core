@@ -405,8 +405,48 @@ describe('memberService', () => {
         });
     });
 
-    describe('edit', () => {
-        it('should edit the member when no groups are sent');
+  describe('delete', () => {
+    beforeEach(() => {
+      sinon.stub(Member, 'destroy');
     });
 
+    afterEach(() => {
+      Member.destroy.restore();
+    });
+
+    it('should delete the group', done => {
+      Member.destroy.returns(Promise.resolve(1));
+
+      memberService.delete('some-member-id')
+        .then(() => {
+          expect(Member.destroy).to.have.been.calledWith({ where: { id: 'some-member-id' } });
+        })
+        .then(done)
+        .catch(done);
+    });
+
+    it('fails when no matching member could be found to delete', () => {
+      Member.destroy.returns(Promise.resolve(0));
+
+      return memberService.delete(null)
+        .then(() => {
+          throw new Error('this should have failed');
+        })
+        .catch(error => {
+          expect(error).to.equal('An error has occurred while deleting the member with id: null');
+        });
+    });
+
+    it('fails when the DB operation blows up', () => {
+      Member.destroy.returns(Promise.reject('DB error the user should not see'));
+
+      return memberService.delete('some-member-id')
+        .then(() => {
+          throw new Error('this should have failed');
+        })
+        .catch(error => {
+          expect(error).to.equal('An error has occurred while deleting the member with id: some-member-id');
+        });
+    });
+  });
 });

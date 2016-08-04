@@ -4,6 +4,7 @@ const Q = require('q');
 const memberService = require('../../../../src/services/memberService');
 const memberValidator = require('../../../../src/lib/memberValidator');
 const membersController = require('../../../../src/controllers/membersController');
+const inputValidator = require('../../../../src/lib/inputValidator');
 
 describe('membersController', () => {
 
@@ -155,4 +156,48 @@ describe('membersController', () => {
             });
         });
     });
+
+  describe('deleteBranch', () => {
+    let res;
+    let validateUUIDStub;
+    let memberServiceDelete;
+
+    beforeEach(() => {
+      res = { sendStatus: sinon.spy() };
+      validateUUIDStub = sinon.stub(inputValidator, 'isValidUUID');
+      memberServiceDelete = sinon.stub(memberService, 'delete');
+    });
+
+    afterEach(() => {
+      memberService.delete.restore();
+      inputValidator.isValidUUID.restore();
+    });
+
+    it('gives a 400 when the memberId is not valid', () => {
+      validateUUIDStub.returns(false);
+
+      membersController.delete({ params: { memberId: 'bad' } }, res);
+      expect(res.sendStatus).to.have.been.calledWith(400);
+    });
+
+    it('calls the member service, and gives a 200 when it succeeds', () => {
+      validateUUIDStub.returns(true);
+      memberServiceDelete.returns(Q.resolve());
+
+      return membersController.delete({ params: { memberId: '12345' } }, res).then(() => {
+        expect(memberServiceDelete).to.have.been.calledWith('12345');
+        expect(res.sendStatus).to.have.been.calledWith(200);
+      });
+    });
+
+    it('calls the member service, and gives a 500 when it fails', () => {
+      validateUUIDStub.returns(true);
+      memberServiceDelete.returns(Q.reject());
+
+      return membersController.delete({ params: { memberId: '12345' } }, res).then(() => {
+        expect(memberServiceDelete).to.have.been.calledWith('12345');
+        expect(res.sendStatus).to.have.been.calledWith(500);
+      });
+    });
+  });
 });

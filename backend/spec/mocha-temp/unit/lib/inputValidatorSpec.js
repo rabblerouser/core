@@ -179,7 +179,7 @@ describe('inputValidator', () => {
           null,
           undefined
       ].forEach((testCase) => {
-          it(`Should return false if the block is ${testCase}`, () => {
+          it(`Should return false if the block is invalid`, () => {
               expect(inputValidator.isValidTextBlock(testCase)).to.be.false;
           });
       });

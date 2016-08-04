@@ -22,7 +22,7 @@ export default class EditMemberModalLauncher extends Component {
     const customStyle = { content: { bottom: 'none' } };
 
     return (
-      <div>
+      <div className="buttons">
         <button className="edit" onClick={this.launchEditForm}><span>Edit groups</span></button>
         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeEditForm} style={customStyle}>
           <EditMemberForm

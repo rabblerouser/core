@@ -3,18 +3,22 @@
 const winston = require('winston');
 const moment = require('moment');
 
+const formatter = options => {
+  const timestamp = options.timestamp();
+  const level = options.level.toUpperCase();
+  const message = options.message || '';
+  const metaPresent = options.meta && Object.keys(options.meta).length;
+  const meta = metaPresent ? `\n\t${JSON.stringify(options.meta)}` : '';
+  return `${timestamp} ${level} ${message} ${meta}`;
+};
+
+const transport = new (winston.transports.Console)({
+  level: process.env.NODE_ENV === 'test' ? -1 : 'debug',
+  timestamp: () => `[${moment().toISOString()}]`,
+  formatter,
+});
 const winstonLogger = new (winston.Logger)({
-  transports: [new (winston.transports.Console)({
-    timestamp: () => `[${moment().toISOString()}]`,
-    /* Just trying to make this readable, because I don't really understand it. */
-    /* eslint-disable prefer-template */
-    formatter: options =>
-      `${options.timestamp()} ` +
-      `${options.level.toUpperCase()} ` +
-      (undefined !== options.message ? options.message : '') +
-      (options.meta && Object.keys(options.meta).length ? `\n\t${JSON.stringify(options.meta)}` : ''),
-    /* eslint-enable prefer-template */
-  })],
+  transports: [transport],
 });
 
 module.exports = winstonLogger;

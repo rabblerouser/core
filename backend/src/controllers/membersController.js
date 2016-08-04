@@ -4,6 +4,7 @@ const _ = require('lodash');
 const isEmpty = _.isEmpty;
 const memberService = require('../services/memberService');
 const memberValidator = require('../lib/memberValidator');
+const inputValidator = require('../lib/inputValidator');
 const logger = require('../lib/logger');
 
 function isAddressEmpty(address) {
@@ -126,8 +127,28 @@ function edit(req, res) {
     .catch(handleError(res));
 }
 
+function deleteMember(req, res) {
+  const memberId = req.params.memberId;
+
+  if (!(inputValidator.isValidUUID(memberId))) {
+    logger.error(`Failed deleting the member with memberId: ${memberId}`);
+    return res.sendStatus(400);
+  }
+
+  return memberService.delete(memberId)
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(error => {
+      logger.error(`Failed deleting the member with memberId: ${memberId}}`, error);
+      res.sendStatus(500);
+    });
+}
+
+
 module.exports = {
   register,
   list,
   edit,
+  delete: deleteMember,
 };
