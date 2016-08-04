@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EditBranchFields from './EditBranchFields.jsx';
+import EditBranchFields from './EditBranchFields';
 import branchValidator from '../../../services/branchValidator';
 
 export default class EditGroupForm extends Component {

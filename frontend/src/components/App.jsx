@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from '../reducers';
 
-import NewMemberForm from './NewMemberForm.jsx';
+import NewMemberForm from './NewMemberForm';
 import '../stylesheets/style.scss';
 
 const App = () => (

@@ -1,6 +1,6 @@
 import React from 'react';
-import AddAdminModalLauncher from './AddAdminModalLauncher.jsx';
-import AdminListTable from './AdminListTable.jsx';
+import AddAdminModalLauncher from './AddAdminModalLauncher';
+import AdminListTable from './AdminListTable';
 
 const AdminsView = ({ type, id = 'admins', admins, onSaveAdmin, onDeleteAdmin }) =>
   <section className="admin-section" id={id}>

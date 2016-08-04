@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AddAdminForm from './AddAdminForm.jsx';
+import AddAdminForm from './AddAdminForm';
 import Modal from 'react-modal';
 
 class AddAdminModalLauncher extends Component {

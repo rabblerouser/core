@@ -1,5 +1,5 @@
 import React from 'react';
-import MemberListTable from './MemberListTable.jsx';
+import MemberListTable from './MemberListTable';
 
 const FilteredMembersList = ({ groupFilter, members, groups, onSaveMember, onDeleteMember }) => {
   function filterMembersList() {

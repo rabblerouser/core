@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import FormFieldLabel from '../../form/FormFieldLabel.jsx';
-import GroupCheckboxes from './GroupCheckboxes.jsx';
+import FormFieldLabel from '../../form/FormFieldLabel';
+import GroupCheckboxes from './GroupCheckboxes';
 import moment from 'moment';
 
 const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selectedSection, onSelectSection }) => {

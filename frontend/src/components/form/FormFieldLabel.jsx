@@ -1,6 +1,6 @@
 import { ApplicationFormFieldLabels as Labels } from '../../config/strings.js';
 import React from 'react';
-import InlineError from './InlineError.jsx';
+import InlineError from './InlineError';
 
 
 const FormFieldLabel = props => {

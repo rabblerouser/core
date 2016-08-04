@@ -4,10 +4,10 @@ import {
   branchListUpdated,
  } from '../../actions/';
 
-import AdminHeader from './AdminHeader.jsx';
-import UserMessageView from './UserMessageView.jsx';
-import GroupsViewContainer from './groupView/GroupsViewContainer.jsx';
-import OrganisersViewContainer from './adminsView/OrganisersViewContainer.jsx';
+import AdminHeader from './AdminHeader';
+import UserMessageView from './UserMessageView';
+import GroupsViewContainer from './groupView/GroupsViewContainer';
+import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
 import branchService from '../../services/branchService.js';
 
 class AdminDashboard extends Component {

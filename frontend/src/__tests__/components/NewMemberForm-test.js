@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import NewMemberForm from '../../components/NewMemberForm.jsx';
+import NewMemberForm from '../../components/NewMemberForm';
 
 import windowLocationUtil from '../../lib/windowLocationUtil.js';
 

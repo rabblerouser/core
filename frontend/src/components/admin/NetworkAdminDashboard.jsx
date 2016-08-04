@@ -4,12 +4,12 @@ import {
   branchListUpdated,
  } from '../../actions/';
 
-import AdminHeader from './AdminHeader.jsx';
-import UserMessageView from './UserMessageView.jsx';
-import BranchDetailsView from './branchView/BranchDetailsView.jsx';
-import GroupsViewContainer from './groupView/GroupsViewContainer.jsx';
-import OrganisersViewContainer from './adminsView/OrganisersViewContainer.jsx';
-import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer.jsx';
+import AdminHeader from './AdminHeader';
+import UserMessageView from './UserMessageView';
+import BranchDetailsView from './branchView/BranchDetailsView';
+import GroupsViewContainer from './groupView/GroupsViewContainer';
+import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
+import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer';
 import branchService from '../../services/branchService.js';
 
 class NetworkAdminDashboard extends Component {

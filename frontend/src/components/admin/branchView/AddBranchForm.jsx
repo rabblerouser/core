@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AddBranchFields from './AddBranchFields.jsx';
+import AddBranchFields from './AddBranchFields';
 import branchValidator from '../../../services/branchValidator';
 
 export default class AddBranchForm extends Component {

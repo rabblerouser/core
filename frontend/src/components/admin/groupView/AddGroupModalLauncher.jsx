@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EditGroupForm from './EditGroupForm.jsx';
+import EditGroupForm from './EditGroupForm';
 import Modal from 'react-modal';
 
 class AddGroupModalLauncher extends Component {

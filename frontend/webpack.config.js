@@ -40,6 +40,9 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
   plugins: [
     new ExtractTextPlugin('style.css'),
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),

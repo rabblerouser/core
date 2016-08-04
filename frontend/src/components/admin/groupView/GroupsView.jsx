@@ -1,7 +1,7 @@
 import React from 'react';
-import GroupsList from './GroupsList.jsx';
-import GroupDetailView from './GroupDetailView.jsx';
-import AddGroupModalLauncher from './AddGroupModalLauncher.jsx';
+import GroupsList from './GroupsList';
+import GroupDetailView from './GroupDetailView';
+import AddGroupModalLauncher from './AddGroupModalLauncher';
 
 const GroupsView = ({ selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGroup }) => {
   const detailsView = selectedGroup ? (

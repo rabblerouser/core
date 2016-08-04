@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import DeleteButton from '../DeleteButton.jsx';
+import DeleteButton from '../DeleteButton';
 
 describe('DeleteButton', () => {
   let onDelete;

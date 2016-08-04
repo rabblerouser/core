@@ -1,7 +1,7 @@
 import React from 'react';
-import SortedTable from '../../common/SortedTable.jsx';
-import EditAdminModalLauncher from './EditAdminModalLauncher.jsx';
-import DeleteButton from '../../common/DeleteButton.jsx';
+import SortedTable from '../../common/SortedTable';
+import EditAdminModalLauncher from './EditAdminModalLauncher';
+import DeleteButton from '../../common/DeleteButton';
 
 const columns = [
   { type: 'name', field: 'name', label: 'Name' },

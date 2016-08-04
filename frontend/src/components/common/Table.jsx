@@ -1,5 +1,5 @@
 import React from 'react';
-import ColumnHeader from './ColumnHeader.jsx';
+import ColumnHeader from './ColumnHeader';
 
 const Table = ({ columns, data, onClickHeader }) => (
   <table>

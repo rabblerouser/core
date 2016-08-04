@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Details from './Details.jsx';
-import ProgressBar from './ProgressBar.jsx';
-import Finished from './Finished.jsx';
+import Details from './Details';
+import ProgressBar from './ProgressBar';
+import Finished from './Finished';
 import { ApplicationForm, Resources } from '../config/strings';
 import ajax from '../services/ajax';
 

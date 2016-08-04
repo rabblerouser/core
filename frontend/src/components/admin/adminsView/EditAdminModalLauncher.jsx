@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EditAdminForm from './EditAdminForm.jsx';
+import EditAdminForm from './EditAdminForm';
 import Modal from 'react-modal';
 
 export default class EditAdminModalLauncher extends Component {

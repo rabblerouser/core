@@ -1,7 +1,7 @@
 import React from 'react';
-import EditBranchModalLauncher from './EditBranchModalLauncher.jsx';
-import AddBranchModalLauncher from './AddBranchModalLauncher.jsx';
-import DeleteButton from '../../common/DeleteButton.jsx';
+import EditBranchModalLauncher from './EditBranchModalLauncher';
+import AddBranchModalLauncher from './AddBranchModalLauncher';
+import DeleteButton from '../../common/DeleteButton';
 
 const BranchHeader = ({ onSave, onDelete, branch }) => (
   <span className="actions">

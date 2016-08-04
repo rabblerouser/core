@@ -1,6 +1,6 @@
 import React from 'react';
-import GroupHeader from './GroupHeader.jsx';
-import GroupDetails from './GroupDetails.jsx';
+import GroupHeader from './GroupHeader';
+import GroupDetails from './GroupDetails';
 
 const GroupDetailView = ({ selectedGroup, onSave, onDelete }) => (
   <section className="admin-section" id="description">

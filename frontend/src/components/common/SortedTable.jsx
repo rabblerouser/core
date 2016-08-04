@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Table from './Table.jsx';
+import Table from './Table';
 import sortColumn from '../../lib/sortColumn.js';
 
 class SortedTable extends Component {

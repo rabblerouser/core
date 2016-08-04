@@ -29,6 +29,9 @@ module.exports = config => {
           },
         ],
       },
+      resolve: {
+        extensions: ['', '.js', '.jsx'],
+      },
       externals: {
         cheerio: 'window',
         'react/addons': true,

@@ -1,5 +1,5 @@
 import React from 'react';
-import FormFieldLabel from './FormFieldLabel.jsx';
+import FormFieldLabel from './FormFieldLabel';
 import { ApplicationForm as Strings } from '../../config/strings.js';
 import _ from 'underscore';
 

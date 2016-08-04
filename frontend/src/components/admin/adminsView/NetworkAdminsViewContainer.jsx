@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import AdminsView from './AdminsView.jsx';
+import AdminsView from './AdminsView';
 import adminService from '../../../services/adminService.js';
 import _ from 'underscore';
 

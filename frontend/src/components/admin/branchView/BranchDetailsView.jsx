@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import BranchHeader from './BranchHeader.jsx';
+import BranchHeader from './BranchHeader';
 import branchService from '../../../services/branchService.js';
 import {
   branchUpdated,

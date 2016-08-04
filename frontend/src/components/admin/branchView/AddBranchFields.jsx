@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import FormFieldLabel from '../../form/FormFieldLabel.jsx';
+import FormFieldLabel from '../../form/FormFieldLabel';
 
 const EditBranchFields = ({ invalidFields, onChange, formValues }) => {
   function isValidationError(fieldName) {

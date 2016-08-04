@@ -1,5 +1,5 @@
 import React from 'react';
-import SortedTable from '../SortedTable.jsx';
+import SortedTable from '../SortedTable';
 import { shallow } from 'enzyme';
 
 describe('SortedTable', () => {

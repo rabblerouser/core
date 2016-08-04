@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Errors from './Errors.jsx';
-import NewMemberFields from './form/NewMemberFields.jsx';
+import Errors from './Errors';
+import NewMemberFields from './form/NewMemberFields';
 import applicationValidator from '../services/applicationValidator';
 import { ApplicationForm as Strings, FormValidationErrors as ErrorStrings, Resources } from '../config/strings.js';
 import branchService from '../services/branchService';

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import GroupsView from './GroupsView.jsx';
+import GroupsView from './GroupsView';
 import branchService from '../../../services/branchService.js';
 import groupService from '../../../services/groupService.js';
-import MembersViewContainer from '../memberView/MembersViewContainer.jsx';
+import MembersViewContainer from '../memberView/MembersViewContainer';
 
 import {
   getSelectedBranchId,

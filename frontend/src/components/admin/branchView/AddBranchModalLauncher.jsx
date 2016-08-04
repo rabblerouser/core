@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AddBranchForm from './AddBranchForm.jsx';
+import AddBranchForm from './AddBranchForm';
 import Modal from 'react-modal';
 
 class AddBranchModalLauncher extends Component {

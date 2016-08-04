@@ -6,9 +6,9 @@ import {
   getSelectedBranch,
  } from '../../reducers/branchReducers';
 
-import BranchSelector from './BranchSelector.jsx';
-import LogoutButton from './LogoutButton.jsx';
-import OrganisationIcon from './OrganisationIcon.jsx';
+import BranchSelector from './BranchSelector';
+import LogoutButton from './LogoutButton';
+import OrganisationIcon from './OrganisationIcon';
 
 const AdminHeader = ({ canSelectBranch, selectedBranch }) => (
   <header className="admin-header header">

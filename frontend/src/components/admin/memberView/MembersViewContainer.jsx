@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
-import FilteredMembersList from './FilteredMembersList.jsx';
+import FilteredMembersList from './FilteredMembersList';
 import branchService from '../../../services/branchService.js';
 import memberService from '../../../services/memberService.js';
 

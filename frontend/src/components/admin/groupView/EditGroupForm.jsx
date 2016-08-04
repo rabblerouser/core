@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormFieldLabel from '../../form/FormFieldLabel.jsx';
+import FormFieldLabel from '../../form/FormFieldLabel';
 import groupValidator from '../../../services/groupValidator.js';
 
 class EditGroupForm extends Component {

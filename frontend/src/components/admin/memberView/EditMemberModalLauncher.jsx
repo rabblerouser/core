@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EditMemberForm from './EditMemberForm.jsx';
+import EditMemberForm from './EditMemberForm';
 import Modal from 'react-modal';
 
 export default class EditMemberModalLauncher extends Component {

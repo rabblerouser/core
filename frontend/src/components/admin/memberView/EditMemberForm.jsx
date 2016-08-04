@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'underscore';
-import EditMemberFields from './EditMemberFields.jsx';
+import EditMemberFields from './EditMemberFields';
 import memberValidator from '../../../services/memberValidator';
-import UserMessageView from '../UserMessageView.jsx';
+import UserMessageView from '../UserMessageView';
 
 export default class EditMemberForm extends Component {
   constructor(props) {
