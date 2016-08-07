@@ -106,6 +106,15 @@ function createMembers(agent, numberOfMembers) {
     };
 }
 
+function resetDatabase() {
+    return Address.truncate({cascade: true})
+    .then(() => { return Member.truncate({cascade: true});})
+    .then(() => { return AdminUser.truncate({cascade: true});})
+    .then(() => { return BranchGroup.truncate({cascade: true});})
+    .then(() => { return Group.truncate({cascade: true});})
+    .then(() => { return Branch.truncate({cascade: true});});
+}
+
 module.exports = {
     createBranchAdmin: createBranchAdmin,
     authenticateBranchAdmin: authenticateBranchAdmin,
@@ -114,5 +123,6 @@ module.exports = {
     makeMember: makeMember,
     createGroupInBranch: createGroupInBranch,
     createSuperAdmin: createSuperAdmin,
-    authenticateSuperAdmin: authenticateSuperAdmin
+    authenticateSuperAdmin: authenticateSuperAdmin,
+    resetDatabase: resetDatabase
 };

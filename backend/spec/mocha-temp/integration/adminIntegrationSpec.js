@@ -90,12 +90,7 @@ describe('AdminIntegrationTests', () => {
     beforeEach(() => {
         agent = request.agent(app);
 
-        return Address.truncate({cascade: true})
-        .then(() => { return Member.truncate({cascade: true});})
-        .then(() => { return AdminUser.truncate({cascade: true});})
-        .then(() => { return BranchGroup.truncate({cascade: true});})
-        .then(() => { return Group.truncate({cascade: true});})
-        .then(() => { return Branch.truncate({cascade: true});});
+        return integrationTestHelpers.resetDatabase();
     });
 
     describe('add', () => {
