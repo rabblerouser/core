@@ -6,14 +6,14 @@ import {
   getSelectedBranch,
  } from '../../reducers/branchReducers';
 
-import BranchSelector from './BranchSelector';
+import BranchSelectBox from './BranchSelectBox';
 import LogoutButton from './LogoutButton';
 import OrganisationIcon from './OrganisationIcon';
 
 const AdminHeader = ({ canSelectBranch, selectedBranch }) => (
   <header className="admin-header header">
     <OrganisationIcon />
-    {canSelectBranch ? <BranchSelector /> : <span>{selectedBranch.name}</span>}
+    {canSelectBranch ? <BranchSelectBox /> : <span>{selectedBranch.name}</span>}
     <LogoutButton />
   </header>
 );

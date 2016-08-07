@@ -6,10 +6,10 @@ import {
   getAvailableBranches,
 } from '../../reducers/branchReducers';
 
-import { branchSelected } from '../../actions/';
+import * as branchActions from '../../actions/branchActions';
 
-const BranchSelector = ({ selected, onSelectBranch, branches }) => {
-  const onChange = event => onSelectBranch(event.target.value);
+export const BranchSelectBox = ({ selected, branchSelected, branches }) => {
+  const onChange = event => branchSelected(event.target.value);
   return (
     <select id="branches" value={selected} onChange={onChange}>
       {branches.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
@@ -17,10 +17,10 @@ const BranchSelector = ({ selected, onSelectBranch, branches }) => {
   );
 };
 
-BranchSelector.propTypes = {
+BranchSelectBox.propTypes = {
   branches: React.PropTypes.array,
   selected: React.PropTypes.string,
-  onSelectBranch: React.PropTypes.func.isRequired,
+  branchSelected: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -28,8 +28,4 @@ const mapStateToProps = state => ({
   selected: getSelectedBranchId(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onSelectBranch: branchId => dispatch(branchSelected(branchId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BranchSelector);
+export default connect(mapStateToProps, branchActions)(BranchSelectBox);
