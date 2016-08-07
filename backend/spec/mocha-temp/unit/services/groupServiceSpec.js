@@ -183,15 +183,13 @@ describe('groupService', () => {
             Group.destroy.restore();
         });
 
-        it('should delete the group', (done) => {
+        it('should delete the group', () => {
             Group.destroy.returns(Promise.resolve(1));
 
-            groupService.delete('some-group-id')
+            return groupService.delete('some-group-id')
             .then(() => {
                 expect(Group.destroy).to.have.been.calledWith({where: {id: 'some-group-id'}});
-            })
-            .then(done)
-            .catch(done);
+            });
         });
 
         describe('this went bad', () => {
