@@ -93,133 +93,99 @@ describe('AdminIntegrationTests', () => {
         return integrationTestHelpers.resetDatabase();
     });
 
-    describe('add', () => {
+    describe('admins', () => {
+        let browserState = {};
+
         beforeEach(() => {
-            return integrationTestHelpers.createBranch();
+            return integrationTestHelpers.createBranch()
+            .tap((branch) => {
+                browserState.branch = branch;
+            })
+            .then(integrationTestHelpers.createBranchAdmin)
+            .tap((adminUser) => {
+                browserState.adminUser = adminUser;
+            })
+            .then(integrationTestHelpers.authenticateBranchAdmin(agent))
         });
 
-        it('should return 200 and a created user when the input is valid', () => {
-            return integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createBranchAdmin)
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then((branch) => {
-                return agent.post(`/branches/${branch.id}/admins`)
+        afterEach(() => {
+            browserState = {};
+        });
+
+        describe('add', () => {
+            it('should return 200 and a created user when the input is valid', () => {
+                return agent.post(`/branches/${browserState.branch.id}/admins`)
                     .set('Content-Type', 'application/json')
-                    .send(makeAdminUser(branch))
+                    .send(makeAdminUser(browserState.branch))
                     .expect(200)
-                    .then(hasAdmin);
+                    .expect(hasAdmin);
             });
-        });
 
-        it('should return 400 if the input is null', () => {
-            return integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createBranchAdmin)
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then((branch) => {
-                return agent.post(`/branches/${branch.id}/admins`)
+            it('should return 400 if the input is null', () => {
+                return agent.post(`/branches/${browserState.branch.id}/admins`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
                     .send(null)
                     .expect(400);
             });
-        });
 
-        it('should return 400 if the input is incomplete', () => {
-            return integrationTestHelpers.createBranch()
-            .tap(integrationTestHelpers.createBranchAdmin)
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then((branch) => {
-                return agent.post(`/branches/${branch.id}/admins`)
+            it('should return 400 if the input is incomplete', () => {
+                return agent.post(`/branches/${browserState.branch.id}/admins`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
-                    .send(makeInvalidUser(branch))
+                    .send(makeInvalidUser(browserState.branch))
                     .expect(400);
             });
         });
-    });
 
-    describe('delete', () => {
-        it('should return a 200 when the admin is successfully deleted', () => {
-            integrationTestHelpers.createBranch()
-                .then(integrationTestHelpers.createBranchAdmin)
-                .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-                .then((adminUser) => {
-                    return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
-                    .expect(200);
-                });
-        });
+        describe('delete', () => {
+            it('should return a 200 when the admin is successfully deleted', () => {
+                return agent.delete(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${browserState.adminUser.dataValues.id}`)
+                .expect(200);
+            });
 
-        it('should return a 400 if the input data is not valid', () => {
-            integrationTestHelpers.createBranch()
-                .then(integrationTestHelpers.createBranchAdmin)
-                .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-                .then((adminUser) => {
-                    return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/whatevs`)
-                    .expect(400);
-                });
-        });
+            it('should return a 400 if the input data is not valid', () => {
+                return agent.delete(`/branches/${browserState.adminUser.dataValues.branchId}/admins/whatevs`)
+                .expect(400);
+            });
 
-        it('should return 500 when trying to delete a admin that does not exist', () => {
-            integrationTestHelpers.createBranch()
-                .then(integrationTestHelpers.createBranchAdmin)
-                .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-                .then((adminUser) => {
-                    return agent.delete(`/branches/${adminUser.dataValues.branchId}/admins/${uuid.v4()}`)
-                    .expect(500);
-                });
-        });
-    });
-
-    describe('update', () => {
-        it('should return 200 and an updated user when the input is valid', () => {
-            integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createBranchAdmin)
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then((adminUser) => {
-                return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
-                    .set('Content-Type', 'application/json')
-                    .send(makeAdminUserUpdates(adminUser))
-                    .expect(200)
-                    .then(hasAdmin);
+            it('should return 500 when trying to delete a admin that does not exist', () => {
+                return agent.delete(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${uuid.v4()}`)
+                .expect(500);
             });
         });
 
-        it('should allow update without the password field in the payload', () => {
-            integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createBranchAdmin)
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then((adminUser) => {
-                return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
+        describe('update', () => {
+            it('should return 200 and an updated user when the input is valid', () => {
+                return agent.put(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${browserState.adminUser.dataValues.id}`)
+                    .set('Content-Type', 'application/json')
+                    .send(makeAdminUserUpdates(browserState.adminUser))
+                    .expect(200)
+                    .expect(hasAdmin);
+            });
+
+            it('should allow update without the password field in the payload', () => {
+                return agent.put(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${browserState.adminUser.dataValues.id}`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
-                    .send(makeAdminUserUpdateWithoutPassword(adminUser))
+                    .send(makeAdminUserUpdateWithoutPassword(browserState.adminUser))
                     .expect(200)
-                    .then(hasAdmin);
+                    .expect(hasAdmin);
             });
-        });
 
-        it('should return 400 if the input is null', () => {
-            integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createBranchAdmin)
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then((adminUser) => {
-                return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/${adminUser.dataValues.id}`)
+            it('should return 400 if the input is null', () => {
+                return agent.put(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${browserState.adminUser.dataValues.id}`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
                     .send(null)
                     .expect(400);
             });
-        });
 
-        it('should return 400 if the input is incomplete', () => {
-            integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createBranchAdmin)
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then((adminUser) => {
-                return agent.put(`/branches/${adminUser.dataValues.branchId}/admins/whatevs`)
+            it('should return 400 if the input is incomplete', () => {
+                return agent.put(`/branches/${browserState.adminUser.dataValues.branchId}/admins/whatevs`)
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
-                    .send(makeInvalidAdminUserUpdates(adminUser))
+                    .send(makeInvalidAdminUserUpdates(browserState.adminUser))
                     .expect(400);
             });
         });
