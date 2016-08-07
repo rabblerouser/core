@@ -10,7 +10,6 @@ describe('PathAccessValidator Integration tests', () => {
     beforeEach(() => {
         agent = request.agent(app);
 
-
         return integrationTestHelpers.resetDatabase()
         .then(() => {
             return integrationTestHelpers.createBranch();
@@ -27,9 +26,20 @@ describe('PathAccessValidator Integration tests', () => {
     });
 
     it('should respond with 401 when users try to access a branch path with no branch id', () => {
-        let aDifferentBranchId;
+            let aDifferentBranchId;
 
-        return agent.get(`/branches/${aDifferentBranchId}/members`);
-        expect(401);
+            return agent.get(`/branches/${aDifferentBranchId}/members`)
+            .expect(401);
+    });
+
+    it('should respond 200 when a super admin is trying to access data for a branch', () => {
+        return integrationTestHelpers.createBranch()
+        .then(integrationTestHelpers.createSuperAdmin)
+        .then(integrationTestHelpers.authenticateSuperAdmin(agent))
+        .then(integrationTestHelpers.createBranch)
+        .then((aDifferentBranch) => {
+            return agent.get(`/branches/${aDifferentBranch.id}/members`)
+            .expect(200);
+        });
     });
 });
