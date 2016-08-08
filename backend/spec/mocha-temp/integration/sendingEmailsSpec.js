@@ -1,5 +1,4 @@
 'use strict';
-require('../../support/specHelper.js');
 let messagingService = require('../../../src/services/messagingService');
 let sinon = require('sinon');
 let member = {email: 'sherlock@holmes.co.uk'};
@@ -30,22 +29,20 @@ describe('thing', () => {
                 sinon.stub(nodemailer, 'createTransport').returns(transportStub);
             });
 
-            it('sends the email to the member', (done) => {
-                messagingService.sendWelcomeEmail(member)
-                    .then((result) => {
-                        expect(sendMailSpy).toHaveBeenCalled();
-                    })
-                    .then(done, done.fail);
+            it('sends the email to the member', () => {
+                return messagingService.sendWelcomeEmail(member)
+                .then((result) => {
+                    expect(sendMailSpy).to.have.been.called;
+                });
             });
 
-            it('does not send an email if disabled in configuration', (done) => {
+            it('does not send an email if disabled in configuration', () => {
                 configStub.withArgs('email.sendEmails').returns(false);
 
-                messagingService.sendWelcomeEmail(member)
-                    .finally(() => {
-                        expect(sendMailSpy).not.toHaveBeenCalled();
-                    })
-                    .then(done, done.fail);
+                return messagingService.sendWelcomeEmail(member)
+                .finally(() => {
+                    expect(sendMailSpy).not.to.have.been.called;
+                });
             });
         });
 
@@ -63,7 +60,7 @@ describe('thing', () => {
                         done.fail('no error!');
                     })
                     .catch((error) => {
-                        expect(error).not.toBeNull();
+                        expect(error).not.to.be.null;
                         done();
                     });
             });
