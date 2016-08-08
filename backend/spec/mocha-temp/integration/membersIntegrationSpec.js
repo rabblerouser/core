@@ -6,7 +6,7 @@ let request = require('supertest-as-promised');
 const sample = require('lodash').sample;
 const pluck = require('lodash').pluck;
 let integrationTestHelpers = require('./integrationTestHelpers.js');
-let Q = require('../../support/specHelper').Q;
+let Q = require('q');
 
 function getMembers(someAgent, state) {
     return function() {
@@ -30,16 +30,18 @@ let hasNewMember = (res) => {
 
 function hasMembersList(res) {
     let response = res.body;
-    expect(response.members).not.toBeNull();
-    expect(response.members.length).toEqual(3);
+    expect(response.members).not.to.be.null;
+    expect(response.members.length).to.equal(3);
 }
 
 let getBranchId = (someAgent) => {
-    return someAgent
-            .get('/branches')
-            .then((response) => {
-                return sample(response.body.branches).id;
-            });
+    return function() {
+        return someAgent
+        .get('/branches')
+        .then((response) => {
+            return sample(response.body.branches).id;
+        });
+    };
 };
 
 let makeMemberWithNoAddress = (branchId) => {
@@ -64,112 +66,98 @@ function setState(obj, key) {
 
 describe('MemberIntegrationTests', () => {
     let agent;
+    let browserState = {};
 
     beforeEach(() => {
         agent = request.agent(app);
     });
 
     describe('Register', () => {
-        beforeEach((done) => {
-            integrationTestHelpers.createBranch().nodeify(done);
+        beforeEach(() => {
+            return integrationTestHelpers.resetDatabase()
+            .then(integrationTestHelpers.createBranch)
+            .then(getBranchId(agent))
+            .then((branchId) => browserState.branchId = branchId);
         });
 
-        it('should return 200 and a created member when the input is valid', (done) => {
-            getBranchId(agent)
-            .then((branchId) => {
-                return agent
+        it('should return 200 and a created member when the input is valid', () => {
+            return agent
                 .post('/register')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
-                .send(integrationTestHelpers.makeMember(branchId))
+                .send(integrationTestHelpers.makeMember(browserState.branchId))
                 .expect(200)
                 .expect(hasNewMember);
-            }).then(done, done.fail);
         });
 
-        it('should safely create a member with dodgy information', (done) => {
-            getBranchId(agent)
-            .then((branchId) => {
-                let dodgyMember = integrationTestHelpers.makeMember(branchId);
-                dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
+        it('should safely create a member with dodgy information', () => {
+            let dodgyMember = integrationTestHelpers.makeMember(browserState.branchId);
+            dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
 
-                return agent
+            return agent
                 .post('/register')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
                 .send(dodgyMember)
                 .expect(200)
                 .expect(hasNewMember);
-            }).then(done, done.fail);
         });
 
-        it('should return 200 when creating a member with no address', (done) => {
-            getBranchId(agent)
-            .then((branchId) => {
-                return agent
-                .post('/register')
-                .set('Content-Type', 'application/json')
-                .set('Accept', 'application/json')
-                .send(makeMemberWithNoAddress(branchId))
-                .expect(200)
-                .expect(hasNewMember);
-            }).then(done, done.fail);
+        it('should return 200 when creating a member with no address', () => {
+            return agent
+            .post('/register')
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+            .send(makeMemberWithNoAddress(browserState.branchId))
+            .expect(200)
+            .expect(hasNewMember);
         });
 
-        it('should return 400 if the input is null', (done) => {
+        it('should return 400 if the input is null', () => {
             return agent
             .post('/register')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(null)
-            .expect(400)
-            .then(done, done.fail);
+            .expect(400);
         });
 
-        it('should return 400 if the input is incomplete', (done) => {
+        it('should return 400 if the input is incomplete', () => {
             return agent
             .post('/register')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(makeInvalidMember())
-            .expect(400)
-            .then(done, done.fail);
+            .expect(400);
         });
     });
 
     describe('list of members', () => {
-        it('finds a list of members for an organiser', (done) => {
-            integrationTestHelpers.createBranch()
+        it('finds a list of members for an organiser', () => {
+            return integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.createMembers(agent, 3))
             .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then((branch) => {
                 return agent.get(`/branches/${branch.id}/members`);
             })
-            .then(hasMembersList)
-            .then(done, done.fail);
+            .then(hasMembersList);
         });
 
-        it('only authenticated organisers can access the members list', (done) => {
-
-            integrationTestHelpers.createBranch()
+        it('only authenticated organisers can access the members list', () => {
+            return integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createMembers(agent, 3))
             .then((branch) => {
-                return agent.get(`/branches/${branch.id}/members`);
-            })
-            .then((res) => {
-                expect(res.status).toEqual(302);
-            })
-            .then(done, done.fail);
+                return agent.get(`/branches/${branch.id}/members`)
+                .expect(302);
+            });
         });
     });
 
     describe('Edit member', () => {
-
-        let browserState = {};
-
-        beforeEach((done) => {
-            integrationTestHelpers.createBranch()
+        beforeEach(() => {
+            return integrationTestHelpers.resetDatabase()
+            .then(integrationTestHelpers.createBranch)
             .tap(setState(browserState, 'branch'))
             .tap(integrationTestHelpers.createBranchAdmin)
             .then(integrationTestHelpers.createMembers(agent, 1))
@@ -182,11 +170,10 @@ describe('MemberIntegrationTests', () => {
             .tap(setState(browserState, 'groups'))
             .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then(getMembers(agent, browserState))
-            .tap(setState(browserState, 'members'))
-            .then(done, done.fail);
+            .tap(setState(browserState, 'members'));
         });
 
-        it('should add groups to a member', (done) => {
+        it('should add groups to a member', () => {
             let member = sample(browserState.members);
             let groups = pluck(browserState.groups, 'groupId');
             let branchId = browserState.branch.id;
@@ -197,13 +184,12 @@ describe('MemberIntegrationTests', () => {
                 .expect(200)
                 .expect((res) => {
                     let response = res.body;
-                    expect(response.groups).not.toBeNull();
-                    expect(response.groups.length).toEqual(2);
-                })
-                .then(done, done.fail);
+                    expect(response.groups).not.to.be.null;
+                    expect(response.groups.length).to.equal(2);
+                });
         });
 
-        it('should edit the member with the new values', (done) => {
+        it('should edit the member with the new values', () => {
             let member = sample(browserState.members);
             let branchId = browserState.branch.id;
 
@@ -213,14 +199,13 @@ describe('MemberIntegrationTests', () => {
                 .set('Content-Type', 'application/json')
                 .send(editMember(member, []))
                 .expect(200)
-                .then((response) => {
+                .expect((response) => {
                     let member = response.body;
-                    expect(member.firstName).toEqual('Super Test');
-                })
-                .then(done, done.fail);
+                    expect(member.firstName).to.equal('Super Test');
+                });
         });
 
-        it('should respond 400 if invalid input', (done) => {
+        it('should respond 400 if invalid input', () => {
             let member = sample(browserState.members);
             let branchId = browserState.branch.id;
 
@@ -229,8 +214,7 @@ describe('MemberIntegrationTests', () => {
             return agent.put(`/branches/${branchId}/members/${member.id}`)
                 .set('Content-Type', 'application/json')
                 .send(editMember(member, []))
-                .expect(400)
-                .then(done, done.fail);
+                .expect(400);
         });
     });
 });
