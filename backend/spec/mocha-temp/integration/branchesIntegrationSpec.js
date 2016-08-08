@@ -1,5 +1,4 @@
 'use strict';
-require('../../support/specHelper');
 const integrationTestHelpers = require('./integrationTestHelpers.js');
 const sample = require('lodash').sample;
 let uuid = require('node-uuid');
@@ -52,64 +51,57 @@ let hasBranch = (res) => {
     }
 };
 
-describe('Branches Integration Test', () => {
+describe.only('Branches Integration Test', () => {
 
     let agent;
+    let browserState = {};
 
     beforeEach(() => {
         agent = request.agent(app);
-    });
 
-    it('should return a list of branches', (done) => {
-        getBranches()
-            .then(done, done.fail);
-    }, 60000);
-
-    it('should return a list of groups for a branch', (done) => {
-        integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-        .then((branch) => {
-            return agent
-                .get(`/branches/${branch.id}/groups`)
-                .expect(200)
-                .expect(listOfGroups);
-        })
-        .then(done, done.fail);
-    });
-
-    it('should return a list of admins for a branch', (done) => {
-        integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-        .then((branch) => {
-            return agent
-                .get(`/branches/${branch.id}/admins`)
-                .expect(200)
-                .expect(listOfAdmins);
-        })
-        .then(done, done.fail);
-    });
-
-    it('should return the list of branches the admin user has access to', (done) => {
-        integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-        .then((branch) => {
-            return agent.get('/admin/branches')
-                .expect(200)
-                .then((res) => {
-                    expect(res.body.branches).not.toBeNull();
-                    expect(res.body.branches.length).toEqual(1);
-                    expect(res.body.branches[0].id).toEqual(branch.id);
-                });
-        })
-        .then(done, done.fail);
-    });
-
-    it('should return a list of all branches for a super admin', (done) => {
-        integrationTestHelpers.createBranch()
+        return integrationTestHelpers.resetDatabase()
         .then(integrationTestHelpers.createBranch)
+        .tap(integrationTestHelpers.createBranchAdmin)
+        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
+        .then(branch => {
+            browserState.branch = branch;
+        });
+    });
+
+    afterEach(() => {
+        browserState = {};
+    });
+
+    it('should return a list of branches', () => {
+        return getBranches();
+    });
+
+    it('should return a list of groups for a branch', () => {
+        return agent
+            .get(`/branches/${browserState.branch.id}/groups`)
+            .expect(200)
+            .expect(listOfGroups);
+    });
+
+    it('should return a list of admins for a branch', () => {
+        return agent
+            .get(`/branches/${browserState.branch.id}/admins`)
+            .expect(200)
+            .expect(listOfAdmins);
+    });
+
+    it('should return the list of branches the admin user has access to', () => {
+        return agent.get('/admin/branches')
+            .expect(200)
+            .then((res) => {
+                expect(res.body.branches).not.to.be.null;
+                expect(res.body.branches.length).to.equal(1);
+                expect(res.body.branches[0].id).to.equal(browserState.branch.id);
+            });
+    });
+
+    it('should return a list of all branches for a super admin', () => {
+        return integrationTestHelpers.createBranch()
         .then(integrationTestHelpers.createBranch)
         .tap(integrationTestHelpers.createSuperAdmin)
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
@@ -117,97 +109,78 @@ describe('Branches Integration Test', () => {
             return agent.get('/admin/branches')
                 .expect(200)
                 .then((res) => {
-                    expect(res.body.branches).not.toBeNull();
-                    expect(res.body.branches.length).toEqual(3);
+                    expect(res.body.branches).not.to.be.null;
+                    expect(res.body.branches.length).to.equal(3);
                     expect(sample(res.body.r));
                 });
-        })
-        .then(done, done.fail);
+        });
     });
 
-    it('should return branches notes for super admins', (done) => {
-        integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createSuperAdmin)
-        .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-        .then(() => {
-            return agent.get('/admin/branches')
-                .expect(200)
-                .then((res) => {
-                    expect(res.body.branches).not.toBeNull();
-                    expect(sample(res.body.branches).notes).not.toBeNull();
-                });
-        })
-        .then(done, done.fail);
+    it('should return branches notes for super admins', () => {
+        return agent.get('/admin/branches')
+            .expect(200)
+            .then((res) => {
+                expect(res.body.branches).not.to.be.null;
+                expect(sample(res.body.branches).notes).not.to.be.null;
+            });
     });
 
-    it('should not return branches notes for branch admins', (done) => {
-        integrationTestHelpers.createBranch()
-        .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-        .then(() => {
-            return agent.get('/admin/branches')
-                .expect(200)
-                .then((res) => {
-                    expect(res.body.branches).not.toBeNull();
-                    expect(sample(res.body.branches).notes).toBeUndefined();
-                });
-        })
-        .then(done, done.fail);
+    it('should not return branches notes for branch admins', () => {
+        return agent.get('/admin/branches')
+            .expect(200)
+            .then((res) => {
+                expect(res.body.branches).not.to.be.null;
+                expect(sample(res.body.branches).notes).to.be.undefined;
+            });
     });
 
     describe('delete', () => {
-        it('should return a 200 when the branch is successfully deleted', (done) => {
-            integrationTestHelpers.createBranch()
+        it('should return a 200 when the branch is successfully deleted', () => {
+            return integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createSuperAdmin)
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
                 .then((branch) => {
                     return agent.delete(`/branches/${branch.id}/`)
                     .expect(200);
-                })
-                .then(done, done.fail);
+                });
         });
 
-        it('should return a 400 if the input data is not valid', (done) => {
-            integrationTestHelpers.createBranch()
-                .then(integrationTestHelpers.createBranchAdmin)
-                .tap(integrationTestHelpers.createSuperAdmin)
+        it('should return a 400 if the input data is not valid', () => {
+            return integrationTestHelpers.createSuperAdmin()
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
                 .then(() => {
                     return agent.delete(`/branches/whatevs/`)
                     .expect(400);
-                })
-                .then(done, done.fail);
+                });
         });
 
-        it('should return 500 when trying to delete a branch that does not exist', (done) => {
-            integrationTestHelpers.createBranch()
+        it('should return 500 when trying to delete a branch that does not exist', () => {
+            return integrationTestHelpers.createBranch()
                 .tap(integrationTestHelpers.createSuperAdmin)
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
                 .then(() => {
                     return agent.delete(`/branches/${uuid.v4()}/`)
                     .expect(500);
-                })
-                .then(done, done.fail);
+                });
         });
     });
 
     describe('add', () => {
 
-        it('should return 200 and a created branch when the input is valid', (done) => {
-            integrationTestHelpers.createSuperAdmin()
+        it('should return 200 and a created branch when the input is valid', () => {
+            return integrationTestHelpers.createSuperAdmin()
                 .then(integrationTestHelpers.authenticateSuperAdmin(agent))
                 .then(() => {
                     return agent.post(`/branches`)
                         .set('Content-Type', 'application/json')
                         .send(makeBranch())
                         .expect(200)
-                        .then(getBranches);
-            })
-            .then(done, done.fail);
+                        .expect(getBranches);
+            });
         });
 
-        it('should return 400 if the input is null', (done) => {
-            integrationTestHelpers.createSuperAdmin()
+        it('should return 400 if the input is null', () => {
+            return integrationTestHelpers.createSuperAdmin()
                 .then(integrationTestHelpers.authenticateSuperAdmin(agent))
                 .then(() => {
                     return agent.post(`/branches`)
@@ -215,12 +188,11 @@ describe('Branches Integration Test', () => {
                         .set('Accept', 'application/json')
                         .send(null)
                         .expect(400);
-            })
-            .then(done, done.fail);
+            });
         });
 
-        it('should return 400 if the input is incomplete', (done) => {
-            integrationTestHelpers.createSuperAdmin()
+        it('should return 400 if the input is incomplete', () => {
+            return integrationTestHelpers.createSuperAdmin()
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
                 .then(() => {
                     return agent.post(`/branches`)
@@ -228,14 +200,13 @@ describe('Branches Integration Test', () => {
                         .set('Accept', 'application/json')
                         .send({invalid:'invalid'})
                         .expect(400);
-            })
-            .then(done, done.fail);
+            });
         });
     });
 
     describe('update', () => {
-        it('should return 200 and an updated branch when the input is valid', (done) => {
-            integrationTestHelpers.createBranch()
+        it('should return 200 and an updated branch when the input is valid', () => {
+            return integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createSuperAdmin)
             .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
             .then((branch) => {
@@ -243,13 +214,12 @@ describe('Branches Integration Test', () => {
                     .set('Content-Type', 'application/json')
                     .send(makeBranchUpdates(branch))
                     .expect(200)
-                    .then(hasBranch);
-            })
-            .then(done, done.fail);
+                    .expect(hasBranch);
+            });
         });
 
-        it('should allow update without the password field in the payload', (done) => {
-            integrationTestHelpers.createBranch()
+        it('should allow update without the password field in the payload', () => {
+            return integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createSuperAdmin)
             .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
             .then((branch) => {
@@ -258,13 +228,12 @@ describe('Branches Integration Test', () => {
                     .set('Accept', 'application/json')
                     .send(makeBranchUpdates(branch))
                     .expect(200)
-                    .then(hasBranch);
-            })
-            .then(done, done.fail);
+                    .expect(hasBranch);
+            });
         });
 
-        it('should return 400 if the input is null', (done) => {
-            integrationTestHelpers.createBranch()
+        it('should return 400 if the input is null', () => {
+            return integrationTestHelpers.createBranch()
             .tap(integrationTestHelpers.createSuperAdmin)
             .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
             .then((branch) => {
@@ -273,12 +242,11 @@ describe('Branches Integration Test', () => {
                     .set('Accept', 'application/json')
                     .send(null)
                     .expect(400);
-            })
-            .then(done, done.fail);
+            });
         });
 
-        it('should return 400 if the input is incomplete', (done) => {
-            integrationTestHelpers.createBranch()
+        it('should return 400 if the input is incomplete', () => {
+            return integrationTestHelpers.createBranch()
             .then(integrationTestHelpers.createSuperAdmin)
             .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
             .then(() => {
@@ -287,8 +255,7 @@ describe('Branches Integration Test', () => {
                     .set('Accept', 'application/json')
                     .send({invalid: 'invalid'})
                     .expect(400);
-            })
-            .then(done, done.fail);
+            });
         });
 
     });
