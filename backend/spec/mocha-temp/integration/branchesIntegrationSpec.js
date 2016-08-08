@@ -51,7 +51,7 @@ let hasBranch = (res) => {
     }
 };
 
-describe.only('Branches Integration Test', () => {
+describe('Branches Integration Test', () => {
 
     let agent;
     let browserState = {};
