@@ -1,6 +1,5 @@
 'use strict';
 
-require('../../support/specHelper');
 const instance_url = process.env.INSTANCE_URL;
 let app = instance_url ? instance_url : require('../../../src/app');
 let request = require('supertest-as-promised');
@@ -11,26 +10,26 @@ describe('SuperAdminOnlyValidator Integration tests', () => {
 
     beforeEach(() => {
         agent = request.agent(app);
+        return integrationTestHelpers.resetDatabase();
     });
 
-    it('should respond with 401 when users try to access something they are NOT entitled to see', (done) => {
-            integrationTestHelpers.createBranch()
-            .then(integrationTestHelpers.createBranchAdmin)
-            .then(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then(() => {
-                return agent.post(`/branches`)
-                .set('Content-Type', 'application/json')
-                .send({
-                    name: 'Melbourne',
-                    notes: 'organiser',
-                    contact: 'hey i\'m a contact',
-                })
-                .expect(401);
+    it('should respond with 401 when users try to access something they are NOT entitled to see', () => {
+        return integrationTestHelpers.createBranch()
+        .then(integrationTestHelpers.createBranchAdmin)
+        .then(integrationTestHelpers.authenticateBranchAdmin(agent))
+        .then(() => {
+            return agent.post(`/branches`)
+            .set('Content-Type', 'application/json')
+            .send({
+                name: 'Melbourne',
+                notes: 'organiser',
+                contact: 'hey i\'m a contact',
             })
-            .then(done, done.fail);
+            .expect(401);
+        });
     });
 
-    it('should respond with 200 when a super admin tries to access a superadmin only resource', (done) => {
+    it('should respond with 200 when a super admin tries to access a superadmin only resource', () => {
         integrationTestHelpers.createSuperAdmin()
         .then(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => {
@@ -42,7 +41,6 @@ describe('SuperAdminOnlyValidator Integration tests', () => {
                     contact: 'hey i\'m a contact',
                 })
                 .expect(200);
-    })
-    .then(done, done.fail);
+        });
     });
 });
