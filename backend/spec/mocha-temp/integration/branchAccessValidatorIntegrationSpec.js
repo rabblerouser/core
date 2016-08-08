@@ -11,9 +11,7 @@ describe('PathAccessValidator Integration tests', () => {
         agent = request.agent(app);
 
         return integrationTestHelpers.resetDatabase()
-        .then(() => {
-            return integrationTestHelpers.createBranch();
-        })
+        .then(integrationTestHelpers.createBranch)
         .then(integrationTestHelpers.createBranchAdmin)
         .then(integrationTestHelpers.authenticateBranchAdmin(agent));
     });
