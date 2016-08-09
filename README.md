@@ -65,14 +65,15 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 ## To sign in as an administrator
 
-    0. Create an administrator by running the creation task in your dev environment
+0. Create an administrator by running the creation task in your dev environment:
+
     `cd backend && npm run dev:createSuperAdmin`
 
-    0. Follow the instructions to blhalhba credentials
+0. Follow the script's instructions to setup create an admin user
 
-    0. Go to https://localhost:3000/dashboard/admin
+0. Go to [http://localhost:3000/dashboard/admin](http://localhost:3000/dashboard/admin)
 
-    0. Sign up with the credentials you just created
+0. Sign in with the credentials you just created
 
 ## Understanding this repository
 
