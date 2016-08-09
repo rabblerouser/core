@@ -9,7 +9,7 @@
     "install:e2e": "npm --prefix e2e install",
     "install:frontend": "npm --prefix frontend install",
     "postinstall": "npm run build",
-    "build": "npm --prefix frontend run build && bin/copy_assets.sh",
+    "build": "npm --prefix frontend run build && npm --prefix backend run migrate && bin/copy_assets.sh",
     "start": "npm --prefix backend start",
     "test": "npm --prefix frontend run ci && npm --prefix backend run ci",
     "e2e": "./bin/_run_e2e_tests.sh",
