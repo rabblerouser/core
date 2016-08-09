@@ -63,6 +63,17 @@ To find out more about the Rabble Rouser project, check out our [documentation r
         2. Add EMAIL_SERVER="Path to sendmail" to environment vars
         3. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/staging.json`, `config/production.json`)
 
+## To sign in as an administrator
+
+    0. Create an administrator by running the creation task in your dev environment
+    `cd backend && npm run dev:createSuperAdmin`
+
+    0. Follow the instructions to blhalhba credentials
+
+    0. Go to https://localhost:3000/dashboard/admin
+
+    0. Sign up with the credentials you just created
+
 ## Understanding this repository
 
 This repository is split into the following directories:
