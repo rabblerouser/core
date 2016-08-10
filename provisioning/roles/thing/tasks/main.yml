@@ -1,0 +1,5 @@
+- name: Install pip
+  easy_install: name=pip state=latest
+
+# - name: Fix InsecurePlatformWarning pip issues, which might be breaking letsencrypt?
+#   easy_install: name=pip state=latest
