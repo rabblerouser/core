@@ -1,7 +1,6 @@
 - hosts: all
   sudo: yes
   roles:
-    - { role: thing }
     - { role: firewall }
     - { role: nodesource.node }
     - { role: letsencrypt, cert_contact_email: "{{ lookup('env','CERT_EMAIL') }}", cert_domain: "{{ inventory_hostname }}" }
