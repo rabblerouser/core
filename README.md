@@ -43,13 +43,13 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
         npm test
 
-0. Run the e2e tests
-
-        npm run e2e
-
 0. Start the server
 
         npm start
+
+0. Run the e2e tests (With the server running)
+
+        npm run e2e
 
 0. Precommit - runs tests and e2e
 
