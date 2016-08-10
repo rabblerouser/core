@@ -35,10 +35,6 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
         npm install
 
-0. Clear and seed the local database for dev and e2e testing
-
-        npm run seed
-
 0. Run the tests
 
         npm test
@@ -46,6 +42,10 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 0. Start the server
 
         npm start
+
+0. Clear and seed the local database for dev and e2e testing
+
+        npm run seed
 
 0. Run the e2e tests (With the server running)
 
@@ -116,8 +116,8 @@ Note: If you happen to change frontend code during this process, you'll need to 
 
 **Manual testing workflow:**
 
-1. From the backend directory: `npm start`
-2. From the frontend directory: `npm start`
+1. `cd /vagrant/backend && npm start`
+2. `cd /vagrant/frontend && npm start`
 3. Make your changes
 4. Point your browser at `http://localhost:8080`
 5. Goto #3
