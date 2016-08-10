@@ -59,9 +59,9 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 0. Email configuration [Optional]
 
-        1. Run `which sendmail` in a terminal
-        2. Add EMAIL_SERVER="Path to sendmail" to environment vars
-        3. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/staging.json`, `config/production.json`)
+    0. Run `which sendmail` in a terminal
+    0. Add EMAIL_SERVER="Path to sendmail" to environment vars
+    0. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/  staging.json`, `config/production.json`)
 
 ## To sign in as an administrator
 
