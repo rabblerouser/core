@@ -6,7 +6,7 @@ let config = require('config');
 
 let nodemailer = require('nodemailer');
 
-describe('thing', () => {
+describe('Email Integration tests', () => {
     describe('sending emails', () => {
         let transportStub;
         let configStub;
@@ -33,6 +33,12 @@ describe('thing', () => {
                 return messagingService.sendWelcomeEmail(member)
                 .then((result) => {
                     expect(sendMailSpy).to.have.been.called;
+                    expect(sendMailSpy).to.have.been.calledWith(sinon.match({
+                        from: sinon.match.string,
+                        to: ['sherlock@holmes.co.uk'],
+                        subject: 'The Pirate Party - Welcome',
+                        html: sinon.match.string,
+                      }) , sinon.match.any);
                 });
             });
 
@@ -65,8 +71,5 @@ describe('thing', () => {
                     });
             });
         });
-
-
-
     });
 });
