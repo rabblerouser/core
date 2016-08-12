@@ -9,8 +9,9 @@
     "sendEmails": false,
     "welcome": {
       "subject": "Welcome to Rabble Rouser",
-      "body": "Welcome to Rabble Rouser!\nYou can now start participating and getting involved towards the development of a more secure and transparent Australia.\nFor a list of upcoming meetings and discussions, head to rabblerouser.team\nBest,\nRabble Rouser"
-    }
+      "body": "Welcome to Rabble Rouser!<br>You can now start participating and getting involved towards the development of a more secure and transparent Australia.\nFor a list of upcoming meetings and discussions, head to rabblerouser.team\nBest,\nRabble Rouser"
+    },
+    "transporter": "gmail"
   },
   "session": {
     "secret": "i'm a teapot",

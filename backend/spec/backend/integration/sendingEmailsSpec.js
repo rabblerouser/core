@@ -14,6 +14,11 @@ describe('Messaging integration tests', () => {
 
         beforeEach(() => {
             configStub = sinon.stub(config, 'get');
+
+            configStub.withArgs('email.transporter').returns('gmail');
+            process.env.EMAIL_USERNAME = 'user';
+            process.env.EMAIL_PASSWORD = 'pswd';
+
             configStub.withArgs('email.sendEmails').returns(true);
             configStub.withArgs('email.membershipEmail').returns('lhajfhadhaskjhd@rabblerouser.com');
             configStub.withArgs('email.welcome.subject').returns('Welcome text');
@@ -23,6 +28,8 @@ describe('Messaging integration tests', () => {
         afterEach(() => {
             nodemailer.createTransport.restore();
             config.get.restore();
+            delete process.env.EMAIL_USERNAME;
+            delete process.env.EMAIL_PASSWORD;
         });
 
         describe('happy', () => {

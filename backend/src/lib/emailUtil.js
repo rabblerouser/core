@@ -1,17 +1,17 @@
 'use strict';
 
 const nodemailer = require('nodemailer');
-const sendmailTransport = require('nodemailer-sendmail-transport');
+const emailTransporter = require('./emailTransporter');
 const Q = require('q');
 const config = require('config');
 
 const emailConfig = {
-  path: config.get('email.server'),
-  args: ['-t'],
+  service: config.get('email.server')
 };
 
 function sendEmail(options) {
-  const transport = nodemailer.createTransport(sendmailTransport(emailConfig));
+  const transport = nodemailer.createTransport(emailTransporter());
+
   const deferred = Q.defer();
   options.from = options.from || config.get('email.defaultEmailAccount');
 
