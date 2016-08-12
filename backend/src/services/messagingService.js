@@ -55,5 +55,5 @@ function sendWelcomeEmail(member) {
 }
 
 module.exports = {
-  sendWelcomeEmail,
+  sendWelcomeEmail: sendWelcomeEmail,
 };
