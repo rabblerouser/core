@@ -17,6 +17,7 @@ describe('Messaging integration tests', () => {
             configStub.withArgs('email.sendEmails').returns(true);
             configStub.withArgs('email.membershipEmail').returns('lhajfhadhaskjhd@rabblerouser.com');
             configStub.withArgs('email.welcome.subject').returns('Welcome text');
+            configStub.withArgs('email.welcome.body').returns('Welcome body\nHello world');
         });
 
         afterEach(() => {
@@ -39,7 +40,7 @@ describe('Messaging integration tests', () => {
                         from: 'lhajfhadhaskjhd@rabblerouser.com',
                         to: ['sherlock@holmes.co.uk'],
                         subject: 'Welcome text',
-                        html: sinon.match.string,
+                        html: 'Welcome body\nHello world',
                         replyTo: 'lhajfhadhaskjhd@rabblerouser.com'
                       }) , sinon.match.any);
                 });

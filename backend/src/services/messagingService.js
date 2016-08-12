@@ -21,7 +21,7 @@ function sendEmail(member, type) {
     from: config.get('email.membershipEmail'),
     to: member.email,
     subject: type.subject,
-    body: type.text(member),
+    body: type.text,
     replyTo: config.get('email.membershipEmail')
   };
 
@@ -38,16 +38,7 @@ function sendWelcomeEmail(member) {
   const welcome = {
     logger: email => logger.info('[welcome-email-sent]', { email }),
     subject: config.get('email.welcome.subject'),
-    text: () =>
-      `Welcome to the Pirate Party!
-
-      You can now start participating and getting involved towards the development of a more secure and transparent Australia.
-
-      For a list of upcoming meetings and discussions, head to pirateparty.org.au
-
-      Best,
-
-      The Pirate Party`,
+    text: config.get('email.welcome.body')
   };
 
   return sendEmail(member, welcome);
