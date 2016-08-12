@@ -35,6 +35,7 @@ function sendEmail(member, type) {
   }
 
   const options = {
+    from: config.get('email.membershipEmail'),
     to: member.email,
     subject: type.subject,
     body: type.text(member),

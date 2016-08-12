@@ -3,17 +3,17 @@
 const nodemailer = require('nodemailer');
 const sendmailTransport = require('nodemailer-sendmail-transport');
 const Q = require('q');
-const config = require('config').email;
+const config = require('config');
 
 const emailConfig = {
-  path: config.server,
+  path: config.get('email.server'),
   args: ['-t'],
 };
 
 function sendEmail(options) {
   const transport = nodemailer.createTransport(sendmailTransport(emailConfig));
   const deferred = Q.defer();
-  options.from = options.from || `Pirate Party <${config.membershipEmail}>`;
+  options.from = options.from || config.get('email.defaultEmailAccount');
 
   transport.sendMail(options, (error, result) => {
     if (error) {

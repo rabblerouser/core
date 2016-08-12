@@ -35,7 +35,7 @@ describe('Messaging integration tests', () => {
                 .then((result) => {
                     expect(sendMailSpy).to.have.been.called;
                     expect(sendMailSpy).to.have.been.calledWith(sinon.match({
-                        from: sinon.match.string,
+                        from: 'members@rabblerouser.com',
                         to: ['sherlock@holmes.co.uk'],
                         subject: 'The Pirate Party - Welcome',
                         html: sinon.match.string,

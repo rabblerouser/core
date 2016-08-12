@@ -3,7 +3,8 @@
     "publicUrl": "http://localhost:3000"
   },
   "email": {
-    "membershipEmail": "prucinqu@thoughtworks.com",
+    "defaultEmailAccount":"info@rabblerouser.com",
+    "membershipEmail": "members@rabblerouser.com",
     "server": "override this using environment variable EMAIL_SERVER",
     "sendEmails": false
   },
