@@ -15,7 +15,8 @@ describe('Messaging integration tests', () => {
         beforeEach(() => {
             configStub = sinon.stub(config, 'get');
             configStub.withArgs('email.sendEmails').returns(true);
-            configStub.withArgs('email.membershipEmail').returns('members@rabblerouser.com');
+            configStub.withArgs('email.membershipEmail').returns('lhajfhadhaskjhd@rabblerouser.com');
+            configStub.withArgs('email.welcome.subject').returns('Welcome text');
         });
 
         afterEach(() => {
@@ -35,11 +36,11 @@ describe('Messaging integration tests', () => {
                 .then((result) => {
                     expect(sendMailSpy).to.have.been.called;
                     expect(sendMailSpy).to.have.been.calledWith(sinon.match({
-                        from: 'members@rabblerouser.com',
+                        from: 'lhajfhadhaskjhd@rabblerouser.com',
                         to: ['sherlock@holmes.co.uk'],
-                        subject: 'The Pirate Party - Welcome',
+                        subject: 'Welcome text',
                         html: sinon.match.string,
-                        replyTo: 'members@rabblerouser.com'
+                        replyTo: 'lhajfhadhaskjhd@rabblerouser.com'
                       }) , sinon.match.any);
                 });
             });

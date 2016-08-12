@@ -6,7 +6,10 @@
     "defaultEmailAccount":"info@rabblerouser.com",
     "membershipEmail": "members@rabblerouser.com",
     "server": "override this using environment variable EMAIL_SERVER",
-    "sendEmails": false
+    "sendEmails": false,
+    "welcome": {
+      "subject": "Welcome to Rabble Rouser"
+    }
   },
   "session": {
     "secret": "i'm a teapot",

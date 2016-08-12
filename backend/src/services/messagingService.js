@@ -12,23 +12,6 @@ function logAndRethrow(message) {
   };
 }
 
-const emails = {
-  welcome: {
-    logger: email => logger.info('[welcome-email-sent]', { email }),
-    subject: 'The Pirate Party - Welcome',
-    text: () =>
-      `Welcome to the Pirate Party!
-
-      You can now start participating and getting involved towards the development of a more secure and transparent Australia.
-
-      For a list of upcoming meetings and discussions, head to pirateparty.org.au
-
-      Best,
-
-      The Pirate Party`,
-  },
-};
-
 function sendEmail(member, type) {
   if (!config.get('email.sendEmails')) {
     return Q.resolve(member);
@@ -52,7 +35,22 @@ function sendEmail(member, type) {
 }
 
 function sendWelcomeEmail(member) {
-  return sendEmail(member, emails.welcome);
+  const welcome = {
+    logger: email => logger.info('[welcome-email-sent]', { email }),
+    subject: config.get('email.welcome.subject'),
+    text: () =>
+      `Welcome to the Pirate Party!
+
+      You can now start participating and getting involved towards the development of a more secure and transparent Australia.
+
+      For a list of upcoming meetings and discussions, head to pirateparty.org.au
+
+      Best,
+
+      The Pirate Party`,
+  };
+
+  return sendEmail(member, welcome);
 }
 
 module.exports = {
