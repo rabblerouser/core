@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  branchListUpdated,
- } from '../../actions/';
+import { branchListRequested } from '../../actions/branchActions';
 
 import AdminHeader from './AdminHeader';
 import UserMessageView from './UserMessageView';
@@ -10,14 +8,11 @@ import BranchDetailsView from './branchView/BranchDetailsView';
 import GroupsViewContainer from './groupView/GroupsViewContainer';
 import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
 import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer';
-import branchService from '../../services/branchService.js';
 
 class NetworkAdminDashboard extends Component {
 
   componentDidMount() {
-    branchService.getMyBranches().then(branches => {
-      this.props.onBranchListUpdate(branches);
-    });
+    this.props.branchListRequested();
   }
 
   render() {
@@ -34,13 +29,7 @@ class NetworkAdminDashboard extends Component {
 }
 
 NetworkAdminDashboard.propTypes = {
-  onBranchListUpdate: React.PropTypes.func,
+  branchListRequested: React.PropTypes.func,
 };
 
-const mapDispatchToProps = dispatch => ({
-  onBranchListUpdate: branches => dispatch(branchListUpdated(branches)),
-});
-
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NetworkAdminDashboard);
+export default connect(() => ({}), { branchListRequested })(NetworkAdminDashboard);

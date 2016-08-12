@@ -1,7 +1,14 @@
+export const BRANCH_LIST_REQUESTED = 'BRANCH_LIST_REQUESTED';
 export const BRANCH_LIST_UPDATED = 'BRANCH_LIST_UPDATED';
 export const BRANCH_SELECTED = 'BRANCH_SELECTED';
 export const BRANCH_UPDATED = 'BRANCH_UPDATED';
 export const BRANCH_REMOVED = 'BRANCH_REMOVED';
+
+export const branchListRequested = () => (
+  {
+    type: BRANCH_LIST_REQUESTED,
+  }
+);
 
 export const branchListUpdated = branches => (
   {
