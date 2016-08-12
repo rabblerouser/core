@@ -40,6 +40,10 @@ const sendHtmlEmail = options => {
     html: options.body,
   };
 
+  if (options.replyTo) {
+    emailOptions.replyTo = options.replyTo;
+  }
+
   return sendEmail(emailOptions);
 };
 
@@ -53,6 +57,10 @@ const sendPlainTextEmail = options => {
     subject: options.subject,
     text: options.body,
   };
+
+  if (options.replyTo) {
+    emailOptions.replyTo = options.replyTo;
+  }
 
   return sendEmail(emailOptions);
 };

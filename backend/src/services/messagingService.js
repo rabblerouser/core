@@ -38,6 +38,7 @@ function sendEmail(member, type) {
     to: member.email,
     subject: type.subject,
     body: type.text(member),
+    replyTo: config.get('email.membershipEmail')
   };
 
   return emailUtil.sendHtmlEmail(options)

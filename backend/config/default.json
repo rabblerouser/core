@@ -3,7 +3,7 @@
     "publicUrl": "http://localhost:3000"
   },
   "email": {
-    "membershipEmail": "rdoherty@thoughtworks.com",
+    "membershipEmail": "prucinqu@thoughtworks.com",
     "server": "override this using environment variable EMAIL_SERVER",
     "sendEmails": false
   },

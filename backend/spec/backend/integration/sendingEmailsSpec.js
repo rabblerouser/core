@@ -6,8 +6,8 @@ let config = require('config');
 
 let nodemailer = require('nodemailer');
 
-describe('Email Integration tests', () => {
-    describe('sending emails', () => {
+describe('Messaging integration tests', () => {
+    describe('send welcome email', () => {
         let transportStub;
         let configStub;
         let sendMailSpy;
@@ -15,6 +15,7 @@ describe('Email Integration tests', () => {
         beforeEach(() => {
             configStub = sinon.stub(config, 'get');
             configStub.withArgs('email.sendEmails').returns(true);
+            configStub.withArgs('email.membershipEmail').returns('members@rabblerouser.com');
         });
 
         afterEach(() => {
@@ -29,7 +30,7 @@ describe('Email Integration tests', () => {
                 sinon.stub(nodemailer, 'createTransport').returns(transportStub);
             });
 
-            it('sends the email to the member', () => {
+            it('sends the welcome email to the member', () => {
                 return messagingService.sendWelcomeEmail(member)
                 .then((result) => {
                     expect(sendMailSpy).to.have.been.called;
@@ -38,6 +39,7 @@ describe('Email Integration tests', () => {
                         to: ['sherlock@holmes.co.uk'],
                         subject: 'The Pirate Party - Welcome',
                         html: sinon.match.string,
+                        replyTo: 'members@rabblerouser.com'
                       }) , sinon.match.any);
                 });
             });
