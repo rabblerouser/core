@@ -5,16 +5,14 @@ import BranchHeader from './BranchHeader';
 import branchService from '../../../services/branchService.js';
 import {
   branchUpdated,
-  branchRemoved,
   clearMessages,
   reportFailure,
   reportSuccess,
 } from '../../../actions/';
 
-import {
-  getSelectedBranch,
-  getAvailableBranches,
-} from '../../../reducers/branchReducers';
+import { branchRemoveRequested } from '../../../actions/branchActions';
+
+import { getSelectedBranch, getAvailableBranches } from '../../../reducers/branchReducers';
 
 const BranchDetailsView = ({
   selectedBranch,
@@ -36,20 +34,10 @@ const BranchDetailsView = ({
       .catch(onActivityFailure);
   };
 
-  const onDeleteBranch = selected => {
-    onActivityStart();
-    branchService.deleteBranch(selected)
-      .then(() => {
-        onBranchRemoved(selected);
-        onActivitySuccess('Branch successfully deleted');
-      })
-      .catch(onActivityFailure);
-  };
-
   return (
     <section className="admin-section" id="branchDetails">
       <h3>{selectedBranch.name} Branch
-        <BranchHeader onSave={onSaveBranch} onDelete={onDeleteBranch} branch={selectedBranch} />
+        <BranchHeader onSave={onSaveBranch} onDelete={onBranchRemoved} branch={selectedBranch} />
       </h3>
       <dl>
         <dt>Contact</dt>
@@ -67,8 +55,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  onBranchRemoved: branch => dispatch(branchRemoveRequested(branch)),
   onBranchUpdate: branch => dispatch(branchUpdated(branch)),
-  onBranchRemoved: branch => dispatch(branchRemoved(branch)),
   onActivityStart: () => dispatch(clearMessages()),
   onActivityFailure: error => dispatch(reportFailure(error)),
   onActivitySuccess: success => dispatch(reportSuccess(success)),

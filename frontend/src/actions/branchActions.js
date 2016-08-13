@@ -2,6 +2,7 @@ export const BRANCH_LIST_REQUESTED = 'BRANCH_LIST_REQUESTED';
 export const BRANCH_LIST_UPDATED = 'BRANCH_LIST_UPDATED';
 export const BRANCH_SELECTED = 'BRANCH_SELECTED';
 export const BRANCH_UPDATED = 'BRANCH_UPDATED';
+export const BRANCH_REMOVE_REQUESTED = 'BRANCH_REMOVE_REQUESTED';
 export const BRANCH_REMOVED = 'BRANCH_REMOVED';
 
 export const branchListRequested = () => (
@@ -28,6 +29,13 @@ export const branchSelected = branchId => (
 export const branchUpdated = branch => (
   {
     type: BRANCH_UPDATED,
+    branch,
+  }
+);
+
+export const branchRemoveRequested = branch => (
+  {
+    type: BRANCH_REMOVE_REQUESTED,
     branch,
   }
 );

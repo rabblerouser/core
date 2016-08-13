@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import reducer from '../reducers';
-import { watchBranchListRequest } from '../sagas/branchSagas';
+import sagas from '../sagas/';
 
 import NetworkAdminDashboard from './admin/NetworkAdminDashboard';
 import '../stylesheets/style.scss';
@@ -20,7 +20,7 @@ const store = createStore(
   window.devToolsExtension && window.devToolsExtension(),
   applyMiddleware(sagaMiddleware)
 );
-sagaMiddleware.run(watchBranchListRequest);
+sagaMiddleware.run(sagas);
 
 render(
   <Provider store={store}>
