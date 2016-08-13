@@ -3,10 +3,10 @@ import EditBranchModalLauncher from './EditBranchModalLauncher';
 import AddBranchModalLauncher from './AddBranchModalLauncher';
 import DeleteButton from '../../common/DeleteButton';
 
-const BranchHeader = ({ onSave, onDelete, branch }) => (
+const BranchHeader = ({ onCreate, onUpdate, onDelete, branch }) => (
   <span className="actions">
-    <AddBranchModalLauncher onSave={onSave} />
-    <EditBranchModalLauncher onSave={onSave} branch={branch} />
+    <AddBranchModalLauncher onSave={onCreate} />
+    <EditBranchModalLauncher onSave={onUpdate} branch={branch} />
     <DeleteButton
       confirmMessage="Are you sure you want to delete the current branch?"
       title="Delete branch"
@@ -17,7 +17,8 @@ const BranchHeader = ({ onSave, onDelete, branch }) => (
 
 BranchHeader.propTypes = {
   branch: React.PropTypes.object,
-  onSave: React.PropTypes.func,
+  onCreate: React.PropTypes.func,
+  onUpdate: React.PropTypes.func,
   onDelete: React.PropTypes.func,
 };
 

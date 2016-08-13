@@ -1,7 +1,7 @@
 import { put, call } from 'redux-saga/effects';
-import { fetchBranchList, deleteBranch } from '../branchSagas';
+import { fetchBranchList, deleteBranch, createBranch, updateBranch } from '../branchSagas';
 import { clearMessages, reportFailure, reportSuccess } from '../../actions/appFeedbackActions';
-import { branchListUpdated, branchRemoved } from '../../actions/branchActions';
+import { branchListUpdated, branchRemoved, branchCreated, branchUpdated } from '../../actions/branchActions';
 
 import branchService from '../../services/branchService.js';
 
@@ -57,6 +57,52 @@ describe('branch sagas', () => {
 
       expect(iterator.next().value).toEqual(stepClearMessages, 'It should clear messages');
       expect(iterator.next().value).toEqual(stepDeleteBranch, 'It should request the delete');
+      expect(iterator.next().value).toEqual(stepDispatchUpdate, 'It should dispatch the success');
+      expect(iterator.next().value).toEqual(stepReportSuccess, 'It should set a success message');
+    });
+  });
+
+  describe('createBranch', () => {
+    const stepCreateBranch = call(branchService.createBranch, { id: 1 });
+
+    it('handles a failed response from the service', () => {
+      const iterator = createBranch();
+      const fetchFailurePayload = 'There was an error when contacting the server';
+      const stepReportFailure = put(reportFailure(fetchFailurePayload));
+      iterator.next();
+      expect(iterator.throw().value).toEqual(stepReportFailure, 'It should dispatch the error');
+    });
+
+    it('creates the branch specified in the action', () => {
+      const fetchSuccessPayload = { id: 1 };
+      const iterator = createBranch({ branch: { id: 1 } });
+      const stepDispatchUpdate = put(branchCreated({ id: 1 }));
+      const stepReportSuccess = put(reportSuccess('Branch successfully added'));
+      expect(iterator.next().value).toEqual(stepClearMessages, 'It should clear messages');
+      expect(iterator.next().value).toEqual(stepCreateBranch, 'It should request the create');
+      expect(iterator.next(fetchSuccessPayload).value).toEqual(stepDispatchUpdate, 'It should dispatch the success');
+      expect(iterator.next().value).toEqual(stepReportSuccess, 'It should set a success message');
+    });
+  });
+
+  describe('updateBranch', () => {
+    const stepUpdateBranch = call(branchService.updateBranch, { id: 1 });
+
+    it('handles a failed response from the service', () => {
+      const iterator = updateBranch();
+      const fetchFailurePayload = 'There was an error when contacting the server';
+      const stepReportFailure = put(reportFailure(fetchFailurePayload));
+      iterator.next();
+      expect(iterator.throw().value).toEqual(stepReportFailure, 'It should dispatch the error');
+    });
+
+    it('updates the branch specified in the action', () => {
+      const iterator = updateBranch({ branch: { id: 1 } });
+      const stepDispatchUpdate = put(branchUpdated({ id: 1 }));
+      const stepReportSuccess = put(reportSuccess('Branch successfully updated'));
+
+      expect(iterator.next().value).toEqual(stepClearMessages, 'It should clear messages');
+      expect(iterator.next().value).toEqual(stepUpdateBranch, 'It should request the update');
       expect(iterator.next().value).toEqual(stepDispatchUpdate, 'It should dispatch the success');
       expect(iterator.next().value).toEqual(stepReportSuccess, 'It should set a success message');
     });

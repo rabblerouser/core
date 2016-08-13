@@ -5,6 +5,7 @@ import {
   BRANCH_LIST_UPDATED,
   BRANCH_SELECTED,
   BRANCH_UPDATED,
+  BRANCH_CREATED,
   BRANCH_REMOVED,
 } from '../actions';
 
@@ -23,6 +24,11 @@ export default (state = initialState, action) => {
     case BRANCH_SELECTED: return {
       ...state,
       selectedBranch: action.branchId,
+    };
+    case BRANCH_CREATED: return {
+      ...state,
+      availableBranches: state.availableBranches.concat(action.branch),
+      selectedBranch: action.branch.id,
     };
     case BRANCH_UPDATED: return {
       ...state,
