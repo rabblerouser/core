@@ -35,12 +35,14 @@ export default (state = initialState, action) => {
       availableBranches: _.uniq([action.branch].concat(state.availableBranches), 'id'),
       selectedBranch: action.branch.id,
     };
-    case BRANCH_REMOVED: return {
-      ...state,
-      availableBranches: state.availableBranches.filter(({ id }) => id !== action.branchId),
-      selectedBranch: state.availableBranches.filter(({ id }) => id !== action.branchId)[0].id,
-    };
-
+    case BRANCH_REMOVED: {     // eslint-disable-line no-case-declarations
+      const filteredBranches = state.availableBranches.filter(({ id }) => id !== action.branchId);
+      return {
+        ...state,
+        availableBranches: filteredBranches,
+        selectedBranch: filteredBranches.length > 0 ? filteredBranches[0].id : '',
+      };
+    }
     default : return state;
   }
 };
