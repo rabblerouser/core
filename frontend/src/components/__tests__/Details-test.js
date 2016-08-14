@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import Details from '../../components/Details';
+import Details from '../Details';
 
 describe('Details step', () => {
   let detailsForm;

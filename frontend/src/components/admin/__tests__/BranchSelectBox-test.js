@@ -1,5 +1,5 @@
 import React from 'react';
-import { BranchSelectBox } from '../components/admin/BranchSelectBox.jsx';
+import { BranchSelectBox } from '../BranchSelectBox.jsx';
 import { shallow } from 'enzyme';
 
 describe('BranchSelectBox', () => {

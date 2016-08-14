@@ -1,5 +1,5 @@
 import React from 'react';
-import GroupsList from '../../../components/admin/groupView/GroupsList';
+import GroupsList from '../GroupsList';
 import { shallow } from 'enzyme';
 
 describe('GroupList', () => {
