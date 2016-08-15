@@ -10,6 +10,10 @@ const emailConfig = {
 };
 
 function sendEmail(options) {
+  if (!(options && options.to)) {
+    deferred.reject('Invalid email parameters');
+  }
+
   const transport = nodemailer.createTransport(emailTransporter());
 
   const deferred = Q.defer();
@@ -27,10 +31,6 @@ function sendEmail(options) {
 }
 
 const sendHtmlEmail = options => {
-  if (!(options && options.to)) {
-    throw new Error('Invalid email parameters');
-  }
-
   const to = options.to instanceof Array ? options.to : [options.to];
 
   const emailOptions = {
