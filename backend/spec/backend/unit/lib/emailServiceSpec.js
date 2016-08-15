@@ -57,7 +57,7 @@ describe('emailService', () => {
         });
 
         it('should send reply to if reply to is defined', () => {
-            options.replyTo = 'someemail@email.com'
+            options.replyTo = 'someemail@email.com';
 
             return emailService.sendPlainTextEmail(options)
             .then((result) => {
@@ -87,6 +87,61 @@ describe('emailService', () => {
                     subject: 'Thanks for contributing',
                     text: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.'
                 } , sinon.match.any);
+            });
+        });
+    });
+
+    describe('html email', () => {
+
+        beforeEach(() => {
+            transportStub = { sendMail: function(options, callback) { callback(false,true); }};
+            sendMailSpy = sinon.spy(transportStub, 'sendMail');
+            sinon.stub(nodemailer, 'createTransport').returns(transportStub);
+        });
+
+        it('should send html email', () => {
+            return emailService.sendHtmlEmail(options)
+            .then((result) => {
+                expect(sendMailSpy).to.have.been.called;
+                expect(sendMailSpy).to.have.been.calledWith({
+                    from: 'team@rabblerouser.com',
+                    to: ['somedev@github.com'],
+                    subject: 'Thanks for contributing',
+                    html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
+                } , sinon.match.any);
+            });
+        });
+
+        it('should send reply to if reply to is defined', () => {
+            options.replyTo = 'someemail@email.com';
+
+            return emailService.sendHtmlEmail(options)
+            .then((result) => {
+                expect(sendMailSpy).to.have.been.called;
+                expect(sendMailSpy).to.have.been.calledWith({
+                    from: 'team@rabblerouser.com',
+                    to: ['somedev@github.com'],
+                    subject: 'Thanks for contributing',
+                    html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
+                    replyTo: 'someemail@email.com'
+                } , sinon.match.any);
+            });
+        });
+
+        it('should set from field to email.defaultEmailAccount if from field is not present', () => {
+            configStub.withArgs('email.defaultEmailAccount').returns('email321@23.com');
+
+            options.from = null;
+
+            return emailService.sendHtmlEmail(options)
+            .then((result) => {
+                expect(sendMailSpy).to.have.been.called;
+                expect(sendMailSpy).to.have.been.calledWith({
+                    from: 'email321@23.com',
+                    to: ['somedev@github.com'],
+                    subject: 'Thanks for contributing',
+                    html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.'
+                }, sinon.match.any);
             });
         });
     });
