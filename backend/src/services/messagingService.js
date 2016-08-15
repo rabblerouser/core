@@ -1,6 +1,6 @@
 'use strict';
 
-const emailUtil = require('../lib/emailUtil');
+const emailService = require('../lib/emailService');
 const config = require('config');
 const logger = require('../lib/logger');
 const Q = require('q');
@@ -25,7 +25,7 @@ function sendEmail(member, type) {
     replyTo: config.get('email.membershipEmail')
   };
 
-  return emailUtil.sendHtmlEmail(options)
+  return emailService.sendHtmlEmail(options)
     .then(result => ({
       options,
       result,
