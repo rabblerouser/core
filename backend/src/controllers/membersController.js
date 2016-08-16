@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const isEmpty = _.isEmpty;
 const memberService = require('../services/memberService');
+const messagingService = require('../services/messagingService');
 const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const logger = require('../lib/logger');
@@ -95,6 +96,7 @@ const register = (req, res) => {
   return memberService
     .createMember(newMember)
     .tap(sendResponseToUser(res))
+    .tap(messagingService.sendWelcomeEmail)
     .catch(handleError(res));
 };
 

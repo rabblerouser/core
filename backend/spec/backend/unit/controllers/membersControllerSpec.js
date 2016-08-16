@@ -3,6 +3,7 @@
 const Q = require('q');
 const memberService = require('../../../../src/services/memberService');
 const memberValidator = require('../../../../src/lib/memberValidator');
+const messagingService = require('../../../../src/services/messagingService');
 const membersController = require('../../../../src/controllers/membersController');
 const inputValidator = require('../../../../src/lib/inputValidator');
 
@@ -13,12 +14,14 @@ describe('membersController', () => {
             goodRequest, res,
             residentialAddress, postalAddress,
             createMemberStub, createMemberPromise,
-            validateMemberStub;
+            validateMemberStub, sendWelcomeEmailPromise,
+            sendWelcomeEmailStub;
 
         beforeEach(() => {
             register = membersController.register;
             createMemberStub = sinon.stub(memberService, 'createMember');
             validateMemberStub = sinon.stub(memberValidator, 'isValid');
+            sendWelcomeEmailStub = sinon.stub(messagingService, 'sendWelcomeEmail');
             res = {status: sinon.stub().returns({json: sinon.spy()})};
 
             residentialAddress = {
@@ -59,11 +62,16 @@ describe('membersController', () => {
             createMemberStub
                 .withArgs(goodRequest.body)
                 .returns(createMemberPromise.promise);
+
+            sendWelcomeEmailPromise = Q.defer();
+            sendWelcomeEmailStub
+                .returns(sendWelcomeEmailPromise.promise);
         });
 
         afterEach(() => {
             memberService.createMember.restore();
             memberValidator.isValid.restore();
+            messagingService.sendWelcomeEmail.restore();
         });
 
         describe('when it receives a good request', () => {
@@ -72,16 +80,27 @@ describe('membersController', () => {
             beforeEach(() => {
                 validateMemberStub.returns([]);
                 createMemberPromise.resolve(createdMember);
+                sendWelcomeEmailPromise.resolve({options:{}, result: {accepeted: ['sherlock@holmes.co.uk'], rejected: []} });
             });
 
-            it('creates a new member', (done) => {
-                register(goodRequest, res)
+            it('creates a new member', () => {
+                return register(goodRequest, res)
                 .then(() => {
                     expect(res.status).to.have.been.calledWith(200);
                     expect(res.status().json).to.have.been.calledWith({newMember: {email: createdMember.email}});
-                })
-                .then(done)
-                .catch(done);
+                });
+            });
+
+            it('should send an email to the member after new member is created', () => {
+                return register(goodRequest, res)
+                .then(() => {
+                    expect(sendWelcomeEmailStub).to.have.been.calledWith({
+                        id:'1234',
+                        membershipType: 'full',
+                        email: 'sherlock@holmes.co.uk'
+                    });
+                });
+
             });
         });
 

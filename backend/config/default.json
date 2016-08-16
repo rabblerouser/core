@@ -3,8 +3,8 @@
     "publicUrl": "http://localhost:3000"
   },
   "email": {
-    "defaultEmailAccount":"info@rabblerouser.com",
-    "membershipEmail": "members@rabblerouser.com",
+    "defaultEmailAccount":"pamela.rucinque@gmail.com",
+    "membershipEmail": "pamela.rucinque@gmail.com",
     "server": "override this using environment variable EMAIL_SERVER",
     "sendEmails": false,
     "welcome": {
