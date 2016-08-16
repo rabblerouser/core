@@ -57,11 +57,18 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 0. Verify that the app works - Point your browser at http://localhost:3000
 
-0. Email configuration [Optional]
+## Email configuration [Optional]
 
-    0. Run `which sendmail` in a terminal
-    0. Add EMAIL_SERVER="Path to sendmail" to environment vars
-    0. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/  staging.json`, `config/production.json`)
+Rabble Rouser supports the following e-mailing tools:
+
+### Gmail
+
+0. Create an [Application Password](https://www.google.com/settings/security/lesssecureapps) trough your Google Account (Go [here](https://security.google.com/settings/security/apppasswords) if you have 2 factor Authentication enabled)
+
+0. Add EMAIL_USERMAIL="your_email@gmail.com" EMAIL_PASSWORD="the password generated in the previous step" to environment vars
+
+0. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/  staging.json`, `config/production.json`)
+
 
 ## To sign in as an administrator
 
