@@ -1,7 +1,7 @@
 'use strict';
 
 const moment = require('moment');
-var inputValidator = require('../../../../src/lib/inputValidator');
+var inputValidator = require('../../../src/lib/inputValidator');
 
 describe('inputValidator', () => {
     describe('isValidName', () => {

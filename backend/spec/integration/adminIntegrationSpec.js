@@ -1,11 +1,11 @@
 'use strict';
 const instance_url = process.env.INSTANCE_URL;
-let app = instance_url ? instance_url : require('../../../src/app');
+let app = instance_url ? instance_url : require('../../src/app');
 let request = require('supertest-as-promised');
 let integrationTestHelpers = require('./integrationTestHelpers.js');
 let uuid = require('node-uuid');
 
-let models = require('../../../src/models'),
+let models = require('../../src/models'),
     Address = models.Address,
     Member = models.Member,
     AdminUser = models.AdminUser,

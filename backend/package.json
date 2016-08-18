@@ -8,7 +8,7 @@
     "lint": "eslint src",
     "migrate": "sequelize --config config/db.json db:migrate",
     "pretest": "NODE_ENV=test npm run migrate",
-    "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 --compilers js:babel-core/register -r spec/specGlobals --recursive spec/backend/",
+    "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 --compilers js:babel-core/register -r spec/specGlobals --recursive spec",
     "prestart": "npm run migrate",
     "start": "node ../bin/www",
     "dev:createSuperAdmin": "node ./node_scripts/createSuperAdmin.js",

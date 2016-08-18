@@ -1,7 +1,7 @@
 'use strict';
 
 const instance_url = process.env.INSTANCE_URL;
-let app = instance_url ? instance_url : require('../../../src/app');
+let app = instance_url ? instance_url : require('../../src/app');
 let request = require('supertest-as-promised');
 const sample = require('lodash').sample;
 const pluck = require('lodash').pluck;

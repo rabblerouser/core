@@ -1,8 +1,8 @@
 'use strict';
 
-const branchService = require('../../../../src/services/branchService');
-const branchValidator = require('../../../../src/lib/branchValidator');
-const branchesController = require('../../../../src/controllers/branchesController');
+const branchService = require('../../../src/services/branchService');
+const branchValidator = require('../../../src/lib/branchValidator');
+const branchesController = require('../../../src/controllers/branchesController');
 
 const FAKE_BRANCHES_LIST = [
   {

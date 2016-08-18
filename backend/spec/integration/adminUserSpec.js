@@ -1,7 +1,7 @@
 'use strict';
 
 const integrationTestHelpers = require('./integrationTestHelpers.js');
-const AdminUser = require('../../../src/models').AdminUser;
+const AdminUser = require('../../src/models').AdminUser;
 
 describe('AdminUser', () => {
     let email = 'orgnisr@rabblerouser.org.au',

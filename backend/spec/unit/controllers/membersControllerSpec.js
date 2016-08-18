@@ -1,11 +1,11 @@
 'use strict';
 
 const Q = require('q');
-const memberService = require('../../../../src/services/memberService');
-const memberValidator = require('../../../../src/lib/memberValidator');
-const messagingService = require('../../../../src/services/messagingService');
-const membersController = require('../../../../src/controllers/membersController');
-const inputValidator = require('../../../../src/lib/inputValidator');
+const memberService = require('../../../src/services/memberService');
+const memberValidator = require('../../../src/lib/memberValidator');
+const messagingService = require('../../../src/services/messagingService');
+const membersController = require('../../../src/controllers/membersController');
+const inputValidator = require('../../../src/lib/inputValidator');
 
 describe('membersController', () => {
 

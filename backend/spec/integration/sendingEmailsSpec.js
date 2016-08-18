@@ -1,5 +1,5 @@
 'use strict';
-let messagingService = require('../../../src/services/messagingService');
+let messagingService = require('../../src/services/messagingService');
 let sinon = require('sinon');
 let member = {email: 'sherlock@holmes.co.uk'};
 let config = require('config');

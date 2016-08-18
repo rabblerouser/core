@@ -1,14 +1,14 @@
 'use strict';
 const times = require('lodash').times;
 const uuid = require('node-uuid');
-let models = require('../../../src/models'),
+let models = require('../../src/models'),
     Address = models.Address,
     Member = models.Member,
     AdminUser = models.AdminUser,
     Branch = models.Branch,
     BranchGroup = models.BranchGroup,
     Group = models.Group;
-let adminType = require('../../../src/security/adminType');
+let adminType = require('../../src/security/adminType');
 
 function createBranchAdmin(branch) {
     return AdminUser.create({ email: 'orgnsr@rabblerouser.org', password: 'organiser', branchId: branch.id, id: uuid.v4()});

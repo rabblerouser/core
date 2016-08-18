@@ -6,7 +6,7 @@ let integrationTestHelpers = require('./integrationTestHelpers');
 let uuid = require('node-uuid');
 
 const instance_url = process.env.INSTANCE_URL;
-let app = instance_url ? instance_url : require('../../../src/app');
+let app = instance_url ? instance_url : require('../../src/app');
 
 function getMembersForGroup(someAgent, branchGroup) {
     return function() {

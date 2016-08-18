@@ -5,7 +5,7 @@ let uuid = require('node-uuid');
 
 let request = require('supertest-as-promised');
 const instanceUrl = process.env.INSTANCE_URL;
-let app = instanceUrl ? instanceUrl : require('../../../src/app');
+let app = instanceUrl ? instanceUrl : require('../../src/app');
 
 let listOfBranches = (res) => {
     if (!('branches' in res.body)) {

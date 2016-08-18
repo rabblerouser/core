@@ -1,10 +1,10 @@
 'use strict';
 
 const Q = require('q');
-const models = require('../../../../src/models');
+const models = require('../../../src/models');
 const Branch = models.Branch;
 
-var branchService = require('../../../../src/services/branchService');
+var branchService = require('../../../src/services/branchService');
 
 function fakeBranchesListFromDb() {
     return [

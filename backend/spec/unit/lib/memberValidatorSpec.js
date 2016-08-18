@@ -1,6 +1,6 @@
 'use strict';
 
-var memberValidator = require('../../../../src/lib/memberValidator');
+var memberValidator = require('../../../src/lib/memberValidator');
 
 describe('memberValidator', () => {
     describe('isValid', () => {

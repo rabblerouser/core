@@ -1,7 +1,7 @@
 'use strict';
 
-const groupService = require('../../../../src/services/groupService');
-const subject = require('../../../../src/controllers/groupsController');
+const groupService = require('../../../src/services/groupService');
+const subject = require('../../../src/controllers/groupsController');
 
 describe('groupsController', () => {
   context('when everything is fine', () => {

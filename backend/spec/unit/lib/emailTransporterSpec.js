@@ -1,6 +1,6 @@
 'use strict';
 
-var emailTransporter = require('../../../../src/lib/emailTransporter');
+var emailTransporter = require('../../../src/lib/emailTransporter');
 let sinon = require('sinon');
 let config = require('config');
 

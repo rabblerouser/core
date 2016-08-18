@@ -1,9 +1,9 @@
 'use strict';
 
-const adminService = require('../../../../src/services/adminService');
-const adminValidator = require('../../../../src/lib/adminValidator');
+const adminService = require('../../../src/services/adminService');
+const adminValidator = require('../../../src/lib/adminValidator');
 
-const adminController = require('../../../../src/controllers/adminController');
+const adminController = require('../../../src/controllers/adminController');
 
 function adminsList() {
   return [

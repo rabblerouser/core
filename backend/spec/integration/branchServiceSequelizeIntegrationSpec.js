@@ -1,6 +1,6 @@
 'use strict';
 const integrationTestHelpers = require('./integrationTestHelpers.js');
-var branchService = require('../../../src/services/branchService');
+var branchService = require('../../src/services/branchService');
 
 describe('branchServiceSequelizeIntegration', () => {
 

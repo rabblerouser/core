@@ -1,6 +1,6 @@
 'use strict';
 
-var emailService = require('../../../../src/lib/emailService');
+var emailService = require('../../../src/lib/emailService');
 let sinon = require('sinon');
 let config = require('config');
 let nodemailer = require('nodemailer');

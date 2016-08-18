@@ -1,11 +1,11 @@
 'use strict';
 
-const models = require('../../../../src/models');
+const models = require('../../../src/models');
 let Group = models.Group;
 let Branch = models.Branch;
 const Q = require('q');
 
-var groupService = require('../../../../src/services/groupService');
+var groupService = require('../../../src/services/groupService');
 
 function fakeGroupsListFromDb() {
     return [

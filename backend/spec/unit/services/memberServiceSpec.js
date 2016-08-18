@@ -1,6 +1,6 @@
 'use strict';
 
-const models = require('../../../../src/models'),
+const models = require('../../../src/models'),
   Member = models.Member,
   Q = require('q'),
   moment = require('moment'),
@@ -8,8 +8,8 @@ const models = require('../../../../src/models'),
   sample = require('lodash').sample,
   times = require('lodash').times;
 
-var memberService = require('../../../../src/services/memberService');
-var branchService = require('../../../../src/services/branchService');
+var memberService = require('../../../src/services/memberService');
+var branchService = require('../../../src/services/branchService');
 
 const randomNewMemberId = 1;
 const fakeResidentialAddressId = 1;
