@@ -8,9 +8,9 @@ const DeleteButton = ({ confirmMessage, onDelete, title }) => {
   };
 
   return (
-    <div className="buttons">
-      <button onClick={onClick} className="delete" title={title}><span>{title}</span></button>
-    </div>
+    <button onClick={onClick} className="delete" title={title}>
+      <span>{title}</span>
+    </button>
   );
 };
 
