@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import EditBranchModalLauncher from './EditBranchModalLauncher';
+import EditBranchModal from './EditBranchModal';
 import AddBranchModal from './AddBranchModal';
 import DeleteButton from '../../common/DeleteButton';
 import AddButton from '../../common/AddButton';
+import EditButton from '../../common/EditButton';
 
 import { modalOpened } from '../../../actions/modalActions';
 import { getSelectedBranch } from '../../../reducers/branchReducers';
@@ -16,7 +17,10 @@ const SelectedBranchActions = ({ onModalOpen, onCreate, onUpdate, onDelete, bran
       New branch
     </AddButton>
     <AddBranchModal onSave={onCreate} />
-    <EditBranchModalLauncher onSave={onUpdate} branch={branch} />
+    <EditButton onClick={() => onModalOpen('edit-branch')} title="Edit branch">
+      Edit branch
+    </EditButton>
+    <EditBranchModal onSave={onUpdate} branch={branch} />
     <DeleteButton
       confirmMessage="Are you sure you want to delete the current branch?"
       title="Delete branch"
