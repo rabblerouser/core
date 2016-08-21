@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AddBranchFields from './AddBranchFields';
+import BranchFields from './BranchFields';
 import branchValidator from '../../../services/branchValidator';
 
 export default class AddBranchForm extends Component {
@@ -48,7 +48,7 @@ export default class AddBranchForm extends Component {
             <button className="save" onClick={this.saveChanges}>Save</button>
           </span>
         </header>
-        <AddBranchFields
+        <BranchFields
           onChange={this.onChange}
           invalidFields={this.state.invalidFields}
           formValues={this.state.fieldValues}

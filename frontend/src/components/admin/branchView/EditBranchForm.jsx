@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EditBranchFields from './EditBranchFields';
+import BranchFields from './BranchFields';
 import branchValidator from '../../../services/branchValidator';
 
 export default class EditGroupForm extends Component {
@@ -44,7 +44,7 @@ export default class EditGroupForm extends Component {
           <span className="title">Edit branch</span>
           <span className="actions"><button className="save" onClick={this.saveChanges}>Save</button></span>
         </header>
-        <EditBranchFields
+        <BranchFields
           onChange={this.onChange}
           invalidFields={this.state.invalidFields}
           formValues={this.state.fieldValues}

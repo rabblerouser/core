@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import FormFieldLabel from '../../form/FormFieldLabel';
 
-const EditBranchFields = ({ invalidFields, onChange, formValues }) => {
+const BranchFields = ({ invalidFields, onChange, formValues }) => {
   function isValidationError(fieldName) {
     return _.indexOf(invalidFields, fieldName) > -1;
   }
@@ -19,10 +19,10 @@ const EditBranchFields = ({ invalidFields, onChange, formValues }) => {
   );
 };
 
-EditBranchFields.propTypes = {
+BranchFields.propTypes = {
   invalidFields: React.PropTypes.array,
   onChange: React.PropTypes.func,
   formValues: React.PropTypes.object,
 };
 
-export default EditBranchFields;
+export default BranchFields;
