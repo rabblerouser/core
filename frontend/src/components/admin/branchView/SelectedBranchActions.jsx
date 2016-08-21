@@ -13,13 +13,15 @@ import { branchRemoveRequested, branchCreateRequested, branchUpdateRequested } f
 
 const SelectedBranchActions = ({ onModalOpen, onCreate, onUpdate, onDelete, branch }) => (
   <span className="actions">
-    <AddButton onClick={() => onModalOpen('add-branch')} title="New branch">
-      New branch
-    </AddButton>
+    <AddButton
+      onClick={() => onModalOpen('add-branch')}
+      title="New branch"
+    />
     <AddBranchModal onSave={onCreate} />
-    <EditButton onClick={() => onModalOpen('edit-branch')} title="Edit branch">
-      Edit branch
-    </EditButton>
+    <EditButton
+      onClick={() => onModalOpen('edit-branch')}
+      title="Edit branch"
+    />
     <EditBranchModal onSave={onUpdate} branch={branch} />
     <DeleteButton
       confirmMessage="Are you sure you want to delete the current branch?"
