@@ -14,6 +14,6 @@
     "test": "npm --prefix frontend run ci && npm --prefix backend run ci",
     "e2e": "./bin/_run_e2e_tests.sh",
     "seed": "./bin/seed_fake_data.sh",
-    "precommit": "npm test && npm run e2e"
+    "precommit": "npm run build && npm test && npm run e2e"
   }
 }
