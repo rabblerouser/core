@@ -29,21 +29,21 @@ export const branchSelected = branchId => (
   }
 );
 
-export const branchCreateRequested = branch => (
+export const branchCreateRequested = (branch, success, failure) => (
   {
     type: BRANCH_CREATE_REQUESTED,
-    branch,
-  }
-);
-
-export const branchCreated = (branch, success, failure) => (
-  {
-    type: BRANCH_CREATED,
     payload: {
       branch,
       success,
       failure,
     },
+  }
+);
+
+export const branchCreated = branch => (
+  {
+    type: BRANCH_CREATED,
+    branch,
   }
 );
 

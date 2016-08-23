@@ -29,7 +29,6 @@ let AddBranchForm = ({ handleSubmit }) => (
 );
 
 AddBranchForm.propTypes = {
-  branch: React.PropTypes.object.isRequired,
   handleSubmit: React.PropTypes.func.isRequired,
 };
 
@@ -39,4 +38,4 @@ AddBranchForm = reduxForm({
   onSubmit,
 })(AddBranchForm);
 
-export default connect(() => {}, { branchCreateRequested })(AddBranchForm);
+export default connect(() => ({}), { branchCreateRequested })(AddBranchForm);
