@@ -1,64 +1,42 @@
-import React, { Component } from 'react';
-import BranchFields from './BranchFields';
-import branchValidator from '../../../services/branchValidator';
+import React from 'react';
+import { connect } from 'react-redux';
 
-export default class AddBranchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      invalidFields: [],
-      fieldValues: {},
-    };
-    this.saveChanges = this.saveChanges.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
+import validate from './branchValidator';
+import { branchCreateRequested } from '../../../actions/branchActions';
 
-  onChange(fieldName) {
-    const addBranchComponent = this;
+import { Field, reduxForm } from 'redux-form';
+import InputField from '../../common/forms/InputField';
+import TextAreaField from '../../common/forms/TextAreaField';
 
-    return event => {
-      const newValue = { [fieldName]: event.target.value };
-      const newFieldValues = Object.assign({}, addBranchComponent.state.fieldValues, newValue);
-      addBranchComponent.setState({ fieldValues: newFieldValues });
-    };
-  }
+const onSubmit = (data, dispatch) => new Promise((resolve, reject) => {
+  dispatch(branchCreateRequested(data, resolve, reject));
+});
 
-  isValidationError(fieldName) {
-    return this.state.invalidFields.includes(fieldName);
-  }
-
-  saveChanges() {
-    const branch = Object.assign({}, this.state.fieldValues);
-    const errors = (branchValidator.isValid(branch));
-    this.setState({ invalidFields: errors });
-    if (errors.length === 0) {
-      this.props.onSuccess();
-      this.props.onSave(branch);
-    }
-  }
-
-  render() {
-    return (
-      <section className="form-container">
-        <header className="details-header">
-          <span className="title">
-            Add new branch
-          </span>
-          <span className="actions">
-            <button className="save" onClick={this.saveChanges}>Save</button>
-          </span>
-        </header>
-        <BranchFields
-          onChange={this.onChange}
-          invalidFields={this.state.invalidFields}
-          formValues={this.state.fieldValues}
-        />
-      </section>
-    );
-  }
-}
+let AddBranchForm = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
+    <header className="details-header">
+      <span className="title">Add new branch</span>
+      <span className="actions">
+        <button className="save" type="submit">Save</button>
+      </span>
+    </header>
+    <section className="form-container">
+      <Field component={InputField} id="name" name="name" label="Name" type="text" />
+      <Field component={TextAreaField} id="contact" name="contact" label="Contact" />
+      <Field component={TextAreaField} id="notes" name="notes" label="Notes" />
+    </section>
+  </form>
+);
 
 AddBranchForm.propTypes = {
-  onSave: React.PropTypes.func.isRequired,
-  onSuccess: React.PropTypes.func.isRequired,
+  branch: React.PropTypes.object.isRequired,
+  handleSubmit: React.PropTypes.func.isRequired,
 };
+
+AddBranchForm = reduxForm({
+  form: 'branch',
+  validate,
+  onSubmit,
+})(AddBranchForm);
+
+export default connect(() => {}, { branchCreateRequested })(AddBranchForm);

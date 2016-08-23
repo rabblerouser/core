@@ -30,14 +30,19 @@ export function* fetchBranchList() {
   }
 }
 
-export function* createBranch(action) {
+export function* createBranch({ payload }) {
+  const { branch, success, failure } = payload;
   try {
     yield put(clearMessages());
-    const branch = yield call(branchService.createBranch, action.branch);
-    yield put(branchCreated(branch));
+    const savedBranch = yield call(branchService.createBranch, branch);
+    yield put(branchCreated(savedBranch));
+    yield call(success);
     yield put(reportSuccess('Branch successfully added'));
   } catch (error) {
+    yield call(failure);
     yield put(reportFailure(GENERAL_ERROR_MSG));
+  } finally {
+    yield put(modalClosed());
   }
 }
 

@@ -36,10 +36,14 @@ export const branchCreateRequested = branch => (
   }
 );
 
-export const branchCreated = branch => (
+export const branchCreated = (branch, success, failure) => (
   {
     type: BRANCH_CREATED,
-    branch,
+    payload: {
+      branch,
+      success,
+      failure,
+    },
   }
 );
 

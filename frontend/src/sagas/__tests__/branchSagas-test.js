@@ -63,25 +63,33 @@ describe('branch sagas', () => {
   });
 
   describe('createBranch', () => {
-    const stepCreateBranch = call(branchService.createBranch, { id: 1 });
-
     it('handles a failed response from the service', () => {
-      const iterator = createBranch();
-      const fetchFailurePayload = 'There was an error when contacting the server';
-      const stepReportFailure = put(reportFailure(fetchFailurePayload));
+      const failure = () => {};
+
+      const iterator = createBranch({ payload: { failure } });
+      const callsFailureCallback = call(failure);
+      const dispatchesFailureReport = put(reportFailure('There was an error when contacting the server'));
+
       iterator.next();
-      expect(iterator.throw().value).toEqual(stepReportFailure, 'It should dispatch the error');
+      expect(iterator.throw().value).toEqual(callsFailureCallback, 'It should call the redux form failure callback');
+      expect(iterator.next().value).toEqual(dispatchesFailureReport, 'It should dispatch the error');
     });
 
     it('creates the branch specified in the action', () => {
-      const fetchSuccessPayload = { id: 1 };
-      const iterator = createBranch({ branch: { id: 1 } });
-      const stepDispatchUpdate = put(branchCreated({ id: 1 }));
-      const stepReportSuccess = put(reportSuccess('Branch successfully added'));
+      const success = () => {};
+
+      const iterator = createBranch({ payload: { branch: { id: 1 }, success } });
+      const callsCreateBranch = call(branchService.createBranch, { id: 1 });
+      const dispatchesCreatedAction = put(branchCreated({ id: 1 }));
+      const callsSuccessCallback = call(success);
+      const dispatchesSuccessReport = put(reportSuccess('Branch successfully added'));
+
       expect(iterator.next().value).toEqual(dispatchesClearMessages, 'It should clear messages');
-      expect(iterator.next().value).toEqual(stepCreateBranch, 'It should request the create');
-      expect(iterator.next(fetchSuccessPayload).value).toEqual(stepDispatchUpdate, 'It should dispatch the success');
-      expect(iterator.next().value).toEqual(stepReportSuccess, 'It should set a success message');
+      expect(iterator.next().value).toEqual(callsCreateBranch, 'It should request the create');
+      expect(iterator.next({ id: 1 }).value)
+        .toEqual(dispatchesCreatedAction, 'It should dispatch the branch created action');
+      expect(iterator.next().value).toEqual(callsSuccessCallback, 'It calls the redux form success callback');
+      expect(iterator.next().value).toEqual(dispatchesSuccessReport, 'It should set a success message');
     });
   });
 
@@ -102,14 +110,14 @@ describe('branch sagas', () => {
       const success = () => {};
 
       const iterator = updateBranch({ payload: { branch: { id: 1 }, success } });
-      const callsUpdatedBranch = call(branchService.updateBranch, { id: 1 });
-      const dispatchesUpdateAction = put(branchUpdated({ id: 1 }));
+      const callsUpdateBranch = call(branchService.updateBranch, { id: 1 });
+      const dispatchesUpdatedAction = put(branchUpdated({ id: 1 }));
       const callsSuccessCallback = call(success);
       const dispatchesSuccessReport = put(reportSuccess('Branch successfully updated'));
 
       expect(iterator.next().value).toEqual(dispatchesClearMessages, 'It should clear messages');
-      expect(iterator.next().value).toEqual(callsUpdatedBranch, 'It should request the update');
-      expect(iterator.next().value).toEqual(dispatchesUpdateAction, 'It should dispatch the branch updated action');
+      expect(iterator.next().value).toEqual(callsUpdateBranch, 'It should request the update');
+      expect(iterator.next().value).toEqual(dispatchesUpdatedAction, 'It should dispatch the branch updated action');
       expect(iterator.next().value).toEqual(callsSuccessCallback, 'It calls the redux form success callback');
       expect(iterator.next().value).toEqual(dispatchesSuccessReport, 'It should set a success message');
     });
