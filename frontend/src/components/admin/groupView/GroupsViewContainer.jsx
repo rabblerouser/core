@@ -7,9 +7,7 @@ import branchService from '../../../services/branchService.js';
 import groupService from '../../../services/groupService.js';
 import MembersViewContainer from '../memberView/MembersViewContainer';
 
-import {
-  getSelectedBranchId,
-} from '../../../reducers/branchReducers';
+import { getSelectedBranchId } from '../../../reducers/branchReducers';
 
 import {
   clearMessages,
@@ -99,6 +97,7 @@ class GroupsViewContainer extends Component {
     return (
       <section>
         <GroupsView
+          selectedBranchId={this.props.branchId}
           selectedGroup={this.getSelectedGroup()}
           groups={this.state.groups}
           onSaveGroup={this.state.onSave}

@@ -46,6 +46,7 @@ router.delete('/branches/:branchId', [requireAuth, superAdminOnly], branchesCont
 
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.edit);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.list);
+router.get('/branches/:branchId/members.csv', [requireAuth, branchAuthorization], membersController.exportBranchMembers);
 router.delete('/branches/:branchId/members/:memberId', [requireAuth, branchAuthorization], membersController.delete);
 
 router.get('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.forBranch);

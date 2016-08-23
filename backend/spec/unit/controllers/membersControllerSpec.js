@@ -6,6 +6,7 @@ const memberValidator = require('../../../src/lib/memberValidator');
 const messagingService = require('../../../src/services/messagingService');
 const membersController = require('../../../src/controllers/membersController');
 const inputValidator = require('../../../src/lib/inputValidator');
+const csvGenerator = require('../../../src/lib/csvGenerator');
 
 describe('membersController', () => {
 
@@ -175,6 +176,26 @@ describe('membersController', () => {
             });
         });
     });
+
+  describe('exportBranchMembers', () => {
+    it('gets the members transforms them to CSV', () => {
+      const req = { params: { branchId: 'some-id-1' } };
+      const res = { set: () => {}, send: sinon.spy() };
+      const members = [{ name: 'member-1' }, { name: 'member-2' }];
+      const csv = 'member1\nmember2';
+
+      sinon.stub(memberService, 'list').returns(Q.resolve(members));
+      const csvStub = sinon.stub(csvGenerator, 'generateCsv').returns(csv);
+
+      return membersController.exportBranchMembers(req, res).then(() => {
+        expect(csvStub).to.have.been.calledWith(sinon.match.array, members);
+        expect(res.send).to.have.been.calledWith(csv);
+
+        memberService.list.restore();
+        csvGenerator.generateCsv.restore();
+      });
+    });
+  });
 
   describe('deleteBranch', () => {
     let res;

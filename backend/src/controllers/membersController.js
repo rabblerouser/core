@@ -6,6 +6,7 @@ const memberService = require('../services/memberService');
 const messagingService = require('../services/messagingService');
 const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
+const csvGenerator = require('../lib/csvGenerator');
 const logger = require('../lib/logger');
 
 function isAddressEmpty(address) {
@@ -113,6 +114,28 @@ function list(req, res) {
     .catch(handleError(res));
 }
 
+function exportBranchMembers(req, res) {
+  return memberService.list(req.params.branchId)
+    .then(members => {
+      res.set({
+        'Content-Type': 'application/csv',
+        'Content-Disposition': 'attachment; filename="members.csv"',
+      });
+      const exportFields = [
+        'id',
+        'firstName',
+        'lastName',
+        'primaryPhoneNumber',
+        'secondaryPhoneNumber',
+        'email',
+        'membershipType',
+        'memberSince',
+        'branchId',
+      ];
+      res.send(csvGenerator.generateCsv(exportFields, members));
+    });
+}
+
 function edit(req, res) {
   const member = parseMember(req);
 
@@ -151,6 +174,7 @@ function deleteMember(req, res) {
 module.exports = {
   register,
   list,
+  exportBranchMembers,
   edit,
   delete: deleteMember,
 };

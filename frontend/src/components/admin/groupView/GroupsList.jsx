@@ -11,7 +11,7 @@ const GroupsList = ({ groups, onSelect }) => {
 
   return (
     <div className="select">
-      <span className="arr"></span>
+      <span className="arr" />
       <select id="groups" defaultValue="All members" onChange={selectGroup}>
         <option value="unassigned">Unassigned</option>
         {groupEntries}
