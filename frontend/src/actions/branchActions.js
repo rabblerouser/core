@@ -43,10 +43,14 @@ export const branchCreated = branch => (
   }
 );
 
-export const branchUpdateRequested = branch => (
+export const branchUpdateRequested = (branch, success, failure) => (
   {
     type: BRANCH_UPDATE_REQUESTED,
-    branch,
+    payload: {
+      branch,
+      success,
+      failure,
+    },
   }
 );
 

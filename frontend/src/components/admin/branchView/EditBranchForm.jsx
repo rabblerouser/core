@@ -1,61 +1,47 @@
-import React, { Component } from 'react';
-import BranchFields from './BranchFields';
-import branchValidator from '../../../services/branchValidator';
+import React from 'react';
+import { connect } from 'react-redux';
 
-export default class EditGroupForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      invalidFields: [],
-      fieldValues: this.props.branch,
-    };
-    this.saveChanges = this.saveChanges.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
+import validate from './branchValidator';
+import { getSelectedBranch } from '../../../reducers/branchReducers';
+import { branchUpdateRequested } from '../../../actions/branchActions';
 
-  onChange(fieldName) {
-    const editBranchComponent = this;
+import { Field, reduxForm } from 'redux-form';
+import InputField from '../../common/forms/InputField';
+import TextAreaField from '../../common/forms/TextAreaField';
 
-    return event => {
-      const newValue = { [fieldName]: event.target.value };
-      const newFieldValues = Object.assign({}, editBranchComponent.state.fieldValues, newValue);
-      editBranchComponent.setState({ fieldValues: newFieldValues });
-    };
-  }
+const onSubmit = (data, dispatch) => new Promise((resolve, reject) => {
+  dispatch(branchUpdateRequested(data, resolve, reject));
+});
 
-  isValidationError(fieldName) {
-    return this.state.invalidFields.includes(fieldName);
-  }
+let EditBranchForm = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
+    <header className="details-header">
+      <span className="title">Edit branch</span>
+      <span className="actions">
+        <button className="save" type="submit">Save</button>
+      </span>
+    </header>
+    <section className="form-container">
+      <Field component={InputField} id="name" name="name" label="Name" type="text" />
+      <Field component={TextAreaField} id="contact" name="contact" label="Contact" />
+      <Field component={TextAreaField} id="notes" name="notes" label="Notes" />
+    </section>
+  </form>
+);
 
-  saveChanges() {
-    const branch = Object.assign({}, this.state.fieldValues);
-    const errors = (branchValidator.isValid(branch));
-    this.setState({ invalidFields: errors });
-    if (errors.length === 0) {
-      this.props.onSuccess();
-      this.props.onSave(branch);
-    }
-  }
-
-  render() {
-    return (
-      <section className="form-container">
-        <header className="details-header">
-          <span className="title">Edit branch</span>
-          <span className="actions"><button className="save" onClick={this.saveChanges}>Save</button></span>
-        </header>
-        <BranchFields
-          onChange={this.onChange}
-          invalidFields={this.state.invalidFields}
-          formValues={this.state.fieldValues}
-        />
-      </section>
-    );
-  }
-}
-
-EditGroupForm.propTypes = {
+EditBranchForm.propTypes = {
   branch: React.PropTypes.object.isRequired,
-  onSuccess: React.PropTypes.func.isRequired,
-  onSave: React.PropTypes.func.isRequired,
+  handleSubmit: React.PropTypes.func.isRequired,
 };
+
+EditBranchForm = reduxForm({
+  form: 'branch',
+  validate,
+  onSubmit,
+})(EditBranchForm);
+
+const mapStateToProps = state => ({
+  initialValues: getSelectedBranch(state),
+});
+
+export default connect(mapStateToProps, { branchUpdateRequested })(EditBranchForm);

@@ -1,10 +1,21 @@
 import { put, call } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
-import { BRANCH_LIST_REQUESTED, BRANCH_REMOVE_REQUESTED, BRANCH_CREATE_REQUESTED, BRANCH_UPDATE_REQUESTED,
-  branchListUpdated, branchRemoved, branchCreated, branchUpdated,
+import {
+  BRANCH_LIST_REQUESTED,
+  BRANCH_REMOVE_REQUESTED,
+  BRANCH_CREATE_REQUESTED,
+  BRANCH_UPDATE_REQUESTED,
+  branchListUpdated,
+  branchRemoved,
+  branchCreated,
+  branchUpdated,
 } from '../actions/branchActions';
-import { clearMessages, reportFailure, reportSuccess } from '../actions/appFeedbackActions';
-
+import {
+  clearMessages,
+  reportFailure,
+  reportSuccess,
+} from '../actions/appFeedbackActions';
+import { modalClosed } from '../actions/modalActions';
 import branchService from '../services/branchService.js';
 
 const GENERAL_ERROR_MSG = 'There was an error when contacting the server';
@@ -30,14 +41,19 @@ export function* createBranch(action) {
   }
 }
 
-export function* updateBranch(action) {
+export function* updateBranch({ payload }) {
+  const { branch, success, failure } = payload;
   try {
     yield put(clearMessages());
-    yield call(branchService.updateBranch, action.branch);
-    yield put(branchUpdated(action.branch));
+    yield call(branchService.updateBranch, branch);
+    yield put(branchUpdated(branch));
+    yield call(success);
     yield put(reportSuccess('Branch successfully updated'));
   } catch (error) {
+    yield call(failure);
     yield put(reportFailure(GENERAL_ERROR_MSG));
+  } finally {
+    yield put(modalClosed());
   }
 }
 
