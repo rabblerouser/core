@@ -9,20 +9,20 @@ import EditButton from '../../common/EditButton';
 
 import { modalOpened } from '../../../actions/modalActions';
 import { getSelectedBranch } from '../../../reducers/branchReducers';
-import { branchRemoveRequested, branchCreateRequested, branchUpdateRequested } from '../../../actions/branchActions';
+import { branchRemoveRequested } from '../../../actions/branchActions';
 
-const SelectedBranchActions = ({ onModalOpen, onCreate, onUpdate, onDelete, branch }) => (
+const SelectedBranchActions = ({ onModalOpen, onDelete, branch }) => (
   <span className="actions">
     <AddButton
       onClick={() => onModalOpen('add-branch')}
       title="New branch"
     />
-    <AddBranchModal onSave={onCreate} />
+    <AddBranchModal />
     <EditButton
       onClick={() => onModalOpen('edit-branch')}
       title="Edit branch"
     />
-    <EditBranchModal onSave={onUpdate} branch={branch} />
+    <EditBranchModal branch={branch} />
     <DeleteButton
       confirmMessage="Are you sure you want to delete the current branch?"
       title="Delete branch"
@@ -36,16 +36,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onCreate: branch => dispatch(branchCreateRequested(branch)),
   onDelete: branch => dispatch(branchRemoveRequested(branch)),
-  onUpdate: branch => dispatch(branchUpdateRequested(branch)),
   onModalOpen: source => dispatch(modalOpened(source)),
 });
 
 SelectedBranchActions.propTypes = {
   branch: React.PropTypes.object,
-  onCreate: React.PropTypes.func,
-  onUpdate: React.PropTypes.func,
   onDelete: React.PropTypes.func,
   onModalOpen: React.PropTypes.func,
 };

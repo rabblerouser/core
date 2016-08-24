@@ -6,16 +6,15 @@ import Modal from 'react-modal';
 import { getIsModalOpen } from '../../../reducers/modalReducers';
 import * as modalActions from '../../../actions/modalActions';
 
-export const EditBranchModal = ({ isModalOpen, modalClosed, onSave, branch }) => (
+export const EditBranchModal = ({ isModalOpen, modalClosed, branch }) => (
   <Modal isOpen={isModalOpen} onRequestClose={modalClosed} style={{ content: { bottom: 'none' } }}>
-    <EditBranchForm branch={branch} onSave={onSave} onSuccess={modalClosed} />
+    <EditBranchForm branch={branch} />
   </Modal>
 );
 
 EditBranchModal.propTypes = {
   isModalOpen: React.PropTypes.bool,
   modalClosed: React.PropTypes.func,
-  onSave: React.PropTypes.func.isRequired,
   branch: React.PropTypes.object.isRequired,
 };
 
