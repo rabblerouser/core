@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddButton = ({ onClick, title, children }) => (
+const AddButton = ({ onClick, title = 'Add', children }) => (
   <button onClick={onClick} className="new" title={title}>
     {children}
   </button>
@@ -8,7 +8,7 @@ const AddButton = ({ onClick, title, children }) => (
 
 AddButton.propTypes = {
   children: React.PropTypes.any,
-  title: React.PropTypes.string.isRequired,
+  title: React.PropTypes.string,
   onClick: React.PropTypes.func.isRequired,
 };
 

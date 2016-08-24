@@ -1,33 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import EditBranchModal from './EditBranchModal';
-import AddBranchModal from './AddBranchModal';
+import BranchModal from './BranchModal';
 import DeleteButton from '../../common/DeleteButton';
 import AddButton from '../../common/AddButton';
 import EditButton from '../../common/EditButton';
 
-import { modalOpened } from '../../../actions/modalActions';
 import { getSelectedBranch } from '../../../reducers/branchReducers';
-import { branchRemoveRequested } from '../../../actions/branchActions';
+import * as branchActions from '../../../actions/branchActions';
 
-const SelectedBranchActions = ({ onModalOpen, onDelete, branch }) => (
+const SelectedBranchActions = ({ addBranch, editBranch, branchRemoveRequested, branch }) => (
   <span className="actions">
-    <AddButton
-      onClick={() => onModalOpen('add-branch')}
-      title="New branch"
-    />
-    <AddBranchModal />
-    <EditButton
-      onClick={() => onModalOpen('edit-branch')}
-      title="Edit branch"
-    />
-    <EditBranchModal branch={branch} />
+    <AddButton onClick={addBranch} />
+    <EditButton onClick={editBranch} />
     <DeleteButton
       confirmMessage="Are you sure you want to delete the current branch?"
       title="Delete branch"
-      onDelete={() => onDelete(branch)}
+      onDelete={() => branchRemoveRequested(branch)}
     />
+    <BranchModal />
   </span>
 );
 
@@ -35,15 +26,11 @@ const mapStateToProps = state => ({
   branch: getSelectedBranch(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onDelete: branch => dispatch(branchRemoveRequested(branch)),
-  onModalOpen: source => dispatch(modalOpened(source)),
-});
-
 SelectedBranchActions.propTypes = {
   branch: React.PropTypes.object,
-  onDelete: React.PropTypes.func,
-  onModalOpen: React.PropTypes.func,
+  branchRemoveRequested: React.PropTypes.func,
+  addBranch: React.PropTypes.func,
+  editBranch: React.PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectedBranchActions);
+export default connect(mapStateToProps, branchActions)(SelectedBranchActions);

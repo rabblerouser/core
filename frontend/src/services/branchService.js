@@ -101,7 +101,6 @@ const updateBranch = branch => (
     .catch(handleResponseError)
 );
 
-
 export default {
   createBranch,
   updateBranch,

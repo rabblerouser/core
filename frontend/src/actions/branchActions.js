@@ -7,12 +7,15 @@ export const BRANCH_UPDATE_REQUESTED = 'BRANCH_UPDATE_REQUESTED';
 export const BRANCH_UPDATED = 'BRANCH_UPDATED';
 export const BRANCH_REMOVE_REQUESTED = 'BRANCH_REMOVE_REQUESTED';
 export const BRANCH_REMOVED = 'BRANCH_REMOVED';
+export const EDIT_BRANCH = 'EDIT_BRANCH';
+export const ADD_BRANCH = 'ADD_BRANCH';
+export const FINISH_EDIT_BRANCH = 'FINISH_EDIT_BRANCH';
 
-export const branchListRequested = () => (
-  {
-    type: BRANCH_LIST_REQUESTED,
-  }
-);
+export const editBranch = () => ({ type: EDIT_BRANCH });
+export const addBranch = () => ({ type: ADD_BRANCH });
+export const finishEditBranch = () => ({ type: FINISH_EDIT_BRANCH });
+
+export const branchListRequested = () => ({ type: BRANCH_LIST_REQUESTED });
 
 export const branchListUpdated = branches => (
   {

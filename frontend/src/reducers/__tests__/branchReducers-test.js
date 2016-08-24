@@ -2,10 +2,15 @@ import reducer from '../branchReducers.js';
 
 describe('branchReducers', () => {
   describe('DEFAULT', () => {
-    it('sets empty branches and selectedBranch state by default', () => {
+    it('sets empty branches, selectedBranch, editedBranch and isEditing false by default', () => {
       const action = { type: '' };
       const reduction = reducer(undefined, action);
-      expect(reduction).toEqual({ availableBranches: [], selectedBranch: '' });
+      expect(reduction).toEqual({
+        availableBranches: [],
+        selectedBranch: '',
+        editedBranch: '',
+        isEditing: false,
+      });
     });
   });
 
@@ -16,7 +21,7 @@ describe('branchReducers', () => {
         branches: ['a'],
         selectedBranch: '121',
       };
-      const reduction = reducer(undefined, action);
+      const reduction = reducer({}, action);
       expect(reduction).toEqual({ availableBranches: ['a'], selectedBranch: '121' });
     });
   });
@@ -27,8 +32,8 @@ describe('branchReducers', () => {
         type: 'BRANCH_SELECTED',
         branchId: '121',
       };
-      const reduction = reducer(undefined, action);
-      expect(reduction).toEqual({ availableBranches: [], selectedBranch: '121' });
+      const reduction = reducer({}, action);
+      expect(reduction).toEqual({ selectedBranch: '121' });
     });
   });
 
@@ -101,6 +106,33 @@ describe('branchReducers', () => {
       };
       const reduction = reducer(initialState, action);
       expect(reduction.selectedBranch).toEqual('');
+    });
+  });
+
+  describe('EDIT_BRANCH', () => {
+    it('sets isEditing to true and sets the edited branch as the selected branch', () => {
+      const initialState = { selectedBranch: { id: '001' } };
+      const action = { type: 'EDIT_BRANCH' };
+      const reduction = reducer(initialState, action);
+      expect(reduction).toEqual({ isEditing: true, selectedBranch: { id: '001' }, editedBranch: { id: '001' } });
+    });
+  });
+
+  describe('ADD_BRANCH', () => {
+    it('sets isEditing to true and sets the edited branch as the empty', () => {
+      const initialState = { editedBranch: { id: '001' } };
+      const action = { type: 'ADD_BRANCH' };
+      const reduction = reducer(initialState, action);
+      expect(reduction).toEqual({ isEditing: true, editedBranch: '' });
+    });
+  });
+
+  describe('FINISH_EDIT_BRANCH', () => {
+    it('sets isEditing to false and sets the edited branch as the empty', () => {
+      const initialState = { isEditing: true, editedBranch: { id: '001' } };
+      const action = { type: 'FINISH_EDIT_BRANCH' };
+      const reduction = reducer(initialState, action);
+      expect(reduction).toEqual({ isEditing: false, editedBranch: '' });
     });
   });
 });

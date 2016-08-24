@@ -7,11 +7,16 @@ import {
   BRANCH_UPDATED,
   BRANCH_CREATED,
   BRANCH_REMOVED,
+  EDIT_BRANCH,
+  ADD_BRANCH,
+  FINISH_EDIT_BRANCH,
 } from '../actions';
 
 const initialState = {
   availableBranches: [],
   selectedBranch: '',
+  isEditing: false,
+  editedBranch: '',
 };
 
 export default (state = initialState, action) => {
@@ -43,6 +48,21 @@ export default (state = initialState, action) => {
         selectedBranch: filteredBranches.length > 0 ? filteredBranches[0].id : '',
       };
     }
+    case EDIT_BRANCH: return {
+      ...state,
+      isEditing: true,
+      editedBranch: state.selectedBranch,
+    };
+    case ADD_BRANCH: return {
+      ...state,
+      isEditing: true,
+      editedBranch: '',
+    };
+    case FINISH_EDIT_BRANCH: return {
+      ...state,
+      isEditing: false,
+      editedBranch: '',
+    };
     default : return state;
   }
 };
@@ -54,3 +74,9 @@ export const getSelectedBranch = state => {
 export const getSelectedBranchId = state => getBranches(state).selectedBranch;
 export const getAvailableBranches = state => getBranches(state).availableBranches;
 export const getCanSelectBranch = state => getBranches(state).availableBranches.length > 0;
+
+export const getisEditActive = state => getBranches(state).isEditing;
+export const getEditedBranch = state => {
+  const branch = getBranches(state).availableBranches.find(({ id }) => id === getBranches(state).editedBranch);
+  return branch || {};
+};

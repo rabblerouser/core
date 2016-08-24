@@ -2,21 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import validate from './branchValidator';
-import { getSelectedBranch } from '../../../reducers/branchReducers';
-import { branchUpdateRequested } from '../../../actions/branchActions';
+import {
+  branchUpdateRequested as update,
+  branchCreateRequested as create,
+} from '../../../actions/branchActions';
+import { getEditedBranch } from '../../../reducers/branchReducers';
 
 import { Field, reduxForm } from 'redux-form';
 import InputField from '../../common/forms/InputField';
 import TextAreaField from '../../common/forms/TextAreaField';
 
-const onSubmit = (data, dispatch) => new Promise((resolve, reject) => {
-  dispatch(branchUpdateRequested(data, resolve, reject));
-});
+const onSubmit = (data, dispatch) =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      data.id ? update(data, resolve, reject) : create(data, resolve, reject)
+    )
+  );
 
-let EditBranchForm = ({ handleSubmit }) => (
+export const EditBranchForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <header className="details-header">
-      <span className="title">Edit branch</span>
+      <span className="title">Branch details</span>
       <span className="actions">
         <button className="save" type="submit">Save</button>
       </span>
@@ -30,18 +36,12 @@ let EditBranchForm = ({ handleSubmit }) => (
 );
 
 EditBranchForm.propTypes = {
-  branch: React.PropTypes.object.isRequired,
   handleSubmit: React.PropTypes.func.isRequired,
 };
 
-EditBranchForm = reduxForm({
+const mapStateToProps = state => ({ initialValues: getEditedBranch(state) });
+export default connect(mapStateToProps)(reduxForm({
   form: 'branch',
   validate,
   onSubmit,
-})(EditBranchForm);
-
-const mapStateToProps = state => ({
-  initialValues: getSelectedBranch(state),
-});
-
-export default connect(mapStateToProps, { branchUpdateRequested })(EditBranchForm);
+})(EditBranchForm));

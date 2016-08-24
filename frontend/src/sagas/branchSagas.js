@@ -9,13 +9,13 @@ import {
   branchRemoved,
   branchCreated,
   branchUpdated,
+  finishEditBranch,
 } from '../actions/branchActions';
 import {
   clearMessages,
   reportFailure,
   reportSuccess,
 } from '../actions/appFeedbackActions';
-import { modalClosed } from '../actions/modalActions';
 import branchService from '../services/branchService.js';
 
 const GENERAL_ERROR_MSG = 'There was an error when contacting the server';
@@ -42,7 +42,7 @@ export function* createBranch({ payload }) {
     yield call(failure);
     yield put(reportFailure(GENERAL_ERROR_MSG));
   } finally {
-    yield put(modalClosed());
+    yield put(finishEditBranch());
   }
 }
 
@@ -58,7 +58,7 @@ export function* updateBranch({ payload }) {
     yield call(failure);
     yield put(reportFailure(GENERAL_ERROR_MSG));
   } finally {
-    yield put(modalClosed());
+    yield put(finishEditBranch());
   }
 }
 
