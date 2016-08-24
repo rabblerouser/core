@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getSelectedBranch } from '../../../reducers/branchReducers';
 import SelectedBranchActions from './SelectedBranchActions';
 
-const BranchDetailsView = ({ selectedBranch }) => (
+export const BranchDetails = ({ selectedBranch }) => (
   <section className="admin-section" id="branchDetails">
     <h3>
       {selectedBranch.name}
@@ -23,8 +23,8 @@ const mapStateToProps = state => ({
   selectedBranch: getSelectedBranch(state),
 });
 
-BranchDetailsView.propTypes = {
+BranchDetails.propTypes = {
   selectedBranch: React.PropTypes.object,
 };
 
-export default connect(mapStateToProps)(BranchDetailsView);
+export default connect(mapStateToProps)(BranchDetails);

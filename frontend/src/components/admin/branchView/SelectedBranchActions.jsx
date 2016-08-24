@@ -9,7 +9,7 @@ import EditButton from '../../common/EditButton';
 import { getSelectedBranch } from '../../../reducers/branchReducers';
 import * as branchActions from '../../../actions/branchActions';
 
-const SelectedBranchActions = ({ addBranch, editBranch, branchRemoveRequested, branch }) => (
+export const SelectedBranchActions = ({ addBranch, editBranch, branchRemoveRequested, branch }) => (
   <span className="actions">
     <AddButton onClick={addBranch} />
     <EditButton onClick={editBranch} />
