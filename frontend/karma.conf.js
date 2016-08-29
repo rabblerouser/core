@@ -2,11 +2,12 @@ const webpack = require('webpack');
 
 module.exports = config => {
   config.set({
+    autowatch: true,
     browsers: ['PhantomJS'],
-    singleRun: true,
     frameworks: ['jasmine', 'sinon'],
     files: [
       { pattern: 'src/testIndex.js' },
+      { pattern: 'src/**/*', included: false, served: false, watched: true },
     ],
     preprocessors: {
       'src/testIndex.js': ['webpack', 'sourcemap'],

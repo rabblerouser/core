@@ -8,10 +8,11 @@
   "scripts": {
     "set-skin": "rm -rf ./public/images/logo && cp -r ./skins/$npm_package_config_skin/* ./public/images",
     "build": "webpack --progress --colors ",
-    "ci": "npm run lint && npm test",
+    "ci": "npm run lint && npm run test-single",
     "lint": "eslint --ext js,jsx .",
     "start": "webpack-dev-server --hot --inline --content-base public",
-    "test": "karma start"
+    "test": "karma start",
+    "test-single": "karma start --single-run"
   },
   "repository": {
     "type": "git",
