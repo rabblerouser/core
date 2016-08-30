@@ -83,15 +83,12 @@ dd.textblock {
 -------------------------------------------------------------------------------------- */
 
 header.admin-header {
-
     background: #0073ae;
     margin: 0;
-    padding: 0;
-    text-align: left;
     padding: 10px;
-    margin-bottom: 0px;
-    display:flex;
-    flex-align: center;
+    text-align: left;
+    display: flex;
+    align-items: center;
     @include media($mobile) {
         flex-direction: column;
         padding: 5px 20px 20px 20px;
@@ -100,7 +97,6 @@ header.admin-header {
     select {
         width: auto;
         flex-grow: 1;
-        flex-align: center;
         margin: 0;
         margin-top: 7px;
         font-size: 1em;
@@ -108,29 +104,28 @@ header.admin-header {
 
     span.currentBranch {
         width: auto;
-        flex-grow: 4;
         font-weight: normal;
-        flex-align: center;
         padding-top: 13px;
         font-size: 1.2em;
         color: white;
     }
 
-    button.logout {
+    button.logout, a {
         width: auto;
         flex-grow: 1;
-        flex-align: center;
-        color: #fff;
+        color: white;
+        font-size: 1.1em;
+        text-align: center;
         padding: 0;
         margin: 0;
-        display:inline;
-        border-radius: 0;
         background: none;
-        border: none;
-        border-radius: 0;
-        font-weight: bold;
-        font-size: 1.1em;
+    }
 
+    button.logout:hover, a:hover {
+        text-decoration: underline;
+    }
+
+    button.logout {
         @include media($mobile) {
             text-align: left;
             padding-left: 2px;
@@ -142,14 +137,9 @@ header.admin-header {
         }
     }
 
-    button.logout:hover {
-        text-decoration: underline;
-    }
-
 
     span {
-        flex-grow: 4;
-        flex-align: center;
+        flex-grow: 10;
         img {
             margin-left: 10px;
             height: 50px;
@@ -157,9 +147,7 @@ header.admin-header {
                  margin-left: 0;
             }
         }
-
     }
-
 }
 
 

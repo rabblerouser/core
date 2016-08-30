@@ -1,4 +1,4 @@
-import reducer from '../branchReducers.js';
+import reducer, { getCanSelectBranch } from '../branchReducers.js';
 
 describe('branchReducers', () => {
   describe('DEFAULT', () => {
@@ -133,6 +133,22 @@ describe('branchReducers', () => {
       const action = { type: 'FINISH_EDIT_BRANCH' };
       const reduction = reducer(initialState, action);
       expect(reduction).toEqual({ isEditing: false, editedBranch: '' });
+    });
+  });
+});
+
+describe('branch selectors', () => {
+  describe('getCanSelectBranch', () => {
+    it('is false when there are no available branches', () => {
+      expect(getCanSelectBranch({ branches: { availableBranches: [] } })).toEqual(false);
+    });
+
+    it('is false when there is 1 available branch', () => {
+      expect(getCanSelectBranch({ branches: { availableBranches: ['b1'] } })).toEqual(false);
+    });
+
+    it('is true when there are 2 available branches', () => {
+      expect(getCanSelectBranch({ branches: { availableBranches: ['b1', 'b2'] } })).toEqual(true);
     });
   });
 });

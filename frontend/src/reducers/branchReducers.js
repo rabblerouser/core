@@ -40,7 +40,7 @@ export default (state = initialState, action) => {
       availableBranches: _.uniq([action.branch].concat(state.availableBranches), 'id'),
       selectedBranch: action.branch.id,
     };
-    case BRANCH_REMOVED: {     // eslint-disable-line no-case-declarations
+    case BRANCH_REMOVED: {
       const filteredBranches = state.availableBranches.filter(({ id }) => id !== action.branchId);
       return {
         ...state,
@@ -73,7 +73,7 @@ export const getSelectedBranch = state => {
 };
 export const getSelectedBranchId = state => getBranches(state).selectedBranch;
 export const getAvailableBranches = state => getBranches(state).availableBranches;
-export const getCanSelectBranch = state => getBranches(state).availableBranches.length > 0;
+export const getCanSelectBranch = state => getBranches(state).availableBranches.length > 1;
 
 export const getisEditActive = state => getBranches(state).isEditing;
 export const getEditedBranch = state => {

@@ -12,27 +12,23 @@ const requireAuth = require('../security/authenticationRequired');
 const login = require('../security/loginHandler');
 
 router.get('/', (req, res) =>
-  res.render('index')
+  res.render('signup')
 );
-
-router.post('/register', membersController.register);
-router.get('/branches', branchesController.list);
-router.post('/login', login);
 
 router.get('/login', (req, res) =>
   res.render('login', { error: '' })
 );
 
+router.get('/dashboard*', [requireAuth], (req, res) =>
+  res.render('admin'));
+
+router.post('/register', membersController.register);
+router.get('/branches', branchesController.list);
+router.post('/login', login);
+
 router.get('/logout', (req, res) =>
   req.session.destroy(() => res.redirect('/login'))
 );
-
-router.get('/dashboard', [requireAuth], (req, res) =>
-  res.render('dashboard'));
-
-router.get('/dashboard/admin', [requireAuth], (req, res) => {
-  res.render('admin');
-});
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.list);
 router.post('/admins', [requireAuth, superAdminOnly], adminController.createSuperAdmin);

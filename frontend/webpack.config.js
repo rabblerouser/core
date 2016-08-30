@@ -4,9 +4,8 @@ const neat = require('node-neat').includePaths;
 
 module.exports = {
   entry: {
-    main: ['babel-polyfill', `${__dirname}/src/components/App.jsx`],
-    admin: ['babel-polyfill', `${__dirname}/src/components/Admin.jsx`],
-    networkAdmin: ['babel-polyfill', `${__dirname}/src/components/NetworkAdmin.jsx`],
+    signupApp: ['babel-polyfill', `${__dirname}/src/components/SignupApp.jsx`],
+    adminApp: ['babel-polyfill', `${__dirname}/src/components/AdminApp.jsx`],
   },
   output: {
     path: `${__dirname}/public/javascript`,
@@ -57,24 +56,16 @@ module.exports = {
         secure: false,
         bypass: req => {
           if (req.method === 'GET') {
-            if (['/dashboard', '/error', '/index', '/login'].indexOf(req.url) > -1) {
-              // Let WDS serve these routes, returning the corresponding html file contents
-              return `${req.url}.html`;
-            }
-            if (req.url === '/dashboard/admin') {
-              // Same as above but the admin route is tricky
-              return '/admin.html';
-            }
+            // Handle requests for static assets
+            if (req.url === '/error') return '/error.html';
+            if (req.url === '/login') return '/login.html';
+            if (req.url === '/') return '/signup.html';
+            if (req.url.startsWith('/dashboard')) return '/admin.html';
+            if (req.url.startsWith('/images')) return req.url;
+
+            // Handle requests for hot module reloading
             const hotUpdateRequest = req.url.match(/^.*(\/javascript\w*\.hot-update\.json)$/);
-            if (hotUpdateRequest) {
-              // Pass HMR requests to the WDS, fixing up relative URL stuff.
-              return hotUpdateRequest[1];
-            }
-            if (req.url === '/' || req.url.startsWith('/images')) {
-              // Let WDS serve '/' as 'index.html', and all images as static content
-              // Also, it will automatically do this for /javascript, because of the publicPath config
-              return req.url;
-            }
+            if (hotUpdateRequest) return hotUpdateRequest[1];
           }
           // Let all other requests proxy through to the target mentioned above
           return false;

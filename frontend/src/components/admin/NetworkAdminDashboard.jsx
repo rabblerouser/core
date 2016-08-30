@@ -10,7 +10,6 @@ import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
 import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer';
 
 class NetworkAdminDashboard extends Component {
-
   componentDidMount() {
     this.props.branchListRequested();
   }
