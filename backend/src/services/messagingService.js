@@ -1,6 +1,7 @@
 'use strict';
 
 const emailService = require('../lib/emailService');
+const adminService = require('./adminService');
 const config = require('config');
 const logger = require('../lib/logger');
 const Q = require('q');
@@ -12,17 +13,14 @@ function logAndRethrow(message) {
   };
 }
 
-function sendEmail(member, type) {
-  if (!config.get('email.sendEmails')) {
-    return Q.resolve(member);
-  }
-
+function sendEmail(to, bcc, content, replyTo) {
   const options = {
-    from: config.get('email.membershipEmail'),
-    to: member.email,
-    subject: type.subject,
-    body: type.text,
-    replyTo: config.get('email.membershipEmail')
+    from: replyTo,
+    to,
+    bcc,
+    subject: content.subject,
+    body: content.text,
+    replyTo,
   };
 
   return emailService.sendHtmlEmail(options)
@@ -30,20 +28,24 @@ function sendEmail(member, type) {
       options,
       result,
     }))
-    .tap(type.logger)
+    .tap(content.logger)
     .catch(logAndRethrow('[email-failed]'));
 }
 
 function sendWelcomeEmail(member) {
-  const welcome = {
+  if (!config.get('email.sendEmails')) {
+    return Q.resolve(member);
+  }
+  const bcc = adminService.admins(member.branchId);
+  const content = {
     logger: email => logger.info('[welcome-email-sent]', { email }),
     subject: config.get('email.welcome.subject'),
-    text: config.get('email.welcome.body')
+    text: config.get('email.welcome.body'),
   };
 
-  return sendEmail(member, welcome);
+  return sendEmail(member.email, bcc, content, config.get('email.membershipEmail'));
 }
 
 module.exports = {
-  sendWelcomeEmail: sendWelcomeEmail,
+  sendWelcomeEmail,
 };
