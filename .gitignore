@@ -16,3 +16,4 @@ screenshots
 # IntelliJ nonsense
 .idea
 *.iml
+*.pem
