@@ -36,14 +36,17 @@ function sendWelcomeEmail(member) {
   if (!config.get('email.sendEmails')) {
     return Q.resolve(member);
   }
-  const bcc = adminService.admins(member.branchId);
+
   const content = {
     logger: email => logger.info('[welcome-email-sent]', { email }),
     subject: config.get('email.welcome.subject'),
     text: config.get('email.welcome.body'),
   };
 
-  return sendEmail(member.email, bcc, content, config.get('email.membershipEmail'));
+  return adminService
+    .admins(member.branchId)
+    .then(admins => admins.map(admin => admin.email))
+    .then(bcc => sendEmail(member.email, bcc, content, config.get('email.membershipEmail')));
 }
 
 module.exports = {
