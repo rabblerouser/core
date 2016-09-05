@@ -5,7 +5,6 @@
   "email": {
     "defaultEmailAccount":"pamela.rucinque@gmail.com",
     "membershipEmail": "pamela.rucinque@gmail.com",
-    "server": "override this using environment variable EMAIL_SERVER",
     "sendEmails": false,
     "welcome": {
       "subject": "Welcome to Rabble Rouser",
