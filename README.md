@@ -65,7 +65,7 @@ Rabble Rouser supports the following e-mailing tools:
 
 0. Create an [Application Password](https://www.google.com/settings/security/lesssecureapps) trough your Google Account (Go [here](https://security.google.com/settings/security/apppasswords) if you have 2 factor Authentication enabled)
 
-0. Add EMAIL_USERMAIL="your_email@gmail.com" EMAIL_PASSWORD="the password generated in the previous step" to environment vars
+0. Add EMAIL_USERNAME="your_email@gmail.com" EMAIL_PASSWORD="the password generated in the previous step" to environment vars
 
 0. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/  staging.json`, `config/production.json`)
 
