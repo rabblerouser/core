@@ -111,7 +111,7 @@ describe('emailService', () => {
 
     describe('things go bad', () => {
 
-        describe('plain text email', () => {
+        describe('plain html email', () => {
             beforeEach(() => {
                 transportStub = { sendMail: function(options, callback) { callback(true,false); }};
                 sendMailSpy = sinon.spy(transportStub, 'sendMail');
@@ -119,7 +119,7 @@ describe('emailService', () => {
             });
 
             it('should fail when there is an unexpected error', (done) => {
-                emailService.sendPlainTextEmail(options)
+                emailService.sendHtmlEmail(options)
                 .then(result => {
                     done.fail('This test should have failed.');
                 })
@@ -132,7 +132,7 @@ describe('emailService', () => {
             it('should throw an error if the parameter to is not defined', () => {
                 options.to = null;
 
-                emailService.sendPlainTextEmail(options)
+                emailService.sendHtmlEmail(options)
                 .then(result => {
                     done.fail('This test should have failed.');
                 })
