@@ -26,12 +26,18 @@ function sendEmail(options) {
   return deferred.promise;
 }
 
+function toArray(obj) {
+  return obj instanceof Array ? obj : [obj];
+}
+
 const sendHtmlEmail = options => {
-  const to = options.to instanceof Array ? options.to : [options.to];
+  const to = toArray(options.to);
+  const bcc = options.bcc ? toArray(options.bcc) : options.bcc;
 
   const emailOptions = {
     from: options.from,
     to,
+    bcc,
     subject: options.subject,
     html: options.body,
   };

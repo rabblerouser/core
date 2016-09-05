@@ -52,6 +52,7 @@ describe('emailService', () => {
                     to: ['somedev@github.com'],
                     subject: 'Thanks for contributing',
                     html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
+                    bcc: undefined
                 } , sinon.match.any);
             });
         });
@@ -67,7 +68,24 @@ describe('emailService', () => {
                     to: ['somedev@github.com'],
                     subject: 'Thanks for contributing',
                     html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
-                    replyTo: 'someemail@email.com'
+                    replyTo: 'someemail@email.com',
+                    bcc: undefined
+                } , sinon.match.any);
+            });
+        });
+
+        it('should send with bcc if bcc is defined on the options sent in', () => {
+            options.bcc = 'bcc@email.com';
+
+            return emailService.sendHtmlEmail(options)
+            .then((result) => {
+                expect(sendMailSpy).to.have.been.called;
+                expect(sendMailSpy).to.have.been.calledWith({
+                    from: 'team@rabblerouser.com',
+                    to: ['somedev@github.com'],
+                    subject: 'Thanks for contributing',
+                    html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
+                    bcc: ['bcc@email.com']
                 } , sinon.match.any);
             });
         });
@@ -84,7 +102,8 @@ describe('emailService', () => {
                     from: 'email321@23.com',
                     to: ['somedev@github.com'],
                     subject: 'Thanks for contributing',
-                    html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.'
+                    html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
+                    bcc: undefined
                 }, sinon.match.any);
             });
         });
