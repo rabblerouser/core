@@ -35,62 +35,6 @@ describe('emailService', () => {
         delete process.env.EMAIL_PASSWORD;
     });
 
-    describe('plain text email', () => {
-
-        beforeEach(() => {
-            transportStub = { sendMail: function(options, callback) { callback(false,true); }};
-            sendMailSpy = sinon.spy(transportStub, 'sendMail');
-            sinon.stub(nodemailer, 'createTransport').returns(transportStub);
-        });
-
-        it('should send plain text email', () => {
-            return emailService.sendPlainTextEmail(options)
-            .then((result) => {
-                expect(sendMailSpy).to.have.been.called;
-                expect(sendMailSpy).to.have.been.calledWith({
-                    from: 'team@rabblerouser.com',
-                    to: ['somedev@github.com'],
-                    subject: 'Thanks for contributing',
-                    text: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
-                } , sinon.match.any);
-            });
-        });
-
-        it('should send reply to if reply to is defined', () => {
-            options.replyTo = 'someemail@email.com';
-
-            return emailService.sendPlainTextEmail(options)
-            .then((result) => {
-                expect(sendMailSpy).to.have.been.called;
-                expect(sendMailSpy).to.have.been.calledWith({
-                    from: 'team@rabblerouser.com',
-                    to: ['somedev@github.com'],
-                    subject: 'Thanks for contributing',
-                    text: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
-                    replyTo: 'someemail@email.com'
-                } , sinon.match.any);
-            });
-
-        });
-
-        it('should set from field to email.defaultEmailAccount if from field is not present', () => {
-            configStub.withArgs('email.defaultEmailAccount').returns('email321@23.com');
-
-            options.from = null;
-
-            return emailService.sendPlainTextEmail(options)
-            .then((result) => {
-                expect(sendMailSpy).to.have.been.called;
-                expect(sendMailSpy).to.have.been.calledWith({
-                    from: 'email321@23.com',
-                    to: ['somedev@github.com'],
-                    subject: 'Thanks for contributing',
-                    text: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.'
-                } , sinon.match.any);
-            });
-        });
-    });
-
     describe('html email', () => {
 
         beforeEach(() => {

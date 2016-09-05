@@ -5,10 +5,6 @@ const emailTransporter = require('./emailTransporter');
 const Q = require('q');
 const config = require('config');
 
-const emailConfig = {
-  service: config.get('email.server')
-};
-
 function sendEmail(options) {
   if (!(options && options.to)) {
     deferred.reject('Invalid email parameters');
@@ -48,24 +44,6 @@ const sendHtmlEmail = options => {
 };
 
 
-const sendPlainTextEmail = options => {
-  const to = options.to instanceof Array ? options.to : [options.to];
-
-  const emailOptions = {
-    from: options.from,
-    to,
-    subject: options.subject,
-    text: options.body,
-  };
-
-  if (options.replyTo) {
-    emailOptions.replyTo = options.replyTo;
-  }
-
-  return sendEmail(emailOptions);
-};
-
 module.exports = {
-  sendHtmlEmail,
-  sendPlainTextEmail,
+  sendHtmlEmail
 };
