@@ -162,7 +162,7 @@ The skins live in the `frontend/skins` directory. There's a default skin with a 
 
 You can change which skin is being used:
 
-0. Change this setting in `frontend/package.json`:
+0. Change this setting in `frontend/package.json` to the name of another directory at the same level.
 
         "config": {
           "skin": "default"
