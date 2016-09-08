@@ -45,6 +45,11 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('style.css'),
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
+    new webpack.DefinePlugin({
+      customisation: {
+        orgName: JSON.stringify(process.env.ORG_NAME || 'Rabble Rouser'),
+      },
+    }),
   ],
   devtool: 'cheap-module-eval-source-map',
   devServer: {

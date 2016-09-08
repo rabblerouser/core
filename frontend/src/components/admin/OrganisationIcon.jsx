@@ -1,16 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-const OrganisationIcon = ({ alt, src }) => <span><img src={src} alt={alt} /></span>;
+const OrganisationIcon = () => (
+  <span>
+    <img src={'/images/logo/logo_header.svg'} alt={customisation.orgName} />
+  </span>
+);
 
-OrganisationIcon.propTypes = {
-  alt: React.PropTypes.string,
-  src: React.PropTypes.string,
-};
-
-const mapStateToProps = () => ({
-  alt: 'RabbleRouser',
-  src: '/images/logo/logo_header.svg',
-});
-
-export default connect(mapStateToProps)(OrganisationIcon);
+export default OrganisationIcon;

@@ -16,6 +16,11 @@ module.exports = config => {
     webpack: {
       plugins: [
         new webpack.IgnorePlugin(/ReactContext/),
+        new webpack.DefinePlugin({
+          customisation: {
+            orgName: JSON.stringify('Rabble Rouser'),
+          },
+        }),
       ],
       module: {
         loaders: [

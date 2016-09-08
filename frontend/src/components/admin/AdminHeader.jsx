@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import {
@@ -15,7 +14,6 @@ const AdminHeader = ({ canSelectBranch, selectedBranch }) => (
   <header className="admin-header header">
     <OrganisationIcon />
     {canSelectBranch ? <BranchSelectBox /> : <span className="currentBranch">{selectedBranch.name}</span>}
-    <Link to="/dashboard/admin/config">Settings</Link>
     <LogoutButton />
   </header>
 );

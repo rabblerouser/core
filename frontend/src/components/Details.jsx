@@ -72,7 +72,7 @@ export default class Details extends Component {
   render() {
     return (
       <section>
-        <h1 className="form-title">Register</h1>
+        <h1 className="form-title">{`Register for ${customisation.orgName}`}</h1>
         <div className="form-body">
           <Errors
             invalidFields={this.state.errorNames}

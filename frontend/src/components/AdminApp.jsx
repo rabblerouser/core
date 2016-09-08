@@ -10,7 +10,6 @@ import sagas from '../sagas/';
 
 import AdminDashboard from './admin/AdminDashboard';
 import NetworkAdminDashboard from './admin/NetworkAdminDashboard';
-import Settings from './settings/Settings';
 import '../stylesheets/style.scss';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -26,7 +25,6 @@ render(
     <Router history={browserHistory}>
       <Route path="/dashboard" component={AdminDashboard} />
       <Route path="/dashboard/admin" component={NetworkAdminDashboard} />
-      <Route path="/dashboard/admin/config" component={Settings} />
     </Router>
   </Provider>,
   document.getElementById('app')
