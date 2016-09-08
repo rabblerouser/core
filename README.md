@@ -156,25 +156,17 @@ We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/
 
         npm run createSuperAdmin
 
-### Change the skin
+### Customising the app for your organisation
 
-The skins live in the `frontend/skins` directory. There's a default skin with a Rabble Rouser theme, and you can add your own by creating another directory. Look inside the default skin directory to see the directory structure you need. This might change over time.
+At the moment, this is done using environment variables. The table below describes the use of these environment variables. At the moment, everything is optional, and a default theme will be provided if none is given.
 
-You can change which skin is being used:
+| Variable | Description                                                                         | Used when...                                |
+|----------|-------------------------------------------------------------------------------------|---------------------------------------------|
+| ORG_NAME | The name of the organisation that members are registering for.                      | compiling the frontend                      |
+| SKIN     | The directory under `frontend/public/images` from where logos etc should be loaded. | compiling the frontend, running the backend |
 
-0. Change this setting in `frontend/package.json` to the name of another directory at the same level.
-
-        "config": {
-          "skin": "default"
-        }
-
-0. `cd frontend`
-
-0. `npm run set-skin` to propagate the settings into the frontend
-
-0. `cd ..`
-
-0. `npm run build` to have the backend use them
+* "compiling the frontend" means `npm run build`, or `cd frontend && npm start`.
+* "running the backend" means `npm start` or `cd backend && npm start`.
 
 ### Pull a copy of the staging database from Heroku
 

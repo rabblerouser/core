@@ -18,7 +18,7 @@ export default class ProgressBar extends Component {
   render() {
     return (
       <div className="header">
-        <img src="/images/logo/logo_signup_page.png" alt="Sign Up" />
+        <img src={`/images/${customisation.skin}/logo_signup_page.png`} alt="Sign Up" />
         <ul className="progress-bar">
           <li className={this.getClass(1)} id="progress-details">Details</li>
           <li className={this.getClass(2)} id="progress-finished">Finish</li>

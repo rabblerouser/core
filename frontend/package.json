@@ -2,12 +2,8 @@
   "name": "rabblerouser-core-frontend",
   "version": "0.1.0",
   "description": "Frontend for rabblerouser - A pluggable, extensible membership database for community organising",
-  "config": {
-    "skin": "default"
-  },
   "scripts": {
-    "set-skin": "rm -rf ./public/images/logo && cp -r ./skins/$npm_package_config_skin/* ./public/images",
-    "build": "webpack --progress --colors ",
+    "build": "webpack --progress --colors",
     "ci": "npm run lint && npm run test-single",
     "lint": "eslint --ext js,jsx .",
     "start": "webpack-dev-server --hot --inline --content-base public",

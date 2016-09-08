@@ -48,6 +48,7 @@ module.exports = {
     new webpack.DefinePlugin({
       customisation: {
         orgName: JSON.stringify(process.env.ORG_NAME || 'Rabble Rouser'),
+        skin: JSON.stringify(process.env.SKIN || 'default_skin'),
       },
     }),
   ],
