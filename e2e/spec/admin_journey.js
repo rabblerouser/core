@@ -42,9 +42,9 @@ const adminTriesToLoginWithWrongPassword = {
   description: 'I should not be able to login with the wrong credentials',
   testRun: test => {
     startAtLogin()
-    .then(() => test.assertEquals(title(), 'Login', 'I am on the login page'))
+    .then(() => test.assertEquals(title(), 'Rabble Rouser - Login', 'I am on the login page'))
     .then(() => login('orgnsr@thebranch.org', 'bad password'))
-    .then(() => test.assertEquals(title(), 'Login', 'I am on the login page'));
+    .then(() => test.assertEquals(title(), 'Rabble Rouser - Login', 'I am on the login page'));
   },
 };
 
@@ -58,9 +58,9 @@ const adminLogsInAndOut = {
   description: 'As an admin I should be able to login',
   testRun: test => {
     adminLogin()
-    .then(() => test.assertEquals(title(), 'Rabble Rouser Admin', 'I am on the admin page'))
+    .then(() => test.assertEquals(title(), 'Rabble Rouser - Admin', 'I am on the admin page'))
     .then(clickLogout)
-    .then(() => test.assertEquals(title(), 'Login', 'I am on the login page'));
+    .then(() => test.assertEquals(title(), 'Rabble Rouser - Login', 'I am on the login page'));
   },
 };
 
