@@ -45,7 +45,7 @@
     "moment": "^2.13.0",
     "node-bourbon": "^4.2.8",
     "node-neat": "^1.7.2",
-    "node-sass": "^3.7.0",
+    "node-sass": "^3.9.0",
     "q": "^1.4.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
