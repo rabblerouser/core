@@ -1,5 +1,5 @@
 ---
-nodejs_version: '4.x'
+nodejs_version: '6.x'
 locale: 'en_AU.UTF-8'
 db_names:
   - lab-assistant
