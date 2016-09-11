@@ -1,4 +1,4 @@
-- name: install postgres 9.3
+- name: install postgres 9.5
   yum: name=postgresql-server
 
 - name: install psycopg2
