@@ -2,7 +2,7 @@
   sudo: yes
   roles:
     - { role: common }
-    - { role: nodesource.node }
+    - { role: geerlingguy.nodejs }
     - { role: sendmail}
     - { role: postgres, db_names: ["lab-assistant", "lab-assistant_test"] }
     - { role: vagrant }
