@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const neat = require('node-neat').includePaths;
+const sassPaths = require('node-neat').includePaths.map(sassPath => `includePaths[]=${sassPath}`).join('&');
 
 module.exports = {
   entry: {
@@ -23,7 +23,7 @@ module.exports = {
     loaders: [
       {
         test: /\.s?css$/,
-        loader: ExtractTextPlugin.extract('style-loader', `css?sourceMap!sass?sourceMap&includePaths[]=${neat}`),
+        loader: ExtractTextPlugin.extract('style-loader', `css?sourceMap!sass?sourceMap&${sassPaths}`),
       },
       {
         test: /\.svg/,
