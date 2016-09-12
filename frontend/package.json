@@ -74,6 +74,6 @@
     "phantomjs-prebuilt": "^2.1.7",
     "react-addons-test-utils": "^15.2.1",
     "sinon": "^1.17.3",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.15.1"
   }
 }
