@@ -1,7 +1,7 @@
 @import 'bourbon';
+@import '~bourbon-neat';
 @import 'base/base';
 @import 'partials/layout';
-@import '~bourbon-neat/app/assets/stylesheets/_neat.scss';
 @import 'partials/local-variables';
 @import 'partials/form';
 @import 'partials/progressbar';
@@ -13,7 +13,3 @@ div.container {
   @include outer-container(100%);
   font-family: 'Noto Sans', sans-serif;
 }
-
-
-
-
