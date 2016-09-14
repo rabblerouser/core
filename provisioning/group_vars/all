@@ -2,8 +2,8 @@
 nodejs_version: '4.x'
 locale: 'en_AU.UTF-8'
 db_names:
-  - lab-assistant
-db_user: lab-assistant
-db_password: lab-assistant
+  - rabble_rouser_core_db
+db_user: rabble_rouser
+db_password: rabble_rouser
 db_host: 127.0.0.1
 db_port: 5432

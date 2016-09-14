@@ -1,16 +1,16 @@
 {
   "development": {
-    "username": "lab-assistant",
-    "password": "lab-assistant",
-    "database": "lab-assistant",
+    "username": "rabble_rouser",
+    "password": "rabble_rouser",
+    "database": "rabble_rouser_core_db",
     "host": "127.0.0.1",
     "dialect": "postgresql",
     "logging": false
   },
   "test": {
-    "username": "lab-assistant",
-    "password": "lab-assistant",
-    "database": "lab-assistant_test",
+    "username": "rabble_rouser",
+    "password": "rabble_rouser",
+    "database": "rabble_rouser_core_db_test",
     "host": "127.0.0.1",
     "dialect": "postgresql",
     "logging": false

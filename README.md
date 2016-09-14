@@ -174,6 +174,6 @@ At the moment, this is done using environment variables. The table below describ
 
 0. curl -o db/dumps/latest.dump `heroku pg:backups public-url`
 
-0. (in the VM) pg_restore --verbose --clean --no-acl --no-owner -h localhost -U lab-assistant -d lab-assistant db/dumps/latest.dump
+0. (in the VM) pg_restore --verbose --clean --no-acl --no-owner -h localhost -U rabble_rouser -d rabble_rouser_core_db db/dumps/latest.dump
 
 Happy hacking!

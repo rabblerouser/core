@@ -1,10 +1,10 @@
 ---
 repo_url: https://github.com/rabblerouser/rabblerouser-core.git
 git_sha: HEAD
-app_path: /opt/lab-assistant
-app_user: lab-assistant
-logs_dir: /var/log/lab-assistant
-pids_dir: /var/run/lab-assistant
+app_path: /opt/rabble-rouser-core
+app_user: rabble-rouser
+logs_dir: /var/log/rabble-rouser-core
+pids_dir: /var/run/rabble-rouser-core
 node_env: development
 db_password: secret
 session_secret: "i'm a secret teapot"
