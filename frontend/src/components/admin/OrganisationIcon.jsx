@@ -2,7 +2,7 @@ import React from 'react';
 
 const OrganisationIcon = () => (
   <span>
-    <img src={`/images/${customisation.skin}/logo_header.svg`} alt={customisation.orgName} />
+    <img src={`/images/${customisation.skin}/logo_header.png`} alt={customisation.orgName} />
   </span>
 );
 
