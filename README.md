@@ -63,12 +63,23 @@ Rabble Rouser supports the following e-mailing tools:
 
 ### Gmail
 
+0. Set the email.transporter setting (in default.json) to **'gmail'**
+
 0. Create an [Application Password](https://www.google.com/settings/security/lesssecureapps) trough your Google Account (Go [here](https://security.google.com/settings/security/apppasswords) if you have 2 factor Authentication enabled)
 
 0. Add EMAIL_USERNAME="your_email@gmail.com" EMAIL_PASSWORD="the password generated in the previous step" to environment vars
 
 0. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/  staging.json`, `config/production.json`)
 
+### MailGun
+
+0. Set the email.transporter setting (in default.json) to **'mailgun'**
+
+0. In your [control panel](https://mailgun.com/cp) check the Default SMTP Login and Default Password for your domain.
+
+0. Create the following env vars: EMAIL_USERNAME="Default SMTP Login" EMAIL_PASSWORD="Default Password"
+
+0. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/  staging.json`, `config/production.json`)
 
 ## To sign in as an administrator
 
