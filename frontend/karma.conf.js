@@ -3,7 +3,7 @@ const webpack = require('webpack');
 module.exports = config => {
   config.set({
     autowatch: true,
-    browsers: ['PhantomJS'],
+    browsers: ['jsdom'],
     frameworks: ['jasmine', 'sinon'],
     files: [
       { pattern: 'src/testIndex.js' },

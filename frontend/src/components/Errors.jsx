@@ -10,7 +10,10 @@ class Errors extends Component {
 
   componentDidUpdate() {
     if (this.props.scrollToError) {
-      ReactDOM.findDOMNode(this).scrollIntoView(false);
+      const domNode = ReactDOM.findDOMNode(this);
+      if (domNode.scrollIntoView) { // temporary, because jsdom does not support it yet
+        domNode.scrollIntoView(false);
+      }
     }
   }
 
