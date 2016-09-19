@@ -1,4 +1,4 @@
-import { ApplicationFormFieldLabels as Labels } from '../../config/strings.js';
+import { ApplicationFormFieldLabels as Labels } from '../../../config/strings.js';
 import React from 'react';
 import InlineError from './InlineError';
 

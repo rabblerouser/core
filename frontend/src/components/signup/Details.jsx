@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Errors from './Errors';
-import NewMemberFields from './form/NewMemberFields';
-import applicationValidator from '../services/applicationValidator';
-import { ApplicationForm as Strings, FormValidationErrors as ErrorStrings, Resources } from '../config/strings.js';
-import branchService from '../services/branchService';
-import memberAdapter from '../adapters/memberAdapter';
+import NewMemberFields from './NewMemberFields';
+import applicationValidator from '../../services/applicationValidator';
+import { ApplicationForm as Strings, FormValidationErrors as ErrorStrings, Resources } from '../../config/strings.js';
+import branchService from '../../services/branchService';
+import memberAdapter from '../../adapters/memberAdapter';
 
 export default class Details extends Component {
   constructor(props) {

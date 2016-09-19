@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormValidationErrors as Errors } from '../../config/strings.js';
+import { FormValidationErrors as Errors } from '../../../config/strings.js';
 
 const InlineError = props => (
   <span className="invalid">

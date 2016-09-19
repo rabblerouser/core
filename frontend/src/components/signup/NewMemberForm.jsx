@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import Details from './Details';
 import ProgressBar from './ProgressBar';
 import Finished from './Finished';
-import { ApplicationForm, Resources } from '../config/strings';
-import ajax from '../services/ajax';
+import { ApplicationForm, Resources } from '../../config/strings';
+import ajax from '../../services/ajax';
 
 export default class NewMemberForm extends Component {
   constructor(props) {

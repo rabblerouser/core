@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import FormFieldLabel from '../../form/FormFieldLabel';
+import FormFieldLabel from '../../common/forms/FormFieldLabel';
 import GroupCheckboxes from './GroupCheckboxes';
 import moment from 'moment';
 

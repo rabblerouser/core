@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import NewMemberForm from '../NewMemberForm';
 
-import windowLocationUtil from '../../lib/windowLocationUtil.js';
+import windowLocationUtil from '../../../lib/windowLocationUtil.js';
 
 describe('NewMemberForm', () => {
   it('should exist', () => {

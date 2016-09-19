@@ -1,6 +1,6 @@
 import React from 'react';
-import FormFieldLabel from '../../../components/form/FormFieldLabel';
-import { ApplicationFormFieldLabels as Labels } from '../../../config/strings.js';
+import FormFieldLabel from '../FormFieldLabel';
+import { ApplicationFormFieldLabels as Labels } from '../../../../config/strings.js';
 import { shallow } from 'enzyme';
 
 describe('FormFieldLabel', () => {

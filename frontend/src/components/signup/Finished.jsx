@@ -1,5 +1,5 @@
 import React from 'react';
-import { Resources } from '../config/strings';
+import { Resources } from '../../config/strings';
 
 const Finished = props => (
   <section>

@@ -1,5 +1,5 @@
 import React from 'react';
-import InlineError from '../../../components/form/InlineError';
+import InlineError from '../InlineError';
 import { shallow } from 'enzyme';
 
 describe('InlineError', () => {
