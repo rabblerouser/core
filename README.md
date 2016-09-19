@@ -8,56 +8,140 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 ## First-time setup
 
-0. Install [VirtualBox](https://www.virtualbox.org/)
-0. Install [Vagrant](https://www.vagrantup.com/downloads.html)
-0. Install [Ansible](https://docs.ansible.com/ansible/intro_installation.html)
+0. Install [VirtualBox](https://www.virtualbox.org/), [Vagrant](https://www.vagrantup.com/downloads.html), and [Ansible](https://docs.ansible.com/ansible/intro_installation.html)
 0. Clone the project
 
         git clone https://github.com/rabblerouser/rabblerouser-core.git
 
-0. Go to the project's folder
+0. Start the Vagrant VM and log into it
 
         cd rabblerouser-core
-
-0. Start the Vagrant VM
-
-        vagrant up && vagrant provision
-
-0. Log onto the VM
-
+        vagrant up
         vagrant ssh
 
-0. Find the project files
-
-        cd /vagrant
-
-0. Install dependencies
+0. Install project dependencies and compile the frontend assets
 
         npm install
 
-0. Run the tests
+0. Run the tests (backend & frontend)
 
         npm test
 
-0. Start the server
-
-        npm start
-
-0. Clear and seed the local database for dev and e2e testing
+0. Seed the local database and start the app
 
         npm run seed
+        npm start
 
-0. Run the e2e tests (With the server running)
+0. Run the e2e tests (With the server still running - you may need to open another tab and `vagrant ssh` again.)
 
         npm run e2e
 
-0. Precommit - runs tests and e2e
+0. Verify that the app works:
+  0. Register a new member at `http://localhost:3000`
+  0. Log in at `http://localhost:3000/login`, with `admin@rr.com`/`apassword`
+
+Later on you can run all tests (frontend, backend, and e2e) in one go with:
 
         npm run precommit
 
-0. Verify that the app works - Point your browser at http://localhost:3000
+For the optional email configuration step, see near the bottom of this document.
 
-## Email configuration [Optional]
+## Understanding this repository
+
+This repository is split into these sub-directories:
+
+ * `backend`: The backend node.js API
+ * `bin`: Utility scripts, mostly for build/deploy tasks
+ * `e2e`: End-to-end tests built with casperjs
+ * `frontend`: The frontend React.js webapp
+ * `provisioning`: Ansible scripts for environment setup (local and deployed)
+
+The frontend, backend, and E2E tests are all written in JavaScript, so each one has a `package.json` file for
+dependencies and tasks. There is also another `package.json` at the top-level of the repo, which mainly orchestrates the
+tasks contained within the sub-projects.
+
+The following sections assume that you've done the first time setup above.
+
+## *"I want to work on the backend"*
+### Automated testing workflow:
+
+1. Make your changes
+2. From the backend directory: `npm test`
+3. Goto #1
+
+###Manual testing workflow:
+
+1. From the root directory: `npm run build && npm start`
+2. Make your changes
+3. Point your browser at `http://localhost:3000`
+4. Goto #2
+
+Note: Some specific files, such as the routes, may require a full restart. In this case, start from step 1 again. This is
+also the case if you happen to change any frontend code during this process.
+
+## *"I want to work on the frontend (javascript or styles)"*
+###Automated testing workflow:
+
+1. Make your changes
+2. From the frontend directory: `npm test`
+3. Goto #1
+
+###Manual testing workflow:
+
+1. `cd /vagrant/backend && npm start`
+2. `cd /vagrant/frontend && npm start`
+3. Make your changes
+4. Point your browser at `http://localhost:8080`, and wait for the changes to hot-reload.
+5. Goto #3
+
+## Linting
+
+We use ESLint to maintain a consistent style and detect common sources of bugs, and this is run as part of the build system. To run ESLint just do `npm run lint` in one of the frontend, backend, or e2e directories.
+
+To lint just a specific file or directory:
+
+    ./node_modules/.bin/eslint --ext js,jsx src/path/to/file
+
+You can even add `--fix` to the end of that command to automatically fix things like whitespace errors.
+
+If you're not sure how to fix an ESLint error, you can look up the docs for specific rules using a URL like: http://eslint.org/docs/rules/arrow-parens. In this case, `arrow-parens` is the name of the rule.
+
+We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) (slightly modified), which encourages use of many ES6 features. If you're not up to speed on ES6, this reference may come in handy: http://es6-features.org/.
+
+## Backend utility scripts
+
+These should all be run from the `backend` directory.
+
+* Migrate the database (run automatically as part and npm start or npm test)
+
+        ./node_modules/sequelize-cli/bin/sequelize db:migrate
+
+* Create a new migration
+
+        ./node_modules/sequelize-cli/bin/sequelize migration:create --config config/db.json --name <migration_name>
+
+* Create an admin user for your local dev environment:
+
+        npm run dev:createSuperAdmin
+
+* Create an admin user for the production environment:
+
+        npm run createSuperAdmin
+
+## Customising the app for your organisation
+
+At the moment, this is done using environment variables. The table below describes the use of these environment variables. At the moment, everything is optional, and a default theme will be provided if none is given.
+
+| Variable | Description                                                                         | Used when...                                |
+|----------|-------------------------------------------------------------------------------------|---------------------------------------------|
+| ORG_NAME | The name of the organisation that members are registering for.                      | compiling the frontend                      |
+| SKIN     | The directory under `frontend/public/images` from where logos etc should be loaded. | compiling the frontend, running the backend |
+
+* "compiling the frontend" means `npm run build`, or `cd frontend && npm start`.
+* "running the backend" means `npm start` or `cd backend && npm start`.
+
+
+## Email configuration
 
 Rabble Rouser supports the following e-mailing tools:
 
@@ -81,105 +165,7 @@ Rabble Rouser supports the following e-mailing tools:
 
 0. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/  staging.json`, `config/production.json`)
 
-## To sign in as an administrator
-
-0. Create an administrator by running the creation task in your dev environment:
-
-    `cd backend && npm run dev:createSuperAdmin`
-
-0. Follow the script's instructions to setup create an admin user
-
-0. Go to [http://localhost:3000/dashboard/admin](http://localhost:3000/dashboard/admin)
-
-0. Sign in with the credentials you just created
-
-## Understanding this repository
-
-This repository is split into the following directories:
-
- * `backend`: The backend node.js API
- * `bin`: Utility scripts, mostly for build/deploy tasks
- * `e2e`: End-to-end tests built with casperjs
- * `frontend`: The frontend React.js webapp
- * `provisioning`: Ansible scripts for environment setup (local and deployed)
-
-Because the frontend, backend, and E2E tests are all written in JavaScript, each one has its own `package.json` file for
-dependencies and tasks. There is also another `package.json` at the top-level of the repo, which simply orchestrates the
-tasks contained within the sub-projects.
-
-The following sections assume that you've done the first time setup above.
-
-### I want to work on the backend
-**Automated testing workflow:**
-
-1. Make your changes
-2. From the backend directory: `npm test`
-3. Goto #1
-
-**Manual testing workflow:**
-
-1. From the root directory: `npm run build && npm start`
-2. Make your changes
-3. Point your browser at `http://localhost:3000`
-4. Goto #2
-
-Note: If you happen to change frontend code during this process, you'll need to do `npm run build` from the root again.
-
-### I want to work on the frontend (javascript or styles)
-**Automated testing workflow:**
-
-1. Make your changes
-2. From the frontend directory: `npm test`
-3. Goto #1
-
-**Manual testing workflow:**
-
-1. `cd /vagrant/backend && npm start`
-2. `cd /vagrant/frontend && npm start`
-3. Make your changes
-4. Point your browser at `http://localhost:8080`
-5. Goto #3
-
-### Linting
-
-We use ESLint to enforce a consistent style across the project. Linting of the frontend code is already part of the build, and the backend will be soon as well. To run ESLint just do `npm run lint` in one of the frontend, backend, or e2e directories.
-
-To lint just a specific file or directory:
-
-    ./node_modules/.bin/eslint --ext js,jsx src/path/to/file
-
-If you're not sure how to fix an ESLint error, you can look up the docs for specific rules using a URL like: http://eslint.org/docs/rules/arrow-parens. In this case, `arrow-parens` is the name of the rule.
-
-We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) (slightly modified), which encourages use of many ES6 features. If you're not up to speed on ES6, this reference may come in handy: http://es6-features.org/.
-
-### Utility scripts
-
-0. Migrate the database (run automatically as part and npm start or npm test)
-
-        ./node_modules/sequelize-cli/bin/sequelize db:migrate
-
-0. Create a new migration
-
-        ./node_modules/sequelize-cli/bin/sequelize migration:create --config config/db.json --name <migration_name>
-
-
-0. Create an admin user to access the organiser views
-
-        npm run createSuperAdmin
-
-### Customising the app for your organisation
-
-At the moment, this is done using environment variables. The table below describes the use of these environment variables. At the moment, everything is optional, and a default theme will be provided if none is given.
-
-| Variable | Description                                                                         | Used when...                                |
-|----------|-------------------------------------------------------------------------------------|---------------------------------------------|
-| ORG_NAME | The name of the organisation that members are registering for.                      | compiling the frontend                      |
-| SKIN     | The directory under `frontend/public/images` from where logos etc should be loaded. | compiling the frontend, running the backend |
-
-* "compiling the frontend" means `npm run build`, or `cd frontend && npm start`.
-* "running the backend" means `npm start` or `cd backend && npm start`.
-
-### Pull a copy of the staging database from Heroku
+## Pull a copy of the staging database from Heroku
 
 0. heroku pg:backups capture --app <app_name>
 
