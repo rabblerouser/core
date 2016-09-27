@@ -11,6 +11,7 @@ describe('InputField', () => {
         <InputField
           input={{ name: 'email-field', value: 'some value' }}
           label="Enter your email"
+          placeholder="Email"
           type="email"
           id="some-id"
           meta={{ touched: false, error: '' }}
@@ -22,7 +23,8 @@ describe('InputField', () => {
         id="some-id"
         name="email-field"
         value="some value"
-        placeholder="Enter your email" type="email"
+        placeholder="Email"
+        type="email"
       />);
       expect(rendered.containsMatchingElement(expected)).toEqual(true);
     });

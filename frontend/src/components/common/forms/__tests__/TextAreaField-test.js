@@ -13,6 +13,7 @@ describe('TextAreaField', () => {
           label="Enter your email"
           id="some-id"
           meta={{ touched: false, error: '' }}
+          placeholder="Email"
         />);
     });
 
@@ -21,7 +22,7 @@ describe('TextAreaField', () => {
         id="some-id"
         name="email-field"
         value="some value"
-        placeholder="Enter your email"
+        placeholder="Email"
       />);
       expect(rendered.containsMatchingElement(expected)).toEqual(true);
     });

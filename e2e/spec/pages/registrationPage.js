@@ -6,12 +6,11 @@ import { navigateTo,
 } from './common';
 
 export const startAtRegister = () => navigateTo('/');
-export const enterContactNumber = text => inputById('contactNumber', text);
-export const enterMemberName = text => inputById('memberName', text);
-export const enterMemberLastName = text => inputById('memberLastName', text);
-export const enterContactEmail = text => inputById('contactEmail', text);
+export const enterContactNumber = text => inputById('primaryPhoneNumber', text);
+export const enterMemberName = text => inputById('firstName', text);
+export const enterMemberLastName = text => inputById('lastName', text);
+export const enterContactEmail = text => inputById('email', text);
 export const enterAdditionalInfo = text => inputById('additionalInfo', text);
-export const selectBranch = selection => selectOptionById('branchSelection', selection);
+export const selectBranch = selection => selectOptionById('branchId', selection);
 export const clickRegister = () => buttonPressByText('Register');
 export const visibleProgressMessage = () => innerTextByClass('form-title');
-export const visibleValidationErrors = () => innerTextByClass('validationErrors');
