@@ -20,24 +20,30 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
   <section>
     <form onSubmit={handleSubmit}>
       <FormHeader />
-      <div>
-        <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />
-        <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" />
-        <Field component={InputField} id="email" name="email" label="Email address" type="text" />
-        <Field
-          component={InputField}
-          id="primaryPhoneNumber"
-          name="primaryPhoneNumber"
-          label="Contact number"
-          type="text"
-        />
-        <Field component={TextAreaField} id="additionalInfo" name="additionalInfo" label="Additional information" />
-        <Field component={SelectField} id="branchId" name="branchId" label="Branch to join">
-          {
-            branches.map(branch => (<option key={branch.id} value={branch.id}>{branch.name}</option>))
+      <div className="form-body">
+        <div className="field-group">
+          <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />
+          <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" />
+          <Field component={InputField} id="email" name="email" label="Email address" type="text" />
+          <Field
+            component={InputField}
+            id="primaryPhoneNumber"
+            name="primaryPhoneNumber"
+            label="Contact number"
+            type="text"
+          />
+          {branches.length > 1 &&
+            <Field component={SelectField} id="branchId" name="branchId" label="Branch to join">
+            {
+              branches.map(branch => (<option key={branch.id} value={branch.id}>{branch.name}</option>))
+            }
+            </Field>
           }
-        </Field>
-        <RegisterButton>Register</RegisterButton>
+          <Field component={TextAreaField} id="additionalInfo" name="additionalInfo" label="Additional information" />
+        </div>
+        <div className="navigation">
+          <RegisterButton>Register</RegisterButton>
+        </div>
       </div>
     </form>
   </section>

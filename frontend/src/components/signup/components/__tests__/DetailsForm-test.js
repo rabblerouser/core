@@ -10,6 +10,12 @@ describe('DetailsForm', () => {
     expect(rendered.find('form').props().onSubmit).toEqual(handleSubmit);
   });
 
+  it('doesn\'t render the branches if there\'s only one', () => {
+    const branches = [{ id: 'B1', name: 'branch1' }];
+    const rendered = shallow(<DetailsForm handleSubmit={() => {}} branches={branches} />);
+    expect(rendered.find('option').length).toEqual(0);
+  });
+
   it('renders an option for each provided branch', () => {
     const branches = [{ id: 'B1', name: 'branch1' }, { id: 'B2', name: 'branch2' }];
     const rendered = shallow(<DetailsForm handleSubmit={() => {}} branches={branches} />);
