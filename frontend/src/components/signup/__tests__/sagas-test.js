@@ -50,7 +50,7 @@ describe('branch sagas', () => {
       const reportsServerError = put(pageError('There was an error saving your changes'));
       const callsFailureCallback = call(onFailure);
 
-      const iterator = registerMember({ member: {}, onFailure });
+      const iterator = registerMember({ payload: { member: {}, onFailure } });
       iterator.next();
       expect(iterator.throw().value).toEqual(reportsServerError);
       expect(iterator.next().value).toEqual(callsFailureCallback);
@@ -63,7 +63,7 @@ describe('branch sagas', () => {
       const dispatchesRegisterSuccess = put(registerSuccess());
       const callsSuccessCallback = call(onSuccess);
 
-      const iterator = registerMember({ member: { name: 'person' }, onSuccess });
+      const iterator = registerMember({ payload: { member: { name: 'person' }, onSuccess } });
       expect(iterator.next().value).toEqual(clearsAnyErrors);
       expect(iterator.next().value).toEqual(requestsRegister);
       expect(iterator.next().value).toEqual(dispatchesRegisterSuccess);

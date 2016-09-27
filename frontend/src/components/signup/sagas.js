@@ -20,7 +20,8 @@ export function* fetchBranchList() {
   }
 }
 
-export function* registerMember({ member, onSuccess, onFailure }) {
+export function* registerMember({ payload }) {
+  const { member, onSuccess, onFailure } = payload;
   try {
     yield put(clearPageError());
     yield call(register, member);
@@ -37,7 +38,7 @@ export function* watchBranchListRequest() {
 }
 
 export function* watchRegisterRequest() {
-  yield* takeLatest(REGISTER_REQUESTED, registerMember, registerMember.payload);
+  yield* takeLatest(REGISTER_REQUESTED, registerMember);
 }
 
 export default function* rootSaga() {

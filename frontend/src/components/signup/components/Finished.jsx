@@ -1,7 +1,7 @@
 import React from 'react';
-import { resources } from '../strings';
+import { urls } from '../strings';
 
-export const Finished = ({ homeUrl = resources.homePage }) => (
+export const Finished = ({ homeUrl = urls.homePage }) => (
   <section>
     <h1 className="form-title">Finish</h1>
     <div className="form-body">
