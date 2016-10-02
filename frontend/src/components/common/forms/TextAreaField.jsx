@@ -5,7 +5,7 @@ const TextAreaField = ({ input, label, placeholder, optional, id, meta: { touche
   const classNames = () => {
     const isErrored = (touched && error) ? 'invalid' : '';
     const isOptional = optional ? 'optional' : '';
-    return `${isErrored} ${isOptional}`;
+    return `${isErrored} ${isOptional}`.trim();
   };
 
   return (

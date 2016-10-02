@@ -5,7 +5,7 @@ const InputField = ({ input, label, placeholder, type, optional, id, meta: { tou
   const classNames = () => {
     const isErrored = (touched && error) ? 'invalid' : '';
     const isOptional = optional ? 'optional' : '';
-    return `${isErrored} ${isOptional}`;
+    return `${isErrored} ${isOptional}`.trim();
   };
 
   return (
