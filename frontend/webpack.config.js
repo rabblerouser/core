@@ -4,8 +4,8 @@ const sassPaths = require('node-neat').includePaths.map(sassPath => `includePath
 
 module.exports = {
   entry: {
-    signupApp: ['babel-polyfill', `${__dirname}/src/components/SignupApp.jsx`],
-    adminApp: ['babel-polyfill', `${__dirname}/src/components/AdminApp.jsx`],
+    signupApp: ['babel-polyfill', `${__dirname}/src/signup/SignupApp.jsx`],
+    adminApp: ['babel-polyfill', `${__dirname}/src/admin/AdminApp.jsx`],
   },
   output: {
     path: `${__dirname}/public/javascript`,
