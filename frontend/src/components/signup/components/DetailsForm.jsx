@@ -26,6 +26,7 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
           <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" />
           <Field component={InputField} id="email" name="email" label="Email address" type="text" />
           <Field
+            optional
             component={InputField}
             id="primaryPhoneNumber"
             name="primaryPhoneNumber"
@@ -39,7 +40,13 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
             }
             </Field>
           }
-          <Field component={TextAreaField} id="additionalInfo" name="additionalInfo" label="Additional information" />
+          <Field
+            component={TextAreaField}
+            optional
+            id="additionalInfo"
+            name="additionalInfo"
+            label="Additional information"
+          />
         </div>
         <div className="navigation">
           <RegisterButton>Register</RegisterButton>
