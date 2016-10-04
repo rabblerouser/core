@@ -1,5 +1,6 @@
 import React from 'react';
 import { DetailsForm } from '../DetailsForm';
+import { AddressFields } from '../AddressFields';
 import { shallow } from 'enzyme';
 
 describe('DetailsForm', () => {
@@ -28,5 +29,10 @@ describe('DetailsForm', () => {
     const firstOption = rendered.find('option').first();
     expect(firstOption.props().value).toEqual('B1');
     expect(firstOption.contains('branch1')).toEqual(true);
+  });
+
+  it('renders residential address fields when address is enabled', () => {
+    const rendered = shallow(<DetailsForm handleSubmit={() => {}} branches={[]} addressEnabled />);
+    expect(rendered.find('AddressFields').length).toEqual(1);
   });
 });

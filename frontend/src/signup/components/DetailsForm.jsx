@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { InputField, TextAreaField, SelectField } from './forms';
 import RegisterButton from './RegisterButton';
 import FormHeader from './FormHeader';
+import AddressFields from './AddressFields';
 
 import { getBranches } from '../reducers';
 import { registerRequested } from '../actions';
@@ -33,6 +34,7 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
             label="Contact number"
             type="text"
           />
+          <AddressFields />
           {branches.length > 1 &&
             <Field component={SelectField} id="branchId" name="branchId" label="Branch to join">
             {
