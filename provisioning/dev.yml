@@ -3,6 +3,7 @@
   roles:
     - { role: common }
     - { role: geerlingguy.nodejs }
+    - { role: geerlingguy.java }
     - { role: sendmail}
     - { role: postgres, db_names: ["rabble_rouser_core_db", "rabble_rouser_core_db_test"] }
     - { role: vagrant }

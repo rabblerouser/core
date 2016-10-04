@@ -4,14 +4,13 @@ End to end tests for Rabble Rouser - A pluggable, extensible membership database
 
 ## Tech
 
- * Webpack + Babel
- * Casperjs
+ * Nightwatch + Phantomjs driver
 
 ## Running the tests
 
-`npm e2e`
+`npm test`
 
-This will also run the prep-data task which sets up the backend with required data before kicking off the tests.
+Ensure the web server has been been started before running the tests.
 
 ## Linting
 
