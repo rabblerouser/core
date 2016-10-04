@@ -2,7 +2,7 @@ module.exports = {
   'Registration tests' :  client => {
     const signup = client.page.signup();
     signup.navigate().assert.title('Sign Up');
-    signup.expect.section('@registration').to.be.visible;
+    signup.expect.section('@registration').to.be.visible.after(1000);
     const registration = signup.section.registration;
 
     registration.expect.element('@firstName').to.be.visible.after(1000);
