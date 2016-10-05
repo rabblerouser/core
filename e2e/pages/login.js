@@ -8,7 +8,14 @@ module.exports = {
         password: 'input#password',
         submitButton: 'input[type=submit]'
       },
-      commands: [{ submit: context => context.click('@submitButton') }]
+      commands: [
+        {
+          submit: function() {
+            this.click('@submitButton');
+            this.api.pause(2000);
+          }
+        }
+      ]
     }
   }
 };

@@ -4,7 +4,14 @@ module.exports = {
     header: {
       selector: 'header.admin-header',
       elements: { logoutButton: 'button.logout' },
-      commands: [{ logout: context => context.click('@logoutButton') }]
+      commands: [
+        {
+          logout: function() {
+            this.click('@logoutButton');
+            this.api.pause(2000);
+          }
+        }
+      ]
     },
     branches: {
       selector: 'section#branchDetails'

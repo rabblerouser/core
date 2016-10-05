@@ -21,6 +21,9 @@
         "enabled" : true,
         "path" : "screenshots"
       },
+      "globals" : {
+        "waitForConditionTimeout" : 2000
+      },
       "desiredCapabilities": {
         "browserName": "phantomjs",
         "marionette": true

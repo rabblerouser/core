@@ -11,7 +11,14 @@ module.exports = {
         additionalInfo: 'textarea#additionalInfo',
         submitButton: 'button[type=submit]'
       },
-      commands: [{ submit: context => context.click('@submitButton') }]
+      commands: [
+        {
+          submit: function() {
+            this.click('@submitButton');
+            this.api.pause(2000);
+          }
+        }
+      ]
     },
     finished: {
       selector: 'section',
