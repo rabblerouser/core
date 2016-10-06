@@ -103,11 +103,17 @@ function list(branchId) {
   }
 
   const query = {
-    include: [{
-      model: Group,
-      as: 'groups',
-      through: { attributes: ['name'] },
-    }],
+    include: [
+      {
+        model: Group,
+        as: 'groups',
+        through: { attributes: ['name'] },
+      },
+      {
+        model: Address,
+        as: 'postalAddress',
+      },
+    ],
     attributes: [
       'id',
       'firstName',

@@ -356,28 +356,6 @@ describe('memberService', () => {
             .catch(done);
         });
 
-        it('it should return the list of groups for each member', (done) => {
-            Member.findAll
-                .returns(Promise.resolve(fakeMembersList(3)));
-
-            memberService.list('some-branch-id-1')
-            .then((result) => {
-                let sampleMember = sample(result);
-                expect(result.length).to.equal(3);
-
-                expect(sampleMember.branchId).to.equal('some-branch-id-1');
-                expect(sampleMember.id).to.not.be.null;
-                expect(sampleMember.email).to.not.be.null;
-                expect(sampleMember.firstName).to.not.be.null;
-                expect(sampleMember.lastName).to.not.be.null;
-                expect(sampleMember.primaryPhoneNumber).to.not.be.null;
-                expect(sampleMember.additionalInfo).to.not.be.null;
-                expect(sampleMember.pastoralNotes).to.not.be.null;
-            })
-            .then(done)
-            .catch(done);
-        });
-
         it('returns an empty list if there are no members associated with the branch', (done) => {
             Member.findAll.returns(Promise.resolve([]));
 

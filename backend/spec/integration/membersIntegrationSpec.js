@@ -32,6 +32,13 @@ function hasMembersList(res) {
     let response = res.body;
     expect(response.members).not.to.be.null;
     expect(response.members.length).to.equal(3);
+
+    let randomMember = sample(response.members);
+    expect(randomMember.postalAddress.address).not.to.be.null;
+    expect(randomMember.postalAddress.suburb).not.to.be.null;
+    expect(randomMember.postalAddress.city).not.to.be.null;
+    expect(randomMember.postalAddress.postcode).not.to.be.null;
+    expect(randomMember.postalAddress.country).not.to.be.null;
 }
 
 let getBranchId = (someAgent) => {
