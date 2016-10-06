@@ -49,7 +49,7 @@ module.exports = {
       customisation: {
         orgName: JSON.stringify(process.env.ORG_NAME || 'Rabble Rouser'),
         skin: JSON.stringify(process.env.SKIN || 'default_skin'),
-        addressEnabled: JSON.stringify(process.env.ADDRESS_ENABLED || false)
+        addressEnabled: JSON.stringify(process.env.ADDRESS_ENABLED || false),
       },
     }),
   ],

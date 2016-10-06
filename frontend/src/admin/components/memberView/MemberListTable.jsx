@@ -7,6 +7,7 @@ import moment from 'moment';
 const columns = [
   { type: 'name', field: 'memberName', label: 'Member name' },
   { type: 'name', field: 'contactNumber', label: 'Contact information' },
+  { type: 'name', field: 'postalAddress', label: 'Postal Address' },
   { type: 'name', field: 'memberSince', label: 'Member since' },
   { type: 'actions' },
 ];
@@ -15,10 +16,11 @@ function nullToBlank(input) {
   return input === null ? '' : input;
 }
 
-const mapFields = ({ memberName, memberLastName, contactNumber, contactEmail, memberSince }) => (
+const mapFields = ({ memberName, memberLastName, contactNumber, contactEmail, memberSince, streetAddress }) => (
   {
     memberName: `${memberName} ${nullToBlank(memberLastName)}`,
     contactNumber: `${contactNumber}\n${contactEmail}`,
+    addressDetails: `${streetAddress}`,
     memberSince: moment(memberSince).format('YYYY/MM/DD'),
   }
 );

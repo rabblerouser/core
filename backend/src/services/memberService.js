@@ -57,10 +57,14 @@ function getMemberAddresses(member) {
 
   if (member.residentialAddress) {
     memberAddresses.push(findOrCreateAddress(member.residentialAddress));
+  } else {
+    memberAddresses.push(null);
   }
 
   if (member.postalAddress) {
     memberAddresses.push(findOrCreateAddress(member.postalAddress));
+  } else {
+    memberAddresses.push(null);
   }
 
   return memberAddresses;

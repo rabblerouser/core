@@ -231,6 +231,22 @@ describe('memberService', () => {
             .catch(done);
         });
 
+        it('creates a new member with a postal address but no residential address', (done) => {
+            postalAddressPromise.resolve(fakePostalAddressFromDB());
+            branchPromise.resolve(fakeBranch());
+            memberPromise.resolve(fakeResultFromDbWhenSavingMember(null, fakePostalAddressId));
+
+            memberService.createMember(fakeNewMember(null, fakePostalAddress()))
+                .then(() => {
+                    expect(Member.create).to.have.been.calledWith(sinon.match({
+                        residentialAddressId: null,
+                        postalAddressId: fakePostalAddressId,
+                    }));
+                })
+                .then(done)
+                .catch(done);
+        });
+
         describe('things went bad', () => {
             it('handles error when retrieving the branch', (done) => {
                 branchPromise.reject('Some ERROR thrown by the branch service');
