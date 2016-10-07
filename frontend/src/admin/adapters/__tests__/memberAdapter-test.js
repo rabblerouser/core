@@ -1,8 +1,18 @@
 import memberAdapter from '../../adapters/memberAdapter.js';
 
 describe('member request adapter', () => {
-  describe('parseMembers', () => {
-    const validResult = [{
+  const completePostalAddress = () => (
+    {
+      address: '303 Collins St',
+      suburb: 'Melbourne',
+      state: 'Victoria',
+      postcode: '3000',
+      country: 'Australia',
+    }
+  );
+
+  const parsedMemberObjectBase = () => (
+    {
       id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
       memberName: 'Jo jo',
       memberLastName: 'The 3rd',
@@ -13,22 +23,54 @@ describe('member request adapter', () => {
       pastoralNotes: 'Some pastoral notes',
       groups: [{ id: 1, name: 'Group name' }],
       branchId: '1234',
-    }];
+    }
+  );
+
+  const parsedMemberWithPostalAddress = () => {
+    const parsedMember = parsedMemberObjectBase();
+    parsedMember.postalAddress = completePostalAddress();
+    return parsedMember;
+  };
+
+  const parsedMemberWithNullPostalAddress = () => {
+    const parsedMember = parsedMemberObjectBase();
+    parsedMember.postalAddress = null;
+    return parsedMember;
+  };
+
+  const payloadMemberObjectBase = () => (
+    {
+      id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
+      firstName: 'Jo jo',
+      lastName: 'The 3rd',
+      primaryPhoneNumber: '101010010',
+      email: 'jo@jo.com',
+      memberSince: '2016-03-08T22:34:23.721Z',
+      additionalInfo: 'Some additional info',
+      pastoralNotes: 'Some pastoral notes',
+      groups: [{ id: 1, name: 'Group name' }],
+      branchId: '1234',
+    }
+  );
+
+  const payloadMemberWithPostalAddress = () => {
+    const payloadMember = payloadMemberObjectBase();
+    payloadMember.postalAddress = completePostalAddress();
+    return payloadMember;
+  };
+
+  const payloadMemberWithNullPostalAddress = () => {
+    const payloadMember = payloadMemberObjectBase();
+    payloadMember.postalAddress = null;
+    return payloadMember;
+  };
+
+  describe('parseMembers', () => {
+    const validResult = [parsedMemberWithPostalAddress()];
 
     describe('when the payload is valid', () => {
       const validPayload = {
-        members: [{
-          id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-          firstName: 'Jo jo',
-          lastName: 'The 3rd',
-          primaryPhoneNumber: '101010010',
-          email: 'jo@jo.com',
-          memberSince: '2016-03-08T22:34:23.721Z',
-          additionalInfo: 'Some additional info',
-          pastoralNotes: 'Some pastoral notes',
-          groups: [{ id: 1, name: 'Group name' }],
-          branchId: '1234',
-        }],
+        members: [payloadMemberWithPostalAddress()],
       };
 
       it('should return an array of members', () => {
@@ -38,18 +80,7 @@ describe('member request adapter', () => {
 
     describe('when the payload is valid, but has additional values', () => {
       const validPayload = {
-        members: [{
-          id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-          firstName: 'Jo jo',
-          lastName: 'The 3rd',
-          primaryPhoneNumber: '101010010',
-          email: 'jo@jo.com',
-          memberSince: '2016-03-08T22:34:23.721Z',
-          additionalInfo: 'Some additional info',
-          pastoralNotes: 'Some pastoral notes',
-          groups: [{ id: 1, name: 'Group name' }],
-          branchId: '1234',
-        }],
+        members: [payloadMemberWithPostalAddress()],
         somethingElse: [],
       };
 
@@ -60,17 +91,7 @@ describe('member request adapter', () => {
 
     describe('when the payload is invalid', () => {
       [
-        {
-          id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-          firstName: 'Jo jo',
-          lastName: 'The 3rd',
-          primaryPhoneNumber: '101010010',
-          email: 'jo@jo.com',
-          memberSince: '2016-03-08T22:34:23.721Z',
-          additionalInfo: 'Some additional info',
-          groups: [{ id: 1, name: 'Group name' }],
-          branchId: '1234',
-        },
+        payloadMemberWithPostalAddress(),
         { members: {} },
         {},
         null,
@@ -85,57 +106,32 @@ describe('member request adapter', () => {
   });
 
   describe('parseMember', () => {
-    const validResult = {
-      id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-      memberName: 'Jo jo',
-      memberLastName: 'The 3rd',
-      contactNumber: '101010010',
-      contactEmail: 'jo@jo.com',
-      memberSince: '2016-03-08T22:34:23.721Z',
-      additionalInfo: 'Some additional info',
-      pastoralNotes: 'Some pastoral notes',
-      groups: [{ id: 1, name: 'Group name' }],
-      branchId: '1234',
-    };
+    const validResultWithAddress = parsedMemberWithPostalAddress();
 
     describe('when the payload is valid', () => {
-      const validPayload = {
-        id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-        firstName: 'Jo jo',
-        lastName: 'The 3rd',
-        primaryPhoneNumber: '101010010',
-        email: 'jo@jo.com',
-        memberSince: '2016-03-08T22:34:23.721Z',
-        additionalInfo: 'Some additional info',
-        pastoralNotes: 'Some pastoral notes',
-        groups: [{ id: 1, name: 'Group name' }],
-        branchId: '1234',
-      };
-
       it('should return a member object', () => {
-        expect(memberAdapter.parseMember(validPayload)).toEqual(validResult);
+        const computedResult = memberAdapter.parseMember(payloadMemberWithPostalAddress());
+        expect(computedResult).toEqual(validResultWithAddress);
       });
     });
 
     describe('when the payload is valid, but has additional values', () => {
-      const validPayloadWithExtras = {
-        id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-        firstName: 'Jo jo',
-        lastName: 'The 3rd',
-        primaryPhoneNumber: '101010010',
-        email: 'jo@jo.com',
-        memberSince: '2016-03-08T22:34:23.721Z',
-        additionalInfo: 'Some additional info',
-        pastoralNotes: 'Some pastoral notes',
-        groups: [{ id: 1, name: 'Group name' }],
-        branchId: '1234',
-        createdAt: '2016-03-13T08:17:37.037Z',
-        updatedAt: '2016-03-13T08:17:37.037Z',
-        deletedAt: null,
-      };
-
       it('should return a member object', () => {
-        expect(memberAdapter.parseMember(validPayloadWithExtras)).toEqual(validResult);
+        const validPayloadWithExtras = payloadMemberWithPostalAddress();
+        validPayloadWithExtras.postalAddress.id = 1;
+        validPayloadWithExtras.createdAt = '2016-03-13T08:17:37.037Z';
+        validPayloadWithExtras.updatedAt = '2016-03-13T08:17:37.037Z';
+        validPayloadWithExtras.deletedAt = null;
+
+        const computedResult = memberAdapter.parseMember(validPayloadWithExtras);
+        expect(computedResult).toEqual(validResultWithAddress);
+      });
+    });
+
+    describe('when postal address is null', () => {
+      it('should return a member object with null address', () => {
+        const computedResult = memberAdapter.parseMember(payloadMemberWithNullPostalAddress());
+        expect(computedResult).toEqual(parsedMemberWithNullPostalAddress());
       });
     });
   });

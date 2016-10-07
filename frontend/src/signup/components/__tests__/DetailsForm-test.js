@@ -1,6 +1,5 @@
 import React from 'react';
 import { DetailsForm } from '../DetailsForm';
-import { AddressFields } from '../AddressFields';
 import { shallow } from 'enzyme';
 
 describe('DetailsForm', () => {

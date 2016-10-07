@@ -7,6 +7,19 @@ const parseGroups = value => {
   return value;
 };
 
+const parsePostalAddress = postalAddress => {
+  if (!postalAddress) {
+    return postalAddress;
+  }
+  return {
+    address: postalAddress.address,
+    suburb: postalAddress.suburb,
+    state: postalAddress.state,
+    postcode: postalAddress.postcode,
+    country: postalAddress.country,
+  };
+};
+
 const parseMember = data => {
   if (!data) {
     throw invalidDataError;
@@ -17,6 +30,7 @@ const parseMember = data => {
     memberLastName: data.lastName,
     contactNumber: data.primaryPhoneNumber,
     contactEmail: data.email,
+    postalAddress: parsePostalAddress(data.postalAddress),
     memberSince: data.memberSince,
     additionalInfo: data.additionalInfo,
     groups: parseGroups(data.groups),
