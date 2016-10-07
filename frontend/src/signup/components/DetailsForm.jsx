@@ -17,7 +17,7 @@ const onSubmit = (member, dispatch) => (
 );
 
 export const DetailsForm = ({ handleSubmit, branches }) => (
-  <section>
+  <section id="details">
     <form onSubmit={handleSubmit}>
       <FormHeader />
       <div className="form-body">

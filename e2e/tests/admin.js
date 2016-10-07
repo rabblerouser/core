@@ -11,10 +11,10 @@ const signsIn = client => {
   form.setValue('@password', 'apassword');
   form.submit(form);
   form.expect.element('@submitButton').not.to.be.present;
-}
+};
 
 module.exports = {
-  'Admin tests' :  client => {
+  'Admin tests': client => {
     signsIn(client);
     const admin = client.page.admin();
     client.assert.title('Rabble Rouser - Admin');
@@ -30,5 +30,5 @@ module.exports = {
     header.logout();
     client.assert.title('Rabble Rouser - Login');
     client.end();
-  }
+  },
 };

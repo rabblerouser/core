@@ -4,7 +4,7 @@
   "description": "A pluggable, extensible membership database for community organising",
   "scripts": {
     "lint": "eslint .",
-    "test": "nightwatch",
+    "test": "TARGET_HOST=http://localhost:3000 CHROME_DRIVER_PATH=./node_modules/.bin/chromedriver nightwatch",
     "ci-test": "nightwatch"
   },
   "repository": {
@@ -17,6 +17,6 @@
   "homepage": "https://github.com/rabblerouser/rabblerouser-core#readme",
   "dependencies": {
     "nightwatch": "^0.9.8",
-    "phantomjs-prebuilt": "^2.1.12"
+    "chromedriver": "^2.24.1"
   }
 }

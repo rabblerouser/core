@@ -9,12 +9,14 @@ import { getPageError } from '../reducers';
 
 export const SignupPage = ({ pageError }) => (
   <main>
-    <div className="header">
-      <Logo />
-      <ProgressIndicator />
+    <div id="form" className="form-container">
+      <div className="header">
+        <Logo />
+        <ProgressIndicator />
+      </div>
+      {pageError && <PageError pageError={pageError} />}
+      <ProgressSteps />
     </div>
-    {pageError && <PageError pageError={pageError} />}
-    <ProgressSteps />
   </main>
 );
 

@@ -13,9 +13,7 @@ import '../admin/stylesheets/style.scss';
 
 const App = () => (
   <div className="container">
-    <div id="form" className="form-container">
-      <SignupPage />
-    </div>
+    <SignupPage />
   </div>
 );
 const sagaMiddleware = createSagaMiddleware();

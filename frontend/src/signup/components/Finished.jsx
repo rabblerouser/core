@@ -2,8 +2,10 @@ import React from 'react';
 import { urls } from '../strings';
 
 export const Finished = ({ homeUrl = urls.homePage }) => (
-  <section>
-    <h1 className="form-title">Finish</h1>
+  <section id="finished">
+    <header>
+      <h1 className="form-title">Finish</h1>
+    </header>
     <div className="form-body">
       <div className="heading">
         <h2 className="sub-title"> Thank you, we have received your details. </h2>

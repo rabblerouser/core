@@ -1,21 +1,21 @@
 module.exports = {
-  url: 'http://localhost:3000/login',
+  url: `${process.env.TARGET_HOST}/login`,
   sections: {
     form: {
       selector: 'form',
       elements: {
         email: 'input#email',
         password: 'input#password',
-        submitButton: 'input[type=submit]'
+        submitButton: 'input[type=submit]',
       },
       commands: [
         {
-          submit: function() {
+          submit: function submit() {
             this.click('@submitButton');
-            this.api.pause(2000);
-          }
-        }
-      ]
-    }
-  }
+            this.api.pause(1000);
+          },
+        },
+      ],
+    },
+  },
 };
