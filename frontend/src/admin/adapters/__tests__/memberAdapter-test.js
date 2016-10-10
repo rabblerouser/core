@@ -1,43 +1,50 @@
 import memberAdapter from '../../adapters/memberAdapter.js';
 
+const completePostalAddress = () => (
+  {
+    address: '303 Collins St',
+    suburb: 'Melbourne',
+    state: 'Victoria',
+    postcode: '3000',
+    country: 'Australia',
+  }
+);
+
+const parsedMemberObjectBase = () => (
+  {
+    id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
+    memberName: 'Jo jo',
+    memberLastName: 'The 3rd',
+    contactNumber: '101010010',
+    contactEmail: 'jo@jo.com',
+    memberSince: '2016-03-08T22:34:23.721Z',
+    additionalInfo: 'Some additional info',
+    pastoralNotes: 'Some pastoral notes',
+    groups: [{ id: 1, name: 'Group name' }],
+    branchId: '1234',
+  }
+);
+
+const parsedMemberWithPostalAddress = () => {
+  const parsedMember = parsedMemberObjectBase();
+  parsedMember.postalAddress = completePostalAddress();
+  return parsedMember;
+};
+
+const parsedMemberWithNullPostalAddress = () => {
+  const parsedMember = parsedMemberObjectBase();
+  parsedMember.postalAddress = null;
+  return parsedMember;
+};
+
+export {
+  completePostalAddress,
+  parsedMemberWithPostalAddress,
+  parsedMemberWithNullPostalAddress,
+};
+
+
 describe('member request adapter', () => {
-  const completePostalAddress = () => (
-    {
-      address: '303 Collins St',
-      suburb: 'Melbourne',
-      state: 'Victoria',
-      postcode: '3000',
-      country: 'Australia',
-    }
-  );
-
-  const parsedMemberObjectBase = () => (
-    {
-      id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-      memberName: 'Jo jo',
-      memberLastName: 'The 3rd',
-      contactNumber: '101010010',
-      contactEmail: 'jo@jo.com',
-      memberSince: '2016-03-08T22:34:23.721Z',
-      additionalInfo: 'Some additional info',
-      pastoralNotes: 'Some pastoral notes',
-      groups: [{ id: 1, name: 'Group name' }],
-      branchId: '1234',
-    }
-  );
-
-  const parsedMemberWithPostalAddress = () => {
-    const parsedMember = parsedMemberObjectBase();
-    parsedMember.postalAddress = completePostalAddress();
-    return parsedMember;
-  };
-
-  const parsedMemberWithNullPostalAddress = () => {
-    const parsedMember = parsedMemberObjectBase();
-    parsedMember.postalAddress = null;
-    return parsedMember;
-  };
-
   const payloadMemberObjectBase = () => (
     {
       id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',

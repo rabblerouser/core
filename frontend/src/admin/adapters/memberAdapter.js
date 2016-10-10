@@ -9,7 +9,7 @@ const parseGroups = value => {
 
 const parsePostalAddress = postalAddress => {
   if (!postalAddress) {
-    return postalAddress;
+    return null;
   }
   return {
     address: postalAddress.address,

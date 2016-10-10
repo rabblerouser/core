@@ -1,45 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+
 import MemberListTable from '../MemberListTable';
+import { parsedMemberWithPostalAddress, parsedMemberWithNullPostalAddress } from
+ '../../../adapters/__tests__/memberAdapter-test';
 
 describe('MemberListTable', () => {
-  const completePostalAddress = () => (
-    {
-      address: '303 Collins St',
-      suburb: 'Melbourne',
-      state: 'Victoria',
-      postcode: '3000',
-      country: 'Australia',
-    }
-  );
-
-  const parsedMemberObjectBase = () => (
-    {
-      id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
-      memberName: 'Jo jo',
-      memberLastName: 'The 3rd',
-      contactNumber: '101010010',
-      contactEmail: 'jo@jo.com',
-      memberSince: '2016-03-08T22:34:23.721Z',
-      additionalInfo: 'Some additional info',
-      pastoralNotes: 'Some pastoral notes',
-      groups: [{ id: 1, name: 'Group name' }],
-      branchId: '1234',
-    }
-  );
-
-  const parsedMemberWithPostalAddress = () => {
-    const parsedMember = parsedMemberObjectBase();
-    parsedMember.postalAddress = completePostalAddress();
-    return parsedMember;
-  };
-
-  const parsedMemberWithNullPostalAddress = () => {
-    const parsedMember = parsedMemberObjectBase();
-    parsedMember.postalAddress = null;
-    return parsedMember;
-  };
-
   const columnsWithoutAddress = [
     { type: 'name', field: 'memberName', label: 'Member name' },
     { type: 'name', field: 'contactNumber', label: 'Contact information' },
@@ -82,7 +48,7 @@ describe('MemberListTable', () => {
 
       const computedData = wrapper.find('SortedTable').prop('data');
       const computedAddressString = computedData[0].postalAddress;
-      expect(computedAddressString).toEqual('No postal address');
+      expect(computedAddressString).toEqual('-');
     });
 
     it('a member with a postal address should have a pretty version of it displayed', () => {

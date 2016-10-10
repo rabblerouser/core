@@ -35,7 +35,7 @@ const mapFields = ({ memberName, memberLastName, contactNumber, contactEmail, me
       `${postalAddress.address}, ${postalAddress.suburb}, ${postalAddress.state}, ` +
       `${postalAddress.postcode}, ${postalAddress.country}`;
   } else {
-    postalAddressField = 'No postal address';
+    postalAddressField = '-';
   }
 
   let fields;

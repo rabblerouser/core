@@ -4,9 +4,19 @@ import EditMemberFields from './EditMemberFields';
 import memberValidator from '../../services/memberValidator';
 import UserMessageView from '../UserMessageView';
 
+const ADDRESS_FIELD_NAMES = ['address', 'suburb', 'state', 'postcode', 'country'];
+
 export default class EditMemberForm extends Component {
+
   constructor(props) {
     super(props);
+
+    if (props.addressEnabled === undefined) {
+      this.addressEnabled = customisation.addressEnabled;
+    } else {
+      this.addressEnabled = props.addressEnabled;
+    }
+
     this.state = {
       id: props.member.id,
       invalidFields: [],
@@ -45,7 +55,43 @@ export default class EditMemberForm extends Component {
   }
 
   mapMemberToFields(member) {
-    return Object.assign({}, member);
+    const fields = Object.assign({}, member);
+    if (this.addressEnabled) {
+      if (member.postalAddress) {
+        Object.assign(fields, member.postalAddress);
+      } else {
+        ADDRESS_FIELD_NAMES.forEach(name => { fields[name] = ''; });
+      }
+    }
+    return fields;
+  }
+
+  mapFieldsToMember(fields) {
+    const member = Object({}, fields);
+
+    if (this.addressEnabled) {
+      const postalAddress = {
+        address: fields.address,
+        suburb: fields.suburb,
+        state: fields.state,
+        postcode: fields.postcode,
+        country: fields.country,
+      };
+      const allEmpty = ADDRESS_FIELD_NAMES.every(
+        field => (!postalAddress[field]));
+      if (allEmpty) {
+        member.postalAddress = null;
+      } else {
+        member.postalAddress = postalAddress;
+      }
+    }
+    delete member.address;
+    delete member.suburb;
+    delete member.state;
+    delete member.postcode;
+    delete member.country;
+
+    return member;
   }
 
   isValidationError(fieldName) {
@@ -53,7 +99,8 @@ export default class EditMemberForm extends Component {
   }
 
   saveChanges() {
-    const member = Object.assign({}, this.props.member, this.state.fieldValues);
+    const newMemberValues = this.mapFieldsToMember(this.state.fieldValues);
+    const member = Object.assign({}, this.props.member, newMemberValues);
     const errors = memberValidator.isValid(member);
     this.setState({ invalidFields: errors });
     if (errors.length === 0) {
@@ -104,4 +151,5 @@ EditMemberForm.propTypes = {
   member: React.PropTypes.object.isRequired,
   onSuccess: React.PropTypes.func.isRequired,
   onSave: React.PropTypes.func.isRequired,
+  addressEnabled: React.PropTypes.bool,
 };

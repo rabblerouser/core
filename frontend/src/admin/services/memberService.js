@@ -38,13 +38,13 @@ const adaptMember = member => {
     };
   }
 
-  if (member.postalAddress) {
+  if (member.postalAddress) { // && customisation.addressEnabled?
     adapted.postalAddress = {
-      address: member.address,
-      suburb: member.suburb,
-      country: member.country,
-      state: member.state,
-      postcode: member.postcode,
+      address: member.postalAddress.address,
+      suburb: member.postalAddress.suburb,
+      country: member.postalAddress.country,
+      state: member.postalAddress.state,
+      postcode: member.postalAddress.postcode,
     };
   }
 

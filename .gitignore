@@ -17,3 +17,5 @@ screenshots
 .idea
 *.iml
 *.pem
+rabblerouser-core.sublime-project
+rabblerouser-core.sublime-workspace
