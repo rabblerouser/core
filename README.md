@@ -132,14 +132,20 @@ These should all be run from the `backend` directory.
 
 At the moment, this is done using environment variables. The table below describes the use of these environment variables. At the moment, everything is optional, and a default theme will be provided if none is given.
 
-| Variable | Description                                                                         | Used when...                                |
-|----------|-------------------------------------------------------------------------------------|---------------------------------------------|
-| ORG_NAME | The name of the organisation that members are registering for.                      | compiling the frontend                      |
-| SKIN     | The directory under `frontend/public/images` from where logos etc should be loaded. | compiling the frontend, running the backend |
+| Variable                 | Description                                                                        | Used in           |
+|--------------------------|------------------------------------------------------------------------------------|-------------------|
+| `SIGNUP_TITLE`           | The title  on the signup page                                                      | frontend          |
+| `SIGNUP_SUBTITLE`        | The sub-title on the signup page                                                   | frontend          |
+| `SIGNUP_FINISHED_MESSAGE`| The message shown after signing up                                                 | frontend          |
+| `SIGNUP_STYLESHEETS`     | Custom stylesheets URLS for the signup page. See below                             | frontend          |
+| `SIGNUP_HOME_PAGE_LINK`  | A link to your organisation's home page                                            | frontend          |
+| `SKIN`                   | The directory under `frontend/public/images` from where logos etc should be loaded | frontend, backend |
 
-* "compiling the frontend" means `npm run build`, or `cd frontend && npm start`.
-* "running the backend" means `npm start` or `cd backend && npm start`.
+* for the frontend, the variable is needed during `npm run build`, or `cd frontend && npm start`.
+* for the backend, the variable is needed during `npm start` or `cd backend && npm start`.
+* Stylesheets should be specified like a JSON array, e.g.:
 
+`SIGNUP_STYLESHEETS='["/signup.css", "https://example.com/custom-style.css", "https://fonts.com/my-font"]'`
 
 ## Email configuration
 

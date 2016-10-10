@@ -47,7 +47,14 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
     new webpack.DefinePlugin({
       customisation: {
-        orgName: JSON.stringify(process.env.ORG_NAME || 'Rabble Rouser'),
+        signupTitle: JSON.stringify(process.env.SIGNUP_TITLE || 'Register for Rabble Rouser'),
+        signupSubtitle: JSON.stringify(process.env.SIGNUP_SUBTITLE || 'Join our movement today!'),
+        signupFinishedMessage: JSON.stringify(process.env.SIGNUP_FINISHED_MESSAGE || 'Thanks for joining!'),
+        signupStylesheets: process.env.SIGNUP_STYLESHEETS || JSON.stringify([
+          '/signup.css',
+          'https://fonts.googleapis.com/css?family=Droid+Serif|Open+Sans',
+        ]),
+        signupHomepageLink: JSON.stringify(process.env.SIGNUP_HOMEPAGE_LINK || 'https://rabblerouser.team'),
         skin: JSON.stringify(process.env.SKIN || 'default_skin'),
       },
     }),
@@ -66,6 +73,7 @@ module.exports = {
             if (req.url === '/error') return '/error.html';
             if (req.url === '/login') return '/login.html';
             if (req.url === '/') return '/signup.html';
+            if (req.url === '/signup.css') return '/signup.css';
             if (req.url.startsWith('/dashboard')) return '/admin.html';
             if (req.url.startsWith('/images')) return req.url;
 

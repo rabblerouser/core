@@ -4,7 +4,6 @@ export const Resources = {
   registerEndPoint: 'register',
   groupListEndPoint: 'groups',
   networkAdminEndPoint: 'admins',
-  homePage: null, // TODO: Make customisable
 };
 
 export const ApplicationForm = {
