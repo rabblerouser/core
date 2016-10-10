@@ -32,6 +32,7 @@ describe('InputField', () => {
     it('should render a label for the input field', () => {
       const label = rendered.find('label');
       expect(label.length).toEqual(1);
+      expect(label.props().className).not.toEqual('invalid');
       expect(label.contains('Enter your email')).toEqual(true);
     });
 
@@ -59,6 +60,12 @@ describe('InputField', () => {
     it('should render an error', () => {
       expect(rendered.find('FieldError').length).toEqual(1);
       expect(rendered.find('FieldError').props().error).toEqual('Required field');
+    });
+
+    it('should apply the invalid class to the label', () => {
+      const label = rendered.find('label');
+      expect(label.length).toEqual(1);
+      expect(label.props().className).toEqual('invalid');
     });
   });
 });

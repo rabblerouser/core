@@ -1,24 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import PageHeader from './PageHeader';
+import Logo from './Logo';
+import ProgressIndicator from './ProgressIndicator';
 import ProgressSteps from './ProgressSteps';
 import PageError from './PageError';
 import { getPageError } from '../reducers';
 
 export const SignupPage = ({ pageError }) => (
-  <div>
-    <PageHeader />
-    <main>
-      {pageError && <PageError pageError={pageError} />}
-      <ProgressSteps />
-    </main>
-    {
-      customisation.signupStylesheets.map(stylesheet => (
-        <link rel="stylesheet" href={stylesheet} key={stylesheet} />
-      ))
-    }
-  </div>
+  <main>
+    <div className="header">
+      <Logo />
+      <ProgressIndicator />
+    </div>
+    {pageError && <PageError pageError={pageError} />}
+    <ProgressSteps />
+  </main>
 );
 
 SignupPage.propTypes = {

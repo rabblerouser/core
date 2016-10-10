@@ -1,7 +1,11 @@
 import React from 'react';
 
 const Errors = ({ pageError }) => (
-  <div className="error">{pageError}</div>
+  <div className="validationErrors">
+    <div className="validationErrors-text">
+      <span>{pageError}</span>
+    </div>
+  </div>
 );
 
 Errors.propTypes = {
