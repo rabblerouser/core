@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
 import { InputField, TextAreaField, SelectField } from './forms';
-import RegisterButton from './RegisterButton';
-import FormHeader from './FormHeader';
 import AddressFields from './AddressFields';
 
 import { getBranches } from '../reducers';
@@ -17,45 +15,40 @@ const onSubmit = (member, dispatch) => (
   )
 );
 
-export const DetailsForm = ({ handleSubmit, branches, addressEnabled = customisation.addressEnabled }) => (
+export const DetailsForm = ({ handleSubmit, branches }) => (
   <section>
+    <h1>{customisation.signupTitle}</h1>
+    <p id="sub-title">{customisation.signupSubtitle}</p>
     <form onSubmit={handleSubmit}>
-      <FormHeader />
-      <div className="form-body">
-        <div className="field-group">
-          <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />
-          <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" />
-          <Field component={InputField} id="email" name="email" label="Email address" type="text" />
-          <Field
-            optional
-            component={InputField}
-            id="primaryPhoneNumber"
-            name="primaryPhoneNumber"
-            label="Contact number"
-            type="text"
-          />
-          {addressEnabled &&
-            <AddressFields />
-          }
-          {branches.length > 1 &&
-            <Field component={SelectField} id="branchId" name="branchId" label="Branch to join">
-            {
-              branches.map(branch => (<option key={branch.id} value={branch.id}>{branch.name}</option>))
-            }
-            </Field>
-          }
-          <Field
-            component={TextAreaField}
-            optional
-            id="additionalInfo"
-            name="additionalInfo"
-            label="Additional information"
-          />
-        </div>
-        <div className="navigation">
-          <RegisterButton>Register</RegisterButton>
-        </div>
+      <div>
+        <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />
+        <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" />
+        <Field component={InputField} id="email" name="email" label="Email address" type="text" />
+        <Field
+          optional
+          component={InputField}
+          id="primaryPhoneNumber"
+          name="primaryPhoneNumber"
+          label="Contact number"
+          type="text"
+        />
+        {customisation.addressEnabled &&
+          <AddressFields />
+        }
+        {branches.length > 1 &&
+          <Field component={SelectField} id="branchId" name="branchId" label="Branch to join">
+            {branches.map(branch => (<option key={branch.id} value={branch.id}>{branch.name}</option>))}
+          </Field>
+        }
+        <Field
+          component={TextAreaField}
+          optional
+          id="additionalInfo"
+          name="additionalInfo"
+          label="Additional information"
+        />
       </div>
+      <button type="submit">Register</button>
     </form>
   </section>
 );
@@ -63,7 +56,6 @@ export const DetailsForm = ({ handleSubmit, branches, addressEnabled = customisa
 DetailsForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
   branches: React.PropTypes.array.isRequired,
-  addressEnabled: React.PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

@@ -1,7 +1,7 @@
 import React from 'react';
 import FieldError from './FieldError';
 
-const InputField = ({ input, label, type, id, meta: { touched, error }, children }) => (
+const SelectField = ({ input, label, type, id, meta: { touched, error }, children }) => (
   <div>
     <label htmlFor={input.name} className={(touched && error) ? 'invalid' : ''}>
       {label}
@@ -13,7 +13,7 @@ const InputField = ({ input, label, type, id, meta: { touched, error }, children
   </div>
 );
 
-InputField.propTypes = {
+SelectField.propTypes = {
   input: React.PropTypes.object.isRequired,
   label: React.PropTypes.string,
   children: React.PropTypes.any,
@@ -21,4 +21,4 @@ InputField.propTypes = {
   meta: React.PropTypes.object.isRequired,
   id: React.PropTypes.string,
 };
-export default InputField;
+export default SelectField;

@@ -18,7 +18,12 @@ module.exports = config => {
         new webpack.IgnorePlugin(/ReactContext/),
         new webpack.DefinePlugin({
           customisation: {
-            orgName: JSON.stringify('Rabble Rouser'),
+            signupTitle: JSON.stringify('Register for Rabble Rouser'),
+            signupSubtitle: JSON.stringify('Join our movement today!'),
+            signupFinishedMessage: JSON.stringify('Thanks for joining!'),
+            signupStylesheets: JSON.stringify(['http://example.com/style.css']),
+            signupHomepageLink: JSON.stringify('https://rabblerouser.team'),
+            skin: JSON.stringify('default_skin'),
           },
         }),
       ],
