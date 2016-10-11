@@ -212,6 +212,34 @@ describe('MemberIntegrationTests', () => {
                 });
         });
 
+        it('should add a postal address to a member without one', () => {
+            let member = sample(browserState.members);
+            let newPostalAddress = {
+                address: 'Foo St',
+                suburb: 'Bar',
+                state: 'VIC',
+                postcode: '0000',
+                country: 'Baz',
+            }
+            member.postalAddress = Object.assign({}, newPostalAddress);
+
+            let branchId = browserState.branch.id;
+
+            return agent.put(`/branches/${branchId}/members/${member.id}`)
+                .set('Content-Type', 'application/json')
+                .send(editMember(member, []))
+                .expect(200)
+                .expect((response) => {
+                    const member = response.body;
+                    const respPostalAddress = member.postalAddress;
+                    expect(respPostalAddress.address).to.equal(newPostalAddress.address);
+                    expect(respPostalAddress.suburb).to.equal(newPostalAddress.suburb);
+                    expect(respPostalAddress.state).to.equal(newPostalAddress.state);
+                    expect(respPostalAddress.postcode).to.equal(newPostalAddress.postcode);
+                    expect(respPostalAddress.country).to.equal(newPostalAddress.country);
+                });
+        });
+
         it('should respond 400 if invalid input', () => {
             let member = sample(browserState.members);
             let branchId = browserState.branch.id;
