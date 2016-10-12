@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { InputField, TextAreaField, SelectField } from './forms';
 import RegisterButton from './RegisterButton';
 import FormHeader from './FormHeader';
+import AddressFields from './AddressFields';
 
 import { getBranches } from '../reducers';
 import { registerRequested } from '../actions';
@@ -16,7 +17,7 @@ const onSubmit = (member, dispatch) => (
   )
 );
 
-export const DetailsForm = ({ handleSubmit, branches }) => (
+export const DetailsForm = ({ handleSubmit, branches, addressEnabled = customisation.addressEnabled }) => (
   <section>
     <form onSubmit={handleSubmit}>
       <FormHeader />
@@ -33,6 +34,9 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
             label="Contact number"
             type="text"
           />
+          {addressEnabled &&
+            <AddressFields />
+          }
           {branches.length > 1 &&
             <Field component={SelectField} id="branchId" name="branchId" label="Branch to join">
             {
@@ -59,6 +63,7 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
 DetailsForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
   branches: React.PropTypes.array.isRequired,
+  addressEnabled: React.PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

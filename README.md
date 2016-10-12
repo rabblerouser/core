@@ -132,10 +132,11 @@ These should all be run from the `backend` directory.
 
 At the moment, this is done using environment variables. The table below describes the use of these environment variables. At the moment, everything is optional, and a default theme will be provided if none is given.
 
-| Variable | Description                                                                         | Used when...                                |
-|----------|-------------------------------------------------------------------------------------|---------------------------------------------|
-| ORG_NAME | The name of the organisation that members are registering for.                      | compiling the frontend                      |
-| SKIN     | The directory under `frontend/public/images` from where logos etc should be loaded. | compiling the frontend, running the backend |
+| Variable        | Description                                                                         | Used when...                                |
+|-----------------|-------------------------------------------------------------------------------------|---------------------------------------------|
+| ORG_NAME        | The name of the organisation that members are registering for.                      | compiling the frontend                      |
+| SKIN            | The directory under `frontend/public/images` from where logos etc should be loaded. | compiling the frontend, running the backend |
+| ADDRESS_ENABLED | If variable is set (to any value) UI shows address fields in signup and admin page. | compiling the frontend                      |
 
 * "compiling the frontend" means `npm run build`, or `cd frontend && npm start`.
 * "running the backend" means `npm start` or `cd backend && npm start`.

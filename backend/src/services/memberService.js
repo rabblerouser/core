@@ -57,10 +57,14 @@ function getMemberAddresses(member) {
 
   if (member.residentialAddress) {
     memberAddresses.push(findOrCreateAddress(member.residentialAddress));
+  } else {
+    memberAddresses.push(null);
   }
 
   if (member.postalAddress) {
     memberAddresses.push(findOrCreateAddress(member.postalAddress));
+  } else {
+    memberAddresses.push(null);
   }
 
   return memberAddresses;
@@ -99,11 +103,17 @@ function list(branchId) {
   }
 
   const query = {
-    include: [{
-      model: Group,
-      as: 'groups',
-      through: { attributes: ['name'] },
-    }],
+    include: [
+      {
+        model: Group,
+        as: 'groups',
+        through: { attributes: ['name'] },
+      },
+      {
+        model: Address,
+        as: 'postalAddress',
+      },
+    ],
     attributes: [
       'id',
       'firstName',
@@ -138,13 +148,17 @@ function updateMemberGroups(groups) {
       .setGroups(groups || [])
       .then(() =>
         member.reload({
-          include: [{
-            model: Group,
-            as: 'groups',
-            through: {
-              attributes: ['id'],
+          include: [
+            {
+              model: Group,
+              as: 'groups',
+              through: { attributes: ['id'] },
             },
-          }],
+            {
+              model: Address,
+              as: 'postalAddress',
+            },
+          ],
         })
       );
 }
@@ -161,7 +175,14 @@ function edit(input) {
       .then(transformMember)
   )
     .then(updatedMember => {
-      logger.info('[member-details-updated]', { member: updatedMember });
+      // Previously this logging line was
+      //   logger.info('[member-details-updated]', { member: updatedMember });
+      // but that throws "RangeError: Maximum call stack size exceeded" when
+      // the nested postalAddress object is populated. See the github issue
+      //   https://github.com/winstonjs/winston/issues/862
+      logger.info(
+        `[member-details-updated]\n\t${JSON.stringify({ member: updatedMember })}`
+      );
       return updatedMember;
     })
     .catch(handleError(`Error when editing member with id ${input.id}`));

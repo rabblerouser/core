@@ -4,7 +4,8 @@ import { FormFieldLabel } from '../../common/forms/';
 import GroupCheckboxes from './GroupCheckboxes';
 import moment from 'moment';
 
-const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selectedSection, onSelectSection }) => {
+const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selectedSection, onSelectSection,
+                            addressEnabled = customisation.addressEnabled }) => {
   const isValidationError = fieldName => _.indexOf(invalidFields, fieldName) > -1;
 
   const sections = {};
@@ -83,6 +84,55 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
         className="contactNumber"
       />
 
+      {addressEnabled &&
+        <fieldset>
+          <FormFieldLabel fieldName="address" isOptional={false} hasError={isValidationError('address')} />
+          <input
+            type="text"
+            defaultValue={formValues.address}
+            onChange={onChange('address')}
+            id="address"
+            className="address"
+          />
+
+          <FormFieldLabel fieldName="suburb" isOptional={false} hasError={isValidationError('suburb')} />
+          <input
+            type="text"
+            defaultValue={formValues.suburb}
+            onChange={onChange('suburb')}
+            id="suburb"
+            className="suburb"
+          />
+
+          <FormFieldLabel fieldName="postcode" isOptional={false} hasError={isValidationError('postcode')} />
+          <input
+            type="text"
+            defaultValue={formValues.postcode}
+            onChange={onChange('postcode')}
+            id="postcode"
+            className="postcode"
+          />
+
+          <FormFieldLabel fieldName="state" isOptional={false} hasError={isValidationError('state')} />
+          <input
+            type="text"
+            defaultValue={formValues.state}
+            onChange={onChange('state')}
+            id="state"
+            className="state"
+          />
+
+          <FormFieldLabel fieldName="country" isOptional={false} hasError={isValidationError('country')} />
+          <input
+            type="text"
+            defaultValue={formValues.country}
+            onChange={onChange('country')}
+            id="country"
+            className="country"
+          />
+        </fieldset>
+      }
+
       <dl>
         <dt>Additional info</dt>
         <dd className="textblock">{formValues.additionalInfo}</dd>
@@ -113,6 +163,7 @@ EditMemberFields.propTypes = {
   groups: React.PropTypes.array,
   selectedSection: React.PropTypes.string,
   onSelectSection: React.PropTypes.func,
+  addressEnabled: React.PropTypes.bool,
 };
 
 export default EditMemberFields;

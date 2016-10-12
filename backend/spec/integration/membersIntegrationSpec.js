@@ -32,6 +32,13 @@ function hasMembersList(res) {
     let response = res.body;
     expect(response.members).not.to.be.null;
     expect(response.members.length).to.equal(3);
+
+    let randomMember = sample(response.members);
+    expect(randomMember.postalAddress.address).not.to.be.null;
+    expect(randomMember.postalAddress.suburb).not.to.be.null;
+    expect(randomMember.postalAddress.city).not.to.be.null;
+    expect(randomMember.postalAddress.postcode).not.to.be.null;
+    expect(randomMember.postalAddress.country).not.to.be.null;
 }
 
 let getBranchId = (someAgent) => {
@@ -202,6 +209,34 @@ describe('MemberIntegrationTests', () => {
                 .expect((response) => {
                     let member = response.body;
                     expect(member.firstName).to.equal('Super Test');
+                });
+        });
+
+        it('should add a postal address to a member without one', () => {
+            let member = sample(browserState.members);
+            let newPostalAddress = {
+                address: 'Foo St',
+                suburb: 'Bar',
+                state: 'VIC',
+                postcode: '0000',
+                country: 'Baz',
+            }
+            member.postalAddress = Object.assign({}, newPostalAddress);
+
+            let branchId = browserState.branch.id;
+
+            return agent.put(`/branches/${branchId}/members/${member.id}`)
+                .set('Content-Type', 'application/json')
+                .send(editMember(member, []))
+                .expect(200)
+                .expect((response) => {
+                    const member = response.body;
+                    const respPostalAddress = member.postalAddress;
+                    expect(respPostalAddress.address).to.equal(newPostalAddress.address);
+                    expect(respPostalAddress.suburb).to.equal(newPostalAddress.suburb);
+                    expect(respPostalAddress.state).to.equal(newPostalAddress.state);
+                    expect(respPostalAddress.postcode).to.equal(newPostalAddress.postcode);
+                    expect(respPostalAddress.country).to.equal(newPostalAddress.country);
                 });
         });
 

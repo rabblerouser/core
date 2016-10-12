@@ -4,7 +4,15 @@ import EditMemberModalLauncher from './EditMemberModalLauncher';
 import DeleteButton from '../../common/DeleteButton';
 import moment from 'moment';
 
-const columns = [
+const columnsWithAddress = [
+  { type: 'name', field: 'memberName', label: 'Member name' },
+  { type: 'name', field: 'contactNumber', label: 'Contact information' },
+  { type: 'name', field: 'postalAddress', label: 'Postal Address' },
+  { type: 'name', field: 'memberSince', label: 'Member since' },
+  { type: 'actions' },
+];
+
+const columnsWithoutAddress = [
   { type: 'name', field: 'memberName', label: 'Member name' },
   { type: 'name', field: 'contactNumber', label: 'Contact information' },
   { type: 'name', field: 'memberSince', label: 'Member since' },
@@ -15,13 +23,39 @@ function nullToBlank(input) {
   return input === null ? '' : input;
 }
 
-const mapFields = ({ memberName, memberLastName, contactNumber, contactEmail, memberSince }) => (
-  {
-    memberName: `${memberName} ${nullToBlank(memberLastName)}`,
-    contactNumber: `${contactNumber}\n${contactEmail}`,
-    memberSince: moment(memberSince).format('YYYY/MM/DD'),
+const mapFields = ({ memberName, memberLastName, contactNumber, contactEmail, memberSince, postalAddress },
+                   addressEnabled) => {
+  const memberNameField = `${memberName} ${nullToBlank(memberLastName)}`;
+  const contactNumberField = `${contactNumber} ${contactEmail}`;
+  const memberSinceField = moment(memberSince).format('YYYY/MM/DD');
+
+  let postalAddressField;
+  if (postalAddress) {
+    postalAddressField =
+      `${postalAddress.address}, ${postalAddress.suburb}, ${postalAddress.state}, ` +
+      `${postalAddress.postcode}, ${postalAddress.country}`;
+  } else {
+    postalAddressField = '-';
   }
-);
+
+  let fields;
+  if (addressEnabled) {
+    fields = {
+      memberName: memberNameField,
+      contactNumber: contactNumberField,
+      postalAddress: postalAddressField,
+      memberSince: memberSinceField,
+    };
+  } else {
+    fields = {
+      memberName: memberNameField,
+      contactNumber: contactNumberField,
+      memberSince: memberSinceField,
+    };
+  }
+  return fields;
+};
+
 const mapActions = (member, allGroups, onSaveMember, onDeleteMember) => [
   <EditMemberModalLauncher key={`${member.id}-edit`} member={{ ...member, allGroups }} onSave={onSaveMember} />,
   <DeleteButton
@@ -32,15 +66,17 @@ const mapActions = (member, allGroups, onSaveMember, onDeleteMember) => [
   />,
 ];
 
-const MemberListTable = ({ members, groups, onSaveMember, onDeleteMember }) => (
-  <SortedTable
+const MemberListTable = ({ members, groups, onSaveMember, onDeleteMember,
+                           addressEnabled = customisation.addressEnabled }) => {
+  let columns = addressEnabled ? columnsWithAddress : columnsWithoutAddress;
+  return (<SortedTable
     columns={columns}
     data={members.map(member => (
-      { ...mapFields(member), actions: mapActions(member, groups, onSaveMember, onDeleteMember) }
+      { ...mapFields(member, addressEnabled), actions: mapActions(member, groups, onSaveMember, onDeleteMember) }
     ))}
     sortOn="memberName"
-  />
-);
+  />);
+};
 
 export default MemberListTable;
 
@@ -49,4 +85,5 @@ MemberListTable.propTypes = {
   groups: React.PropTypes.array,
   onSaveMember: React.PropTypes.func.isRequired,
   onDeleteMember: React.PropTypes.func.isRequired,
+  addressEnabled: React.PropTypes.bool,
 };

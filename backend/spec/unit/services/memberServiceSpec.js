@@ -231,6 +231,22 @@ describe('memberService', () => {
             .catch(done);
         });
 
+        it('creates a new member with a postal address but no residential address', (done) => {
+            postalAddressPromise.resolve(fakePostalAddressFromDB());
+            branchPromise.resolve(fakeBranch());
+            memberPromise.resolve(fakeResultFromDbWhenSavingMember(null, fakePostalAddressId));
+
+            memberService.createMember(fakeNewMember(null, fakePostalAddress()))
+                .then(() => {
+                    expect(Member.create).to.have.been.calledWith(sinon.match({
+                        residentialAddressId: null,
+                        postalAddressId: fakePostalAddressId,
+                    }));
+                })
+                .then(done)
+                .catch(done);
+        });
+
         describe('things went bad', () => {
             it('handles error when retrieving the branch', (done) => {
                 branchPromise.reject('Some ERROR thrown by the branch service');
@@ -319,28 +335,6 @@ describe('memberService', () => {
         });
 
         it('returns a list of members for a specific branch', (done) => {
-            Member.findAll
-                .returns(Promise.resolve(fakeMembersList(3)));
-
-            memberService.list('some-branch-id-1')
-            .then((result) => {
-                let sampleMember = sample(result);
-                expect(result.length).to.equal(3);
-
-                expect(sampleMember.branchId).to.equal('some-branch-id-1');
-                expect(sampleMember.id).to.not.be.null;
-                expect(sampleMember.email).to.not.be.null;
-                expect(sampleMember.firstName).to.not.be.null;
-                expect(sampleMember.lastName).to.not.be.null;
-                expect(sampleMember.primaryPhoneNumber).to.not.be.null;
-                expect(sampleMember.additionalInfo).to.not.be.null;
-                expect(sampleMember.pastoralNotes).to.not.be.null;
-            })
-            .then(done)
-            .catch(done);
-        });
-
-        it('it should return the list of groups for each member', (done) => {
             Member.findAll
                 .returns(Promise.resolve(fakeMembersList(3)));
 

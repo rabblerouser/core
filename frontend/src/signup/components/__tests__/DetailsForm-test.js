@@ -29,4 +29,14 @@ describe('DetailsForm', () => {
     expect(firstOption.props().value).toEqual('B1');
     expect(firstOption.contains('branch1')).toEqual(true);
   });
+
+  it('renders postal address fields when address is enabled', () => {
+    const rendered = shallow(<DetailsForm handleSubmit={() => {}} branches={[]} addressEnabled />);
+    expect(rendered.find('AddressFields').length).toEqual(1);
+  });
+
+  it('doesn\'t render postal address fields when address is not enabled', () => {
+    const rendered = shallow(<DetailsForm handleSubmit={() => {}} branches={[]} addressEnabled={false} />);
+    expect(rendered.find('AddressFields').length).toEqual(0);
+  });
 });
