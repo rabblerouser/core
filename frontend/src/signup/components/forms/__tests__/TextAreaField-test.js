@@ -14,7 +14,9 @@ describe('TextAreaField', () => {
           id="some-id"
           meta={{ touched: false, error: '' }}
           placeholder="Email"
-        />);
+          optional
+        />
+      );
     });
 
     it('should render a textarea field with the input props and id', () => {
@@ -31,6 +33,19 @@ describe('TextAreaField', () => {
       const label = rendered.find('label');
       expect(label.length).toEqual(1);
       expect(label.contains('Enter your email')).toEqual(true);
+    });
+
+    it('should render an asterisk next to the label when the field is required', () => {
+      const requiredField = shallow(
+        <TextAreaField
+          input={{ name: 'email-field', value: 'some value' }}
+          label="Enter your email"
+          meta={{ touched: false, error: '' }}
+        />
+      );
+      const label = requiredField.find('label');
+      expect(label.length).toEqual(1);
+      expect(label.contains('Enter your email *')).toEqual(true);
     });
 
     it('should not render an error', () => {

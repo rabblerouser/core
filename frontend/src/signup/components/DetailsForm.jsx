@@ -22,7 +22,7 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
     <form onSubmit={handleSubmit}>
       <div>
         <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />
-        <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" />
+        <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" optional />
         <Field component={InputField} id="email" name="email" label="Email address" type="text" />
         <Field
           optional

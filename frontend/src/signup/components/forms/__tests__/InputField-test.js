@@ -14,8 +14,10 @@ describe('InputField', () => {
           placeholder="Email"
           type="email"
           id="some-id"
+          optional
           meta={{ touched: false, error: '' }}
-        />);
+        />
+      );
     });
 
     it('should render an input field with the input props and id', () => {
@@ -33,6 +35,19 @@ describe('InputField', () => {
       const label = rendered.find('label');
       expect(label.length).toEqual(1);
       expect(label.contains('Enter your email')).toEqual(true);
+    });
+
+    it('should render an asterisk next to the label when the field is required', () => {
+      const requiredField = shallow(
+        <InputField
+          input={{ name: 'email-field', value: 'some value' }}
+          label="Enter your email"
+          meta={{ touched: false, error: '' }}
+        />
+      );
+      const label = requiredField.find('label');
+      expect(label.length).toEqual(1);
+      expect(label.contains('Enter your email *')).toEqual(true);
     });
 
     it('should not render an error', () => {
