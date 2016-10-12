@@ -4,10 +4,7 @@
 
 body {
   margin: 0;
-  background: url('https://rabblerouserteam.files.wordpress.com/2016/08/rabble-rouser-header.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
+  background: url('/images/fireworks.jpg') no-repeat center center fixed;
   background-size: cover;
   font-family: 'Open Sans', sans-serif;
 }
@@ -20,9 +17,11 @@ header {
   padding-left: 50px;
 }
 
-header img {
-  content:url('https://i.imgur.com/eecsJFb.png');
+header a {
+  background: url('/images/rabble-rouser-logo.png') left top no-repeat;
+  background-size: contain;
   height: 30px;
+  width: 90px;
 }
 
 main {
