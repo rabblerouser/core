@@ -18,7 +18,7 @@ const onSubmit = (member, dispatch) => (
 export const DetailsForm = ({ handleSubmit, branches }) => (
   <section>
     <h1>{customisation.signupTitle}</h1>
-    <p id="sub-title">{customisation.signupSubtitle}</p>
+    <h2>{customisation.signupSubtitle}</h2>
     <form onSubmit={handleSubmit}>
       <div>
         <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />

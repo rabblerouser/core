@@ -4,7 +4,7 @@ export const Finished = () => (
   <section>
     <h1>Thank you</h1>
     <div>
-      <p className="sub-title">{customisation.signupFinishedMessage}</p>
+      <h2>{customisation.signupFinishedMessage}</h2>
       <p><a href={customisation.signupHomepageLink}>Return home</a></p>
     </div>
   </section>
