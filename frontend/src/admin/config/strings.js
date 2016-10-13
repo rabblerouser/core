@@ -42,7 +42,7 @@ export const ApplicationFormFieldLabels = {
 };
 
 export const FormValidationErrors = {
-  contactEmail: { name: 'Email address', message: 'Please enter a valid email address i.e. valid@email.com' },
+  contactEmail: { name: 'Email address', message: 'Please enter a valid email address. E.g. valid@email.com' },
   contactNumber: { name: 'Contact number', message: 'Please enter a valid phone number.' },
   memberName: {
     name: 'Member first name',
