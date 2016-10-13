@@ -1,6 +1,9 @@
 {
   "name": "rabblerouser-core-frontend",
   "version": "0.1.0",
+  "engines": {
+    "node": "6.5.0"
+  },
   "description": "Frontend for rabblerouser - A pluggable, extensible membership database for community organising",
   "scripts": {
     "build": "webpack --progress --colors",

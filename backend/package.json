@@ -1,6 +1,9 @@
 {
   "name": "rabblerouser-core-backend",
   "version": "0.1.0",
+  "engines": {
+    "node": "6.5.0"
+  },
   "description": "A pluggable, extensible membership database for community organising",
   "main": "src/app.js",
   "scripts": {
