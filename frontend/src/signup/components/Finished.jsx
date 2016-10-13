@@ -1,16 +1,11 @@
 import React from 'react';
-import { urls } from '../strings';
 
-export const Finished = ({ homeUrl = urls.homePage }) => (
+export const Finished = () => (
   <section>
-    <h1 className="form-title">Finish</h1>
-    <div className="form-body">
-      <div className="heading">
-        <h2 className="sub-title"> Thank you, we have received your details. </h2>
-      </div>
-      {
-        homeUrl && <div className="navigation"><p><a href={homeUrl}>Return home</a></p></div>
-      }
+    <h1>Thank you</h1>
+    <div>
+      <h2>{customisation.signupFinishedMessage}</h2>
+      <p><a href={customisation.signupHomepageLink}>Return home</a></p>
     </div>
   </section>
 );
