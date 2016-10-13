@@ -15,7 +15,7 @@ const onSubmit = (member, dispatch) => (
   )
 );
 
-export const DetailsForm = ({ handleSubmit, branches }) => (
+export const DetailsForm = ({ handleSubmit, branches, addressEnabled = customisation.addressEnabled }) => (
   <section>
     <h1>{customisation.signupTitle}</h1>
     <h2>{customisation.signupSubtitle}</h2>
@@ -32,7 +32,7 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
           label="Contact number"
           type="text"
         />
-        {customisation.addressEnabled &&
+        {addressEnabled &&
           <AddressFields />
         }
         {branches.length > 1 &&
@@ -56,6 +56,7 @@ export const DetailsForm = ({ handleSubmit, branches }) => (
 DetailsForm.propTypes = {
   handleSubmit: React.PropTypes.func.isRequired,
   branches: React.PropTypes.array.isRequired,
+  addressEnabled: React.PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

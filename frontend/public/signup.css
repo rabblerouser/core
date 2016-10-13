@@ -69,6 +69,23 @@ fieldset {
     width: 48%;
     float: right;
   }
+
+  fieldset.suburb {
+    width: 48%
+  }
+
+  fieldset.state {
+    width: 48%;
+    float: right;
+  }
+  fieldset.postcode {
+    width: 48%
+  }
+
+  fieldset.country {
+    width: 48%;
+    float: right;
+  }
 }
 
 fieldset label {

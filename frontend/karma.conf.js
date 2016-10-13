@@ -24,6 +24,7 @@ module.exports = config => {
             signupStylesheets: JSON.stringify(['http://example.com/style.css']),
             signupHomepageLink: JSON.stringify('https://rabblerouser.team'),
             skin: JSON.stringify('default_skin'),
+            addressEnabled: JSON.stringify(false),
           },
         }),
       ],
