@@ -146,7 +146,7 @@ At the moment, this is done using environment variables. The table below describ
 * for the backend, the variable is needed during `npm start` or `cd backend && npm start`.
 * Stylesheets should be specified like a JSON array, e.g.:
 
-`SIGNUP_STYLESHEETS='["/signup.css", "https://example.com/custom-style.css", "https://fonts.com/my-font"]'`
+`SIGNUP_STYLESHEETS='["/styles/signup.css", "https://example.com/custom-style.css", "https://fonts.com/my-font"]'`
 
 ## Email configuration
 
