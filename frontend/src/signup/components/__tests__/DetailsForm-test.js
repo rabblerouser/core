@@ -10,7 +10,7 @@ describe('DetailsForm', () => {
     expect(rendered.find('form').props().onSubmit).toEqual(handleSubmit);
   });
 
-  it('doesn\'t render the branches if there\'s only one', () => {
+  it('does not render the branches if there is only one', () => {
     const branches = [{ id: 'B1', name: 'branch1' }];
     const rendered = shallow(<DetailsForm handleSubmit={() => {}} branches={branches} />);
     expect(rendered.find('option').length).toEqual(0);
