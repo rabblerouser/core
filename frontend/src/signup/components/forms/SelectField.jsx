@@ -2,7 +2,7 @@ import React from 'react';
 import FieldError from './FieldError';
 
 const SelectField = ({ input, label, type, id, meta: { touched, error }, children }) => (
-  <div>
+  <fieldset>
     <label htmlFor={input.name}>
       {label}
       {touched && error && <FieldError error={error} />}
@@ -10,7 +10,7 @@ const SelectField = ({ input, label, type, id, meta: { touched, error }, childre
     <select id={id} {...input} type={type}>
       {children}
     </select>
-  </div>
+  </fieldset>
 );
 
 SelectField.propTypes = {
