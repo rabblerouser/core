@@ -19,13 +19,13 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
   );
 
   sections.notes = (
-    <section id="pastoral-notes">
-      <FormFieldLabel fieldName="pastoralNotes" isOptional hasError={isValidationError('pastoralNotes')} />
+    <section id="notes">
+      <FormFieldLabel fieldName="notes" isOptional hasError={isValidationError('notes')} />
       <textarea
-        defaultValue={formValues.pastoralNotes}
-        onChange={onChange('pastoralNotes')}
-        id="pastoralNotes"
-        className="pastoralNotes"
+        defaultValue={formValues.notes}
+        onChange={onChange('notes')}
+        id="notes"
+        className="notes"
       />
     </section>
   );
@@ -148,7 +148,7 @@ const EditMemberFields = ({ invalidFields, onChange, formValues, groups, selecte
         <li className={theSelectedSection === 'details' ? 'selected' : ''} onClick={onSelectSection('details')}>
           <span>Details</span></li>
         <li className={theSelectedSection === 'notes' ? 'selected' : ''} onClick={onSelectSection('notes')}>
-          <span>Pastoral notes</span>
+          <span>Notes</span>
         </li>
       </ul>
       {sections[theSelectedSection]}

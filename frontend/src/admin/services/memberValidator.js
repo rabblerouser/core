@@ -7,7 +7,7 @@ const memberFieldsChecks = {
   memberName: inputValidator.isValidName,
   memberLastName: inputValidator.isValidOptionalName,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
-  pastoralNotes: inputValidator.isValidOptionalTextBlock,
+  notes: inputValidator.isValidOptionalTextBlock,
 };
 
 const isValidDetails = member => (

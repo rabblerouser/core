@@ -125,7 +125,7 @@ function list(branchId) {
       'membershipType',
       'memberSince',
       'branchId',
-      'pastoralNotes',
+      'notes',
     ],
     where: { branchId },
   };

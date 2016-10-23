@@ -350,7 +350,7 @@ describe('memberService', () => {
                 expect(sampleMember.lastName).to.not.be.null;
                 expect(sampleMember.primaryPhoneNumber).to.not.be.null;
                 expect(sampleMember.additionalInfo).to.not.be.null;
-                expect(sampleMember.pastoralNotes).to.not.be.null;
+                expect(sampleMember.notes).to.not.be.null;
             })
             .then(done)
             .catch(done);

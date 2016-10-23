@@ -62,7 +62,7 @@ function parseMember(req) {
     membershipType: req.body.membershipType,
     branchId: req.body.branchId,
     additionalInfo: req.body.additionalInfo,
-    pastoralNotes: req.body.pastoralNotes,
+    notes: req.body.notes,
     groups: req.body.groups,
   };
 }
