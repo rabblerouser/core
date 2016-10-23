@@ -67,7 +67,7 @@ export default class EditMemberForm extends Component {
   }
 
   mapFieldsToMember(fields) {
-    const member = Object({}, fields);
+    const member = { ...fields };
 
     if (this.addressEnabled) {
       const postalAddress = {
