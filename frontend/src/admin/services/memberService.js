@@ -23,7 +23,7 @@ const adaptMember = member => {
     secondaryPhoneNumber: member.secondaryPhoneNumber,
     gender: member.gender,
     membershipType: member.membershipType,
-    pastoralNotes: member.pastoralNotes,
+    notes: member.notes,
     additionalInfo: member.additionalInfo,
     groups: member.groups,
   };

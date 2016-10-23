@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     membershipType: { type: DataTypes.STRING, defaultValue: 'full' },
     memberSince: { type: DataTypes.DATE, allowNull: false },
     additionalInfo: { type: DataTypes.TEXT, allowNull: true },
-    pastoralNotes: { type: DataTypes.TEXT, allowNull: true },
+    notes: { type: DataTypes.TEXT, allowNull: true },
   }, {
     paranoid: true,
     classMethods: {

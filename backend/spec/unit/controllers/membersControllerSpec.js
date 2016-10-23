@@ -53,7 +53,7 @@ describe('membersController', () => {
                     membershipType: 'full',
                     branchId: 'some-id-1',
                     additionalInfo: null,
-                    pastoralNotes: null,
+                    notes: null,
                     id: null,
                     groups: null
                 }

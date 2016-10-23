@@ -33,11 +33,10 @@ export const ApplicationFormFieldLabels = {
   additionalInfo: 'Additional information',
   groupName: 'Group name',
   groupDescription: 'Description',
-  pastoralNotes: 'Pastoral notes',
+  notes: 'Notes',
   name: 'Name',
   password: 'Password',
   confirmedPassword: 'Confirm password',
-  notes: 'Branch notes',
   contact: 'Contact information',
 };
 
@@ -51,7 +50,7 @@ export const FormValidationErrors = {
   memberLastName: { name: 'Member last name', message: 'No symbols allowed.' },
   branchSelection: { name: 'Branch to join', message: 'Please select a branch to join.' },
   additionalInfo: { name: 'Additional info', message: 'Maximum 2000 characters' },
-  pastoralNotes: { name: 'Pastoral notes', message: 'Maximum 2000 characters' },
+  notes: { name: 'Notes', message: 'Maximum 2000 characters' },
   groupName: { name: 'Name', message: 'Please enter a group name. No symbols allowed.' },
   groupDescription: { name: 'Description', message: 'Please enter a description (maximum 2000 characters).' },
   name: { name: 'Name', message: 'Please enter a name. No symbols allowed.' },

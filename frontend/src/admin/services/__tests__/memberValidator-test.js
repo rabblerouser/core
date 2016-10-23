@@ -8,7 +8,7 @@ describe('memberValidator', () => {
       branchId: 'Geelong',
       memberLastName: 'Holmes',
       additionalInfo: 'More info for you!',
-      pastoralNotes: 'Pastoral deets',
+      notes: 'deets',
     };
 
     const validMemberWithOptional = {
@@ -18,7 +18,7 @@ describe('memberValidator', () => {
       branchId: 'Geelong',
       memberLastName: '',
       additionalInfo: '',
-      pastoralNotes: '',
+      notes: '',
     };
 
     it('should return empty array of errors on valid member', () => {

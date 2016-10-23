@@ -12,7 +12,7 @@ const memberFieldsChecks = {
   firstName: inputValidator.isValidName,
   branchId: isValidBranch,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
-  pastoralNotes: inputValidator.isValidOptionalTextBlock,
+  notes: inputValidator.isValidOptionalTextBlock,
 };
 
 const isValidDetails = member =>
