@@ -5,11 +5,11 @@ import validate from './branchValidator';
 import {
   branchUpdateRequested as update,
   branchCreateRequested as create,
-} from '../../actions/branchActions';
-import { getEditedBranch } from '../../reducers/branchReducers';
+} from '../actions/branchActions';
+import { getEditedBranch } from '../reducers/branchReducers';
 
 import { Field, reduxForm } from 'redux-form';
-import { InputField, TextAreaField } from '../../common/forms';
+import { InputField, TextAreaField } from '../common/forms';
 
 const onSubmit = (data, dispatch) => (
   new Promise((resolve, reject) =>

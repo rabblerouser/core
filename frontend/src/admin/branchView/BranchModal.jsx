@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import EditBranchForm from './EditBranchForm';
 import Modal from 'react-modal';
-import { getisEditActive } from '../../reducers/branchReducers';
-import * as branchActions from '../../actions/branchActions';
+import { getisEditActive } from '../reducers/branchReducers';
+import * as branchActions from '../actions/branchActions';
 
 export const BranchModal = ({ isOpen, finishEditBranch }) => (
   <Modal isOpen={isOpen} onRequestClose={finishEditBranch} style={{ content: { bottom: 'none' } }}>

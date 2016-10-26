@@ -1,5 +1,5 @@
-import inputValidator from '../../../lib/inputValidator';
-import { FormValidationErrors } from '../../config/strings';
+import inputValidator from '../../lib/inputValidator';
+import { FormValidationErrors } from '../config/strings';
 
 export default values => {
   const errors = {};

@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import BranchModal from './BranchModal';
-import DeleteButton from '../../common/DeleteButton';
-import AddButton from '../../common/AddButton';
-import EditButton from '../../common/EditButton';
+import DeleteButton from '../common/DeleteButton';
+import AddButton from '../common/AddButton';
+import EditButton from '../common/EditButton';
 
-import { getSelectedBranch } from '../../reducers/branchReducers';
-import * as branchActions from '../../actions/branchActions';
+import { getSelectedBranch } from '../reducers/branchReducers';
+import * as branchActions from '../actions/branchActions';
 
 export const SelectedBranchActions = ({ addBranch, editBranch, branchRemoveRequested, branch }) => (
   <span className="actions">
