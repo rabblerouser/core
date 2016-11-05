@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import { appStarted } from './actions/branchActions';
+
 import createSagaMiddleware from 'redux-saga';
 
 import reducer from './reducers';
@@ -19,6 +21,8 @@ const store = createStore(
   applyMiddleware(sagaMiddleware)
 );
 sagaMiddleware.run(sagas);
+
+store.dispatch(appStarted());
 
 render(
   <Provider store={store}>

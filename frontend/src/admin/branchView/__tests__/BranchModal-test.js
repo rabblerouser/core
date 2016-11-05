@@ -9,7 +9,7 @@ describe('BranchModal', () => {
   const onClose = () => {};
 
   beforeEach(() => {
-    rendered = shallow(<BranchModal isOpen={isOpen} finishEditBranch={onClose} />);
+    rendered = shallow(<BranchModal isOpen={isOpen} handleClose={onClose} />);
   });
 
   it('renders a modal with isOpen and onRequestClose mapped props', () => {

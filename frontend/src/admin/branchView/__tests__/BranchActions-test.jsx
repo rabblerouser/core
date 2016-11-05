@@ -1,8 +1,8 @@
 import React from 'react';
-import { SelectedBranchActions } from '../SelectedBranchActions';
+import { BranchActions } from '../BranchActions';
 import { shallow } from 'enzyme';
 
-describe('SelectedBranchActions', () => {
+describe('<BranchActions />', () => {
   let rendered;
 
   const branch = {};
@@ -11,12 +11,9 @@ describe('SelectedBranchActions', () => {
   const remove = jasmine.createSpy();
 
   beforeEach(() => {
-    rendered = shallow(<SelectedBranchActions
-      addBranch={add}
-      editBranch={edit}
-      branchRemoveRequested={remove}
-      branch={branch}
-    />);
+    rendered = shallow(
+      <BranchActions add={add} edit={edit} remove={remove} branch={branch} />
+    );
   });
 
   it('renders an AddButton with the provided add prop', () => {
@@ -29,9 +26,8 @@ describe('SelectedBranchActions', () => {
     expect(editButton.props().onClick).toEqual(edit);
   });
 
-  it('renders a DeleteButton with the remove and branch props', () => {
+  it('renders an DeleteButton with the provided remove prop', () => {
     const deleteButton = rendered.find('DeleteButton');
-    deleteButton.props().onDelete();
-    expect(remove).toHaveBeenCalledWith(branch);
+    expect(deleteButton.props().onDelete).toEqual(remove);
   });
 });

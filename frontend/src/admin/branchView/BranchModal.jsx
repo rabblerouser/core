@@ -1,22 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Modal from 'react-modal';
 
 import EditBranchForm from './EditBranchForm';
-import Modal from 'react-modal';
-import { getisEditActive } from '../reducers/branchReducers';
-import * as branchActions from '../actions/branchActions';
+import { getIsEditActive } from './reducers';
+import { finishEditBranch } from './actions';
 
-export const BranchModal = ({ isOpen, finishEditBranch }) => (
-  <Modal isOpen={isOpen} onRequestClose={finishEditBranch} style={{ content: { bottom: 'none' } }}>
+export const BranchModal = ({ isOpen, handleClose }) => (
+  <Modal
+    isOpen={isOpen}
+    onRequestClose={handleClose}
+    style={{ content: { bottom: 'none' } }}
+  >
     <EditBranchForm />
   </Modal>
 );
 
 BranchModal.propTypes = {
   isOpen: React.PropTypes.bool,
-  finishEditBranch: React.PropTypes.func,
+  handleClose: React.PropTypes.func,
 };
 
-const mapStateToProps = state => ({ isOpen: getisEditActive(state) });
+const mapStateToProps = state => ({ isOpen: getIsEditActive(state) });
 
-export default connect(mapStateToProps, branchActions)(BranchModal);
+export default connect(mapStateToProps, { handleClose: finishEditBranch })(BranchModal);

@@ -1,4 +1,4 @@
-import { getModal } from './index';
+import { getModal } from './rootSelectors';
 
 import {
   MODAL_OPENED,

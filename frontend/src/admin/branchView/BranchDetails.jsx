@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getSelectedBranch } from '../reducers/branchReducers';
-import SelectedBranchActions from './SelectedBranchActions';
+import { getSelectedBranch } from './reducers';
+import BranchActions from './BranchActions';
 
 export const BranchDetails = ({ selectedBranch }) => (
   <section className="admin-section" id="branchDetails">
     <h3>
       {selectedBranch.name}
-      <SelectedBranchActions />
+      <BranchActions />
     </h3>
     <dl>
       <dt>Contact</dt>

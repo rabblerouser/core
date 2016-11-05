@@ -5,12 +5,12 @@ import branchReducers from './branchReducers';
 import appFeedbackReducers from './appFeedbackReducers';
 import modalReducers from './modalReducers';
 
+import { reducers as branchView } from '../branchView/';
+
 export default combineReducers({
+  branchView,
   branches: branchReducers,
   appFeedback: appFeedbackReducers,
   modal: modalReducers,
   form: formReducer,
 });
-
-export const getBranches = state => state.branches;
-export const getModal = state => state.modal;

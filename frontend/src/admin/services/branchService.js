@@ -16,13 +16,6 @@ const handleResponseError = error => {
   }
 };
 
-const adaptBranch = branch => ({
-  id: branch.id,
-  name: branch.name,
-  contact: branch.contact,
-  notes: branch.notes,
-});
-
 const getMyBranches = () => (
   Q(ajax({
     type: 'GET',
@@ -73,38 +66,7 @@ const getBranchAdmins = branchId => (
     .catch(handleResponseError)
 );
 
-const deleteBranch = branch => (
-  Q(ajax({
-    type: 'DELETE',
-    url: `/branches/${branch.id}/`,
-  }))
-    .catch(handleResponseError)
-);
-
-const createBranch = branch => (
-  Q(ajax({
-    type: 'POST',
-    url: '/branches/',
-    data: adaptBranch(branch),
-  }))
-    .then(branchAdapter.parseBranch)
-    .catch(handleResponseError)
-);
-
-const updateBranch = branch => (
-  Q(ajax({
-    type: 'PUT',
-    url: `/branches/${branch.id}/`,
-    data: adaptBranch(branch),
-  }))
-    .then(branchAdapter.parseBranch)
-    .catch(handleResponseError)
-);
-
 export default {
-  createBranch,
-  updateBranch,
-  deleteBranch,
   getBranches,
   getMyBranches,
   getBranchGroups,

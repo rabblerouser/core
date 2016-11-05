@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
 
 import validate from './branchValidator';
 import {
   branchUpdateRequested as update,
   branchCreateRequested as create,
-} from '../actions/branchActions';
-import { getEditedBranch } from '../reducers/branchReducers';
+} from './actions';
+import { getEditedBranch } from './reducers';
 
-import { Field, reduxForm } from 'redux-form';
 import { InputField, TextAreaField } from '../common/forms';
 
 const onSubmit = (data, dispatch) => (
