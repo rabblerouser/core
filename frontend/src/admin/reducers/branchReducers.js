@@ -11,7 +11,7 @@ import {
 } from '../branchView/actions';
 
 const initialState = {
-  availableBranches: [],
+  branches: [],
   selectedBranch: '',
 };
 
@@ -19,18 +19,18 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case BRANCH_LIST_UPDATED: return {
       ...state,
-      availableBranches: action.branches,
+      branches: action.branches,
     };
     case BRANCH_SELECTED: return {
       ...state,
-      selectedBranch: action.branchId ? action.branchId : state.availableBranches[0].id,
+      selectedBranch: action.branchId ? action.branchId : state.branches[0].id,
     };
     case BRANCH_CREATED: return {
       ...state,
       selectedBranch: action.branch.id,
     };
     case BRANCH_REMOVED: {
-      const filteredBranches = state.availableBranches.filter(({ id }) => id !== action.branchId);
+      const filteredBranches = state.branches.filter(({ id }) => id !== action.branchId);
       return {
         ...state,
         selectedBranch: filteredBranches.length > 0 ? filteredBranches[0].id : '',
@@ -41,9 +41,10 @@ export default (state = initialState, action) => {
 };
 
 export const getSelectedBranch = state => {
-  const branch = getBranches(state).availableBranches.find(({ id }) => id === getBranches(state).selectedBranch);
+  const branch = getBranches(state).branches.find(({ id }) => id === getBranches(state).selectedBranch);
   return branch || {};
 };
 export const getSelectedBranchId = state => getBranches(state).selectedBranch;
-export const getAvailableBranches = state => getBranches(state).availableBranches;
-export const getCanSelectBranch = state => getBranches(state).availableBranches.length > 1;
+export const getAvailableBranches = state => getBranches(state).branches;
+export const getCanSelectBranch = state => getBranches(state).branches.length > 1;
+export const getFirstBranch = state => getBranches(state).branches.length > 0 && getBranches(state).branches[0];

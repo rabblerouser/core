@@ -2,11 +2,11 @@ import reducer, { getCanSelectBranch } from '../branchReducers.js';
 
 describe('branchReducers', () => {
   describe('DEFAULT', () => {
-    it('sets availableBranch as an array and selectedBranch as a string by default', () => {
+    it('sets branches as an array and selectedBranch as a string by default', () => {
       const action = { type: '' };
       const reduction = reducer(undefined, action);
       expect(reduction).toEqual({
-        availableBranches: [],
+        branches: [],
         selectedBranch: '',
       });
     });
@@ -19,7 +19,7 @@ describe('branchReducers', () => {
         branches: ['a'],
       };
       const reduction = reducer({}, action);
-      expect(reduction).toEqual({ availableBranches: ['a'] });
+      expect(reduction).toEqual({ branches: ['a'] });
     });
   });
 
@@ -49,7 +49,7 @@ describe('branchReducers', () => {
   describe('BRANCH_REMOVED', () => {
     it('selects the first branch in the list after removing the branch', () => {
       const initialState = {
-        availableBranches: [{ id: '001' }],
+        branches: [{ id: '001' }],
         selectedBranch: '002',
       };
       const action = {
@@ -57,12 +57,12 @@ describe('branchReducers', () => {
         branchId: '002',
       };
       const reduction = reducer(initialState, action);
-      expect(reduction).toEqual({ availableBranches: [{ id: '001' }], selectedBranch: '001' });
+      expect(reduction).toEqual({ branches: [{ id: '001' }], selectedBranch: '001' });
     });
 
-    it('selects no branch when there is no branch available after removing the branch', () => {
+    it('selects no branch when there is no branch after removing the branch', () => {
       const initialState = {
-        availableBranches: [{ id: '001' }],
+        branches: [{ id: '001' }],
         selectedBranch: '001',
       };
       const action = {
@@ -77,16 +77,16 @@ describe('branchReducers', () => {
 
 describe('branch selectors', () => {
   describe('getCanSelectBranch', () => {
-    it('is false when there are no available branches', () => {
-      expect(getCanSelectBranch({ branches: { availableBranches: [] } })).toEqual(false);
+    it('is false when there are no branches', () => {
+      expect(getCanSelectBranch({ branches: { branches: [] } })).toEqual(false);
     });
 
-    it('is false when there is 1 available branch', () => {
-      expect(getCanSelectBranch({ branches: { availableBranches: ['b1'] } })).toEqual(false);
+    it('is false when there is 1 branch', () => {
+      expect(getCanSelectBranch({ branches: { branches: ['b1'] } })).toEqual(false);
     });
 
-    it('is true when there are 2 available branches', () => {
-      expect(getCanSelectBranch({ branches: { availableBranches: ['b1', 'b2'] } })).toEqual(true);
+    it('is true when there are 2 branches', () => {
+      expect(getCanSelectBranch({ branches: { branches: ['b1', 'b2'] } })).toEqual(true);
     });
   });
 });

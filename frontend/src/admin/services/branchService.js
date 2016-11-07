@@ -16,16 +16,6 @@ const handleResponseError = error => {
   }
 };
 
-const getMyBranches = () => (
-  Q(ajax({
-    type: 'GET',
-    url: `/${Resources.myBranchListEndPoint}`,
-    dataType: 'json',
-  }))
-    .then(branchAdapter.parseBranches)
-    .catch(handleResponseError)
-);
-
 const getBranches = () => (
   Q(ajax({
     type: 'GET',
@@ -68,7 +58,6 @@ const getBranchAdmins = branchId => (
 
 export default {
   getBranches,
-  getMyBranches,
   getBranchGroups,
   getBranchMembers,
   getBranchAdmins,

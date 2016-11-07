@@ -6,10 +6,10 @@ import {
   getAvailableBranches,
 } from '../reducers/branchReducers';
 
-import * as branchActions from '../actions/branchActions';
+import { branchSelected } from '../actions';
 
-export const BranchSelectBox = ({ selected, branchSelected, branches }) => {
-  const onChange = event => branchSelected(event.target.value);
+export const BranchSelectBox = ({ selected, onSelect, branches }) => {
+  const onChange = event => onSelect(event.target.value);
   return (
     <select id="branches" value={selected} onChange={onChange}>
       {branches.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
@@ -20,7 +20,7 @@ export const BranchSelectBox = ({ selected, branchSelected, branches }) => {
 BranchSelectBox.propTypes = {
   branches: React.PropTypes.array,
   selected: React.PropTypes.string,
-  branchSelected: React.PropTypes.func,
+  onSelect: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -28,4 +28,4 @@ const mapStateToProps = state => ({
   selected: getSelectedBranchId(state),
 });
 
-export default connect(mapStateToProps, branchActions)(BranchSelectBox);
+export default connect(mapStateToProps, { onSelect: branchSelected })(BranchSelectBox);

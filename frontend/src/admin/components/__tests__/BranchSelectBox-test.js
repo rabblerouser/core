@@ -16,7 +16,7 @@ describe('BranchSelectBox', () => {
 
   it('should fire a branchSelected action when a branch is selected', () => {
     const selectedSpy = jasmine.createSpy();
-    const branchSelectBox = shallow(<BranchSelectBox branchSelected={selectedSpy} branches={[{ id: 1 }, { id: 2 }]} />);
+    const branchSelectBox = shallow(<BranchSelectBox onSelect={selectedSpy} branches={[{ id: 1 }, { id: 2 }]} />);
     branchSelectBox.find('select').simulate('change', { target: '2' });
     expect(selectedSpy).toHaveBeenCalled();
   });

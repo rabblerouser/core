@@ -2,7 +2,9 @@ import {
   CLEAR_MESSAGES,
   REPORT_FAILURE,
   REPORT_SUCCESS,
-} from '../actions';
+} from '../actions/appFeedbackActions';
+
+const GENERAL_ERROR_MSG = 'There was an error when contacting the server';
 
 const initialState = {
   successMessages: [],
@@ -18,7 +20,7 @@ export default (state = initialState, action) => {
     };
     case REPORT_FAILURE: return {
       ...state,
-      failureMessages: state.failureMessages.concat(action.message),
+      failureMessages: state.failureMessages.concat(action.message ? action.message : GENERAL_ERROR_MSG),
     };
     case REPORT_SUCCESS: return {
       ...state,

@@ -1,6 +1,5 @@
 export const Resources = {
   branchListEndPoint: 'branches',
-  myBranchListEndPoint: 'admin/branches',
   registerEndPoint: 'register',
   groupListEndPoint: 'groups',
   networkAdminEndPoint: 'admins',
@@ -12,7 +11,7 @@ export const ApplicationForm = {
   submitButton: 'Submit',
   validationErrorTitle: 'Please check the following fields:',
   remoteSubmitErrorTitle: 'Sorry, we could not register you this time. Please try again later.',
-  branchListErrorTitle: 'Sorry, we could not get the list of available branches at this time. Please try again later.',
+  branchListErrorTitle: 'Sorry, we could not get the list of branches at this time. Please try again later.',
 };
 
 export const AdminDashboard = {

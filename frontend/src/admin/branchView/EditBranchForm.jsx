@@ -6,17 +6,15 @@ import validate from './branchValidator';
 import {
   branchUpdateRequested as update,
   branchCreateRequested as create,
+  finishEditBranch,
 } from './actions';
 import { getEditedBranch } from './reducers';
 
 import { InputField, TextAreaField } from '../common/forms';
 
 const onSubmit = (data, dispatch) => (
-  new Promise((resolve, reject) =>
-    dispatch(
-      data.id ? update(data, resolve, reject) : create(data, resolve, reject)
-    )
-  )
+  dispatch(data.id ? update(data) : create(data))
+  .then(() => dispatch(finishEditBranch()))
 );
 
 export const EditBranchForm = ({ handleSubmit }) => (
