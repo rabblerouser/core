@@ -1,10 +1,4 @@
-import { combineReducers } from 'redux';
-import { isEditing, editedBranch } from './reducers';
-
-export const reducers = combineReducers({
-  isEditing,
-  editedBranch,
-});
+export { default as reducers } from './reducers';
 
 import view from './BranchDetails';
 export default view;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getSelectedBranch } from './reducers';
+import { getSelectedBranch } from '../reducers/branchReducers';
 import BranchActions from './BranchActions';
 
 export const BranchDetails = ({ selectedBranch }) => (

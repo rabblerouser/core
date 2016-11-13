@@ -6,7 +6,7 @@ import DeleteButton from '../common/DeleteButton';
 import AddButton from '../common/AddButton';
 import EditButton from '../common/EditButton';
 
-import { getSelectedBranch } from './reducers';
+import { getSelectedBranch } from '../reducers/branchReducers';
 import { addBranch, editBranch, branchRemoveRequested } from './actions';
 
 export const BranchActions = ({ add, edit, remove }) => (

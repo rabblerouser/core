@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 import {
   EDIT_BRANCH,
   ADD_BRANCH,
@@ -5,8 +7,6 @@ import {
 } from './actions';
 
 import { getBranchView } from '../reducers/rootSelectors';
-import { getSelectedBranch as selected } from '../reducers/branchReducers';
-export const getSelectedBranch = selected;
 
 export const isEditing = (state = false, action) => {
   switch (action.type) {
@@ -24,6 +24,11 @@ export const editedBranch = (state = {}, action) => {
     default : return state;
   }
 };
+
+export default combineReducers({
+  isEditing,
+  editedBranch,
+});
 
 export const getIsEditActive = state => getBranchView(state).isEditing;
 export const getEditedBranch = state => getBranchView(state).editedBranch;
