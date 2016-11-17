@@ -37,7 +37,7 @@ export const branchRemoveRequested = branch => {
   const thunk = dispatch => {
     dispatch(clearMessages());
     return (
-      axios.delete(`/branches/${branch.id}/`, branch)
+      axios.delete(`/branches/${branch.id}`, branch)
       .then(() => {
         dispatch(branchListRequested());
         dispatch(branchRemoved(branch));
@@ -63,7 +63,7 @@ export const branchUpdateRequested = branch => {
   const thunk = dispatch => {
     dispatch(clearMessages());
     return (
-      axios.put(`/branches/${branch.id}/`, branch)
+      axios.put(`/branches/${branch.id}`, branch)
       .then(() => dispatch(branchListRequested()))
       .then(() => dispatch(branchUpdated(branch)))
       .then(() => dispatch(reportSuccess('Branch successfully updated')))
@@ -88,7 +88,7 @@ export const branchCreateRequested = branch => {
     dispatch(clearMessages());
     let savedBranch;
     return (
-      axios.post('/branches/', branch)
+      axios.post('/branches', branch)
       .then(resp => { savedBranch = resp.data; })
       .then(() => dispatch(branchListRequested()))
       .then(() => dispatch(branchCreated(savedBranch)))

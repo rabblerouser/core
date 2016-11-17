@@ -22,7 +22,7 @@ describe('admin/branchView/actions', () => {
 
   describe('branchRemoveRequested', () => {
     beforeEach(() => {
-      request = sandbox.stub(axios, 'delete').withArgs('/branches/123/');
+      request = sandbox.stub(axios, 'delete').withArgs('/branches/123');
     });
 
     it('should dispatch a successful remove and refresh the branch list', done => {
@@ -53,7 +53,7 @@ describe('admin/branchView/actions', () => {
 
   describe('branchUpdateRequested', () => {
     beforeEach(() => {
-      request = sandbox.stub(axios, 'put').withArgs('/branches/123/');
+      request = sandbox.stub(axios, 'put').withArgs('/branches/123');
     });
 
     it('should dispatch a successful update and refresh the branch list', done => {
@@ -84,7 +84,7 @@ describe('admin/branchView/actions', () => {
 
   describe('branchCreateRequested', () => {
     beforeEach(() => {
-      request = sandbox.stub(axios, 'post').withArgs('/branches/');
+      request = sandbox.stub(axios, 'post').withArgs('/branches');
     });
 
     it('should dispatch a successful create and refresh the branch list', done => {
