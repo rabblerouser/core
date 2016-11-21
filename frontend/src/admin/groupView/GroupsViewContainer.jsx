@@ -3,17 +3,18 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import GroupsView from './GroupsView';
-import branchService from '../../services/branchService.js';
-import groupService from '../../services/groupService.js';
-import MembersViewContainer from '../memberView/MembersViewContainer';
+import branchService from '../services/branchService.js';
+import groupService from '../services/groupService.js';
+import MembersViewContainer from '../components/memberView/MembersViewContainer';
 
-import { getSelectedBranchId } from '../../reducers/branchReducers';
+import { getSelectedBranchId } from '../reducers/branchReducers';
 
 import {
   clearMessages,
   reportFailure,
   reportSuccess,
-} from '../../actions/';
+} from '../actions/';
+
 
 class GroupsViewContainer extends Component {
 

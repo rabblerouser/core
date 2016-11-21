@@ -1,6 +1,6 @@
 import React from 'react';
 import EditGroupModalLauncher from './EditGroupModalLauncher';
-import DeleteButton from '../../common/DeleteButton';
+import DeleteButton from '../common/DeleteButton';
 
 const GroupHeader = ({ onSave, onDelete, group }) => (
   <span className="actions">
