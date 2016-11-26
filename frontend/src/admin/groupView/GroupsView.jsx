@@ -3,29 +3,26 @@ import { connect } from 'react-redux';
 
 import { getSelectedBranchId } from '../reducers/branchReducers';
 import GroupsList from './GroupsList';
-import GroupDetailView from './GroupDetailView';
-import AddGroupModalLauncher from './AddGroupModalLauncher';
+import GroupDetails from './GroupDetails';
+import GroupModal from './GroupModal';
+import CreateGroupButton from './CreateGroupButton';
 
-const GroupsView = ({ selectedBranchId, onSelectGroup, onSaveGroup, onDeleteGroup }) => (
+const GroupsView = ({ selectedBranchId, onSelectGroup }) => (
   <section className="admin-section" id="group-details">
     <h3>
       Groups
-      <AddGroupModalLauncher onSave={onSaveGroup} />
+      <CreateGroupButton />
       <a href={`/branches/${selectedBranchId}/members.csv`}>Export all...</a>
     </h3>
     <GroupsList onSelect={onSelectGroup} />
-    <GroupDetailView
-      onSave={onSaveGroup}
-      onDelete={onDeleteGroup}
-    />
+    <GroupDetails />
+    <GroupModal />
   </section>
 );
 
 GroupsView.propTypes = {
   selectedBranchId: React.PropTypes.string.isRequired,
   onSelectGroup: React.PropTypes.func,
-  onSaveGroup: React.PropTypes.func,
-  onDeleteGroup: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({

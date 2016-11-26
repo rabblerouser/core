@@ -1,15 +1,27 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Group = ({ group }) => (
-  <div>
-    <p>
-      {group.description}
-    </p>
-  </div>
+import { getSelectedGroup } from './reducers';
+import GroupActions from './GroupActions';
+
+const GroupDetails = ({ group }) => (
+  group ?
+    <section className="admin-section" id="description">
+      <div>
+        <p>
+          {group.description}
+        </p>
+      </div>
+      <GroupActions />
+    </section> : null
 );
 
-Group.propTypes = {
-  group: React.PropTypes.object.isRequired,
+GroupDetails.propTypes = {
+  group: React.PropTypes.object,
 };
 
-export default Group;
+const mapStateToProps = state => ({
+  group: getSelectedGroup(state),
+});
+
+export default connect(mapStateToProps)(GroupDetails);

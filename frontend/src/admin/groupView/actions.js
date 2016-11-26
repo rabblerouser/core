@@ -29,3 +29,18 @@ export const groupCreated = group => ({
   type: GROUP_CREATED,
   payload: { group },
 });
+
+export const EDIT_GROUP = 'EDIT_GROUP';
+export const editGroup = () => ({
+  type: EDIT_GROUP,
+});
+
+export const CREATE_GROUP = 'CREATE_GROUP';
+export const createGroup = () => ({
+  type: CREATE_GROUP,
+});
+
+export const FINISH_EDIT_GROUP = 'FINISH_EDIT_GROUP';
+export const finishEditGroup = () => ({
+  type: FINISH_EDIT_GROUP,
+});

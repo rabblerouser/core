@@ -1,6 +1,14 @@
 import { combineReducers } from 'redux';
 
-import { GROUPS_LIST_UPDATED, GROUP_SELECTED, GROUP_REMOVED, GROUP_UPDATED, GROUP_CREATED } from './actions';
+import { GROUPS_LIST_UPDATED,
+  GROUP_SELECTED,
+  GROUP_REMOVED,
+  GROUP_UPDATED,
+  GROUP_CREATED,
+  EDIT_GROUP,
+  CREATE_GROUP,
+  FINISH_EDIT_GROUP,
+} from './actions';
 import { getGroupsView } from '../reducers/rootSelectors';
 
 export const groups = (state = [], action) => {
@@ -23,10 +31,32 @@ export const selected = (state = 'unassigned', action) => {
   }
 };
 
+export const isEditing = (state = false, action) => {
+  switch (action.type) {
+    case CREATE_GROUP: return true;
+    case EDIT_GROUP: return true;
+    case FINISH_EDIT_GROUP: return false;
+    default : return state;
+  }
+};
+
+export const isCreating = (state = false, action) => {
+  switch (action.type) {
+    case CREATE_GROUP: return true;
+    case FINISH_EDIT_GROUP: return false;
+    default : return state;
+  }
+};
+
 export default combineReducers({
   groups,
   selected,
+  isEditing,
+  isCreating,
 });
+
+export const getIsEditActive = state => getGroupsView(state).isEditing;
+export const getIsCreating = state => getGroupsView(state).isCreating;
 
 export const getGroups = state => getGroupsView(state).groups;
 export const getSelectedGroupId = state => getGroupsView(state).selected;

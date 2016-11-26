@@ -1,4 +1,4 @@
-import { groups, selected } from '../reducers.js';
+import { groups, selected, isEditing, isCreating } from '../reducers.js';
 
 describe('groupsView / reducers', () => {
   describe('groups', () => {
@@ -83,6 +83,45 @@ describe('groupsView / reducers', () => {
     it('is set to undefined upon GROUP_REMOVED', () => {
       const reduction = selected({ id: 1234 }, { type: 'GROUP_REMOVED' });
       expect(reduction).toEqual('unassigned');
+    });
+  });
+
+  describe('isEditing', () => {
+    it('defaults to false', () => {
+      const reduction = isEditing(undefined, { type: '' });
+      expect(reduction).toEqual(false);
+    });
+
+    it('is set to true upon CREATE_GROUP ', () => {
+      const reduction = isEditing(false, { type: 'CREATE_GROUP' });
+      expect(reduction).toEqual(true);
+    });
+
+    it('is set to true upon EDIT_GROUP ', () => {
+      const reduction = isEditing(false, { type: 'EDIT_GROUP' });
+      expect(reduction).toEqual(true);
+    });
+
+    it('is set to false upon FINISH_EDIT_GROUP ', () => {
+      const reduction = isEditing(true, { type: 'FINISH_EDIT_GROUP' });
+      expect(reduction).toEqual(false);
+    });
+  });
+
+  describe('isCreating', () => {
+    it('defaults to false', () => {
+      const reduction = isCreating(undefined, { type: '' });
+      expect(reduction).toEqual(false);
+    });
+
+    it('is set to true upon CREATE_GROUP ', () => {
+      const reduction = isCreating(false, { type: 'CREATE_GROUP' });
+      expect(reduction).toEqual(true);
+    });
+
+    it('is set to false upon FINISH_EDIT_GROUP ', () => {
+      const reduction = isCreating(true, { type: 'FINISH_EDIT_GROUP' });
+      expect(reduction).toEqual(false);
     });
   });
 });
