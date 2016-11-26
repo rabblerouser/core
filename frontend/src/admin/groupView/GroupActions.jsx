@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { DeleteButton, EditButton } from '../common/DeleteButton';
-import { editGroup } from './actions';
+import { DeleteButton, EditButton } from '../common';
+import { editGroup, groupRemoveRequested } from './actions';
 
 const GroupActions = ({ remove, edit }) => (
   <span className="actions">
@@ -20,4 +20,4 @@ GroupActions.propTypes = {
   edit: React.PropTypes.func,
 };
 
-export default connect(() => ({}), { edit: editGroup, remove: editGroup })(GroupActions);
+export default connect(() => ({}), { edit: editGroup, remove: groupRemoveRequested })(GroupActions);

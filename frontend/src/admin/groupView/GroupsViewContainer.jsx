@@ -42,15 +42,6 @@ class GroupsViewContainer extends Component {
         this.props.onActivityStart();
         this.props.onGroupSelected(selected);
       },
-      onDelete: selected => {
-        this.props.onActivityStart();
-        groupService.deleteGroup(selected, this.props.branchId)
-          .then(() => {
-            this.props.onGroupRemoved(selected);
-            this.props.onActivitySuccess('Group deleted');
-          })
-          .catch(this.props.onActivityFailure);
-      },
     };
   }
 

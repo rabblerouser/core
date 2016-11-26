@@ -32,16 +32,7 @@ const updateGroup = (group, branchId) => (
     .catch(handleResponseError)
 );
 
-const deleteGroup = (group, branchId) => (
-  Q(ajax({
-    type: 'DELETE',
-    url: `/branches/${branchId}/groups/${group.id}`,
-  }))
-    .catch(handleResponseError)
-);
-
 export default {
   createGroup,
   updateGroup,
-  deleteGroup,
 };
