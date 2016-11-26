@@ -3,8 +3,7 @@ import { FormValidationErrors } from '../config/strings';
 
 export default values => {
   const errors = {};
-  if (!values.name) {
-    inputValidator.isValidText(values.name);
+  if (!values.name || !inputValidator.isValidText(values.name)) {
     errors.name = FormValidationErrors.name.message;
   }
   return errors;
