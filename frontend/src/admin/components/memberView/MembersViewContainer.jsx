@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import { getGroups } from '../../groupView';
-
 import _ from 'lodash';
+
+import { getGroups, getSelectedGroupId } from '../../groupView';
+
 import FilteredMembersList from './FilteredMembersList';
 import branchService from '../../services/branchService.js';
 import memberService from '../../services/memberService.js';
@@ -119,6 +119,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   branchId: getSelectedBranchId(state),
   groups: getGroups(state),
+  selectedGroupId: getSelectedGroupId(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MembersViewContainer);

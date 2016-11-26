@@ -8,7 +8,7 @@ import groupService from '../services/groupService.js';
 import MembersViewContainer from '../components/memberView/MembersViewContainer';
 
 import { getSelectedBranchId } from '../reducers/branchReducers';
-import { groupsListUpdated } from './actions';
+import { groupsListUpdated, groupSelected } from './actions';
 import {
   clearMessages,
   reportFailure,
@@ -36,8 +36,7 @@ class GroupsViewContainer extends Component {
       },
       onSelect: selected => {
         this.props.onActivityStart();
-        this.updateGroupSelection(selected);
-        this.setState({ selectedGroupId: selected });
+        this.props.onGroupSelected(selected);
       },
       onDelete: selected => {
         this.props.onActivityStart();
@@ -54,18 +53,8 @@ class GroupsViewContainer extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
       branchService.getBranchGroups(nextProps.branchId)
-        .then(groups => {
-          this.props.onGroupsListUpdated(groups);
-          this.setState({ groups });
-        });
+        .then(groups => this.props.onGroupsListUpdated(groups));
     }
-  }
-
-  getSelectedGroup() {
-    if (this.state.selectedGroupId === 'all' || this.state.selectedGroupId === 'unassigned') {
-      return null;
-    }
-    return this.state.groups.find(group => group.id === this.state.selectedGroupId);
   }
 
   update(collection, element) {
@@ -79,11 +68,6 @@ class GroupsViewContainer extends Component {
     this.setState({ groups: newElements });
   }
 
-  updateGroupSelection(selected) {
-    const groups = this.state.groups.map(group => Object.assign({}, group, { selected: group.id === selected }));
-    this.setState({ groups });
-  }
-
   removeAndUpdate(collection, element) {
     const oldElement = collection.find(item => item.id === element.id);
     this.setState({ groups: _.without(collection, oldElement) });
@@ -91,22 +75,18 @@ class GroupsViewContainer extends Component {
 
   removeAndUpdateGroups(collection, element) {
     this.removeAndUpdate(collection, element);
-    this.setState({ selectedGroupId: 'unassigned' });
+    this.props.onGroupSelected('unassigned');
   }
 
   render() {
     return (
       <section>
         <GroupsView
-          selectedBranchId={this.props.branchId}
-          selectedGroup={this.getSelectedGroup()}
           onSaveGroup={this.state.onSave}
           onDeleteGroup={this.state.onDelete}
           onSelectGroup={this.state.onSelect}
         />
-        <MembersViewContainer
-          selectedGroupId={this.state.selectedGroupId}
-        />
+        <MembersViewContainer />
       </section>
     );
   }
@@ -116,12 +96,14 @@ GroupsViewContainer.propTypes = {
   onActivityStart: React.PropTypes.func,
   onActivityFailure: React.PropTypes.func,
   onActivitySuccess: React.PropTypes.func,
+  onGroupSelected: React.PropTypes.func,
   onGroupsListUpdated: React.PropTypes.func,
   branchId: React.PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => ({
   onGroupsListUpdated: groups => dispatch(groupsListUpdated(groups)),
+  onGroupSelected: id => dispatch(groupSelected(id)),
   onActivityStart: () => dispatch(clearMessages()),
   onActivityFailure: error => dispatch(reportFailure(error)),
   onActivitySuccess: success => dispatch(reportSuccess(success)),

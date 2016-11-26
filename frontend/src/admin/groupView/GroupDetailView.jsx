@@ -1,12 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { getSelectedGroup } from './reducers';
 import GroupHeader from './GroupHeader';
 import GroupDetails from './GroupDetails';
 
 const GroupDetailView = ({ selectedGroup, onSave, onDelete }) => (
-  <section className="admin-section" id="description">
-    <GroupDetails group={selectedGroup} />
-    <GroupHeader onSave={onSave} onDelete={onDelete} group={selectedGroup} />
-  </section>
+  selectedGroup ?
+    <section className="admin-section" id="description">
+      <GroupDetails group={selectedGroup} />
+      <GroupHeader onSave={onSave} onDelete={onDelete} group={selectedGroup} />
+    </section> : null
 );
 
 GroupDetailView.propTypes = {
@@ -15,4 +19,8 @@ GroupDetailView.propTypes = {
   onDelete: React.PropTypes.func,
 };
 
-export default GroupDetailView;
+const mapStateToProps = state => ({
+  selectedGroup: getSelectedGroup(state),
+});
+
+export default connect(mapStateToProps)(GroupDetailView);
