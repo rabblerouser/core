@@ -8,13 +8,12 @@ import groupService from '../services/groupService.js';
 import MembersViewContainer from '../components/memberView/MembersViewContainer';
 
 import { getSelectedBranchId } from '../reducers/branchReducers';
-
+import { groupsListUpdated } from './actions';
 import {
   clearMessages,
   reportFailure,
   reportSuccess,
 } from '../actions/';
-
 
 class GroupsViewContainer extends Component {
 
@@ -56,6 +55,7 @@ class GroupsViewContainer extends Component {
     if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
       branchService.getBranchGroups(nextProps.branchId)
         .then(groups => {
+          this.props.onGroupsListUpdated(groups);
           this.setState({ groups });
         });
     }
@@ -100,14 +100,12 @@ class GroupsViewContainer extends Component {
         <GroupsView
           selectedBranchId={this.props.branchId}
           selectedGroup={this.getSelectedGroup()}
-          groups={this.state.groups}
           onSaveGroup={this.state.onSave}
           onDeleteGroup={this.state.onDelete}
           onSelectGroup={this.state.onSelect}
         />
         <MembersViewContainer
           selectedGroupId={this.state.selectedGroupId}
-          groups={this.state.groups}
         />
       </section>
     );
@@ -118,10 +116,12 @@ GroupsViewContainer.propTypes = {
   onActivityStart: React.PropTypes.func,
   onActivityFailure: React.PropTypes.func,
   onActivitySuccess: React.PropTypes.func,
+  onGroupsListUpdated: React.PropTypes.func,
   branchId: React.PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => ({
+  onGroupsListUpdated: groups => dispatch(groupsListUpdated(groups)),
   onActivityStart: () => dispatch(clearMessages()),
   onActivityFailure: error => dispatch(reportFailure(error)),
   onActivitySuccess: success => dispatch(reportSuccess(success)),

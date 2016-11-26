@@ -3,13 +3,13 @@ import GroupsList from './GroupsList';
 import GroupDetailView from './GroupDetailView';
 import AddGroupModalLauncher from './AddGroupModalLauncher';
 
-const GroupsView = ({ selectedBranchId, selectedGroup, groups, onSelectGroup, onSaveGroup, onDeleteGroup }) => {
-  const detailsView = selectedGroup ? (
-    <GroupDetailView
+const GroupsView = ({ selectedBranchId, selectedGroup, onSelectGroup, onSaveGroup, onDeleteGroup }) => {
+  const detailsView =
+    selectedGroup && (<GroupDetailView
       selectedGroup={selectedGroup}
       onSave={onSaveGroup}
       onDelete={onDeleteGroup}
-    />) : '';
+    />);
   return (
     <section className="admin-section" id="group-details">
       <h3>
@@ -17,10 +17,7 @@ const GroupsView = ({ selectedBranchId, selectedGroup, groups, onSelectGroup, on
         <AddGroupModalLauncher onSave={onSaveGroup} />
         <a href={`/branches/${selectedBranchId}/members.csv`}>Export all...</a>
       </h3>
-      <GroupsList
-        groups={groups}
-        onSelect={onSelectGroup}
-      />
+      <GroupsList onSelect={onSelectGroup} />
       {detailsView}
     </section>
   );
@@ -29,7 +26,6 @@ const GroupsView = ({ selectedBranchId, selectedGroup, groups, onSelectGroup, on
 GroupsView.propTypes = {
   selectedBranchId: React.PropTypes.string.isRequired,
   selectedGroup: React.PropTypes.object,
-  groups: React.PropTypes.array,
   onSelectGroup: React.PropTypes.func,
   onSaveGroup: React.PropTypes.func,
   onDeleteGroup: React.PropTypes.func,
