@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import GroupsView from './GroupsView';
@@ -8,31 +7,36 @@ import groupService from '../services/groupService.js';
 import MembersViewContainer from '../components/memberView/MembersViewContainer';
 
 import { getSelectedBranchId } from '../reducers/branchReducers';
-import { groupsListUpdated, groupSelected } from './actions';
+import { groupsListUpdated, groupSelected, groupCreated, groupUpdated, groupRemoved } from './actions';
 import {
   clearMessages,
   reportFailure,
   reportSuccess,
 } from '../actions/';
+import { getSelectedGroupId } from './reducers';
 
 class GroupsViewContainer extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      groups: [],
-      selectedGroupId: 'unassigned',
       onSave: groupDetails => {
         this.props.onActivityStart();
-        const saveAction = this.state.groups.find(group => group.id === groupDetails.id) === undefined ?
-          groupService.createGroup :
-          groupService.updateGroup;
-        saveAction(groupDetails, this.props.branchId)
+        if (this.props.selectedGroupId !== groupDetails.id) {
+          groupService.createGroup(groupDetails, this.props.branchId)
           .then(savedGroup => {
-            this.update(this.state.groups, savedGroup);
+            this.props.onGroupCreated(savedGroup);
             this.props.onActivitySuccess('Group saved');
           })
           .catch(this.props.onActivityFailure);
+        } else {
+          groupService.updateGroup(groupDetails, this.props.branchId)
+          .then(savedGroup => {
+            this.props.onGroupUpdated(savedGroup);
+            this.props.onActivitySuccess('Group saved');
+          })
+          .catch(this.props.onActivityFailure);
+        }
       },
       onSelect: selected => {
         this.props.onActivityStart();
@@ -42,7 +46,7 @@ class GroupsViewContainer extends Component {
         this.props.onActivityStart();
         groupService.deleteGroup(selected, this.props.branchId)
           .then(() => {
-            this.removeAndUpdateGroups(this.state.groups, selected);
+            this.props.onGroupRemoved(selected);
             this.props.onActivitySuccess('Group deleted');
           })
           .catch(this.props.onActivityFailure);
@@ -55,22 +59,6 @@ class GroupsViewContainer extends Component {
       branchService.getBranchGroups(nextProps.branchId)
         .then(groups => this.props.onGroupsListUpdated(groups));
     }
-  }
-
-  update(collection, element) {
-    const newElements = collection.slice(0);
-    const oldElement = newElements.find(g => g.id === element.id);
-    if (oldElement) {
-      Object.assign(oldElement, element);
-    } else {
-      newElements.push(element);
-    }
-    this.setState({ groups: newElements });
-  }
-
-  removeAndUpdate(collection, element) {
-    const oldElement = collection.find(item => item.id === element.id);
-    this.setState({ groups: _.without(collection, oldElement) });
   }
 
   removeAndUpdateGroups(collection, element) {
@@ -96,20 +84,28 @@ GroupsViewContainer.propTypes = {
   onActivityStart: React.PropTypes.func,
   onActivityFailure: React.PropTypes.func,
   onActivitySuccess: React.PropTypes.func,
+  onGroupCreated: React.PropTypes.func,
+  onGroupUpdated: React.PropTypes.func,
+  onGroupRemoved: React.PropTypes.func,
   onGroupSelected: React.PropTypes.func,
   onGroupsListUpdated: React.PropTypes.func,
+  selectedGroupId: React.PropTypes.string,
   branchId: React.PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => ({
   onGroupsListUpdated: groups => dispatch(groupsListUpdated(groups)),
   onGroupSelected: id => dispatch(groupSelected(id)),
+  onGroupCreated: group => dispatch(groupCreated(group)),
+  onGroupUpdated: group => dispatch(groupUpdated(group)),
+  onGroupRemoved: id => dispatch(groupRemoved(id)),
   onActivityStart: () => dispatch(clearMessages()),
   onActivityFailure: error => dispatch(reportFailure(error)),
   onActivitySuccess: success => dispatch(reportSuccess(success)),
 });
 
 const mapStateToProps = state => ({
+  selectedGroupId: getSelectedGroupId(state),
   branchId: getSelectedBranchId(state),
 });
 

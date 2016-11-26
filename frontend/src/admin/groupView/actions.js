@@ -11,3 +11,21 @@ export const groupSelected = groupId => ({
   type: GROUP_SELECTED,
   payload: { groupId },
 });
+
+export const GROUP_REMOVED = 'GROUP_REMOVED';
+export const groupRemoved = groupId => ({
+  type: GROUP_REMOVED,
+  payload: { groupId },
+});
+
+export const GROUP_UPDATED = 'GROUP_UPDATED';
+export const groupUpdated = group => ({
+  type: GROUP_UPDATED,
+  payload: { group },
+});
+
+export const GROUP_CREATED = 'GROUP_CREATED';
+export const groupCreated = group => ({
+  type: GROUP_CREATED,
+  payload: { group },
+});
