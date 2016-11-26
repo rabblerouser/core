@@ -96,6 +96,6 @@ export const branchCreateRequested = branch => {
       .catch(() => dispatch(reportFailure()))
     );
   };
-  thunk.type = BRANCH_UPDATE_REQUESTED;
+  thunk.type = BRANCH_CREATE_REQUESTED;
   return thunk;
 };

@@ -1,85 +1,46 @@
-import React, { Component } from 'react';
-import { FormFieldLabel } from '../common/forms/';
-import groupValidator from '../services/groupValidator.js';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
 
-class EditGroupForm extends Component {
+import { InputField, TextAreaField } from '../common/forms';
+import { getSelectedGroup, getIsCreating } from './reducers';
+import {
+  groupUpdateRequested as update,
+  groupCreateRequested as create,
+  finishEditGroup,
+} from './actions';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: props.group.id,
-      name: props.group.name,
-      description: props.group.description,
-      invalidFields: [],
-    };
-    this.updateName = this.updateName.bind(this);
-    this.updateDescription = this.updateDescription.bind(this);
-    this.saveChanges = this.saveChanges.bind(this);
-  }
+import validate from './groupValidator';
 
-  getGroupDetails() {
-    return this.state;
-  }
+const onSubmit = (data, dispatch) => (
+  dispatch(data.id ? update(data) : create(data))
+  .then(() => dispatch(finishEditGroup()))
+);
 
-  isValidationError(fieldName) {
-    return this.state.invalidFields.includes(fieldName);
-  }
-
-  updateName(event) {
-    this.setState({ name: event.target.value });
-  }
-
-  updateDescription(event) {
-    this.setState({ description: event.target.value });
-  }
-
-  saveChanges() {
-    const errors = groupValidator.isValid(this.getGroupDetails());
-    this.setState({ invalidFields: errors });
-    if (errors.length === 0) {
-      this.props.onSuccess();
-      this.props.onSave(this.getGroupDetails());
-    }
-  }
-
-  render() {
-    return (
-      <section className="form-container">
-        <h2>{this.props.title}</h2>
-        <FormFieldLabel fieldName="groupName" isOptional={false} hasError={this.isValidationError('name')} />
-        <input
-          id="groupName"
-          type="text"
-          placeholder="e.g. Tuesday 4.30pm"
-          defaultValue=""
-          value={this.state.name}
-          onChange={this.updateName}
-        />
-        <FormFieldLabel
-          fieldName="groupDescription"
-          isOptional={false}
-          hasError={this.isValidationError('description')}
-        />
-        <textarea
-          id="groupDescription"
-          type="type"
-          placeholder="Describe your group"
-          defaultValue=""
-          value={this.state.description}
-          onChange={this.updateDescription}
-        />
-        <button className="save" onClick={this.saveChanges}>Save</button>
-      </section>
-    );
-  }
-
-}
+const EditGroupForm = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
+    <section className="form-container">
+      <header className="details-header">
+        <span className="title">Group details</span>
+        <span className="actions">
+          <button className="save" type="submit">Save</button>
+        </span>
+      </header>
+      <Field component={InputField} id="name" name="name" label="Name" type="text" />
+      <Field component={TextAreaField} id="description" name="description" label="Description" />
+    </section>
+  </form>
+);
 
 EditGroupForm.propTypes = {
-  title: React.PropTypes.string,
-  group: React.PropTypes.object,
-  onSuccess: React.PropTypes.func,
-  onSave: React.PropTypes.func,
+  handleSubmit: React.PropTypes.func.isRequired,
 };
 
-export default EditGroupForm;
+const mapStateToProps = state => ({
+  initialValues: getIsCreating(state) ? {} : getSelectedGroup(state),
+});
+export default connect(mapStateToProps)(reduxForm({
+  form: 'group',
+  validate,
+  onSubmit,
+})(EditGroupForm));

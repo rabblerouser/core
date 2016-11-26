@@ -72,3 +72,39 @@ export const groupRemoveRequested = () => {
   thunk.type = GROUP_REMOVE_REQUESTED;
   return thunk;
 };
+
+export const ADD_GROUP = 'ADD_GROUP';
+export const addGroup = () => ({ type: ADD_GROUP });
+
+export const GROUP_CREATE_REQUESTED = 'GROUP_CREATE_REQUESTED';
+export const groupCreateRequested = group => {
+  const thunk = (dispatch, getState) => {
+    dispatch(clearMessages());
+    const branchId = getSelectedBranchId(getState());
+    return (
+      axios.post(`/branches/${branchId}/groups`, group)
+      .then(resp => resp.data)
+      .then(savedGroup => dispatch(groupCreated(savedGroup)))
+      .then(() => dispatch(reportSuccess('Group successfully created')))
+      .catch(() => dispatch(reportFailure()))
+    );
+  };
+  thunk.type = GROUP_CREATE_REQUESTED;
+  return thunk;
+};
+
+export const GROUP_UPDATE_REQUESTED = 'GROUP_UPDATE_REQUESTED';
+export const groupUpdateRequested = group => {
+  const thunk = (dispatch, getState) => {
+    dispatch(clearMessages());
+    const branchId = getSelectedBranchId(getState());
+    return (
+      axios.put(`/branches/${branchId}/groups/${group.id}`, group)
+      .then(() => dispatch(groupUpdated(group)))
+      .then(() => dispatch(reportSuccess('Group successfully updated')))
+      .catch(() => dispatch(reportFailure()))
+    );
+  };
+  thunk.type = GROUP_UPDATE_REQUESTED;
+  return thunk;
+};

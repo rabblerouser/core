@@ -5,6 +5,8 @@ import * as branchSelectors from '../../reducers/branchReducers';
 
 import {
   groupRemoveRequested,
+  groupCreateRequested,
+  groupUpdateRequested,
  } from '../actions';
 
 describe('admin/groupView/actions', () => {
@@ -15,6 +17,7 @@ describe('admin/groupView/actions', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     dispatch = sandbox.spy();
+    spyOn(branchSelectors, 'getSelectedBranchId').and.returnValue('123');
   });
 
   afterEach(() => {
@@ -24,8 +27,6 @@ describe('admin/groupView/actions', () => {
   describe('groupRemoveRequested', () => {
     beforeEach(() => {
       spyOn(groupSelectors, 'getSelectedGroupId').and.returnValue('111');
-      spyOn(branchSelectors, 'getSelectedBranchId').and.returnValue('123');
-
       request = sandbox.stub(axios, 'delete').withArgs('/branches/123/groups/111');
     });
 
@@ -43,7 +44,71 @@ describe('admin/groupView/actions', () => {
 
     it('should report a failure when the request fails', done => {
       request.returns(Promise.reject());
-      groupRemoveRequested({ id: 123 })(dispatch, () => {})
+      groupRemoveRequested()(dispatch, () => {})
+      .then(() => {
+        expect(dispatch.calledWithMatch({ type: 'REPORT_FAILURE' })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should have handled the exception');
+      });
+    });
+  });
+
+  describe('groupUpdateRequested', () => {
+    beforeEach(() => {
+      request = sandbox.stub(axios, 'put').withArgs('/branches/123/groups/789');
+    });
+
+    it('should dispatch a successful update', done => {
+      request.returns(Promise.resolve());
+      groupUpdateRequested({ id: '789', name: 'some name' })(dispatch, () => {})
+      .then(() => {
+        expect(dispatch.calledWithMatch({
+          type: 'GROUP_UPDATED', payload: { group: { id: '789', name: 'some name' } },
+        })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should not have thrown an exception');
+      });
+    });
+
+    it('should report a failure when the request fails', done => {
+      request.returns(Promise.reject());
+      groupUpdateRequested({ id: '789', name: 'some name' })(dispatch, () => {})
+      .then(() => {
+        expect(dispatch.calledWithMatch({ type: 'REPORT_FAILURE' })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should have handled the exception');
+      });
+    });
+  });
+
+  describe('groupCreateRequested', () => {
+    beforeEach(() => {
+      request = sandbox.stub(axios, 'post').withArgs('/branches/123/groups');
+    });
+
+    it('should dispatch a successful create', done => {
+      request.returns(Promise.resolve({ data: { id: '123', name: 'some name' } }));
+      groupCreateRequested({ name: 'some name' })(dispatch, () => {})
+      .then(() => {
+        expect(dispatch.calledWithMatch({
+          type: 'GROUP_CREATED', payload: { group: { id: '123', name: 'some name' } },
+        })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should not have thrown an exception');
+      });
+    });
+
+    it('should report a failure when the request fails', done => {
+      request.returns(Promise.reject());
+      groupCreateRequested({ name: 'some name' })(dispatch, () => {})
       .then(() => {
         expect(dispatch.calledWithMatch({ type: 'REPORT_FAILURE' })).toEqual(true);
         done();
