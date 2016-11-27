@@ -31,7 +31,6 @@ export const branchRemoved = branch => (
 export const FINISH_EDIT_BRANCH = 'FINISH_EDIT_BRANCH';
 export const finishEditBranch = () => ({ type: FINISH_EDIT_BRANCH });
 
-
 export const BRANCH_REMOVE_REQUESTED = 'BRANCH_REMOVE_REQUESTED';
 export const branchRemoveRequested = branch => {
   const thunk = dispatch => {

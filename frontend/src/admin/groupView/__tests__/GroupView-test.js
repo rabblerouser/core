@@ -2,9 +2,12 @@ import React from 'react';
 import { GroupView } from '../GroupView';
 import { shallow } from 'enzyme';
 
+import { Modal } from '../../common';
+
 describe('GroupView', () => {
   let rendered;
   const create = () => {};
+  const handleClose = () => {};
   const requestGroupList = jasmine.createSpy();
 
   beforeEach(() => {
@@ -12,12 +15,20 @@ describe('GroupView', () => {
       branchId="1"
       create={create}
       requestGroupList={requestGroupList}
+      isModalOpen
+      handleCloseModal={handleClose}
     />);
   });
 
   it('renders an AddButton with the provided add prop', () => {
     const addButton = rendered.find('AddButton');
     expect(addButton.props().onClick).toEqual(create);
+  });
+
+  it('renders a Modal with the provided close and isOpen prop', () => {
+    const modal = rendered.find(Modal);
+    expect(modal.props().isOpen).toEqual(true);
+    expect(modal.props().handleClose).toEqual(handleClose);
   });
 
   describe('when the branchId provided changes', () => {

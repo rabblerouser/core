@@ -2,17 +2,25 @@ import React from 'react';
 import { BranchActions } from '../BranchActions';
 import { shallow } from 'enzyme';
 
-describe('<BranchActions />', () => {
-  let rendered;
+import { Modal } from '../../common';
 
-  const branch = {};
+describe('<BranchActions />', () => {
   const add = () => {};
   const edit = () => {};
+  const handleClose = () => {};
   const remove = jasmine.createSpy();
+  let rendered;
 
   beforeEach(() => {
     rendered = shallow(
-      <BranchActions add={add} edit={edit} remove={remove} branch={branch} />
+      <BranchActions
+        add={add}
+        edit={edit}
+        remove={remove}
+        branch={{}}
+        isModalOpen
+        handleCloseModal={handleClose}
+      />
     );
   });
 
@@ -26,8 +34,14 @@ describe('<BranchActions />', () => {
     expect(editButton.props().onClick).toEqual(edit);
   });
 
-  it('renders an DeleteButton with the provided remove prop', () => {
+  it('renders a DeleteButton with the provided remove prop', () => {
     const deleteButton = rendered.find('DeleteButton');
     expect(deleteButton.props().onDelete).toEqual(remove);
+  });
+
+  it('renders a Modal with the provided close and isOpen prop', () => {
+    const modal = rendered.find(Modal);
+    expect(modal.props().isOpen).toEqual(true);
+    expect(modal.props().handleClose).toEqual(handleClose);
   });
 });

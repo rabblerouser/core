@@ -1,15 +1,14 @@
 import React from 'react';
-import { BranchModal } from '../BranchModal';
 import { shallow } from 'enzyme';
-import EditBranchForm from '../EditBranchForm';
+import Modal from '../Modal';
 
-describe('BranchModal', () => {
+describe('Modal', () => {
   let rendered;
   const isOpen = true;
   const onClose = () => {};
 
   beforeEach(() => {
-    rendered = shallow(<BranchModal isOpen={isOpen} handleClose={onClose} />);
+    rendered = shallow(<Modal isOpen={isOpen} handleClose={onClose}><form /></Modal>);
   });
 
   it('renders a modal with isOpen and onRequestClose mapped props', () => {
@@ -18,7 +17,7 @@ describe('BranchModal', () => {
     expect(modal.props().onRequestClose).toEqual(onClose);
   });
 
-  it('renders an edit branch form', () => {
-    expect(rendered.find(EditBranchForm).length).toEqual(1);
+  it('renders the provided children', () => {
+    expect(rendered.find('form').length).toEqual(1);
   });
 });

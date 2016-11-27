@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import EditGroupForm from './EditGroupForm';
 import GroupSelect from './GroupSelect';
 import GroupDetails from './GroupDetails';
-import GroupModal from './GroupModal';
-import { AddButton } from '../common';
+import { AddButton, Modal } from '../common';
 import { getSelectedBranchId } from '../reducers/branchReducers';
-import { createGroup, groupListRequested } from './actions';
+import { createGroup, groupListRequested, finishEditGroup } from './actions';
+import { getIsEditActive } from './reducers';
 
 export class GroupView extends Component {
 
@@ -24,9 +25,11 @@ export class GroupView extends Component {
         </h3>
         <GroupSelect />
         <GroupDetails />
-        <GroupModal />
+        <Modal isOpen={this.props.isModalOpen} handleClose={this.props.handleCloseModal} >
+          <EditGroupForm />
+        </Modal>
       </section>
-  );
+    );
   }
 }
 
@@ -34,11 +37,18 @@ GroupView.propTypes = {
   create: React.PropTypes.func,
   requestGroupList: React.PropTypes.func,
   branchId: React.PropTypes.string,
+  isModalOpen: React.PropTypes.bool,
+  handleCloseModal: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   branchId: getSelectedBranchId(state),
+  isModalOpen: getIsEditActive(state),
 });
 
-const mapDispatchToProps = { create: createGroup, requestGroupList: groupListRequested };
+const mapDispatchToProps = {
+  create: createGroup,
+  requestGroupList: groupListRequested,
+  handleCloseModal: finishEditGroup,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(GroupView);

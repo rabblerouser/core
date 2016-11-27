@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { changeInputValue, changeTextAreaValue, clickButton } from './DOMHelpers';
 import { initialiseStore } from './integrationTestHelpers';
 import BranchDetails, { reducers } from '../index';
-import { AddButton, EditButton, DeleteButton } from '../../common/';
+import { AddButton, EditButton, DeleteButton, Modal } from '../../common/';
 
 describe('Branch View - Integration', () => {
   let rendered;
@@ -40,10 +40,9 @@ describe('Branch View - Integration', () => {
   it('lets me add a new branch', done => {
     stub200('POST', '/branches');
 
-    const modal = rendered.find('BranchModal');
+    const modal = rendered.find(Modal);
     const add = rendered.find(AddButton);
     add.simulate('click');
-
     expect(modal.prop('isOpen')).toEqual(true);
 
     changeInputValue('name', 'Test branch changed');
@@ -67,7 +66,7 @@ describe('Branch View - Integration', () => {
   it('lets me edit a branch', done => {
     stub200('PUT', '/branches/1234');
 
-    const modal = rendered.find('BranchModal');
+    const modal = rendered.find(Modal);
     const edit = rendered.find(EditButton);
     edit.simulate('click');
 

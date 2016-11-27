@@ -41,7 +41,8 @@ export default (state = initialState, action) => {
 };
 
 export const getSelectedBranch = state => {
-  const branch = getBranches(state).branches.find(({ id }) => id === getBranches(state).selectedBranch);
+  const branches = getBranches(state).branches;
+  const branch = branches && branches.find(({ id }) => id === getBranches(state).selectedBranch);
   return branch || {};
 };
 export const getSelectedBranchId = state => getBranches(state).selectedBranch;
