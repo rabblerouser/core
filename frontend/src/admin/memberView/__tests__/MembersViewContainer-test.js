@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { MembersViewContainer } from '../MembersViewContainer';
 import FilteredMembersList from '../FilteredMembersList';
-import memberService from '../../../services/memberService';
+import memberService from '../../services/memberService';
 
 describe('MembersViewContainer', () => {
   let onActivityStart;

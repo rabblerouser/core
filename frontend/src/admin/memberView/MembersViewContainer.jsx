@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { getGroups, getSelectedGroupId } from '../../groupView';
+import { getGroups, getSelectedGroupId } from '../groupView';
 
 import FilteredMembersList from './FilteredMembersList';
-import branchService from '../../services/branchService.js';
-import memberService from '../../services/memberService.js';
+import branchService from '../services/branchService.js';
+import memberService from '../services/memberService.js';
 
 import {
   getSelectedBranchId,
-} from '../../reducers/branchReducers';
+} from '../reducers/branchReducers';
 
 import {
   clearMessages,
   reportFailure,
   reportSuccess,
-} from '../../actions/';
+} from '../actions/';
 
 export class MembersViewContainer extends Component {
   constructor(props) {

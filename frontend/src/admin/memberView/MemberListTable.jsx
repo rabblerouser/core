@@ -1,7 +1,7 @@
 import React from 'react';
-import SortedTable from '../../common/SortedTable';
+import SortedTable from '../common/SortedTable';
 import EditMemberModalLauncher from './EditMemberModalLauncher';
-import DeleteButton from '../../common/DeleteButton';
+import DeleteButton from '../common/DeleteButton';
 import moment from 'moment';
 
 const columnsWithAddress = [

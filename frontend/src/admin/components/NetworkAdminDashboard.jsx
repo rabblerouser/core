@@ -6,7 +6,7 @@ import BranchDetails from '../branchView/';
 import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
 import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer';
 import GroupsView from '../groupView';
-import MembersViewContainer from '../components/memberView/MembersViewContainer';
+import MembersViewContainer from '../memberView/MembersViewContainer';
 
 const BranchManagement = () => (
   <section>

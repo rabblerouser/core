@@ -6,7 +6,7 @@ import {
  completePostalAddress,
  parsedMemberWithPostalAddress,
  parsedMemberWithNullPostalAddress,
-} from '../../../adapters/__tests__/memberAdapter-test';
+} from '../../adapters/__tests__/memberAdapter-test';
 
 
 describe('EditMemberForm', () => {

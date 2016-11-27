@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import MemberListTable from '../MemberListTable';
 import { parsedMemberWithPostalAddress, parsedMemberWithNullPostalAddress } from
- '../../../adapters/__tests__/memberAdapter-test';
+ '../../adapters/__tests__/memberAdapter-test';
 
 describe('MemberListTable', () => {
   const columnsWithoutAddress = [

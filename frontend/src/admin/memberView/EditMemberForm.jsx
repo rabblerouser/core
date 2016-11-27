@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'underscore';
 import EditMemberFields from './EditMemberFields';
-import memberValidator from '../../services/memberValidator';
-import UserMessageView from '../UserMessageView';
+import memberValidator from '../services/memberValidator';
+import UserMessageView from '../components/UserMessageView';
 
 const ADDRESS_FIELD_NAMES = ['address', 'suburb', 'state', 'postcode', 'country'];
 
