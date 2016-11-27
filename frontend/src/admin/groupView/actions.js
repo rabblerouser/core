@@ -7,10 +7,10 @@ import {
 import { getSelectedGroupId } from './reducers';
 import { getSelectedBranchId } from '../reducers/branchReducers';
 
-export const GROUPS_LIST_UPDATED = 'GROUPS_LIST_UPDATED';
+export const GROUP_LIST_UPDATED = 'GROUP_LIST_UPDATED';
 
-export const groupsListUpdated = groups => ({
-  type: GROUPS_LIST_UPDATED,
+export const groupListUpdated = groups => ({
+  type: GROUP_LIST_UPDATED,
   payload: { groups },
 });
 
@@ -53,6 +53,21 @@ export const FINISH_EDIT_GROUP = 'FINISH_EDIT_GROUP';
 export const finishEditGroup = () => ({
   type: FINISH_EDIT_GROUP,
 });
+
+export const GROUP_LIST_REQUESTED = 'GROUP_LIST_REQUESTED';
+export const groupListRequested = () => {
+  const thunk = (dispatch, getState) => {
+    const branchId = getSelectedBranchId(getState());
+    return (
+      axios.get(`/branches/${branchId}/groups`)
+      .then(resp => resp.data)
+      .then(({ groups }) => dispatch(groupListUpdated(groups)))
+      .catch(() => dispatch(reportFailure()))
+    );
+  };
+  thunk.type = GROUP_LIST_REQUESTED;
+  return thunk;
+};
 
 export const GROUP_REMOVE_REQUESTED = 'GROUP_REMOVE_REQUESTED';
 export const groupRemoveRequested = () => {

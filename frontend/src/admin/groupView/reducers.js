@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { GROUPS_LIST_UPDATED,
+import { GROUP_LIST_UPDATED,
   GROUP_SELECTED,
   GROUP_REMOVED,
   GROUP_UPDATED,
@@ -13,7 +13,7 @@ import { getGroupsView } from '../reducers/rootSelectors';
 
 export const groups = (state = [], action) => {
   switch (action.type) {
-    case GROUPS_LIST_UPDATED: return [...action.payload.groups];
+    case GROUP_LIST_UPDATED: return [...action.payload.groups];
     case GROUP_REMOVED: return state.filter(({ id }) => id !== action.payload.groupId);
     case GROUP_UPDATED: return state.map(group =>
       (group.id === action.payload.group.id ? action.payload.group : group)

@@ -7,6 +7,7 @@ import {
   groupRemoveRequested,
   groupCreateRequested,
   groupUpdateRequested,
+  groupListRequested,
  } from '../actions';
 
 describe('admin/groupView/actions', () => {
@@ -22,6 +23,38 @@ describe('admin/groupView/actions', () => {
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  describe('groupListRequested', () => {
+    beforeEach(() => {
+      request = sandbox.stub(axios, 'get').withArgs('/branches/123/groups');
+    });
+
+    it('should dispatch a successful update', done => {
+      request.returns(Promise.resolve({ data: { groups: [{ id: '111' }] } }));
+      groupListRequested()(dispatch, () => {})
+      .then(() => {
+        expect(dispatch.calledWithMatch({
+          type: 'GROUP_LIST_UPDATED', payload: { groups: [{ id: '111' }] },
+        })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should not have thrown an exception');
+      });
+    });
+
+    it('should report a failure when the request fails', done => {
+      request.returns(Promise.reject());
+      groupListRequested()(dispatch, () => {})
+      .then(() => {
+        expect(dispatch.calledWithMatch({ type: 'REPORT_FAILURE' })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should have handled the exception');
+      });
+    });
   });
 
   describe('groupRemoveRequested', () => {

@@ -7,9 +7,9 @@ describe('groupsView / reducers', () => {
       expect(reduction).toEqual([]);
     });
 
-    it('is set to the list of groups upon GROUPS_LIST_UPDATED ', () => {
+    it('is set to the list of groups upon GROUP_LIST_UPDATED ', () => {
       const reduction = groups([], {
-        type: 'GROUPS_LIST_UPDATED',
+        type: 'GROUP_LIST_UPDATED',
         payload: {
           groups: [
             { id: 1234, name: 'group 1' }, { id: 4567, name: 'group 2' },
