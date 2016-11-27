@@ -17,7 +17,7 @@ const onSubmit = (data, dispatch) => (
   .then(() => dispatch(finishEditGroup()))
 );
 
-const EditGroupForm = ({ handleSubmit }) => (
+export const EditGroupForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <section className="form-container">
       <header className="details-header">

@@ -88,6 +88,7 @@ export class MembersViewContainer extends Component {
   render() {
     return (
       <section className="admin-section" id="member-list">
+        <a href={`/branches/${this.props.branchId}/members.csv`}>Export all members...</a>
         <FilteredMembersList
           groupFilter={this.props.selectedGroupId}
           groups={this.props.groups}

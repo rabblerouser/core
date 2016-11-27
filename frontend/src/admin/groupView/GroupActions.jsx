@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { DeleteButton, EditButton } from '../common';
 import { editGroup, groupRemoveRequested } from './actions';
 
-const GroupActions = ({ remove, edit }) => (
+export const GroupActions = ({ remove, edit }) => (
   <span className="actions">
     <EditButton onClick={edit} />
     <DeleteButton
