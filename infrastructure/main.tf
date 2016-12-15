@@ -2,23 +2,15 @@ provider "aws" {
   region = "${var.region}"
 }
 
-resource "aws_eip" "ip" {
-  instance = "${aws_instance.web.id}"
-}
-
 resource "aws_instance" "web" {
   ami = "${var.ubuntu[var.region]}"
-  instance_type = "t2.micro"
+  instance_type = "t2.small" # Micro does not have enough memory for webpack :(
   key_name = "${aws_key_pair.ansible.key_name}"
+  security_groups = ["${aws_security_group.web.name}"]
 
   tags {
     Name = "Rabble Rouser Web"
   }
-}
-
-resource "aws_key_pair" "ansible" {
-  key_name = "rabble_rouser_ansible_key"
-  public_key = "${file(var.public_key_path)}"
 }
 
 resource "aws_db_instance" "db" {
@@ -35,6 +27,8 @@ resource "aws_db_instance" "db" {
   password = "${var.db_password}"
   port = 5432
 
-  // This doesn't work with db.t2.micro
-  // storage_encrypted = true
+  vpc_security_group_ids = ["${aws_security_group.rds.id}"]
+
+  # This doesn't work with db.t2.micro
+  # storage_encrypted = true
 }

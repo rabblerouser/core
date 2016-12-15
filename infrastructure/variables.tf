@@ -1,6 +1,40 @@
+variable "route53_zone_id" {
+  description = "An existing Route53 hosted zone, where the new DNS entry should be placed"
+  type = "string"
+}
+
+variable "domain" {
+  description = "The domain where you want your Rabble Rouser instance to live. Must be valid for the host zone where it
+  will be created. E.g. if the hosted zone is example.com, then this variable might be set to 'rabblerouser.example.com.'."
+  type = "string"
+}
+
+variable "tls_cert_email" {
+  description = "The email under which to register the TLS cert. E.g. webmaster@rabblerouser.team"
+  type = "string"
+}
+
+variable "session_secret" {
+  description = "A random token with which to encrypt user sessions"
+  type = "string"
+}
+
 variable "db_password" {
   description = "Password for the app to access its RDS database"
+  type = "string"
 }
+
+variable "app_git_sha" {
+  description = "The commit-ish to be deployed"
+  type = "string"
+  default = "HEAD"
+}
+
+variable "private_key_path" {
+  description = "Private key to be used for ansible provisioning"
+  default = "~/.ssh/id_rsa"
+}
+
 variable "public_key_path" {
   description = "Public key to be used for ansible provisioning"
   default = "~/.ssh/id_rsa.pub"

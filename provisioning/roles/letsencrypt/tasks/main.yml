@@ -8,7 +8,7 @@
   ufw: rule=allow port=80 proto=tcp
 
 - name: install a cert
-  shell: /opt/letsencrypt/letsencrypt-auto certonly --staging --standalone --agree-tos --email {{ cert_contact_email }} -d {{ cert_domain }} --keep --non-interactive --standalone-supported-challenges http-01
+  shell: /opt/letsencrypt/certbot-auto certonly --standalone --agree-tos --email {{ cert_contact_email }} -d {{ cert_domain }} --keep --non-interactive --standalone-supported-challenges http-01
 
 - name: close port 80
   ufw: rule=allow port=80 proto=tcp delete=yes

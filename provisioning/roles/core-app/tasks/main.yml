@@ -26,7 +26,7 @@
   template: src=db.json.j2 dest="{{ app_path }}/backend/config/db.json" mode=0600
 
 - name: install npm dependencies
-  become_user: "{{ app_user}}"
+  become_user: "{{ app_user }}"
   command: npm install --production chdir="{{ app_path }}"
 
 - name: re/start rabble-rouser-core

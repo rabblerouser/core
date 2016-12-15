@@ -1,9 +1,13 @@
 - hosts: all
   sudo: yes
+  gather_facts: no
+  pre_tasks:
+      - raw: sudo apt-get -y update && sudo apt-get -y install python-simplejson
+      - name: Gather facts
+        setup:
   roles:
-    - { role: thing }
     - { role: firewall }
     - { role: geerlingguy.nodejs }
-    - { role: letsencrypt, cert_contact_email: "{{ lookup('env','CERT_EMAIL') }}", cert_domain: "{{ inventory_hostname }}" }
-    - { role: nginx, server_name: "{{ inventory_hostname }}", https_certs_dir: "/etc/letsencrypt/live/{{ inventory_hostname }}" }
-    - { role: core-app, git_sha: "{{ lookup('env', 'APP_GIT_SHA') }}", node_env: production, db_names: ["rabble_rouser_core_db"], db_user: "rabble_rouser", db_password: "{{ lookup('env','DB_PASSWORD') }}", db_host: "{{ lookup('env','DB_HOST') }}", db_port: "{{ lookup('env','DB_PORT') }}", session_secret:  "{{ lookup('env','SESSION_SECRET') }}"}
+    - { role: letsencrypt, cert_contact_email: "{{ lookup('env','CERT_EMAIL') }}", cert_domain: "{{ lookup('env', 'DOMAIN') }}" }
+    - { role: nginx, server_name: "{{ lookup('env', 'DOMAIN') }}", https_certs_dir: "/etc/letsencrypt/live/{{ lookup('env', 'DOMAIN') }}" }
+    - { role: core-app, git_sha: "{{ lookup('env', 'APP_GIT_SHA') }}", db_name: "{{ lookup('env','DB_NAME') }}", db_user: "{{ lookup('env','DB_USER') }}", db_password: "{{ lookup('env','DB_PASSWORD') }}", db_host: "{{ lookup('env','DB_HOST') }}", db_port: "{{ lookup('env','DB_PORT') }}", session_secret:  "{{ lookup('env','SESSION_SECRET') }}"}

@@ -5,6 +5,6 @@ app_path: /opt/rabble-rouser-core
 app_user: rabble-rouser
 logs_dir: /var/log/rabble-rouser-core
 pids_dir: /var/run/rabble-rouser-core
-node_env: development
+node_env: production
 db_password: secret
 session_secret: "i'm a secret teapot"
