@@ -15,9 +15,9 @@ simplify our config variable management in general.)
  i.e. how to do it with environment variables instead.
 4. Seed/bootstrap the database so that the app is ready for use immediately.
 5. Productionisationising:
-  5.1. DB backups ets
-  5.2. Logging, monitoring, alerts, etc
-  5.3. Proper VPC stuff for the securiteez
+  - DB backups ets
+  - Logging, monitoring, alerts, etc
+  - Proper VPC stuff for the securiteez
 6. *For version 2:* automate more of the tooling/first time setup process, so the whole thing is easier to use.
 
 ## First-time setup
