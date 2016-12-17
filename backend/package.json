@@ -10,12 +10,11 @@
     "ci": "npm test",
     "lint": "eslint src",
     "migrate": "sequelize --config config/db.json db:migrate",
+    "seed": "node node_scripts/seed.js",
     "pretest": "NODE_ENV=test npm run migrate",
     "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 --compilers js:babel-core/register -r spec/specGlobals --recursive spec",
-    "prestart": "npm run migrate",
-    "start": "node index.js",
-    "dev:createSuperAdmin": "node ./node_scripts/createSuperAdmin.js",
-    "createSuperAdmin": "NODE_ENV=production node ./node_scripts/createSuperAdmin.js"
+    "prestart": "npm run migrate && npm run seed",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
