@@ -1,7 +1,4 @@
  {
-  "app": {
-    "publicUrl": "http://localhost:3000"
-  },
   "email": {
     "defaultEmailAccount":"pamela.rucinque@gmail.com",
     "membershipEmail": "pamela.rucinque@gmail.com",
@@ -18,5 +15,4 @@
     "secureCookie": false
   },
   "logFormat": "[:date[iso]] :method :url :status :response-time ms - :req[header]"
-
 }
