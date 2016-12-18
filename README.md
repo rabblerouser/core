@@ -69,7 +69,7 @@ The following sections assume that you've done the first time setup above.
 2. From the backend directory: `npm test`
 3. Goto #1
 
-###Manual testing workflow:
+### Manual testing workflow:
 
 1. From the root directory: `npm run build && npm start`
 2. Make your changes
@@ -80,13 +80,13 @@ Note: Some specific files, such as the routes, may require a full restart. In th
 also the case if you happen to change any frontend code during this process.
 
 ## *"I want to work on the frontend (javascript or styles)"*
-###Automated testing workflow:
+### Automated testing workflow:
 
 1. Make your changes
 2. From the frontend directory: `npm test`
 3. Goto #1
 
-###Manual testing workflow:
+### Manual testing workflow:
 
 1. `cd /vagrant/backend && npm start`
 2. `cd /vagrant/frontend && npm start`
@@ -112,21 +112,9 @@ We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/
 
 These should all be run from the `backend` directory.
 
-* Migrate the database (run automatically as part and npm start or npm test)
-
-        ./node_modules/sequelize-cli/bin/sequelize db:migrate
-
 * Create a new migration
 
         ./node_modules/sequelize-cli/bin/sequelize migration:create --config config/db.json --name <migration_name>
-
-* Create an admin user for your local dev environment:
-
-        npm run dev:createSuperAdmin
-
-* Create an admin user for the production environment:
-
-        npm run createSuperAdmin
 
 ## Customising the app for your organisation
 
