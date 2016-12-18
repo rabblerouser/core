@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import EditMemberForm from './EditMemberForm';
 import { getGroups, getSelectedGroupId } from '../groupView';
+import { Modal } from '../common';
 
 import FilteredMembersList from './FilteredMembersList';
 import branchService from '../services/branchService.js';
 import memberService from '../services/memberService.js';
 
-import { memberListUpdated } from './actions';
-import { getMembers } from './reducers';
+import { memberListUpdated, finishEditMember } from './actions';
+import { getMembers, getIsEditActive } from './reducers';
 import { getSelectedBranchId } from '../reducers/branchReducers';
 
 import {
@@ -21,7 +23,6 @@ import {
 export class MembersViewContainer extends Component {
   constructor(props) {
     super(props);
-    this.saveMember = this.saveMember.bind(this);
     this.deleteMember = this.deleteMember.bind(this);
   }
 
@@ -32,16 +33,6 @@ export class MembersViewContainer extends Component {
       branchService.getBranchMembers(nextProps.branchId)
       .then(this.props.membersUpdated);
     }
-  }
-
-  saveMember(member) {
-    this.props.onActivityStart();
-    memberService.update(member, this.props.branchId)
-      .then(savedMember => {
-        this.update(this.props.members, savedMember);
-        this.props.onActivitySuccess('Member saved');
-      })
-      .catch(this.props.onActivityFailure);
   }
 
   deleteMember(member) {
@@ -88,9 +79,13 @@ export class MembersViewContainer extends Component {
           groupFilter={this.props.selectedGroupId}
           groups={this.props.groups}
           members={this.props.members}
-          onSaveMember={this.saveMember}
           onDeleteMember={this.deleteMember}
         />
+        <Modal isOpen={this.props.isModalOpen} handleClose={this.props.handleCloseModal} >
+          <EditMemberForm
+            onSuccess={this.closeEditForm}
+          />
+        </Modal>
       {this.props.members.length === 0 && <aside className="no-entries">No entries found</aside>}
       </section>
     );
@@ -99,6 +94,8 @@ export class MembersViewContainer extends Component {
 
 MembersViewContainer.propTypes = {
   selectedGroupId: React.PropTypes.string,
+  isModalOpen: React.PropTypes.bool,
+  handleCloseModal: React.PropTypes.func,
   groups: React.PropTypes.array,
   members: React.PropTypes.array,
   onActivityStart: React.PropTypes.func,
@@ -113,6 +110,7 @@ const mapDispatchToProps = dispatch => ({
   onActivityFailure: error => dispatch(reportFailure(error)),
   onActivitySuccess: success => dispatch(reportSuccess(success)),
   membersUpdated: members => dispatch(memberListUpdated(members)),
+  handleCloseModal: finishEditMember,
 });
 
 const mapStateToProps = state => ({
@@ -120,6 +118,7 @@ const mapStateToProps = state => ({
   groups: getGroups(state),
   members: getMembers(state),
   selectedGroupId: getSelectedGroupId(state),
+  isModalOpen: getIsEditActive(state),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MembersViewContainer);

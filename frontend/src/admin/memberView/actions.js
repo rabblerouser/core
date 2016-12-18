@@ -1,6 +1,45 @@
+import axios from 'axios';
+import {
+  clearMessages,
+  reportFailure,
+  reportSuccess,
+} from '../actions/appFeedbackActions';
+import { getSelectedBranchId } from '../reducers/branchReducers';
+
 export const MEMBER_LIST_UPDATED = 'MEMBER_LIST_UPDATED';
 
 export const memberListUpdated = members => ({
   type: MEMBER_LIST_UPDATED,
   payload: { members },
 });
+
+export const MEMBER_UPDATED = 'MEMBER_UPDATED';
+export const memberUpdated = member => ({
+  type: MEMBER_UPDATED,
+  payload: { member },
+});
+
+export const EDIT_MEMBER = 'EDIT_MEMBER';
+export const editMember = memberId => ({
+  type: EDIT_MEMBER,
+  payload: { memberId },
+});
+
+export const FINISH_EDIT_MEMBER = 'FINISH_EDIT_MEMBER';
+export const finishEditMember = () => ({
+  type: FINISH_EDIT_MEMBER,
+});
+
+export const MEMBER_UPDATE_REQUESTED = 'MEMBER_UPDATE_REQUESTED';
+export const memberUpdateRequested = member => {
+  const thunk = (dispatch, getState) => {
+    dispatch(clearMessages());
+    const branchId = getSelectedBranchId(getState());
+    return axios.put(`/branches/${branchId}/members/${member.id}`, member)
+      .then(() => dispatch(memberUpdated(member)))
+      .then(() => dispatch(reportSuccess('Member successfully updated')))
+      .catch(() => dispatch(reportFailure()));
+  };
+  thunk.type = MEMBER_UPDATE_REQUESTED;
+  return thunk;
+};

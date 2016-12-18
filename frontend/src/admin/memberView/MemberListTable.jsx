@@ -1,8 +1,9 @@
 import React from 'react';
-import SortedTable from '../common/SortedTable';
-import EditMemberModalLauncher from './EditMemberModalLauncher';
-import DeleteButton from '../common/DeleteButton';
 import moment from 'moment';
+import { connect } from 'react-redux';
+
+import { EditButton, DeleteButton, SortedTable } from '../common';
+import { editMember } from './actions';
 
 const columnsWithAddress = [
   { type: 'name', field: 'memberName', label: 'Member name' },
@@ -23,10 +24,10 @@ function nullToBlank(input) {
   return input === null ? '' : input;
 }
 
-const mapFields = ({ memberName, memberLastName, contactNumber, contactEmail, memberSince, postalAddress },
+const mapFields = ({ firstName, lastName, primaryPhoneNumber, email, memberSince, postalAddress },
                    addressEnabled) => {
-  const memberNameField = `${memberName} ${nullToBlank(memberLastName)}`;
-  const contactNumberField = `${contactNumber} ${contactEmail}`;
+  const memberNameField = `${firstName} ${nullToBlank(lastName)}`;
+  const contactNumberField = `${primaryPhoneNumber} ${email}`;
   const memberSinceField = moment(memberSince).format('YYYY/MM/DD');
 
   let postalAddressField;
@@ -56,8 +57,8 @@ const mapFields = ({ memberName, memberLastName, contactNumber, contactEmail, me
   return fields;
 };
 
-const mapActions = (member, allGroups, onSaveMember, onDeleteMember) => [
-  <EditMemberModalLauncher key={`${member.id}-edit`} member={{ ...member, allGroups }} onSave={onSaveMember} />,
+const mapActions = (onEdit, member, allGroups, onDeleteMember) => [
+  <EditButton key={`${member.id}-edit`} onClick={() => { onEdit(member.id); }} />,
   <DeleteButton
     key={`${member.id}-delete`}
     confirmMessage="Are you sure you want to delete the selected member?"
@@ -66,24 +67,32 @@ const mapActions = (member, allGroups, onSaveMember, onDeleteMember) => [
   />,
 ];
 
-const MemberListTable = ({ members, groups, onSaveMember, onDeleteMember,
-                           addressEnabled = customisation.addressEnabled }) => {
+export const MemberListTable = ({
+  onEdit,
+  members,
+  groups,
+  onDeleteMember,
+  addressEnabled = customisation.addressEnabled,
+}) => {
   let columns = addressEnabled ? columnsWithAddress : columnsWithoutAddress;
   return (<SortedTable
     columns={columns}
     data={members.map(member => (
-      { ...mapFields(member, addressEnabled), actions: mapActions(member, groups, onSaveMember, onDeleteMember) }
+      {
+        ...mapFields(member, addressEnabled),
+        actions: mapActions(onEdit, member, groups, onDeleteMember),
+      }
     ))}
     sortOn="memberName"
   />);
 };
 
-export default MemberListTable;
-
 MemberListTable.propTypes = {
   members: React.PropTypes.array,
   groups: React.PropTypes.array,
-  onSaveMember: React.PropTypes.func.isRequired,
   onDeleteMember: React.PropTypes.func.isRequired,
+  onEdit: React.PropTypes.func.isRequired,
   addressEnabled: React.PropTypes.bool,
 };
+
+export default connect(() => ({}), { onEdit: editMember })(MemberListTable);

@@ -3,7 +3,6 @@ import ajax from '../../lib/ajax';
 import { Resources } from '../config/strings';
 import groupAdapter from '../adapters/groupAdapter.js';
 import branchAdapter from '../adapters/branchAdapter.js';
-import memberAdapter from '../adapters/memberAdapter.js';
 import adminAdapter from '../adapters/adminAdapter.js';
 
 const handleResponseError = error => {
@@ -42,7 +41,7 @@ const getBranchMembers = branchId => (
     url: `/${Resources.branchListEndPoint}/${branchId}/members`,
     dataType: 'json',
   }))
-    .then(memberAdapter.parseMembers)
+    .then(data => data.members)
     .catch(handleResponseError)
 );
 
