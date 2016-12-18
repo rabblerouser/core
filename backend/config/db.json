@@ -14,5 +14,11 @@
     "host": "127.0.0.1",
     "dialect": "postgresql",
     "logging": false
+  },
+  "staging": {
+    "use_env_variable": "DATABASE_URL"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
   }
 }

@@ -1,18 +1,19 @@
 'use strict';
 
 const Sequelize = require('sequelize');
-const config = require(`${__dirname}/../../config/db.json`);
-const cls = require('continuation-local-storage');
 
+const env = process.env.NODE_ENV || 'development';
+const config = require(`${__dirname}/../../config/db.json`)[env];
+
+const cls = require('continuation-local-storage');
 Sequelize.cls = cls.createNamespace('rabblerouser');
 
 let connection;
 
-const dbConfig = config[process.env.NODE_ENV || 'development'];
-if (dbConfig) {
-  connection = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
+if (config.use_env_variable) {
+  connection = new Sequelize(process.env[config.use_env_variable]);
 } else {
-  connection = new Sequelize(process.env.DATABASE_URL);
+  connection = new Sequelize(config.database, config.username, config.password, config);
 }
 
 module.exports = connection;
