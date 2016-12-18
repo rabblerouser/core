@@ -8,9 +8,9 @@ import FilteredMembersList from './FilteredMembersList';
 import branchService from '../services/branchService.js';
 import memberService from '../services/memberService.js';
 
-import {
-  getSelectedBranchId,
-} from '../reducers/branchReducers';
+import { memberListUpdated } from './actions';
+import { getMembers } from './reducers';
+import { getSelectedBranchId } from '../reducers/branchReducers';
 
 import {
   clearMessages,
@@ -21,9 +21,6 @@ import {
 export class MembersViewContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      members: [],
-    };
     this.saveMember = this.saveMember.bind(this);
     this.deleteMember = this.deleteMember.bind(this);
   }
@@ -33,9 +30,7 @@ export class MembersViewContainer extends Component {
 
     if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
       branchService.getBranchMembers(nextProps.branchId)
-        .then(members => {
-          this.setState({ members });
-        });
+      .then(this.props.membersUpdated);
     }
   }
 
@@ -43,7 +38,7 @@ export class MembersViewContainer extends Component {
     this.props.onActivityStart();
     memberService.update(member, this.props.branchId)
       .then(savedMember => {
-        this.update(this.state.members, savedMember);
+        this.update(this.props.members, savedMember);
         this.props.onActivitySuccess('Member saved');
       })
       .catch(this.props.onActivityFailure);
@@ -53,7 +48,7 @@ export class MembersViewContainer extends Component {
     this.props.onActivityStart();
     return memberService.deleteMember(member.id, this.props.branchId)
       .then(() => {
-        this.setState({ members: _.without(this.state.members, member) });
+        this.props.membersUpdated(_.without(this.props.members, member));
         this.props.onActivitySuccess('Member successfully deleted');
       })
       .catch(this.props.onActivityFailure);
@@ -67,7 +62,7 @@ export class MembersViewContainer extends Component {
     } else {
       newElements.push(element);
     }
-    this.setState({ members: newElements });
+    this.props.membersUpdated(newElements);
   }
 
   updateIfGroupRemoved(oldGroups, newGroups) {
@@ -76,13 +71,13 @@ export class MembersViewContainer extends Component {
     }
     const removedGroup = _.difference(oldGroups, newGroups)[0];
 
-    const updatedMembers = this.state.members.map(member =>
+    const updatedMembers = this.props.members.map(member =>
       Object.assign(
         {},
         member,
         { groups: _.reject(member.groups, group => group === removedGroup.id) })
     );
-    this.setState({ members: updatedMembers });
+    this.props.membersUpdated(updatedMembers);
   }
 
   render() {
@@ -92,11 +87,11 @@ export class MembersViewContainer extends Component {
         <FilteredMembersList
           groupFilter={this.props.selectedGroupId}
           groups={this.props.groups}
-          members={this.state.members}
+          members={this.props.members}
           onSaveMember={this.saveMember}
           onDeleteMember={this.deleteMember}
         />
-      {this.state.members.length === 0 && <aside className="no-entries">No entries found</aside>}
+      {this.props.members.length === 0 && <aside className="no-entries">No entries found</aside>}
       </section>
     );
   }
@@ -105,9 +100,11 @@ export class MembersViewContainer extends Component {
 MembersViewContainer.propTypes = {
   selectedGroupId: React.PropTypes.string,
   groups: React.PropTypes.array,
+  members: React.PropTypes.array,
   onActivityStart: React.PropTypes.func,
   onActivityFailure: React.PropTypes.func,
   onActivitySuccess: React.PropTypes.func,
+  membersUpdated: React.PropTypes.func,
   branchId: React.PropTypes.string,
 };
 
@@ -115,11 +112,13 @@ const mapDispatchToProps = dispatch => ({
   onActivityStart: () => dispatch(clearMessages()),
   onActivityFailure: error => dispatch(reportFailure(error)),
   onActivitySuccess: success => dispatch(reportSuccess(success)),
+  membersUpdated: members => dispatch(memberListUpdated(members)),
 });
 
 const mapStateToProps = state => ({
   branchId: getSelectedBranchId(state),
   groups: getGroups(state),
+  members: getMembers(state),
   selectedGroupId: getSelectedGroupId(state),
 });
 

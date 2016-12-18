@@ -6,7 +6,7 @@ import BranchDetails from '../branchView/';
 import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
 import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer';
 import GroupsView from '../groupView';
-import MembersViewContainer from '../memberView/MembersViewContainer';
+import MembersView from '../memberView/';
 
 const BranchManagement = () => (
   <section>
@@ -14,7 +14,7 @@ const BranchManagement = () => (
     <OrganisersViewContainer />
     <section>
       <GroupsView />
-      <MembersViewContainer />
+      <MembersView />
     </section>
   </section>
 );

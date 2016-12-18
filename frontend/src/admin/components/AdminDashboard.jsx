@@ -3,7 +3,7 @@ import React from 'react';
 import AdminHeader from './AdminHeader';
 import UserMessageView from './UserMessageView';
 import GroupsView from '../groupView';
-import MembersViewContainer from '../memberView/MembersViewContainer';
+import MembersView from '../memberView/';
 import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
 
 const AdminDashboard = () => (
@@ -13,7 +13,7 @@ const AdminDashboard = () => (
     <OrganisersViewContainer />
     <section>
       <GroupsView />
-      <MembersViewContainer />
+      <MembersView />
     </section>
 
   </div>
