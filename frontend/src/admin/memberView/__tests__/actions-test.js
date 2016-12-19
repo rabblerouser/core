@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-import * as memberSelectors from '../reducers';
 import * as branchSelectors from '../../reducers/branchReducers';
 
 import {
   memberUpdateRequested,
   memberListRequested,
+  memberRemoveRequested,
  } from '../actions';
 
 describe('admin/memberView/actions', () => {
@@ -21,6 +21,36 @@ describe('admin/memberView/actions', () => {
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  describe('memberRemoveRequested', () => {
+    beforeEach(() => {
+      request = sandbox.stub(axios, 'delete').withArgs('/branches/123/members/111');
+    });
+
+    it('should dispatch a successful remove', done => {
+      request.returns(Promise.resolve());
+      memberRemoveRequested('111')(dispatch, () => {})
+      .then(() => {
+        expect(dispatch.calledWithMatch({ type: 'MEMBER_REMOVED', payload: { memberId: '111' } })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should not have thrown an exception');
+      });
+    });
+
+    it('should report a failure when the request fails', done => {
+      request.returns(Promise.reject());
+      memberRemoveRequested(111)(dispatch, () => {})
+      .then(() => {
+        expect(dispatch.calledWithMatch({ type: 'REPORT_FAILURE' })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should have handled the exception');
+      });
+    });
   });
 
   describe('memberListRequested', () => {

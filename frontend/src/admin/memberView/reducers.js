@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import {
   MEMBER_LIST_UPDATED,
   MEMBER_UPDATED,
+  MEMBER_REMOVED,
   EDIT_MEMBER,
   FINISH_EDIT_MEMBER,
 } from './actions';
@@ -11,6 +12,7 @@ import { getMembersView } from '../reducers/rootSelectors';
 export const members = (state = [], action) => {
   switch (action.type) {
     case MEMBER_LIST_UPDATED: return [...action.payload.members];
+    case MEMBER_REMOVED: return state.filter(({ id }) => id !== action.payload.memberId);
     case MEMBER_UPDATED: return state.map(member =>
       (member.id === action.payload.member.id ? action.payload.member : member)
     );

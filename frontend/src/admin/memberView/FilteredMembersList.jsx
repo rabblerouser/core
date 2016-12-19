@@ -1,7 +1,7 @@
 import React from 'react';
 import MemberListTable from './MemberListTable';
 
-const FilteredMembersList = ({ groupFilter, members, groups, onDeleteMember }) => {
+const FilteredMembersList = ({ groupFilter, members }) => {
   function filterMembersList() {
     switch (groupFilter) {
       case 'all' :
@@ -14,19 +14,13 @@ const FilteredMembersList = ({ groupFilter, members, groups, onDeleteMember }) =
   }
 
   return (
-    <MemberListTable
-      members={filterMembersList()}
-      groups={groups}
-      onDeleteMember={onDeleteMember}
-    />
+    <MemberListTable members={filterMembersList()} />
   );
 };
 
 FilteredMembersList.propTypes = {
   groupFilter: React.PropTypes.string,
   members: React.PropTypes.array,
-  groups: React.PropTypes.array,
-  onDeleteMember: React.PropTypes.func.isRequired,
 };
 
 export default FilteredMembersList;

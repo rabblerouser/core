@@ -21,6 +21,19 @@ describe('membersView / reducers', () => {
       ]);
     });
 
+    it('removes the provided member upon MEMBER_REMOVED ', () => {
+      const initialState = [
+        { id: 1234, name: 'member 1' }, { id: 4567, name: 'member 2' },
+      ];
+      const reduction = members(initialState, {
+        type: 'MEMBER_REMOVED',
+        payload: {
+          memberId: 1234,
+        },
+      });
+      expect(reduction).toEqual([{ id: 4567, name: 'member 2' }]);
+    });
+
     it('updates the member upon MEMBER_UPDATED ', () => {
       const initialState = [
         { id: 1234, name: 'member 1' }, { id: 4567, name: 'member 2' },

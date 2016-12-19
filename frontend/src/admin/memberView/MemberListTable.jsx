@@ -3,7 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import { EditButton, DeleteButton, SortedTable } from '../common';
-import { editMember } from './actions';
+import { editMember, memberRemoveRequested } from './actions';
 
 const columnsWithAddress = [
   { type: 'name', field: 'memberName', label: 'Member name' },
@@ -57,21 +57,20 @@ const mapFields = ({ firstName, lastName, primaryPhoneNumber, email, memberSince
   return fields;
 };
 
-const mapActions = (onEdit, member, allGroups, onDeleteMember) => [
-  <EditButton key={`${member.id}-edit`} onClick={() => { onEdit(member.id); }} />,
+const mapActions = (edit, remove, memberId) => [
+  <EditButton key={`${memberId}-edit`} onClick={() => { edit(memberId); }} />,
   <DeleteButton
-    key={`${member.id}-delete`}
+    key={`${memberId}-delete`}
     confirmMessage="Are you sure you want to delete the selected member?"
-    title="Delete admin"
-    onDelete={() => onDeleteMember(member)}
+    title="Delete member"
+    onDelete={remove}
   />,
 ];
 
 export const MemberListTable = ({
-  onEdit,
+  edit,
+  remove,
   members,
-  groups,
-  onDeleteMember,
   addressEnabled = customisation.addressEnabled,
 }) => {
   let columns = addressEnabled ? columnsWithAddress : columnsWithoutAddress;
@@ -80,7 +79,7 @@ export const MemberListTable = ({
     data={members.map(member => (
       {
         ...mapFields(member, addressEnabled),
-        actions: mapActions(onEdit, member, groups, onDeleteMember),
+        actions: mapActions(edit, remove, member.id),
       }
     ))}
     sortOn="memberName"
@@ -89,10 +88,9 @@ export const MemberListTable = ({
 
 MemberListTable.propTypes = {
   members: React.PropTypes.array,
-  groups: React.PropTypes.array,
-  onDeleteMember: React.PropTypes.func.isRequired,
-  onEdit: React.PropTypes.func.isRequired,
+  edit: React.PropTypes.func.isRequired,
+  remove: React.PropTypes.func.isRequired,
   addressEnabled: React.PropTypes.bool,
 };
 
-export default connect(() => ({}), { onEdit: editMember })(MemberListTable);
+export default connect(() => ({}), { edit: editMember, remove: memberRemoveRequested })(MemberListTable);
