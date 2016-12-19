@@ -159,13 +159,3 @@ Rabble Rouser supports the following e-mailing tools:
 0. Create the following env vars: EMAIL_USERNAME="Default SMTP Login" EMAIL_PASSWORD="Default Password"
 
 0. Turn on the toggle `email.sendEmails` in each specific environment (`config/default.json`, `config/  staging.json`, `config/production.json`)
-
-## Pull a copy of the staging database from Heroku
-
-0. heroku pg:backups capture --app <app_name>
-
-0. curl -o db/dumps/latest.dump `heroku pg:backups public-url`
-
-0. (in the VM) pg_restore --verbose --clean --no-acl --no-owner -h localhost -U rabble_rouser -d rabble_rouser_core_db db/dumps/latest.dump
-
-Happy hacking!
