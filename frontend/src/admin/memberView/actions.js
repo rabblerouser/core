@@ -13,6 +13,21 @@ export const memberListUpdated = members => ({
   payload: { members },
 });
 
+export const MEMBER_LIST_REQUESTED = 'MEMBER_LIST_REQUESTED';
+export const memberListRequested = () => {
+  const thunk = (dispatch, getState) => {
+    const branchId = getSelectedBranchId(getState());
+    return (
+      axios.get(`/branches/${branchId}/members`)
+      .then(resp => resp.data)
+      .then(({ members }) => dispatch(memberListUpdated(members)))
+      .catch(() => dispatch(reportFailure()))
+    );
+  };
+  thunk.type = MEMBER_LIST_REQUESTED;
+  return thunk;
+};
+
 export const MEMBER_UPDATED = 'MEMBER_UPDATED';
 export const memberUpdated = member => ({
   type: MEMBER_UPDATED,

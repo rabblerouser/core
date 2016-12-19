@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import moment from 'moment';
 
-import validate from '../services/memberValidator';
+import validate from './memberValidator';
 import { SelectField, InputField, TextAreaField } from '../common/forms';
 import { getSelectedMember } from './reducers';
 import { getGroups } from '../groupView';

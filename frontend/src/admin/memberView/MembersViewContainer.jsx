@@ -7,10 +7,9 @@ import { getGroups, getSelectedGroupId } from '../groupView';
 import { Modal } from '../common';
 
 import FilteredMembersList from './FilteredMembersList';
-import branchService from '../services/branchService.js';
 import memberService from '../services/memberService.js';
 
-import { memberListUpdated, finishEditMember } from './actions';
+import { memberListUpdated, finishEditMember, memberListRequested } from './actions';
 import { getMembers, getIsEditActive } from './reducers';
 import { getSelectedBranchId } from '../reducers/branchReducers';
 
@@ -28,10 +27,8 @@ export class MembersViewContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.updateIfGroupRemoved(this.props.groups, nextProps.groups);
-
     if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
-      branchService.getBranchMembers(nextProps.branchId)
-      .then(this.props.membersUpdated);
+      this.props.membersRequested();
     }
   }
 
@@ -102,14 +99,16 @@ MembersViewContainer.propTypes = {
   onActivityFailure: React.PropTypes.func,
   onActivitySuccess: React.PropTypes.func,
   membersUpdated: React.PropTypes.func,
+  membersRequested: React.PropTypes.func,
   branchId: React.PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => ({
-  onActivityStart: () => dispatch(clearMessages()),
+  onActivityStart: clearMessages,
   onActivityFailure: error => dispatch(reportFailure(error)),
   onActivitySuccess: success => dispatch(reportSuccess(success)),
   membersUpdated: members => dispatch(memberListUpdated(members)),
+  membersRequested: () => dispatch(memberListRequested()),
   handleCloseModal: finishEditMember,
 });
 
