@@ -37,7 +37,6 @@ describe('emailTransporter', () => {
       expect(transporter).not.to.be.null;
       expect(transporter.name).to.equals('SMTP');
     });
-
   });
 
   describe('things go bad', () => {

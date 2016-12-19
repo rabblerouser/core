@@ -48,7 +48,7 @@ describe('Messaging integration tests', () => {
             to: ['sherlock@holmes.co.uk'],
             subject: 'Welcome text',
             html: 'Welcome body\nHello world',
-            replyTo: 'lhajfhadhaskjhd@rabblerouser.com'
+            replyTo: 'lhajfhadhaskjhd@rabblerouser.com',
           }), sinon.match.any);
         });
       });
@@ -65,7 +65,7 @@ describe('Messaging integration tests', () => {
 
     describe('sad', () => {
       beforeEach(() => {
-        transportStub = { sendMail: function(options, callback) { callback(true,false); }};
+        transportStub = { sendMail: (options, callback) => callback(true, false) };
         sendMailSpy = sinon.spy(transportStub, 'sendMail');
         sinon.stub(nodemailer, 'createTransport').returns(transportStub);
       });
