@@ -108,14 +108,6 @@ If you're not sure how to fix an ESLint error, you can look up the docs for spec
 
 We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) (slightly modified), which encourages use of many ES6 features. If you're not up to speed on ES6, this reference may come in handy: http://es6-features.org/.
 
-## Backend utility scripts
-
-These should all be run from the `backend` directory.
-
-* Create a new migration
-
-        ./node_modules/sequelize-cli/bin/sequelize migration:create --config config/db.json --name <migration_name>
-
 ## Customising the app for your organisation
 
 At the moment, this is done using environment variables. The table below describes the use of these environment variables. At the moment, everything is optional, and a default theme will be provided if none is given.

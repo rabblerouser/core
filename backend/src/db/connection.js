@@ -1,7 +1,7 @@
 'use strict';
 
 const Sequelize = require('sequelize');
-const config = require(`${__dirname}/../../config/db.json`)[process.env.NODE_ENV || 'development'];
+const config = require(`${__dirname}/../../config/config`)[process.env.NODE_ENV || 'development'];
 const cls = require('continuation-local-storage');
 
 Sequelize.cls = cls.createNamespace('rabblerouser');

@@ -9,7 +9,7 @@
   "scripts": {
     "ci": "npm test",
     "lint": "eslint src",
-    "migrate": "sequelize --config config/db.json db:migrate",
+    "migrate": "sequelize db:migrate",
     "seed": "node node_scripts/seed.js",
     "pretest": "NODE_ENV=test npm run migrate",
     "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 --compilers js:babel-core/register -r spec/specGlobals --recursive spec",
