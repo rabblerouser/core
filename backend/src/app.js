@@ -14,18 +14,18 @@ const routes = require('./routes/index');
 const session = require('express-session');
 const passport = require('passport');
 const app = express();
-const config = require('config');
 const SequelizeSessionStore = require('connect-session-sequelize')(session.Store);
 const db = require('./db/connection');
 const compress = require('compression');
 const sessionStore = new SequelizeSessionStore({ db });
+const config = require('./config');
 
 sessionStore.sync();
 app.use(compress());
 app.set('views', path.join(__dirname, '../public/views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-app.use(favicon(path.join(__dirname, '../public', 'images', process.env.SKIN || 'default_skin', 'favicon.ico'), { maxAge: 100 }));
+app.use(favicon(path.join(__dirname, '../public', 'images', config.skin, 'favicon.ico'), { maxAge: 100 }));
 app.use(helmet());
 if (process.env.NODE_ENV !== 'test') {
   app.use(logger(config.logFormat));

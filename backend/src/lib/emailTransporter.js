@@ -1,43 +1,39 @@
-const config = require('config');
+const config = require('../config');
 const smtpTransport = require('nodemailer-smtp-transport');
 
-function buildGmailTransport() {
-  if (!(process.env.EMAIL_USERNAME && process.env.EMAIL_PASSWORD)) {
-    throw Error('Environment vars EMAIL_USERNAME and EMAIL_PASSWORD are not defined');
+function authConfig() {
+  if (!(config.email.username && config.email.password)) {
+    throw Error('Email username and password must both be defined to send emails');
   }
+  return {
+    user: config.email.username,
+    pass: config.email.password,
+  };
+}
 
+function buildGmailTransport() {
   return smtpTransport({
     service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
+    auth: authConfig(),
   });
 }
 
 function buildMailgunTransport() {
-  if (!(process.env.EMAIL_USERNAME && process.env.EMAIL_PASSWORD)) {
-    throw Error('Environment vars EMAIL_USERNAME and EMAIL_PASSWORD are not defined');
-  }
-
   return smtpTransport({
     host: 'smtp.mailgun.org',
     port: 25,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
+    auth: authConfig(),
   });
 }
 
 module.exports = function () {
-  const transporterSelected = config.get('email.transporter');
+  const transporter = config.email.transporter;
 
-  if (!transporterSelected) {
+  if (!transporter) {
     throw Error('Email transporter not defined');
   }
 
-  switch (transporterSelected.toLowerCase()) {
+  switch (transporter.toLowerCase()) {
     case 'gmail':
       return buildGmailTransport();
     case 'mailgun':

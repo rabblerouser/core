@@ -2,34 +2,27 @@
 const messagingService = require('../../src/services/messagingService');
 const sinon = require('sinon');
 const member = { email: 'sherlock@holmes.co.uk' };
-const config = require('config');
+const config = require('../../src/config');
 
 const nodemailer = require('nodemailer');
 
 describe('Messaging integration tests', () => {
   describe('send welcome email', () => {
     let transportStub;
-    let configStub;
     let sendMailSpy;
 
     beforeEach(() => {
-      configStub = sinon.stub(config, 'get');
-
-      configStub.withArgs('email.transporter').returns('gmail');
-      process.env.EMAIL_USERNAME = 'user';
-      process.env.EMAIL_PASSWORD = 'pswd';
-
-      configStub.withArgs('email.sendEmails').returns(true);
-      configStub.withArgs('email.membershipEmail').returns('lhajfhadhaskjhd@rabblerouser.com');
-      configStub.withArgs('email.welcome.subject').returns('Welcome text');
-      configStub.withArgs('email.welcome.body').returns('Welcome body\nHello world');
+      config.email.sendEmails = 'true';
+      config.email.transporter = 'gmail';
+      config.email.username = 'user';
+      config.email.password = 'pswd';
+      config.email.replyTo = 'lhajfhadhaskjhd@rabblerouser.com';
+      config.email.welcomeSubject = 'Welcome text';
+      config.email.welcomeBody = 'Welcome body\nHello world';
     });
 
     afterEach(() => {
       nodemailer.createTransport.restore();
-      config.get.restore();
-      delete process.env.EMAIL_USERNAME;
-      delete process.env.EMAIL_PASSWORD;
     });
 
     describe('happy', () => {
@@ -54,7 +47,7 @@ describe('Messaging integration tests', () => {
       });
 
       it('does not send an email if disabled in configuration', () => {
-        configStub.withArgs('email.sendEmails').returns(false);
+        config.email.sendEmails = 'false';
 
         return messagingService.sendWelcomeEmail(member)
         .finally(() => {
@@ -70,12 +63,12 @@ describe('Messaging integration tests', () => {
         sinon.stub(nodemailer, 'createTransport').returns(transportStub);
       });
 
-      it('throws an error when something unexpected happens', (done) => {
+      it('throws an error when something unexpected happens', done => {
         messagingService.sendWelcomeEmail(member)
-          .then((result) => {
+          .then(() => {
             done.fail('no error!');
           })
-          .catch((error) => {
+          .catch(error => {
             expect(error).not.to.be.null;
             done();
           });

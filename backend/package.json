@@ -33,7 +33,6 @@
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.0",
     "compression": "^1.6.1",
-    "config": "^1.20.1",
     "connect-session-sequelize": "^3.0.0",
     "continuation-local-storage": "^3.1.7",
     "ejs": "^2.4.1",

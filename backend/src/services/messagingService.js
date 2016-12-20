@@ -2,7 +2,7 @@
 
 const emailService = require('../lib/emailService');
 const adminService = require('./adminService');
-const config = require('config');
+const config = require('../config');
 const logger = require('../lib/logger');
 const Q = require('q');
 
@@ -33,20 +33,20 @@ function sendEmail(to, bcc, content, replyTo) {
 }
 
 function sendWelcomeEmail(member) {
-  if (!config.get('email.sendEmails')) {
+  if (config.email.sendEmails !== 'true') {
     return Q.resolve(member);
   }
 
   const content = {
     logger: email => logger.info('[welcome-email-sent]', { email }),
-    subject: config.get('email.welcome.subject'),
-    text: config.get('email.welcome.body'),
+    subject: config.email.welcomeSubject,
+    text: config.email.welcomeBody,
   };
 
   return adminService
     .admins(member.branchId)
     .then(admins => admins.map(admin => admin.email))
-    .then(bcc => sendEmail(member.email, bcc, content, config.get('email.membershipEmail')));
+    .then(bcc => sendEmail(member.email, bcc, content, config.email.replyTo));
 }
 
 module.exports = {

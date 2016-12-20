@@ -1,8 +1,0 @@
-{
-  "email": {
-    "server": "EMAIL_SERVER"
-  },
-  "session": {
-    "secret": "SESSION_SECRET"
-  }
-}
