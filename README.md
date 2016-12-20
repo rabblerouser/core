@@ -108,6 +108,18 @@ If you're not sure how to fix an ESLint error, you can look up the docs for spec
 
 We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) (slightly modified), which encourages use of many ES6 features. If you're not up to speed on ES6, this reference may come in handy: http://es6-features.org/.
 
+## Docker
+
+Docker is currently a work in progress. There is a Dockerfile for the backend, which simply copies in all the files,
+exposes a port, and starts the app when run. It does not do any installing or compiling at the moment - it assumes that
+this has already been done before the container is built.
+
+The above is only for building production artifacts - there isn't a properly Dockerised development environment yet.
+That said, there is a docker-compose file, which will run the app locally in a Docker container, and link it to a
+Postgres container (also local). This is purely for sanity checking of the docker build process.
+
+You can try it with `docker-compose up` in the `backend` directory.
+
 ## Customising the app for your organisation
 
 At the moment, this is done using environment variables. The table below describes the use of these environment variables. At the moment, everything is optional, and a default theme will be provided if none is given.
