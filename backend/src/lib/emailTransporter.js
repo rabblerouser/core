@@ -26,7 +26,7 @@ function buildMailgunTransport() {
   });
 }
 
-module.exports = function () {
+module.exports = () => {
   const transporter = config.email.transporter;
 
   if (!transporter) {

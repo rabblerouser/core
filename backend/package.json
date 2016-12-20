@@ -7,7 +7,7 @@
   "description": "A pluggable, extensible membership database for community organising",
   "main": "src/app.js",
   "scripts": {
-    "ci": "npm test",
+    "ci": "npm run lint && npm test",
     "lint": "eslint src",
     "migrate": "sequelize db:migrate",
     "seed": "node node_scripts/seed.js",
