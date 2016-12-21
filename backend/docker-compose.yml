@@ -7,7 +7,6 @@ services:
     links:
       - postgres
     environment:
-      NODE_ENV: production
       DATABASE_URL: postgres://rabble_rouser:rabble_rouser@postgres:5432/rabble_rouser
   postgres:
     image: postgres
