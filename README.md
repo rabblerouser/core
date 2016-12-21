@@ -31,8 +31,6 @@ To find out more about the Rabble Rouser project, check out our [documentation r
   1. Register a new member at `http://localhost:3000`
   2. Log in at `http://localhost:3000/login`, with `networkadmin@rabblerouser.team`/`password`
 
-For the optional email configuration step, see near the bottom of this document.
-
 ## Understanding this repository
 
 This repository is split into these sub-directories:
