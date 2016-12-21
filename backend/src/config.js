@@ -18,7 +18,6 @@ const config = {
     domain: process.env.SESSION_DOMAIN,
   },
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
-  skin: process.env.SKIN || 'default_skin',
 };
 
 if (process.env.NODE_ENV === 'production') {
