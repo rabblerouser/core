@@ -4,16 +4,11 @@
   "description": "A pluggable, extensible membership database for community organising",
   "private": true,
   "scripts": {
-    "install": "npm run install:e2e && npm run install:backend && npm run install:frontend",
-    "install:backend": "npm --prefix backend install",
-    "install:e2e": "npm --prefix e2e install",
-    "install:frontend": "npm --prefix frontend install",
+    "install": "npm --prefix backend install && npm --prefix frontend install",
     "postinstall": "npm run build",
     "build": "npm --prefix frontend run build && bin/copy_assets.sh",
     "start": "npm --prefix backend start",
     "test": "npm --prefix frontend run ci && npm --prefix backend run ci",
-    "e2e": "./bin/_run_e2e_tests.sh",
-    "seed": "./bin/seed_fake_data.sh",
-    "precommit": "npm run build && npm test && npm run e2e"
+    "e2e": "bin/e2e.sh"
   }
 }

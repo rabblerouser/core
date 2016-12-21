@@ -1,5 +1,10 @@
 #!/bin/bash
 set -e
+
+export NODE_ENV=test
+
+npm start &
+
 echo "Will wait for the server to be available for testing..."
 attempts=0
 until $(curl --output /dev/null --silent --head --fail http://localhost:3000); do
@@ -11,5 +16,5 @@ until $(curl --output /dev/null --silent --head --fail http://localhost:3000); d
   sleep 5
 done
 echo "Oh hai server!"
-npm run seed &&
-npm --prefix e2e run ci-test
+
+npm --prefix backend run e2e-seed && npm --prefix e2e run ci-test

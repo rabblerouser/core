@@ -2,7 +2,6 @@ logs
 *.log
 pids
 *.pid
-*.seed
 node_modules
 npm-debug.log
 .vagrant

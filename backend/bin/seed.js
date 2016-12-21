@@ -4,9 +4,15 @@
 // It makes sure that there's at least one network admin and branch in the database
 // This is the minimum data needed for the app to function correctly
 
+if (process.env.NODE_ENV === 'test') {
+  console.log('Skipping regular seed script because NODE_ENV=test');
+  console.log('Any necessary test data should be set up by a different script');
+  process.exit(0);
+}
+
 const models = require('../src/models');
 
-const email = 'example@example.com';
+const email = 'networkadmin@rabblerouser.team';
 const password = 'password';
 const type = 'SUPER';
 
@@ -16,7 +22,7 @@ models.AdminUser.findAll()
       console.log(`No network admins exist, creating one - Username: ${email}, password: ${password}`);
       return models.AdminUser.create({ email, password, type });
     }
-    console.log(`At least one network admin already exists.`);
+    console.log('At least one network admin already exists.');
   })
   .catch(err => {
     console.error('Error: Could not create admin user:', err);
@@ -26,7 +32,7 @@ models.AdminUser.findAll()
 models.Branch.findAll()
   .then(branches => {
     if (branches.length === 0) {
-      console.log(`No branches exist, creting one - `);
+      console.log('No branches exist, creating one - ');
       return models.Branch.create({ name: 'Default branch' });
     }
     console.log('At least one branch already exists.');

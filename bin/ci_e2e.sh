@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
-./bin/_ci_install.sh &&
-(./bin/_start_server.sh & if ./bin/_run_e2e_tests.sh ; then
-  echo 'Successfully completed'
-  exit 0
-else
-  echo 'Test run failed'
-  exit 1
-fi)
+
+sudo yum install ansible
+
+ansible-playbook -i "localhost," -c local provisioning/ci.yml
+
+npm install
+npm run build
+npm run e2e

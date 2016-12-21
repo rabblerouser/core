@@ -8,41 +8,26 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 ## First-time setup
 
-0. Install [VirtualBox](https://www.virtualbox.org/), [Vagrant](https://www.vagrantup.com/downloads.html), and [Ansible](https://docs.ansible.com/ansible/intro_installation.html)
-0. Clone the project
+1. Install [VirtualBox](https://www.virtualbox.org/), [Vagrant](https://www.vagrantup.com/downloads.html), and [Ansible](https://docs.ansible.com/ansible/intro_installation.html)
+2. Clone the project
 
         git clone https://github.com/rabblerouser/rabblerouser-core.git
 
-0. Start the Vagrant VM and log into it
+3. Start the Vagrant VM and log into it
 
         cd rabblerouser-core
         vagrant up
         vagrant ssh
 
-0. Install project dependencies and compile the frontend assets
+4. Install/compile the project, run the tests, then start the app
 
         npm install
-
-0. Run the tests (backend & frontend)
-
         npm test
-
-0. Seed the local database and start the app
-
-        npm run seed
         npm start
 
-0. Run the e2e tests (With the server still running - you may need to open another tab and `vagrant ssh` again.)
-
-        npm run e2e
-
-0. Verify that the app works:
-  0. Register a new member at `http://localhost:3000`
-  0. Log in at `http://localhost:3000/login`, with `admin@rr.com`/`apassword`
-
-Later on you can run all tests (frontend, backend, and e2e) in one go with:
-
-        npm run precommit
+5. Verify that the app works:
+  1. Register a new member at `http://localhost:3000`
+  2. Log in at `http://localhost:3000/login`, with `networkadmin@rabblerouser.team`/`password`
 
 For the optional email configuration step, see near the bottom of this document.
 
@@ -50,11 +35,11 @@ For the optional email configuration step, see near the bottom of this document.
 
 This repository is split into these sub-directories:
 
- * `backend`: The backend node.js API
  * `bin`: Utility scripts, mostly for build/deploy tasks
- * `e2e`: End-to-end tests built with casperjs
- * `frontend`: The frontend React.js webapp
- * `provisioning`: Ansible scripts for environment setup (local and deployed)
+ * `frontend`: The frontend React.js web app
+ * `backend`: The backend node.js API
+ * `e2e`: End-to-end tests built with casperjs (broken right now, ignore them)
+ * `provisioning`: Ansible scripts for setting up a dev or CI environment
 
 The frontend, backend, and E2E tests are all written in JavaScript, so each one has a `package.json` file for
 dependencies and tasks. There is also another `package.json` at the top-level of the repo, which mainly orchestrates the
