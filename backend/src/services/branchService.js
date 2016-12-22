@@ -78,14 +78,9 @@ const update = newValues =>
     .then(transformBranch)
     .catch(handleError(`Error when editing branch with id ${newValues.id}`));
 
-const list = () => {
+const list = (attrs = ['id', 'name', 'contact', 'notes']) => {
   const query = {
-    attributes: [
-      'id',
-      'name',
-      'contact',
-      'notes',
-    ],
+    attributes: attrs,
   };
 
   return Branch

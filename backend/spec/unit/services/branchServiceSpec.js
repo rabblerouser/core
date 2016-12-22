@@ -45,7 +45,20 @@ describe('branchService', () => {
                 .returns(Promise.resolve(fakeBranchesListFromDb()));
 
             branchService.list().then((result) => {
+                expect(Branch.findAll).to.have.been.calledWith({ attributes: ["id", "name", "contact", "notes"] });
                 expect(result.length).to.equal(3);
+                expect(result[0].id).to.equal('some-id-1');
+                expect(result[0].name).to.equal('Geelong');
+            }).then(done)
+            .catch(done);
+        });
+
+        it('should return branches with required attributes only', (done) => {
+            Branch.findAll
+                .returns(Promise.resolve(fakeBranchesListFromDb()));
+
+            branchService.list(['id', 'name']).then((result) => {
+                expect(Branch.findAll).to.have.been.calledWith({ attributes: ["id", "name"] });
                 expect(result[0].id).to.equal('some-id-1');
                 expect(result[0].name).to.equal('Geelong');
             }).then(done)

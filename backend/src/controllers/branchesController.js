@@ -7,7 +7,7 @@ const validator = require('../lib/inputValidator');
 const branchValidator = require('../lib/branchValidator');
 
 function list(req, res) {
-  return branchService.list()
+  return branchService.list([ 'id', 'name' ])
     .then(branches => res.status(200).json({ branches }))
     .catch(() => res.sendStatus(500));
 }
