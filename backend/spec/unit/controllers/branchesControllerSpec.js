@@ -303,7 +303,7 @@ describe('branchesController', () => {
     });
   });
 
-  describe('groupsInBranch', () => {
+  describe('groupsByBranch', () => {
     let req;
     let res;
 
@@ -388,7 +388,8 @@ describe('branchesController', () => {
         branchService.findById.returns(Promise.reject('some service error'));
         const res = { sendStatus: sinon.spy() };
 
-        branchesController.list({}, res)
+        const req = { user: { type: 'normal', branchId: '1' } };
+        branchesController.branchesForAdmin(req, res)
           .then(() => {
             expect(res.sendStatus).to.have.been.calledWith(500);
           })
