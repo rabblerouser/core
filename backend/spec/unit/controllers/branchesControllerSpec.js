@@ -280,7 +280,7 @@ describe('branchesController', () => {
 
       branchesController.list(req, res)
         .then(() => {
-          expect(branchService.list).to.have.been.calledWith([ 'id', 'name' ]);
+          expect(branchService.list).to.have.been.calledWith(['id', 'name']);
           expect(res.status).to.have.been.calledWith(200);
           expect(res.status().json).to.have.been.calledWith({ branches: FAKE_BRANCHES_LIST });
         })
