@@ -4,13 +4,13 @@ import AdminHeader from './AdminHeader';
 import UserMessageView from './UserMessageView';
 import GroupsView from '../groupView';
 import MembersView from '../memberView/';
-import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
+import { OrganisersView } from '../adminsView';
 
 const AdminDashboard = () => (
   <div className="admin-container">
     <AdminHeader />
     <UserMessageView />
-    <OrganisersViewContainer />
+    <OrganisersView />
     <section>
       <GroupsView />
       <MembersView />

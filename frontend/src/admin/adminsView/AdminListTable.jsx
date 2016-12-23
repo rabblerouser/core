@@ -1,7 +1,6 @@
 import React from 'react';
-import SortedTable from '../../common/SortedTable';
 import EditAdminModalLauncher from './EditAdminModalLauncher';
-import DeleteButton from '../../common/DeleteButton';
+import { SortedTable, DeleteButton } from '../common';
 
 const columns = [
   { type: 'name', field: 'name', label: 'Name' },

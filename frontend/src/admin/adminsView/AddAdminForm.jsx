@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AddAdminFields from './AddAdminFields';
-import validator from '../../services/adminValidator';
+import validator from '../services/adminValidator';
 
 class AddAdminForm extends Component {
 

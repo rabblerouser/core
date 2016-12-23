@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import EditAdminFields from './EditAdminFields';
-import validator from '../../services/adminValidator';
+import validator from '../services/adminValidator';
 
 export default class EditAdminForm extends Component {
 

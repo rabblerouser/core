@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { FormFieldLabel } from '../../common/forms';
+import { FormFieldLabel } from '../common/forms';
 
 const EditAdminFields = ({ invalidFields, onChange, formValues }) => {
   function isValidationError(fieldName) {

@@ -3,15 +3,14 @@ import React from 'react';
 import AdminHeader from './AdminHeader';
 import UserMessageView from './UserMessageView';
 import BranchDetails from '../branchView/';
-import OrganisersViewContainer from './adminsView/OrganisersViewContainer';
-import NetworkAdminsViewContainer from './adminsView/NetworkAdminsViewContainer';
+import { OrganisersView, NetworkAdminsView } from '../adminsView';
 import GroupsView from '../groupView';
 import MembersView from '../memberView/';
 
 const BranchManagement = () => (
   <section>
     <BranchDetails />
-    <OrganisersViewContainer />
+    <OrganisersView />
     <section>
       <GroupsView />
       <MembersView />
@@ -21,7 +20,7 @@ const BranchManagement = () => (
 
 const NetworkManagement = () => (
   <section>
-    <NetworkAdminsViewContainer />
+    <NetworkAdminsView />
   </section>
 );
 
