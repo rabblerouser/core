@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import MemberListTable from './MemberListTable';
+import { getSelectedGroupId } from '../groupView';
+import { getMembers } from './reducers';
 
 const FilteredMembersList = ({ groupFilter, members }) => {
   function filterMembersList() {
@@ -13,9 +16,9 @@ const FilteredMembersList = ({ groupFilter, members }) => {
     }
   }
 
-  return (
-    <MemberListTable members={filterMembersList()} />
-  );
+  return members.length === 0 ?
+    <aside className="no-entries">No entries found</aside>
+  : <MemberListTable members={filterMembersList()} />;
 };
 
 FilteredMembersList.propTypes = {
@@ -23,4 +26,9 @@ FilteredMembersList.propTypes = {
   members: React.PropTypes.array,
 };
 
-export default FilteredMembersList;
+const mapStateToProps = state => ({
+  members: getMembers(state),
+  selectedGroupId: getSelectedGroupId(state),
+});
+
+export default connect(mapStateToProps)(FilteredMembersList);
