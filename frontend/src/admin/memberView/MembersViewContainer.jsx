@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 
 import EditMemberForm from './EditMemberForm';
 import { getGroups, getSelectedGroupId } from '../groupView';
@@ -14,25 +13,9 @@ import { getSelectedBranchId } from '../reducers/branchReducers';
 
 export class MembersViewContainer extends Component {
   componentWillReceiveProps(nextProps) {
-    this.updateIfGroupRemoved(this.props.groups, nextProps.groups);
     if (nextProps.branchId && nextProps.branchId !== this.props.branchId) {
       this.props.membersRequested();
     }
-  }
-
-  updateIfGroupRemoved(oldGroups, newGroups) {
-    if (!oldGroups || !newGroups || newGroups.length >= oldGroups.length) {
-      return;
-    }
-    const removedGroup = _.difference(oldGroups, newGroups)[0];
-
-    const updatedMembers = this.props.members.map(member =>
-      Object.assign(
-        {},
-        member,
-        { groups: _.reject(member.groups, group => group === removedGroup.id) })
-    );
-    this.props.membersUpdated(updatedMembers);
   }
 
   render() {

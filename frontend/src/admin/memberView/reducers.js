@@ -7,12 +7,17 @@ import {
   EDIT_MEMBER,
   FINISH_EDIT_MEMBER,
 } from './actions';
+import { GROUP_REMOVED } from '../groupView';
 import { getMembersView } from '../reducers/rootSelectors';
 
 export const members = (state = [], action) => {
   switch (action.type) {
     case MEMBER_LIST_UPDATED: return [...action.payload.members];
     case MEMBER_REMOVED: return state.filter(({ id }) => id !== action.payload.memberId);
+    case GROUP_REMOVED: return state.map(member => ({
+      ...member,
+      groups: member.groups.filter(group => group.id !== action.payload.id),
+    }));
     case MEMBER_UPDATED: return state.map(member =>
       (member.id === action.payload.member.id ? action.payload.member : member)
     );

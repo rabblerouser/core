@@ -34,6 +34,29 @@ describe('membersView / reducers', () => {
       expect(reduction).toEqual([{ id: 4567, name: 'member 2' }]);
     });
 
+    it('strips the old group from members upon GROUP_REMOVED', () => {
+      const initialState = [
+        {
+          id: 1234,
+          name: 'member 1',
+          groups: [{ id: 'G1' }, { id: 'G2' }, { id: 'G3' }],
+        },
+      ];
+      const reduction = members(initialState, {
+        type: 'GROUP_REMOVED',
+        payload: {
+          id: 'G2',
+        },
+      });
+      expect(reduction[0]).toEqual(
+        {
+          id: 1234,
+          name: 'member 1',
+          groups: [{ id: 'G1' }, { id: 'G3' }],
+        }
+      );
+    });
+
     it('updates the member upon MEMBER_UPDATED ', () => {
       const initialState = [
         { id: 1234, name: 'member 1' }, { id: 4567, name: 'member 2' },
