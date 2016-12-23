@@ -1,14 +1,14 @@
 import React from 'react';
 
-import AdminHeader from './AdminHeader';
+import Header from './header/Header';
 import UserMessageView from './UserMessageView';
-import GroupsView from '../groupView';
-import MembersView from '../memberView/';
-import { OrganisersView } from '../adminsView';
+import GroupsView from './groupView';
+import MembersView from './memberView/';
+import { OrganisersView } from './adminsView';
 
 const AdminDashboard = () => (
   <div className="admin-container">
-    <AdminHeader />
+    <Header />
     <UserMessageView />
     <OrganisersView />
     <section>

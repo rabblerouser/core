@@ -10,7 +10,7 @@ import BranchSelectBox from './BranchSelectBox';
 import LogoutButton from './LogoutButton';
 import OrganisationIcon from './OrganisationIcon';
 
-const AdminHeader = ({ canSelectBranch, selectedBranch }) => (
+const Header = ({ canSelectBranch, selectedBranch }) => (
   <header className="admin-header header">
     <OrganisationIcon />
     {canSelectBranch ? <BranchSelectBox /> : <span className="currentBranch">{selectedBranch.name}</span>}
@@ -18,7 +18,7 @@ const AdminHeader = ({ canSelectBranch, selectedBranch }) => (
   </header>
 );
 
-AdminHeader.propTypes = {
+Header.propTypes = {
   canSelectBranch: React.PropTypes.bool,
   selectedBranch: React.PropTypes.object,
 };
@@ -28,4 +28,4 @@ const mapStateToProps = state => ({
   selectedBranch: getSelectedBranch(state),
 });
 
-export default connect(mapStateToProps)(AdminHeader);
+export default connect(mapStateToProps)(Header);

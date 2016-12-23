@@ -1,11 +1,11 @@
 import React from 'react';
 
-import AdminHeader from './AdminHeader';
+import Header from './header/Header';
 import UserMessageView from './UserMessageView';
-import BranchDetails from '../branchView/';
-import { OrganisersView, NetworkAdminsView } from '../adminsView';
-import GroupsView from '../groupView';
-import MembersView from '../memberView/';
+import BranchDetails from './branchView';
+import { OrganisersView, NetworkAdminsView } from './adminsView';
+import GroupsView from './groupView';
+import MembersView from './memberView';
 
 const BranchManagement = () => (
   <section>
@@ -26,7 +26,7 @@ const NetworkManagement = () => (
 
 const NetworkAdminDashboard = () => (
   <div className="admin-container">
-    <AdminHeader />
+    <Header />
     <UserMessageView />
     <BranchManagement />
     <NetworkManagement />

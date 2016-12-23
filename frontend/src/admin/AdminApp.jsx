@@ -7,8 +7,8 @@ import { createStore, applyMiddleware } from 'redux';
 
 import { appStarted } from './actions';
 import reducer from './reducers';
-import AdminDashboard from './components/AdminDashboard';
-import NetworkAdminDashboard from './components/NetworkAdminDashboard';
+import AdminDashboard from './AdminDashboard';
+import NetworkAdminDashboard from './NetworkAdminDashboard';
 import './stylesheets/style.scss';
 
 const store = createStore(
