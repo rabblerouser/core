@@ -66,14 +66,6 @@ const updateNetworkAdmin = admin => (
     .catch(handleResponseError)
 );
 
-const deleteOrganiser = (organiser, branchId) => (
-  Q(ajax({
-    type: 'DELETE',
-    url: `/branches/${branchId}/admins/${organiser.id}`,
-  }))
-    .catch(handleResponseError)
-);
-
 const create = (organiser, branchId) => (
   Q(ajax({
     type: 'POST',
@@ -96,7 +88,6 @@ export default {
   logout,
   update,
   create,
-  delete: deleteOrganiser,
   getNetworkAdmins,
   createNetworkAdmin,
   updateNetworkAdmin,

@@ -4,11 +4,9 @@ import { connect } from 'react-redux';
 import AdminsView from './AdminsView';
 import adminService from '../services/adminService.js';
 
-import { adminListRequested } from './actions';
+import { adminListRequested, adminRemoveRequested } from './actions';
 import { getAdmins } from './reducers';
 import { getSelectedBranchId } from '../reducers/branchReducers';
-
-import _ from 'lodash';
 
 class OrganiserViewContainer extends Component {
   constructor(props) {
@@ -24,12 +22,7 @@ class OrganiserViewContainer extends Component {
             this.updateAdmins(this.state.admins, savedAdmin);
           });
       },
-      onDelete: selected => {
-        adminService.delete(selected, this.props.branchId)
-          .then(() => {
-            this.removeAndUpdate(this.state.admins, selected);
-          });
-      },
+      onDelete: ({ id }) => this.props.requestAdminRemove(id),
     };
   }
 
@@ -50,11 +43,6 @@ class OrganiserViewContainer extends Component {
     this.setState({ admins: newElements });
   }
 
-  removeAndUpdate(collection, element) {
-    const oldElement = collection.find(item => item.id === element.id);
-    this.setState({ admins: _.without(collection, oldElement) });
-  }
-
   render() {
     return (
       <AdminsView
@@ -70,6 +58,7 @@ class OrganiserViewContainer extends Component {
 
 const mapDispatchToProps = ({
   requestAdminList: adminListRequested,
+  requestAdminRemove: adminRemoveRequested,
 });
 
 const mapStateToProps = state => ({
@@ -81,6 +70,7 @@ OrganiserViewContainer.propTypes = {
   branchId: React.PropTypes.string,
   admins: React.PropTypes.array,
   requestAdminList: React.PropTypes.func,
+  requestAdminRemove: React.PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrganiserViewContainer);
