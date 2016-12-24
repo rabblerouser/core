@@ -1,6 +1,5 @@
 import Q from 'q';
 import ajax from '../../lib/ajax';
-import adminAdapter from '../adapters/adminAdapter.js';
 import { Resources } from '../config/strings';
 
 const handleResponseError = error => {
@@ -45,7 +44,7 @@ const getNetworkAdmins = () => (
     url: `/${Resources.networkAdminEndPoint}`,
     dataType: 'json',
   }))
-    .then(adminAdapter.parseAdmins)
+    .then(data => data.admins)
     .catch(handleResponseError)
 );
 
@@ -55,7 +54,6 @@ const createNetworkAdmin = admin => (
     url: '/admins',
     data: adaptAdmin(admin),
   }))
-    .then(adminAdapter.parseAdminDetails)
     .catch(handleResponseError)
 );
 
@@ -65,7 +63,6 @@ const updateNetworkAdmin = admin => (
     url: `/admins/${admin.id}`,
     data: adaptAdmin(admin),
   }))
-    .then(adminAdapter.parseAdminDetails)
     .catch(handleResponseError)
 );
 
@@ -83,7 +80,6 @@ const create = (organiser, branchId) => (
     url: `/branches/${branchId}/admins`,
     data: adaptAdmin(organiser),
   }))
-    .then(adminAdapter.parseAdminDetails)
     .catch(handleResponseError)
 );
 
@@ -93,7 +89,6 @@ const update = (organiser, branchId) => (
     url: `/branches/${branchId}/admins/${organiser.id}`,
     data: adaptAdmin(organiser),
   }))
-    .then(adminAdapter.parseAdminDetails)
     .catch(handleResponseError)
 );
 

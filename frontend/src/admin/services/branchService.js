@@ -3,7 +3,6 @@ import ajax from '../../lib/ajax';
 import { Resources } from '../config/strings';
 import groupAdapter from '../adapters/groupAdapter.js';
 import branchAdapter from '../adapters/branchAdapter.js';
-import adminAdapter from '../adapters/adminAdapter.js';
 
 const handleResponseError = error => {
   switch (error.status) {
@@ -45,19 +44,8 @@ const getBranchMembers = branchId => (
     .catch(handleResponseError)
 );
 
-const getBranchAdmins = branchId => (
-  Q(ajax({
-    type: 'GET',
-    url: `/${Resources.branchListEndPoint}/${branchId}/admins`,
-    dataType: 'json',
-  }))
-    .then(adminAdapter.parseAdmins)
-    .catch(handleResponseError)
-);
-
 export default {
   getBranches,
   getBranchGroups,
   getBranchMembers,
-  getBranchAdmins,
 };

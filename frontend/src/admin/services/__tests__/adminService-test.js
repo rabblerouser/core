@@ -5,11 +5,6 @@ describe('adminService', () => {
   const validData = {
     id: '5678',
     email: 'jim@jim.com',
-    phoneNumber: undefined,
-    name: undefined,
-  };
-  const invalidData = {
-    invalid: 'invalid',
   };
   const admin = {
     id: '5678',
@@ -130,27 +125,6 @@ describe('adminService', () => {
       });
     });
 
-    describe('when the admin returns but in an invalid format', () => {
-      beforeEach(() => {
-        server.respondWith('PUT', '/admins/5678', [200, {
-          'Content-Type': 'application/json',
-        },
-          JSON.stringify(invalidData),
-        ]);
-      });
-
-      it('should return an error that return data was invalid', done => {
-        adminService.updateNetworkAdmin(admin)
-          .then(() => {
-            done.fail('Expected promise to be rejected');
-          })
-          .fail(error => {
-            expect(error.message).toEqual('NOT AVAILABLE');
-            done();
-          });
-      });
-    });
-
     describe('when the remote rejects the request', () => {
       describe('with a 500 server error', () => {
         beforeEach(() => {
@@ -233,27 +207,6 @@ describe('adminService', () => {
       });
     });
 
-    describe('when the admin returns but in an invalid format', () => {
-      beforeEach(() => {
-        server.respondWith('POST', '/admins', [200, {
-          'Content-Type': 'application/json',
-        },
-          JSON.stringify(invalidData),
-        ]);
-      });
-
-      it('should return an error that return data was invalid', done => {
-        adminService.createNetworkAdmin(admin, branchId)
-          .then(() => {
-            done.fail('Expected promise to be rejected');
-          })
-          .fail(error => {
-            expect(error.message).toEqual('NOT AVAILABLE');
-            done();
-          });
-      });
-    });
-
     describe('when the remote rejects the request', () => {
       describe('with a 500 server error', () => {
         beforeEach(() => {
@@ -320,15 +273,11 @@ describe('adminService', () => {
         {
           id: 'd35048f7-3f06-45e2-8a37-dfb29bbfa81b',
           email: 'jim@jim.com',
-          name: undefined,
-          phoneNumber: undefined,
 
         },
         {
           id: 'd35048f7-45e2-8a37-dfb29bbfa81b',
           email: 'jim@jim.com',
-          name: undefined,
-          phoneNumber: undefined,
         },
       ];
 
@@ -347,26 +296,6 @@ describe('adminService', () => {
           .then(done, done.fail);
       });
     });
-
-    describe('when the admins are retrieved in an invalid format', () => {
-      beforeEach(() => {
-        server.respondWith('GET', '/admins',
-          [200, { 'Content-Type': 'application/json' },
-            JSON.stringify({ invalid: invalidData })]);
-      });
-
-      it('should return an error that return data was invalid', done => {
-        adminService.getNetworkAdmins()
-          .then(() => {
-            done.fail('Expected promise to be rejected');
-          })
-          .fail(error => {
-            expect(error.message).toEqual('NOT AVAILABLE');
-            done();
-          });
-      });
-    });
-
 
     describe('when the remote admins are 404 not found', () => {
       beforeEach(() => {
@@ -507,27 +436,6 @@ describe('adminService', () => {
       });
     });
 
-    describe('when the admin returns but in an invalid format', () => {
-      beforeEach(() => {
-        server.respondWith('POST', '/branches/1234/admins', [200, {
-          'Content-Type': 'application/json',
-        },
-          JSON.stringify(invalidData),
-        ]);
-      });
-
-      it('should return an error that return data was invalid', done => {
-        adminService.create(admin, branchId)
-          .then(() => {
-            done.fail('Expected promise to be rejected');
-          })
-          .fail(error => {
-            expect(error.message).toEqual('NOT AVAILABLE');
-            done();
-          });
-      });
-    });
-
     describe('when the remote rejects the request', () => {
       describe('with a 500 server error', () => {
         beforeEach(() => {
@@ -606,27 +514,6 @@ describe('adminService', () => {
           })
           .fail(() => {
             done.fail('Expected promise to succeeed');
-          });
-      });
-    });
-
-    describe('when the admin returns but in an invalid format', () => {
-      beforeEach(() => {
-        server.respondWith('PUT', '/branches/1234/admins/5678', [200, {
-          'Content-Type': 'application/json',
-        },
-          JSON.stringify(invalidData),
-        ]);
-      });
-
-      it('should return an error that return data was invalid', done => {
-        adminService.update(admin, branchId)
-          .then(() => {
-            done.fail('Expected promise to be rejected');
-          })
-          .fail(error => {
-            expect(error.message).toEqual('NOT AVAILABLE');
-            done();
           });
       });
     });

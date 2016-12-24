@@ -6,12 +6,14 @@ import appFeedbackReducers from './appFeedbackReducers';
 import { reducers as branchView } from '../branchView/';
 import { reducers as groups } from '../groupView/';
 import { reducers as members } from '../memberView/';
+import { reducers as admins } from '../adminsView/';
 
 export default combineReducers({
   branchView,
   branches: branchReducers,
   groups,
   members,
+  admins,
   appFeedback: appFeedbackReducers,
   form: formReducer,
 });

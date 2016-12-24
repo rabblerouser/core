@@ -3,14 +3,14 @@ import React from 'react';
 import Header from './header/Header';
 import UserMessageView from './UserMessageView';
 import BranchDetails from './branchView';
-import { OrganisersView, NetworkAdminsView } from './adminsView';
+import AdminsView, { NetworkAdminsView } from './adminsView';
 import GroupsView from './groupView';
 import MembersView from './memberView';
 
 const BranchManagement = () => (
   <section>
     <BranchDetails />
-    <OrganisersView />
+    <AdminsView />
     <section>
       <GroupsView />
       <MembersView />
