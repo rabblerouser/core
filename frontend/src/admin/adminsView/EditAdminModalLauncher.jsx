@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import EditAdminForm from './EditAdminForm';
 import Modal from 'react-modal';
 
-export default class EditAdminModalLauncher extends Component {
+import {
+  editAdmin,
+  finishEditAdmin,
+} from './actions';
+
+class EditAdminModalLauncher extends Component {
   constructor(props) {
     super(props);
     this.state = { modalIsOpen: false };
@@ -11,10 +17,12 @@ export default class EditAdminModalLauncher extends Component {
   }
 
   launchEditForm() {
+    this.props.editAdmin(this.props.admin.id);
     this.setState({ modalIsOpen: true });
   }
 
   closeEditForm() {
+    this.props.finishEditAdmin();
     this.setState({ modalIsOpen: false });
   }
 
@@ -39,4 +47,8 @@ export default class EditAdminModalLauncher extends Component {
 EditAdminModalLauncher.propTypes = {
   admin: React.PropTypes.object.isRequired,
   onSave: React.PropTypes.func.isRequired,
+  editAdmin: React.PropTypes.func.isRequired,
+  finishEditAdmin: React.PropTypes.func.isRequired,
 };
+
+export default connect(() => ({}), { editAdmin, finishEditAdmin })(EditAdminModalLauncher);

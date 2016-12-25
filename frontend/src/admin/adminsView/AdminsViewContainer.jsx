@@ -2,26 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import AdminsView from './AdminsView';
-import adminService from '../services/adminService.js';
-
-import { adminListRequested, adminRemoveRequested } from './actions';
-import { getAdmins } from './reducers';
+import {
+  adminListRequested,
+  adminRemoveRequested,
+  adminUpdateRequested,
+  adminCreateRequested,
+} from './actions';
+import { getAdmins, getSelectedAdmin } from './reducers';
 import { getSelectedBranchId } from '../reducers/branchReducers';
 
-class OrganiserViewContainer extends Component {
+class AdminViewContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      admins: this.props.admins,
-      onSave: adminDetails => {
-        const saveAction = this.state.admins.find(admin => admin.id === adminDetails.id) === undefined ?
-          adminService.create :
-          adminService.update;
-        saveAction(adminDetails, this.props.branchId)
-          .then(savedAdmin => {
-            this.updateAdmins(this.state.admins, savedAdmin);
-          });
-      },
+      onSave: adminDetails => (
+        !!this.props.selectedAdmin ?
+        this.props.requestAdminUpdate(adminDetails) :
+        this.props.requestAdminCreate(adminDetails)
+      ),
       onDelete: ({ id }) => this.props.requestAdminRemove(id),
     };
   }
@@ -30,17 +28,6 @@ class OrganiserViewContainer extends Component {
     if (branchId && branchId !== this.props.branchId) {
       this.props.requestAdminList();
     }
-  }
-
-  updateAdmins(collection, element) {
-    const newElements = collection.slice(0);
-    const oldElement = newElements.find(g => g.id === element.id);
-    if (oldElement) {
-      Object.assign(oldElement, element);
-    } else {
-      newElements.push(element);
-    }
-    this.setState({ admins: newElements });
   }
 
   render() {
@@ -59,18 +46,24 @@ class OrganiserViewContainer extends Component {
 const mapDispatchToProps = ({
   requestAdminList: adminListRequested,
   requestAdminRemove: adminRemoveRequested,
+  requestAdminCreate: adminCreateRequested,
+  requestAdminUpdate: adminUpdateRequested,
 });
 
 const mapStateToProps = state => ({
   branchId: getSelectedBranchId(state),
+  selectedAdmin: getSelectedAdmin(state),
   admins: getAdmins(state),
 });
 
-OrganiserViewContainer.propTypes = {
+AdminViewContainer.propTypes = {
   branchId: React.PropTypes.string,
+  selectedAdmin: React.PropTypes.object,
   admins: React.PropTypes.array,
   requestAdminList: React.PropTypes.func,
   requestAdminRemove: React.PropTypes.func,
+  requestAdminCreate: React.PropTypes.func,
+  requestAdminUpdate: React.PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrganiserViewContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminViewContainer);

@@ -66,28 +66,8 @@ const updateNetworkAdmin = admin => (
     .catch(handleResponseError)
 );
 
-const create = (organiser, branchId) => (
-  Q(ajax({
-    type: 'POST',
-    url: `/branches/${branchId}/admins`,
-    data: adaptAdmin(organiser),
-  }))
-    .catch(handleResponseError)
-);
-
-const update = (organiser, branchId) => (
-  Q(ajax({
-    type: 'PUT',
-    url: `/branches/${branchId}/admins/${organiser.id}`,
-    data: adaptAdmin(organiser),
-  }))
-    .catch(handleResponseError)
-);
-
 export default {
   logout,
-  update,
-  create,
   getNetworkAdmins,
   createNetworkAdmin,
   updateNetworkAdmin,
