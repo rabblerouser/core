@@ -3,7 +3,8 @@ import React from 'react';
 import Header from './header/Header';
 import UserMessageView from './UserMessageView';
 import BranchDetails from './branchView';
-import AdminsView, { NetworkAdminsView } from './adminsView';
+import AdminsView from './adminsView';
+import NetworkAdminsView from './networkManagement/networkAdminsView';
 import GroupsView from './groupView';
 import MembersView from './memberView';
 
