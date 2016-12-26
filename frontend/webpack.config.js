@@ -50,11 +50,12 @@ module.exports = {
         signupTitle: JSON.stringify(process.env.SIGNUP_TITLE || 'Register for Rabble Rouser'),
         signupSubtitle: JSON.stringify(process.env.SIGNUP_SUBTITLE || 'Join our movement today!'),
         signupFinishedMessage: JSON.stringify(process.env.SIGNUP_FINISHED_MESSAGE || 'Thanks for joining!'),
+        signupHomepageLink: JSON.stringify(process.env.SIGNUP_HOMEPAGE_LINK || 'https://rabblerouser.team'),
         signupStylesheets: process.env.SIGNUP_STYLESHEETS || JSON.stringify([
           '/styles/signup.css',
           'https://fonts.googleapis.com/css?family=Droid+Serif|Open+Sans',
         ]),
-        signupHomepageLink: JSON.stringify(process.env.SIGNUP_HOMEPAGE_LINK || 'https://rabblerouser.team'),
+        adminStylesheets: process.env.ADMIN_STYLESHEETS || JSON.stringify([]),
         skin: JSON.stringify(process.env.SKIN || 'default_skin'),
         addressEnabled: JSON.stringify(process.env.ADDRESS_ENABLED || false),
       },

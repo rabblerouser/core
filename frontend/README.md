@@ -59,11 +59,15 @@ available variables. At the moment, everything is optional, and a default theme 
 | `SIGNUP_TITLE`           | The title on the signup page                                          | frontend |
 | `SIGNUP_SUBTITLE`        | The sub-title on the signup page                                      | frontend |
 | `SIGNUP_FINISHED_MESSAGE`| The message shown after signing up                                    | frontend |
-| `SIGNUP_STYLESHEETS`     | Custom stylesheets URLS for the signup page. (See below)              | frontend |
 | `SIGNUP_HOME_PAGE_LINK`  | A link to your organisation's home page                               | frontend |
+| `SIGNUP_STYLESHEETS`     | Custom stylesheet URLs for the signup page. (See below)               | frontend |
+| `ADMIN_STYLESHEETS`      | Custom stylesheet URLs for the admin pages. (See below)               | frontend |
 | `SKIN`                   | The directory under `public/images` from where logos should be loaded | frontend |
 | `ADDRESS_ENABLED`        | If set, shows address fields in signup and admin page                 | frontend |
 
 Stylesheets should be specified like a JSON array, e.g.:
 
 `SIGNUP_STYLESHEETS='["/styles/signup.css", "https://example.com/custom-style.css", "https://fonts.com/my-font"]'`
+
+If you do not specify any stylesheets, default ones are provided. If you do specify stylesheets, then the default ones
+will not be present. So if you want the default ones *plus* a custom one, then you must list all of them.

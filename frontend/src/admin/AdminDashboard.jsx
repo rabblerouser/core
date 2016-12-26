@@ -15,7 +15,11 @@ const AdminDashboard = () => (
       <GroupsView />
       <MembersView />
     </section>
-
+    {
+      customisation.adminStylesheets.map(stylesheet => (
+        <link rel="stylesheet" href={stylesheet} key={stylesheet} />
+      ))
+    }
   </div>
 );
 
