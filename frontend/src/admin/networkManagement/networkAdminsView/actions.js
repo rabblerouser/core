@@ -91,13 +91,18 @@ export const networkAdminRemoveRequested = networkAdminId => {
 };
 
 export const EDIT_NETWORK_ADMIN = 'EDIT_NETWORK_ADMIN';
-export const editAdmin = networkAdminId => ({
+export const editNetworkAdmin = networkAdminId => ({
   type: EDIT_NETWORK_ADMIN,
   payload: { networkAdminId },
 });
 
+export const CREATE_NETWORK_ADMIN = 'CREATE_NETWORK_ADMIN';
+export const createNetworkAdmin = () => ({
+  type: CREATE_NETWORK_ADMIN,
+});
+
 
 export const FINISH_EDIT_NETWORK_ADMIN = 'FINISH_EDIT_NETWORK_ADMIN';
-export const finishEditAdmin = () => ({
+export const finishEditNetworkAdmin = () => ({
   type: FINISH_EDIT_NETWORK_ADMIN,
 });

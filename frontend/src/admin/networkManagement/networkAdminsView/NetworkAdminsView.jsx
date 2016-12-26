@@ -1,28 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import AddAdminModalLauncher from './AddAdminModalLauncher';
-import AdminListTable from './AdminListTable';
+import EditNetworkAdminForm from './EditNetworkAdminForm';
+import NetworkAdminListTable from './NetworkAdminListTable';
+import { AddButton, Modal } from '../../common';
 import {
   networkAdminListRequested,
-  networkAdminRemoveRequested,
-  networkAdminUpdateRequested,
-  networkAdminCreateRequested,
+  createNetworkAdmin,
 } from './actions';
-import { getNetworkAdmins, getSelectedNetworkAdmin } from './reducers';
+import { getIsEditActive, finishEditNetworkAdmin } from './reducers';
+
 
 class NetworkAdminsView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      onSave: adminDetails => (
-        !!this.props.selectedNetworkAdmin ?
-        this.props.requestAdminUpdate(adminDetails) :
-        this.props.requestAdminCreate(adminDetails)
-      ),
-      onDelete: ({ id }) => this.props.requestAdminRemove(id),
-    };
-  }
 
   componentDidMount() {
     this.props.networkAdminListRequested();
@@ -33,16 +22,12 @@ class NetworkAdminsView extends Component {
       <section className="admin-section" id="network-admin">
         <h3>
           Network Admins
-          <AddAdminModalLauncher type="Network Admin" onSave={this.state.onSave} />
+          <AddButton onClick={this.props.createNetworkAdmin} />
         </h3>
-        <AdminListTable
-          admins={this.props.networkAdmins}
-          onSaveAdmin={this.state.onSave}
-          onDeleteAdmin={this.state.onDelete}
-        />
-        {this.props.networkAdmins.length === 0 &&
-          <aside className="no-entries">No entries found</aside>
-        }
+        <Modal isOpen={this.props.isModalOpen} handleClose={finishEditNetworkAdmin} >
+          <EditNetworkAdminForm />
+        </Modal>
+        <NetworkAdminListTable />
       </section>
     );
   }
@@ -50,23 +35,19 @@ class NetworkAdminsView extends Component {
 
 const mapDispatchToProps = ({
   networkAdminListRequested,
-  requestAdminRemove: networkAdminRemoveRequested,
-  requestAdminCreate: networkAdminCreateRequested,
-  requestAdminUpdate: networkAdminUpdateRequested,
+  createNetworkAdmin,
+  finishEditNetworkAdmin,
 });
 
 const mapStateToProps = state => ({
-  selectedNetworkAdmin: getSelectedNetworkAdmin(state),
-  networkAdmins: getNetworkAdmins(state),
+  isModalOpen: getIsEditActive(state),
 });
 
 NetworkAdminsView.propTypes = {
-  selectedNetworkAdmin: React.PropTypes.object,
-  networkAdmins: React.PropTypes.array,
   networkAdminListRequested: React.PropTypes.func,
-  requestAdminRemove: React.PropTypes.func,
-  requestAdminCreate: React.PropTypes.func,
-  requestAdminUpdate: React.PropTypes.func,
+  isModalOpen: React.PropTypes.bool,
+  createNetworkAdmin: React.PropTypes.func,
+  finishEditNetworkAdmin: React.PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkAdminsView);

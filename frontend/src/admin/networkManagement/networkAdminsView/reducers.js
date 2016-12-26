@@ -5,6 +5,7 @@ import {
   NETWORK_ADMIN_REMOVED,
   NETWORK_ADMIN_CREATED,
   NETWORK_ADMIN_UPDATED,
+  CREATE_NETWORK_ADMIN,
   EDIT_NETWORK_ADMIN,
   FINISH_EDIT_NETWORK_ADMIN,
 } from './actions';
@@ -30,10 +31,32 @@ export const selected = (state = '', action) => {
   }
 };
 
+export const isEditing = (state = false, action) => {
+  switch (action.type) {
+    case CREATE_NETWORK_ADMIN: return true;
+    case EDIT_NETWORK_ADMIN: return true;
+    case FINISH_EDIT_NETWORK_ADMIN: return false;
+    default : return state;
+  }
+};
+
+export const isCreating = (state = false, action) => {
+  switch (action.type) {
+    case CREATE_NETWORK_ADMIN: return true;
+    case FINISH_EDIT_NETWORK_ADMIN: return false;
+    default : return state;
+  }
+};
+
 export default combineReducers({
   networkAdmins,
+  isEditing,
   selected,
+  isCreating,
 });
+
+export const getIsEditActive = state => getNetworkAdminsView(state).isEditing;
+export const getIsCreating = state => getNetworkAdminsView(state).isCreating;
 
 export const getNetworkAdmins = state => getNetworkAdminsView(state).networkAdmins;
 export const getSelectedNetworkAdmin = state => {
