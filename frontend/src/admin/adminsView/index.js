@@ -1,4 +1,4 @@
 export { getAdmins, default as reducers } from './reducers';
 
-import AdminsView from './AdminsViewContainer';
+import AdminsView from './AdminsView';
 export default AdminsView;

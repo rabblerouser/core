@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import AdminsView from './AdminsView';
+import AddAdminModalLauncher from './AddAdminModalLauncher';
+import AdminListTable from './AdminListTable';
 import {
   networkAdminListRequested,
   networkAdminRemoveRequested,
@@ -10,7 +11,7 @@ import {
 } from './actions';
 import { getNetworkAdmins, getSelectedNetworkAdmin } from './reducers';
 
-class NetworkAdminsViewContainer extends Component {
+class NetworkAdminsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,13 +30,20 @@ class NetworkAdminsViewContainer extends Component {
 
   render() {
     return (
-      <AdminsView
-        type={'Network Admin'}
-        id="organisers"
-        admins={this.props.networkAdmins}
-        onSaveAdmin={this.state.onSave}
-        onDeleteAdmin={this.state.onDelete}
-      />
+      <section className="admin-section" id="network-admin">
+        <h3>
+          Network Admins
+          <AddAdminModalLauncher type="Network Admin" onSave={this.state.onSave} />
+        </h3>
+        <AdminListTable
+          admins={this.props.networkAdmins}
+          onSaveAdmin={this.state.onSave}
+          onDeleteAdmin={this.state.onDelete}
+        />
+        {this.props.networkAdmins.length === 0 &&
+          <aside className="no-entries">No entries found</aside>
+        }
+      </section>
     );
   }
 }
@@ -52,7 +60,7 @@ const mapStateToProps = state => ({
   networkAdmins: getNetworkAdmins(state),
 });
 
-NetworkAdminsViewContainer.propTypes = {
+NetworkAdminsView.propTypes = {
   selectedNetworkAdmin: React.PropTypes.object,
   networkAdmins: React.PropTypes.array,
   networkAdminListRequested: React.PropTypes.func,
@@ -61,4 +69,4 @@ NetworkAdminsViewContainer.propTypes = {
   requestAdminUpdate: React.PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NetworkAdminsViewContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NetworkAdminsView);

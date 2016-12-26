@@ -1,4 +1,4 @@
 export { getNetworkAdmins, default as reducers } from './reducers';
 
-import NetworkAdminsView from './NetworkAdminsViewContainer';
+import NetworkAdminsView from './NetworkAdminsView';
 export default NetworkAdminsView;
