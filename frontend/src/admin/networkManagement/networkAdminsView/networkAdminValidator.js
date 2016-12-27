@@ -1,5 +1,12 @@
 import inputValidator from '../../../lib/inputValidator';
-import { FormValidationErrors } from '../../config/strings';
+
+const errorStrings = {
+  name: 'Please enter a name. No symbols allowed.',
+  contactEmail: 'Please enter a valid email address. E.g. valid@email.com',
+  contactNumber: 'Please enter a valid phone number.',
+  password: 'Passwords must be at least 12 characters',
+  confirmedPassword: 'Passwords must match',
+};
 
 export default (values, { isCreating }) => {
   const {
@@ -12,25 +19,25 @@ export default (values, { isCreating }) => {
   const errors = {};
 
   if (!inputValidator.isValidOptionalName(name)) {
-    errors.name = FormValidationErrors.name.message;
+    errors.name = errorStrings.name;
   }
 
   if (!inputValidator.isValidEmail(email)) {
-    errors.email = FormValidationErrors.contactEmail.message;
+    errors.email = errorStrings.contactEmail;
   }
 
   if (!inputValidator.isValidOptionalPhoneNumber(phoneNumber)) {
-    errors.phoneNumber = FormValidationErrors.contactNumber.message;
+    errors.phoneNumber = errorStrings.contactNumber;
   }
 
   if (!!password || isCreating) {
     if (!inputValidator.isValidPassword(password)) {
-      errors.password = FormValidationErrors.password.message;
+      errors.password = errorStrings.password;
     }
   }
 
   if (password !== confirmPassword) {
-    errors.confirmPassword = FormValidationErrors.confirmedPassword.message;
+    errors.confirmPassword = errorStrings.confirmedPassword;
   }
 
   return errors;

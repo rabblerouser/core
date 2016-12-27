@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import { FormValidationErrors } from '../../config/strings';
 import { InputField } from '../../common/forms';
 import { getSelectedAdmin, getIsCreating } from './reducers';
 
@@ -18,8 +17,6 @@ const onSubmit = (data, dispatch) => (
   dispatch(data.id ? update(data) : create(data))
   .then(() => dispatch(finishEditAdmin()))
 );
-
-const required = value => (value ? undefined : FormValidationErrors.password.message);
 
 export const EditAdminForm = ({ handleSubmit, isCreating, email }) => (
   <form onSubmit={handleSubmit}>
@@ -45,7 +42,6 @@ export const EditAdminForm = ({ handleSubmit, isCreating, email }) => (
         label="Password"
         type="password"
         placeholder="••••••••••••"
-        validate={isCreating && required}
       />
       <Field
         component={InputField}

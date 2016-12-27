@@ -1,5 +1,13 @@
 import inputValidator from '../../../lib/inputValidator';
-import { FormValidationErrors } from '../../config/strings';
+
+const errorStrings = {
+  email: 'Please enter a valid email address. E.g. valid@email.com',
+  primaryPhoneNumber: 'Please enter a valid phone number.',
+  firstName: 'Please enter the member\'s name. No symbols allowed.',
+  lastName: 'No symbols allowed.',
+  additionalInfo: 'Maximum 2000 characters',
+  notes: 'Maximum 2000 characters',
+};
 
 export default values => {
   const {
@@ -13,27 +21,27 @@ export default values => {
   const errors = {};
 
   if (!inputValidator.isValidEmail(email)) {
-    errors.email = FormValidationErrors.contactEmail.message;
+    errors.email = errorStrings.email;
   }
 
   if (!inputValidator.isValidOptionalPhoneNumber(primaryPhoneNumber)) {
-    errors.primaryPhoneNumber = FormValidationErrors.contactNumber.message;
+    errors.primaryPhoneNumber = errorStrings.primaryPhoneNumber;
   }
 
   if (!inputValidator.isValidName(firstName)) {
-    errors.firstName = FormValidationErrors.memberName.message;
+    errors.firstName = errorStrings.firstName;
   }
 
   if (!inputValidator.isValidOptionalName(lastName)) {
-    errors.lastName = FormValidationErrors.memberLastName.message;
+    errors.lastName = errorStrings.lastName;
   }
 
   if (!inputValidator.isValidOptionalTextBlock(additionalInfo)) {
-    errors.additionalInfo = FormValidationErrors.additionalInfo.message;
+    errors.additionalInfo = errorStrings.additionalInfo;
   }
 
   if (!inputValidator.isValidOptionalTextBlock(notes)) {
-    errors.notes = FormValidationErrors.notes.message;
+    errors.notes = errorStrings.notes;
   }
 
   return errors;
