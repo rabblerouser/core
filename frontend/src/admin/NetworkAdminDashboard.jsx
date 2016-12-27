@@ -4,7 +4,7 @@ import Header from './header/Header';
 import UserMessageView from './UserMessageView';
 import BranchDetails from './branchView';
 import AdminsView from './adminsView';
-import NetworkAdminsView from './networkManagement/networkAdminsView';
+import NetworkManagement from './networkManagement';
 import GroupsView from './groupView';
 import MembersView from './memberView';
 
@@ -16,12 +16,6 @@ const BranchManagement = () => (
       <GroupsView />
       <MembersView />
     </section>
-  </section>
-);
-
-const NetworkManagement = () => (
-  <section>
-    <NetworkAdminsView />
   </section>
 );
 

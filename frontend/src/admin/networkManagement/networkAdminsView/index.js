@@ -1,4 +1,3 @@
-export { getNetworkAdmins, default as reducers } from './reducers';
-
-import NetworkAdminsView from './NetworkAdminsView';
-export default NetworkAdminsView;
+export { default as reducers } from './reducers';
+export { networkAdminListRequested } from './actions';
+export { default as default } from './NetworkAdminsView';
