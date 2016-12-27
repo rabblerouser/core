@@ -8,7 +8,7 @@ import {
 import {
   BRANCH_CREATED,
   BRANCH_REMOVED,
-} from '../branchView/actions';
+} from '../branchManagement/branchView/actions';
 
 const initialState = {
   branches: [],

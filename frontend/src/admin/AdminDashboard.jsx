@@ -2,19 +2,13 @@ import React from 'react';
 
 import Header from './header/Header';
 import UserMessageView from './UserMessageView';
-import GroupsView from './groupView';
-import MembersView from './memberView/';
-import AdminsView from './adminsView';
+import BranchManagement from './branchManagement';
 
 const AdminDashboard = () => (
   <div className="admin-container">
     <Header />
     <UserMessageView />
-    <AdminsView />
-    <section>
-      <GroupsView />
-      <MembersView />
-    </section>
+    <BranchManagement />
     {
       customisation.adminStylesheets.map(stylesheet => (
         <link rel="stylesheet" href={stylesheet} key={stylesheet} />
