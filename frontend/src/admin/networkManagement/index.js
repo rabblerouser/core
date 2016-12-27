@@ -1,2 +1,2 @@
 export { default } from './NetworkManagement' ;
-export { reducers } from './networkAdminsView';
+export { default as reducers } from './reducers';

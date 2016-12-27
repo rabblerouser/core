@@ -9,7 +9,7 @@ import {
   EDIT_NETWORK_ADMIN,
   FINISH_EDIT_NETWORK_ADMIN,
 } from './actions';
-import { getNetworkAdminsView } from '../../reducers/rootSelectors';
+import { getNetworkAdminsView } from '../selectors';
 
 export const networkAdmins = (state = [], action) => {
   switch (action.type) {

@@ -7,7 +7,7 @@ import { reducers as branchView } from '../branchView/';
 import { reducers as groups } from '../groupView/';
 import { reducers as members } from '../memberView/';
 import { reducers as admins } from '../adminsView/';
-import { reducers as networkAdmins } from '../networkManagement/networkAdminsView/';
+import { reducers as networkManagement } from '../networkManagement/';
 
 export default combineReducers({
   branchView,
@@ -15,7 +15,7 @@ export default combineReducers({
   groups,
   members,
   admins,
-  networkAdmins,
+  networkManagement,
   appFeedback: appFeedbackReducers,
   form: formReducer,
 });
