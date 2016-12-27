@@ -1,9 +1,10 @@
 export const LOGOUT = 'LOGOUT';
-import adminService from '../services/adminService.js';
 
-export const logout = () => (
+export const logout = () => {
+  window.location.href = '/logout';
+  return (
   {
     type: LOGOUT,
-    placeholder: adminService.logout(),
   }
-);
+  );
+};
