@@ -101,7 +101,6 @@ export const createNetworkAdmin = () => ({
   type: CREATE_NETWORK_ADMIN,
 });
 
-
 export const FINISH_EDIT_NETWORK_ADMIN = 'FINISH_EDIT_NETWORK_ADMIN';
 export const finishEditNetworkAdmin = () => ({
   type: FINISH_EDIT_NETWORK_ADMIN,

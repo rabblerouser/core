@@ -19,7 +19,7 @@ const mapActions = (edit, remove, networkAdminId) => [
     key={`${networkAdminId}-delete`}
     confirmMessage="Are you sure you want to delete the selected network admin?"
     title="Delete network admin"
-    onDelete={remove}
+    onDelete={() => remove(networkAdminId)}
   />,
 ];
 

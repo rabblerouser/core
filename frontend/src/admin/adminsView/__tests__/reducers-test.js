@@ -1,4 +1,4 @@
-import { admins, selected } from '../reducers.js';
+import { admins, selected, isEditing, isCreating } from '../reducers.js';
 
 describe('adminsView / reducers', () => {
   describe('admins', () => {
@@ -83,6 +83,45 @@ describe('adminsView / reducers', () => {
     it('is set to empty upon FINISH_EDIT_ADMIN', () => {
       const reduction = selected({ id: 1234 }, { type: 'FINISH_EDIT_ADMIN' });
       expect(reduction).toEqual('');
+    });
+  });
+
+  describe('isEditing', () => {
+    it('defaults to false', () => {
+      const reduction = isEditing(undefined, { type: '' });
+      expect(reduction).toEqual(false);
+    });
+
+    it('is set to true upon EDIT_ADMIN ', () => {
+      const reduction = isEditing(false, { type: 'EDIT_ADMIN' });
+      expect(reduction).toEqual(true);
+    });
+
+    it('is set to true upon CREATE_ADMIN ', () => {
+      const reduction = isEditing(false, { type: 'CREATE_ADMIN' });
+      expect(reduction).toEqual(true);
+    });
+
+    it('is set to false upon FINISH_EDIT_ADMIN ', () => {
+      const reduction = isEditing(true, { type: 'FINISH_EDIT_ADMIN' });
+      expect(reduction).toEqual(false);
+    });
+  });
+
+  describe('isCreating', () => {
+    it('defaults to false', () => {
+      const reduction = isCreating(undefined, { type: '' });
+      expect(reduction).toEqual(false);
+    });
+
+    it('is set to true upon CREATE_ADMIN', () => {
+      const reduction = isCreating(false, { type: 'CREATE_ADMIN' });
+      expect(reduction).toEqual(true);
+    });
+
+    it('is set to false upon FINISH_EDIT_ADMIN ', () => {
+      const reduction = isCreating(true, { type: 'FINISH_EDIT_ADMIN' });
+      expect(reduction).toEqual(false);
     });
   });
 });

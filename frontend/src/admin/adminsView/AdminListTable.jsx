@@ -1,6 +1,9 @@
 import React from 'react';
-import EditAdminModalLauncher from './EditAdminModalLauncher';
-import { SortedTable, DeleteButton } from '../common';
+import { connect } from 'react-redux';
+
+import { SortedTable, DeleteButton, EditButton } from '../common';
+import { editAdmin, adminRemoveRequested } from './actions';
+import { getAdmins } from './reducers';
 
 const columns = [
   { type: 'name', field: 'name', label: 'Name' },
@@ -10,29 +13,36 @@ const columns = [
 ];
 
 const mapFields = ({ name, email, phoneNumber }) => ({ name, email, phoneNumber });
-const mapActions = (admin, onSaveAdmin, onDeleteAdmin) => [
-  <EditAdminModalLauncher key={`${admin.id}-edit`} admin={admin} onSave={onSaveAdmin} />,
+const mapActions = (edit, remove, adminId) => [
+  <EditButton key={`${adminId}-edit`} onClick={() => { edit(adminId); }} />,
   <DeleteButton
-    key={`${admin.id}-delete`}
-    confirmMessage="Are you sure you want to delete the selected person?"
+    key={`${adminId}-delete`}
+    confirmMessage="Are you sure you want to delete the selected admin?"
     title="Delete admin"
-    onDelete={() => onDeleteAdmin(admin)}
+    onDelete={() => remove(adminId)}
   />,
 ];
 
-const AdminListTable = ({ admins, onSaveAdmin, onDeleteAdmin }) =>
-  <SortedTable
-    columns={columns}
-    data={admins.map(admin =>
-      Object.assign({}, mapFields(admin), { actions: mapActions(admin, onSaveAdmin, onDeleteAdmin) })
-    )}
-    sortOn="name"
-  />;
+export const AdminListTable = ({ edit, remove, admins }) => (
+  admins.length === 0 ?
+    <aside className="no-entries">No entries found</aside>
+    : <SortedTable
+      columns={columns}
+      data={admins.map(admin => (
+        {
+          ...mapFields(admin),
+          actions: mapActions(edit, remove, admin.id),
+        }
+      ))}
+      sortOn="name"
+    />);
 
-export default AdminListTable;
+const mapStateToProps = state => ({ admins: getAdmins(state) });
+const mapDispatchToProps = { edit: editAdmin, remove: adminRemoveRequested };
+export default connect(mapStateToProps, mapDispatchToProps)(AdminListTable);
 
 AdminListTable.propTypes = {
   admins: React.PropTypes.array,
-  onSaveAdmin: React.PropTypes.func.isRequired,
-  onDeleteAdmin: React.PropTypes.func.isRequired,
+  edit: React.PropTypes.func.isRequired,
+  remove: React.PropTypes.func.isRequired,
 };

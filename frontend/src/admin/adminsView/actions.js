@@ -103,6 +103,10 @@ export const editAdmin = adminId => ({
   payload: { adminId },
 });
 
+export const CREATE_ADMIN = 'CREATE_ADMIN';
+export const createAdmin = () => ({
+  type: CREATE_ADMIN,
+});
 
 export const FINISH_EDIT_ADMIN = 'FINISH_EDIT_ADMIN';
 export const finishEditAdmin = () => ({

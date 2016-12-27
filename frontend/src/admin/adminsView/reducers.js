@@ -5,6 +5,7 @@ import {
   ADMIN_REMOVED,
   ADMIN_CREATED,
   ADMIN_UPDATED,
+  CREATE_ADMIN,
   EDIT_ADMIN,
   FINISH_EDIT_ADMIN,
 } from './actions';
@@ -30,10 +31,32 @@ export const selected = (state = '', action) => {
   }
 };
 
+export const isEditing = (state = false, action) => {
+  switch (action.type) {
+    case CREATE_ADMIN: return true;
+    case EDIT_ADMIN: return true;
+    case FINISH_EDIT_ADMIN: return false;
+    default : return state;
+  }
+};
+
+export const isCreating = (state = false, action) => {
+  switch (action.type) {
+    case CREATE_ADMIN: return true;
+    case FINISH_EDIT_ADMIN: return false;
+    default : return state;
+  }
+};
+
 export default combineReducers({
   admins,
+  isEditing,
   selected,
+  isCreating,
 });
+
+export const getIsEditActive = state => getAdminsView(state).isEditing;
+export const getIsCreating = state => getAdminsView(state).isCreating;
 
 export const getAdmins = state => getAdminsView(state).admins;
 export const getSelectedAdmin = state => {
