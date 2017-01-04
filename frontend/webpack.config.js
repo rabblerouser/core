@@ -55,7 +55,6 @@ module.exports = {
           '/styles/signup.css',
           'https://fonts.googleapis.com/css?family=Droid+Serif|Open+Sans',
         ]),
-        adminStylesheets: process.env.ADMIN_STYLESHEETS || JSON.stringify([]),
         skin: JSON.stringify(process.env.SKIN || 'default_skin'),
         addressEnabled: JSON.stringify(process.env.ADDRESS_ENABLED || false),
       },

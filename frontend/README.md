@@ -61,7 +61,6 @@ available variables. At the moment, everything is optional, and a default theme 
 | `SIGNUP_FINISHED_MESSAGE`| The message shown after signing up                                    | frontend |
 | `SIGNUP_HOME_PAGE_LINK`  | A link to your organisation's home page                               | frontend |
 | `SIGNUP_STYLESHEETS`     | Custom stylesheet URLs for the signup page. (See below)               | frontend |
-| `ADMIN_STYLESHEETS`      | Custom stylesheet URLs for the admin pages. (See below)               | frontend |
 | `SKIN`                   | The directory under `public/images` from where logos should be loaded | frontend |
 | `ADDRESS_ENABLED`        | If set, shows address fields in signup and admin page                 | frontend |
 

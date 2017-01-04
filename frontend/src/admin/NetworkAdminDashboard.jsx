@@ -11,11 +11,6 @@ const NetworkAdminDashboard = () => (
     <UserMessageView />
     <BranchManagement />
     <NetworkManagement />
-      {
-        customisation.adminStylesheets.map(stylesheet => (
-          <link rel="stylesheet" href={stylesheet} key={stylesheet} />
-        ))
-      }
   </div>
 );
 

@@ -9,11 +9,6 @@ const AdminDashboard = () => (
     <Header />
     <UserMessageView />
     <BranchManagement />
-    {
-      customisation.adminStylesheets.map(stylesheet => (
-        <link rel="stylesheet" href={stylesheet} key={stylesheet} />
-      ))
-    }
   </div>
 );
 
