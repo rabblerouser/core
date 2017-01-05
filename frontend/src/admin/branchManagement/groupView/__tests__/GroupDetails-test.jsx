@@ -1,6 +1,6 @@
 import React from 'react';
-import { GroupDetails } from '../GroupDetails';
 import { shallow } from 'enzyme';
+import { GroupDetails } from '../GroupDetails';
 
 describe('<GroupDetails />', () => {
   it('renders the group description', () => {

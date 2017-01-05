@@ -1,6 +1,6 @@
 import React from 'react';
-import { DetailsForm } from '../DetailsForm';
 import { shallow } from 'enzyme';
+import { DetailsForm } from '../DetailsForm';
 
 describe('DetailsForm', () => {
   it('provides the handleSubmit prop to the form', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import TextAreaField from '../TextAreaField';
 import { shallow } from 'enzyme';
+import TextAreaField from '../TextAreaField';
 
 describe('TextAreaField', () => {
   let rendered;

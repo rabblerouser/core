@@ -1,4 +1,4 @@
-import { branches, progress, getBranches, getProgress } from '../reducers.js';
+import { branches, progress, getBranches, getProgress } from '../reducers';
 
 describe('signup app reducers', () => {
   describe('branches', () => {

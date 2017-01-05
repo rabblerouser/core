@@ -1,4 +1,4 @@
-import { groups, selected, isEditing, isCreating } from '../reducers.js';
+import { groups, selected, isEditing, isCreating } from '../reducers';
 
 describe('groupsView / reducers', () => {
   describe('groups', () => {

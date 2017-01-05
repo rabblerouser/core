@@ -1,6 +1,6 @@
 import React from 'react';
-import { GroupActions } from '../GroupActions';
 import { shallow } from 'enzyme';
+import { GroupActions } from '../GroupActions';
 
 describe('<GroupActions />', () => {
   let rendered;

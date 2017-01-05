@@ -1,6 +1,6 @@
 import React from 'react';
-import { BranchDetails } from '../BranchDetails';
 import { shallow } from 'enzyme';
+import { BranchDetails } from '../BranchDetails';
 
 describe('BranchDetails', () => {
   let rendered;

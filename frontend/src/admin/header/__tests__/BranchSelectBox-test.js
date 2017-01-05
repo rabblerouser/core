@@ -1,6 +1,6 @@
 import React from 'react';
-import { BranchSelectBox } from '../BranchSelectBox';
 import { shallow } from 'enzyme';
+import { BranchSelectBox } from '../BranchSelectBox';
 
 describe('BranchSelectBox', () => {
   it('should render a select with an entry for each branch', () => {

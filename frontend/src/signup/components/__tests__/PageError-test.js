@@ -1,6 +1,6 @@
 import React from 'react';
-import PageError from '../PageError';
 import { shallow } from 'enzyme';
+import PageError from '../PageError';
 
 describe('PageError', () => {
   it('renders the page error', () => {

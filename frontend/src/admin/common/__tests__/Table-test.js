@@ -1,6 +1,6 @@
 import React from 'react';
-import Table from '../Table';
 import { shallow } from 'enzyme';
+import Table from '../Table';
 
 describe('Table', () => {
   let rendered;

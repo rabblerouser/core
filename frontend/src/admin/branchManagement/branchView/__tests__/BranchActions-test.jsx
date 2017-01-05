@@ -1,6 +1,6 @@
 import React from 'react';
-import { BranchActions } from '../BranchActions';
 import { shallow } from 'enzyme';
+import { BranchActions } from '../BranchActions';
 
 import { Modal } from '../../../common';
 

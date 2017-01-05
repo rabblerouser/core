@@ -1,6 +1,6 @@
 import React from 'react';
-import { GroupView } from '../GroupView';
 import { shallow } from 'enzyme';
+import { GroupView } from '../GroupView';
 
 import { Modal } from '../../../common';
 

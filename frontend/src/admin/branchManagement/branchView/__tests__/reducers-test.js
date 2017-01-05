@@ -1,4 +1,4 @@
-import { isEditing, editedBranch } from '../reducers.js';
+import { isEditing, editedBranch } from '../reducers';
 
 describe('branchView / reducers', () => {
   describe('isEditing', () => {

@@ -9,15 +9,11 @@ rules:
   react/jsx-equals-spacing:
     - error
     - never
+  import/no-named-as-default:
+    - off
 
 #New errors brought in by eslint upgrade - to be reviewed:
   no-undef:
-    - warn
-  import/no-named-as-default:
-    - warn
-  import/no-extraneous-dependencies:
-    - warn
-  import/first:
     - warn
   react/forbid-prop-types:
     - warn
@@ -25,13 +21,12 @@ rules:
     - warn
   jsx-a11y/anchor-has-content:
     - warn
-  import/extensions:
-    - warn
-  import/prefer-default-export:
-    - warn
-  import/newline-after-import:
-    - warn
   react/no-unused-prop-types:
     - warn
   jsx-a11y/no-static-element-interactions:
+    - warn
+
+
+  import/prefer-default-export:
+    # TODO: This is fixed by merging selectors into reducers
     - warn

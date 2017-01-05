@@ -1,4 +1,4 @@
-import reducer, { getCanSelectBranch } from '../branchReducers.js';
+import reducer, { getCanSelectBranch } from '../branchReducers';
 
 describe('branchReducers', () => {
   describe('DEFAULT', () => {

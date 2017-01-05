@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Header from './header/Header';
+import Header from './header';
 import UserMessageView from './UserMessageView';
 import BranchManagement from './branchManagement';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import SortedTable from '../SortedTable';
 import { shallow } from 'enzyme';
+import SortedTable from '../SortedTable';
 
 describe('SortedTable', () => {
   const columns = [{ field: 'toSort' }, { field: 'toLeave' }];

@@ -1,6 +1,6 @@
 import React from 'react';
-import FieldError from '../FieldError';
 import { shallow } from 'enzyme';
+import FieldError from '../FieldError';
 
 describe('FieldError', () => {
   it('should render the provided error message', () => {

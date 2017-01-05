@@ -1,6 +1,6 @@
 import React from 'react';
-import { GroupSelect } from '../GroupSelect';
 import { shallow } from 'enzyme';
+import { GroupSelect } from '../GroupSelect';
 
 describe('GroupList', () => {
   const sampleGroups = [{ id: '1', name: 'A group' }, { id: '2', name: 'Another group' }];

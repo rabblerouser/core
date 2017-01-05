@@ -1,6 +1,6 @@
 import React from 'react';
-import { ProgressIndicator } from '../ProgressIndicator';
 import { shallow } from 'enzyme';
+import { ProgressIndicator } from '../ProgressIndicator';
 
 describe('ProgressIndicator', () => {
   it('renders a details item and a finished item', () => {

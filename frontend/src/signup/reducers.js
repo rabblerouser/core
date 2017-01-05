@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import {
   BRANCH_LIST_UPDATED,
   REGISTER_START,
@@ -5,8 +7,6 @@ import {
   PAGE_ERROR,
   CLEAR_PAGE_ERROR,
 } from './actions';
-import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 
 export const branches = (state = [], { type, payload }) => {
   switch (type) {

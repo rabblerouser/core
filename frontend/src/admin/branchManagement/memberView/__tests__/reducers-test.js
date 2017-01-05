@@ -1,4 +1,4 @@
-import { members, selected, isEditing } from '../reducers.js';
+import { members, selected, isEditing } from '../reducers';
 
 describe('membersView / reducers', () => {
   describe('members', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { EditGroupForm } from '../EditGroupForm';
 import { shallow } from 'enzyme';
+import { EditGroupForm } from '../EditGroupForm';
 
 describe('EditGroupForm', () => {
   let submitSpy;

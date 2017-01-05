@@ -1,7 +1,7 @@
 import React from 'react';
+import { shallow } from 'enzyme';
 import { SignupPage } from '../SignupPage';
 import PageError from '../PageError';
-import { shallow } from 'enzyme';
 
 describe('SignupPage', () => {
   it('renders the page error when on is provided', () => {

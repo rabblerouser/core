@@ -1,6 +1,6 @@
 import React from 'react';
-import { EditBranchForm } from '../EditBranchForm';
 import { shallow } from 'enzyme';
+import { EditBranchForm } from '../EditBranchForm';
 
 describe('EditBranchForm', () => {
   let submitSpy;

@@ -1,6 +1,6 @@
 import React from 'react';
-import InputField from '../InputField';
 import { shallow } from 'enzyme';
+import InputField from '../InputField';
 
 describe('InputField', () => {
   let rendered;

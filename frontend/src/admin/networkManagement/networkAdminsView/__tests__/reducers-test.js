@@ -1,4 +1,4 @@
-import { networkAdmins, selected, isEditing, isCreating } from '../reducers.js';
+import { networkAdmins, selected, isEditing, isCreating } from '../reducers';
 
 describe('networkAdminsView / reducers', () => {
   describe('networkAdmins', () => {
