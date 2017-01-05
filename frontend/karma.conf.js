@@ -23,7 +23,6 @@ module.exports = config => {
             signupFinishedMessage: JSON.stringify('Thanks for joining!'),
             signupHomepageLink: JSON.stringify('https://rabblerouser.team'),
             signupStylesheets: JSON.stringify(['http://example.com/style.css']),
-            skin: JSON.stringify('default_skin'),
             addressEnabled: JSON.stringify(false),
           },
         }),

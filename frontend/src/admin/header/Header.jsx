@@ -8,12 +8,15 @@ import {
 
 import BranchSelectBox from './BranchSelectBox';
 import LogoutButton from './LogoutButton';
-import OrganisationIcon from './OrganisationIcon';
 
 const Header = ({ canSelectBranch, selectedBranch }) => (
   <header className="admin-header header">
-    <OrganisationIcon />
-    {canSelectBranch ? <BranchSelectBox /> : <span className="currentBranch">{selectedBranch.name}</span>}
+    <img src="/images/rabble-rouser-logo.png" alt="Rabble Rouser" width="90px" />
+    <span id="header-logo" alt="Logo" />
+    {canSelectBranch
+      ? <BranchSelectBox />
+      : <span className="currentBranch">{selectedBranch.name}</span>
+    }
     <LogoutButton />
   </header>
 );
