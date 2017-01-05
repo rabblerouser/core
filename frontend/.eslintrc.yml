@@ -9,3 +9,37 @@ rules:
   react/jsx-equals-spacing:
     - error
     - never
+
+#New errors brought in by eslint upgrade - to be reviewed:
+  comma-dangle:
+    - warn
+  no-undef:
+    - warn
+  no-useless-rename:
+    - warn
+  react/jsx-indent:
+    - warn
+  prefer-const:
+    - warn
+  import/no-named-as-default:
+    - warn
+  import/no-extraneous-dependencies:
+    - warn
+  import/first:
+    - warn
+  react/forbid-prop-types:
+    - warn
+  react/jsx-filename-extension:
+    - warn
+  jsx-a11y/anchor-has-content:
+    - warn
+  import/extensions:
+    - warn
+  import/prefer-default-export:
+    - warn
+  import/newline-after-import:
+    - warn
+  react/no-unused-prop-types:
+    - warn
+  jsx-a11y/no-static-element-interactions:
+    - warn
