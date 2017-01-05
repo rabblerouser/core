@@ -33,6 +33,6 @@ export const initialiseStore = (componentReducers, componentSelector) => {
       branches: branchReducers,
     }),
     initialState,
-    applyMiddleware(thunk)
+    applyMiddleware(thunk),
   );
 };

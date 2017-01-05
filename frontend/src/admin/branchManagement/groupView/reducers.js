@@ -16,7 +16,7 @@ export const groups = (state = [], action) => {
     case GROUP_LIST_UPDATED: return [...action.payload.groups];
     case GROUP_REMOVED: return state.filter(({ id }) => id !== action.payload.groupId);
     case GROUP_UPDATED: return state.map(group =>
-      (group.id === action.payload.group.id ? action.payload.group : group)
+      (group.id === action.payload.group.id ? action.payload.group : group),
     );
     case GROUP_CREATED: return [...state, action.payload.group];
     default : return state;

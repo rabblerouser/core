@@ -11,15 +11,7 @@ rules:
     - never
 
 #New errors brought in by eslint upgrade - to be reviewed:
-  comma-dangle:
-    - warn
   no-undef:
-    - warn
-  no-useless-rename:
-    - warn
-  react/jsx-indent:
-    - warn
-  prefer-const:
     - warn
   import/no-named-as-default:
     - warn

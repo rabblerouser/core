@@ -73,7 +73,7 @@ export const MemberListTable = ({
   members,
   addressEnabled = customisation.addressEnabled,
 }) => {
-  let columns = addressEnabled ? columnsWithAddress : columnsWithoutAddress;
+  const columns = addressEnabled ? columnsWithAddress : columnsWithoutAddress;
   return (<SortedTable
     columns={columns}
     data={members.map(member => (

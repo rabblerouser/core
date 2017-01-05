@@ -42,7 +42,7 @@ describe('EditMemberForm', () => {
     it(`renders the ${fieldName} field`, () => {
       const fields = rendered.find('Field');
       expect(fields.find({ name: fieldName }).length).toEqual(1);
-    })
+    }),
   );
 
   it('renders the groups field with each option', () => {
@@ -67,7 +67,7 @@ describe('EditMemberForm', () => {
       it(`does not render the ${fieldName} field`, () => {
         const fields = rendered.find('Field');
         expect(fields.find({ name: fieldName }).length).toEqual(0);
-      })
+      }),
     );
   });
 
@@ -88,7 +88,7 @@ describe('EditMemberForm', () => {
       it(`renders the ${fieldName} field`, () => {
         const fields = rendered.find('Field');
         expect(fields.find({ name: fieldName }).length).toEqual(1);
-      })
+      }),
     );
   });
 });

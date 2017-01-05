@@ -20,7 +20,7 @@ describe('AdminListTable', () => {
 
   it('create a table with name, email, tel and action columns', () => {
     const wrapper = shallow(
-      <AdminListTable admins={[{ ...admin }]} />
+      <AdminListTable admins={[{ ...admin }]} />,
     );
 
     const computedColumns = wrapper.find('SortedTable').prop('columns');
@@ -29,7 +29,7 @@ describe('AdminListTable', () => {
 
   it('should not create the table if there are no entries', () => {
     const wrapper = shallow(
-      <AdminListTable admins={[]} />
+      <AdminListTable admins={[]} />,
     );
     expect(wrapper.find('SortedTable').length).toEqual(0);
   });

@@ -13,7 +13,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   reducer,
   window.devToolsExtension && window.devToolsExtension(),
-  applyMiddleware(sagaMiddleware)
+  applyMiddleware(sagaMiddleware),
 );
 
 sagaMiddleware.run(sagas);
@@ -22,5 +22,5 @@ store.dispatch(branchListRequested());
 render(
   <Provider store={store}>
     <SignupPage />
-  </Provider>, document.getElementById('app')
+  </Provider>, document.getElementById('app'),
 );

@@ -5,15 +5,15 @@ const Table = ({ columns, data, onClickHeader }) => (
   <table>
     <thead>
       <tr>
-      {columns.map(({ label, type, field }, i) =>
-        <ColumnHeader key={i} label={label} type={type} onClick={() => onClickHeader(field)} />)}
+        {columns.map(({ label, type, field }, i) =>
+          <ColumnHeader key={i} label={label} type={type} onClick={() => onClickHeader(field)} />)}
       </tr>
     </thead>
     <tbody>
-    {data.map((row, i) =>
-      <tr key={i}>
-       {Object.keys(row).map((col, j) => <td key={j}>{row[col]}</td>)}
-      </tr>
+      {data.map((row, i) =>
+        <tr key={i}>
+          {Object.keys(row).map((col, j) => <td key={j}>{row[col]}</td>)}
+        </tr>,
     )}
     </tbody>
   </table>

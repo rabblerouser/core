@@ -16,7 +16,7 @@ export const admins = (state = [], action) => {
     case ADMIN_LIST_UPDATED: return [...action.payload.admins];
     case ADMIN_REMOVED: return state.filter(({ id }) => id !== action.payload.adminId);
     case ADMIN_UPDATED: return state.map(admin =>
-      (admin.id === action.payload.admin.id ? action.payload.admin : admin)
+      (admin.id === action.payload.admin.id ? action.payload.admin : admin),
     );
     case ADMIN_CREATED: return [...state, action.payload.admin];
     default : return state;

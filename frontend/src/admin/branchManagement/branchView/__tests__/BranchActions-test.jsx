@@ -20,7 +20,7 @@ describe('<BranchActions />', () => {
         branch={{}}
         isModalOpen
         handleCloseModal={handleClose}
-      />
+      />,
     );
   });
 

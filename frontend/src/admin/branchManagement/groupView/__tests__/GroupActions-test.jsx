@@ -11,7 +11,7 @@ describe('<GroupActions />', () => {
 
   beforeEach(() => {
     rendered = shallow(
-      <GroupActions edit={edit} remove={remove} branch={branch} />
+      <GroupActions edit={edit} remove={remove} branch={branch} />,
     );
   });
 

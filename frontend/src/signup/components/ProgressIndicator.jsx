@@ -18,7 +18,7 @@ export const ProgressIndicator = ({ progress }) => (
       { name: 'details', label: 'Details' },
       { name: 'finished', label: 'Finish' },
     ].map(({ name, label }, i) =>
-      (<li className={progressClass(i + 1, progress)} key={name} id={`progress-${name}`}>{label}</li>)
+      (<li className={progressClass(i + 1, progress)} key={name} id={`progress-${name}`}>{label}</li>),
     )}
   </ul>
 );

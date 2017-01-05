@@ -16,7 +16,7 @@ describe('InputField', () => {
           id="some-id"
           optional
           meta={{ touched: false, error: '' }}
-        />
+        />,
       );
     });
 
@@ -43,7 +43,7 @@ describe('InputField', () => {
           input={{ name: 'email-field', value: 'some value' }}
           label="Enter your email"
           meta={{ touched: false, error: '' }}
-        />
+        />,
       );
       const label = requiredField.find('label');
       expect(label.length).toEqual(1);

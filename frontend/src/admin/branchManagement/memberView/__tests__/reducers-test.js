@@ -53,7 +53,7 @@ describe('membersView / reducers', () => {
           id: 1234,
           name: 'member 1',
           groups: [{ id: 'G1' }, { id: 'G3' }],
-        }
+        },
       );
     });
 

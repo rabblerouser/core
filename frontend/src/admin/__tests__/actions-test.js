@@ -24,7 +24,7 @@ describe('admin/actions', () => {
     });
 
     it('should update the branch list when the request succeeds', done => {
-      request.returns(Promise.resolve({ data: { branches: [{ id: 123 }] } })
+      request.returns(Promise.resolve({ data: { branches: [{ id: 123 }] } }),
       );
       branchListRequested()(dispatch)
       .then(() => {

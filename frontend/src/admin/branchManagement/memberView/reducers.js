@@ -19,7 +19,7 @@ export const members = (state = [], action) => {
       groups: member.groups.filter(group => group.id !== action.payload.id),
     }));
     case MEMBER_UPDATED: return state.map(member =>
-      (member.id === action.payload.member.id ? action.payload.member : member)
+      (member.id === action.payload.member.id ? action.payload.member : member),
     );
     default : return state;
   }

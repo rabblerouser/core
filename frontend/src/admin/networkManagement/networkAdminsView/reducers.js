@@ -16,7 +16,7 @@ export const networkAdmins = (state = [], action) => {
     case NETWORK_ADMIN_LIST_UPDATED: return [...action.payload.networkAdmins];
     case NETWORK_ADMIN_REMOVED: return state.filter(({ id }) => id !== action.payload.networkAdminId);
     case NETWORK_ADMIN_UPDATED: return state.map(networkAdmin =>
-      (networkAdmin.id === action.payload.networkAdmin.id ? action.payload.networkAdmin : networkAdmin)
+      (networkAdmin.id === action.payload.networkAdmin.id ? action.payload.networkAdmin : networkAdmin),
     );
     case NETWORK_ADMIN_CREATED: return [...state, action.payload.networkAdmin];
     default : return state;

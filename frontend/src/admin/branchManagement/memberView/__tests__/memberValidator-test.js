@@ -13,7 +13,7 @@ describe('member validator', () => {
           notes: 'a value',
         });
         expect(errors[fieldName]).not.toBeUndefined();
-      }))
+      })),
     );
 
   [
@@ -25,6 +25,6 @@ describe('member validator', () => {
       it(`doesn't require ${fieldName}`, () => {
         const errors = validator({});
         expect(errors[fieldName]).toBeUndefined();
-      }))
+      })),
   );
 });

@@ -14,7 +14,7 @@ import './stylesheets/style.scss';
 const store = createStore(
   reducer,
   window.devToolsExtension && window.devToolsExtension(),
-  applyMiddleware(thunk)
+  applyMiddleware(thunk),
 );
 
 store.dispatch(appStarted());
@@ -26,5 +26,5 @@ render(
       <Route path="/dashboard/admin" component={NetworkAdminDashboard} />
     </Router>
   </Provider>,
-  document.getElementById('app')
+  document.getElementById('app'),
 );

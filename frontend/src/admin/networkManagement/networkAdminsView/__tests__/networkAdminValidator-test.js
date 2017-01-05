@@ -12,7 +12,7 @@ describe('networkAdmin validator', () => {
           confirmPassword: 'a value',
         }, {});
         expect(errors[fieldName]).not.toBeUndefined();
-      }))
+      })),
     );
 
   [
@@ -24,7 +24,7 @@ describe('networkAdmin validator', () => {
       it(`doesn't require ${fieldName}`, () => {
         const errors = validator({}, {});
         expect(errors[fieldName]).toBeUndefined();
-      }))
+      })),
   );
 
   it('has a validation error if there is no password when the admin is being created', () => {

@@ -15,7 +15,7 @@ describe('TextAreaField', () => {
           meta={{ touched: false, error: '' }}
           placeholder="Email"
           optional
-        />
+        />,
       );
     });
 
@@ -41,7 +41,7 @@ describe('TextAreaField', () => {
           input={{ name: 'email-field', value: 'some value' }}
           label="Enter your email"
           meta={{ touched: false, error: '' }}
-        />
+        />,
       );
       const label = requiredField.find('label');
       expect(label.length).toEqual(1);

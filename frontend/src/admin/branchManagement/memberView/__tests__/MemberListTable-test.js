@@ -33,7 +33,7 @@ describe('MemberListTable', () => {
           onEdit={() => {}}
           onDeleteMember={() => {}}
           addressEnabled
-        />
+        />,
       );
 
       const computedColumns = wrapper.find('SortedTable').prop('columns');
@@ -56,7 +56,7 @@ describe('MemberListTable', () => {
           onEdit={() => {}}
           onDeleteMember={() => {}}
           addressEnabled
-        />
+        />,
       );
 
       const computedData = wrapper.find('SortedTable').prop('data');
@@ -72,7 +72,7 @@ describe('MemberListTable', () => {
           onEdit={() => {}}
           onDeleteMember={() => {}}
           addressEnabled
-        />
+        />,
       );
 
       const computedData = wrapper.find('SortedTable').prop('data');
@@ -96,7 +96,7 @@ describe('MemberListTable', () => {
           groups={[]}
           onEdit={() => {}}
           onDeleteMember={() => {}}
-        />
+        />,
       );
 
       const computedColumns = wrapper.find('SortedTable').prop('columns');

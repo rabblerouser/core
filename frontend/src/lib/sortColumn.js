@@ -9,7 +9,7 @@ function caseInsensitive(field) {
 
 const sortColumn = (field, columns, data) => {
   const updatedColumns = columns.map(c =>
-    Object.assign({}, c, { direction: c.field === field ? setDirection(c.direction) : SORT.none })
+    Object.assign({}, c, { direction: c.field === field ? setDirection(c.direction) : SORT.none }),
   );
   const sortedColumn = findWhere(updatedColumns, { field });
   const direction = !!sortedColumn && sortedColumn.direction === SORT.desc ? 'desc' : 'asc';

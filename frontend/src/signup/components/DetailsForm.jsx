@@ -11,7 +11,7 @@ import validate from '../validator';
 
 const onSubmit = (member, dispatch) => (
   new Promise((resolve, reject) =>
-    dispatch((registerRequested)(member, resolve, reject))
+    dispatch((registerRequested)(member, resolve, reject)),
   )
 );
 
