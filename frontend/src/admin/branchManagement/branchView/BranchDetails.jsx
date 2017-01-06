@@ -23,8 +23,4 @@ const mapStateToProps = state => ({
   selectedBranch: getSelectedBranch(state),
 });
 
-BranchDetails.propTypes = {
-  selectedBranch: React.PropTypes.object,
-};
-
 export default connect(mapStateToProps)(BranchDetails);

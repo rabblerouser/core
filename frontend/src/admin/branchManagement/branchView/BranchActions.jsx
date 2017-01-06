@@ -22,15 +22,6 @@ export const BranchActions = ({ add, edit, remove, isModalOpen, handleCloseModal
   </span>
 );
 
-BranchActions.propTypes = {
-  branch: React.PropTypes.object,
-  remove: React.PropTypes.func,
-  add: React.PropTypes.func,
-  edit: React.PropTypes.func,
-  isModalOpen: React.PropTypes.bool,
-  handleCloseModal: React.PropTypes.func,
-};
-
 const mapStateToProps = state => ({
   branch: getSelectedBranch(state),
   isModalOpen: getIsEditActive(state),

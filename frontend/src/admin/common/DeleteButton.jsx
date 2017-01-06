@@ -14,10 +14,4 @@ const DeleteButton = ({ confirmMessage, onDelete, title }) => {
   );
 };
 
-DeleteButton.propTypes = {
-  confirmMessage: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string.isRequired,
-  onDelete: React.PropTypes.func.isRequired,
-};
-
 export default DeleteButton;

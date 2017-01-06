@@ -40,9 +40,3 @@ export const NetworkAdminListTable = ({ edit, remove, networkAdmins }) => (
 const mapStateToProps = state => ({ networkAdmins: getNetworkAdmins(state) });
 const mapDispatchToProps = { edit: editNetworkAdmin, remove: networkAdminRemoveRequested };
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkAdminListTable);
-
-NetworkAdminListTable.propTypes = {
-  networkAdmins: React.PropTypes.array,
-  edit: React.PropTypes.func.isRequired,
-  remove: React.PropTypes.func.isRequired,
-};

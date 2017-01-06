@@ -43,11 +43,4 @@ const mapStateToProps = state => ({
   isModalOpen: getIsEditActive(state),
 });
 
-NetworkAdminsView.propTypes = {
-  networkAdminListRequested: React.PropTypes.func,
-  isModalOpen: React.PropTypes.bool,
-  createNetworkAdmin: React.PropTypes.func,
-  finishEditNetworkAdmin: React.PropTypes.func,
-};
-
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkAdminsView);

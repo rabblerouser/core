@@ -53,12 +53,6 @@ export const DetailsForm = ({ handleSubmit, branches, addressEnabled = customisa
   </section>
 );
 
-DetailsForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  branches: React.PropTypes.array.isRequired,
-  addressEnabled: React.PropTypes.bool,
-};
-
 const mapStateToProps = state => ({
   branches: getBranches(state),
   initialValues: {

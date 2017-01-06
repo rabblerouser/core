@@ -25,10 +25,4 @@ const mapStateToProps = state => ({
   selected: getSelectedGroupId(state),
 });
 
-GroupSelect.propTypes = {
-  selected: React.PropTypes.string.isRequired,
-  groups: React.PropTypes.array.isRequired,
-  onSelect: React.PropTypes.func.isRequired,
-};
-
 export default connect(mapStateToProps, { onSelect: groupSelected })(GroupSelect);

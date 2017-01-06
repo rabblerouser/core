@@ -59,13 +59,6 @@ export const EditMemberForm = ({
   </form>
 );
 
-EditMemberForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  memberSince: React.PropTypes.string,
-  addressEnabled: React.PropTypes.bool,
-  groupOptions: React.PropTypes.array,
-};
-
 const mapStateToProps = state => ({
   initialValues: getSelectedMember(state),
   memberSince: moment(getSelectedMember(state).memberSince).format('YYYY/MM/DD'),

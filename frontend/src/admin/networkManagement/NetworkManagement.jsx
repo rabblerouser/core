@@ -18,8 +18,4 @@ class NetworkManagement extends Component {
   }
 }
 
-NetworkManagement.propTypes = {
-  networkAdminListRequested: React.PropTypes.func,
-};
-
 export default connect(() => ({}), { networkAdminListRequested })(NetworkManagement);

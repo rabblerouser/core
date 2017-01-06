@@ -10,11 +10,6 @@ const UserMessageView = ({ successMessages, failureMessages }) => (
   </section>
 );
 
-UserMessageView.propTypes = {
-  successMessages: React.PropTypes.array,
-  failureMessages: React.PropTypes.array,
-};
-
 const mapStateToProps = ({ appFeedback }) => ({
   successMessages: appFeedback.successMessages,
   failureMessages: appFeedback.failureMessages,

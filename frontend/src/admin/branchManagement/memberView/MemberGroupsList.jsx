@@ -6,8 +6,4 @@ const MemberGroupsList = ({ groups }) => (
   </ul>
 );
 
-MemberGroupsList.propTypes = {
-  groups: React.PropTypes.array.isRequired,
-};
-
 export default MemberGroupsList;

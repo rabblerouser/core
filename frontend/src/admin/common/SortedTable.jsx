@@ -29,9 +29,3 @@ class SortedTable extends Component {
 }
 
 export default SortedTable;
-
-SortedTable.propTypes = {
-  columns: React.PropTypes.array.isRequired,
-  data: React.PropTypes.array.isRequired,
-  sortOn: React.PropTypes.string,
-};

@@ -16,8 +16,4 @@ const BranchManagement = () => (
   </section>
 );
 
-BranchManagement.propTypes = {
-  networkAdminListRequested: React.PropTypes.func,
-};
-
 export default connect(() => ({}))(BranchManagement);

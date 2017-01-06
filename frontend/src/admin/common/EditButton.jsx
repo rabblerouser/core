@@ -6,10 +6,4 @@ const EditButton = ({ onClick, title = 'Edit', children }) => (
   </button>
 );
 
-EditButton.propTypes = {
-  children: React.PropTypes.any,
-  title: React.PropTypes.string,
-  onClick: React.PropTypes.func.isRequired,
-};
-
 export default EditButton;

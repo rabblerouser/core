@@ -21,11 +21,6 @@ const Header = ({ canSelectBranch, selectedBranch }) => (
   </header>
 );
 
-Header.propTypes = {
-  canSelectBranch: React.PropTypes.bool,
-  selectedBranch: React.PropTypes.object,
-};
-
 const mapStateToProps = state => ({
   canSelectBranch: getCanSelectBranch(state),
   selectedBranch: getSelectedBranch(state),

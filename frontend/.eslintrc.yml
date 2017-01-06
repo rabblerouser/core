@@ -11,12 +11,11 @@ rules:
   react/jsx-equals-spacing:
     - error
     - never
+  react/prop-types:
+    - off
   import/no-named-as-default:
     - off
 
-# TODO: Remove all proptypes
-  react/forbid-prop-types:
-    - warn
 # TODO: Switch everything to .js (and remove references to .jsx from configs once that's done)
   react/jsx-filename-extension:
     - warn

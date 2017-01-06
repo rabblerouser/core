@@ -86,11 +86,4 @@ export const MemberListTable = ({
   />);
 };
 
-MemberListTable.propTypes = {
-  members: React.PropTypes.array,
-  edit: React.PropTypes.func.isRequired,
-  remove: React.PropTypes.func.isRequired,
-  addressEnabled: React.PropTypes.bool,
-};
-
 export default connect(() => ({}), { edit: editMember, remove: memberRemoveRequested })(MemberListTable);

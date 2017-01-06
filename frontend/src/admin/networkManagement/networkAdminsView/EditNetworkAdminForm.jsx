@@ -54,12 +54,6 @@ export const EditNetworkAdminForm = ({ handleSubmit, isCreating, email }) => (
   </form>
 );
 
-EditNetworkAdminForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  email: React.PropTypes.string,
-  isCreating: React.PropTypes.bool,
-};
-
 const mapStateToProps = state => ({
   initialValues: getIsCreating(state) ? {} : getSelectedNetworkAdmin(state),
   email: getIsCreating(state) ? '' : getSelectedNetworkAdmin(state).email,

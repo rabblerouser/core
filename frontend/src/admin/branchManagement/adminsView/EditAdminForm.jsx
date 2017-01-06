@@ -54,12 +54,6 @@ export const EditAdminForm = ({ handleSubmit, isCreating, email }) => (
   </form>
 );
 
-EditAdminForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-  email: React.PropTypes.string,
-  isCreating: React.PropTypes.bool,
-};
-
 const mapStateToProps = state => ({
   initialValues: getIsCreating(state) ? {} : getSelectedAdmin(state),
   email: getIsCreating(state) ? '' : getSelectedAdmin(state).email,

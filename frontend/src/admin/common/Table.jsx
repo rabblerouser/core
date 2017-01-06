@@ -20,9 +20,3 @@ const Table = ({ columns, data, onClickHeader }) => (
 );
 
 export default Table;
-
-Table.propTypes = {
-  columns: React.PropTypes.array.isRequired,
-  data: React.PropTypes.array.isRequired,
-  onClickHeader: React.PropTypes.func,
-};

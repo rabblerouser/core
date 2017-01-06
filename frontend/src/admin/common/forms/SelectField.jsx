@@ -13,13 +13,4 @@ const SelectField = ({ input, label, type, id, meta: { touched, error }, childre
   </div>
 );
 
-SelectField.propTypes = {
-  input: React.PropTypes.object.isRequired,
-  label: React.PropTypes.string,
-  children: React.PropTypes.any,
-  type: React.PropTypes.string,
-  multiple: React.PropTypes.bool,
-  meta: React.PropTypes.object.isRequired,
-  id: React.PropTypes.string,
-};
 export default SelectField;

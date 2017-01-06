@@ -15,9 +15,4 @@ export const GroupActions = ({ remove, edit }) => (
   </span>
 );
 
-GroupActions.propTypes = {
-  remove: React.PropTypes.func,
-  edit: React.PropTypes.func,
-};
-
 export default connect(() => ({}), { edit: editGroup, remove: groupRemoveRequested })(GroupActions);

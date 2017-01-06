@@ -33,10 +33,6 @@ export const EditBranchForm = ({ handleSubmit }) => (
   </form>
 );
 
-EditBranchForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({ initialValues: getEditedBranch(state) });
 export default connect(mapStateToProps)(reduxForm({
   form: 'branch',

@@ -16,10 +16,6 @@ export const GroupDetails = ({ group }) => (
     </section> : null
 );
 
-GroupDetails.propTypes = {
-  group: React.PropTypes.object,
-};
-
 const mapStateToProps = state => ({
   group: getSelectedGroup(state),
 });

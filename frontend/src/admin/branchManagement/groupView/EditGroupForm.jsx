@@ -32,10 +32,6 @@ export const EditGroupForm = ({ handleSubmit }) => (
   </form>
 );
 
-EditGroupForm.propTypes = {
-  handleSubmit: React.PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
   initialValues: getIsCreating(state) ? {} : getSelectedGroup(state),
 });

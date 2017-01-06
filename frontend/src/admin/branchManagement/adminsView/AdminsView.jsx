@@ -46,12 +46,4 @@ const mapStateToProps = state => ({
   isModalOpen: getIsEditActive(state),
 });
 
-AdminsView.propTypes = {
-  branchId: React.PropTypes.string,
-  adminListRequested: React.PropTypes.func,
-  isModalOpen: React.PropTypes.bool,
-  createAdmin: React.PropTypes.func,
-  finishEditAdmin: React.PropTypes.func,
-};
-
 export default connect(mapStateToProps, mapDispatchToProps)(AdminsView);

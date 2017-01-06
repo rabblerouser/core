@@ -20,11 +20,6 @@ const FilteredMembersList = ({ groupFilter, members }) => {
   : <MemberListTable members={filterMembersList()} />;
 };
 
-FilteredMembersList.propTypes = {
-  groupFilter: React.PropTypes.string,
-  members: React.PropTypes.array,
-};
-
 const mapStateToProps = state => ({
   members: getMembers(state),
   groupFilter: getSelectedGroupId(state),

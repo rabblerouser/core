@@ -28,13 +28,6 @@ export class MembersView extends Component {
   }
 }
 
-MembersView.propTypes = {
-  isModalOpen: React.PropTypes.bool,
-  handleCloseModal: React.PropTypes.func,
-  membersRequested: React.PropTypes.func,
-  branchId: React.PropTypes.string,
-};
-
 const mapDispatchToProps = dispatch => ({
   membersRequested: () => dispatch(memberListRequested()),
   handleCloseModal: finishEditMember,

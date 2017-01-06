@@ -21,8 +21,4 @@ export const SignupPage = ({ pageError }) => (
   </div>
 );
 
-SignupPage.propTypes = {
-  pageError: React.PropTypes.string,
-};
-
 export default connect(state => ({ pageError: getPageError(state) }))(SignupPage);

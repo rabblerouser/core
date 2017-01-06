@@ -6,10 +6,4 @@ const AddButton = ({ onClick, title = 'Add', children }) => (
   </button>
 );
 
-AddButton.propTypes = {
-  children: React.PropTypes.any,
-  title: React.PropTypes.string,
-  onClick: React.PropTypes.func.isRequired,
-};
-
 export default AddButton;

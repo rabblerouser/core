@@ -7,10 +7,6 @@ const LogoutButton = ({ onLogout }) => (
   <button onClick={onLogout} className="logout">Logout</button>
 );
 
-LogoutButton.propTypes = {
-  onLogout: React.PropTypes.func.isRequired,
-};
-
 const mapDispatchToProps = dispatch => ({
   onLogout: () => dispatch(logout()),
 });

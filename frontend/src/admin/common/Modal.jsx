@@ -11,10 +11,4 @@ export const ModalWrapper = ({ isOpen, handleClose, children }) => (
   </Modal>
 );
 
-ModalWrapper.propTypes = {
-  isOpen: React.PropTypes.bool,
-  handleClose: React.PropTypes.func,
-  children: React.PropTypes.any,
-};
-
 export default ModalWrapper;

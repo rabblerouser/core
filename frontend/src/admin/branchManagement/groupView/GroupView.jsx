@@ -33,14 +33,6 @@ export class GroupView extends Component {
   }
 }
 
-GroupView.propTypes = {
-  create: React.PropTypes.func,
-  requestGroupList: React.PropTypes.func,
-  branchId: React.PropTypes.string,
-  isModalOpen: React.PropTypes.bool,
-  handleCloseModal: React.PropTypes.func,
-};
-
 const mapStateToProps = state => ({
   branchId: getSelectedBranchId(state),
   isModalOpen: getIsEditActive(state),

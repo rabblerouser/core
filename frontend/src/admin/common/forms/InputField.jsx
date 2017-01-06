@@ -21,13 +21,5 @@ const InputField = ({ input, label, placeholder, type, optional, id, meta: { tou
     </div>
   );
 };
-InputField.propTypes = {
-  input: React.PropTypes.object.isRequired,
-  label: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
-  type: React.PropTypes.string,
-  optional: React.PropTypes.bool,
-  meta: React.PropTypes.object.isRequired,
-  id: React.PropTypes.string,
-};
+
 export default InputField;

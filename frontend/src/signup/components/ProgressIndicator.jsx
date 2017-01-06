@@ -23,8 +23,4 @@ export const ProgressIndicator = ({ progress }) => (
   </ul>
 );
 
-ProgressIndicator.propTypes = {
-  progress: React.PropTypes.number.isRequired,
-};
-
 export default connect(state => ({ progress: getProgress(state) }))(ProgressIndicator);

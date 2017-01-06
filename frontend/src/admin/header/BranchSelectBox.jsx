@@ -17,12 +17,6 @@ export const BranchSelectBox = ({ selected, onSelect, branches }) => {
   );
 };
 
-BranchSelectBox.propTypes = {
-  branches: React.PropTypes.array,
-  selected: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
-};
-
 const mapStateToProps = state => ({
   branches: getAvailableBranches(state),
   selected: getSelectedBranchId(state),

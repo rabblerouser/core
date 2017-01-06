@@ -13,8 +13,4 @@ const steps = [
 
 export const ProgressSteps = ({ currentStep }) => steps[currentStep];
 
-ProgressSteps.propTypes = {
-  currentStep: React.PropTypes.number,
-};
-
 export default connect(state => ({ currentStep: getProgress(state) }))(ProgressSteps);

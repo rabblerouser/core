@@ -40,9 +40,3 @@ export const AdminListTable = ({ edit, remove, admins }) => (
 const mapStateToProps = state => ({ admins: getAdmins(state) });
 const mapDispatchToProps = { edit: editAdmin, remove: adminRemoveRequested };
 export default connect(mapStateToProps, mapDispatchToProps)(AdminListTable);
-
-AdminListTable.propTypes = {
-  admins: React.PropTypes.array,
-  edit: React.PropTypes.func.isRequired,
-  remove: React.PropTypes.func.isRequired,
-};

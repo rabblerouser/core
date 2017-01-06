@@ -10,8 +10,4 @@ export const Finished = () => (
   </section>
 );
 
-Finished.propTypes = {
-  homeUrl: React.PropTypes.string,
-};
-
 export default Finished;
