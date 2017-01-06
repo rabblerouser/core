@@ -2,7 +2,7 @@ import React from 'react';
 
 const DeleteButton = ({ confirmMessage, onDelete, title }) => {
   const onClick = () => {
-    if (confirm(confirmMessage)) { // eslint-disable-line no-alert
+    if (window.confirm(confirmMessage)) {
       onDelete();
     }
   };
