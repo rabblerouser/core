@@ -4,8 +4,8 @@ const sassPaths = require('node-neat').includePaths.map(sassPath => `includePath
 
 module.exports = {
   entry: {
-    signupApp: ['babel-polyfill', `${__dirname}/src/signup/SignupApp.jsx`],
-    adminApp: ['babel-polyfill', `${__dirname}/src/admin/AdminApp.jsx`],
+    signupApp: ['babel-polyfill', `${__dirname}/src/signup/SignupApp.js`],
+    adminApp: ['babel-polyfill', `${__dirname}/src/admin/AdminApp.js`],
   },
   output: {
     path: `${__dirname}/public/javascript`,
@@ -15,7 +15,7 @@ module.exports = {
   module: {
     preLoaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         loader: 'eslint-loader',
         exclude: /node_modules/,
       },
@@ -30,7 +30,7 @@ module.exports = {
         loader: 'svg-url-loader',
       },
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
@@ -40,7 +40,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js'],
   },
   plugins: [
     new ExtractTextPlugin('style.css'),

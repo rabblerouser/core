@@ -8,7 +8,7 @@
   "scripts": {
     "build": "webpack --progress --colors",
     "ci": "npm run lint && npm run test-single",
-    "lint": "eslint --ext js,jsx .",
+    "lint": "eslint --ext js .",
     "start": "webpack-dev-server --hot --inline --content-base public",
     "test": "karma start",
     "test-single": "karma start --single-run"

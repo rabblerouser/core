@@ -30,7 +30,7 @@ module.exports = config => {
       module: {
         loaders: [
           {
-            test: /\.jsx?$/,
+            test: /\.js$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
             cacheDirectory: '.babel-cache',
@@ -41,7 +41,7 @@ module.exports = config => {
         ],
       },
       resolve: {
-        extensions: ['', '.js', '.jsx'],
+        extensions: ['', '.js'],
       },
       externals: {
         cheerio: 'window',

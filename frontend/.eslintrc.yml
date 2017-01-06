@@ -15,17 +15,13 @@ rules:
     - off
   import/no-named-as-default:
     - off
-
-# TODO: Switch everything to .js (and remove references to .jsx from configs once that's done)
   react/jsx-filename-extension:
-    - warn
+    - off
+
 # TODO: These are genuine a11y issues we should fix
   jsx-a11y/anchor-has-content:
     - warn
   jsx-a11y/no-static-element-interactions:
-    - warn
-# TODO: This is actually exposing a couple of bugs to do with closing modals. They need to be fixed
-  react/no-unused-prop-types:
     - warn
 # TODO: This is fixed by merging selectors into reducers (if possible)
   import/prefer-default-export:
