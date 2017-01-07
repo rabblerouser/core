@@ -7,8 +7,9 @@ import { AddButton, Modal } from '../../common';
 import {
   networkAdminListRequested,
   createNetworkAdmin,
+  finishEditNetworkAdmin,
 } from './actions';
-import { getIsEditActive, finishEditNetworkAdmin } from './reducers';
+import { getIsEditActive } from './reducers';
 
 
 class NetworkAdminsView extends Component {
@@ -24,7 +25,7 @@ class NetworkAdminsView extends Component {
           Network Admins
           <AddButton onClick={this.props.createNetworkAdmin} />
         </h3>
-        <Modal isOpen={this.props.isModalOpen} handleClose={finishEditNetworkAdmin} >
+        <Modal isOpen={this.props.isModalOpen} handleClose={this.props.handleCloseModal} >
           <EditNetworkAdminForm />
         </Modal>
         <NetworkAdminListTable />
@@ -36,7 +37,7 @@ class NetworkAdminsView extends Component {
 const mapDispatchToProps = ({
   networkAdminListRequested,
   createNetworkAdmin,
-  finishEditNetworkAdmin,
+  handleCloseModal: finishEditNetworkAdmin,
 });
 
 const mapStateToProps = state => ({

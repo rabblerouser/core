@@ -7,9 +7,10 @@ import { AddButton, Modal } from '../../common';
 import {
   adminListRequested,
   createAdmin,
+  finishEditAdmin,
 } from './actions';
 import { getSelectedBranchId } from '../../reducers/branchReducers';
-import { getIsEditActive, finishEditAdmin } from './reducers';
+import { getIsEditActive } from './reducers';
 
 class AdminsView extends Component {
 
@@ -26,7 +27,7 @@ class AdminsView extends Component {
            Admins
           <AddButton onClick={this.props.createAdmin} />
         </h3>
-        <Modal isOpen={this.props.isModalOpen} handleClose={finishEditAdmin} >
+        <Modal isOpen={this.props.isModalOpen} handleClose={this.props.handleCloseModal} >
           <EditAdminForm />
         </Modal>
         <AdminListTable />
@@ -38,7 +39,7 @@ class AdminsView extends Component {
 const mapDispatchToProps = ({
   adminListRequested,
   createAdmin,
-  finishEditAdmin,
+  handleCloseModal: finishEditAdmin,
 });
 
 const mapStateToProps = state => ({
