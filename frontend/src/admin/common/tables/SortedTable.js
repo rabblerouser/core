@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Table from './Table';
-import sortColumn from '../../lib/sortColumn';
+import sortColumn from '../../../lib/sortColumn';
 
 class SortedTable extends Component {
   constructor(props) {

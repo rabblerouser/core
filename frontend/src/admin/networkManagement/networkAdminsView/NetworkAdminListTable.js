@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { SortedTable, DeleteButton, EditButton } from '../../common';
+import { DeleteButton, EditButton } from '../../common';
+import { SortedTable } from '../../common/tables';
 import { editNetworkAdmin, networkAdminRemoveRequested } from './actions';
 import { getNetworkAdmins } from './reducers';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Table from '../Table';
+import Table, { BodyRow } from '../Table';
 
 describe('Table', () => {
   let rendered;
@@ -14,7 +14,7 @@ describe('Table', () => {
     });
 
     it('creates a row for each datum', () => {
-      const renderedRows = rendered.find('tbody tr');
+      const renderedRows = rendered.find(BodyRow);
       expect(renderedRows.length).toBe(data.length);
     });
 
