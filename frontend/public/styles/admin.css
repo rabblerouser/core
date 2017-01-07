@@ -6,20 +6,3 @@ body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
 }
-
-#admin-header {
-  background-color: #EA3B49;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-  padding: 0 50px;
-}
-
-#admin-header button {
-  background-color: #EA3B49;
-  color: white;
-  border: 1px solid white;
-  border-radius: 4px;
-  font-size: 20px;
-}

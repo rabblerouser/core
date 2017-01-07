@@ -5,7 +5,6 @@ import {
   getSelectedBranchId,
   getAvailableBranches,
 } from '../reducers/branchReducers';
-
 import { branchSelected } from '../actions';
 
 export const BranchSelectBox = ({ selected, onSelect, branches }) => {

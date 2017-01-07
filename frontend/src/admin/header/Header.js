@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import styled from 'styled-components';
 import {
   getCanSelectBranch,
   getSelectedBranch,
@@ -9,8 +9,17 @@ import {
 import BranchSelectBox from './BranchSelectBox';
 import LogoutButton from './LogoutButton';
 
+const StyledHeader = styled.header`
+  background-color: ${props => props.theme.primaryColour};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 50px;
+`;
+
 const Header = ({ canSelectBranch, selectedBranch }) => (
-  <header className="admin-header header">
+  <StyledHeader>
     <img src="/images/rabble-rouser-logo.png" alt="Rabble Rouser" width="90px" />
     <span id="header-logo" alt="Logo" />
     {canSelectBranch
@@ -18,7 +27,7 @@ const Header = ({ canSelectBranch, selectedBranch }) => (
       : <span className="currentBranch">{selectedBranch.name}</span>
     }
     <LogoutButton />
-  </header>
+  </StyledHeader>
 );
 
 const mapStateToProps = state => ({
