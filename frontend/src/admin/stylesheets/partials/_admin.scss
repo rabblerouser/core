@@ -280,166 +280,6 @@ header.details-header {
     h1 {
         font-size: 1.2em;
     }
-    table {
-        table-layout: fixed;
-        margin-top: 0;
-
-        @include media($mobile) {
-
-        }
-    }
-    thead {
-        @include media($mobile) {
-            display: none;
-        }
-
-    }
-    tr {
-        border: none;
-        @include media($mobile) {}
-    }
-    th {
-        background-color: $white;
-        color: $blue-darker;
-        font-size: $labels-headings-size;
-        padding: 18px 10px 5px 10px;
-        word-wrap: break-word;
-        font-weight: normal;
-        vertical-align: top;
-        font-size: 1em;
-        line-height: 1.2em;
-        padding-right: 20px;
-
-        @include media($tablet) {
-            font-size: 0.8em;
-        }
-    }
-    th:last-child {
-        border-right: none;
-    }
-    th.sort-desc,
-    th.sort-asc {
-        background: #E6E6E7;
-    }
-    th.sort-desc:before {
-        content: "\f0ab";
-        font-family: FontAwesome;
-        text-align: right;
-        display: block;
-        float: right;
-        padding-right: 0;
-        margin-right: -15px;
-    }
-    th.sort-asc:before {
-        content: "\f0aa";
-        font-family: FontAwesome;
-        text-align: right;
-        display: block;
-        float: right;
-        padding-right: 0;
-        margin-right: -15px;
-    }
-    th:hover {
-        background: #E6E6E7;
-        cursor: pointer;
-    }
-    th:hover:before {
-        cursor: pointer;
-        content: "\f0ab";
-        font-family: FontAwesome;
-        text-align: right;
-        display: block;
-        float: right;
-        padding-right: 0;
-        margin-right: -15px;
-    }
-    th.edit:hover {
-        background-color: $white;
-        cursor: default;
-    }
-    th.edit:hover:before {
-        cursor: default;
-        content: none;
-        text-align: right;
-        display: block;
-        float: right;
-        padding-right: 0;
-        margin-right: -15px;
-    }
-    th.sort-desc:hover:before {
-        cursor: pointer;
-        content: "\f0aa";
-        font-family: FontAwesome;
-        text-align: right;
-        display: block;
-        float: right;
-        padding-right: 0;
-        margin-right: -15px;
-    }
-    tr:nth-child(even) {
-        background-color: $white;
-    }
-    tr:nth-child(odd) {
-        background-color: $blue-light;
-
-    }
-    tr td:first-child {
-        @include media($mobile) {
-            font-weight: bold;
-            font-size: 0.9em;
-            padding: 10px 5px;
-        }
-    }
-    tr td:last-child {
-        @include media($mobile) {
-            padding-bottom: 10px;
-        }
-    }
-
-    th:last-child {
-        width: 100px;
-    }
-
-    td {
-        color: $black;
-        text-align: left;
-        padding-left: 10px;
-        word-wrap: break-word;
-        font-size: $body-content-size;
-        vertical-align: top;
-        @include media($mobile) {
-            display: block;
-            padding: 0 10px;
-        }
-    }
-
-    td:last-child {
-        white-space: pre;
-        overflow: visible;
-        padding-right: 10px;
-    }
-
-    td button {
-        margin: 0;
-    }
-
-    td ul {
-        list-style: none;
-    }
-    td li {
-        display: block;
-    }
-    td dl {
-        margin: 0;
-    }
-
-    td button:hover {
-        background: #062C40;
-        color: #fff;
-    }
-    td button span {
-        display: none;
-    }
 
     #organisers th.edit {
         width: 90px;
@@ -455,9 +295,7 @@ header.details-header {
     .unverified {
         color: $red;
     }
-    table a {
-        text-decoration: underline;
-    }
+
     .validationErrors {
         margin: auto;
         width: 90%;
@@ -599,16 +437,4 @@ dd {
 
 dd:last-of-type {
     margin-bottom: inherit;
-}
-
-td .buttons {
-    display: inline;
-    margin-left: 10px;
-
-}
-
-td .buttons:nth-of-type(1) {
-    @include media($mobile) {
-        margin-left: 0;
-    }
 }

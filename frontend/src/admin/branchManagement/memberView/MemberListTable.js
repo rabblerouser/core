@@ -2,7 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import { EditButton, DeleteButton, SortedTable } from '../../common';
+import { EditButton, DeleteButton } from '../../common';
+import { SortedTable } from '../../common/tables';
 import { editMember, memberRemoveRequested } from './actions';
 
 const columnsWithAddress = [

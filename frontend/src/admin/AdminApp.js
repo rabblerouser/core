@@ -15,6 +15,10 @@ import './stylesheets/style.scss';
 const user = Cookies.getJSON('user');
 const theme = {
   primaryColour: '#EA3B49',
+  primaryDark: '#5B3332',
+  lightGrey: '#EFEFEF',
+  white: '#fff',
+  black: '#000',
 };
 const store = createStore(
   reducer,
