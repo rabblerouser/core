@@ -19,8 +19,10 @@ router.get('/login', (req, res) =>
   res.render('login', { error: '' })
 );
 
-router.get('/dashboard*', [requireAuth], (req, res) =>
-  res.render('admin'));
+router.get('/dashboard*', [requireAuth], (req, res) => {
+  res.cookie('user', { type: req.user.type });
+  return res.render('admin');
+});
 
 router.post('/register', membersController.register);
 router.get('/branches', branchesController.list);
