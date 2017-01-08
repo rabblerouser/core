@@ -23,9 +23,6 @@
     color: $blue-darker;
     text-align: center;
 }
-.admin-button {
-    margin-bottom: 10px;
-}
 .admin_dashboard a {
     text-decoration: underline;
 }
@@ -50,26 +47,6 @@
         border-color: red;
         background: #FAD9D9;
     }
-}
-
-button.save {
-    appearance: none;
-    background-color: #477dca;
-    border: 0;
-    border-radius: 3px;
-    color: #fff;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Noto Sans",sans-serif;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    font-weight: 600;
-    line-height: 1;
-    padding: 0.75em 1.5em;
-    text-decoration: none;
-    transition: background-color 150ms ease;
-    user-select: none;
-    white-space: nowrap;
 }
 
 dd.textblock {
@@ -108,33 +85,6 @@ header.admin-header {
         padding-top: 13px;
         font-size: 1.2em;
         color: white;
-    }
-
-    button.logout, a {
-        width: auto;
-        flex-grow: 1;
-        color: white;
-        font-size: 1.1em;
-        text-align: center;
-        padding: 0;
-        margin: 0;
-        background: none;
-    }
-
-    button.logout:hover, a:hover {
-        text-decoration: underline;
-    }
-
-    button.logout {
-        @include media($mobile) {
-            text-align: left;
-            padding-left: 2px;
-            padding-top: 15px;
-            margin: 0;
-            color: #fff;
-            margin-top: 2px;
-            font-size: 1em;
-        }
     }
 
     span {
@@ -380,47 +330,6 @@ aside.no-entries{
             margin-top: -20px;
         }
     }
-}
-button {
-    background: none;
-    color: #0073ae;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    font-size: 1.3em;
-    padding: 5px;
-    display: inline;
-    margin-right: 15px;
-}
-
-button.new {
-    margin-left: 10px;
-    margin-top: 3px;
-}
-
-
-button:hover {
-    background: #062C40;
-    color: #fff;
-}
-button span {
-    display: none;
-}
-
-button.edit:after {
-    content: "\f040";
-    font-family: FontAwesome;
-
-}
-
-button.delete:after {
-    content: "\f1f8";
-    font-family: FontAwesome;
-}
-
-button.new:after {
-    content: "\f067";
-    font-family: FontAwesome;
 }
 
 dl dt {

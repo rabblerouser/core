@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import moment from 'moment';
-
+import { Button } from '../../common';
 import validate from './memberValidator';
 import { SelectField, InputField, TextAreaField } from '../../common/forms';
 import { getSelectedMember } from './reducers';
@@ -20,7 +20,7 @@ export const EditMemberForm = ({
       <header className="details-header">
         <span className="title">Member details</span>
         <span className="actions">
-          <button className="save" type="submit">Save</button>
+          <Button className="save" type="submit">Save</Button>
         </span>
       </header>
       <dl>

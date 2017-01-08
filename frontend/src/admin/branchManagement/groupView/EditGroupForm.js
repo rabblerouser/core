@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-
+import { Button } from '../../common';
 import { InputField, TextAreaField } from '../../common/forms';
 import { getSelectedGroup, getIsCreating } from './reducers';
 import {
@@ -23,7 +23,7 @@ export const EditGroupForm = ({ handleSubmit }) => (
       <header className="details-header">
         <span className="title">Group details</span>
         <span className="actions">
-          <button className="save" type="submit">Save</button>
+          <Button className="save" type="submit">Save</Button>
         </span>
       </header>
       <Field component={InputField} id="name" name="name" label="Name" type="text" />

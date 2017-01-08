@@ -1,4 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
+import Button from './Button';
+
+const StyledDeleteButton = styled(Button)`
+  &:after {
+    content: "\f1f8";
+    font-family: FontAwesome;
+  }
+  span {
+      display: none;
+  }
+`;
 
 const DeleteButton = ({ confirmMessage, onDelete, title }) => {
   const onClick = () => {
@@ -8,9 +20,9 @@ const DeleteButton = ({ confirmMessage, onDelete, title }) => {
   };
 
   return (
-    <button onClick={onClick} className="delete" title={title}>
+    <StyledDeleteButton onClick={onClick} className="delete" title={title}>
       <span>{title}</span>
-    </button>
+    </StyledDeleteButton>
   );
 };
 
