@@ -1,4 +1,4 @@
-import { type } from '../userReducers';
+import { type, getUserType } from '../userReducers';
 
 describe('user reducers', () => {
   describe('type', () => {
@@ -15,6 +15,14 @@ describe('user reducers', () => {
         },
       });
       expect(reduction).toEqual('SUPER');
+    });
+  });
+});
+
+describe('user selectors', () => {
+  describe('getUserType', () => {
+    it('returns the user type ', () => {
+      expect(getUserType({ user: { type: 'SUPER' } })).toEqual('SUPER');
     });
   });
 });
