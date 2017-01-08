@@ -1,7 +1,6 @@
 'use strict';
 
 const passport = require('passport');
-const adminType = require('./adminType');
 
 module.exports = function login(req, res) {
   passport.authenticate('local', (err, user) => {
@@ -12,11 +11,7 @@ module.exports = function login(req, res) {
       return res.redirect('login');
     }
     req.logIn(user, () => {
-      if (req.user.type === adminType.super) {
-        res.redirect('/dashboard/admin');
-      } else {
-        res.redirect('/dashboard');
-      }
+      res.redirect('/dashboard');
     });
     return undefined;
   })(req, res);

@@ -71,9 +71,6 @@ module.exports = {
           if (req.method === 'GET') {
             // Handle requests for static assets
             if (req.url === '/error') return '/error.html';
-            if (req.url === '/login') return '/login.html';
-            if (req.url === '/') return '/signup.html';
-            if (req.url.startsWith('/dashboard')) return '/admin.html';
             if (req.url.startsWith('/images')) return req.url;
             if (req.url.startsWith('/styles')) return req.url;
 
