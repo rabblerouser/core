@@ -20,7 +20,7 @@ router.get('/login', (req, res) =>
 );
 
 router.get('/dashboard*', [requireAuth], (req, res) => {
-  res.cookie('user', { type: req.user.type });
+  res.cookie('user', JSON.stringify({ type: req.user.type }));
   return res.render('admin');
 });
 
