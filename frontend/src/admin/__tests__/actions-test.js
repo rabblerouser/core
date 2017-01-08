@@ -59,6 +59,18 @@ describe('admin/actions', () => {
       branchListRequest = dispatch.withArgs(sinon.match({ type: 'BRANCH_LIST_REQUESTED' }));
     });
 
+    it('should dispatch receipt of the user details', done => {
+      branchListRequest.returns(Promise.resolve());
+      appStarted({})(dispatch, getState)
+      .then(() => {
+        expect(dispatch.calledWithMatch({ type: 'USER_DETAILS_RECEIVED', payload: {} })).toEqual(true);
+        done();
+      })
+      .catch(() => {
+        done.fail('Should not have thrown an exception');
+      });
+    });
+
     it('should request the branch list and select the first branch when the request succeeds', done => {
       branchListRequest.returns(Promise.resolve());
 

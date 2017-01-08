@@ -30,16 +30,23 @@ export const branchListRequested = () => {
   return thunk;
 };
 
+export const USER_DETAILS_RECEIVED = 'USER_DETAILS_RECEIVED';
+export const userDetailsReceived = user => (
+  {
+    type: USER_DETAILS_RECEIVED,
+    payload: user,
+  }
+);
+
 export const APP_STARTED = 'APP_STARTED';
-export const appStarted = () => {
-  const thunk = (dispatch, getState) => (
-    dispatch(branchListRequested())
+export const appStarted = user => {
+  const thunk = (dispatch, getState) => dispatch(branchListRequested())
     .then(() => {
+      dispatch(userDetailsReceived(user));
       const branch = getFirstBranch(getState());
       dispatch(branchSelected(branch.id));
     })
-    .catch(() => dispatch(reportFailure()))
-  );
+    .catch(() => dispatch(reportFailure()));
   thunk.type = APP_STARTED;
   return thunk;
 };
