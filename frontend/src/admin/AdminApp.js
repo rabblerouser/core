@@ -5,13 +5,14 @@ import { Router, Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { ThemeProvider } from 'styled-components';
+import Cookies from 'js-cookie';
 
 import { appStarted } from './actions';
 import reducer from './reducers';
 import AdminDashboard from './AdminDashboard';
-import NetworkAdminDashboard from './NetworkAdminDashboard';
 import './stylesheets/style.scss';
 
+const user = Cookies.getJSON('user');
 const theme = {
   primaryColour: '#EA3B49',
 };
@@ -21,14 +22,13 @@ const store = createStore(
   applyMiddleware(thunk),
 );
 
-store.dispatch(appStarted());
+store.dispatch(appStarted(user));
 
 render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <Router history={browserHistory}>
         <Route path="/dashboard" component={AdminDashboard} />
-        <Route path="/dashboard/admin" component={NetworkAdminDashboard} />
       </Router>
     </ThemeProvider>
   </Provider>,
