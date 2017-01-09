@@ -10,12 +10,10 @@ export const BranchDetails = ({ selectedBranch }) => (
       {selectedBranch.name}
       <BranchActions />
     </h3>
-    <dl>
-      <dt>Contact</dt>
-      <dd className="textblock">{selectedBranch.contact}</dd>
-      <dt>Notes</dt>
-      <dd className="textblock">{selectedBranch.notes}</dd>
-    </dl>
+    <ul>
+      <li>Contact {selectedBranch.contact}</li>
+      <li>Notes {selectedBranch.notes}</li>
+    </ul>
   </section>
 );
 

@@ -13,3 +13,9 @@ div.container {
   @include outer-container(100%);
   font-family: 'Noto Sans', sans-serif;
 }
+
+ul, ol, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
