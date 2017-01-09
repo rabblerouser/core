@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import DeleteButton from '../DeleteButton';
 
 describe('DeleteButton', () => {
@@ -8,7 +8,7 @@ describe('DeleteButton', () => {
 
   beforeEach(() => {
     onDelete = jasmine.createSpy('onDelete');
-    deleteButton = shallow(<DeleteButton
+    deleteButton = mount(<DeleteButton
       confirmMessage="Really?"
       onDelete={onDelete}
       title="delete button"

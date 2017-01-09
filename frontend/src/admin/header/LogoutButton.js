@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { logout } from '../actions/';
+import { Button } from '../common';
 
-const StyledLogoutButton = styled.button`
+const StyledLogoutButton = styled(Button)`
   background-color: ${props => props.theme.primaryColour};
   color: white;
   border: 1px solid white;

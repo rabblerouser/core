@@ -1,21 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from './Button';
+import IconButton from './IconButton';
 
-const StyledEditButton = styled(Button)`
-  border: 1px solid;
+const StyledEditButton = styled(IconButton)`
   &:after {
-    content: "\f040";
+    content: "\\f040";
     font-family: FontAwesome;
   }
-  span {
-      display: none;
-  }
-}
 `;
 
-const EditButton = ({ onClick, title = 'Edit', children }) => (
-  <StyledEditButton onClick={onClick} className="edit" title={title}>
+const EditButton = ({ onClick, children }) => (
+  <StyledEditButton onClick={onClick} title="Edit">
     {children}
   </StyledEditButton>
 );
