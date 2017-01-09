@@ -48,11 +48,6 @@
         background: #FAD9D9;
     }
 }
-
-dd.textblock {
-    white-space: pre;
-}
-
 /* --------------------------------------------------------------------------------------
 
    ADMIN HEADER BANNER
@@ -315,35 +310,4 @@ aside.no-entries{
         margin-bottom: 0;
         font-size: 1em;
     }
-
-    dt {
-        font-size: 1.2em;
-        margin-bottom: 15px;
-        @include media($mobile) {
-            display: none;
-        }
-    }
-    dd {
-        font-size: 1.1em;
-        margin-bottom: 15px;
-        @include media($mobile) {
-            margin-top: -20px;
-        }
-    }
-}
-
-dl dt {
-    font-weight: normal;
-    color: $labels-headings-color;
-    font-size: $labels-headings-size;
-}
-
-dd {
-    margin: 0;
-    margin-bottom: 20px;
-    font-size: $body-content-size;
-}
-
-dd:last-of-type {
-    margin-bottom: inherit;
 }

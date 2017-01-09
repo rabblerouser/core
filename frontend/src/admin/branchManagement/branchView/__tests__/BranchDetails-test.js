@@ -20,8 +20,7 @@ describe('BranchDetails', () => {
   });
 
   it('renders details with any contact and notes', () => {
-    const details = rendered.find('dl');
-    expect(details.text()).toContain('Contact details');
-    expect(details.text()).toContain('This branch is decent');
+    expect(rendered.text()).toContain('Contact details');
+    expect(rendered.text()).toContain('This branch is decent');
   });
 });

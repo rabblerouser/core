@@ -23,10 +23,7 @@ export const EditMemberForm = ({
           <Button className="save" type="submit">Save</Button>
         </span>
       </header>
-      <dl>
-        <dt>Member since</dt>
-        <dd>{memberSince}</dd>
-      </dl>
+      <p>Member since {memberSince}</p>
       <Field component={TextAreaField} id="notes" name="notes" label="Notes" />
       <Field component={SelectField} id="groups" name="groups" label="Groups" multiple >
         {groupOptions.map(group => (<option key={group.id} value={group.id}>{group.name}</option>))}
