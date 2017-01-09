@@ -1,18 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from './Button';
+import IconButton from './IconButton';
 
-const StyledDeleteButton = styled(Button)`
-  &:after {
-    content: "\f1f8";
+const StyledDeleteButton = styled(IconButton)`
+  &::after {
+    content: "\\f1f8";
     font-family: FontAwesome;
-  }
-  span {
-      display: none;
   }
 `;
 
-const DeleteButton = ({ confirmMessage, onDelete, title }) => {
+const DeleteButton = ({ confirmMessage, onDelete, children }) => {
   const onClick = () => {
     if (window.confirm(confirmMessage)) {
       onDelete();
@@ -20,8 +17,8 @@ const DeleteButton = ({ confirmMessage, onDelete, title }) => {
   };
 
   return (
-    <StyledDeleteButton onClick={onClick} className="delete" title={title}>
-      <span>{title}</span>
+    <StyledDeleteButton onClick={onClick} title="Delete">
+      {children}
     </StyledDeleteButton>
   );
 };

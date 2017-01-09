@@ -17,4 +17,4 @@ export const changeTextAreaValue = (name, value) => {
 };
 
 export const clickButton = className =>
-  trigger($(`button[class="${className}"]`), 'click');
+  trigger($(`button[class*="${className}"]`), 'click');

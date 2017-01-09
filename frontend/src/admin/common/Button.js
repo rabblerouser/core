@@ -19,22 +19,3 @@ export default styled.button`
     }
   }
 `;
-/*
-button {
-    background: none;
-    color: #0073ae;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    font-size: 1.3em;
-    padding: 5px;
-    display: inline;
-    margin-right: 15px;
-}
-
-
-button:hover {
-    background: #062C40;
-    color: #fff;
-}
-*/
