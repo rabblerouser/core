@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { Button } from '../../common/Button';
+import { Button } from '../../common';
 import { InputField } from '../../common/forms';
 import { getSelectedNetworkAdmin, getIsCreating } from './reducers';
 
