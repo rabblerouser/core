@@ -13,8 +13,8 @@
     @include pad(0px 0px 20px 0px);
 
     border:none;
-    background-color: $blue-light;
-    color: $blue-darker;
+    background-color: #e7f3f9;
+    color: #0073ae;
 
 
 
@@ -80,7 +80,7 @@
 .form-container {
 
     .form-title { /* Large heading with blue background at the top of the form */
-        background: $blue-darker;
+        background: #0073ae;
         color: $white;
         font-size: 24px;
         font-weight: bold;
@@ -93,7 +93,7 @@
     }
 
     .sub-title { /* Internal form heading, above the divider line */
-        border-bottom: 1px solid $blue;
+        border-bottom: 1px solid #4da8d4;
         font-size: 20px;
         line-height: 26px;
         margin-bottom: 0;
@@ -138,7 +138,7 @@
 
 
     a { /* Inline link styles */
-        color: $blue-darker;
+        color: #0073ae;
         font-weight: bold;
         text-decoration: underline;
     }
@@ -166,7 +166,7 @@
     }
 
     input {
-        border-color: $blue;
+        border-color: #4da8d4;
         border-radius: 0;
     }
 
@@ -491,7 +491,7 @@ Modal {
 
 .reminder {
     background: $white;
-    border: 3px solid $blue;
+    border: 3px solid #4da8d4;
     padding: 10px 15px;
     margin-bottom: 10px;
     margin-top: 25px;
@@ -530,7 +530,7 @@ Modal {
 
 
 hr {
-    border-bottom: 1px solid $blue;
+    border-bottom: 1px solid #4da8d4;
     margin: 0;
 }
 
@@ -616,7 +616,7 @@ hr {
   }
 
   button {
-    background-color: $blue-darker;
+    background-color: #0073ae;
     border-radius: 0;
     color: $white;
     margin-right: 6px;
@@ -654,7 +654,7 @@ hr {
     float: left;
     width: 100%;
     background: $white;
-    border: 3px solid $blue;
+    border: 3px solid #4da8d4;
     padding: 20px 25px;
     font-size:13px;
     margin-bottom: 25px;
@@ -705,7 +705,7 @@ hr {
 .contribution-amount {
 
     .currency {
-        background: $blue-darker;
+        background: #0073ae;
         color: $white;
         float: left;
         font-weight: bold;
@@ -717,10 +717,10 @@ hr {
     }
 
     input[type="text"] {
-        border-bottom-color: $blue;
+        border-bottom-color: #4da8d4;
         border-radius: 0;
-        border-right-color: $blue;
-        border-top-color: $blue;
+        border-right-color: #4da8d4;
+        border-top-color: #4da8d4;
         margin: 0;
         vertical-align: middle;
         width: 120px;
