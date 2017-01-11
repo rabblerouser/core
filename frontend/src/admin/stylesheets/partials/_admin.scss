@@ -1,38 +1,3 @@
-/* --------------------------------------------------------------------------------------
-
-   LOGIN SCREEN AND ADMIN DASHBOARD
-
--------------------------------------------------------------------------------------- */
-.login_form,
-.admin_dashboard {
-    background-color: $blue-light;
-    max-width: 350px;
-    margin: 10% auto auto;
-    padding: 2em;
-    border-top: 7px solid $blue-darker;
-    text-align: center;
-}
-.login_form input,
-.admin_dashboard input {
-    height: 3em;
-    width: 100%;
-}
-.login_body h1 {
-    font-size: 20px;
-    line-height: 26px;
-    color: $blue-darker;
-    text-align: center;
-}
-.admin_dashboard a {
-    text-decoration: underline;
-}
-.login_body .error {
-    border: 1px solid red;
-    border-radius: 3px;
-    background: #FAD9D9;
-    padding: 10px;
-    margin: 20px auto;
-}
 #user-messages {
     li {
         border: 1px solid;
@@ -47,138 +12,6 @@
         border-color: red;
         background: #FAD9D9;
     }
-}
-/* --------------------------------------------------------------------------------------
-
-   ADMIN HEADER BANNER
-
--------------------------------------------------------------------------------------- */
-
-header.admin-header {
-    background: #0073ae;
-    margin: 0;
-    padding: 10px;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    @include media($mobile) {
-        flex-direction: column;
-        padding: 5px 20px 20px 20px;
-    }
-
-    select {
-        width: auto;
-        flex-grow: 1;
-        margin: 0;
-        margin-top: 7px;
-        font-size: 1em;
-    }
-
-    span.currentBranch {
-        width: auto;
-        font-weight: normal;
-        padding-top: 13px;
-        font-size: 1.2em;
-        color: white;
-    }
-
-    span {
-        flex-grow: 10;
-        img {
-            margin-left: 10px;
-            height: 50px;
-             @include media($mobile) {
-                 margin-left: 0;
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
-
-/* --------------------------------------------------------------------------------------
-
-   GROUP TABS
-
--------------------------------------------------------------------------------------- */
-nav {
-    margin-top: 3em;
-    width: 98%;
-    margin: auto;
-    @include media($mobile) {
-        width: 98%;
-        margin: 15px auto;
-    }
-}
-
-
-section#groups-view {
-    .select {
-        min-width: 200px;
-        margin: 0;
-        display: inline;
-    }
-}
-
-
-/* --------------------------------------------------------------------------------------
-
-   EDIT DETAILS
-
--------------------------------------------------------------------------------------- */
-
-ul.details-section-selector {
-    border-bottom: 1px solid #062C40;
-    margin: 0;
-    margin-top: 15px;
-
-    @include media($mobile) {
-        border: none;
-    }
-
-}
-ul.details-section-selector li {
-    display: inline;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 1em;
-    cursor: pointer;
-    color: #062C40;
-    @include media($mobile) {
-        display: block;
-        border-radius: 3px;
-        margin-top: 3px;
-        padding: 3px;
-    }
-
-    span {
-        margin: 15px;
-    }
-}
-ul.details-section-selector li:hover {
-    background: #062C40;
-    color: #fff;
-}
-ul.details-section-selector li.selected {
-    border-top: 1px solid #062C40;
-    border-right: 1px solid #062C40;
-    border-left: 1px solid #062C40;
-    border-bottom: 1px solid #fff;
-    cursor: default;
-    font-weight: bold;
-    @include media($mobile) {
-        background: #eee;
-        border: none;
-    }
-}
-ul.details-section-selector li.selected:hover {
-    color: #062C40;
 }
 
 header.details-header {
@@ -250,7 +83,7 @@ header.details-header {
 aside.no-entries{
     padding: 15px;
     font-size: 14px;
-    background-color: $blue-light;
+    background-color: #e7f3f9;
     font-style: italic;
 }
 /* --------------------------------------------------------------------------------------

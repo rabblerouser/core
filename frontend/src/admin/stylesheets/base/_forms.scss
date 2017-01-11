@@ -2,21 +2,20 @@
 
 
 fieldset {
-    background-color: $secondary-background-color;
-    border: $base-border;
+    background-color: #fff;
+    border: 1px solid #4da8d4;
 }
 
 input,
 label,
 select {
     display: block;
-    font-family: $base-font-family;
-    font-size: $base-font-size;
+    font-size: 1em;
 }
 
 label {
     font-weight: 600;
-    margin-bottom: $small-spacing / 2;
+    margin-bottom: 0.75em / 2;
 
     &.required::after {
          content: "*";
@@ -29,34 +28,32 @@ label {
 
 #{$all-text-inputs},
 select[multiple=multiple] {
-    background-color: $base-background-color;
-    border: $base-border;
-    border-radius: $base-border-radius;
-    box-shadow: $form-box-shadow;
+    background-color: #fff;
+    border: 1px solid #4da8d4;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 3px rgba(#000, 0.06);
     box-sizing: border-box;
-    font-family: $base-font-family;
-    font-size: $base-font-size;
-    margin-bottom: $small-spacing;
-    padding: $base-spacing / 3;
-    transition: border-color $base-duration $base-timing;
+    font-size: 1em;
+    margin-bottom: 0.75em;
+    padding: 0.5em;
+    transition: border-color 150ms ease;
     width: 100%;
 
   &:hover {
-    border-color: shade($base-border-color, 20%);
+    border-color: shade(#4da8d4, 20%);
   }
 
   &:focus {
-    border-color: $action-color;
-    box-shadow: $form-box-shadow-focus;
+    border-color: #477dca;
     outline: none;
   }
 
   &:disabled {
-    background-color: shade($base-background-color, 5%);
+    background-color: shade(#fff, 5%);
     cursor: not-allowed;
 
     &:hover {
-      border: $base-border;
+      border: 1px solid #4da8d4;
     }
   }
 }
@@ -72,7 +69,7 @@ input[type="search"] {
 input[type="checkbox"],
 input[type="radio"] {
   display: inline;
-  margin-right: $small-spacing / 2;
+  margin-right: 0.75em / 2;
 
   + label {
     display: inline-block;
@@ -80,12 +77,12 @@ input[type="radio"] {
 }
 
 input[type="file"] {
-  margin-bottom: $small-spacing;
+  margin-bottom: 0.75em;
   width: 100%;
 }
 
 select {
-  margin-bottom: $base-spacing;
+  margin-bottom: 1.5em;
   max-width: 100%;
   width: auto;
 }
