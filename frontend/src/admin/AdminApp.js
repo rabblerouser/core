@@ -19,6 +19,8 @@ const theme = {
   lightGrey: '#EFEFEF',
   white: '#fff',
   black: '#000',
+  success: '#368C1E',
+  error: '#EF0000',
 };
 const store = createStore(
   reducer,
