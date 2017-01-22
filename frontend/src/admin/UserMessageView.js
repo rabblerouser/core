@@ -1,11 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+
+const ListItem = styled.li`
+  border-radius: 3px;
+  padding: 10px;
+  margin: 20px auto;
+  list-style: none;
+  color: white;
+`;
+
+const SuccessEntry = styled(ListItem)`
+  background-color: ${props => props.theme.success};
+`;
+
+const ErrorEntry = styled(ListItem)`
+  background-color: ${props => props.theme.error};
+`;
 
 const UserMessageView = ({ successMessages, failureMessages }) => (
-  <section className="admin-section" id="user-messages">
+  <section className="admin-section">
     <ul>
-      {failureMessages.map(entry => <li key={entry} className="error">{entry}</li>)}
-      {successMessages.map(entry => <li key={entry}>{entry}</li>)}
+      {failureMessages.map(entry => <ErrorEntry key={entry}>{entry}</ErrorEntry>)}
+      {successMessages.map(entry => <SuccessEntry key={entry}>{entry}</SuccessEntry>)}
     </ul>
   </section>
 );
