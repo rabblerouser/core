@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { Button } from '../../common';
-import { InputField, TextAreaField } from '../../common/forms';
+import { InputField, TextAreaField, FormHeaderWithSave } from '../../common/forms';
 import { getSelectedGroup, getIsCreating } from './reducers';
 import {
   groupUpdateRequested as update,
@@ -20,12 +19,9 @@ const onSubmit = (data, dispatch) => (
 export const EditGroupForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <section className="form-container">
-      <header className="details-header">
-        <span className="title">Group details</span>
-        <span className="actions">
-          <Button className="save" type="submit">Save</Button>
-        </span>
-      </header>
+      <FormHeaderWithSave>
+        Group details
+      </FormHeaderWithSave>
       <Field component={InputField} id="name" name="name" label="Name" type="text" />
       <Field component={TextAreaField} id="description" name="description" label="Description" />
     </section>

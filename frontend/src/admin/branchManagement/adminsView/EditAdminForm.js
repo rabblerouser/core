@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import { InputField } from '../../common/forms';
-import { Button } from '../../common';
+import { InputField, FormHeaderWithSave } from '../../common/forms';
 import { getSelectedAdmin, getIsCreating } from './reducers';
 
 import {
@@ -22,12 +21,9 @@ const onSubmit = (data, dispatch) => (
 export const EditAdminForm = ({ handleSubmit, isCreating, email }) => (
   <form onSubmit={handleSubmit}>
     <section className="form-container">
-      <header className="details-header">
-        <span className="title">Admin details</span>
-        <span className="actions">
-          <Button className="save" type="submit">Save</Button>
-        </span>
-      </header>
+      <FormHeaderWithSave>
+        Admin details
+      </FormHeaderWithSave>
       {isCreating ?
         <Field component={InputField} id="email" name="email" label="Email" type="email" />
         : email
