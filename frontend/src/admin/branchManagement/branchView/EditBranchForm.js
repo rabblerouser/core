@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { Button } from '../../common';
 
 import validate from './branchValidator';
 import {
@@ -11,7 +10,7 @@ import {
 } from './actions';
 import { getEditedBranch } from './reducers';
 
-import { InputField, TextAreaField } from '../../common/forms';
+import { InputField, TextAreaField, FormHeaderWithSave } from '../../common/forms';
 
 const onSubmit = (data, dispatch) => (
   dispatch(data.id ? update(data) : create(data))
@@ -21,12 +20,9 @@ const onSubmit = (data, dispatch) => (
 export const EditBranchForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <section className="form-container">
-      <header className="details-header">
-        <span className="title">Branch details</span>
-        <span className="actions">
-          <Button className="save" type="submit">Save</Button>
-        </span>
-      </header>
+      <FormHeaderWithSave>
+        Branch details
+      </FormHeaderWithSave>
       <Field component={InputField} id="name" name="name" label="Name" type="text" />
       <Field component={TextAreaField} id="contact" name="contact" label="Contact" />
       <Field component={TextAreaField} id="notes" name="notes" label="Notes" />

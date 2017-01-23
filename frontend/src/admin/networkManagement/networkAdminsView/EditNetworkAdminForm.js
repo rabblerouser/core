@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { Button } from '../../common';
-import { InputField } from '../../common/forms';
+import { InputField, FormHeaderWithSave } from '../../common/forms';
 import { getSelectedNetworkAdmin, getIsCreating } from './reducers';
 
 import {
@@ -21,12 +20,9 @@ const onSubmit = (data, dispatch) => (
 export const EditNetworkAdminForm = ({ handleSubmit, isCreating, email }) => (
   <form onSubmit={handleSubmit}>
     <section className="form-container">
-      <header className="details-header">
-        <span className="title">Network Admin details</span>
-        <span className="actions">
-          <Button className="save" type="submit">Save</Button>
-        </span>
-      </header>
+      <FormHeaderWithSave>
+        Network Admin details
+      </FormHeaderWithSave>
       {isCreating ?
         <Field component={InputField} id="email" name="email" label="Email" type="email" />
         : email

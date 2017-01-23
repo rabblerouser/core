@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import moment from 'moment';
-import { Button } from '../../common';
 import validate from './memberValidator';
-import { SelectField, InputField, TextAreaField } from '../../common/forms';
+import { SelectField, InputField, TextAreaField, FormHeaderWithSave } from '../../common/forms';
 import { getSelectedMember } from './reducers';
 import { getGroups } from '../groupView';
 import { memberUpdateRequested as update, finishEditMember } from './actions';
@@ -17,12 +16,9 @@ export const EditMemberForm = ({
 }) => (
   <form onSubmit={handleSubmit}>
     <section className="form-container">
-      <header className="details-header">
-        <span className="title">Member details</span>
-        <span className="actions">
-          <Button className="save" type="submit">Save</Button>
-        </span>
-      </header>
+      <FormHeaderWithSave>
+        Member details
+      </FormHeaderWithSave>
       <p>Member since {memberSince}</p>
       <Field component={TextAreaField} id="notes" name="notes" label="Notes" />
       <Field component={SelectField} id="groups" name="groups" label="Groups" multiple >
