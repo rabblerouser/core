@@ -12,7 +12,8 @@ describe('EditGroupForm', () => {
   });
 
   it('renders a form title', () => {
-    expect(rendered.find('.title').text()).toEqual('Group details');
+    expect(rendered.find('FormHeaderWithSave').html()).toContain(
+'Group details');
   });
 
   it('renders the name, contact and notes fields', () => {

@@ -1,4 +1,5 @@
 export { default as A } from './A';
+export { default as Panel } from './Panel';
 export { default as Button } from './Button';
 export { default as AddButton } from './AddButton';
 export { default as DeleteButton } from './DeleteButton';

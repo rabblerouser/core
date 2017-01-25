@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import EditGroupForm from './EditGroupForm';
 import GroupSelect from './GroupSelect';
 import GroupDetails from './GroupDetails';
-import { AddButton, Modal } from '../../common';
+import { AddButton, Modal, Panel } from '../../common';
 import { getSelectedBranchId } from '../../reducers/branchReducers';
 import { createGroup, groupListRequested, finishEditGroup } from './actions';
 import { getIsEditActive } from './reducers';
@@ -18,7 +18,7 @@ export class GroupView extends Component {
   }
   render() {
     return (
-      <section className="admin-section" id="group-details">
+      <Panel>
         <h3>
           Groups
           <AddButton onClick={this.props.create} />
@@ -28,7 +28,7 @@ export class GroupView extends Component {
         <Modal isOpen={this.props.isModalOpen} handleClose={this.props.handleCloseModal} >
           <EditGroupForm />
         </Modal>
-      </section>
+      </Panel>
     );
   }
 }

@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { getSelectedBranch } from '../../reducers/branchReducers';
+import { Panel } from '../../common';
 import BranchActions from './BranchActions';
 
 export const BranchDetails = ({ selectedBranch }) => (
-  <section className="admin-section" id="branchDetails">
+  <Panel>
     <h3>
       {selectedBranch.name}
       <BranchActions />
@@ -14,7 +15,7 @@ export const BranchDetails = ({ selectedBranch }) => (
       <li>Contact {selectedBranch.contact}</li>
       <li>Notes {selectedBranch.notes}</li>
     </ul>
-  </section>
+  </Panel>
 );
 
 const mapStateToProps = state => ({

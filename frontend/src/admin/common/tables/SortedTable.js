@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+
 import Table from './Table';
 import sortColumn from '../../../lib/sortColumn';
+
+const TableAside = styled.aside`
+    padding: 15px;
+    font-size: 14px;
+    background-color: ${props => props.theme.lightGrey};
+    font-style: italic;
+`;
+
 
 class SortedTable extends Component {
   constructor(props) {
@@ -19,11 +29,14 @@ class SortedTable extends Component {
 
   render() {
     return (
-      <Table
-        columns={this.state.columns}
-        data={this.state.data}
-        onClickHeader={this.onSort}
-      />
+      this.state.data.length === 0 ?
+        <TableAside>No entries found</TableAside>
+        :
+        <Table
+          columns={this.state.columns}
+          data={this.state.data}
+          onClickHeader={this.onSort}
+        />
     );
   }
 }

@@ -15,7 +15,8 @@ describe('EditAdminForm', () => {
   });
 
   it('renders a form title', () => {
-    expect(rendered.find('.title').text()).toEqual('Admin details');
+    expect(rendered.find('FormHeaderWithSave').html()).toContain(
+'Admin details');
   });
 
   it('calls handle submit when the form is submited', () => {

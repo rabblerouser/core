@@ -8,7 +8,7 @@ import NetworkManagement from './networkManagement';
 import { RestrictedTo } from './common';
 
 const AdminDashboard = () => (
-  <div className="admin-container">
+  <div>
     <Header />
     <UserMessageView />
     <BranchManagement />

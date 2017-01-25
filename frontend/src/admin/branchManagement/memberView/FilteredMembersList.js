@@ -15,9 +15,7 @@ const FilteredMembersList = ({ groupFilter, members }) => {
         return members.filter(member => member.groups.includes(groupFilter));
     }
   }
-  return members.length === 0 ?
-    <aside className="no-entries">No entries found</aside>
-  : <MemberListTable members={filterMembersList()} />;
+  return <MemberListTable members={filterMembersList()} />;
 };
 
 const mapStateToProps = state => ({

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import EditMemberForm from './EditMemberForm';
 import FilteredMembersList from './FilteredMembersList';
-import { Modal, A } from '../../common';
+import { Modal, A, Panel } from '../../common';
 import { finishEditMember, memberListRequested } from './actions';
 import { getIsEditActive } from './reducers';
 import { getSelectedBranchId } from '../../reducers/branchReducers';
@@ -17,13 +17,13 @@ export class MembersView extends Component {
 
   render() {
     return (
-      <section className="admin-section" id="member-list">
+      <Panel id="member-list">
         <A href={`/branches/${this.props.branchId}/members.csv`}>Export all members...</A>
         <FilteredMembersList />
         <Modal isOpen={this.props.isModalOpen} handleClose={this.props.handleCloseModal} >
           <EditMemberForm onSuccess={this.closeEditForm} />
         </Modal>
-      </section>
+      </Panel>
     );
   }
 }

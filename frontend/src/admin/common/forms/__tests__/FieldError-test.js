@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import FieldError from '../FieldError';
 
 describe('FieldError', () => {
   it('should render the provided error message', () => {
-    const rendered = shallow(<FieldError error="some error" />);
+    const rendered = mount(<FieldError error="some error" />);
     expect(rendered.text()).toContain('some error');
   });
 });
