@@ -1,6 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import TextAreaField from '../TextAreaField';
+import TextArea from '../TextArea';
+import Label from '../Label';
+
 
 describe('TextAreaField', () => {
   let rendered;
@@ -17,8 +20,8 @@ describe('TextAreaField', () => {
         />);
     });
 
-    it('should render a textarea field with the input props and id', () => {
-      const expected = (<textarea
+    it('should render a TextArea field with the input props and id', () => {
+      const expected = (<TextArea
         id="some-id"
         name="email-field"
         value="some value"
@@ -27,8 +30,8 @@ describe('TextAreaField', () => {
       expect(rendered.containsMatchingElement(expected)).toEqual(true);
     });
 
-    it('should render a label for the textarea field', () => {
-      const label = rendered.find('label');
+    it('should render a Label for the TextArea field', () => {
+      const label = rendered.find(Label);
       expect(label.length).toEqual(1);
       expect(label.props().className).not.toEqual('invalid');
       expect(label.contains('Enter your email')).toEqual(true);
@@ -51,8 +54,8 @@ describe('TextAreaField', () => {
         />);
     });
 
-    it('should render the textarea', () => {
-      expect(rendered.find('textarea').length).toEqual(1);
+    it('should render the TextArea', () => {
+      expect(rendered.find(TextArea).length).toEqual(1);
     });
 
     it('should render an error', () => {
@@ -61,7 +64,7 @@ describe('TextAreaField', () => {
     });
 
     it('should apply the invalid class to the label', () => {
-      const label = rendered.find('label');
+      const label = rendered.find(Label);
       expect(label.length).toEqual(1);
       expect(label.props().className).toEqual('invalid');
     });
