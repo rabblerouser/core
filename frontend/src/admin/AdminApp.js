@@ -14,9 +14,11 @@ import './stylesheets/style.scss';
 
 const user = Cookies.getJSON('user');
 const theme = {
+  primaryLight: '#F67E88',
   primaryColour: '#EA3B49',
   primaryDark: '#5B3332',
   lightGrey: '#EFEFEF',
+  darkGrey: '#8D8D8D',
   white: '#fff',
   black: '#000',
   success: '#368C1E',

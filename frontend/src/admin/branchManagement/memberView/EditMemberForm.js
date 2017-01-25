@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import moment from 'moment';
 import validate from './memberValidator';
-import { SelectField, InputField, TextAreaField, FormHeaderWithSave } from '../../common/forms';
+import { SelectField, InputField, TextAreaField, FormHeaderWithSave, FieldSet } from '../../common/forms';
 import { getSelectedMember } from './reducers';
 import { getGroups } from '../groupView';
 import { memberUpdateRequested as update, finishEditMember } from './actions';
@@ -24,11 +24,11 @@ export const EditMemberForm = ({
       <Field component={SelectField} id="groups" name="groups" label="Groups" multiple >
         {groupOptions.map(group => (<option key={group.id} value={group.id}>{group.name}</option>))}
       </Field>
-      <fieldset>
-        <fieldset className="field-pair">
+      <FieldSet>
+        <FieldSet>
           <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />
           <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" />
-        </fieldset>
+        </FieldSet>
         <Field component={InputField} id="email" name="email" label="Email" type="email" />
         <Field
           component={InputField}
@@ -38,14 +38,14 @@ export const EditMemberForm = ({
           type="tel"
         />
         {addressEnabled &&
-          <fieldset>
+          <FieldSet>
             <Field component={InputField} id="address" name="postalAddress.address" label="Address" type="text" />
             <Field component={InputField} id="suburb" name="postalAddress.suburb" label="Suburb" type="text" />
             <Field component={InputField} id="postcode" name="postalAddress.postcode" label="Postcode" type="text" />
             <Field component={InputField} id="state" name="postalAddress.state" label="State" type="text" />
             <Field component={InputField} id="country" name="postalAddress.country" label="Country" type="text" />
-          </fieldset>}
-      </fieldset>
+          </FieldSet>}
+      </FieldSet>
       <Field component={TextAreaField} id="additionalInfo" name="additionalInfo" label="Additional info" />
 
     </section>

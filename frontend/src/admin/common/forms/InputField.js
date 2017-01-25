@@ -1,5 +1,7 @@
 import React from 'react';
 import FieldError from './FieldError';
+import Label from './Label';
+import Input from './Input';
 
 const InputField = ({ input, label, placeholder, type, optional, id, meta: { touched, error } }) => {
   const classNames = () => {
@@ -10,14 +12,14 @@ const InputField = ({ input, label, placeholder, type, optional, id, meta: { tou
 
   return (
     <div>
-      <label
+      <Label
         htmlFor={input.name}
         className={classNames()}
       >
         {label}
         {touched && error ? <FieldError error={error} /> : ''}
-      </label>
-      <input className={id} id={id} {...input} placeholder={placeholder} type={type} />
+      </Label>
+      <Input className={id} id={id} {...input} placeholder={placeholder} type={type} />
     </div>
   );
 };

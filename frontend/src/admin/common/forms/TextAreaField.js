@@ -1,5 +1,7 @@
 import React from 'react';
 import FieldError from './FieldError';
+import Label from './Label';
+import TextArea from './TextArea';
 
 const TextAreaField = ({ input, label, placeholder, optional, id, meta: { touched, error } }) => {
   const classNames = () => {
@@ -10,14 +12,14 @@ const TextAreaField = ({ input, label, placeholder, optional, id, meta: { touche
 
   return (
     <div>
-      <label
+      <Label
         htmlFor={input.name}
         className={classNames()}
       >
         {label}
         {touched && error ? <FieldError error={error} /> : ''}
-      </label>
-      <textarea className={id} id={id} {...input} placeholder={placeholder} />
+      </Label>
+      <TextArea className={id} id={id} {...input} placeholder={placeholder} />
     </div>);
 };
 

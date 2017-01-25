@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { SpacedLayout } from 'layabout';
 import styled from 'styled-components';
 import {
   getCanSelectBranch,
@@ -11,23 +12,20 @@ import LogoutButton from './LogoutButton';
 
 const StyledHeader = styled.header`
   background-color: ${props => props.theme.primaryColour};
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   height: 60px;
-  padding: 0 50px;
+  padding: 0 30px;
 `;
 
 const Header = ({ canSelectBranch, selectedBranch }) => (
-  <StyledHeader>
-    <img src="/images/rabble-rouser-logo.png" alt="Rabble Rouser" width="90px" />
-    <span id="header-logo" alt="Logo" />
+  <SpacedLayout container={StyledHeader}>
+    <img height="40px" src="/images/rabble-rouser-logo.png" alt="Rabble Rouser Logo" />
     {canSelectBranch
-      ? <BranchSelectBox />
+      ? <BranchSelectBox style={{ width: '200px' }} />
       : <span className="currentBranch">{selectedBranch.name}</span>
     }
     <LogoutButton />
-  </StyledHeader>
+  </SpacedLayout>
 );
 
 const mapStateToProps = state => ({
