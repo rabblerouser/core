@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { Panel } from './common';
 
 const ListItem = styled.li`
   border-radius: 3px;
@@ -19,12 +20,12 @@ const ErrorEntry = styled(ListItem)`
 `;
 
 const UserMessageView = ({ successMessages, failureMessages }) => (
-  <section className="admin-section">
+  <Panel>
     <ul>
       {failureMessages.map(entry => <ErrorEntry key={entry}>{entry}</ErrorEntry>)}
       {successMessages.map(entry => <SuccessEntry key={entry}>{entry}</SuccessEntry>)}
     </ul>
-  </section>
+  </Panel>
 );
 
 const mapStateToProps = ({ appFeedback }) => ({

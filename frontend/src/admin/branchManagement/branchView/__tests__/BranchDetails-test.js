@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { BranchDetails } from '../BranchDetails';
+import { Panel } from '../../../common';
 
 describe('BranchDetails', () => {
   let rendered;
@@ -20,7 +21,8 @@ describe('BranchDetails', () => {
   });
 
   it('renders details with any contact and notes', () => {
-    expect(rendered.text()).toContain('Contact details');
-    expect(rendered.text()).toContain('This branch is decent');
+    const details = rendered.find('ul');
+    expect(details.text()).toContain('Contact details');
+    expect(details.text()).toContain('This branch is decent');
   });
 });

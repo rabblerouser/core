@@ -3,17 +3,14 @@ import { connect } from 'react-redux';
 
 import { getSelectedGroup } from './reducers';
 import GroupActions from './GroupActions';
+import { Panel } from '../../common';
 
 export const GroupDetails = ({ group }) => (
   group ?
-    <section className="admin-section" id="description">
-      <div>
-        <p>
-          {group.description}
-        </p>
-      </div>
+    <Panel>
+      <p>{group.description}</p>
       <GroupActions />
-    </section> : null
+    </Panel> : null
 );
 
 const mapStateToProps = state => ({

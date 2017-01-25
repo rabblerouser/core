@@ -1,110 +1,11 @@
-.admin-container {
-    .admin-section {
-        padding: 10px 20px;
-        .admin-section {
-            padding: 0;
-        }
-        .admin-section#description {
-            padding: 10px;
-        }
-        h3 {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        font-size: 18px;
+#description {
+      padding: 10px;
+  }
+#branchDetails, #organisers, #member-list {
+    padding-bottom: 15px;
+    border-bottom: 1px dotted #ccc;
 
-        }
-    }
-    #branchDetails, #organisers, #member-list {
-        padding-bottom: 15px;
-        border-bottom: 1px dotted #ccc;
-
-    }
-    h1 {
-        font-size: 1.2em;
-    }
-
-    #organisers th.edit {
-        width: 90px;
-    }
-
-    .navigation {
-        text-align: center;
-        margin-top: 20%;
-    }
-    .verified {
-        color: $green;
-    }
-    .unverified {
-        color: $red;
-    }
-
-    .validationErrors {
-        margin: auto;
-        width: 90%;
-        margin-bottom: -3%;
-    }
 }
-aside.no-entries{
-    padding: 15px;
-    font-size: 14px;
-    background-color: #e7f3f9;
-    font-style: italic;
-}
-/* --------------------------------------------------------------------------------------
-
-   OVERLAYS
-
--------------------------------------------------------------------------------------- */
-.ReactModalPortal .form-container {
-    h2 {
-        font-size: 1.2em;
-    }
-    input {
-        padding: 8px;
-        margin-bottom: 15px;
-    }
-    input[type="text"] {
-        width: 100%;
-    }
-
-    input[type="password"] {
-        width: 350px;
-    }
-    textarea {
-        height: 200px;
-        border: 1px solid #4da8d4;
-    }
-    textarea.contact{
-        height: 100px;
-    }
-
-    .selectGroups {
-        margin-top: 20px;
-        padding: 10px 10px 0;
-        border-radius: 3px;
-        margin-bottom: 20px;
-    }
-}
-/* --------------------------------------------------------------------------------------
-
-   GROUP DESCRIPTION
-
--------------------------------------------------------------------------------------- */
-#group-details {
-
-    header {
-        border: 0;
-        border-bottom: 1px;
-        border-style: solid
-    }
-
-    .select, select {
-        display:block;
-        margin-top: 20px;
-    }
-
-    select {
-        margin-bottom: 0;
-        font-size: 1em;
-    }
+#organisers th.edit {
+    width: 90px;
 }

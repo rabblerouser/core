@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import EditAdminForm from './EditAdminForm';
 import AdminListTable from './AdminListTable';
-import { AddButton, Modal } from '../../common';
+import { AddButton, Modal, Panel } from '../../common';
 import {
   adminListRequested,
   createAdmin,
@@ -22,7 +22,7 @@ class AdminsView extends Component {
 
   render() {
     return (
-      <section className="admin-section" id="network-admin">
+      <Panel>
         <h3>
            Admins
           <AddButton onClick={this.props.createAdmin} />
@@ -31,7 +31,7 @@ class AdminsView extends Component {
           <EditAdminForm />
         </Modal>
         <AdminListTable />
-      </section>
+      </Panel>
     );
   }
 }

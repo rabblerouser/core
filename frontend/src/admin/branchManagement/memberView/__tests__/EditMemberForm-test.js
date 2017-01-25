@@ -17,7 +17,8 @@ describe('EditMemberForm', () => {
   });
 
   it('renders a form title', () => {
-    expect(rendered.find('.title').text()).toEqual('Member details');
+    expect(rendered.find('FormHeaderWithSave').html()).toContain(
+'Member details');
   });
 
   it('renders the member since date', () => {

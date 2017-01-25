@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { EditBranchForm } from '../EditBranchForm';
-import { Button } from '../../../common';
 
 describe('EditBranchForm', () => {
   let submitSpy;
@@ -13,12 +12,8 @@ describe('EditBranchForm', () => {
   });
 
   it('renders a form title', () => {
-    expect(rendered.find('.title').text()).toEqual('Branch details');
-  });
-
-  it('renders a save button', () => {
-    expect(rendered.find(Button).length).toEqual(1);
-    expect(rendered.find(Button).prop('type')).toEqual('submit');
+    expect(rendered.find('FormHeaderWithSave').html()).toContain(
+'Branch details');
   });
 
   it('renders the name, contact and notes fields', () => {

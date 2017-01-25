@@ -1,5 +1,13 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const FieldError = ({ error }) => <span className="invalid"><span className="errors">{error}</span></span>;
+const ErrorText = styled.span`
+  color: ${props => props.theme.error};
+  font-weight: lighter;
+  font-size: small;
+  padding-left: 10px;
+`;
+
+const FieldError = ({ error }) => <ErrorText>{error}</ErrorText>;
 
 export default FieldError;

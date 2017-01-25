@@ -26,11 +26,4 @@ describe('AdminListTable', () => {
     const computedColumns = wrapper.find('SortedTable').prop('columns');
     expect(computedColumns).toEqual(expectedColumns);
   });
-
-  it('should not create the table if there are no entries', () => {
-    const wrapper = shallow(
-      <AdminListTable admins={[]} />,
-    );
-    expect(wrapper.find('SortedTable').length).toEqual(0);
-  });
 });

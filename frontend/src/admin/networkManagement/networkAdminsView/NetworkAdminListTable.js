@@ -25,18 +25,16 @@ const mapActions = (edit, remove, networkAdminId) => [
 ];
 
 export const NetworkAdminListTable = ({ edit, remove, networkAdmins }) => (
-  networkAdmins.length === 0 ?
-    <aside className="no-entries">No entries found</aside>
-    : <SortedTable
-      columns={columns}
-      data={networkAdmins.map(networkAdmin => (
-        {
-          ...mapFields(networkAdmin),
-          actions: mapActions(edit, remove, networkAdmin.id),
-        }
+  <SortedTable
+    columns={columns}
+    data={networkAdmins.map(networkAdmin => (
+      {
+        ...mapFields(networkAdmin),
+        actions: mapActions(edit, remove, networkAdmin.id),
+      }
         ))}
-      sortOn="name"
-    />);
+    sortOn="name"
+  />);
 
 const mapStateToProps = state => ({ networkAdmins: getNetworkAdmins(state) });
 const mapDispatchToProps = { edit: editNetworkAdmin, remove: networkAdminRemoveRequested };

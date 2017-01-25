@@ -25,18 +25,16 @@ const mapActions = (edit, remove, adminId) => [
 ];
 
 export const AdminListTable = ({ edit, remove, admins }) => (
-  admins.length === 0 ?
-    <aside className="no-entries">No entries found</aside>
-    : <SortedTable
-      columns={columns}
-      data={admins.map(admin => (
-        {
-          ...mapFields(admin),
-          actions: mapActions(edit, remove, admin.id),
-        }
+  <SortedTable
+    columns={columns}
+    data={admins.map(admin => (
+      {
+        ...mapFields(admin),
+        actions: mapActions(edit, remove, admin.id),
+      }
       ))}
-      sortOn="name"
-    />);
+    sortOn="name"
+  />);
 
 const mapStateToProps = state => ({ admins: getAdmins(state) });
 const mapDispatchToProps = { edit: editAdmin, remove: adminRemoveRequested };
