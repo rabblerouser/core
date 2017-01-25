@@ -1,6 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import InputField from '../InputField';
+import Input from '../Input';
+import Label from '../Label';
 
 describe('InputField', () => {
   let rendered;
@@ -19,7 +21,7 @@ describe('InputField', () => {
     });
 
     it('should render an input field with the input props and id', () => {
-      const expected = (<input
+      const expected = (<Input
         id="some-id"
         name="email-field"
         value="some value"
@@ -30,7 +32,7 @@ describe('InputField', () => {
     });
 
     it('should render a label for the input field', () => {
-      const label = rendered.find('label');
+      const label = rendered.find(Label);
       expect(label.length).toEqual(1);
       expect(label.props().className).not.toEqual('invalid');
       expect(label.contains('Enter your email')).toEqual(true);
@@ -54,7 +56,7 @@ describe('InputField', () => {
     });
 
     it('should render the input', () => {
-      expect(rendered.find('input').length).toEqual(1);
+      expect(rendered.find(Input).length).toEqual(1);
     });
 
     it('should render an error', () => {
@@ -63,7 +65,7 @@ describe('InputField', () => {
     });
 
     it('should apply the invalid class to the label', () => {
-      const label = rendered.find('label');
+      const label = rendered.find(Label);
       expect(label.length).toEqual(1);
       expect(label.props().className).toEqual('invalid');
     });
