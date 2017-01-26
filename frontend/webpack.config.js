@@ -21,10 +21,6 @@ module.exports = {
     ],
     loaders: [
       {
-        test: /\.s?css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css?sourceMap!sass?sourceMap'),
-      },
-      {
         test: /\.svg/,
         loader: 'svg-url-loader',
       },
