@@ -3,23 +3,19 @@
   <head>
     <title>Rabble Rouser - Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/javascript/style.css">
+    <link rel="stylesheet" href="/styles/login.css">
   </head>
 
   <body class="login_body">
-    <form  class="login_form" action="/login" method="post">
-      <h1>Admin Dashboard</h1>
-      <div>
-        <input placeholder="Email" type="text" id="email" name="email"/>
-      </div>
-
-      <div>
-        <input placeholder="Password" type="password" id="password" name="password"/>
-      </div>
-
-      <div>
-        <input type="submit" id="login" name="login" value="Log In"/>
-      </div>
-    </form>
+    <section>
+      <header>
+        <h1>Rabble Rouser Dashboard Login</h1>
+      </header>
+      <form  class="login_form" action="/login" method="post">
+        <label>Email<input type="text" id="email" name="email"/></label>
+        <label>Password<input type="password" id="password" name="password"/></label>
+        <button type="submit" id="login">Login</button>
+      </form>
+    </section>
   </body>
 </html>

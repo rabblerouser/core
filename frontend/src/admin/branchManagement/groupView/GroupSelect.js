@@ -10,7 +10,12 @@ export const GroupSelect = ({ groups, selected, onSelect }) => {
   const selectGroup = e => onSelect(e.target.value);
 
   return (
-    <Select id="groups" value={selected} onChange={selectGroup}>
+    <Select
+      id="groups"
+      value={selected}
+      onChange={selectGroup}
+      style={{ display: 'inline', paddingLeft: '5px', width: '200px' }}
+    >
       <option value="unassigned">Unassigned</option>
       {
         groups.map(group => <option key={group.id} value={group.id}>{group.name}</option>)
