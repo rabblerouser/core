@@ -10,7 +10,6 @@ import Cookies from 'js-cookie';
 import { appStarted } from './actions';
 import reducer from './reducers';
 import AdminDashboard from './AdminDashboard';
-import './stylesheets/style.scss';
 
 const user = Cookies.getJSON('user');
 const theme = {
