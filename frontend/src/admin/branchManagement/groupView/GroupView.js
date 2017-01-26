@@ -22,8 +22,8 @@ export class GroupView extends Component {
         <h3>
           Groups
           <AddButton onClick={this.props.create} />
+          <GroupSelect />
         </h3>
-        <GroupSelect />
         <GroupDetails />
         <Modal isOpen={this.props.isModalOpen} handleClose={this.props.handleCloseModal} >
           <EditGroupForm />
