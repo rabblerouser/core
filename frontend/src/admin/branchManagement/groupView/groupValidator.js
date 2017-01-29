@@ -1,4 +1,4 @@
-import inputValidator from '../../../lib/inputValidator';
+import inputValidator from '../../common/inputValidator';
 
 const errorStrings = {
   groupName: 'Please enter a group name. No symbols allowed.',

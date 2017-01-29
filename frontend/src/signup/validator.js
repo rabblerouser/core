@@ -6,7 +6,7 @@ import {
   isValidOptionalPhoneNumber,
   isValidOptionalName,
   isValidName,
-} from '../lib/inputValidator';
+} from './inputValidator';
 import { validationErrors } from './strings';
 
 export default (
