@@ -1,4 +1,4 @@
-import * as ajax from '..//ajax';
+import * as ajax from '../ajax';
 import { urls } from '../strings';
 import { getBranches, register } from '../resources';
 
