@@ -1,4 +1,4 @@
-import sortColumn from '../../lib/sortColumn';
+import sortColumn from '../sortColumn';
 
 describe('sortColumn', () => {
   const columns = [{ field: 'toSort' }, { field: 'toLeave' }];
