@@ -55,8 +55,14 @@ const StyledTable = ({ columns, data, onClickHeader }) => (
   <Table>
     <THead>
       <TR>
-        {columns.map(({ label, type, field }, i) =>
-          <ColumnHeader key={i} label={label} type={type} onClick={() => onClickHeader(field)} />)}
+        {columns.map(({ label, type, field, direction }, i) =>
+          <ColumnHeader
+            key={i}
+            label={label}
+            type={type}
+            direction={direction}
+            onClick={() => onClickHeader(field)}
+          />)}
       </TR>
     </THead>
     <TBody>
@@ -67,6 +73,6 @@ const StyledTable = ({ columns, data, onClickHeader }) => (
     )}
     </TBody>
   </Table>
-);
+  );
 
 export default StyledTable;

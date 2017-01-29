@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import { SORT } from './sortColumn';
+
+const downChevron = '"\\f0dd"';
+const upChevron = '"\\f0de"';
 
 export const SortButton = styled.button`
   text-align: left;
@@ -10,7 +14,7 @@ export const SortButton = styled.button`
       cursor: pointer;
       color: ${props => props.theme.black};
       &::after {
-        content: "\\f0dd";
+        content: ${props => (props.direction !== SORT.asc ? downChevron : upChevron)};
         font-family: FontAwesome;
         position: absolute;
         right: 5px;
