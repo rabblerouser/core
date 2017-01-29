@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.fieldset`
+const FieldSet = styled.fieldset`
   border: none;
 `;
+export default FieldSet;

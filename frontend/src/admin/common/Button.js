@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.button`
+const Button = styled.button`
   border: 1px solid;
   border-radius: 4px;
   border-color: ${props => props.theme.white};
@@ -19,3 +19,5 @@ export default styled.button`
     }
   }
 `;
+
+export default Button;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.textarea`
+const TextArea = styled.textarea`
   resize: vertical;
   display: block;
   font-size: 1em;
@@ -32,3 +32,4 @@ export default styled.textarea`
     }
   }
 `;
+export default TextArea;
