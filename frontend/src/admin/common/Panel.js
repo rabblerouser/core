@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.section`
+const Panel = styled.section`
   padding: 10px 20px;
   border-bottom: 1px dotted ${props => props.theme.lightGrey};
   h3 {
@@ -11,3 +11,5 @@ export default styled.section`
       font-size: 1.2em;
   }
 `;
+
+export default Panel;

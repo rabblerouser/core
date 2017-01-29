@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Button from './Button';
 
-export default styled(Button)`
+const IconButton = styled(Button)`
   border: none;
   background-color: ${props => props.theme.white};
   color: ${props => props.theme.primaryColour};
@@ -17,3 +17,4 @@ export default styled(Button)`
     }
   }
 `;
+export default IconButton;

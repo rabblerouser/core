@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.select`
+const Select = styled.select`
   display: block;
   font-size: 1em;
   background-color: #fff;
@@ -31,3 +31,4 @@ export default styled.select`
     }
   }
 `;
+export default Select;
