@@ -10,8 +10,10 @@ padding: 0;
 `;
 
 const ColumnHeader = ({ direction, label, type = 'edit', onClick }) =>
-  <TH className={`${type}`} onClick={onClick}>
-    <SortButton direction={direction}>{label}</SortButton>
+  <TH className={`${type}`} >
+    { type !== 'actions' &&
+      <SortButton direction={direction} onClick={onClick}>{label}</SortButton>
+    }
   </TH>;
 
 export default ColumnHeader;
