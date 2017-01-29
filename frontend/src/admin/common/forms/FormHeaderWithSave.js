@@ -11,7 +11,7 @@ const HeaderText = styled.span`
 const FormHeaderWithSave = ({ children }) => (
   <SpacedLayout container="header">
     <HeaderText>{children}</HeaderText>
-    <Button className="save" type="submit">Save</Button>
+    <Button type="submit">Save</Button>
   </SpacedLayout>
 );
 

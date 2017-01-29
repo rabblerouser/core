@@ -11,7 +11,7 @@ import { branchSelected } from '../actions';
 export const BranchSelectBox = ({ selected, onSelect, branches, style }) => {
   const onChange = event => onSelect(event.target.value);
   return (
-    <Select id="branches" value={selected} onChange={onChange} style={style}>
+    <Select value={selected} onChange={onChange} style={style}>
       {branches.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
     </Select>
   );

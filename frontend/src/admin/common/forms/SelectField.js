@@ -4,13 +4,13 @@ import FieldError from './FieldError';
 import Select from './Select';
 import Label from './Label';
 
-const SelectField = ({ input, label, type, id, meta: { touched, error }, children, multiple }) => (
+const SelectField = ({ input, label, type, meta: { touched, error }, children, multiple }) => (
   <div>
-    <Label htmlFor={input.name} className={(touched && error) ? 'invalid' : ''}>
+    <Label htmlFor={input.name}>
       {label}
       {touched && error ? <FieldError error={error} /> : ''}
     </Label>
-    <Select className={id} id={id} {...input} type={type} multiple={multiple} >
+    <Select {...input} type={type} multiple={multiple} >
       {children}
     </Select>
   </div>

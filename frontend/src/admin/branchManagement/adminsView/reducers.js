@@ -64,3 +64,4 @@ export const getSelectedAdmin = state => {
   const selectedId = getAdminsView(state).selected;
   return adminList.find(({ id }) => selectedId === id);
 };
+export const getSelectedAdminEmail = state => getSelectedAdmin(state) && getSelectedAdmin(state).email;

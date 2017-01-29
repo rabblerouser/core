@@ -13,7 +13,7 @@ const StyledLogoutButton = styled(Button)`
 `;
 
 const LogoutButton = ({ onLogout }) => (
-  <StyledLogoutButton onClick={onLogout} className="logout">Logout</StyledLogoutButton>
+  <StyledLogoutButton onClick={onLogout}>Logout</StyledLogoutButton>
 );
 
 const mapDispatchToProps = dispatch => ({

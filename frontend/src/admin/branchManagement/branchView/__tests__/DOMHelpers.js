@@ -16,5 +16,5 @@ export const changeTextAreaValue = (name, value) => {
   trigger($(`textArea[name="${name}"]`), 'blur');
 };
 
-export const clickButton = className =>
-  trigger($(`button[class*="${className}"]`), 'click');
+export const clickSubmit = () =>
+  trigger($('button[type="submit"]'), 'click');

@@ -22,7 +22,7 @@ const Header = ({ canSelectBranch, selectedBranch }) => (
     <img height="40px" src="/images/rabble-rouser-logo.png" alt="Rabble Rouser Logo" />
     {canSelectBranch
       ? <BranchSelectBox style={{ width: '200px' }} />
-      : <span className="currentBranch">{selectedBranch.name}</span>
+      : <span>{selectedBranch.name}</span>
     }
     <LogoutButton />
   </SpacedLayout>
