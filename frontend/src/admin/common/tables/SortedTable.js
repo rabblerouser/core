@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Table from './Table';
-import sortColumn from '../../../lib/sortColumn';
+import sortColumn from './sortColumn';
 
 const TableAside = styled.aside`
     padding: 15px;
