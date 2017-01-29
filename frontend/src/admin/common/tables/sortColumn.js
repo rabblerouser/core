@@ -1,6 +1,6 @@
 import { findWhere, sortByOrder, isString } from 'lodash';
 
-const SORT = { none: 'none', asc: 'asc', desc: 'desc' };
+export const SORT = { none: 'none', asc: 'asc', desc: 'desc' };
 const setDirection = curr => (curr === SORT.asc ? SORT.desc : SORT.asc);
 
 function caseInsensitive(field) {

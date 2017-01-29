@@ -9,9 +9,9 @@ padding: 0;
 }
 `;
 
-const ColumnHeader = ({ label, type = 'edit', onClick }) =>
+const ColumnHeader = ({ direction, label, type = 'edit', onClick }) =>
   <TH className={`${type}`} onClick={onClick}>
-    <SortButton>{label}</SortButton>
+    <SortButton direction={direction}>{label}</SortButton>
   </TH>;
 
 export default ColumnHeader;
