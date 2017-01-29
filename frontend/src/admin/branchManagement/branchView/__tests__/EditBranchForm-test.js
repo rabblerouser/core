@@ -11,11 +11,6 @@ describe('EditBranchForm', () => {
     rendered = shallow(<EditBranchForm handleSubmit={submitSpy} />);
   });
 
-  it('renders a form title', () => {
-    expect(rendered.find('FormHeaderWithSave').html()).toContain(
-'Branch details');
-  });
-
   it('renders the name, contact and notes fields', () => {
     const fields = rendered.find('Field');
     expect(fields.find({ name: 'name' }).length).toEqual(1);

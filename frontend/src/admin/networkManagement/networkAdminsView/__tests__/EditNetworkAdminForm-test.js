@@ -14,11 +14,6 @@ describe('EditNetworkAdminForm', () => {
     />);
   });
 
-  it('renders a form title', () => {
-    expect(rendered.find('FormHeaderWithSave').html()).toContain(
-'Network Admin details');
-  });
-
   it('calls handle submit when the form is submited', () => {
     const form = rendered.find('form');
     form.simulate('submit');

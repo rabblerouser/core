@@ -8,7 +8,7 @@ import { getIsEditActive } from './reducers';
 import { addBranch, editBranch, branchRemoveRequested, finishEditBranch } from './actions';
 
 export const BranchActions = ({ add, edit, remove, isModalOpen, handleCloseModal }) => (
-  <span className="actions">
+  <span>
     <AddButton onClick={add} />
     <EditButton onClick={edit} />
     <DeleteButton

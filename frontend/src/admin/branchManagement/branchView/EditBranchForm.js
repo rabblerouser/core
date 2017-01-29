@@ -19,13 +19,13 @@ const onSubmit = (data, dispatch) => (
 
 export const EditBranchForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
-    <section className="form-container">
+    <section>
       <FormHeaderWithSave>
         Branch details
       </FormHeaderWithSave>
-      <Field component={InputField} id="name" name="name" label="Name" type="text" />
-      <Field component={TextAreaField} id="contact" name="contact" label="Contact" />
-      <Field component={TextAreaField} id="notes" name="notes" label="Notes" />
+      <Field component={InputField} name="name" label="Name" type="text" />
+      <Field component={TextAreaField} name="contact" label="Contact" />
+      <Field component={TextAreaField} name="notes" label="Notes" />
     </section>
   </form>
 );

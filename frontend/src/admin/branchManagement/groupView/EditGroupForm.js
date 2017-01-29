@@ -18,12 +18,12 @@ const onSubmit = (data, dispatch) => (
 
 export const EditGroupForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
-    <section className="form-container">
+    <section>
       <FormHeaderWithSave>
         Group details
       </FormHeaderWithSave>
-      <Field component={InputField} id="name" name="name" label="Name" type="text" />
-      <Field component={TextAreaField} id="description" name="description" label="Description" />
+      <Field component={InputField} name="name" label="Name" type="text" />
+      <Field component={TextAreaField} name="description" label="Description" />
     </section>
   </form>
 );

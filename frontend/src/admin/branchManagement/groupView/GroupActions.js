@@ -5,7 +5,7 @@ import { DeleteButton, EditButton } from '../../common';
 import { editGroup, groupRemoveRequested } from './actions';
 
 export const GroupActions = ({ remove, edit }) => (
-  <span className="actions">
+  <span>
     <EditButton onClick={edit} />
     <DeleteButton
       confirmMessage="Are you sure you want to delete the current group?"

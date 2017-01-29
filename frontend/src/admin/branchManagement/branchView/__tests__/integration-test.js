@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import { changeInputValue, changeTextAreaValue, clickButton } from './DOMHelpers';
+import { changeInputValue, changeTextAreaValue, clickSubmit } from './DOMHelpers';
 import { initialiseStore } from './integrationTestHelpers';
 import BranchDetails, { reducers } from '../index';
 import { AddButton, EditButton, DeleteButton, Modal } from '../../../common/';
@@ -48,7 +48,7 @@ describe('Branch View - Integration', () => {
     changeInputValue('name', 'Test branch changed');
     changeTextAreaValue('contact', 'New contact details');
     changeTextAreaValue('notes', 'Some notes');
-    clickButton('save');
+    clickSubmit();
     setTimeout(() => {
       expect(fakeServer.requests[0].method).toBe('POST');
       expect(fakeServer.requests[0].url).toBe('/branches');
@@ -75,7 +75,7 @@ describe('Branch View - Integration', () => {
     changeInputValue('name', 'Test branch changed');
     changeTextAreaValue('contact', 'New contact details');
     changeTextAreaValue('notes', 'Some notes');
-    clickButton('save');
+    clickSubmit();
     setTimeout(() => {
       expect(fakeServer.requests[0].method).toBe('PUT');
       expect(fakeServer.requests[0].url).toBe('/branches/1234');

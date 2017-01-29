@@ -17,7 +17,7 @@ export class MembersView extends Component {
 
   render() {
     return (
-      <Panel id="member-list">
+      <Panel>
         <A href={`/branches/${this.props.branchId}/members.csv`}>Export all members...</A>
         <FilteredMembersList />
         <Modal isOpen={this.props.isModalOpen} handleClose={this.props.handleCloseModal} >

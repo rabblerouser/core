@@ -15,14 +15,12 @@ describe('InputField', () => {
           label="Enter your email"
           placeholder="Email"
           type="email"
-          id="some-id"
           meta={{ touched: false, error: '' }}
         />);
     });
 
     it('should render an input field with the input props and id', () => {
       const expected = (<Input
-        id="some-id"
         name="email-field"
         value="some value"
         placeholder="Email"
@@ -34,7 +32,6 @@ describe('InputField', () => {
     it('should render a label for the input field', () => {
       const label = rendered.find(Label);
       expect(label.length).toEqual(1);
-      expect(label.props().className).not.toEqual('invalid');
       expect(label.contains('Enter your email')).toEqual(true);
     });
 
@@ -50,7 +47,6 @@ describe('InputField', () => {
           input={{ name: 'email-field', value: 'some value' }}
           label="Enter your email"
           type="email"
-          id="some-id"
           meta={{ touched: true, error: 'Required field' }}
         />);
     });
@@ -62,12 +58,6 @@ describe('InputField', () => {
     it('should render an error', () => {
       expect(rendered.find('FieldError').length).toEqual(1);
       expect(rendered.find('FieldError').props().error).toEqual('Required field');
-    });
-
-    it('should apply the invalid class to the label', () => {
-      const label = rendered.find(Label);
-      expect(label.length).toEqual(1);
-      expect(label.props().className).toEqual('invalid');
     });
   });
 });

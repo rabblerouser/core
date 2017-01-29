@@ -15,38 +15,37 @@ export const EditMemberForm = ({
   memberSince,
 }) => (
   <form onSubmit={handleSubmit}>
-    <section className="form-container">
+    <section>
       <FormHeaderWithSave>
         Member details
       </FormHeaderWithSave>
       <p>Member since {memberSince}</p>
-      <Field component={TextAreaField} id="notes" name="notes" label="Notes" />
-      <Field component={SelectField} id="groups" name="groups" label="Groups" multiple >
+      <Field component={TextAreaField} name="notes" label="Notes" />
+      <Field component={SelectField} name="groups" label="Groups" multiple >
         {groupOptions.map(group => (<option key={group.id} value={group.id}>{group.name}</option>))}
       </Field>
       <FieldSet>
         <FieldSet>
-          <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />
-          <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" />
+          <Field component={InputField} name="firstName" label="First name" type="text" />
+          <Field component={InputField} name="lastName" label="Last name" type="text" />
         </FieldSet>
-        <Field component={InputField} id="email" name="email" label="Email" type="email" />
+        <Field component={InputField} name="email" label="Email" type="email" />
         <Field
           component={InputField}
-          id="primaryPhoneNumber"
           name="primaryPhoneNumber"
           label="Contact Number"
           type="tel"
         />
         {addressEnabled &&
           <FieldSet>
-            <Field component={InputField} id="address" name="postalAddress.address" label="Address" type="text" />
-            <Field component={InputField} id="suburb" name="postalAddress.suburb" label="Suburb" type="text" />
-            <Field component={InputField} id="postcode" name="postalAddress.postcode" label="Postcode" type="text" />
-            <Field component={InputField} id="state" name="postalAddress.state" label="State" type="text" />
-            <Field component={InputField} id="country" name="postalAddress.country" label="Country" type="text" />
+            <Field component={InputField} name="postalAddress.address" label="Address" type="text" />
+            <Field component={InputField} name="postalAddress.suburb" label="Suburb" type="text" />
+            <Field component={InputField} name="postalAddress.postcode" label="Postcode" type="text" />
+            <Field component={InputField} name="postalAddress.state" label="State" type="text" />
+            <Field component={InputField} name="postalAddress.country" label="Country" type="text" />
           </FieldSet>}
       </FieldSet>
-      <Field component={TextAreaField} id="additionalInfo" name="additionalInfo" label="Additional info" />
+      <Field component={TextAreaField} name="additionalInfo" label="Additional info" />
 
     </section>
   </form>

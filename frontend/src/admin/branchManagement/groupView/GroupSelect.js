@@ -11,7 +11,6 @@ export const GroupSelect = ({ groups, selected, onSelect }) => {
 
   return (
     <Select
-      id="groups"
       value={selected}
       onChange={selectGroup}
       style={{ display: 'inline', paddingLeft: '5px', width: '200px' }}

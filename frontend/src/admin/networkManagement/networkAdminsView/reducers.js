@@ -64,3 +64,5 @@ export const getSelectedNetworkAdmin = state => {
   const selectedId = getNetworkAdminsView(state).selected;
   return networkAdminList.find(({ id }) => selectedId === id);
 };
+export const getSelectedNetworkAdminEmail = state =>
+  getSelectedNetworkAdmin(state) && getSelectedNetworkAdmin(state).email;

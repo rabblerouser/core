@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { InputField, FormHeaderWithSave } from '../../common/forms';
-import { getSelectedNetworkAdmin, getIsCreating } from './reducers';
+import { getSelectedNetworkAdmin, getSelectedNetworkAdminEmail, getIsCreating } from './reducers';
 
 import {
   networkAdminUpdateRequested as update,
@@ -19,21 +19,20 @@ const onSubmit = (data, dispatch) => (
 
 export const EditNetworkAdminForm = ({ handleSubmit, isCreating, email }) => (
   <form onSubmit={handleSubmit}>
-    <section className="form-container">
+    <section>
       <FormHeaderWithSave>
         Network Admin details
       </FormHeaderWithSave>
       {isCreating ?
-        <Field component={InputField} id="email" name="email" label="Email" type="email" />
+        <Field component={InputField} name="email" label="Email" type="email" />
         : email
       }
-      <Field component={InputField} id="name" name="name" label="Name" type="text" />
-      <Field component={InputField} id="phoneNumber" name="phoneNumber" label="Contact number" type="text" />
+      <Field component={InputField} name="name" label="Name" type="text" />
+      <Field component={InputField} name="phoneNumber" label="Contact number" type="text" />
       {!isCreating && <aside>Leave blank to keep existing password</aside>}
 
       <Field
         component={InputField}
-        id="password"
         name="password"
         label="Password"
         type="password"
@@ -41,7 +40,6 @@ export const EditNetworkAdminForm = ({ handleSubmit, isCreating, email }) => (
       />
       <Field
         component={InputField}
-        id="confirmPassword"
         name="confirmPassword"
         label="Confirm Password"
         type="password"
@@ -52,7 +50,7 @@ export const EditNetworkAdminForm = ({ handleSubmit, isCreating, email }) => (
 
 const mapStateToProps = state => ({
   initialValues: getIsCreating(state) ? {} : getSelectedNetworkAdmin(state),
-  email: getIsCreating(state) ? '' : getSelectedNetworkAdmin(state).email,
+  email: getIsCreating(state) ? '' : getSelectedNetworkAdminEmail(state),
   isCreating: getIsCreating(state),
 });
 export default connect(mapStateToProps)(reduxForm({
