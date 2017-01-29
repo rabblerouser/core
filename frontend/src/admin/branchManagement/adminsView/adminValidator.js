@@ -1,4 +1,4 @@
-import inputValidator from '../../../lib/inputValidator';
+import inputValidator from '../../common/inputValidator';
 
 const errorStrings = {
   name: 'Please enter a name. No symbols allowed.',

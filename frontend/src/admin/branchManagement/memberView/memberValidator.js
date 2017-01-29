@@ -1,4 +1,4 @@
-import inputValidator from '../../../lib/inputValidator';
+import inputValidator from '../../common/inputValidator';
 
 const errorStrings = {
   email: 'Please enter a valid email address. E.g. valid@email.com',
