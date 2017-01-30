@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       associate: models =>
         Branch.belongsToMany(
           models.Group,
-          { through: 'BranchGroups', foreignKey: 'branchId' },
+          { through: 'BranchGroups', foreignKey: 'branchId' }
         ),
     },
   });

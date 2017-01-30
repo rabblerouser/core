@@ -13,11 +13,11 @@ const login = require('../security/loginHandler');
 const router = new express.Router();
 
 router.get('/', (req, res) =>
-  res.render('signup'),
+  res.render('signup')
 );
 
 router.get('/login', (req, res) =>
-  res.render('login', { error: '' }),
+  res.render('login', { error: '' })
 );
 
 router.get('/dashboard*', [requireAuth], (req, res) => {
@@ -30,7 +30,7 @@ router.get('/branches', branchesController.list);
 router.post('/login', login);
 
 router.get('/logout', (req, res) =>
-  req.session.destroy(() => res.redirect('/login')),
+  req.session.destroy(() => res.redirect('/login'))
 );
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.list);

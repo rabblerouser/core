@@ -160,7 +160,7 @@ function updateMemberGroups(groups) {
               as: 'postalAddress',
             },
           ],
-        }),
+        })
       );
 }
 
@@ -169,11 +169,11 @@ function edit(input) {
     Q
       .all(getMemberAddresses(input))
       .spread((residentialAddress, postalAddress) =>
-        parse(input, residentialAddress, postalAddress),
+        parse(input, residentialAddress, postalAddress)
       )
       .then(updateMemberValues)
       .then(updateMemberGroups(input.groups))
-      .then(transformMember),
+      .then(transformMember)
   )
     .then(updatedMember => {
       // Previously this logging line was
@@ -182,7 +182,7 @@ function edit(input) {
       // the nested postalAddress object is populated. See the github issue
       //   https://github.com/winstonjs/winston/issues/862
       logger.info(
-        `[member-details-updated]\n\t${JSON.stringify({ member: updatedMember })}`,
+        `[member-details-updated]\n\t${JSON.stringify({ member: updatedMember })}`
       );
       return updatedMember;
     })

@@ -46,8 +46,8 @@ function addMembers(groupId, memberIds) {
     .tap(() =>
       logger.info(
         '[add-member-to-group]',
-        `Sucessfully added members: ${memberIds.join(',')} to group: ${groupId}`,
-      ),
+        `Sucessfully added members: ${memberIds.join(',')} to group: ${groupId}`
+      )
     )
     .catch(handleError('[add-member-to-group-failed]', 'An error has occurred while adding members to groups'));
 }
@@ -101,12 +101,12 @@ function create(input, branchId) {
     .sequelize.transaction(() =>
       findBranch(branchId)
         .then(createGroup(input))
-        .spread(addGroupToBranch),
+        .spread(addGroupToBranch)
     )
     .then(transformGroup)
     .catch(handleError(
       '[create-group-failed]',
-      `An error has occurred while creating group for branch with id: ${branchId}`,
+      `An error has occurred while creating group for branch with id: ${branchId}`
     ));
 }
 
@@ -121,7 +121,7 @@ function deleteGroup(id) {
     })
     .catch(handleError(
       '[delete-group-failed]',
-      `An error has occurred while deleting the group with id: ${id}`,
+      `An error has occurred while deleting the group with id: ${id}`
     ));
 }
 
@@ -152,7 +152,7 @@ function update(input, id) {
     .then(transformGroup)
     .catch(handleError(
       '[update-group-failed]',
-      `An error has occurred while updating a group with id: ${id}`,
+      `An error has occurred while updating a group with id: ${id}`
     ));
 }
 
