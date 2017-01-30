@@ -18,6 +18,10 @@ const config = {
     domain: process.env.SESSION_DOMAIN,
   },
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
+  aws: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 };
 
 if (process.env.NODE_ENV === 'production') {

@@ -7,6 +7,7 @@ const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
 const logger = require('../lib/logger');
+const publish = require('../publish');
 
 function isAddressEmpty(address) {
   return !address ||
@@ -92,6 +93,10 @@ const register = (req, res) => {
     logger.info('[create-new-member-validation-error]', { errors: validationErrors });
     return res.status(400).json({ errors: validationErrors });
   }
+
+  publish({ type: 'registration', data: newMember })
+    .then(console.log)
+    .catch(console.error);
 
   return memberService
     .createMember(newMember)
