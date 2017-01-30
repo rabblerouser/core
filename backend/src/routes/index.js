@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-const router = new express.Router();
 const membersController = require('../controllers/membersController');
 const branchesController = require('../controllers/branchesController');
 const groupsController = require('../controllers/groupsController');
@@ -11,12 +10,14 @@ const superAdminOnly = require('../security/superAdminOnlyValidator');
 const requireAuth = require('../security/authenticationRequired');
 const login = require('../security/loginHandler');
 
+const router = new express.Router();
+
 router.get('/', (req, res) =>
-  res.render('signup')
+  res.render('signup'),
 );
 
 router.get('/login', (req, res) =>
-  res.render('login', { error: '' })
+  res.render('login', { error: '' }),
 );
 
 router.get('/dashboard*', [requireAuth], (req, res) => {
@@ -29,7 +30,7 @@ router.get('/branches', branchesController.list);
 router.post('/login', login);
 
 router.get('/logout', (req, res) =>
-  req.session.destroy(() => res.redirect('/login'))
+  req.session.destroy(() => res.redirect('/login')),
 );
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.list);

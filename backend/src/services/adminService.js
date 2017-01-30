@@ -1,11 +1,10 @@
 'use strict';
 
 const Q = require('q');
-const models = require('../models');
+const AdminUser = require('../models').AdminUser;
 const logger = require('../lib/logger');
 const adminType = require('../security/adminType');
 const moment = require('moment');
-const AdminUser = models.AdminUser;
 const uuid = require('node-uuid');
 
 function createHash() {

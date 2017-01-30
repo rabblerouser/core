@@ -1,3 +1,5 @@
+/* eslint import/newline-after-import: off */
+
 'use strict';
 
 const fs = require('fs');
@@ -12,7 +14,7 @@ const db = {};
   delete pg.native;
 }());
 
-const connection = require(`${__dirname}/../db/connection.js`);
+const connection = require('../db/connection.js');
 
 function sequelizeModelFile(filename) {
   return (filename.indexOf('.') !== 0) && (filename !== indexDotJs) && (filename.slice(-3) === '.js');

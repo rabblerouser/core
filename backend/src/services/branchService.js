@@ -1,9 +1,8 @@
 'use strict';
 
 const Q = require('q');
-const models = require('../models');
+const Branch = require('../models').Branch;
 const logger = require('../lib/logger');
-const Branch = models.Branch;
 const uuid = require('node-uuid');
 
 function createHash() {

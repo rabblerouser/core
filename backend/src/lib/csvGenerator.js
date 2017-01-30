@@ -6,7 +6,7 @@ const generateCsv = (fields, objects) => (
   arraysToCsv(
     [fields].concat(objects.map(object => (
       fields.map(field => object[field])
-    )))
+    ))),
   )
 );
 

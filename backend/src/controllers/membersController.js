@@ -1,7 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
-const isEmpty = _.isEmpty;
+const isEmpty = require('lodash').isEmpty;
 const memberService = require('../services/memberService');
 const messagingService = require('../services/messagingService');
 const memberValidator = require('../lib/memberValidator');

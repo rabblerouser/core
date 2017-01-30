@@ -2,7 +2,6 @@
 
 require('../config/passport');
 const errorLogger = require('./lib/logger');
-
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -13,17 +12,19 @@ const helmet = require('helmet');
 const routes = require('./routes/index');
 const session = require('express-session');
 const passport = require('passport');
-const app = express();
+const ejs = require('ejs');
 const SequelizeSessionStore = require('connect-session-sequelize')(session.Store);
 const db = require('./db/connection');
 const compress = require('compression');
-const sessionStore = new SequelizeSessionStore({ db });
 const config = require('./config');
+
+const app = express();
+const sessionStore = new SequelizeSessionStore({ db });
 
 sessionStore.sync();
 app.use(compress());
 app.set('views', path.join(__dirname, '../public/views'));
-app.engine('html', require('ejs').renderFile);
+app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.use(favicon(path.join(__dirname, '../public', 'images', 'favicon.ico'), { maxAge: 100 }));
 app.use(helmet());
