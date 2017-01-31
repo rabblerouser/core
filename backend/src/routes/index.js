@@ -16,6 +16,12 @@ router.get('/', (req, res) =>
   res.render('signup')
 );
 
+router.post('/events', (req, res) => {
+  console.log('I GOT AN EVENT, YAY!!!!!');
+  console.log(req.body);
+  res.status(200);
+});
+
 router.get('/login', (req, res) =>
   res.render('login', { error: '' })
 );

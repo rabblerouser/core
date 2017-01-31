@@ -94,7 +94,7 @@ const register = (req, res) => {
     return res.status(400).json({ errors: validationErrors });
   }
 
-  publish({ type: 'registration', data: newMember })
+  publish({ type: 'member-registered', data: newMember })
     .then(console.log)
     .catch(console.error);
 
