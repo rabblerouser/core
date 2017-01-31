@@ -3021,9 +3021,9 @@
       "resolved": "https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz"
     },
     "rabblerouser-publisher": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "from": "rabblerouser-publisher@latest",
-      "resolved": "https://registry.npmjs.org/rabblerouser-publisher/-/rabblerouser-publisher-1.0.1.tgz"
+      "resolved": "https://registry.npmjs.org/rabblerouser-publisher/-/rabblerouser-publisher-1.1.0.tgz"
     },
     "random-bytes": {
       "version": "1.0.0",
