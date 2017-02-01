@@ -7,115 +7,106 @@ const messagingService = require('../../../src/services/messagingService');
 const membersController = require('../../../src/controllers/membersController');
 const inputValidator = require('../../../src/lib/inputValidator');
 const csvGenerator = require('../../../src/lib/csvGenerator');
+const streamClient = require('../../../src/streamClient');
 
 describe('membersController', () => {
+  let sandbox;
+  let res;
 
-    describe('register', () => {
-        let register,
-            goodRequest, res,
-            residentialAddress, postalAddress,
-            createMemberStub, createMemberPromise,
-            validateMemberStub, sendWelcomeEmailPromise,
-            sendWelcomeEmailStub;
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    res = {
+      status: sandbox.stub().returns({ json: sandbox.spy() }),
+      sendStatus: sandbox.stub(),
+    };
+    sandbox.stub(memberValidator, 'isValid');
+    sandbox.stub(streamClient, 'publish');
+  });
 
-        beforeEach(() => {
-            register = membersController.register;
-            createMemberStub = sinon.stub(memberService, 'createMember');
-            validateMemberStub = sinon.stub(memberValidator, 'isValid');
-            sendWelcomeEmailStub = sinon.stub(messagingService, 'sendWelcomeEmail');
-            res = {status: sinon.stub().returns({json: sinon.spy()})};
+  afterEach(() => {
+    sandbox.restore();
+  });
 
-            residentialAddress = {
-                address: '221b Baker St',
-                suburb: 'London',
-                country: 'England',
-                state: 'VIC',
-                postcode: '1234'
-            };
-            postalAddress = {
-                address: '47 I dont want your spam St',
-                suburb: 'Moriarty',
-                country: 'USA',
-                state: 'NM',
-                postcode: '5678'
-            };
+  describe('register', () => {
+    it('parses a valid member, and publishes an event to the stream', () => {
+      const residentialAddress = { address: '221b Baker St', suburb: 'London', country: 'England', state: 'VIC', postcode: '1234' };
+      const postalAddress = { address: '47 I dont want your spam St', suburb: 'Moriarty', country: 'USA', state: 'NM', postcode: '5678' };
+      const validBody = {
+        firstName: 'Sherlock',
+        lastName: 'Holmes',
+        email: 'sherlock@holmes.co.uk',
+        gender: 'detective genius',
+        primaryPhoneNumber: '0396291146',
+        secondaryPhoneNumber: '0394291146',
+        residentialAddress: residentialAddress,
+        postalAddress: postalAddress,
+        membershipType: 'full',
+        branchId: 'some-id-1',
+        additionalInfo: null,
+        notes: null,
+        id: null,
+        groups: null
+      };
 
-            goodRequest = {
-                body: {
-                    firstName: 'Sherlock',
-                    lastName: 'Holmes',
-                    email: 'sherlock@holmes.co.uk',
-                    gender: 'detective genius',
-                    primaryPhoneNumber: '0396291146',
-                    secondaryPhoneNumber: '0394291146',
-                    residentialAddress: residentialAddress,
-                    postalAddress: postalAddress,
-                    membershipType: 'full',
-                    branchId: 'some-id-1',
-                    additionalInfo: null,
-                    notes: null,
-                    id: null,
-                    groups: null
-                }
-            };
+      const req = { body: validBody };
+      memberValidator.isValid.returns([]);
+      streamClient.publish.returns(Promise.resolve());
 
-            createMemberPromise = Q.defer();
-            createMemberStub
-                .withArgs(goodRequest.body)
-                .returns(createMemberPromise.promise);
-
-            sendWelcomeEmailPromise = Q.defer();
-            sendWelcomeEmailStub
-                .returns(sendWelcomeEmailPromise.promise);
+      return membersController.register(req, res).then(() => {
+        expect(res.status).to.have.been.calledWith(201);
+        expect(res.status().json).to.have.been.calledWith({});
+        expect(streamClient.publish).to.have.been.calledWith({
+          type: 'member-registered',
+          data: {
+            additionalInfo: null,
+            branchId: "some-id-1",
+            email: "sherlock@holmes.co.uk",
+            firstName: "Sherlock",
+            gender: "detective genius",
+            groups: null,
+            id: null,
+            lastName: "Holmes",
+            membershipType: "full",
+            notes: null,
+            postalAddress: { address: "47 I dont want your spam St", country: "USA", postcode: "5678", state: "NM", suburb: "Moriarty" },
+            primaryPhoneNumber: "0396291146",
+            residentialAddress: { address: "221b Baker St", country: "England", postcode: "1234", state: "VIC", suburb: "London" },
+            secondaryPhoneNumber: "0394291146"
+          }
         });
-
-        afterEach(() => {
-            memberService.createMember.restore();
-            memberValidator.isValid.restore();
-            messagingService.sendWelcomeEmail.restore();
-        });
-
-        describe('when it receives a good request', () => {
-            let createdMember = {id:'1234', membershipType: 'full', email: 'sherlock@holmes.co.uk'};
-
-            beforeEach(() => {
-                validateMemberStub.returns([]);
-                createMemberPromise.resolve(createdMember);
-                sendWelcomeEmailPromise.resolve({options:{}, result: {accepeted: ['sherlock@holmes.co.uk'], rejected: []} });
-            });
-
-            it('creates a new member', () => {
-                return register(goodRequest, res)
-                .then(() => {
-                    expect(res.status).to.have.been.calledWith(200);
-                    expect(res.status().json).to.have.been.calledWith({newMember: {email: createdMember.email}});
-                });
-            });
-
-            it('should send an email to the member after new member is created', () => {
-                return register(goodRequest, res)
-                .then(() => {
-                    expect(sendWelcomeEmailStub).to.have.been.calledWith({
-                        id:'1234',
-                        membershipType: 'full',
-                        email: 'sherlock@holmes.co.uk'
-                    });
-                });
-
-            });
-        });
-
-        describe('when validation fails', () => {
-            it('responds with status 400',(done) => {
-                validateMemberStub.returns(['firstName']);
-                register(goodRequest, res);
-
-                expect(memberService.createMember).not.to.have.been.called;
-                expect(res.status).to.have.been.calledWith(400);
-                done();
-            });
-        });
+      });
     });
+
+    it('sends a 500 back if the stream publish fails', () => {
+      const req = { body: {} };
+      memberValidator.isValid.returns([]);
+      streamClient.publish.returns(Promise.reject());
+
+      return membersController.register(req, res).then(() => {
+        expect(res.sendStatus).to.have.been.calledWith(500);
+      });
+    });
+
+    it('sends a 400 back if the request is invalid', () => {
+      const req = { body: {} };
+      memberValidator.isValid.returns(['error!']);
+
+      membersController.register(req, res);
+
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
+    });
+  });
+
+  describe('putMemberInDatabase', () => {
+    it('puts the member in the database', () => {
+      sandbox.stub(memberService, 'createMember');
+
+      membersController.putMemberInDatabase("I'm a member");
+
+      expect(memberService.createMember).to.have.been.calledWith("I'm a member");
+    })
+  });
 
     describe('list', () => {
         let serviceStub, req, res;

@@ -90,16 +90,23 @@ let makeMember = (branchId) => {
     };
 };
 
+let makeMemberRegisteredEvent = (branchId) => {
+  return {
+    type: 'member-registered',
+    data: makeMember(branchId),
+  }
+}
+
 function createMembers(agent, numberOfMembers) {
     return function(branch) {
         let createTheseMembers = [];
         times(numberOfMembers, () => {
             createTheseMembers.push(
                 agent
-                    .post('/register')
+                    .post('/events')
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
-                    .send(makeMember(branch.id))
+                    .send(makeMemberRegisteredEvent(branch.id))
             );
         });
         return Promise.all(createTheseMembers);

@@ -2,7 +2,6 @@
 
 const isEmpty = require('lodash').isEmpty;
 const memberService = require('../services/memberService');
-const messagingService = require('../services/messagingService');
 const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
@@ -80,18 +79,15 @@ const register = (req, res) => {
 
   if (validationErrors.length > 0) {
     logger.info('[create-new-member-validation-error]', { errors: validationErrors });
-    res.status(400).json({ errors: validationErrors });
+    return res.status(400).json({ errors: validationErrors });
   }
 
-  console.log('Publishing event to stream:', { type: 'member-registered', data: newMember });
-
-  streamClient.publish({ type: 'member-registered', data: newMember })
+  return streamClient.publish({ type: 'member-registered', data: newMember })
     .then(() => res.status(201).json({}))
     .catch(() => res.sendStatus(500));
 };
 
 const putMemberInDatabase = data => {
-  console.log('Received event data:', data);
   memberService.createMember(data);
 };
 
