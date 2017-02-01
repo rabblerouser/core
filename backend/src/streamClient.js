@@ -8,6 +8,5 @@ const streamClientSettings = {
   accessKeyId: config.aws.accessKeyId,
   secretAccessKey: config.aws.secretAccessKey,
 };
-const streamClient = createClient(streamClientSettings);
 
-module.exports = streamClient.publish;
+module.exports = createClient(streamClientSettings);

@@ -7,7 +7,7 @@ const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
 const logger = require('../lib/logger');
-const publish = require('../publish');
+const streamClient = require('../streamClient');
 
 function isAddressEmpty(address) {
   return !address ||
@@ -67,17 +67,6 @@ function parseMember(req) {
   };
 }
 
-function sendResponseToUser(res) {
-  return createdMember => {
-    const responseForUser = {
-      newMember: {
-        email: createdMember.email,
-      },
-    };
-    res.status(200).json(responseForUser);
-  };
-}
-
 function handleError(res) {
   return error => {
     logger.error('[error-members-controller]', { error: error.toString() });
@@ -91,19 +80,17 @@ const register = (req, res) => {
 
   if (validationErrors.length > 0) {
     logger.info('[create-new-member-validation-error]', { errors: validationErrors });
-    return res.status(400).json({ errors: validationErrors });
+    res.status(400).json({ errors: validationErrors });
   }
 
-  publish({ type: 'member-registered', data: newMember })
-    .then(console.log)
-    .catch(console.error);
-
-  return memberService
-    .createMember(newMember)
-    .tap(sendResponseToUser(res))
-    .tap(messagingService.sendWelcomeEmail)
-    .catch(handleError(res));
+  streamClient.publish({ type: 'member-registered', data: newMember })
+    .then(() => res.sendStatus(201))
+    .catch(() => res.sendStatus(500));
 };
+
+const putMemberInDatabase = data => (
+  memberService.createMember(data)
+);
 
 function list(req, res) {
   if (!req.user) {
@@ -176,6 +163,7 @@ function deleteMember(req, res) {
 
 
 module.exports = {
+  putMemberInDatabase,
   register,
   list,
   exportBranchMembers,

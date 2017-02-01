@@ -9,6 +9,7 @@ const branchAuthorization = require('../security/branchAccessValidator');
 const superAdminOnly = require('../security/superAdminOnlyValidator');
 const requireAuth = require('../security/authenticationRequired');
 const login = require('../security/loginHandler');
+const streamClient = require('../streamClient');
 
 const router = new express.Router();
 
@@ -16,11 +17,8 @@ router.get('/', (req, res) =>
   res.render('signup')
 );
 
-router.post('/events', (req, res) => {
-  console.log('I GOT AN EVENT, YAY!!!!!');
-  console.log(req.body);
-  res.status(200);
-});
+router.post('/events', streamClient.consumer);
+streamClient.consumer.on('member-registered', membersController.putMemberInDatabase);
 
 router.get('/login', (req, res) =>
   res.render('login', { error: '' })
