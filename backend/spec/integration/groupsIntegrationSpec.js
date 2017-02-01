@@ -130,7 +130,7 @@ describe('Groups Integration Test', () => {
             .then((branchGroup) => browserState.branchGroup = branchGroup)
         });
 
-        it('responds with a 200', () => {
+        xit('responds with a 200', () => {
             return integrationTestHelpers.createMembers(agent, 2)(browserState.branch)
                 .then(getMembersForGroup(agent, browserState.branchGroup))
                 .then( members => {
