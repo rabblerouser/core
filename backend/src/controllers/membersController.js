@@ -83,14 +83,17 @@ const register = (req, res) => {
     res.status(400).json({ errors: validationErrors });
   }
 
+  console.log('Publishing event to stream:', { type: 'member-registered', data: newMember });
+
   streamClient.publish({ type: 'member-registered', data: newMember })
     .then(() => res.status(201).json({}))
     .catch(() => res.sendStatus(500));
 };
 
-const putMemberInDatabase = data => (
-  memberService.createMember(data)
-);
+const putMemberInDatabase = data => {
+  console.log('Received event data:', data);
+  memberService.createMember(data);
+};
 
 function list(req, res) {
   if (!req.user) {
