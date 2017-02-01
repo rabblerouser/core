@@ -84,7 +84,7 @@ const register = (req, res) => {
   }
 
   streamClient.publish({ type: 'member-registered', data: newMember })
-    .then(() => res.sendStatus(201))
+    .then(() => res.status(201).json({}))
     .catch(() => res.sendStatus(500));
 };
 
