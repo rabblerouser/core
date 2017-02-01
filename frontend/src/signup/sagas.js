@@ -28,6 +28,7 @@ export function* registerMember({ payload }) {
     yield put(registerSuccess());
     yield call(onSuccess);
   } catch (error) {
+    console.log('ERROR', error);
     yield put(pageError('There was an error saving your changes'));
     yield call(onFailure);
   }
