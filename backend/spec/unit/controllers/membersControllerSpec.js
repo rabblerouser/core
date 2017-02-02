@@ -100,12 +100,13 @@ describe('membersController', () => {
 
   describe('putMemberInDatabase', () => {
     it('puts the member in the database', () => {
-      sandbox.stub(memberService, 'createMember');
+      sandbox.stub(memberService, 'createMember').returns('DB result');
 
-      membersController.putMemberInDatabase("I'm a member");
+      const result = membersController.putMemberInDatabase("I'm a member");
 
+      expect(result).to.eql('DB result');
       expect(memberService.createMember).to.have.been.calledWith("I'm a member");
-    })
+    });
   });
 
     describe('list', () => {

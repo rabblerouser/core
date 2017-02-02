@@ -87,9 +87,7 @@ const register = (req, res) => {
     .catch(() => res.sendStatus(500));
 };
 
-const putMemberInDatabase = data => {
-  memberService.createMember(data);
-};
+const putMemberInDatabase = data => memberService.createMember(data);
 
 function list(req, res) {
   if (!req.user) {

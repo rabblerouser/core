@@ -65,7 +65,7 @@ function setState(obj, key) {
     };
 }
 
-describe('MemberIntegrationTests', () => {
+xdescribe('MemberIntegrationTests', () => {
     let agent;
     let browserState = {};
 
