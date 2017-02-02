@@ -7,6 +7,7 @@ const streamClientSettings = {
   region: 'ap-southeast-2',
   accessKeyId: config.aws.accessKeyId,
   secretAccessKey: config.aws.secretAccessKey,
+  eventAuthToken: config.eventAuthToken,
 };
 
 module.exports = createClient(streamClientSettings);
