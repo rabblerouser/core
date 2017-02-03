@@ -23,7 +23,7 @@ const config = {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'ALSO FAKE',
     kinesisEndpoint: 'http://localhost:4567',
   },
-  eventAuthToken: process.env.EVENT_AUTH_TOKEN,
+  eventAuthToken: process.env.EVENT_AUTH_TOKEN || 'secret',
 };
 
 if (process.env.NODE_ENV === 'production') {
