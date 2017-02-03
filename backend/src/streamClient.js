@@ -7,6 +7,7 @@ const streamClientSettings = {
   region: 'ap-southeast-2',
   accessKeyId: config.aws.accessKeyId,
   secretAccessKey: config.aws.secretAccessKey,
+  endpoint: config.aws.kinesisEndpoint,
   eventAuthToken: config.eventAuthToken,
 };
 

@@ -19,8 +19,9 @@ const config = {
   },
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
   aws: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'FAKE',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'ALSO FAKE',
+    kinesisEndpoint: 'http://localhost:4567',
   },
   eventAuthToken: process.env.EVENT_AUTH_TOKEN,
 };
@@ -28,6 +29,9 @@ const config = {
 if (process.env.NODE_ENV === 'production') {
   config.session.proxy = true;
   config.session.secureCookie = true;
+
+  // Let the SDK derive the endpoint from the region
+  config.aws.kinesisEndpoint = undefined;
 
   config.logFormat = '[:date[iso]] :remote-addr - :req[user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
 }
