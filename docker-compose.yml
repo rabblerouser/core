@@ -1,0 +1,16 @@
+version: '2'
+services:
+  rabblerouser-core:
+    build: .
+    ports:
+      - "3001:3000"
+    links:
+      - db
+    environment:
+      DATABASE_URL: postgres://rabble_rouser_user:rabble_rouser_password@db:5432/rabble_rouser_db
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: rabble_rouser_user
+      POSTGRES_PASSWORD: rabble_rouser_password
+      POSTGRES_DB: rabble_rouser_db
