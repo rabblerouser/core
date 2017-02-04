@@ -2,7 +2,7 @@
   "name": "rabblerouser-core",
   "version": "0.0.0",
   "description": "A pluggable, extensible membership database for community organising",
-  "private": true,
+  "license": "AGPL-3.0",
   "scripts": {
     "install": "npm --prefix backend install && npm --prefix frontend install",
     "postinstall": "npm run build",
