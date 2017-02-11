@@ -84,10 +84,8 @@ const register = (req, res) => {
 
   return streamClient.publish({ type: 'member-registered', data: newMember })
     .then(() => res.status(201).json({}))
-    .catch(() => res.sendStatus(500));
+    .catch(handleError(res));
 };
-
-const putMemberInDatabase = data => memberService.createMember(data);
 
 function list(req, res) {
   if (!req.user) {
@@ -160,7 +158,6 @@ function deleteMember(req, res) {
 
 
 module.exports = {
-  putMemberInDatabase,
   register,
   list,
   exportBranchMembers,

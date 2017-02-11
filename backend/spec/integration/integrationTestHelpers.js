@@ -91,10 +91,14 @@ let makeMember = (branchId) => {
 };
 
 let makeMemberRegisteredEvent = (branchId) => {
-  return {
+  const event = {
     type: 'member-registered',
     data: makeMember(branchId),
-  }
+  };
+  return {
+    sequenceNumber: '1',
+    data: new Buffer(JSON.stringify(event)).toString('base64'),
+  };
 }
 
 function createMembers(agent, numberOfMembers) {
@@ -106,7 +110,9 @@ function createMembers(agent, numberOfMembers) {
                     .post('/events')
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
+                    .set('Authorization', 'secret')
                     .send(makeMemberRegisteredEvent(branch.id))
+                    .expect(200)
             );
         });
         return Promise.all(createTheseMembers);

@@ -3793,9 +3793,9 @@
       "resolved": "https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz"
     },
     "rabblerouser-stream-client": {
-      "version": "0.5.1",
+      "version": "0.6.1",
       "from": "rabblerouser-stream-client@latest",
-      "resolved": "https://registry.npmjs.org/rabblerouser-stream-client/-/rabblerouser-stream-client-0.5.1.tgz"
+      "resolved": "https://registry.npmjs.org/rabblerouser-stream-client/-/rabblerouser-stream-client-0.6.1.tgz"
     },
     "random-bytes": {
       "version": "1.0.0",

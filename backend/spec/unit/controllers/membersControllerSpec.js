@@ -80,7 +80,7 @@ describe('membersController', () => {
     it('sends a 500 back if the stream publish fails', () => {
       const req = { body: {} };
       memberValidator.isValid.returns([]);
-      streamClient.publish.returns(Promise.reject());
+      streamClient.publish.returns(Promise.reject('oh noes!'));
 
       return membersController.register(req, res).then(() => {
         expect(res.sendStatus).to.have.been.calledWith(500);
@@ -95,17 +95,6 @@ describe('membersController', () => {
 
       expect(res.status).to.have.been.calledWith(400);
       expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
-    });
-  });
-
-  describe('putMemberInDatabase', () => {
-    it('puts the member in the database', () => {
-      sandbox.stub(memberService, 'createMember').returns('DB result');
-
-      const result = membersController.putMemberInDatabase("I'm a member");
-
-      expect(result).to.eql('DB result');
-      expect(memberService.createMember).to.have.been.calledWith("I'm a member");
     });
   });
 

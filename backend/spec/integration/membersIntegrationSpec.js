@@ -65,12 +65,13 @@ function setState(obj, key) {
     };
 }
 
-xdescribe('MemberIntegrationTests', () => {
+describe('MemberIntegrationTests', () => {
     let agent;
     let browserState = {};
 
     beforeEach(() => {
         agent = request.agent(app);
+        return integrationTestHelpers.resetDatabase();
     });
 
     describe('Register', () => {
@@ -81,22 +82,18 @@ xdescribe('MemberIntegrationTests', () => {
             .then((branchId) => browserState.branchId = branchId);
         });
 
-        // The following three tests are slightly wrong. They each .expect(500), which
-        // should actually be a 200. But we don't have a test/stub kinesis stream to run
-        // the tests against, so for now the app will blow up with a 500.
-
-        it('should return 200 and a created member when the input is valid', () => {
-            console.log('Integration test needs fixing');
+        xit('should return 200 and a created member when the input is valid', () => {
+            //Test excluded until we get better docker automation of a local kinesis instance
             return agent
                 .post('/register')
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
                 .send(integrationTestHelpers.makeMember(browserState.branchId))
-                .expect(500)
+                .expect(200)
         });
 
-        it('should safely create a member with dodgy information', () => {
-            console.log('Integration test needs fixing');
+        xit('should safely create a member with dodgy information', () => {
+            //Test excluded until we get better docker automation of a local kinesis instance
             let dodgyMember = integrationTestHelpers.makeMember(browserState.branchId);
             dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
 
@@ -105,17 +102,17 @@ xdescribe('MemberIntegrationTests', () => {
                 .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
                 .send(dodgyMember)
-                .expect(500)
+                .expect(200)
         });
 
-        it('should return 200 when creating a member with no address', () => {
-          console.log('Integration test needs fixing');
+        xit('should return 200 when creating a member with no address', () => {
+            //Test excluded until we get better docker automation of a local kinesis instance
             return agent
             .post('/register')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .send(makeMemberWithNoAddress(browserState.branchId))
-            .expect(500)
+            .expect(200)
         });
 
         it('should return 400 if the input is null', () => {

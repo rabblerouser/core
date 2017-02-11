@@ -44,7 +44,7 @@ function addMembersToGroup(agent, branchGroup) {
     };
 }
 
-xdescribe('Groups Integration Test', () => {
+describe('Groups Integration Test', () => {
     let agent;
     let browserState = {};
 
@@ -130,7 +130,7 @@ xdescribe('Groups Integration Test', () => {
             .then((branchGroup) => browserState.branchGroup = branchGroup)
         });
 
-        xit('responds with a 200', () => {
+        it('responds with a 200', () => {
             return integrationTestHelpers.createMembers(agent, 2)(browserState.branch)
                 .then(getMembersForGroup(agent, browserState.branchGroup))
                 .then( members => {
