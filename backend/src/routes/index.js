@@ -9,12 +9,18 @@ const branchAuthorization = require('../security/branchAccessValidator');
 const superAdminOnly = require('../security/superAdminOnlyValidator');
 const requireAuth = require('../security/authenticationRequired');
 const login = require('../security/loginHandler');
+const streamClient = require('../streamClient');
+
+const memberService = require('../services/memberService');
 
 const router = new express.Router();
 
 router.get('/', (req, res) =>
   res.render('signup')
 );
+
+streamClient.on('member-registered', memberService.createMember);
+router.post('/events', streamClient.listen({}));
 
 router.get('/login', (req, res) =>
   res.render('login', { error: '' })

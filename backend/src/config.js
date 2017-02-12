@@ -1,6 +1,6 @@
 'use strict';
 
-const config = {
+const baseConfig = {
   email: {
     sendEmails: process.env.SEND_EMAILS,
     transporter: process.env.EMAIL_TRANSPORTER,
@@ -12,19 +12,36 @@ const config = {
     welcomeBody: process.env.EMAIL_WELCOME_BODY || 'Welcome to Rabble Rouser!<br>You can now start participating and getting involved towards the development of a more secure and transparent Australia.\nFor a list of upcoming meetings and discussions, head to rabblerouser.team\nBest,\nRabble Rouser',
   },
   session: {
-    proxy: false,
-    secureCookie: false,
     secret: process.env.SESSION_SECRET || "i'm a teapot",
     domain: process.env.SESSION_DOMAIN,
   },
-  logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
+  kinesis: {
+    stream: 'rabblerouser_stream',
+    apiVersion: '2013-12-02',
+    region: 'ap-southeast-2',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'FAKE',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'ALSO FAKE',
+  },
+  eventAuthToken: process.env.EVENT_AUTH_TOKEN || 'secret',
 };
 
-if (process.env.NODE_ENV === 'production') {
-  config.session.proxy = true;
-  config.session.secureCookie = true;
+const devConfig = Object.assign({}, baseConfig, {
+  session: Object.assign({}, baseConfig.session, {
+    proxy: false,
+    secureCookie: false,
+  }),
+  kinesis: Object.assign({}, baseConfig.kinesis, {
+    endpoint: 'http://localhost:4567',
+  }),
+  logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
+});
 
-  config.logFormat = '[:date[iso]] :remote-addr - :req[user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
-}
+const prodConfig = Object.assign({}, baseConfig, {
+  session: Object.assign({}, baseConfig.session, {
+    proxy: true,
+    secureCookie: true,
+  }),
+  logFormat: '[:date[iso]] :remote-addr - :req[user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
+});
 
-module.exports = config;
+module.exports = process.env.NODE_ENV === 'production' ? prodConfig : devConfig;

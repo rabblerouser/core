@@ -90,16 +90,29 @@ let makeMember = (branchId) => {
     };
 };
 
+let makeMemberRegisteredEvent = (branchId) => {
+  const event = {
+    type: 'member-registered',
+    data: makeMember(branchId),
+  };
+  return {
+    sequenceNumber: '1',
+    data: new Buffer(JSON.stringify(event)).toString('base64'),
+  };
+}
+
 function createMembers(agent, numberOfMembers) {
     return function(branch) {
         let createTheseMembers = [];
         times(numberOfMembers, () => {
             createTheseMembers.push(
                 agent
-                    .post('/register')
+                    .post('/events')
                     .set('Content-Type', 'application/json')
                     .set('Accept', 'application/json')
-                    .send(makeMember(branch.id))
+                    .set('Authorization', 'secret')
+                    .send(makeMemberRegisteredEvent(branch.id))
+                    .expect(200)
             );
         });
         return Promise.all(createTheseMembers);

@@ -2,11 +2,11 @@
 
 const isEmpty = require('lodash').isEmpty;
 const memberService = require('../services/memberService');
-const messagingService = require('../services/messagingService');
 const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
 const logger = require('../lib/logger');
+const streamClient = require('../streamClient');
 
 function isAddressEmpty(address) {
   return !address ||
@@ -66,17 +66,6 @@ function parseMember(req) {
   };
 }
 
-function sendResponseToUser(res) {
-  return createdMember => {
-    const responseForUser = {
-      newMember: {
-        email: createdMember.email,
-      },
-    };
-    res.status(200).json(responseForUser);
-  };
-}
-
 function handleError(res) {
   return error => {
     logger.error('[error-members-controller]', { error: error.toString() });
@@ -93,10 +82,8 @@ const register = (req, res) => {
     return res.status(400).json({ errors: validationErrors });
   }
 
-  return memberService
-    .createMember(newMember)
-    .tap(sendResponseToUser(res))
-    .tap(messagingService.sendWelcomeEmail)
+  return streamClient.publish({ type: 'member-registered', data: newMember })
+    .then(() => res.status(201).json({}))
     .catch(handleError(res));
 };
 
