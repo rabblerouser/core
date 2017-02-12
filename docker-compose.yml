@@ -1,13 +1,19 @@
-version: '2'
+version: '3'
 services:
   rabblerouser-core:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - '.:/app'
     ports:
-      - "3001:3000"
+      - "3000:3000"
     links:
       - db
     environment:
       DATABASE_URL: postgres://rabble_rouser_user:rabble_rouser_password@db:5432/rabble_rouser_db
+    stdin_open: true
+    tty: true
   db:
     image: postgres
     environment:
