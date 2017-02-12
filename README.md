@@ -9,17 +9,19 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 ## First-time setup
 
-1. Install [VirtualBox](https://www.virtualbox.org/), [Vagrant](https://www.vagrantup.com/downloads.html), and
-[Ansible](https://docs.ansible.com/ansible/intro_installation.html)
-2. Clone the project
+1. Install Docker:
+  - [for Mac](https://docs.docker.com/docker-for-mac/)
+  - [for Windows](https://docs.docker.com/docker-for-windows/)
+  - [for Linux](https://docs.docker.com/engine/installation/linux/)
+
+2. Clone the project:
 
         git clone https://github.com/rabblerouser/rabblerouser-core.git
 
-3. Start the Vagrant VM and log into it
+3. Start a Docker container to develop in:
 
-        cd rabblerouser-core
-        vagrant up
-        vagrant ssh
+        ./go.sh # For Mac/Linux
+        # Windows not supported yet :(
 
 4. Install/compile the project, run the tests, then start the app
 
@@ -30,6 +32,8 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 5. Verify that the app works:
   1. Register a new member at `http://localhost:3000`
   2. Log in at `http://localhost:3000/login`, with `networkadmin@rabblerouser.team`/`password`
+
+If you just want to run a single command inside the container, you can do it like: `./go.sh npm test`.
 
 ## Understanding this repository
 
