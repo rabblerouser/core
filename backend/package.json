@@ -9,14 +9,12 @@
   "scripts": {
     "ci": "npm run lint && npm test",
     "dev": "nodemon index.js",
-    "kinesis": "node bin/kinesis.js",
     "lint": "eslint src",
     "migrate": "sequelize db:migrate",
-    "seed": "node bin/seed.js",
     "e2e-seed": "NODE_ENV=test node bin/e2e-seed.js",
     "pretest": "NODE_ENV=test npm run migrate",
     "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 --compilers js:babel-core/register -r spec/specGlobals --recursive spec",
-    "prestart": "npm run migrate && npm run seed",
+    "prestart": "npm run migrate && node bin/seed.js && node bin/createStream.js",
     "start": "node index.js"
   },
   "repository": {
@@ -73,7 +71,6 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-react": "^6.9.0",
-    "kinesalite": "^1.11.5",
     "mocha": "^2.4.5",
     "nodemon": "^1.11.0",
     "sinon": "^1.17.3",

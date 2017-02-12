@@ -18,7 +18,7 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
         git clone https://github.com/rabblerouser/rabblerouser-core.git
 
-3. Start a Docker container to develop in:
+3. Start a Docker container to develop in (this also starts dependent services):
 
         ./go.sh # For Mac/Linux
         # Windows not supported yet :(
@@ -33,7 +33,19 @@ To find out more about the Rabble Rouser project, check out our [documentation r
   1. Register a new member at `http://localhost:3000`
   2. Log in at `http://localhost:3000/login`, with `networkadmin@rabblerouser.team`/`password`
 
-If you just want to run a single command inside the container, you can do it like: `./go.sh npm test`.
+## Bonus commands
+
+If you just want to run a single command inside the container, you can do it like this:
+
+        ./go.sh npm test
+
+The script starts several different containers. If you want to see their logs (e.g. for debugging):
+
+        # This will show all container logs, colour-coded
+        docker-compose logs -f
+
+        #This will show just the event-forwarder container's logs
+        docker-compose logs -f event-forwarder
 
 ## Understanding this repository
 

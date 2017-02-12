@@ -2,8 +2,7 @@
 set -e
 set -x
 
-docker login -e "$DOCKER_EMAIL" -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
+docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
 
-docker pull rabblerouser/rabblerouser-core
 docker build -t rabblerouser/rabblerouser-core .
 docker push rabblerouser/rabblerouser-core

@@ -8,10 +8,15 @@ services:
       - '.:/app'
     ports:
       - "3000:3000"
-    links:
+    depends_on:
       - db
+      - kinesis
     environment:
       DATABASE_URL: postgres://rabble_rouser_user:rabble_rouser_password@db:5432/rabble_rouser_db
+      KINESIS_URL: http://kinesis:4567
+      EVENT_AUTH_TOKEN: secret
+      NODE_ENV: development
+    command: sleep 2147483647 # Sleep forever, we'll shell into the container later
     stdin_open: true
     tty: true
   db:
@@ -20,3 +25,14 @@ services:
       POSTGRES_USER: rabble_rouser_user
       POSTGRES_PASSWORD: rabble_rouser_password
       POSTGRES_DB: rabble_rouser_db
+  kinesis:
+    image: instructure/kinesalite
+  event-forwarder:
+    image: rabblerouser/event-forwarder
+    depends_on:
+      - kinesis
+      - rabblerouser-core
+    environment:
+      KINESIS_URL: http://kinesis:4567
+      EVENT_ENDPOINT: http://rabblerouser-core:3000/events
+      EVENT_AUTH_TOKEN: secret
