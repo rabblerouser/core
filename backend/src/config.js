@@ -15,6 +15,13 @@ const baseConfig = {
     secret: process.env.SESSION_SECRET || "i'm a teapot",
     domain: process.env.SESSION_DOMAIN,
   },
+  kinesis: {
+    stream: 'rabblerouser_stream',
+    apiVersion: '2013-12-02',
+    region: 'ap-southeast-2',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'FAKE',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'ALSO FAKE',
+  },
   eventAuthToken: process.env.EVENT_AUTH_TOKEN || 'secret',
 };
 
@@ -23,11 +30,9 @@ const devConfig = Object.assign({}, baseConfig, {
     proxy: false,
     secureCookie: false,
   }),
-  aws: {
-    accessKeyId: 'FAKE',
-    secretAccessKey: 'ALSO FAKE',
-    kinesisEndpoint: 'http://localhost:4567',
-  },
+  kinesis: Object.assign({}, baseConfig.kinesis, {
+    endpoint: 'http://localhost:4567',
+  }),
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
 });
 
@@ -36,10 +41,6 @@ const prodConfig = Object.assign({}, baseConfig, {
     proxy: true,
     secureCookie: true,
   }),
-  aws: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
   logFormat: '[:date[iso]] :remote-addr - :req[user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
 });
 
