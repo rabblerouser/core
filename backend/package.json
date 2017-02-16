@@ -8,6 +8,7 @@
   "main": "src/app.js",
   "scripts": {
     "ci": "npm run lint && npm test",
+    "dev": "nodemon index.js",
     "kinesis": "node bin/kinesis.js",
     "lint": "eslint src",
     "migrate": "sequelize db:migrate",
@@ -74,6 +75,7 @@
     "eslint-plugin-react": "^6.9.0",
     "kinesalite": "^1.11.5",
     "mocha": "^2.4.5",
+    "nodemon": "^1.11.0",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "supertest": "^1.2.0",
