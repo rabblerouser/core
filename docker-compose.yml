@@ -33,6 +33,6 @@ services:
       - kinesis
       - rabblerouser-core
     environment:
-      KINESIS_URL: http://kinesis:4567
-      EVENT_ENDPOINT: http://rabblerouser-core:3000/events
-      EVENT_AUTH_TOKEN: secret
+      KINESIS_ENDPOINT: http://kinesis:4567
+      LISTENER_ENDPOINT: http://rabblerouser-core:3000/events
+      LISTENER_AUTH_TOKEN: secret
