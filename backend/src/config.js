@@ -22,7 +22,7 @@ const baseConfig = {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'FAKE',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'ALSO FAKE',
   },
-  eventAuthToken: process.env.EVENT_AUTH_TOKEN || 'secret',
+  listenerAuthToken: process.env.LISTENER_AUTH_TOKEN || 'secret',
 };
 
 const devConfig = Object.assign({}, baseConfig, {
