@@ -30,7 +30,7 @@ const devConfig = Object.assign({}, baseConfig, {
     secureCookie: false,
   }),
   eventStream: Object.assign({}, baseConfig.eventStream, {
-    kinesisEndpoint: process.env.KINESIS_URL,
+    kinesisEndpoint: process.env.KINESIS_ENDPOINT,
   }),
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
 });
