@@ -15,14 +15,13 @@ const baseConfig = {
     secret: process.env.SESSION_SECRET || "i'm a teapot",
     domain: process.env.SESSION_DOMAIN,
   },
-  kinesis: {
-    stream: 'rabblerouser_stream',
-    apiVersion: '2013-12-02',
-    region: 'ap-southeast-2',
+  eventStream: {
+    streamName: 'rabblerouser_stream',
+    listenerAuthToken: process.env.LISTENER_AUTH_TOKEN || 'secret',
+    region: process.env.AWS_REGION || 'ap-southeast-2',
     accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'FAKE',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'ALSO FAKE',
   },
-  listenerAuthToken: process.env.LISTENER_AUTH_TOKEN || 'secret',
 };
 
 const devConfig = Object.assign({}, baseConfig, {
@@ -30,8 +29,8 @@ const devConfig = Object.assign({}, baseConfig, {
     proxy: false,
     secureCookie: false,
   }),
-  kinesis: Object.assign({}, baseConfig.kinesis, {
-    endpoint: 'http://localhost:4567',
+  eventStream: Object.assign({}, baseConfig.eventStream, {
+    kinesisEndpoint: 'http://localhost:4567',
   }),
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
 });

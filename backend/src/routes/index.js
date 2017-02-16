@@ -20,7 +20,7 @@ router.get('/', (req, res) =>
 );
 
 streamClient.on('member-registered', memberService.createMember);
-router.post('/events', streamClient.listen({}));
+router.post('/events', streamClient.listen());
 
 router.get('/login', (req, res) =>
   res.render('login', { error: '' })
