@@ -8,7 +8,7 @@ const streamClientSettings = {
   accessKeyId: config.kinesis.accessKeyId,
   secretAccessKey: config.kinesis.secretAccessKey,
   endpoint: config.kinesis.endpoint,
-  listenerAuthToken: config.listenerAuthToken,
+  eventAuthToken: config.listenerAuthToken,
 };
 
 module.exports = createClient(streamClientSettings);
