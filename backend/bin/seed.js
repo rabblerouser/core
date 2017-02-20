@@ -16,6 +16,8 @@ const email = 'networkadmin@rabblerouser.team';
 const password = 'password';
 const type = 'SUPER';
 
+console.log('Running seed script');
+
 models.AdminUser.findAll()
   .then(adminUsers => {
     if (adminUsers.length === 0) {
