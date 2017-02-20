@@ -1,6 +1,6 @@
 version: '3'
 services:
-  rabblerouser-core:
+  core:
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -29,10 +29,10 @@ services:
     image: rabblerouser/event-forwarder
     depends_on:
       - kinesis
-      - rabblerouser-core
+      - core
     environment:
       KINESIS_ENDPOINT: http://kinesis:4567
-      LISTENER_ENDPOINT: http://rabblerouser-core:3000/events
+      LISTENER_ENDPOINT: http://core:3000/events
       LISTENER_AUTH_TOKEN: secret
   kinesis:
     image: instructure/kinesalite
