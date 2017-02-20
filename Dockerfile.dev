@@ -1,4 +1,10 @@
 FROM node:alpine
+RUN adduser -D rabblerouser
+
+WORKDIR /app
+
+RUN chown -R rabblerouser /app
+USER rabblerouser
 
 WORKDIR /app
 
