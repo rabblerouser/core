@@ -18,28 +18,29 @@ const type = 'SUPER';
 
 console.log('Running seed script');
 
-models.AdminUser.findAll()
+const adminPromise = models.AdminUser.findAll()
   .then(adminUsers => {
     if (adminUsers.length === 0) {
       console.log(`No network admins exist, creating one - Username: ${email}, password: ${password}`);
       return models.AdminUser.create({ email, password, type });
     }
     console.log('At least one network admin already exists.');
-  })
-  .catch(err => {
-    console.error('Error: Could not create admin user:', err);
-    process.exit(1);
+    return undefined;
   });
 
-models.Branch.findAll()
+const branchPromise = models.Branch.findAll()
   .then(branches => {
     if (branches.length === 0) {
       console.log('No branches exist, creating one - ');
       return models.Branch.create({ name: 'Default branch' });
     }
     console.log('At least one branch already exists.');
-  })
-  .catch(err => {
-    console.error('Error: Could not create branch:', err);
+    return undefined;
+  });
+
+Promise.all([adminPromise, branchPromise])
+  .then(() => console.log('Seeded successfully.'))
+  .catch(error => {
+    console.error('Seed failed:', error);
     process.exit(1);
   });
