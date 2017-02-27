@@ -14,7 +14,7 @@
     "e2e-seed": "NODE_ENV=test node bin/e2e-seed.js",
     "pretest": "NODE_ENV=test npm run migrate",
     "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 --compilers js:babel-core/register -r spec/specGlobals --recursive spec",
-    "prestart": "npm run migrate && node bin/seed.js && node bin/createStream.js",
+    "prestart": "npm run migrate && node bin/seed.js",
     "start": "node index.js"
   },
   "repository": {
