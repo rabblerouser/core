@@ -35,8 +35,7 @@ describe('emailService', () => {
       sinon.stub(nodemailer, 'createTransport').returns(transportStub);
     });
 
-    it('should send html email', () => {
-      return emailService.sendHtmlEmail(options)
+    it('should send html email', () => emailService.sendHtmlEmail(options)
             .then(() => {
               expect(sendMailSpy).to.have.been.called;
               expect(sendMailSpy).to.have.been.calledWith({
@@ -46,8 +45,7 @@ describe('emailService', () => {
                 html: 'Hey,\nthanks for that PR, do you want some stickers? \nThe team.',
                 bcc: undefined,
               }, sinon.match.any);
-            });
-    });
+            }));
 
     it('should send reply to if reply to is defined', () => {
       options.replyTo = 'someemail@email.com';

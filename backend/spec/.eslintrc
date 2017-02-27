@@ -1,0 +1,6 @@
+# This whole file is here because of chai's weird assertion style.
+# We could potentially use dirty-chai instead: https://www.npmjs.com/package/dirty-chai
+
+rules:
+  no-unused-expressions:
+    - warn

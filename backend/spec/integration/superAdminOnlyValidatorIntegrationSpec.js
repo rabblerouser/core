@@ -1,46 +1,40 @@
 'use strict';
 
-const instance_url = process.env.INSTANCE_URL;
-let app = instance_url ? instance_url : require('../../src/app');
-let request = require('supertest-as-promised');
-let integrationTestHelpers = require('./integrationTestHelpers.js');
+const instanceUrl = process.env.INSTANCE_URL;
+const app = instanceUrl || require('../../src/app');
+const request = require('supertest-as-promised');
+const integrationTestHelpers = require('./integrationTestHelpers.js');
 
 describe('SuperAdminOnlyValidator Integration tests', () => {
-    let agent;
+  let agent;
 
-    beforeEach(() => {
-        agent = request.agent(app);
-        return integrationTestHelpers.resetDatabase();
-    });
+  beforeEach(() => {
+    agent = request.agent(app);
+    return integrationTestHelpers.resetDatabase();
+  });
 
-    it('should respond with 401 when users try to access something they are NOT entitled to see', () => {
-        return integrationTestHelpers.createBranch()
+  it('should respond with 401 when users try to access something they are NOT entitled to see', () => integrationTestHelpers.createBranch()
         .then(integrationTestHelpers.createBranchAdmin)
         .then(integrationTestHelpers.authenticateBranchAdmin(agent))
-        .then(() => {
-            return agent.post(`/branches`)
+        .then(() => agent.post('/branches')
             .set('Content-Type', 'application/json')
             .send({
-                name: 'Melbourne',
-                notes: 'organiser',
-                contact: 'hey i\'m a contact',
+              name: 'Melbourne',
+              notes: 'organiser',
+              contact: 'hey i\'m a contact',
             })
-            .expect(401);
-        });
-    });
+            .expect(401)));
 
-    it('should respond with 200 when a super admin tries to access a superadmin only resource', () => {
-        integrationTestHelpers.createSuperAdmin()
+  it('should respond with 200 when a super admin tries to access a superadmin only resource', () => {
+    integrationTestHelpers.createSuperAdmin()
         .then(integrationTestHelpers.authenticateSuperAdmin(agent))
-        .then(() => {
-            return agent.post(`/branches`)
+        .then(() => agent.post('/branches')
                 .set('Content-Type', 'application/json')
                 .send({
-                    name: 'Melbourne',
-                    notes: 'organiser',
-                    contact: 'hey i\'m a contact',
+                  name: 'Melbourne',
+                  notes: 'organiser',
+                  contact: 'hey i\'m a contact',
                 })
-                .expect(200);
-        });
-    });
+                .expect(200));
+  });
 });

@@ -1,6 +1,8 @@
 'use strict';
+
 const messagingService = require('../../src/services/messagingService');
 const sinon = require('sinon');
+
 const member = { email: 'sherlock@holmes.co.uk' };
 const config = require('../../src/config');
 
@@ -32,8 +34,7 @@ describe('Messaging integration tests', () => {
         sinon.stub(nodemailer, 'createTransport').returns(transportStub);
       });
 
-      it('sends the welcome email to the member', () => {
-        return messagingService.sendWelcomeEmail(member)
+      it('sends the welcome email to the member', () => messagingService.sendWelcomeEmail(member)
         .then(() => {
           expect(sendMailSpy).to.have.been.called;
           expect(sendMailSpy).to.have.been.calledWith(sinon.match({
@@ -43,8 +44,7 @@ describe('Messaging integration tests', () => {
             html: 'Welcome body\nHello world',
             replyTo: 'lhajfhadhaskjhd@rabblerouser.com',
           }), sinon.match.any);
-        });
-      });
+        }));
 
       it('does not send an email if disabled in configuration', () => {
         config.email.sendEmails = 'false';

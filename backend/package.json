@@ -9,7 +9,7 @@
   "scripts": {
     "ci": "npm run lint && npm test",
     "dev": "nodemon index.js",
-    "lint": "eslint src",
+    "lint": "eslint src spec",
     "migrate": "sequelize db:migrate",
     "e2e-seed": "NODE_ENV=test node bin/e2e-seed.js",
     "pretest": "NODE_ENV=test npm run migrate",

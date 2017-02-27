@@ -3,7 +3,6 @@
 const Q = require('q');
 const memberService = require('../../../src/services/memberService');
 const memberValidator = require('../../../src/lib/memberValidator');
-const messagingService = require('../../../src/services/messagingService');
 const membersController = require('../../../src/controllers/membersController');
 const inputValidator = require('../../../src/lib/inputValidator');
 const csvGenerator = require('../../../src/lib/csvGenerator');
@@ -38,14 +37,14 @@ describe('membersController', () => {
         gender: 'detective genius',
         primaryPhoneNumber: '0396291146',
         secondaryPhoneNumber: '0394291146',
-        residentialAddress: residentialAddress,
-        postalAddress: postalAddress,
+        residentialAddress,
+        postalAddress,
         membershipType: 'full',
         branchId: 'some-id-1',
         additionalInfo: null,
         notes: null,
         id: null,
-        groups: null
+        groups: null,
       };
 
       const req = { body: validBody };
@@ -59,20 +58,20 @@ describe('membersController', () => {
           type: 'member-registered',
           data: {
             additionalInfo: null,
-            branchId: "some-id-1",
-            email: "sherlock@holmes.co.uk",
-            firstName: "Sherlock",
-            gender: "detective genius",
+            branchId: 'some-id-1',
+            email: 'sherlock@holmes.co.uk',
+            firstName: 'Sherlock',
+            gender: 'detective genius',
             groups: null,
             id: null,
-            lastName: "Holmes",
-            membershipType: "full",
+            lastName: 'Holmes',
+            membershipType: 'full',
             notes: null,
-            postalAddress: { address: "47 I dont want your spam St", country: "USA", postcode: "5678", state: "NM", suburb: "Moriarty" },
-            primaryPhoneNumber: "0396291146",
-            residentialAddress: { address: "221b Baker St", country: "England", postcode: "1234", state: "VIC", suburb: "London" },
-            secondaryPhoneNumber: "0394291146"
-          }
+            postalAddress: { address: '47 I dont want your spam St', country: 'USA', postcode: '5678', state: 'NM', suburb: 'Moriarty' },
+            primaryPhoneNumber: '0396291146',
+            residentialAddress: { address: '221b Baker St', country: 'England', postcode: '1234', state: 'VIC', suburb: 'London' },
+            secondaryPhoneNumber: '0394291146',
+          },
         });
       });
     });
@@ -98,70 +97,70 @@ describe('membersController', () => {
     });
   });
 
-    describe('list', () => {
-        let serviceStub, req, res;
+  describe('list', () => {
+    let serviceStub;
+    let req;
 
-        beforeEach(() => {
-            req = {
-                params: {banchId: 'some-id-1'},
-                user: {banchId: 'some-id-1'}
-            };
-            serviceStub = sinon.stub(memberService, 'list');
-        });
+    beforeEach(() => {
+      req = {
+        params: { banchId: 'some-id-1' },
+        user: { banchId: 'some-id-1' },
+      };
+      serviceStub = sinon.stub(memberService, 'list');
+    });
 
-        afterEach(() => {
-            memberService.list.restore();
-        });
+    afterEach(() => {
+      memberService.list.restore();
+    });
 
-        it('should return a list of members', (done) => {
-            serviceStub.returns(Q.resolve([{id: 'id1', firstName: 'Pepe', lastName: 'Perez'}]));
-            res = {status: sinon.stub().returns({json: sinon.spy()})};
+    it('should return a list of members', done => {
+      serviceStub.returns(Q.resolve([{ id: 'id1', firstName: 'Pepe', lastName: 'Perez' }]));
+      res = { status: sinon.stub().returns({ json: sinon.spy() }) };
 
-            membersController.list(req, res)
+      membersController.list(req, res)
             .then(() => {
-                expect(serviceStub).to.have.been.called;
-                expect(res.status).to.have.been.calledWith(200);
-                expect(res.status().json).to.have.been.calledWith(sinon.match({
-                  members: [
-                    {id: 'id1', firstName: 'Pepe', lastName: 'Perez'}
-                  ]
-                }));
+              expect(serviceStub).to.have.been.called;
+              expect(res.status).to.have.been.calledWith(200);
+              expect(res.status().json).to.have.been.calledWith(sinon.match({
+                members: [
+                    { id: 'id1', firstName: 'Pepe', lastName: 'Perez' },
+                ],
+              }));
             })
             .then(done)
             .catch(done);
-        });
+    });
 
-        describe('oops, things are not working quite well', () => {
+    describe('oops, things are not working quite well', () => {
+      it('should handle service exceptions', done => {
+        serviceStub.returns(Q.reject('Some service list error'));
+        res = { sendStatus: sinon.spy() };
 
-            it('should handle service exceptions', (done) => {
-                serviceStub.returns(Q.reject('Some service list error'));
-                res = {sendStatus: sinon.spy()};
-
-                membersController.list(req, res)
+        membersController.list(req, res)
                 .then(() => {
-                    expect(res.sendStatus).to.have.been.calledWith(500);
-                    expect(serviceStub).to.have.been.called;
+                  expect(res.sendStatus).to.have.been.calledWith(500);
+                  expect(serviceStub).to.have.been.called;
                 })
                 .then(done)
                 .catch(done);
-            });
+      });
 
-            it('should handle when a session is not found', (done) => {
-                req = {};
-                res = {sendStatus: sinon.spy()};
+      it('should handle when a session is not found', done => {
+        req = {};
+        res = { sendStatus: sinon.spy() };
 
-                membersController.list(req, res);
-                expect(res.sendStatus).to.have.been.calledWith(500);
-                expect(serviceStub).not.to.have.been.called;
-                done();
-            });
-        });
+        membersController.list(req, res);
+        expect(res.sendStatus).to.have.been.calledWith(500);
+        expect(serviceStub).not.to.have.been.called;
+        done();
+      });
     });
+  });
 
   describe('exportBranchMembers', () => {
     it('gets the members transforms them to CSV', () => {
       const req = { params: { branchId: 'some-id-1' } };
-      const res = { set: () => {}, send: sinon.spy() };
+      res = { set: () => {}, send: sinon.spy() };
       const members = [{ name: 'member-1' }, { name: 'member-2' }];
       const csv = 'member1\nmember2';
 
@@ -179,7 +178,6 @@ describe('membersController', () => {
   });
 
   describe('deleteBranch', () => {
-    let res;
     let validateUUIDStub;
     let memberServiceDelete;
 
