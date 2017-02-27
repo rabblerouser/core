@@ -3,7 +3,7 @@
 // This file runs whenever the backend is about to start.
 // It makes sure that there's at least one network admin and branch in the database
 // This is the minimum data needed for the app to function correctly
-// If we're not in production, it also creates the kinesis stream
+// If we're not in production, it also creates the kinesis stream and the event archive S3 bucket
 
 if (process.env.NODE_ENV === 'test') {
   console.log('Skipping regular seed script because NODE_ENV=test');
@@ -63,9 +63,26 @@ const createStream = () => {
   );
 };
 
-const kinesisPromise = process.env.NODE_ENV === 'production' ? Promise.resolve() : createStream();
+const createArchiveBucket = () => {
+  console.log('Creating archive S3 bucket for development');
 
-Promise.all([adminPromise, branchPromise, kinesisPromise])
+  const s3 = new AWS.S3({
+    endpoint: process.env.S3_ENDPOINT,
+    region: 'ap-southeast-2',
+    accessKeyId: 'FAKE',
+    secretAccessKey: 'ALSO FAKE',
+  });
+
+  return s3.createBucket({ Bucket: process.env.ARCHIVE_BUCKET }).promise().then(
+    () => console.log(`${process.env.ARCHIVE_BUCKET} created`),
+    err => { throw new Error(`Could not create bucket: ${err.message}`); }
+  );
+};
+
+const kinesisPromise = process.env.NODE_ENV === 'production' ? Promise.resolve() : createStream();
+const s3Promise = process.env.NODE_ENV === 'production' ? Promise.resolve() : createArchiveBucket();
+
+Promise.all([adminPromise, branchPromise, kinesisPromise, s3Promise])
   .then(() => console.log('Seeded successfully.'))
   .catch(error => {
     console.error('Seed failed:', error);

@@ -18,6 +18,7 @@ const baseConfig = {
   eventStream: {
     streamName: 'rabblerouser_stream',
     listenerAuthToken: process.env.LISTENER_AUTH_TOKEN || 'secret',
+    archiveBucket: process.env.ARCHIVE_BUCKET || 'rr-event-archive',
     region: process.env.AWS_REGION || 'ap-southeast-2',
     accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'FAKE',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'ALSO FAKE',
@@ -31,6 +32,7 @@ const devConfig = Object.assign({}, baseConfig, {
   }),
   eventStream: Object.assign({}, baseConfig.eventStream, {
     kinesisEndpoint: process.env.KINESIS_ENDPOINT,
+    s3Endpoint: process.env.S3_ENDPOINT,
   }),
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
 });

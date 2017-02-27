@@ -11,12 +11,17 @@ services:
     depends_on:
       - db
       - kinesis
+      - s3
+    links:
+      - "s3:rr-event-archive.s3"
     environment:
       NODE_ENV: development
       DATABASE_URL: postgres://rabble_rouser_user:rabble_rouser_password@db:5432/rabble_rouser_db
       TEST_DATABASE_URL: postgres://rabble_rouser_user:rabble_rouser_password@test_db:5432/rabble_rouser_db
       KINESIS_ENDPOINT: http://kinesis:4567
+      S3_ENDPOINT: http://s3:4569
       LISTENER_AUTH_TOKEN: secret
+      ARCHIVE_BUCKET: rr-event-archive
     command: sleep 2147483647 # Sleep forever, we'll shell into the container later
     stdin_open: true
     tty: true
@@ -41,5 +46,18 @@ services:
       KINESIS_ENDPOINT: http://kinesis:4567
       LISTENER_ENDPOINT: http://core:3000/events
       LISTENER_AUTH_TOKEN: secret
+  event-archiver:
+    image: rabblerouser/event-archiver
+    depends_on:
+      - kinesis
+      - s3
+    links:
+      - "s3:rr-event-archive.s3"
+    environment:
+      KINESIS_ENDPOINT: http://kinesis:4567
+      S3_ENDPOINT: http://s3:4569
+      ARCHIVE_BUCKET: rr-event-archive
   kinesis:
     image: instructure/kinesalite
+  s3:
+    image: lphoward/fake-s3
