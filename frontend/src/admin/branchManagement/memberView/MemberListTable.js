@@ -64,7 +64,7 @@ const mapActions = (edit, remove, memberId) => [
     key={`${memberId}-delete`}
     confirmMessage="Are you sure you want to delete the selected member?"
     title="Delete member"
-    onDelete={remove}
+    onDelete={() => remove(memberId)}
   />,
 ];
 
