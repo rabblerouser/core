@@ -29,10 +29,9 @@ describe('EditMemberForm', () => {
   });
 
   [
-    'firstName',
-    'lastName',
+    'name',
     'email',
-    'primaryPhoneNumber',
+    'phoneNumber',
     'notes',
     'additionalInfo',
   ].forEach(fieldName =>
@@ -55,11 +54,11 @@ describe('EditMemberForm', () => {
     });
 
     [
-      'postalAddress.address',
-      'postalAddress.suburb',
-      'postalAddress.postcode',
-      'postalAddress.state',
-      'postalAddress.country',
+      'address.address',
+      'address.suburb',
+      'address.postcode',
+      'address.state',
+      'address.country',
     ].forEach(fieldName =>
       it(`does not render the ${fieldName} field`, () => {
         const fields = rendered.find('Field');
@@ -76,11 +75,11 @@ describe('EditMemberForm', () => {
     });
 
     [
-      'postalAddress.address',
-      'postalAddress.suburb',
-      'postalAddress.postcode',
-      'postalAddress.state',
-      'postalAddress.country',
+      'address.address',
+      'address.suburb',
+      'address.postcode',
+      'address.state',
+      'address.country',
     ].forEach(fieldName =>
       it(`renders the ${fieldName} field`, () => {
         const fields = rendered.find('Field');

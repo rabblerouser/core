@@ -8,14 +8,14 @@ const AddressFields = () => (
       optional
       component={InputField}
       id="address"
-      name="postalAddress[address]"
+      name="address[address]"
       label="Street address"
       type="text"
     />
-    <Field optional component={InputField} id="suburb" name="postalAddress[suburb]" label="Suburb" type="text" />
-    <Field optional component={InputField} id="state" name="postalAddress[state]" label="State" type="text" />
-    <Field optional component={InputField} id="postcode" name="postalAddress[postcode]" label="Postcode" type="text" />
-    <Field optional component={InputField} id="country" name="postalAddress[country]" label="Country" type="text" />
+    <Field optional component={InputField} id="suburb" name="address[suburb]" label="Suburb" type="text" />
+    <Field optional component={InputField} id="state" name="address[state]" label="State" type="text" />
+    <Field optional component={InputField} id="postcode" name="address[postcode]" label="Postcode" type="text" />
+    <Field optional component={InputField} id="country" name="address[country]" label="Country" type="text" />
   </fieldset>
 );
 

@@ -21,17 +21,9 @@ export const DetailsForm = ({ handleSubmit, branches, addressEnabled = customisa
     <h2>{customisation.signupSubtitle}</h2>
     <form onSubmit={handleSubmit}>
       <div>
-        <Field component={InputField} id="firstName" name="firstName" label="First name" type="text" />
-        <Field component={InputField} id="lastName" name="lastName" label="Last name" type="text" optional />
+        <Field component={InputField} id="name" name="name" label="Full name" type="text" />
         <Field component={InputField} id="email" name="email" label="Email address" type="text" />
-        <Field
-          optional
-          component={InputField}
-          id="primaryPhoneNumber"
-          name="primaryPhoneNumber"
-          label="Contact number"
-          type="text"
-        />
+        <Field component={InputField} id="phoneNumber" name="phoneNumber" label="Contact number" type="text" optional />
         {addressEnabled &&
           <AddressFields />
         }

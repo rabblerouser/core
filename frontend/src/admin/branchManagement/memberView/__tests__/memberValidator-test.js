@@ -3,12 +3,11 @@ import validator from '../memberValidator';
 describe('member validator', () => {
   [
     'email',
-    'firstName',
+    'name',
   ].forEach(fieldName => (
       it(`requires ${fieldName}`, () => {
         const errors = validator({
-          lastName: 'a value',
-          primaryPhoneNumber: 'a value',
+          phoneNumber: 'a value',
           additionalInfo: 'a value',
           notes: 'a value',
         });
@@ -17,8 +16,7 @@ describe('member validator', () => {
     );
 
   [
-    'lastName',
-    'primaryPhoneNumber',
+    'phoneNumber',
     'additionalInfo',
     'notes',
   ].forEach(fieldName => (

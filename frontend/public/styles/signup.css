@@ -61,15 +61,6 @@ fieldset {
 }
 
 @media (min-width: 600px) {
-  fieldset.firstName {
-    width: 48%
-  }
-
-  fieldset.lastName {
-    width: 48%;
-    float: right;
-  }
-
   fieldset.suburb {
     width: 48%
   }

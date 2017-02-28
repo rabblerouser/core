@@ -9,7 +9,7 @@ import { editMember, memberRemoveRequested } from './actions';
 const columnsWithAddress = [
   { type: 'name', field: 'memberName', label: 'Member name' },
   { type: 'name', field: 'contactNumber', label: 'Contact information' },
-  { type: 'name', field: 'postalAddress', label: 'Postal Address' },
+  { type: 'name', field: 'address', label: 'Address' },
   { type: 'name', field: 'memberSince', label: 'Member since' },
   { type: 'actions' },
 ];
@@ -21,23 +21,19 @@ const columnsWithoutAddress = [
   { type: 'actions' },
 ];
 
-function nullToBlank(input) {
-  return input === null ? '' : input;
-}
-
-const mapFields = ({ firstName, lastName, primaryPhoneNumber, email, memberSince, postalAddress },
+const mapFields = ({ name, phoneNumber, email, memberSince, address },
                    addressEnabled) => {
-  const memberNameField = `${firstName} ${nullToBlank(lastName)}`;
-  const contactNumberField = `${primaryPhoneNumber} ${email}`;
+  const memberNameField = name;
+  const contactNumberField = `${phoneNumber || ''} ${email || ''}`;
   const memberSinceField = moment(memberSince).format('YYYY/MM/DD');
 
-  let postalAddressField;
-  if (postalAddress) {
-    postalAddressField =
-      `${postalAddress.address}, ${postalAddress.suburb}, ${postalAddress.state}, ` +
-      `${postalAddress.postcode}, ${postalAddress.country}`;
+  let addressField;
+  if (address) {
+    addressField =
+      `${address.address || ''}, ${address.suburb || ''}, ${address.state || ''}, ` +
+      `${address.postcode || ''}, ${address.country || ''}`;
   } else {
-    postalAddressField = '-';
+    addressField = '-';
   }
 
   let fields;
@@ -45,7 +41,7 @@ const mapFields = ({ firstName, lastName, primaryPhoneNumber, email, memberSince
     fields = {
       memberName: memberNameField,
       contactNumber: contactNumberField,
-      postalAddress: postalAddressField,
+      address: addressField,
       memberSince: memberSinceField,
     };
   } else {
