@@ -4,7 +4,6 @@ const instanceUrl = process.env.INSTANCE_URL;
 const app = instanceUrl || require('../../src/app');
 const request = require('supertest-as-promised');
 const sample = require('lodash').sample;
-const pluck = require('lodash').pluck;
 const integrationTestHelpers = require('./integrationTestHelpers.js');
 const Q = require('q');
 

@@ -1,7 +1,6 @@
 'use strict';
 
 const request = require('supertest-as-promised');
-const _ = require('lodash');
 const integrationTestHelpers = require('./integrationTestHelpers');
 const uuid = require('node-uuid');
 
