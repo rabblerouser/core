@@ -23,6 +23,7 @@ function transformGroups(adapter) {
 const list = () => {
   const query = {
     attributes: [
+      'id',
       'name',
       'description',
     ],

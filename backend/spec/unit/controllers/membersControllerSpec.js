@@ -5,6 +5,7 @@ const membersController = require('../../../src/controllers/membersController');
 const inputValidator = require('../../../src/lib/inputValidator');
 const csvGenerator = require('../../../src/lib/csvGenerator');
 const branchService = require('../../../src/services/branchService');
+const groupService = require('../../../src/services/groupService');
 const streamClient = require('../../../src/streamClient');
 const store = require('../../../src/store');
 const reducers = require('../../../src/reducers/rootReducer');
@@ -26,6 +27,7 @@ describe('membersController', () => {
     sandbox.stub(csvGenerator, 'generateCsv');
     sandbox.stub(inputValidator, 'isValidUUID');
     sandbox.stub(branchService, 'findById');
+    sandbox.stub(groupService, 'list');
   });
 
   afterEach(() => {
@@ -107,6 +109,13 @@ describe('membersController', () => {
   });
 
   describe('editMember', () => {
+    beforeEach(() => {
+      groupService.list.returns([
+        { id: 'first' },
+        { id: 'second' },
+      ]);
+    });
+
     it('parses a valid member, and publishes an event to the stream', () => {
       const address = { address: '47 Spam St', suburb: 'Moriarty', country: 'USA', state: 'NM', postcode: '5678' };
       const validBody = {
@@ -123,6 +132,7 @@ describe('membersController', () => {
 
       const req = { body: validBody };
       memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
       streamClient.publish.returns(Promise.resolve());
 
       return membersController.editMember(req, res).then(() => {
@@ -148,6 +158,7 @@ describe('membersController', () => {
     it('sends a 500 back if the stream publish fails', () => {
       const req = { body: { id: 'hello' } };
       memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
       streamClient.publish.returns(Promise.reject('oh noes!'));
 
       return membersController.editMember(req, res).then(() => {
@@ -158,11 +169,53 @@ describe('membersController', () => {
     it('sends a 400 back if the request is invalid', () => {
       const req = { body: {} };
       memberValidator.isValid.returns(['error!']);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
 
-      membersController.editMember(req, res);
+      return membersController.editMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
+        });
+    });
 
-      expect(res.status).to.have.been.calledWith(400);
-      expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
+    it('sends a 400 back if the request is mostly valid except for the branch id', () => {
+      const req = {
+        body: {
+          id: 'abc-123',
+          name: 'Sherlock Holmes',
+          email: 'sherlock@holmes.co.uk',
+          branchId: 'non-existent-branch',
+          groups: ['first', 'second'],
+        },
+      };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({}));
+
+      return membersController.editMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown branchId'] });
+        });
+    });
+
+    it('send a 400 back if the request is mostly valid except for one of the group IDs', () => {
+      const req = {
+        body: {
+          id: 'abc-123',
+          name: 'Sherlock Holmes',
+          email: 'sherlock@holmes.co.uk',
+          branchId: 'non-existent-branch',
+          groups: ['first', 'second', 'third'],
+        },
+      };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
+
+      return membersController.editMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown groupId third'] });
+        });
     });
   });
 
