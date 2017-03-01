@@ -12,6 +12,7 @@ const login = require('../security/loginHandler');
 const streamClient = require('../streamClient');
 
 const memberActions = require('../actions/memberActions');
+const groupActions = require('../actions/groupActions');
 
 const router = new express.Router();
 
@@ -22,6 +23,7 @@ router.get('/', (req, res) =>
 streamClient.on('member-registered', memberActions.createMember);
 streamClient.on('member-removed', memberActions.deleteMember);
 streamClient.on('member-edited', memberActions.updateMember);
+streamClient.on('group-removed', groupActions.deleteGroup);
 router.post('/events', streamClient.listen());
 
 router.get('/login', (req, res) =>

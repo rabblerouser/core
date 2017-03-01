@@ -22,6 +22,25 @@ const members = (state = initialState, action) => {
       ));
     }
 
+    case 'DELETE_GROUP': {
+      const deletedGroup = action.group.id;
+
+      return state.map(member => {
+        const existingGroups = member.groups;
+        if (!existingGroups.includes(deletedGroup)) {
+          return member;
+        }
+
+        const groupsWithoutDeletedGroup = existingGroups.reduce((result, existingGroup) => (
+          existingGroup === deletedGroup ? result : result.concat(existingGroup)
+        ), []);
+
+        return Object.assign({}, member, {
+          groups: groupsWithoutDeletedGroup,
+        });
+      });
+    }
+
     default:
       return state;
   }

@@ -3,6 +3,7 @@
 const groupService = require('../services/groupService');
 const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
+const streamClient = require('../streamClient');
 
 function list(req, res) {
   return groupService
@@ -45,6 +46,9 @@ function deleteGroup(req, res) {
   }
 
   return groupService.delete(groupId)
+    .then(() => (
+      streamClient.publish('group-removed', { id: groupId })
+    ))
     .then(() => {
       res.sendStatus(200);
     })
