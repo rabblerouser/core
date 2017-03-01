@@ -1,6 +1,6 @@
 const members = require('../../../src/reducers/membersReducer').reducer;
 
-describe.only('membersReducer', () => {
+describe('membersReducer', () => {
   it('is empty by default', () => {
     expect(members(undefined, {})).to.eql([]);
   });
