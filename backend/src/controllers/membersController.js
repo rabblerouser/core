@@ -1,12 +1,15 @@
 'use strict';
 
 const isEmpty = require('lodash').isEmpty;
-const memberService = require('../services/memberService');
+const uuid = require('node-uuid');
+const moment = require('moment');
 const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
 const logger = require('../lib/logger');
 const streamClient = require('../streamClient');
+const store = require('../store');
+const reducers = require('../reducers/rootReducer');
 
 function isAddressEmpty(address) {
   return !address ||
@@ -15,7 +18,7 @@ function isAddressEmpty(address) {
             isEmpty(address.postcode));
 }
 
-function residentialAddress(input) {
+function parseAddress(input) {
   if (isAddressEmpty(input)) {
     return null;
   }
@@ -26,43 +29,6 @@ function residentialAddress(input) {
     postcode: input.postcode,
     state: input.state,
     country: input.country,
-  };
-}
-
-function postalAddress(input) {
-  if (isAddressEmpty(input)) {
-    return null;
-  }
-
-  return {
-    address: input.address,
-    suburb: input.suburb,
-    postcode: input.postcode,
-    state: input.state,
-    country: input.country,
-  };
-}
-
-function blankToNull(input) {
-  return isEmpty(input) ? null : input;
-}
-
-function parseMember(req) {
-  return {
-    id: req.body.id,
-    firstName: req.body.firstName,
-    lastName: blankToNull(req.body.lastName),
-    email: req.body.email,
-    gender: req.body.gender,
-    primaryPhoneNumber: req.body.primaryPhoneNumber,
-    secondaryPhoneNumber: req.body.secondaryPhoneNumber,
-    residentialAddress: residentialAddress(req.body.residentialAddress),
-    postalAddress: postalAddress(req.body.postalAddress),
-    membershipType: req.body.membershipType,
-    branchId: req.body.branchId,
-    additionalInfo: req.body.additionalInfo,
-    notes: req.body.notes,
-    groups: req.body.groups,
   };
 }
 
@@ -73,8 +39,17 @@ function handleError(res) {
   };
 }
 
-const register = (req, res) => {
-  const newMember = parseMember(req);
+const registerMember = (req, res) => {
+  const newMember = {
+    id: uuid.v4(),
+    memberSince: moment(),
+    name: req.body.name,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+    address: parseAddress(req.body.address),
+    additionalInfo: req.body.additionalInfo,
+    branchId: req.body.branchId,
+  };
   const validationErrors = memberValidator.isValid(newMember);
 
   if (validationErrors.length > 0) {
@@ -87,43 +62,18 @@ const register = (req, res) => {
     .catch(handleError(res));
 };
 
-function list(req, res) {
-  if (!req.user) {
-    logger.error('[error-members-controller]', { error: 'No session found in the request' });
-    res.sendStatus(500);
-    return undefined;
-  }
-
-  return memberService
-    .list(req.params.branchId)
-    .then(members => res.status(200).json({ members }))
-    .catch(handleError(res));
-}
-
-function exportBranchMembers(req, res) {
-  return memberService.list(req.params.branchId)
-    .then(members => {
-      res.set({
-        'Content-Type': 'application/csv',
-        'Content-Disposition': 'attachment; filename="members.csv"',
-      });
-      const exportFields = [
-        'id',
-        'firstName',
-        'lastName',
-        'primaryPhoneNumber',
-        'secondaryPhoneNumber',
-        'email',
-        'membershipType',
-        'memberSince',
-        'branchId',
-      ];
-      res.send(csvGenerator.generateCsv(exportFields, members));
-    });
-}
-
-function edit(req, res) {
-  const member = parseMember(req);
+const editMember = (req, res) => {
+  const member = {
+    id: req.body.id,
+    name: req.body.name,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+    address: parseAddress(req.body.address),
+    additionalInfo: req.body.additionalInfo,
+    notes: req.body.notes,
+    groups: req.body.groups,
+    branchId: req.body.branchId,
+  };
 
   const validationErrors = memberValidator.isValid(member);
 
@@ -132,13 +82,34 @@ function edit(req, res) {
     return res.status(400).json({ errors: validationErrors });
   }
 
-  return memberService
-    .edit(member)
-    .then(updatedMember => res.status(200).json(updatedMember))
+  return streamClient.publish('member-edited', member)
+    .then(() => res.status(201).json({}))
     .catch(handleError(res));
-}
+};
 
-function deleteMember(req, res) {
+const getBranchMembers = branchId => {
+  if (!branchId) {
+    return [];
+  }
+  return reducers.getMembers(store.getState()).filter(member => member.branchId === branchId);
+};
+
+const listBranchMembers = (req, res) => {
+  const members = getBranchMembers(req.params.branchId);
+  res.status(200).json({ members });
+};
+
+const exportBranchMembers = (req, res) => {
+  const members = getBranchMembers(req.params.branchId);
+  res.set({
+    'Content-Type': 'application/csv',
+    'Content-Disposition': 'attachment; filename="members.csv"',
+  });
+  const exportFields = ['id', 'name', 'phoneNumber', 'email', 'memberSince', 'branchId'];
+  res.send(csvGenerator.generateCsv(exportFields, members));
+};
+
+const deleteMember = (req, res) => {
   const memberId = req.params.memberId;
 
   if (!(inputValidator.isValidUUID(memberId))) {
@@ -146,21 +117,15 @@ function deleteMember(req, res) {
     return res.sendStatus(400);
   }
 
-  return memberService.delete(memberId)
-    .then(() => {
-      res.sendStatus(200);
-    })
-    .catch(error => {
-      logger.error(`Failed deleting the member with memberId: ${memberId}}`, error);
-      res.sendStatus(500);
-    });
-}
-
+  return streamClient.publish('member-removed', { id: memberId })
+    .then(() => res.sendStatus(200))
+    .catch(handleError(res));
+};
 
 module.exports = {
-  register,
-  list,
+  registerMember,
+  listBranchMembers,
   exportBranchMembers,
-  edit,
-  delete: deleteMember,
+  editMember,
+  deleteMember,
 };

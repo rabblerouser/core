@@ -6,15 +6,13 @@ describe('memberValidator', () => {
   describe('isValid', () => {
     const validMember = {
       branchId: 'rururu-we-ew-ew',
-      firstName: 'Sherlock',
+      name: 'Sherlock Holmes',
       email: 'sherlock@holmes.co.uk',
-      gender: 'horse radish',
     };
 
     const optionalFields = {
-      lastName: 'Holmes',
       additionalInfo: 'More info for you!',
-      primaryPhoneNumber: '+263-64-8581786',
+      phoneNumber: '+263-64-8581786',
       notes: 'Some extra detail',
     };
 
@@ -37,11 +35,11 @@ describe('memberValidator', () => {
     it('should return array of errors when missing data', () => {
       const invalidMember = {
         email: '',
-        primaryPhoneNumber: '',
-        firstName: '',
+        phoneNumber: '',
+        name: '',
         branchId: '',
       };
-      const expectedErrors = ['email', 'firstName', 'branchId'];
+      const expectedErrors = ['email', 'name', 'branchId'];
       expect(memberValidator.isValid(invalidMember)).to.have.members(expectedErrors);
     });
   });

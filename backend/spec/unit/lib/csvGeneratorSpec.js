@@ -20,9 +20,9 @@ describe('csvGenerator', () => {
   });
 
   it('handles commas in the data', () => {
-    const objects = [{ phone: '123', 'lastname,firstname, middlename': 'Smith, John James' }];
-    expect(csvGenerator.generateCsv(['lastname,firstname, middlename', 'phone'], objects)).to.eql(
-      'lastname firstname middlename,phone\n' +
+    const objects = [{ phone: '123', 'surname,givenname, middlename': 'Smith, John James' }];
+    expect(csvGenerator.generateCsv(['surname,givenname, middlename', 'phone'], objects)).to.eql(
+      'surname givenname middlename,phone\n' +
       'Smith John James,123'
     );
   });

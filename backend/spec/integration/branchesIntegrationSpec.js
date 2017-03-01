@@ -57,11 +57,9 @@ describe('Branches Integration Test', () => {
 
     return integrationTestHelpers.resetDatabase()
         .then(integrationTestHelpers.createBranch)
-        .tap(integrationTestHelpers.createBranchAdmin)
-        .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-        .then(branch => {
-          browserState.branch = branch;
-        });
+        .then(branch => { browserState.branch = branch; return branch; })
+        .then(integrationTestHelpers.createBranchAdmin)
+        .then(integrationTestHelpers.authenticateBranchAdmin(agent));
   });
 
   afterEach(() => {

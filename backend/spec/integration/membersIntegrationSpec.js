@@ -22,15 +22,15 @@ function editMember(member, groups) {
 
 function hasMembersList(res) {
   const response = res.body;
-  expect(response.members).not.to.be.null;
+  expect(response.members).not.to.eql(null);
   expect(response.members.length).to.equal(3);
 
   const randomMember = sample(response.members);
-  expect(randomMember.postalAddress.address).not.to.be.null;
-  expect(randomMember.postalAddress.suburb).not.to.be.null;
-  expect(randomMember.postalAddress.city).not.to.be.null;
-  expect(randomMember.postalAddress.postcode).not.to.be.null;
-  expect(randomMember.postalAddress.country).not.to.be.null;
+  expect(randomMember.address.address).not.to.eql(null);
+  expect(randomMember.address.suburb).not.to.eql(null);
+  expect(randomMember.address.city).not.to.eql(null);
+  expect(randomMember.address.postcode).not.to.eql(null);
+  expect(randomMember.address.country).not.to.eql(null);
 }
 
 const getBranchId = someAgent => function () {
@@ -41,21 +41,21 @@ const getBranchId = someAgent => function () {
 
 const makeMemberWithNoAddress = branchId => {
   const member = integrationTestHelpers.makeMember(branchId);
-  member.residentialAddress = null;
-  member.postalAddress = null;
+  member.address = null;
 
   return member;
 };
 
 const makeInvalidMember = () => {
   const member = integrationTestHelpers.makeMember();
-  member.firstName = null;
+  member.name = null;
   return member;
 };
 
 function setState(obj, key) {
   return function (newState) {
     obj[key] = newState;
+    return newState;
   };
 }
 
@@ -139,59 +139,45 @@ describe('MemberIntegrationTests', () => {
   describe('Edit member', () => {
     beforeEach(() => integrationTestHelpers.resetDatabase()
             .then(integrationTestHelpers.createBranch)
-            .tap(setState(browserState, 'branch'))
-            .tap(integrationTestHelpers.createBranchAdmin)
+            .then(setState(browserState, 'branch'))
+            .then(branch => { integrationTestHelpers.createBranchAdmin(branch); return branch; })
             .then(integrationTestHelpers.createMembers(agent, 1))
             .then(() => Q.all([
               integrationTestHelpers.createGroupInBranch(browserState.branch.id),
               integrationTestHelpers.createGroupInBranch(browserState.branch.id),
             ]))
-            .tap(setState(browserState, 'groups'))
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
+            .then(setState(browserState, 'groups'))
+            .then(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then(getMembers(agent, browserState))
-            .tap(setState(browserState, 'members')));
+            .then(setState(browserState, 'members')));
 
-    it('should add groups to a member', () => {
-      const member = sample(browserState.members);
-      const groups = pluck(browserState.groups, 'groupId');
-      const branchId = browserState.branch.id;
-
-      return agent.put(`/branches/${branchId}/members/${member.id}`)
-                .set('Content-Type', 'application/json')
-                .send(editMember(member, groups))
-                .expect(200)
-                .expect(res => {
-                  const response = res.body;
-                  expect(response.groups).not.to.be.null;
-                  expect(response.groups.length).to.equal(2);
-                });
-    });
-
-    it('should edit the member with the new values', () => {
+    xit('should edit the member with the new values', () => {
+      // Test excluded until we get better docker automation of a local kinesis instance
       const member = sample(browserState.members);
       const branchId = browserState.branch.id;
 
-      member.firstName = 'Super Test';
+      member.name = 'Super Test';
 
       return agent.put(`/branches/${branchId}/members/${member.id}`)
                 .set('Content-Type', 'application/json')
                 .send(editMember(member, []))
                 .expect(200)
                 .expect(response => {
-                  expect(response.body.firstName).to.equal('Super Test');
+                  expect(response.body.name).to.equal('Super Test');
                 });
     });
 
-    it('should add a postal address to a member without one', () => {
+    xit('should add an address to a member without one', () => {
+      // Test excluded until we get better docker automation of a local kinesis instance
       const member = sample(browserState.members);
-      const newPostalAddress = {
+      const newAddress = {
         address: 'Foo St',
         suburb: 'Bar',
         state: 'VIC',
         postcode: '0000',
         country: 'Baz',
       };
-      member.postalAddress = Object.assign({}, newPostalAddress);
+      member.address = Object.assign({}, newAddress);
 
       const branchId = browserState.branch.id;
 
@@ -200,12 +186,12 @@ describe('MemberIntegrationTests', () => {
                 .send(editMember(member, []))
                 .expect(200)
                 .expect(response => {
-                  const respPostalAddress = response.body.postalAddress;
-                  expect(respPostalAddress.address).to.equal(newPostalAddress.address);
-                  expect(respPostalAddress.suburb).to.equal(newPostalAddress.suburb);
-                  expect(respPostalAddress.state).to.equal(newPostalAddress.state);
-                  expect(respPostalAddress.postcode).to.equal(newPostalAddress.postcode);
-                  expect(respPostalAddress.country).to.equal(newPostalAddress.country);
+                  const respAddress = response.body.address;
+                  expect(respAddress.address).to.equal(newAddress.address);
+                  expect(respAddress.suburb).to.equal(newAddress.suburb);
+                  expect(respAddress.state).to.equal(newAddress.state);
+                  expect(respAddress.postcode).to.equal(newAddress.postcode);
+                  expect(respAddress.country).to.equal(newAddress.country);
                 });
     });
 
@@ -213,7 +199,7 @@ describe('MemberIntegrationTests', () => {
       const member = sample(browserState.members);
       const branchId = browserState.branch.id;
 
-      member.firstName = null;
+      member.name = null;
 
       return agent.put(`/branches/${branchId}/members/${member.id}`)
                 .set('Content-Type', 'application/json')

@@ -11,27 +11,6 @@ function list(req, res) {
     .catch(() => res.sendStatus(500));
 }
 
-function addMembers(req, res) {
-  const groupId = req.params.groupId;
-  const branchId = req.params.branchId;
-
-  const memberIds = req.body.memberIds || [];
-
-  if (memberIds.length === 0) {
-    res.sendStatus(400);
-    return null;
-  }
-
-  return groupService.addMembers(groupId, memberIds)
-    .then(() => {
-      res.sendStatus(200);
-    })
-    .catch(error => {
-      logger.error(`Failed adding a member to groupId: ${groupId}, branchId: ${branchId}, members: ${memberIds.join()}`, error);
-      res.sendStatus(500);
-    });
-}
-
 function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
@@ -104,7 +83,6 @@ function update(req, res) {
 
 module.exports = {
   list,
-  addMembers,
   create,
   delete: deleteGroup,
   update,

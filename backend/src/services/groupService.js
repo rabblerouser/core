@@ -6,7 +6,6 @@ const models = require('../models');
 
 const Group = models.Group;
 const Branch = models.Branch;
-const GroupMembers = models.GroupMembers;
 
 function handleError(logMessage, userMessage) {
   return error => {
@@ -34,23 +33,6 @@ const list = () => {
     .then(transformGroups(transformGroup))
     .catch(handleError('[groups-list-error]', 'An error has occurred while fetching groups'));
 };
-
-function addMembers(groupId, memberIds) {
-  const addMembersToGroup = memberIds.map(memberId => ({
-    groupId,
-    memberId,
-  }));
-
-  return GroupMembers
-    .bulkCreate(addMembersToGroup)
-    .tap(() =>
-      logger.info(
-        '[add-member-to-group]',
-        `Sucessfully added members: ${memberIds.join(',')} to group: ${groupId}`
-      )
-    )
-    .catch(handleError('[add-member-to-group-failed]', 'An error has occurred while adding members to groups'));
-}
 
 function addGroupToBranch(branch, group) {
   return branch
@@ -158,7 +140,6 @@ function update(input, id) {
 
 module.exports = {
   list,
-  addMembers,
   create,
   delete: deleteGroup,
   update,

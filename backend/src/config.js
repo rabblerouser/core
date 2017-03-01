@@ -37,6 +37,12 @@ const devConfig = Object.assign({}, baseConfig, {
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
 });
 
+const testConfig = Object.assign({}, devConfig, {
+  eventStream: Object.assign({}, baseConfig.eventStream, {
+    archiveBucket: '',
+  }),
+});
+
 const prodConfig = Object.assign({}, baseConfig, {
   session: Object.assign({}, baseConfig.session, {
     proxy: true,
@@ -45,4 +51,10 @@ const prodConfig = Object.assign({}, baseConfig, {
   logFormat: '[:date[iso]] :remote-addr - :req[user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
 });
 
-module.exports = process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
+const pickConfig = () => {
+  if (process.env.NODE_ENV === 'production') { return prodConfig; }
+  if (process.env.NODE_ENV === 'test') { return testConfig; }
+  return devConfig;
+};
+
+module.exports = pickConfig();
