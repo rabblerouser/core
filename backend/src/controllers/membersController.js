@@ -3,6 +3,7 @@
 const isEmpty = require('lodash').isEmpty;
 const uuid = require('node-uuid');
 const moment = require('moment');
+const branchService = require('../services/branchService');
 const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
@@ -52,14 +53,22 @@ const registerMember = (req, res) => {
   };
   const validationErrors = memberValidator.isValid(newMember);
 
-  if (validationErrors.length > 0) {
-    logger.info('[create-new-member-validation-error]', { errors: validationErrors });
-    return res.status(400).json({ errors: validationErrors });
-  }
+  return branchService.findById(newMember.branchId)
+    .then(branch => {
+      if (!branch.id) {
+        validationErrors.push('Unknown branchId');
+      }
+    })
+    .then(() => {
+      if (validationErrors.length > 0) {
+        logger.info('[create-new-member-validation-error]', { errors: validationErrors });
+        return res.status(400).json({ errors: validationErrors });
+      }
 
-  return streamClient.publish('member-registered', newMember)
-    .then(() => res.status(201).json({}))
-    .catch(handleError(res));
+      return streamClient.publish('member-registered', newMember)
+        .then(() => res.status(201).json({}))
+        .catch(handleError(res));
+    });
 };
 
 const editMember = (req, res) => {

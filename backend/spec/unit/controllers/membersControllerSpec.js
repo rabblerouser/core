@@ -4,6 +4,7 @@ const memberValidator = require('../../../src/lib/memberValidator');
 const membersController = require('../../../src/controllers/membersController');
 const inputValidator = require('../../../src/lib/inputValidator');
 const csvGenerator = require('../../../src/lib/csvGenerator');
+const branchService = require('../../../src/services/branchService');
 const streamClient = require('../../../src/streamClient');
 const store = require('../../../src/store');
 const reducers = require('../../../src/reducers/rootReducer');
@@ -24,6 +25,7 @@ describe('membersController', () => {
     sandbox.stub(reducers, 'getMembers');
     sandbox.stub(csvGenerator, 'generateCsv');
     sandbox.stub(inputValidator, 'isValidUUID');
+    sandbox.stub(branchService, 'findById');
   });
 
   afterEach(() => {
@@ -44,6 +46,7 @@ describe('membersController', () => {
 
       const req = { body: validBody };
       memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
       streamClient.publish.returns(Promise.resolve());
 
       return membersController.registerMember(req, res).then(() => {
@@ -65,6 +68,7 @@ describe('membersController', () => {
     it('sends a 500 back if the stream publish fails', () => {
       const req = { body: {} };
       memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
       streamClient.publish.returns(Promise.reject('oh noes!'));
 
       return membersController.registerMember(req, res).then(() => {
@@ -75,11 +79,30 @@ describe('membersController', () => {
     it('sends a 400 back if the request is invalid', () => {
       const req = { body: {} };
       memberValidator.isValid.returns(['error!']);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
 
-      membersController.registerMember(req, res);
+      return membersController.registerMember(req, res).then(() => {
+        expect(res.status).to.have.been.calledWith(400);
+        expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
+      });
+    });
 
-      expect(res.status).to.have.been.calledWith(400);
-      expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
+    it('send a 400 back if the request is mostly valid except for the branch id', () => {
+      const req = {
+        body: {
+          name: 'Sherlock Holmes',
+          email: 'sherlock@holmes.co.uk',
+          branchId: 'non-existent-branch',
+        },
+      };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({}));
+
+      return membersController.registerMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown branchId'] });
+        });
     });
   });
 
