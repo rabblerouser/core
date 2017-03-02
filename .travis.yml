@@ -10,3 +10,8 @@ services:
 install: npm install
 
 script: ./go.sh npm test
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      bin/docker-build-and-deploy.sh
+    fi
