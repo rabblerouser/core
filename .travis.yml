@@ -1,10 +1,14 @@
-language: javascript
+sudo: required
+
+language: node_js
+node_js:
+  - "6"
 
 services:
   - docker
 
 install:
-  - ./go.sh npm install
-  - ./go.sh npm run build
+  - npm install
+  - npm run build
 
 script: ./go.sh npm test
