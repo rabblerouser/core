@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Usage examples:
 # `./go.sh` to get an interactive shell in a container for development
