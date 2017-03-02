@@ -1,0 +1,6 @@
+dependencies:
+  override:
+    - ./go.sh npm install
+test:
+  override:
+    - ./go.sh npm test
