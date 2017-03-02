@@ -22,6 +22,8 @@ services:
       S3_ENDPOINT: http://s3:4569
       LISTENER_AUTH_TOKEN: secret
       ARCHIVE_BUCKET: rr-event-archive
+      STREAM_NAME: rabblerouser_stream
+      TEST_STREAM_NAME: test_rabblerouser_stream
     command: sleep 2147483647 # Sleep forever, we'll shell into the container later
     stdin_open: true
     tty: true
@@ -46,6 +48,7 @@ services:
       KINESIS_ENDPOINT: http://kinesis:4567
       LISTENER_ENDPOINT: http://core:3000/events
       LISTENER_AUTH_TOKEN: secret
+      STREAM_NAME: rabblerouser_stream
   event-archiver:
     image: rabblerouser/event-archiver
     depends_on:
@@ -56,6 +59,7 @@ services:
     environment:
       KINESIS_ENDPOINT: http://kinesis:4567
       S3_ENDPOINT: http://s3:4569
+      STREAM_NAME: rabblerouser_stream
       ARCHIVE_BUCKET: rr-event-archive
   kinesis:
     image: instructure/kinesalite

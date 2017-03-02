@@ -1,5 +1,8 @@
 'use strict';
 
+/* eslint no-console: off */
+/* eslint import/no-extraneous-dependencies: off */
+
 // This file runs whenever the backend is about to start.
 // It makes sure that there's at least one network admin and branch in the database
 // This is the minimum data needed for the app to function correctly
@@ -50,12 +53,13 @@ const createStream = () => {
     secretAccessKey: 'ALSO FAKE',
   });
 
-  return kinesis.createStream({ StreamName: 'rabblerouser_stream', ShardCount: 1 }).promise().then(
-    () => console.log('rabblerouser_stream created'),
+  const StreamName = process.env.STREAM_NAME;
+  return kinesis.createStream({ StreamName, ShardCount: 1 }).promise().then(
+    () => console.log(`${StreamName} created`),
     err => {
       // Swallow these errors, but re-throw all others
       if (err.message.includes('already exists')) {
-        console.log('Stream already exists');
+        console.log(`${StreamName} already exists`);
         return;
       }
       throw new Error(`Could not create stream: ${err.message}`);

@@ -8,10 +8,10 @@ const integrationTestHelpers = require('./integrationTestHelpers.js');
 const Q = require('q');
 
 function getMembers(someAgent, state) {
-  return function () {
-    return someAgent.get(`/branches/${state.branch.id}/members`)
-        .then(response => response.body.members);
-  };
+  return () => (
+    someAgent.get(`/branches/${state.branch.id}/members`)
+      .then(response => response.body.members)
+  );
 }
 
 function editMember(member, groups) {
@@ -32,11 +32,11 @@ function hasMembersList(res) {
   expect(randomMember.address.country).not.to.eql(null);
 }
 
-const getBranchId = someAgent => function () {
-  return someAgent
-        .get('/branches')
-        .then(response => sample(response.body.branches).id);
-};
+const getBranchId = someAgent => () => (
+  someAgent
+    .get('/branches')
+    .then(response => sample(response.body.branches).id)
+);
 
 const makeMemberWithNoAddress = branchId => {
   const member = integrationTestHelpers.makeMember(branchId);
@@ -52,7 +52,7 @@ const makeInvalidMember = () => {
 };
 
 function setState(obj, key) {
-  return function (newState) {
+  return newState => {
     obj[key] = newState;
     return newState;
   };
@@ -75,36 +75,31 @@ describe('MemberIntegrationTests', () => {
               browserState.branchId = branchId;
             }));
 
-    xit('should return 200 and a created member when the input is valid', () =>
-            // Test excluded until we get better docker automation of a local kinesis instance
-             agent
-                .post('/register')
-                .set('Content-Type', 'application/json')
-                .set('Accept', 'application/json')
-                .send(integrationTestHelpers.makeMember(browserState.branchId))
-                .expect(200));
+    it('should return 201 when the input is valid', () => (
+      agent.post('/register')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(integrationTestHelpers.makeMember(browserState.branchId))
+        .expect(201))
+    );
 
-    xit('should safely create a member with dodgy information', () => {
-            // Test excluded until we get better docker automation of a local kinesis instance
+    it('should safely create a member with dodgy information', () => {
       const dodgyMember = integrationTestHelpers.makeMember(browserState.branchId);
       dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
 
-      return agent
-                .post('/register')
-                .set('Content-Type', 'application/json')
-                .set('Accept', 'application/json')
-                .send(dodgyMember)
-                .expect(200);
+      return agent.post('/register')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(dodgyMember)
+        .expect(201);
     });
 
-    xit('should return 200 when creating a member with no address', () =>
-            // Test excluded until we get better docker automation of a local kinesis instance
-             agent
-            .post('/register')
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
-            .send(makeMemberWithNoAddress(browserState.branchId))
-            .expect(200));
+    it('should return 200 when creating a member with no address', () =>
+      agent.post('/register')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(makeMemberWithNoAddress(browserState.branchId))
+        .expect(201));
 
     it('should return 400 if the input is null', () => agent
             .post('/register')
@@ -150,24 +145,19 @@ describe('MemberIntegrationTests', () => {
             .then(getMembers(agent, browserState))
             .then(setState(browserState, 'members')));
 
-    xit('should edit the member with the new values', () => {
-      // Test excluded until we get better docker automation of a local kinesis instance
+    it('should successfully edit the member', () => {
       const member = sample(browserState.members);
       const branchId = browserState.branch.id;
 
       member.name = 'Super Test';
 
       return agent.put(`/branches/${branchId}/members/${member.id}`)
-                .set('Content-Type', 'application/json')
-                .send(editMember(member, []))
-                .expect(200)
-                .expect(response => {
-                  expect(response.body.name).to.equal('Super Test');
-                });
+        .set('Content-Type', 'application/json')
+        .send(editMember(member, []))
+        .expect(201);
     });
 
-    xit('should add an address to a member without one', () => {
-      // Test excluded until we get better docker automation of a local kinesis instance
+    it('should add an address to a member without one', () => {
       const member = sample(browserState.members);
       const newAddress = {
         address: 'Foo St',
@@ -181,17 +171,9 @@ describe('MemberIntegrationTests', () => {
       const branchId = browserState.branch.id;
 
       return agent.put(`/branches/${branchId}/members/${member.id}`)
-                .set('Content-Type', 'application/json')
-                .send(editMember(member, []))
-                .expect(200)
-                .expect(response => {
-                  const respAddress = response.body.address;
-                  expect(respAddress.address).to.equal(newAddress.address);
-                  expect(respAddress.suburb).to.equal(newAddress.suburb);
-                  expect(respAddress.state).to.equal(newAddress.state);
-                  expect(respAddress.postcode).to.equal(newAddress.postcode);
-                  expect(respAddress.country).to.equal(newAddress.country);
-                });
+        .set('Content-Type', 'application/json')
+        .send(editMember(member, []))
+        .expect(201);
     });
 
     it('should respond 400 if invalid input', () => {

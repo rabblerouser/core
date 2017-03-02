@@ -8,10 +8,10 @@ const instanceUrl = process.env.INSTANCE_URL;
 const app = instanceUrl || require('../../src/app');
 
 function getMembersForGroup(someAgent, branchGroup) {
-  return function () {
-    return someAgent.get(`/branches/${branchGroup.branchId}/members`)
-        .then(response => response.body.members);
-  };
+  return () => (
+    someAgent.get(`/branches/${branchGroup.branchId}/members`)
+      .then(response => response.body.members)
+  );
 }
 
 function makeGroup() {
@@ -80,14 +80,12 @@ describe('Groups Integration Test', () => {
         })
     ));
 
-    xit('should return a 200 when the group is successfully deleted', () => (
-      // Test excluded until we get better docker automation of a local kinesis instance
+    it('should return a 200 when the group is successfully deleted', () => (
       agent.delete(`/branches/${browserState.branchGroup.branchId}/groups/${browserState.branchGroup.groupId}`)
         .expect(200)
     ));
 
-    xit('should return a 200 when a group with members is deleted', () => (
-      // Test excluded until we get better docker automation of a local kinesis instance
+    it('should return a 200 when a group with members is deleted', () => (
       integrationTestHelpers.createMembers(agent, 2)(browserState.branch)
         .then(getMembersForGroup(agent, browserState.branchGroup))
         .then(integrationTestHelpers.addMembersToGroup(agent, browserState.branchGroup))
