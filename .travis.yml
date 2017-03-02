@@ -5,6 +5,11 @@ language: javascript
 services:
   - docker
 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+  - docker --version # for verification
+
 install:
   - ./go.sh npm install
   - ./go.sh npm run build
