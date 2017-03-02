@@ -1,0 +1,12 @@
+sudo: required
+
+language: javascript
+
+services:
+  - docker
+
+install:
+  - ./go.sh npm install
+  - ./go.sh npm run build
+
+script: ./go.sh npm test
