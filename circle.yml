@@ -1,3 +1,6 @@
+machine:
+  services:
+    - docker
 dependencies:
   override:
     - ./go.sh npm install
