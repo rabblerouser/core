@@ -1,8 +1,13 @@
 machine:
+  pre:
+    # https://discuss.circleci.com/t/docker-1-10-0-is-available-beta/2100
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+    - pip install docker-compose==1.8.0
   services:
     - docker
-  node:
-    version: 6
+dependencies:
+  override:
+    - ./go.sh npm install
 test:
   override:
     - ./go.sh npm test
