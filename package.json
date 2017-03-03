@@ -1,5 +1,5 @@
 {
-  "name": "rabblerouser-core",
+  "name": "@rabblerouser/core",
   "version": "0.0.0",
   "description": "A pluggable, extensible membership database for community organising",
   "license": "AGPL-3.0",

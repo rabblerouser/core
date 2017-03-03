@@ -1,5 +1,5 @@
 {
-  "name": "rabblerouser-core-frontend",
+  "name": "@rabblerouser/core-frontend",
   "version": "0.1.0",
   "dependencies": {
     "abab": {

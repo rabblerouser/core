@@ -1,4 +1,4 @@
-# rabblerouser-core-e2e
+# Rabble Rouser Core E2E Tests
 
 End to end tests for Rabble Rouser - A pluggable, extensible membership database for community organising
 

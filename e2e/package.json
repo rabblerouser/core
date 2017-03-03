@@ -1,5 +1,5 @@
 {
-  "name": "rabblerouser-core-e2e",
+  "name": "@rabblerouser/core-e2e",
   "version": "0.1.0",
   "engines": {
     "node": "6.5.0"
@@ -16,12 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/rabblerouser/rabblerouser-core.git"
+    "url": "git+ssh://git@github.com/rabblerouser/core.git"
   },
   "bugs": {
-    "url": "https://github.com/rabblerouser/rabblerouser-core/issues"
+    "url": "https://github.com/rabblerouser/core/issues"
   },
-  "homepage": "https://github.com/rabblerouser/rabblerouser-core#readme",
+  "homepage": "https://github.com/rabblerouser/core#readme",
   "babel": {
     "presets": [
       "es2015"

@@ -1,6 +1,6 @@
-# rabblerouser-core
+# Rabble Rouser Core
 
-[![Build Status](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master/build_image)](https://snap-ci.com/rabblerouser/rabblerouser-core/branch/master)
+[![Build Status](https://travis-ci.org/rabblerouser/core.svg?branch=master)](https://travis-ci.org/rabblerouser/core)
 
 Rabble Rouser core is the membership database component of the Rabble Rouser ecosystem. It provides a member sign up form
 and an administrative backend which allows editing of members.
@@ -16,7 +16,7 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 2. Clone the project:
 
-        git clone https://github.com/rabblerouser/rabblerouser-core.git
+        git clone https://github.com/rabblerouser/core.git
 
 3. Start a Docker container to develop in (this also starts dependent services):
 

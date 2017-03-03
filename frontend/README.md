@@ -1,4 +1,4 @@
-# rabblerouser-core-frontend
+# Rabble Rouser Core Frontend
 
 Frontend for Rabble Rouser - A pluggable, extensible membership database for community organising
 
