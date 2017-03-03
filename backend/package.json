@@ -31,6 +31,7 @@
     ]
   },
   "dependencies": {
+    "@rabblerouser/stream-client": "^0.8.2",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.0",
     "compression": "^1.6.1",
@@ -51,7 +52,6 @@
     "passport-local": "^1.0.0",
     "pg": "^4.5.4",
     "q": "^1.4.1",
-    "rabblerouser-stream-client": "^0.8.2",
     "readline": "^1.3.0",
     "redux": "^3.6.0",
     "sequelize": "^3.22.0",

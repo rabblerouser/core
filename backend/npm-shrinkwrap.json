@@ -2,6 +2,11 @@
   "name": "rabblerouser-core-backend",
   "version": "0.1.0",
   "dependencies": {
+    "@rabblerouser/stream-client": {
+      "version": "0.8.2",
+      "from": "@rabblerouser/stream-client@latest",
+      "resolved": "https://registry.npmjs.org/@rabblerouser/stream-client/-/stream-client-0.8.2.tgz"
+    },
     "abbrev": {
       "version": "1.0.9",
       "from": "abbrev@>=1.0.0 <2.0.0",
@@ -1724,11 +1729,6 @@
       "version": "0.2.0",
       "from": "querystring@0.2.0",
       "resolved": "https://registry.npmjs.org/querystring/-/querystring-0.2.0.tgz"
-    },
-    "rabblerouser-stream-client": {
-      "version": "0.8.2",
-      "from": "rabblerouser-stream-client@latest",
-      "resolved": "https://registry.npmjs.org/rabblerouser-stream-client/-/rabblerouser-stream-client-0.8.2.tgz"
     },
     "random-bytes": {
       "version": "1.0.0",
