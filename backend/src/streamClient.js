@@ -1,4 +1,4 @@
-const createClient = require('rabblerouser-stream-client');
+const createClient = require('@rabblerouser/stream-client');
 const config = require('./config');
 
 const streamClientSettings = {
