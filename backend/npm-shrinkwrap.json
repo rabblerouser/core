@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "dependencies": {
     "@rabblerouser/stream-client": {
-      "version": "0.8.2",
+      "version": "0.8.7",
       "from": "@rabblerouser/stream-client@latest",
-      "resolved": "https://registry.npmjs.org/@rabblerouser/stream-client/-/stream-client-0.8.2.tgz"
+      "resolved": "https://registry.npmjs.org/@rabblerouser/stream-client/-/stream-client-0.8.7.tgz"
     },
     "abbrev": {
       "version": "1.0.9",
@@ -128,6 +128,11 @@
       "version": "1.1.0",
       "from": "beeper@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/beeper/-/beeper-1.1.0.tgz"
+    },
+    "big.js": {
+      "version": "3.1.3",
+      "from": "big.js@>=3.1.3 <4.0.0",
+      "resolved": "https://registry.npmjs.org/big.js/-/big.js-3.1.3.tgz"
     },
     "bluebird": {
       "version": "3.4.6",
