@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "dependencies": {
     "@rabblerouser/stream-client": {
-      "version": "0.8.7",
+      "version": "0.8.8",
       "from": "@rabblerouser/stream-client@latest",
-      "resolved": "https://registry.npmjs.org/@rabblerouser/stream-client/-/stream-client-0.8.7.tgz"
+      "resolved": "https://registry.npmjs.org/@rabblerouser/stream-client/-/stream-client-0.8.8.tgz"
     },
     "abbrev": {
       "version": "1.0.9",
