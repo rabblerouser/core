@@ -5,13 +5,6 @@ const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
 const streamClient = require('../streamClient');
 
-function list(req, res) {
-  return groupService
-    .list()
-    .then(groups => res.status(200).json({ groups }))
-    .catch(() => res.sendStatus(500));
-}
-
 function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
@@ -86,7 +79,6 @@ function update(req, res) {
 }
 
 module.exports = {
-  list,
   create,
   delete: deleteGroup,
   update,
