@@ -18,7 +18,7 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
         git clone https://github.com/rabblerouser/core.git
 
-3. Start a Docker container to develop in (this also starts dependent services):
+3. Start a Docker container to develop in (this also starts containers for dependent services):
 
         ./go.sh # For Mac/Linux
         # Windows not supported yet :(
@@ -73,14 +73,12 @@ This repository is split into these sub-directories:
  * `frontend`: The frontend React.js web app
  * `backend`: The backend node.js API
  * `e2e`: End-to-end tests built with casperjs (broken right now, ignore them)
- * `provisioning`: Ansible scripts for setting up a dev or CI environment
 
 The frontend, backend, and E2E tests are all written in JavaScript, so each one has a `package.json` file for
 dependencies and tasks. There is also another `package.json` at the top-level of the repo, which mainly orchestrates the
 tasks contained within the sub-projects.
 
-Each of these directories also has its own README file, with more instructions for how to work on its code, or configure
-extra features (e.g. sending emails).
+Each of these directories also has its own README file, with more instructions for how to work on its code.
 
 ## Linting
 

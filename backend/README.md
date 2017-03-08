@@ -2,23 +2,28 @@
 
 Backend for Rabble Rouser - A pluggable, extensible membership database for community organising
 
-*Note: All commands mentioned below should be run from within this directory.*
+## Read this first
+Rabble Rouser has a microservice architecture, so we provide a fully [Dockerised](https://www.docker.com/) development
+environment. If you have no idea what that means, that's ok, just know that before running any of the commands in this
+readme, you should first have run the `./go.sh` script from the root of this repository, as described in the top-level
+README for this project.
 
 ## Automated testing workflow:
 
-1. Make your changes
-2. From the backend directory: `npm test`
-3. Goto #1
+1. **From the backend directory**: `npm test -- --watch`
+2. Make your changes
+
+The tests will re-run whenever you make a change.
 
 ## Manual testing workflow:
 
-1. From the root directory: `npm run build && npm start`
-2. Make your changes
-3. Point your browser at `http://localhost:3000`
-4. Goto #2
+1. **From the root directory**: `npm run build`
+2. **From the backend directory**: `npm run dev`
+3. Make your changes
+4. Point your browser at `http://localhost:3000`
 
-Note: Some specific files, such as the routes, require a full restart. In this case, start from step 1 again. This is
-also the case if you happen to change any frontend code during this process.
+The server will auto-restart whenever you make backend changes. If you change any frontend code during this process,
+you'll need to `npm run build` again.
 
 ## Email configuration
 
@@ -47,15 +52,3 @@ By default emails are turned off. You can turn it on and configure it using thes
 1. Go to your [control panel](https://mailgun.com/cp)
 2. Set `EMAIL_USERNAME` to the Default SMTP login from the link above
 3. Set `EMAIL_PASSWORD` to the Default Password from the link above
-
-## Docker
-
-Docker is currently a work in progress. There is a Dockerfile here, which simply copies in all the files in this
-directory, exposes a port, and starts the app when a container is run. It does not do any installing or compiling at the
-moment - it assumes that this has already been done before the image is built.
-
-Right now it's only for building production artefacts - there isn't a Dockerised development environment yet. That said,
-there is a docker-compose file, which will run the app locally in a Docker container, and link it to a local Postgres
-container. This is purely for sanity checking of the docker build process.
-
-You can try it with `docker-compose up`.
