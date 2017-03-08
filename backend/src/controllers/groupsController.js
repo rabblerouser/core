@@ -9,7 +9,7 @@ function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
 
-function create(req, res) {
+function createGroup(req, res) {
   const branchId = req.params.branchId;
   const group = {
     name: req.body.name,
@@ -51,7 +51,7 @@ function deleteGroup(req, res) {
     });
 }
 
-function update(req, res) {
+function updateGroup(req, res) {
   const branchId = req.params.branchId;
   const groupId = req.params.groupId;
 
@@ -79,7 +79,7 @@ function update(req, res) {
 }
 
 module.exports = {
-  create,
-  delete: deleteGroup,
-  update,
+  createGroup,
+  deleteGroup,
+  updateGroup,
 };

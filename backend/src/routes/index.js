@@ -64,7 +64,7 @@ router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization],
 router.delete('/branches/:branchId/admins/:adminId', [requireAuth, branchAuthorization], adminController.delete);
 
 router.get('/branches/:id/groups', [requireAuth, branchAuthorization], branchesController.groupsByBranch);
-router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.create);
-router.delete('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.delete);
-router.put('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.update);
+router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.createGroup);
+router.delete('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.deleteGroup);
+router.put('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.updateGroup);
 module.exports = router;

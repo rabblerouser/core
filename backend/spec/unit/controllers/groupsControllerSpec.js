@@ -1,7 +1,7 @@
 'use strict';
 
 const groupService = require('../../../src/services/groupService');
-const subject = require('../../../src/controllers/groupsController');
+const groupsController = require('../../../src/controllers/groupsController');
 
 describe('groupsController', () => {
   context('when there is an error', () => {
@@ -25,7 +25,7 @@ describe('groupsController', () => {
         body: { name: 'some-name', description: 'some-description' },
       };
 
-      subject.create(req, res)
+      groupsController.createGroup(req, res)
         .then(() => {
           expect(res.sendStatus).to.have.been.calledWith(500);
           expect(groupService.create).to.have.been.calledWith(req.body, req.params.branchId);
