@@ -1,8 +1,0 @@
-- hosts: all
-  sudo: yes
-  roles:
-    - { role: misc }
-    - { role: geerlingguy.nodejs }
-    - { role: sendmail}
-    - { role: postgres, db_names: ["rabble_rouser_core_db", "rabble_rouser_core_db_test"] }
-    - { role: vagrant }

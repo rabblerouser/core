@@ -1,6 +1,0 @@
-- name: "set locale to {{ locale }}"
-  locale_gen: name={{ locale }} state=present
-- name: install curl
-  apt: name=curl
-- name: install libfontconfig (for a phantom dep)
-  apt: name=libfontconfig
