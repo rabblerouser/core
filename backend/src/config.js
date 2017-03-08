@@ -1,16 +1,6 @@
 'use strict';
 
 const baseConfig = {
-  email: {
-    sendEmails: process.env.SEND_EMAILS,
-    transporter: process.env.EMAIL_TRANSPORTER,
-    username: process.env.EMAIL_USERNAME,
-    password: process.env.EMAIL_PASSWORD,
-    from: process.env.EMAIL_FROM,
-    replyTo: process.env.EMAIL_REPLY_TO,
-    welcomeSubject: process.env.EMAIL_WELCOME_SUBJECT || 'Welcome to Rabble Rouser',
-    welcomeBody: process.env.EMAIL_WELCOME_BODY || 'Welcome to Rabble Rouser!<br>You can now start participating and getting involved towards the development of a more secure and transparent Australia.\nFor a list of upcoming meetings and discussions, head to rabblerouser.team\nBest,\nRabble Rouser',
-  },
   session: {
     secret: process.env.SESSION_SECRET || "i'm a teapot",
     domain: process.env.SESSION_DOMAIN,
