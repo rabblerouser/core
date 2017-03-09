@@ -7,9 +7,9 @@ const uuid = require('node-uuid');
 const instanceUrl = process.env.INSTANCE_URL;
 const app = instanceUrl || require('../../src/app');
 
-function getMembersForGroup(someAgent, branchGroup) {
+function getMembersForGroup(someAgent, branchId) {
   return () => (
-    someAgent.get(`/branches/${branchGroup.branchId}/members`)
+    someAgent.get(`/branches/${branchId}/members`)
       .then(response => response.body.members)
   );
 }
@@ -62,9 +62,9 @@ describe('Groups Integration Test', () => {
 
   describe('update group', () => {
     it('should return a 200 when the group is successfully updated', () => (
-      integrationTestHelpers.createGroupInBranch(browserState.branch.id)
+      integrationTestHelpers.createGroup(agent, browserState.branch.id)
         .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-        .then(branchGroup => agent.put(`/branches/${branchGroup.branchId}/groups/${branchGroup.groupId}`)
+        .then(groupId => agent.put(`/branches/${browserState.branch.id}/groups/${groupId}`)
           .set('Content-Type', 'application/json')
           .send(makeGroup())
           .expect(200)
@@ -74,22 +74,22 @@ describe('Groups Integration Test', () => {
 
   describe('delete group', () => {
     beforeEach(() => (
-      integrationTestHelpers.createGroupInBranch(browserState.branch.id)
-        .then(branchGroup => {
-          browserState.branchGroup = branchGroup;
+      integrationTestHelpers.createGroup(agent, browserState.branch.id)
+        .then(groupId => {
+          browserState.groupId = groupId;
         })
     ));
 
     it('should return a 200 when the group is successfully deleted', () => (
-      agent.delete(`/branches/${browserState.branchGroup.branchId}/groups/${browserState.branchGroup.groupId}`)
+      agent.delete(`/branches/${browserState.branch.id}/groups/${browserState.groupId}`)
         .expect(200)
     ));
 
     it('should return a 200 when a group with members is deleted', () => (
       integrationTestHelpers.createMembers(agent, 2)(browserState.branch)
-        .then(getMembersForGroup(agent, browserState.branchGroup))
-        .then(integrationTestHelpers.addMembersToGroup(agent, browserState.branchGroup))
-        .then(() => agent.delete(`/branches/${browserState.branchGroup.branchId}/groups/${browserState.branchGroup.groupId}`)
+        .then(getMembersForGroup(agent, browserState.branch.id))
+        .then(integrationTestHelpers.addMembersToGroup(agent, browserState.groupId))
+        .then(() => agent.delete(`/branches/${browserState.branch.id}/groups/${browserState.groupId}`)
         .expect(200))
     ));
 

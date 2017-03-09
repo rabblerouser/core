@@ -8,8 +8,6 @@ const models = require('../../src/models');
 
 const AdminUser = models.AdminUser;
 const Branch = models.Branch;
-const BranchGroup = models.BranchGroup;
-const Group = models.Group;
 const adminType = require('../../src/security/adminType');
 
 function createBranchAdmin(branch) {
@@ -48,13 +46,6 @@ function createBranch() {
     conact: 'jerry@seinfield.com',
   })
     .then(sequelizeResult => sequelizeResult.dataValues);
-}
-
-function createGroupInBranch(branchId) {
-  return Group.create({ name: 'Groupalicious', description: 'Groups yeah', id: uuid.v4() })
-    .then(group => Branch.findOne({ where: { id: branchId } })
-        .then(branch => branch.addGroup(group))
-        .then(sequelizeResult => sequelizeResult[0][0].dataValues));
 }
 
 const makeMember = branchId => ({
@@ -113,11 +104,11 @@ function createMembers(agent, numberOfMembers) {
   };
 }
 
-function addMembersToGroup(agent, branchGroup) {
+function addMembersToGroup(agent, groupId) {
   return members => {
     let promise = Promise.resolve();
     members.forEach(member => {
-      const updatedMember = Object.assign({}, member, { groups: [branchGroup.groupId] });
+      const updatedMember = Object.assign({}, member, { groups: [groupId] });
       promise = promise.then(() => (
         agent.post('/events')
           .set('Content-Type', 'application/json')
@@ -131,11 +122,22 @@ function addMembersToGroup(agent, branchGroup) {
   };
 }
 
+function createGroup(agent, branchId) {
+  const group = { id: uuid.v4(), branchId, name: 'Groupalicious', description: 'Groups yeah' };
+  const groupEvent = makeEvent({ type: 'group-created', data: group });
+
+  return agent.post('/events')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'secret')
+    .send(groupEvent)
+    .expect(200)
+    .then(() => group.id);
+}
+
 function resetDatabase() {
   return Promise.resolve()
     .then(() => AdminUser.truncate({ cascade: true }))
-    .then(() => BranchGroup.truncate({ cascade: true }))
-    .then(() => Group.truncate({ cascade: true }))
     .then(() => Branch.truncate({ cascade: true }));
 }
 
@@ -146,7 +148,7 @@ module.exports = {
   createMembers,
   addMembersToGroup,
   makeMember,
-  createGroupInBranch,
+  createGroup,
   createSuperAdmin,
   authenticateSuperAdmin,
   resetDatabase,
