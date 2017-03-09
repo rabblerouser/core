@@ -77,7 +77,7 @@ const getSequenceNumber = (() => {
   let sequenceNumber = -1;
   return () => {
     sequenceNumber += 1;
-    return sequenceNumber;
+    return sequenceNumber.toString();
   };
 })();
 
