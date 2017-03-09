@@ -1,7 +1,6 @@
 'use strict';
 
 const uuid = require('node-uuid');
-const groupService = require('../services/groupService');
 const branchService = require('../services/branchService');
 const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
@@ -14,9 +13,9 @@ function groupDataValid(group) {
 function createGroup(req, res) {
   const group = {
     id: uuid.v4(),
+    branchId: req.params.branchId,
     name: req.body.name,
     description: req.body.description,
-    branchId: req.params.branchId,
   };
 
   if (!groupDataValid(group)) {
@@ -78,21 +77,32 @@ function updateGroup(req, res) {
   }
 
   const group = {
+    id: groupId,
+    branchId,
     name: req.body.name,
     description: req.body.description,
   };
 
   if (!groupDataValid(group)) {
-    res.sendStatus(400);
-    return undefined;
+    return res.sendStatus(400);
   }
 
-  return groupService.update(group, groupId)
-    .then(groupData => res.status(200).json(groupData))
-    .catch(error => {
-      logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
-      res.sendStatus(500);
-    });
+  return branchService.findById(branchId)
+    .then(branch => {
+      if (!branch.id) {
+        res.sendStatus(404);
+        throw new Error();
+      }
+    })
+    .then(() => streamClient.publish('group-edited', group))
+    .then(
+      () => res.status(200).json(group),
+      error => {
+        logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
+        res.sendStatus(500);
+      }
+    )
+    .catch(() => {});
 }
 
 module.exports = {
