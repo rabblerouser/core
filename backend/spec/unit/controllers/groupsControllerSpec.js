@@ -3,6 +3,7 @@
 const streamClient = require('../../../src/streamClient');
 const groupsController = require('../../../src/controllers/groupsController');
 const branchService = require('../../../src/services/branchService');
+const validator = require('../../../src/lib/inputValidator');
 
 describe('groupsController', () => {
   let sandbox;
@@ -12,6 +13,7 @@ describe('groupsController', () => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(streamClient, 'publish');
     sandbox.stub(branchService, 'findById').resolves({ id: 'some-id-1' });
+    sandbox.stub(validator, 'isValidUUID').returns(true);
     res = {
       json: sandbox.spy(),
       sendStatus: sandbox.spy(),
@@ -92,6 +94,45 @@ describe('groupsController', () => {
       streamClient.publish.rejects('Bummer');
 
       return groupsController.createGroup(req, res)
+        .then(() => {
+          expect(res.sendStatus).to.have.been.calledWith(500);
+        });
+    });
+  });
+
+  describe('deleteGroup', () => {
+    it('puts an event on the stream and succeeds when the group succeeds', () => {
+      const req = { params: { branchId: 'some-branch', groupId: 'some-group' } };
+
+      streamClient.publish.resolves();
+
+      return groupsController.deleteGroup(req, res)
+        .then(() => {
+          expect(streamClient.publish).to.have.been.calledWith('group-removed', { id: 'some-group' });
+          expect(res.sendStatus).to.have.been.calledWith(200);
+        });
+    });
+
+    it('fails when the given branch does not exist', () => {
+      const req = { params: { branchId: 'noooope', groupId: 'some-group' } };
+
+      branchService.findById.resolves({});
+
+      return groupsController.deleteGroup(req, res)
+        .then(() => {
+          expect(res.sendStatus).to.have.been.calledWith(404);
+        });
+    });
+
+    it('fails when the given group does not exist');
+    it('fails when the given branch and group do not match');
+
+    it('fails when the stream operation blows up', () => {
+      const req = { params: { branchId: 'some-branch', groupId: 'some-group' } };
+
+      streamClient.publish.rejects('Bummer');
+
+      return groupsController.deleteGroup(req, res)
         .then(() => {
           expect(res.sendStatus).to.have.been.calledWith(500);
         });

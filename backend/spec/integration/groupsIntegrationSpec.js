@@ -99,9 +99,9 @@ describe('Groups Integration Test', () => {
     ));
 
         /* This should return a different code, but requires more work, so will address later*/
-    it('should return 500 when trying to delete a group that does not exist', () => (
+    it('should return 200 when trying to delete a group that does not exist', () => (
       agent.delete(`/branches/${browserState.branch.id}/groups/${uuid.v4()}`)
-        .expect(500)
+        .expect(200)
     ));
   });
 });

@@ -45,21 +45,6 @@ function findGroup(groupId) {
     });
 }
 
-function deleteGroup(id) {
-  return Group.destroy({ where: { id } })
-    .then(result => {
-      if (!result) {
-        throw new Error('No records were deleted');
-      }
-
-      logger.info('[delete-group]', `group with id ${id} deleted`);
-    })
-    .catch(handleError(
-      '[delete-group-failed]',
-      `An error has occurred while deleting the group with id: ${id}`
-    ));
-}
-
 function update(input, id) {
   return findGroup(id)
     .then(result => {
@@ -93,6 +78,5 @@ function update(input, id) {
 
 module.exports = {
   list,
-  delete: deleteGroup,
   update,
 };

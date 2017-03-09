@@ -6,8 +6,8 @@ const members = (state = initialState, action) => {
     case 'CREATE_MEMBER': {
       const newMember = Object.assign({},
         action.member,
-        { groups: [] },
-      {});
+        { groups: [] }
+      );
       return state.concat(newMember);
     }
 

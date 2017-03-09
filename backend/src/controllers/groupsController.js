@@ -50,17 +50,22 @@ function deleteGroup(req, res) {
     return res.sendStatus(400);
   }
 
-  return groupService.delete(groupId)
-    .then(() => (
-      streamClient.publish('group-removed', { id: groupId })
-    ))
-    .then(() => {
-      res.sendStatus(200);
+  return branchService.findById(branchId)
+    .then(branch => {
+      if (!branch.id) {
+        res.sendStatus(404);
+        throw new Error();
+      }
     })
-    .catch(error => {
-      logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
-      res.sendStatus(500);
-    });
+    .then(() => streamClient.publish('group-removed', { id: groupId }))
+    .then(
+      () => res.sendStatus(200),
+      error => {
+        logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
+        res.sendStatus(500);
+      }
+    )
+    .catch(() => {});
 }
 
 function updateGroup(req, res) {
