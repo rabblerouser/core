@@ -4,7 +4,6 @@ const isEmpty = require('lodash').isEmpty;
 const uuid = require('node-uuid');
 const moment = require('moment');
 const branchService = require('../services/branchService');
-const groupService = require('../services/groupService');
 const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
@@ -86,20 +85,20 @@ const editMember = (req, res) => {
   };
 
   const validationErrors = memberValidator.isValid(member);
+
+  const branchGroups = reducers.getGroups(store.getState()).filter(group => group.branchId === member.branchId);
+  const groupIds = branchGroups.map(group => group.id);
+  (member.groups || []).forEach(group => {
+    if (!groupIds.includes(group)) {
+      validationErrors.push(`Unknown groupId ${group}`);
+    }
+  });
+
   return branchService.findById(member.branchId)
     .then(branch => {
       if (!branch.id) {
         validationErrors.push('Unknown branchId');
       }
-    })
-    .then(groupService.list)
-    .then(groups => {
-      const groupIds = groups.map(group => group.id);
-      (member.groups || []).forEach(group => {
-        if (!groupIds.includes(group)) {
-          validationErrors.push(`Unknown groupId ${group}`);
-        }
-      });
     })
     .then(() => {
       if (validationErrors.length > 0 || !member.id) {

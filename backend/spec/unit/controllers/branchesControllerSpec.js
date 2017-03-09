@@ -24,21 +24,6 @@ const FAKE_BRANCH = {
   name: 'Geelong',
 };
 
-const FAKE_GROUPS_LIST = [
-  {
-    id: 'some-key',
-    name: 'some group name',
-    description: 'some description',
-  },
-  {
-    id: 'some-key2',
-    name: 'some group name2',
-    description: 'some description2',
-  },
-];
-
-const FAKE_EMPTY_GROUPS_LIST = [];
-
 describe('branchesController', () => {
   describe('create', () => {
     let req;
@@ -296,77 +281,6 @@ describe('branchesController', () => {
         branchesController.list(req, res)
           .then(() => {
             expect(res.sendStatus).to.have.been.calledWith(500);
-          })
-          .then(done, done.fail)
-          .catch(done);
-      });
-    });
-  });
-
-  describe('groupsByBranch', () => {
-    let req;
-    let res;
-
-    beforeEach(() => {
-      res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-      req = { params: { id: 1 } };
-      sinon.stub(branchService, 'groupsInBranch').withArgs(req.params.id);
-    });
-
-    afterEach(() => {
-      branchService.groupsInBranch.restore();
-    });
-
-    context('when the branch id is valid and has groups', () => {
-      beforeEach(() => {
-        branchService.groupsInBranch.returns(Promise.resolve(FAKE_GROUPS_LIST));
-      });
-
-      it('responds with a list of groups', done => {
-        branchesController.groupsByBranch(req, res)
-          .then(() => {
-            expect(res.status).to.have.been.calledWith(200);
-            expect(res.status().json).to.have.been.calledWith({ groups: FAKE_GROUPS_LIST });
-          })
-          .then(done, done.fail)
-          .catch(done);
-      });
-    });
-
-    context('when the branch id is valid and has no groups', () => {
-      beforeEach(() => {
-        branchService.groupsInBranch.returns(Promise.resolve(FAKE_EMPTY_GROUPS_LIST));
-      });
-
-      it('responds with an empty list of groups', done => {
-        branchesController.groupsByBranch(req, res)
-          .then(() => {
-            expect(res.status).to.have.been.calledWith(200);
-            expect(res.status().json).to.have.been.calledWith({ groups: FAKE_EMPTY_GROUPS_LIST });
-          }).then(done, done.fail);
-      });
-    });
-
-    context('when the branch id is invalid', () => {
-      it('should return a 400', done => {
-        branchService.groupsInBranch.returns(Promise.reject('invalid branch id'));
-
-        branchesController.groupsByBranch(req, res)
-          .then(() => {
-            expect(res.status).to.have.been.calledWith(400);
-          })
-          .then(done, done.fail)
-          .catch(done);
-      });
-    });
-
-    context('when there is a general error from the service', () => {
-      it('should return a 500', done => {
-        branchService.groupsInBranch.returns(Promise.reject('anything at all'));
-
-        branchesController.groupsByBranch(req, res)
-          .then(() => {
-            expect(res.status).to.have.been.calledWith(500);
           })
           .then(done, done.fail)
           .catch(done);

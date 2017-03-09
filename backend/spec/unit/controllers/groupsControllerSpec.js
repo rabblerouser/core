@@ -4,6 +4,7 @@ const streamClient = require('../../../src/streamClient');
 const groupsController = require('../../../src/controllers/groupsController');
 const branchService = require('../../../src/services/branchService');
 const validator = require('../../../src/lib/inputValidator');
+const reducers = require('../../../src/reducers/rootReducer');
 
 describe('groupsController', () => {
   let sandbox;
@@ -14,6 +15,7 @@ describe('groupsController', () => {
     sandbox.stub(streamClient, 'publish');
     sandbox.stub(branchService, 'findById').resolves({ id: 'some-id-1' });
     sandbox.stub(validator, 'isValidUUID').returns(true);
+    sandbox.stub(reducers, 'getGroups');
     res = {
       json: sandbox.spy(),
       sendStatus: sandbox.spy(),
@@ -217,5 +219,28 @@ describe('groupsController', () => {
 
     it('fails when the given group does not exist');
     it('fails when the given branch and group do not match');
+  });
+
+  describe('getBranchGroups', () => {
+    it('gets all the groups for the given branch', () => {
+      const req = { params: { branchId: 'some-branch-id' } };
+      reducers.getGroups.returns([
+        { id: '1', name: 'First', branchId: 'some-branch-id' },
+        { id: '2', name: 'Second', branchId: 'some-other-id' },
+        { id: '3', name: 'Third', branchId: 'some-branch-id' },
+      ]);
+
+      groupsController.getBranchGroups(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({
+        groups: [
+          { id: '1', name: 'First', branchId: 'some-branch-id' },
+          { id: '3', name: 'Third', branchId: 'some-branch-id' },
+        ],
+      });
+    });
+
+    it('gives a 404 when the branch does not exist');
   });
 });

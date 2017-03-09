@@ -83,21 +83,6 @@ function update(req, res) {
     });
 }
 
-function groupsByBranch(req, res) {
-  return branchService.groupsInBranch(req.params.id)
-    .then(groups => res.status(200).json({ groups }))
-    .catch(error => {
-      switch (error) {
-        case 'invalid branch id' :
-          res.status(400);
-          break;
-        default:
-          res.status(500);
-          break;
-      }
-    });
-}
-
 function findBranches(admin) {
   if (admin.type === adminType.super) {
     return branchService.list();
@@ -125,5 +110,4 @@ module.exports = {
   update,
   delete: deleteBranch,
   branchesForAdmin,
-  groupsByBranch,
 };

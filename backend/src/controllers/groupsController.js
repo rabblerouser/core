@@ -5,6 +5,8 @@ const branchService = require('../services/branchService');
 const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
 const streamClient = require('../streamClient');
+const store = require('../store');
+const reducers = require('../reducers/rootReducer');
 
 function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
@@ -105,8 +107,17 @@ function updateGroup(req, res) {
     .catch(() => {});
 }
 
+const getBranchGroups = (req, res) => {
+  const branchId = req.params.branchId;
+
+  const groups = reducers.getGroups(store.getState()).filter(group => group.branchId === branchId);
+
+  res.status(200).json({ groups });
+};
+
 module.exports = {
   createGroup,
   deleteGroup,
   updateGroup,
+  getBranchGroups,
 };

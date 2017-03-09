@@ -5,9 +5,7 @@ const membersController = require('../../../src/controllers/membersController');
 const inputValidator = require('../../../src/lib/inputValidator');
 const csvGenerator = require('../../../src/lib/csvGenerator');
 const branchService = require('../../../src/services/branchService');
-const groupService = require('../../../src/services/groupService');
 const streamClient = require('../../../src/streamClient');
-const store = require('../../../src/store');
 const reducers = require('../../../src/reducers/rootReducer');
 
 describe('membersController', () => {
@@ -22,12 +20,11 @@ describe('membersController', () => {
     };
     sandbox.stub(memberValidator, 'isValid');
     sandbox.stub(streamClient, 'publish');
-    sandbox.stub(store, 'getState');
     sandbox.stub(reducers, 'getMembers');
+    sandbox.stub(reducers, 'getGroups');
     sandbox.stub(csvGenerator, 'generateCsv');
     sandbox.stub(inputValidator, 'isValidUUID');
     sandbox.stub(branchService, 'findById');
-    sandbox.stub(groupService, 'list');
   });
 
   afterEach(() => {
@@ -89,7 +86,7 @@ describe('membersController', () => {
       });
     });
 
-    it('send a 400 back if the request is mostly valid except for the branch id', () => {
+    it('sends a 400 back if the request is mostly valid except for the branch id', () => {
       const req = {
         body: {
           name: 'Sherlock Holmes',
@@ -110,9 +107,10 @@ describe('membersController', () => {
 
   describe('editMember', () => {
     beforeEach(() => {
-      groupService.list.returns([
-        { id: 'first' },
-        { id: 'second' },
+      reducers.getGroups.returns([
+        { id: 'first', branchId: 'some-id-1' },
+        { id: 'second', branchId: 'some-id-1' },
+        { id: 'other', branchId: 'some-other-branch' },
       ]);
     });
 
@@ -185,7 +183,7 @@ describe('membersController', () => {
           name: 'Sherlock Holmes',
           email: 'sherlock@holmes.co.uk',
           branchId: 'non-existent-branch',
-          groups: ['first', 'second'],
+          groups: [],
         },
       };
       memberValidator.isValid.returns([]);
@@ -198,13 +196,13 @@ describe('membersController', () => {
         });
     });
 
-    it('send a 400 back if the request is mostly valid except for one of the group IDs', () => {
+    it('sends a 400 back if one of the given groups does not exist', () => {
       const req = {
         body: {
           id: 'abc-123',
           name: 'Sherlock Holmes',
           email: 'sherlock@holmes.co.uk',
-          branchId: 'non-existent-branch',
+          branchId: 'some-id-1',
           groups: ['first', 'second', 'third'],
         },
       };
@@ -215,6 +213,26 @@ describe('membersController', () => {
         .then(() => {
           expect(res.status).to.have.been.calledWith(400);
           expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown groupId third'] });
+        });
+    });
+
+    it('sends a 400 back if one of the given groups is from a different branch', () => {
+      const req = {
+        body: {
+          id: 'abc-123',
+          name: 'Sherlock Holmes',
+          email: 'sherlock@holmes.co.uk',
+          branchId: 'some-id-1',
+          groups: ['first', 'second', 'other'],
+        },
+      };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
+
+      return membersController.editMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown groupId other'] });
         });
     });
   });
