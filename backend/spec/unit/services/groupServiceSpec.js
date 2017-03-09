@@ -3,7 +3,6 @@
 const models = require('../../../src/models');
 
 const Group = models.Group;
-const Branch = models.Branch;
 const Q = require('q');
 
 const groupService = require('../../../src/services/groupService');
@@ -62,52 +61,6 @@ describe('groupService', () => {
                 .then(done)
                 .catch(done);
       });
-    });
-  });
-
-  describe('create', () => {
-    beforeEach(() => {
-      sinon.stub(Branch, 'findById');
-      sinon.stub(Group, 'create');
-    });
-
-    afterEach(() => {
-      Branch.findById.restore();
-      Group.create.restore();
-    });
-
-    it('should handle when the branch is not found', done => {
-      Branch.findById.returns(Q.resolve(null));
-      Group.create.returns(Q.resolve({ dataValues: { name: 'A group', description: 'description', id: 'some-group-id' } }));
-
-      groupService.create({ name: 'A group', description: 'description' }, 'some-branch-id')
-            .then(() => {
-              done.fail('This should not have succeded');
-            })
-            .catch(error => {
-              expect(Branch.findById).to.have.been.called;
-              expect(Group.create).not.to.have.been.called;
-              expect(error.message).to.equal('An error has occurred while creating group for branch with id: some-branch-id');
-            })
-            .then(done)
-            .catch(done);
-    });
-
-    it('should handle when there is an error creating the branch', done => {
-      Branch.findById.returns(Q.resolve({ dataValues: { id: 'some-branch-id' } }));
-      Group.create.returns(Q.reject('A horrible DB error the service should not rethrow'));
-
-      groupService.create({ name: 'A group', description: 'description' }, 'some-branch-id')
-            .then(() => {
-              done.fail('This should not have succeded');
-            })
-            .catch(error => {
-              expect(Branch.findById).to.have.been.called;
-              expect(Group.create).to.have.been.called;
-              expect(error.message).to.equal('An error has occurred while creating group for branch with id: some-branch-id');
-            })
-            .then(done)
-            .catch(done);
     });
   });
 

@@ -1,11 +1,9 @@
 'use strict';
 
 const logger = require('../lib/logger');
-const uuid = require('node-uuid');
 const models = require('../models');
 
 const Group = models.Group;
-const Branch = models.Branch;
 
 function handleError(logMessage, userMessage) {
   return error => {
@@ -35,24 +33,6 @@ const list = () => {
     .catch(handleError('[groups-list-error]', 'An error has occurred while fetching groups'));
 };
 
-function addGroupToBranch(branch, group) {
-  return branch
-    .addGroup(group)
-    .then(() => group);
-}
-
-function findBranch(branchId) {
-  return Branch
-    .findById(branchId)
-    .then(dbResult => {
-      if (!dbResult) {
-        throw new Error(`Branch with id: ${branchId} not found`);
-      }
-
-      return dbResult;
-    });
-}
-
 function findGroup(groupId) {
   return Group
     .findById(groupId)
@@ -63,34 +43,6 @@ function findGroup(groupId) {
 
       return dbResult;
     });
-}
-
-function createGroup(input) {
-  return branch => {
-    const group = {
-      id: uuid.v4(),
-      name: input.name,
-      description: input.description,
-    };
-
-    return Group.create(group)
-      .tap(() => logger.info('[create-group]', `group with id ${group.id} created`))
-      .then(savedGroup => [branch, savedGroup]);
-  };
-}
-
-function create(input, branchId) {
-  return Group
-    .sequelize.transaction(() =>
-      findBranch(branchId)
-        .then(createGroup(input))
-        .spread(addGroupToBranch)
-    )
-    .then(transformGroup)
-    .catch(handleError(
-      '[create-group-failed]',
-      `An error has occurred while creating group for branch with id: ${branchId}`
-    ));
 }
 
 function deleteGroup(id) {
@@ -141,7 +93,6 @@ function update(input, id) {
 
 module.exports = {
   list,
-  create,
   delete: deleteGroup,
   update,
 };
