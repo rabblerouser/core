@@ -93,15 +93,14 @@ describe('Groups Integration Test', () => {
         .expect(200))
     ));
 
-    it('should return a 400 if the input data is not valid', () => (
+    it('should return a 404 if the input data is not valid', () => (
       agent.delete(`/branches/${browserState.branch.id}/groups/whatevs`)
-        .expect(400)
+        .expect(404)
     ));
 
-        /* This should return a different code, but requires more work, so will address later*/
-    it('should return 200 when trying to delete a group that does not exist', () => (
+    it('should return 404 when trying to delete a group that does not exist', () => (
       agent.delete(`/branches/${browserState.branch.id}/groups/${uuid.v4()}`)
-        .expect(200)
+        .expect(404)
     ));
   });
 });

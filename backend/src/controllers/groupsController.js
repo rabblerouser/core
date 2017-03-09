@@ -12,6 +12,10 @@ function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
 
+const groupsInBranch = branchId => (
+  reducers.getGroups(store.getState()).filter(group => group.branchId === branchId)
+);
+
 function createGroup(req, res) {
   const group = {
     id: uuid.v4(),
@@ -46,27 +50,17 @@ function deleteGroup(req, res) {
   const branchId = req.params.branchId;
   const groupId = req.params.groupId;
 
-  if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
-    logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}`);
-    return res.sendStatus(400);
+  const groupIds = groupsInBranch(branchId).map(group => group.id);
+  if (!groupIds.includes(groupId)) {
+    return res.sendStatus(404);
   }
 
-  return branchService.findById(branchId)
-    .then(branch => {
-      if (!branch.id) {
-        res.sendStatus(404);
-        throw new Error();
-      }
-    })
-    .then(() => streamClient.publish('group-removed', { id: groupId }))
-    .then(
-      () => res.sendStatus(200),
-      error => {
-        logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
-        res.sendStatus(500);
-      }
-    )
-    .catch(() => {});
+  return streamClient.publish('group-removed', { id: groupId })
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
+      res.sendStatus(500);
+    });
 }
 
 function updateGroup(req, res) {
@@ -108,11 +102,7 @@ function updateGroup(req, res) {
 }
 
 const getBranchGroups = (req, res) => {
-  const branchId = req.params.branchId;
-
-  const groups = reducers.getGroups(store.getState()).filter(group => group.branchId === branchId);
-
-  res.status(200).json({ groups });
+  res.status(200).json({ groups: groupsInBranch(req.params.branchId) });
 };
 
 module.exports = {
