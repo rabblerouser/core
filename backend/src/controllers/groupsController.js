@@ -12,8 +12,8 @@ function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
 
-const groupsInBranch = branchId => (
-  reducers.getGroups(store.getState()).filter(group => group.branchId === branchId)
+const findGroupInBranch = (groupId, branchId) => (
+  reducers.getGroups(store.getState()).find(group => group.id === groupId && group.branchId === branchId)
 );
 
 function createGroup(req, res) {
@@ -50,8 +50,7 @@ function deleteGroup(req, res) {
   const branchId = req.params.branchId;
   const groupId = req.params.groupId;
 
-  const groupIds = groupsInBranch(branchId).map(group => group.id);
-  if (!groupIds.includes(groupId)) {
+  if (!findGroupInBranch(groupId, branchId)) {
     return res.sendStatus(404);
   }
 
@@ -67,9 +66,8 @@ function updateGroup(req, res) {
   const branchId = req.params.branchId;
   const groupId = req.params.groupId;
 
-  if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
-    logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`);
-    return res.sendStatus(400);
+  if (!findGroupInBranch(groupId, branchId)) {
+    return res.sendStatus(404);
   }
 
   const group = {
@@ -83,26 +81,18 @@ function updateGroup(req, res) {
     return res.sendStatus(400);
   }
 
-  return branchService.findById(branchId)
-    .then(branch => {
-      if (!branch.id) {
-        res.sendStatus(404);
-        throw new Error();
-      }
-    })
-    .then(() => streamClient.publish('group-edited', group))
-    .then(
-      () => res.status(200).json(group),
-      error => {
-        logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
-        res.sendStatus(500);
-      }
-    )
-    .catch(() => {});
+  return streamClient.publish('group-edited', group)
+    .then(() => res.status(200).json(group))
+    .catch(error => {
+      logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
+      res.sendStatus(500);
+    });
 }
 
 const getBranchGroups = (req, res) => {
-  res.status(200).json({ groups: groupsInBranch(req.params.branchId) });
+  const branchId = req.params.branchId;
+  const groups = reducers.getGroups(store.getState()).filter(group => group.branchId === branchId);
+  res.status(200).json({ groups });
 };
 
 module.exports = {

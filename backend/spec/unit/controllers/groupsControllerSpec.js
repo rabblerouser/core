@@ -122,16 +122,12 @@ describe('groupsController', () => {
     it('fails when the given group does not exist', () => {
       const req = { params: { branchId: 'some-branch', groupId: 'non-group' } };
 
-      reducers.getGroups.returns([]);
-
       groupsController.deleteGroup(req, res);
       expect(res.sendStatus).to.have.been.calledWith(404);
     });
 
     it('fails when the given branch and group do not match', () => {
       const req = { params: { branchId: 'wrong-branch', groupId: 'some-group' } };
-
-      reducers.getGroups.returns([]);
 
       groupsController.deleteGroup(req, res);
       expect(res.sendStatus).to.have.been.calledWith(404);
@@ -150,6 +146,10 @@ describe('groupsController', () => {
   });
 
   describe('updateGroup', () => {
+    beforeEach(() => {
+      reducers.getGroups.returns([{ id: 'some-group-id', branchId: 'some-branch-id' }]);
+    });
+
     it('puts an event on the stream and succeeds when everything is valid', () => {
       const req = {
         params: { branchId: 'some-branch-id', groupId: 'some-group-id' },
@@ -173,6 +173,26 @@ describe('groupsController', () => {
           expect(eventType).to.eql('group-edited');
           expect(eventData).to.eql(newGroupData);
         });
+    });
+
+    it('fails when the given group does not exist', () => {
+      const req = {
+        params: { branchId: 'some-branch-id', groupId: 'non-group-id' },
+        body: { name: 'new-name', description: 'new-description' },
+      };
+
+      groupsController.updateGroup(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
+
+    it('fails when the given branch and group do not match', () => {
+      const req = {
+        params: { branchId: 'wrong-branch-id', groupId: 'some-group-id' },
+        body: { name: 'new-name', description: 'new-description' },
+      };
+
+      groupsController.updateGroup(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(404);
     });
 
     it('fails when the group name is invalid', () => {
@@ -210,23 +230,6 @@ describe('groupsController', () => {
           expect(res.sendStatus).to.have.been.calledWith(500);
         });
     });
-
-    it('fails when the given branch does not exist', () => {
-      const req = {
-        params: { branchId: 'noooope', groupId: 'some-group' },
-        body: { name: 'new-name', description: 'new-description' },
-      };
-
-      branchService.findById.resolves({});
-
-      return groupsController.updateGroup(req, res)
-        .then(() => {
-          expect(res.sendStatus).to.have.been.calledWith(404);
-        });
-    });
-
-    it('fails when the given group does not exist');
-    it('fails when the given branch and group do not match');
   });
 
   describe('getBranchGroups', () => {
