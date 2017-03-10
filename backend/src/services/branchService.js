@@ -26,14 +26,6 @@ function transformBranches(adapter) {
   return dbResult => dbResult.map(adapter);
 }
 
-const update = newValues =>
-  Branch
-    .findOne({ where: { id: newValues.id } })
-    .then(branch => branch.update(newValues))
-    .tap(() => logger.info('[update-branch]', `branch with id ${newValues.id} updated`))
-    .then(transformBranch)
-    .catch(handleError(`Error when editing branch with id ${newValues.id}`));
-
 const list = (attrs = ['id', 'name', 'contact', 'notes']) => {
   const query = {
     attributes: attrs,
@@ -58,6 +50,5 @@ function findById(id) {
 
 module.exports = {
   list,
-  update,
   findById,
 };

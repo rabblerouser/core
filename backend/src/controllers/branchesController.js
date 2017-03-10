@@ -15,20 +15,6 @@ function listBranches(req, res) {
     .catch(() => res.sendStatus(500));
 }
 
-function parseBranch(req) {
-  const branch = { id: req.body.id };
-  if (req.body.name !== undefined) {
-    branch.name = req.body.name;
-  }
-  if (req.body.notes !== undefined) {
-    branch.notes = req.body.notes;
-  }
-  if (req.body.contact !== undefined) {
-    branch.contact = req.body.contact;
-  }
-  return branch;
-}
-
 function deleteBranch(req, res) {
   const branchId = req.params.branchId;
 
@@ -66,17 +52,17 @@ function createBranch(req, res) {
     .then(() => res.status(200).json(branch))
     .catch(error => {
       logger.error('Failed creating a new branch', error);
-      return res.status(500);
+      return res.sendStatus(500);
     });
 }
 
 function updateBranch(req, res) {
-  const branch = parseBranch(req);
-
-  if (!branch.id || branch.id !== req.params.branchId) {
-    logger.info('[update-branch-validation-error]', { errors: ['invalid params'] });
-    return res.status(400).json({ errors: ['invalid params'] });
-  }
+  const branch = {
+    id: req.params.branchId,
+    name: req.body.name,
+    notes: req.body.notes,
+    contact: req.body.contact,
+  };
 
   const validationErrors = branchValidator.isValid(branch);
   if (validationErrors.length > 0) {
@@ -84,11 +70,11 @@ function updateBranch(req, res) {
     return res.status(400).json({ errors: validationErrors });
   }
 
-  return branchService.update(branch)
-    .then(updatedBranch => res.status(200).json(updatedBranch))
+  return streamClient.publish('branch-edited', branch)
+    .then(() => res.status(200).json(branch))
     .catch(error => {
       logger.error(`Failed updating the branch id:${branch.id}`, error);
-      res.status(500);
+      res.sendStatus(500);
     });
 }
 
