@@ -6,7 +6,7 @@ const adminType = require('../security/adminType');
 const validator = require('../lib/inputValidator');
 const branchValidator = require('../lib/branchValidator');
 
-function list(req, res) {
+function listBranches(req, res) {
   return branchService.list(['id', 'name'])
     .then(branches => res.status(200).json({ branches }))
     .catch(() => res.sendStatus(500));
@@ -44,7 +44,7 @@ function deleteBranch(req, res) {
     });
 }
 
-function create(req, res) {
+function createBranch(req, res) {
   const newBranch = parseBranch(req);
   const validationErrors = branchValidator.isValid(newBranch);
 
@@ -61,7 +61,7 @@ function create(req, res) {
     });
 }
 
-function update(req, res) {
+function updateBranch(req, res) {
   const branch = parseBranch(req);
 
   if (!branch.id || branch.id !== req.params.branchId) {
@@ -105,9 +105,9 @@ function branchesForAdmin(req, res) {
 }
 
 module.exports = {
-  list,
-  create,
-  update,
-  delete: deleteBranch,
+  listBranches,
+  createBranch,
+  updateBranch,
+  deleteBranch,
   branchesForAdmin,
 };

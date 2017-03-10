@@ -25,7 +25,7 @@ const FAKE_BRANCH = {
 };
 
 describe('branchesController', () => {
-  describe('create', () => {
+  describe('createBranch', () => {
     let req;
     let res;
 
@@ -44,7 +44,7 @@ describe('branchesController', () => {
 
       it('responds with successful update', done => {
         branchService.create.returns(Promise.resolve(FAKE_BRANCH));
-        branchesController.create(req, res)
+        branchesController.createBranch(req, res)
           .then(() => {
             expect(res.status).to.have.been.calledWith(200);
             expect(res.status().json).to.have.been.calledWith(FAKE_BRANCH);
@@ -66,7 +66,7 @@ describe('branchesController', () => {
       });
 
       it('should return a 400', () => {
-        branchesController.create(req, res);
+        branchesController.createBranch(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -86,7 +86,7 @@ describe('branchesController', () => {
 
       it('should return a 500', done => {
         branchService.create.returns(Promise.reject('anything at all'));
-        branchesController.create(req, res)
+        branchesController.createBranch(req, res)
           .then(() => {
             expect(res.status).to.have.been.calledWith(500);
           })
@@ -118,7 +118,7 @@ describe('branchesController', () => {
 
       it('responds with successful update', done => {
         branchService.update.returns(Promise.resolve(FAKE_BRANCH));
-        branchesController.update(req, res)
+        branchesController.updateBranch(req, res)
           .then(() => {
             expect(res.status).to.have.been.calledWith(200);
             expect(res.status().json).to.have.been.calledWith(FAKE_BRANCH);
@@ -144,7 +144,7 @@ describe('branchesController', () => {
       });
 
       it('should return a 400', () => {
-        branchesController.update(req, res);
+        branchesController.updateBranch(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -165,7 +165,7 @@ describe('branchesController', () => {
       });
 
       it('should return a 400', () => {
-        branchesController.update(req, res);
+        branchesController.updateBranch(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -184,7 +184,7 @@ describe('branchesController', () => {
         };
 
         it('should return a 400', done => {
-          branchesController.update(req, res)
+          branchesController.updateBranch(req, res)
             .then(() => {
               expect(res.status).to.have.been.calledWith(400);
             })
@@ -211,7 +211,7 @@ describe('branchesController', () => {
       });
 
       it('should return a 400', () => {
-        branchesController.update(req, res);
+        branchesController.updateBranch(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -237,7 +237,7 @@ describe('branchesController', () => {
 
       it('should return a 500', done => {
         branchService.update.returns(Promise.reject('anything at all'));
-        branchesController.update(req, res)
+        branchesController.updateBranch(req, res)
           .then(() => {
             expect(res.status).to.have.been.calledWith(500);
           })
@@ -263,7 +263,7 @@ describe('branchesController', () => {
     it('responds with a list of branches', done => {
       branchService.list.returns(Promise.resolve(FAKE_BRANCHES_LIST));
 
-      branchesController.list(req, res)
+      branchesController.listBranches(req, res)
         .then(() => {
           expect(branchService.list).to.have.been.calledWith(['id', 'name']);
           expect(res.status).to.have.been.calledWith(200);
@@ -278,7 +278,7 @@ describe('branchesController', () => {
         res = { sendStatus: sinon.spy() };
         branchService.list.returns(Promise.reject('some service error'));
 
-        branchesController.list(req, res)
+        branchesController.listBranches(req, res)
           .then(() => {
             expect(res.sendStatus).to.have.been.calledWith(500);
           })
