@@ -1,10 +1,12 @@
 'use strict';
 
+const uuid = require('node-uuid');
 const branchService = require('../services/branchService');
 const logger = require('../lib/logger');
 const adminType = require('../security/adminType');
 const validator = require('../lib/inputValidator');
 const branchValidator = require('../lib/branchValidator');
+const streamClient = require('../streamClient');
 
 function listBranches(req, res) {
   return branchService.list(['id', 'name'])
@@ -45,16 +47,21 @@ function deleteBranch(req, res) {
 }
 
 function createBranch(req, res) {
-  const newBranch = parseBranch(req);
-  const validationErrors = branchValidator.isValid(newBranch);
+  const branch = {
+    id: uuid.v4(),
+    name: req.body.name,
+    notes: req.body.notes,
+    contact: req.body.contact,
+  };
+  const validationErrors = branchValidator.isValid(branch);
 
   if (validationErrors.length > 0) {
     logger.info('[create-new-branch-validation-error]', { errors: validationErrors });
     return res.status(400).json({ errors: validationErrors });
   }
 
-  return branchService.create(newBranch)
-    .then(newBranchData => res.status(200).json(newBranchData))
+  return streamClient.publish('branch-created', branch)
+    .then(() => res.status(200).json(branch))
     .catch(error => {
       logger.error('Failed creating a new branch', error);
       return res.status(500);

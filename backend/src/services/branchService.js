@@ -1,13 +1,7 @@
 'use strict';
 
-const Q = require('q');
 const Branch = require('../models').Branch;
 const logger = require('../lib/logger');
-const uuid = require('node-uuid');
-
-function createHash() {
-  return uuid.v4();
-}
 
 function handleError(logMessage, userMessage) {
   return error => {
@@ -15,16 +9,6 @@ function handleError(logMessage, userMessage) {
     throw new Error(userMessage);
   };
 }
-
-function logEvent(saveResult) {
-  logger.info('[admin-user-sign-up-event]', saveResult.dataValues);
-}
-
-function save(branch) {
-  return Branch.create.bind(Branch)(branch);
-}
-
-const setupNewBranch = newBranch => Object.assign({}, newBranch, { id: createHash() });
 
 const transformBranch = dbResult => {
   if (dbResult.dataValues) {
@@ -53,15 +37,6 @@ const deleteBranch = id =>
       logger.info('[delete-branch]', `branch with id ${id} deleted`);
     })
     .catch(handleError('[delete-branch-failed]', `An error has occurred while deleting the branch with id: ${id}`));
-
-const create = newBranch =>
-  Q
-    .all(setupNewBranch(newBranch))
-    .then(save)
-    .tap(logEvent)
-    .then(transformBranch)
-    .catch(handleError('Create branch failed'));
-
 
 const update = newValues =>
   Branch
@@ -95,7 +70,6 @@ function findById(id) {
 
 module.exports = {
   list,
-  create,
   update,
   delete: deleteBranch,
   findById,

@@ -3,6 +3,7 @@
 const branchService = require('../../../src/services/branchService');
 const branchValidator = require('../../../src/lib/branchValidator');
 const branchesController = require('../../../src/controllers/branchesController');
+const streamClient = require('../../../src/streamClient');
 
 const FAKE_BRANCHES_LIST = [
   {
@@ -25,80 +26,60 @@ const FAKE_BRANCH = {
 };
 
 describe('branchesController', () => {
+  let sandbox;
+  let res;
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(streamClient, 'publish').resolves();
+    res = {
+      json: sinon.spy(),
+    };
+    res.status = sinon.stub().returns(res);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('createBranch', () => {
-    let req;
-    let res;
+    it('puts an event on the stream when the branch is valid', () => {
+      const req = { body: { name: 'Main Branch', notes: 'This is a branch', contact: '9876 5432' } };
 
-    context('when the payload is valid', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = { body: { name: 'some-name' } };
-        sinon.stub(branchValidator, 'isValid').returns([]);
-        sinon.stub(branchService, 'create');
-      });
+      return branchesController.createBranch(req, res)
+        .then(() => {
+          const [eventType, eventData] = streamClient.publish.args[0];
+          expect(eventType).to.eql('branch-created');
+          expect(eventData.id).to.be.a('string');
+          expect(eventData.name).to.eql('Main Branch');
+          expect(eventData.notes).to.eql('This is a branch');
+          expect(eventData.contact).to.eql('9876 5432');
 
-      afterEach(() => {
-        branchService.create.restore();
-        branchValidator.isValid.restore();
-      });
-
-      it('responds with successful update', done => {
-        branchService.create.returns(Promise.resolve(FAKE_BRANCH));
-        branchesController.createBranch(req, res)
-          .then(() => {
-            expect(res.status).to.have.been.calledWith(200);
-            expect(res.status().json).to.have.been.calledWith(FAKE_BRANCH);
-          })
-          .then(done, done.fail)
-          .catch(done);
-      });
+          expect(res.status).to.have.been.calledWith(200);
+          expect(res.json).to.have.been.calledWith(eventData);
+        });
     });
 
-    context('when the payload provided is invalid', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = { body: { name: 'invalid' } };
-        sinon.stub(branchValidator, 'isValid').returns(['name']);
-      });
+    it('fails when the branch name is empty', () => {
+      const req = { body: { name: '', notes: 'This is a branch', contact: '9876 5432' } };
 
-      afterEach(() => {
-        branchValidator.isValid.restore();
-      });
-
-      it('should return a 400', () => {
-        branchesController.createBranch(req, res);
-        expect(res.status).to.have.been.calledWith(400);
-      });
+      branchesController.createBranch(req, res);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ errors: ['name'] });
     });
 
-    context('when there is a general error from the service', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = { body: { name: 'some name' } };
-        sinon.stub(branchValidator, 'isValid').returns([]);
-        sinon.stub(branchService, 'create');
-      });
+    it('fails when the stream client blows up', () => {
+      const req = { body: { name: 'Main Branch', notes: 'This is a branch', contact: '9876 5432' } };
+      streamClient.publish.rejects();
 
-      afterEach(() => {
-        branchService.create.restore();
-        branchValidator.isValid.restore();
-      });
-
-      it('should return a 500', done => {
-        branchService.create.returns(Promise.reject('anything at all'));
-        branchesController.createBranch(req, res)
-          .then(() => {
-            expect(res.status).to.have.been.calledWith(500);
-          })
-          .then(done, done.fail)
-          .catch(done);
+      return branchesController.createBranch(req, res).then(() => {
+        expect(res.status).to.have.been.calledWith(500);
       });
     });
   });
 
   describe('update', () => {
     let req;
-    let res;
 
     context('when branch id and admin id are valid', () => {
       beforeEach(() => {
@@ -249,7 +230,6 @@ describe('branchesController', () => {
 
   describe('list', () => {
     let req;
-    let res;
 
     beforeEach(() => {
       sinon.stub(branchService, 'list');
@@ -300,7 +280,7 @@ describe('branchesController', () => {
 
       it('should handle errors from the service', done => {
         branchService.findById.returns(Promise.reject('some service error'));
-        const res = { sendStatus: sinon.spy() };
+        res = { sendStatus: sinon.spy() };
 
         const req = { user: { type: 'normal', branchId: '1' } };
         branchesController.branchesForAdmin(req, res)
