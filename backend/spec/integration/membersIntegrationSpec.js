@@ -60,10 +60,11 @@ function setState(obj, key) {
 
 describe('MemberIntegrationTests', () => {
   let agent;
-  const browserState = {};
+  let browserState;
 
   beforeEach(() => {
     agent = request.agent(app);
+    browserState = {};
     return integrationTestHelpers.resetDatabase();
   });
 
@@ -131,19 +132,24 @@ describe('MemberIntegrationTests', () => {
   });
 
   describe('Edit member', () => {
-    beforeEach(() => integrationTestHelpers.resetDatabase()
-            .then(integrationTestHelpers.createBranch)
-            .then(setState(browserState, 'branch'))
-            .then(branch => { integrationTestHelpers.createBranchAdmin(branch); return branch; })
-            .then(integrationTestHelpers.createMembers(agent, 1))
-            .then(() => Q.all([
-              integrationTestHelpers.createGroup(agent, browserState.branch.id),
-              integrationTestHelpers.createGroup(agent, browserState.branch.id),
-            ]))
-            .then(setState(browserState, 'groups'))
-            .then(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then(getMembers(agent, browserState))
-            .then(setState(browserState, 'members')));
+    beforeEach(() => (
+      integrationTestHelpers.resetDatabase()
+        .then(integrationTestHelpers.createBranch)
+        .then(setState(browserState, 'branch'))
+        .then(branch => (
+          integrationTestHelpers.createBranchAdmin(branch)
+            .then(() => branch)
+        ))
+        .then(integrationTestHelpers.createMembers(agent, 1))
+        .then(() => Q.all([
+          integrationTestHelpers.createGroup(agent, browserState.branch.id),
+          integrationTestHelpers.createGroup(agent, browserState.branch.id),
+        ]))
+        .then(setState(browserState, 'groups'))
+        .then(integrationTestHelpers.authenticateBranchAdmin(agent))
+        .then(getMembers(agent, browserState))
+        .then(setState(browserState, 'members'))
+    ));
 
     it('should successfully edit the member', () => {
       const member = sample(browserState.members);
