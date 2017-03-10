@@ -4,6 +4,7 @@ const branchService = require('../../../src/services/branchService');
 const branchValidator = require('../../../src/lib/branchValidator');
 const branchesController = require('../../../src/controllers/branchesController');
 const streamClient = require('../../../src/streamClient');
+const reducers = require('../../../src/reducers/rootReducer');
 
 const FAKE_BRANCHES_LIST = [
   {
@@ -32,7 +33,9 @@ describe('branchesController', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(streamClient, 'publish').resolves();
+    sandbox.stub(reducers, 'getMembers').returns([{ id: 'irrelevant-member', branchId: 'some-other-branch' }]);
     res = {
+      sendStatus: sinon.spy(),
       json: sinon.spy(),
     };
     res.status = sinon.stub().returns(res);
@@ -75,6 +78,39 @@ describe('branchesController', () => {
       return branchesController.createBranch(req, res).then(() => {
         expect(res.status).to.have.been.calledWith(500);
       });
+    });
+  });
+
+  describe('deleteBranch', () => {
+    it('puts an event on the stream when the branch exists and has no members', () => {
+      const req = { params: { branchId: 'some-branch' } };
+
+      return branchesController.deleteBranch(req, res)
+        .then(() => {
+          expect(streamClient.publish).to.have.been.calledWith('branch-removed', { id: 'some-branch' });
+          expect(res.sendStatus).to.have.been.calledWith(200);
+        });
+    });
+
+    it('fails when the branch does not exist');
+
+    it('fails when the branch still has members', () => {
+      const req = { params: { branchId: 'some-branch' } };
+      reducers.getMembers.returns([{ id: 'some-member', branchId: 'some-branch' }]);
+
+      branchesController.deleteBranch(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(400);
+    });
+
+    it('fails when the stream client blows up', () => {
+      const req = { params: { branchId: 'some-branch' } };
+
+      streamClient.publish.rejects();
+
+      return branchesController.deleteBranch(req, res)
+        .then(() => {
+          expect(res.sendStatus).to.have.been.calledWith(500);
+        });
     });
   });
 

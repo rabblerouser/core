@@ -4,9 +4,10 @@ const uuid = require('node-uuid');
 const branchService = require('../services/branchService');
 const logger = require('../lib/logger');
 const adminType = require('../security/adminType');
-const validator = require('../lib/inputValidator');
 const branchValidator = require('../lib/branchValidator');
 const streamClient = require('../streamClient');
+const store = require('../store');
+const reducers = require('../reducers/rootReducer');
 
 function listBranches(req, res) {
   return branchService.list(['id', 'name'])
@@ -31,12 +32,13 @@ function parseBranch(req) {
 function deleteBranch(req, res) {
   const branchId = req.params.branchId;
 
-  if (!(validator.isValidUUID(branchId))) {
-    logger.error(`Failed deleting the admin with branchId: ${branchId}`);
+  const allMembers = reducers.getMembers(store.getState());
+  if (allMembers.find(member => member.branchId === branchId)) {
+    logger.error(`Refusing to delete branch which still has members: ${branchId}}`);
     return res.sendStatus(400);
   }
 
-  return branchService.delete(branchId)
+  return streamClient.publish('branch-removed', { id: branchId })
     .then(() => {
       res.sendStatus(200);
     })

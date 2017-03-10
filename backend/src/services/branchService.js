@@ -26,18 +26,6 @@ function transformBranches(adapter) {
   return dbResult => dbResult.map(adapter);
 }
 
-const deleteBranch = id =>
-  Branch
-    .destroy({ where: { id } })
-    .then(result => {
-      if (!result) {
-        throw new Error('No records were deleted');
-      }
-
-      logger.info('[delete-branch]', `branch with id ${id} deleted`);
-    })
-    .catch(handleError('[delete-branch-failed]', `An error has occurred while deleting the branch with id: ${id}`));
-
 const update = newValues =>
   Branch
     .findOne({ where: { id: newValues.id } })
@@ -71,6 +59,5 @@ function findById(id) {
 module.exports = {
   list,
   update,
-  delete: deleteBranch,
   findById,
 };
