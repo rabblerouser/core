@@ -4,7 +4,6 @@ const Q = require('q');
 const AdminUser = require('../models').AdminUser;
 const logger = require('../lib/logger');
 const adminType = require('../security/adminType');
-const moment = require('moment');
 const uuid = require('node-uuid');
 
 function createHash() {
@@ -38,7 +37,7 @@ function save(adminUser) {
 }
 
 const setupNewAdmin = newAdmin =>
-  Object.assign({}, newAdmin, { id: createHash(), memberSince: moment() });
+  Object.assign({}, newAdmin, { id: createHash() });
 
 
 const create = newAdmin =>

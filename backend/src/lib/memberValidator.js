@@ -8,8 +8,8 @@ const isValidBranch = name =>
 
 const memberFieldsChecks = {
   email: inputValidator.isValidEmail,
-  primaryPhoneNumber: inputValidator.isValidOptionalPhoneNumber,
-  firstName: inputValidator.isValidName,
+  phoneNumber: inputValidator.isValidOptionalPhoneNumber,
+  name: inputValidator.isValidName,
   branchId: isValidBranch,
   additionalInfo: inputValidator.isValidOptionalTextBlock,
   notes: inputValidator.isValidOptionalTextBlock,

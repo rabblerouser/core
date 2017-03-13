@@ -25,24 +25,21 @@ export const EditMemberForm = ({
         {groupOptions.map(group => (<option key={group.id} value={group.id}>{group.name}</option>))}
       </Field>
       <FieldSet>
-        <FieldSet>
-          <Field component={InputField} name="firstName" label="First name" type="text" />
-          <Field component={InputField} name="lastName" label="Last name" type="text" />
-        </FieldSet>
+        <Field component={InputField} name="name" label="Name" type="text" />
         <Field component={InputField} name="email" label="Email" type="email" />
         <Field
           component={InputField}
-          name="primaryPhoneNumber"
-          label="Contact Number"
+          name="phoneNumber"
+          label="Phone Number"
           type="tel"
         />
         {addressEnabled &&
           <FieldSet>
-            <Field component={InputField} name="postalAddress.address" label="Address" type="text" />
-            <Field component={InputField} name="postalAddress.suburb" label="Suburb" type="text" />
-            <Field component={InputField} name="postalAddress.postcode" label="Postcode" type="text" />
-            <Field component={InputField} name="postalAddress.state" label="State" type="text" />
-            <Field component={InputField} name="postalAddress.country" label="Country" type="text" />
+            <Field component={InputField} name="address.address" label="Address" type="text" />
+            <Field component={InputField} name="address.suburb" label="Suburb" type="text" />
+            <Field component={InputField} name="address.postcode" label="Postcode" type="text" />
+            <Field component={InputField} name="address.state" label="State" type="text" />
+            <Field component={InputField} name="address.country" label="Country" type="text" />
           </FieldSet>}
       </FieldSet>
       <Field component={TextAreaField} name="additionalInfo" label="Additional info" />

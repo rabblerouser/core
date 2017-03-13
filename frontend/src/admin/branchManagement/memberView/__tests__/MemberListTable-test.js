@@ -6,9 +6,8 @@ import { MemberListTable } from '../MemberListTable';
 describe('MemberListTable', () => {
   const member = {
     id: '1',
-    firstName: 'Jo jo',
-    LastName: 'The 3rd',
-    primaryPhoneNumber: '101010010',
+    name: 'Jo Jo The 3rd',
+    phoneNumber: '101010010',
     email: 'jo@jo.com',
     memberSince: '2016-03-08T22:34:23.721Z',
     additionalInfo: 'Some additional info',
@@ -18,11 +17,11 @@ describe('MemberListTable', () => {
   };
 
   describe('when address is enabled', () => {
-    it('create a table with a postal address column', () => {
+    it('create a table with an address column', () => {
       const expectedColumns = [
         { type: 'name', field: 'memberName', label: 'Member name' },
         { type: 'name', field: 'contactNumber', label: 'Contact information' },
-        { type: 'name', field: 'postalAddress', label: 'Postal Address' },
+        { type: 'name', field: 'address', label: 'Address' },
         { type: 'name', field: 'memberSince', label: 'Member since' },
         { type: 'actions' },
       ];
@@ -40,8 +39,8 @@ describe('MemberListTable', () => {
       expect(computedColumns).toEqual(expectedColumns);
     });
 
-    it('a member with a postal address should have a pretty version of it displayed', () => {
-      const postalAddress = {
+    it('a member with an address should have a pretty version of it displayed', () => {
+      const address = {
         address: '303 Collins St',
         suburb: 'Melbourne',
         state: 'Victoria',
@@ -51,7 +50,7 @@ describe('MemberListTable', () => {
 
       const wrapper = shallow(
         <MemberListTable
-          members={[{ ...member, postalAddress }]}
+          members={[{ ...member, address }]}
           groups={[]}
           onEdit={() => {}}
           onDeleteMember={() => {}}
@@ -60,11 +59,11 @@ describe('MemberListTable', () => {
       );
 
       const computedData = wrapper.find('SortedTable').prop('data');
-      const computedAddressString = computedData[0].postalAddress;
+      const computedAddressString = computedData[0].address;
       expect(computedAddressString).toEqual('303 Collins St, Melbourne, Victoria, 3000, Australia');
     });
 
-    it('a member with no postal address should have a "no postal address" special value printed', () => {
+    it('a member with no address should have a "no address" special value printed', () => {
       const wrapper = shallow(
         <MemberListTable
           members={[{ ...member }]}
@@ -76,7 +75,7 @@ describe('MemberListTable', () => {
       );
 
       const computedData = wrapper.find('SortedTable').prop('data');
-      const computedAddressString = computedData[0].postalAddress;
+      const computedAddressString = computedData[0].address;
       expect(computedAddressString).toEqual('-');
     });
   });
@@ -89,7 +88,7 @@ describe('MemberListTable', () => {
       { type: 'actions' },
     ];
 
-    it('create a table with no postal address column', () => {
+    it('create a table with no address column', () => {
       const wrapper = shallow(
         <MemberListTable
           members={[{ ...member }]}

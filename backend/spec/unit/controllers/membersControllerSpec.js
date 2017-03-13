@@ -1,12 +1,14 @@
 'use strict';
 
-const Q = require('q');
-const memberService = require('../../../src/services/memberService');
 const memberValidator = require('../../../src/lib/memberValidator');
 const membersController = require('../../../src/controllers/membersController');
 const inputValidator = require('../../../src/lib/inputValidator');
 const csvGenerator = require('../../../src/lib/csvGenerator');
+const branchService = require('../../../src/services/branchService');
+const groupService = require('../../../src/services/groupService');
 const streamClient = require('../../../src/streamClient');
+const store = require('../../../src/store');
+const reducers = require('../../../src/reducers/rootReducer');
 
 describe('membersController', () => {
   let sandbox;
@@ -20,68 +22,58 @@ describe('membersController', () => {
     };
     sandbox.stub(memberValidator, 'isValid');
     sandbox.stub(streamClient, 'publish');
+    sandbox.stub(store, 'getState');
+    sandbox.stub(reducers, 'getMembers');
+    sandbox.stub(csvGenerator, 'generateCsv');
+    sandbox.stub(inputValidator, 'isValidUUID');
+    sandbox.stub(branchService, 'findById');
+    sandbox.stub(groupService, 'list');
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  describe('register', () => {
+  describe('registerMember', () => {
     it('parses a valid member, and publishes an event to the stream', () => {
-      const residentialAddress = { address: '221b Baker St', suburb: 'London', country: 'England', state: 'VIC', postcode: '1234' };
-      const postalAddress = { address: '47 I dont want your spam St', suburb: 'Moriarty', country: 'USA', state: 'NM', postcode: '5678' };
+      const address = { address: '47 Spam St', suburb: 'Moriarty', country: 'USA', state: 'NM', postcode: '5678' };
       const validBody = {
-        firstName: 'Sherlock',
-        lastName: 'Holmes',
+        name: 'Sherlock Holmes',
         email: 'sherlock@holmes.co.uk',
-        gender: 'detective genius',
-        primaryPhoneNumber: '0396291146',
-        secondaryPhoneNumber: '0394291146',
-        residentialAddress,
-        postalAddress,
-        membershipType: 'full',
+        phoneNumber: '0396291146',
+        address,
         branchId: 'some-id-1',
         additionalInfo: null,
-        notes: null,
-        id: null,
-        groups: null,
       };
 
       const req = { body: validBody };
       memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
       streamClient.publish.returns(Promise.resolve());
 
-      return membersController.register(req, res).then(() => {
+      return membersController.registerMember(req, res).then(() => {
         expect(res.status).to.have.been.calledWith(201);
         expect(res.status().json).to.have.been.calledWith({});
-        expect(streamClient.publish).to.have.been.calledWith({
-          type: 'member-registered',
-          data: {
-            additionalInfo: null,
-            branchId: 'some-id-1',
-            email: 'sherlock@holmes.co.uk',
-            firstName: 'Sherlock',
-            gender: 'detective genius',
-            groups: null,
-            id: null,
-            lastName: 'Holmes',
-            membershipType: 'full',
-            notes: null,
-            postalAddress: { address: '47 I dont want your spam St', country: 'USA', postcode: '5678', state: 'NM', suburb: 'Moriarty' },
-            primaryPhoneNumber: '0396291146',
-            residentialAddress: { address: '221b Baker St', country: 'England', postcode: '1234', state: 'VIC', suburb: 'London' },
-            secondaryPhoneNumber: '0394291146',
-          },
-        });
+        const [eventType, eventData] = streamClient.publish.args[0];
+        expect(eventType).to.eql('member-registered');
+        expect(eventData.additionalInfo).to.eql(null);
+        expect(eventData.branchId).to.eql('some-id-1');
+        expect(eventData.email).to.eql('sherlock@holmes.co.uk');
+        expect(eventData.name).to.eql('Sherlock Holmes');
+        expect(eventData.id).to.be.a('string');
+        expect(eventData.memberSince).to.be.an('object');
+        expect(eventData.address).to.eql({ address: '47 Spam St', country: 'USA', postcode: '5678', state: 'NM', suburb: 'Moriarty' });
+        expect(eventData.phoneNumber).to.eql('0396291146');
       });
     });
 
     it('sends a 500 back if the stream publish fails', () => {
       const req = { body: {} };
       memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
       streamClient.publish.returns(Promise.reject('oh noes!'));
 
-      return membersController.register(req, res).then(() => {
+      return membersController.registerMember(req, res).then(() => {
         expect(res.sendStatus).to.have.been.calledWith(500);
       });
     });
@@ -89,132 +81,218 @@ describe('membersController', () => {
     it('sends a 400 back if the request is invalid', () => {
       const req = { body: {} };
       memberValidator.isValid.returns(['error!']);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
 
-      membersController.register(req, res);
+      return membersController.registerMember(req, res).then(() => {
+        expect(res.status).to.have.been.calledWith(400);
+        expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
+      });
+    });
 
-      expect(res.status).to.have.been.calledWith(400);
-      expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
+    it('send a 400 back if the request is mostly valid except for the branch id', () => {
+      const req = {
+        body: {
+          name: 'Sherlock Holmes',
+          email: 'sherlock@holmes.co.uk',
+          branchId: 'non-existent-branch',
+        },
+      };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({}));
+
+      return membersController.registerMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown branchId'] });
+        });
     });
   });
 
-  describe('list', () => {
-    let serviceStub;
-    let req;
-
+  describe('editMember', () => {
     beforeEach(() => {
-      req = {
-        params: { banchId: 'some-id-1' },
-        user: { banchId: 'some-id-1' },
+      groupService.list.returns([
+        { id: 'first' },
+        { id: 'second' },
+      ]);
+    });
+
+    it('parses a valid member, and publishes an event to the stream', () => {
+      const address = { address: '47 Spam St', suburb: 'Moriarty', country: 'USA', state: 'NM', postcode: '5678' };
+      const validBody = {
+        name: 'Sherlock Holmes',
+        email: 'sherlock@holmes.co.uk',
+        phoneNumber: '0396291146',
+        address,
+        branchId: 'some-id-1',
+        additionalInfo: null,
+        notes: 'Some notes',
+        id: 'abc-123',
+        groups: ['first', 'second'],
       };
-      serviceStub = sinon.stub(memberService, 'list');
-    });
 
-    afterEach(() => {
-      memberService.list.restore();
-    });
+      const req = { body: validBody };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
+      streamClient.publish.returns(Promise.resolve());
 
-    it('should return a list of members', done => {
-      serviceStub.returns(Q.resolve([{ id: 'id1', firstName: 'Pepe', lastName: 'Perez' }]));
-      res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-
-      membersController.list(req, res)
-            .then(() => {
-              expect(serviceStub).to.have.been.called;
-              expect(res.status).to.have.been.calledWith(200);
-              expect(res.status().json).to.have.been.calledWith(sinon.match({
-                members: [
-                    { id: 'id1', firstName: 'Pepe', lastName: 'Perez' },
-                ],
-              }));
-            })
-            .then(done)
-            .catch(done);
-    });
-
-    describe('oops, things are not working quite well', () => {
-      it('should handle service exceptions', done => {
-        serviceStub.returns(Q.reject('Some service list error'));
-        res = { sendStatus: sinon.spy() };
-
-        membersController.list(req, res)
-                .then(() => {
-                  expect(res.sendStatus).to.have.been.calledWith(500);
-                  expect(serviceStub).to.have.been.called;
-                })
-                .then(done)
-                .catch(done);
+      return membersController.editMember(req, res).then(() => {
+        expect(res.status).to.have.been.calledWith(201);
+        expect(res.status().json).to.have.been.calledWith({});
+        expect(streamClient.publish).to.have.been.calledWith(
+          'member-edited',
+          {
+            additionalInfo: null,
+            branchId: 'some-id-1',
+            email: 'sherlock@holmes.co.uk',
+            name: 'Sherlock Holmes',
+            notes: 'Some notes',
+            id: 'abc-123',
+            groups: ['first', 'second'],
+            address: { address: '47 Spam St', country: 'USA', postcode: '5678', state: 'NM', suburb: 'Moriarty' },
+            phoneNumber: '0396291146',
+          }
+        );
       });
+    });
 
-      it('should handle when a session is not found', done => {
-        req = {};
-        res = { sendStatus: sinon.spy() };
+    it('sends a 500 back if the stream publish fails', () => {
+      const req = { body: { id: 'hello' } };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
+      streamClient.publish.returns(Promise.reject('oh noes!'));
 
-        membersController.list(req, res);
+      return membersController.editMember(req, res).then(() => {
         expect(res.sendStatus).to.have.been.calledWith(500);
-        expect(serviceStub).not.to.have.been.called;
-        done();
+      });
+    });
+
+    it('sends a 400 back if the request is invalid', () => {
+      const req = { body: {} };
+      memberValidator.isValid.returns(['error!']);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
+
+      return membersController.editMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
+        });
+    });
+
+    it('sends a 400 back if the request is mostly valid except for the branch id', () => {
+      const req = {
+        body: {
+          id: 'abc-123',
+          name: 'Sherlock Holmes',
+          email: 'sherlock@holmes.co.uk',
+          branchId: 'non-existent-branch',
+          groups: ['first', 'second'],
+        },
+      };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({}));
+
+      return membersController.editMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown branchId'] });
+        });
+    });
+
+    it('send a 400 back if the request is mostly valid except for one of the group IDs', () => {
+      const req = {
+        body: {
+          id: 'abc-123',
+          name: 'Sherlock Holmes',
+          email: 'sherlock@holmes.co.uk',
+          branchId: 'non-existent-branch',
+          groups: ['first', 'second', 'third'],
+        },
+      };
+      memberValidator.isValid.returns([]);
+      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
+
+      return membersController.editMember(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(400);
+          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown groupId third'] });
+        });
+    });
+  });
+
+  describe('listBranchMembers', () => {
+    it('returns no members if no branchId is given', () => {
+      const req = { params: {} };
+      membersController.listBranchMembers(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.status().json).to.have.been.calledWith({
+        members: [],
+      });
+    });
+
+    it('returns only the members from the branch', () => {
+      const req = { params: { branchId: 'right' } };
+      reducers.getMembers.returns([
+        { name: 'John Doe', branchId: 'right' },
+        { name: 'Jess Doe', branchId: 'wrong' },
+      ]);
+
+      membersController.listBranchMembers(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.status().json).to.have.been.calledWith({
+        members: [{ name: 'John Doe', branchId: 'right' }],
       });
     });
   });
 
   describe('exportBranchMembers', () => {
-    it('gets the members transforms them to CSV', () => {
-      const req = { params: { branchId: 'some-id-1' } };
+    it('gets the relevant members and transforms them to CSV', () => {
+      const req = { params: { branchId: 'right' } };
       res = { set: () => {}, send: sinon.spy() };
-      const members = [{ name: 'member-1' }, { name: 'member-2' }];
+      const members = [
+        { name: 'member-1', branchId: 'right' },
+        { name: 'member-2', branchId: 'right' },
+        { name: 'member-3', branchId: 'wrong' },
+      ];
       const csv = 'member1\nmember2';
+      reducers.getMembers.returns(members);
+      csvGenerator.generateCsv.returns(csv);
 
-      sinon.stub(memberService, 'list').returns(Q.resolve(members));
-      const csvStub = sinon.stub(csvGenerator, 'generateCsv').returns(csv);
+      membersController.exportBranchMembers(req, res);
 
-      return membersController.exportBranchMembers(req, res).then(() => {
-        expect(csvStub).to.have.been.calledWith(sinon.match.array, members);
-        expect(res.send).to.have.been.calledWith(csv);
-
-        memberService.list.restore();
-        csvGenerator.generateCsv.restore();
-      });
+      expect(csvGenerator.generateCsv).to.have.been.calledWith(
+        sinon.match.array,
+        [{ name: 'member-1', branchId: 'right' }, { name: 'member-2', branchId: 'right' }]
+      );
+      expect(res.send).to.have.been.calledWith(csv);
     });
   });
 
-  describe('deleteBranch', () => {
-    let validateUUIDStub;
-    let memberServiceDelete;
-
-    beforeEach(() => {
-      res = { sendStatus: sinon.spy() };
-      validateUUIDStub = sinon.stub(inputValidator, 'isValidUUID');
-      memberServiceDelete = sinon.stub(memberService, 'delete');
-    });
-
-    afterEach(() => {
-      memberService.delete.restore();
-      inputValidator.isValidUUID.restore();
-    });
-
+  describe('deleteMember', () => {
     it('gives a 400 when the memberId is not valid', () => {
-      validateUUIDStub.returns(false);
+      inputValidator.isValidUUID.returns(false);
 
-      membersController.delete({ params: { memberId: 'bad' } }, res);
+      membersController.deleteMember({ params: { memberId: 'bad' } }, res);
       expect(res.sendStatus).to.have.been.calledWith(400);
     });
 
-    it('calls the member service, and gives a 200 when it succeeds', () => {
-      validateUUIDStub.returns(true);
-      memberServiceDelete.returns(Q.resolve());
+    it('publishes an event and gives a 200 when it succeeds', () => {
+      inputValidator.isValidUUID.returns(true);
+      streamClient.publish.returns(Promise.resolve());
 
-      return membersController.delete({ params: { memberId: '12345' } }, res).then(() => {
-        expect(memberServiceDelete).to.have.been.calledWith('12345');
+      return membersController.deleteMember({ params: { memberId: '12345' } }, res).then(() => {
+        expect(streamClient.publish).to.have.been.calledWith('member-removed', { id: '12345' });
         expect(res.sendStatus).to.have.been.calledWith(200);
       });
     });
 
-    it('calls the member service, and gives a 500 when it fails', () => {
-      validateUUIDStub.returns(true);
-      memberServiceDelete.returns(Q.reject());
+    it('publishes an event and gives a 500 when it fails', () => {
+      inputValidator.isValidUUID.returns(true);
+      streamClient.publish.returns(Promise.reject('Oops'));
 
-      return membersController.delete({ params: { memberId: '12345' } }, res).then(() => {
-        expect(memberServiceDelete).to.have.been.calledWith('12345');
+      return membersController.deleteMember({ params: { memberId: '12345' } }, res).then(() => {
+        expect(streamClient.publish).to.have.been.calledWith('member-removed', { id: '12345' });
         expect(res.sendStatus).to.have.been.calledWith(500);
       });
     });

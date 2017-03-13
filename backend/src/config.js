@@ -16,8 +16,7 @@ const baseConfig = {
     domain: process.env.SESSION_DOMAIN,
   },
   eventStream: {
-    streamName: 'rabblerouser_stream',
-    listenerAuthToken: process.env.LISTENER_AUTH_TOKEN || 'secret',
+    listenerAuthToken: process.env.LISTENER_AUTH_TOKEN,
     region: process.env.AWS_REGION || 'ap-southeast-2',
     accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'FAKE',
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'ALSO FAKE',
@@ -31,8 +30,19 @@ const devConfig = Object.assign({}, baseConfig, {
   }),
   eventStream: Object.assign({}, baseConfig.eventStream, {
     kinesisEndpoint: process.env.KINESIS_ENDPOINT,
+    s3Endpoint: process.env.S3_ENDPOINT,
+    streamName: process.env.STREAM_NAME,
+    archiveBucket: process.env.ARCHIVE_BUCKET,
   }),
   logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
+});
+
+const testConfig = Object.assign({}, baseConfig, {
+  eventStream: Object.assign({}, baseConfig.eventStream, {
+    kinesisEndpoint: process.env.KINESIS_ENDPOINT,
+    streamName: process.env.TEST_STREAM_NAME,
+    // No archive bucket or S3 endpoint for testing
+  }),
 });
 
 const prodConfig = Object.assign({}, baseConfig, {
@@ -40,7 +50,17 @@ const prodConfig = Object.assign({}, baseConfig, {
     proxy: true,
     secureCookie: true,
   }),
+  eventStream: Object.assign({}, baseConfig.eventStream, {
+    streamName: process.env.STREAM_NAME,
+    archiveBucket: process.env.ARCHIVE_BUCKET,
+  }),
   logFormat: '[:date[iso]] :remote-addr - :req[user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
 });
 
-module.exports = process.env.NODE_ENV === 'production' ? prodConfig : devConfig;
+const pickConfig = () => {
+  if (process.env.NODE_ENV === 'production') { return prodConfig; }
+  if (process.env.NODE_ENV === 'test') { return testConfig; }
+  return devConfig;
+};
+
+module.exports = pickConfig();

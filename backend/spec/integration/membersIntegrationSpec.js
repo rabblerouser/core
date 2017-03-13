@@ -4,15 +4,14 @@ const instanceUrl = process.env.INSTANCE_URL;
 const app = instanceUrl || require('../../src/app');
 const request = require('supertest-as-promised');
 const sample = require('lodash').sample;
-const pluck = require('lodash').pluck;
 const integrationTestHelpers = require('./integrationTestHelpers.js');
 const Q = require('q');
 
 function getMembers(someAgent, state) {
-  return function () {
-    return someAgent.get(`/branches/${state.branch.id}/members`)
-        .then(response => response.body.members);
-  };
+  return () => (
+    someAgent.get(`/branches/${state.branch.id}/members`)
+      .then(response => response.body.members)
+  );
 }
 
 function editMember(member, groups) {
@@ -22,40 +21,40 @@ function editMember(member, groups) {
 
 function hasMembersList(res) {
   const response = res.body;
-  expect(response.members).not.to.be.null;
+  expect(response.members).not.to.eql(null);
   expect(response.members.length).to.equal(3);
 
   const randomMember = sample(response.members);
-  expect(randomMember.postalAddress.address).not.to.be.null;
-  expect(randomMember.postalAddress.suburb).not.to.be.null;
-  expect(randomMember.postalAddress.city).not.to.be.null;
-  expect(randomMember.postalAddress.postcode).not.to.be.null;
-  expect(randomMember.postalAddress.country).not.to.be.null;
+  expect(randomMember.address.address).not.to.eql(null);
+  expect(randomMember.address.suburb).not.to.eql(null);
+  expect(randomMember.address.city).not.to.eql(null);
+  expect(randomMember.address.postcode).not.to.eql(null);
+  expect(randomMember.address.country).not.to.eql(null);
 }
 
-const getBranchId = someAgent => function () {
-  return someAgent
-        .get('/branches')
-        .then(response => sample(response.body.branches).id);
-};
+const getBranchId = someAgent => () => (
+  someAgent
+    .get('/branches')
+    .then(response => sample(response.body.branches).id)
+);
 
 const makeMemberWithNoAddress = branchId => {
   const member = integrationTestHelpers.makeMember(branchId);
-  member.residentialAddress = null;
-  member.postalAddress = null;
+  member.address = null;
 
   return member;
 };
 
 const makeInvalidMember = () => {
   const member = integrationTestHelpers.makeMember();
-  member.firstName = null;
+  member.name = null;
   return member;
 };
 
 function setState(obj, key) {
-  return function (newState) {
+  return newState => {
     obj[key] = newState;
+    return newState;
   };
 }
 
@@ -76,36 +75,31 @@ describe('MemberIntegrationTests', () => {
               browserState.branchId = branchId;
             }));
 
-    xit('should return 200 and a created member when the input is valid', () =>
-            // Test excluded until we get better docker automation of a local kinesis instance
-             agent
-                .post('/register')
-                .set('Content-Type', 'application/json')
-                .set('Accept', 'application/json')
-                .send(integrationTestHelpers.makeMember(browserState.branchId))
-                .expect(200));
+    it('should return 201 when the input is valid', () => (
+      agent.post('/register')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(integrationTestHelpers.makeMember(browserState.branchId))
+        .expect(201))
+    );
 
-    xit('should safely create a member with dodgy information', () => {
-            // Test excluded until we get better docker automation of a local kinesis instance
+    it('should safely create a member with dodgy information', () => {
       const dodgyMember = integrationTestHelpers.makeMember(browserState.branchId);
       dodgyMember.additionalInfo = '\'); DROP TABLE MEMBERS';
 
-      return agent
-                .post('/register')
-                .set('Content-Type', 'application/json')
-                .set('Accept', 'application/json')
-                .send(dodgyMember)
-                .expect(200);
+      return agent.post('/register')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(dodgyMember)
+        .expect(201);
     });
 
-    xit('should return 200 when creating a member with no address', () =>
-            // Test excluded until we get better docker automation of a local kinesis instance
-             agent
-            .post('/register')
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
-            .send(makeMemberWithNoAddress(browserState.branchId))
-            .expect(200));
+    it('should return 200 when creating a member with no address', () =>
+      agent.post('/register')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(makeMemberWithNoAddress(browserState.branchId))
+        .expect(201));
 
     it('should return 400 if the input is null', () => agent
             .post('/register')
@@ -139,81 +133,54 @@ describe('MemberIntegrationTests', () => {
   describe('Edit member', () => {
     beforeEach(() => integrationTestHelpers.resetDatabase()
             .then(integrationTestHelpers.createBranch)
-            .tap(setState(browserState, 'branch'))
-            .tap(integrationTestHelpers.createBranchAdmin)
+            .then(setState(browserState, 'branch'))
+            .then(branch => { integrationTestHelpers.createBranchAdmin(branch); return branch; })
             .then(integrationTestHelpers.createMembers(agent, 1))
             .then(() => Q.all([
               integrationTestHelpers.createGroupInBranch(browserState.branch.id),
               integrationTestHelpers.createGroupInBranch(browserState.branch.id),
             ]))
-            .tap(setState(browserState, 'groups'))
-            .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
+            .then(setState(browserState, 'groups'))
+            .then(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then(getMembers(agent, browserState))
-            .tap(setState(browserState, 'members')));
+            .then(setState(browserState, 'members')));
 
-    it('should add groups to a member', () => {
-      const member = sample(browserState.members);
-      const groups = pluck(browserState.groups, 'groupId');
-      const branchId = browserState.branch.id;
-
-      return agent.put(`/branches/${branchId}/members/${member.id}`)
-                .set('Content-Type', 'application/json')
-                .send(editMember(member, groups))
-                .expect(200)
-                .expect(res => {
-                  const response = res.body;
-                  expect(response.groups).not.to.be.null;
-                  expect(response.groups.length).to.equal(2);
-                });
-    });
-
-    it('should edit the member with the new values', () => {
+    it('should successfully edit the member', () => {
       const member = sample(browserState.members);
       const branchId = browserState.branch.id;
 
-      member.firstName = 'Super Test';
+      member.name = 'Super Test';
 
       return agent.put(`/branches/${branchId}/members/${member.id}`)
-                .set('Content-Type', 'application/json')
-                .send(editMember(member, []))
-                .expect(200)
-                .expect(response => {
-                  expect(response.body.firstName).to.equal('Super Test');
-                });
+        .set('Content-Type', 'application/json')
+        .send(editMember(member, []))
+        .expect(201);
     });
 
-    it('should add a postal address to a member without one', () => {
+    it('should add an address to a member without one', () => {
       const member = sample(browserState.members);
-      const newPostalAddress = {
+      const newAddress = {
         address: 'Foo St',
         suburb: 'Bar',
         state: 'VIC',
         postcode: '0000',
         country: 'Baz',
       };
-      member.postalAddress = Object.assign({}, newPostalAddress);
+      member.address = Object.assign({}, newAddress);
 
       const branchId = browserState.branch.id;
 
       return agent.put(`/branches/${branchId}/members/${member.id}`)
-                .set('Content-Type', 'application/json')
-                .send(editMember(member, []))
-                .expect(200)
-                .expect(response => {
-                  const respPostalAddress = response.body.postalAddress;
-                  expect(respPostalAddress.address).to.equal(newPostalAddress.address);
-                  expect(respPostalAddress.suburb).to.equal(newPostalAddress.suburb);
-                  expect(respPostalAddress.state).to.equal(newPostalAddress.state);
-                  expect(respPostalAddress.postcode).to.equal(newPostalAddress.postcode);
-                  expect(respPostalAddress.country).to.equal(newPostalAddress.country);
-                });
+        .set('Content-Type', 'application/json')
+        .send(editMember(member, []))
+        .expect(201);
     });
 
     it('should respond 400 if invalid input', () => {
       const member = sample(browserState.members);
       const branchId = browserState.branch.id;
 
-      member.firstName = null;
+      member.name = null;
 
       return agent.put(`/branches/${branchId}/members/${member.id}`)
                 .set('Content-Type', 'application/json')

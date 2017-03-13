@@ -35,17 +35,35 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 ## Bonus commands
 
-If you just want to run a single command inside the container, you can do it like this:
+To run a single command inside the container, rather than interactive mode:
+```sh
+./go.sh npm test
+```
 
-        ./go.sh npm test
+To watch container logs (e.g. for debugging):
+```sh
+# This will show all container logs, colour-coded
+docker-compose logs -f
 
-The script starts several different containers. If you want to see their logs (e.g. for debugging):
+#This will show just the event-forwarder container's logs
+docker-compose logs -f event-forwarder
+```
 
-        # This will show all container logs, colour-coded
-        docker-compose logs -f
+To restart all containers with a clean slate:
+```sh
+docker-compose stop
+docker-compose rm
+```
 
-        #This will show just the event-forwarder container's logs
-        docker-compose logs -f event-forwarder
+To pull new versions of the docker images (e.g. kinesis, event-forwarder, etc):
+```
+docker-compose pull
+```
+
+If you get sick of typing docker-compose, you might want to add an alias to your `.bashrc` file
+```sh
+alias doco=docker-compose
+```
 
 ## Understanding this repository
 

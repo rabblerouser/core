@@ -1,7 +1,6 @@
 'use strict';
 
 const request = require('supertest-as-promised');
-const _ = require('lodash');
 const integrationTestHelpers = require('./integrationTestHelpers');
 const uuid = require('node-uuid');
 
@@ -9,10 +8,10 @@ const instanceUrl = process.env.INSTANCE_URL;
 const app = instanceUrl || require('../../src/app');
 
 function getMembersForGroup(someAgent, branchGroup) {
-  return function () {
-    return someAgent.get(`/branches/${branchGroup.branchId}/members`)
-        .then(response => response.body.members);
-  };
+  return () => (
+    someAgent.get(`/branches/${branchGroup.branchId}/members`)
+      .then(response => response.body.members)
+  );
 }
 
 function makeGroup() {
@@ -30,18 +29,6 @@ function hasGroup(res) {
   }
 }
 
-function addMembersToGroup(agent, branchGroup) {
-  return function (members) {
-    const branchId = branchGroup.branchId;
-    const memberIds = _.pluck(members, 'id');
-
-    return agent.post(`/branches/${branchId}/groups/${branchGroup.groupId}/members`)
-      .set('Content-Type', 'application/json')
-      .send({ memberIds })
-      .expect(200);
-  };
-}
-
 describe('Groups Integration Test', () => {
   let agent;
   const browserState = {};
@@ -51,11 +38,9 @@ describe('Groups Integration Test', () => {
 
     return integrationTestHelpers.resetDatabase()
       .then(integrationTestHelpers.createBranch)
-      .tap(integrationTestHelpers.createBranchAdmin)
-      .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
-      .then(branch => {
-        browserState.branch = branch;
-      });
+      .then(branch => { browserState.branch = branch; return branch; })
+      .then(integrationTestHelpers.createBranchAdmin)
+      .then(integrationTestHelpers.authenticateBranchAdmin(agent));
   });
 
   describe('create group for a branch', () => {
@@ -103,7 +88,7 @@ describe('Groups Integration Test', () => {
     it('should return a 200 when a group with members is deleted', () => (
       integrationTestHelpers.createMembers(agent, 2)(browserState.branch)
         .then(getMembersForGroup(agent, browserState.branchGroup))
-        .then(addMembersToGroup(agent, browserState.branchGroup))
+        .then(integrationTestHelpers.addMembersToGroup(agent, browserState.branchGroup))
         .then(() => agent.delete(`/branches/${browserState.branchGroup.branchId}/groups/${browserState.branchGroup.groupId}`)
         .expect(200))
     ));
@@ -117,59 +102,6 @@ describe('Groups Integration Test', () => {
     it('should return 500 when trying to delete a group that does not exist', () => (
       agent.delete(`/branches/${browserState.branch.id}/groups/${uuid.v4()}`)
         .expect(500)
-    ));
-  });
-
-  describe('adding a member to a group', () => {
-    beforeEach(() => (
-      integrationTestHelpers.createGroupInBranch(browserState.branch.id)
-        .then(branchGroup => {
-          browserState.branchGroup = branchGroup;
-        })
-    ));
-
-    it('responds with a 200', () => (
-      integrationTestHelpers.createMembers(agent, 2)(browserState.branch)
-        .then(getMembersForGroup(agent, browserState.branchGroup))
-        .then(members => {
-          const branchId = browserState.branchGroup.branchId;
-          const memberIds = _.pluck(members, 'id');
-
-          return agent.post(`/branches/${branchId}/groups/${browserState.branchGroup.groupId}/members`)
-            .set('Content-Type', 'application/json')
-            .send({ memberIds })
-            .expect(200);
-        })
-    ));
-
-    it('responds with a 400 when members is empty', () => (
-      integrationTestHelpers.createMembers(agent, 2)(browserState.branch)
-        .then(() => {
-          const branchId = browserState.branchGroup.branchId;
-
-          return agent.post(`/branches/${branchId}/groups/${browserState.branchGroup.id}/members`)
-                .set('Content-Type', 'application/json')
-                .send({ memberIds: [] })
-                .expect(400);
-        })
-    ));
-
-    it('responds with a 500 and an empty body when there is an error', () => (
-      integrationTestHelpers.createMembers(agent, 2)(browserState.branch)
-        .then(() => {
-          const badMemberIds = [1, 2];
-
-          return agent.post(`/branches/${browserState.branchGroup.branchId}/groups/${browserState.branchGroup.id}/members`)
-            .set('Content-Type', 'application/json')
-            .send({ memberIds: badMemberIds })
-            .expect(500)
-            .expect(res => {
-              if (_.isEmpty(res.body)) {
-                return;
-              }
-              throw new Error('response body should be empty');
-            });
-        })
     ));
   });
 });
