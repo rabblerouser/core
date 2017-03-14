@@ -8,8 +8,6 @@ const models = require('../../src/models');
 
 const AdminUser = models.AdminUser;
 const Branch = models.Branch;
-const BranchGroup = models.BranchGroup;
-const Group = models.Group;
 const adminType = require('../../src/security/adminType');
 
 function createBranchAdmin(branch) {
@@ -50,13 +48,6 @@ function createBranch() {
     .then(sequelizeResult => sequelizeResult.dataValues);
 }
 
-function createGroupInBranch(branchId) {
-  return Group.create({ name: 'Groupalicious', description: 'Groups yeah', id: uuid.v4() })
-    .then(group => Branch.findOne({ where: { id: branchId } })
-        .then(branch => branch.addGroup(group))
-        .then(sequelizeResult => sequelizeResult[0][0].dataValues));
-}
-
 const makeMember = branchId => ({
   branchId,
   id: uuid.v4(),
@@ -86,56 +77,47 @@ const makeEvent = event => ({
   data: new Buffer(JSON.stringify(event)).toString('base64'),
 });
 
-const makeMemberRegisteredEvent = branchId => makeEvent({
-  type: 'member-registered',
-  data: makeMember(branchId),
-});
-
-const makeMemberEditedEvent = member => makeEvent({
-  type: 'member-edited',
-  data: member,
-});
+const sendEvent = (agent, eventType, eventData) => {
+  const event = { type: eventType, data: eventData };
+  return (
+    agent.post('/events')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', 'secret')
+      .send(makeEvent(event))
+      .expect(200)
+  );
+};
 
 function createMembers(agent, numberOfMembers) {
   return branch => {
     let promise = Promise.resolve();
     times(numberOfMembers, () => {
-      promise = promise.then(() => (
-        agent.post('/events')
-          .set('Content-Type', 'application/json')
-          .set('Accept', 'application/json')
-          .set('Authorization', 'secret')
-          .send(makeMemberRegisteredEvent(branch.id))
-          .expect(200)
-      ));
+      promise = promise.then(() => sendEvent(agent, 'member-registered', makeMember(branch.id)));
     });
     return promise;
   };
 }
 
-function addMembersToGroup(agent, branchGroup) {
-  return members => {
-    let promise = Promise.resolve();
-    members.forEach(member => {
-      const updatedMember = Object.assign({}, member, { groups: [branchGroup.groupId] });
-      promise = promise.then(() => (
-        agent.post('/events')
-          .set('Content-Type', 'application/json')
-          .set('Accept', 'application/json')
-          .set('Authorization', 'secret')
-          .send(makeMemberEditedEvent(updatedMember))
-          .expect(200)
-      ));
-    });
-    return promise;
-  };
+function addMembersToGroup(agent, groupId) {
+  return members => (
+    members.reduce((promise, member) => {
+      const updatedMember = Object.assign({}, member, { groups: [groupId] });
+      return promise.then(() => sendEvent(agent, 'member-edited', updatedMember));
+    }, Promise.resolve())
+  );
+}
+
+function createGroup(agent, branchId) {
+  const group = { id: uuid.v4(), branchId, name: 'Groupalicious', description: 'Groups yeah' };
+
+  return sendEvent(agent, 'group-created', group)
+    .then(() => group.id);
 }
 
 function resetDatabase() {
   return Promise.resolve()
     .then(() => AdminUser.truncate({ cascade: true }))
-    .then(() => BranchGroup.truncate({ cascade: true }))
-    .then(() => Group.truncate({ cascade: true }))
     .then(() => Branch.truncate({ cascade: true }));
 }
 
@@ -146,7 +128,7 @@ module.exports = {
   createMembers,
   addMembersToGroup,
   makeMember,
-  createGroupInBranch,
+  createGroup,
   createSuperAdmin,
   authenticateSuperAdmin,
   resetDatabase,

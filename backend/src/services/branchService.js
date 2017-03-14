@@ -38,13 +38,7 @@ const transformBranch = dbResult => {
   return undefined;
 };
 
-const transformGroup = dbResult => dbResult.dataValues;
-
 function transformBranches(adapter) {
-  return dbResult => dbResult.map(adapter);
-}
-
-function transformGroups(adapter) {
   return dbResult => dbResult.map(adapter);
 }
 
@@ -88,19 +82,6 @@ const list = (attrs = ['id', 'name', 'contact', 'notes']) => {
     .catch(handleError('[branches-list-error]', 'An error has occurred while fetching branches'));
 };
 
-function groupsInBranch(id) {
-  return Branch
-    .findById(id)
-    .then(result => {
-      if (!result) {
-        throw new Error();
-      }
-      return result.getGroups();
-    })
-    .then(transformGroups(transformGroup))
-    .catch(handleError('[find-groups-in-branch-by-id-error]', `Error when looking up groups in branch with id: ${id}`));
-}
-
 function findById(id) {
   if (!id) {
     return Promise.resolve({});
@@ -118,5 +99,4 @@ module.exports = {
   update,
   delete: deleteBranch,
   findById,
-  groupsInBranch,
 };

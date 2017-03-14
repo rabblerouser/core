@@ -1,93 +1,103 @@
 'use strict';
 
-const groupService = require('../services/groupService');
+const uuid = require('node-uuid');
+const branchService = require('../services/branchService');
 const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
 const streamClient = require('../streamClient');
-
-function list(req, res) {
-  return groupService
-    .list()
-    .then(groups => res.status(200).json({ groups }))
-    .catch(() => res.sendStatus(500));
-}
+const store = require('../store');
+const reducers = require('../reducers/rootReducer');
 
 function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
 
-function create(req, res) {
-  const branchId = req.params.branchId;
+const findGroupInBranch = (groupId, branchId) => (
+  reducers.getGroups(store.getState()).find(group => group.id === groupId && group.branchId === branchId)
+);
+
+function createGroup(req, res) {
   const group = {
+    id: uuid.v4(),
+    branchId: req.params.branchId,
     name: req.body.name,
     description: req.body.description,
   };
 
   if (!groupDataValid(group)) {
-    res.sendStatus(400);
-    return undefined;
+    return res.sendStatus(400);
   }
 
-  return groupService.create(group, branchId)
-    .then(groupData => res.status(200).json(groupData))
-    .catch(error => {
-      logger.error(`Failed creating a new group: branchId: ${branchId}}`, error);
-      res.sendStatus(500);
-    });
+  return branchService.findById(group.branchId)
+    .then(branch => {
+      if (!branch.id) {
+        res.sendStatus(400);
+        throw new Error();
+      }
+    })
+    .then(() => streamClient.publish('group-created', group))
+    .then(
+      () => res.status(200).json(group),
+      error => {
+        logger.error(`Failed creating a new group: ${group}}: `, error);
+        res.sendStatus(500);
+      }
+    )
+    .catch(() => {});
 }
 
 function deleteGroup(req, res) {
   const branchId = req.params.branchId;
   const groupId = req.params.groupId;
 
-  if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
-    logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}`);
-    return res.sendStatus(400);
+  if (!findGroupInBranch(groupId, branchId)) {
+    return res.sendStatus(404);
   }
 
-  return groupService.delete(groupId)
-    .then(() => (
-      streamClient.publish('group-removed', { id: groupId })
-    ))
-    .then(() => {
-      res.sendStatus(200);
-    })
+  return streamClient.publish('group-removed', { id: groupId })
+    .then(() => res.sendStatus(200))
     .catch(error => {
       logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
       res.sendStatus(500);
     });
 }
 
-function update(req, res) {
+function updateGroup(req, res) {
   const branchId = req.params.branchId;
   const groupId = req.params.groupId;
 
-  if (!(validator.isValidUUID(branchId) && validator.isValidUUID(groupId))) {
-    logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`);
-    return res.sendStatus(400);
+  if (!findGroupInBranch(groupId, branchId)) {
+    return res.sendStatus(404);
   }
 
   const group = {
+    id: groupId,
+    branchId,
     name: req.body.name,
     description: req.body.description,
   };
 
   if (!groupDataValid(group)) {
-    res.sendStatus(400);
-    return undefined;
+    return res.sendStatus(400);
   }
 
-  return groupService.update(group, groupId)
-    .then(groupData => res.status(200).json(groupData))
+  return streamClient.publish('group-edited', group)
+    .then(() => res.status(200).json(group))
     .catch(error => {
       logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
       res.sendStatus(500);
     });
 }
 
+const getBranchGroups = (req, res) => {
+  const branchId = req.params.branchId;
+  const groups = reducers.getGroups(store.getState()).filter(group => group.branchId === branchId);
+  res.status(200).json({ groups });
+};
+
 module.exports = {
-  list,
-  create,
-  delete: deleteGroup,
-  update,
+  createGroup,
+  deleteGroup,
+  updateGroup,
+  getBranchGroups,
 };

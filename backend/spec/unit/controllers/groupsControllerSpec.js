@@ -1,78 +1,257 @@
 'use strict';
 
-const groupService = require('../../../src/services/groupService');
-const subject = require('../../../src/controllers/groupsController');
+const streamClient = require('../../../src/streamClient');
+const groupsController = require('../../../src/controllers/groupsController');
+const branchService = require('../../../src/services/branchService');
+const validator = require('../../../src/lib/inputValidator');
+const reducers = require('../../../src/reducers/rootReducer');
 
 describe('groupsController', () => {
-  context('when everything is fine', () => {
-    const fakeGroupsList = [
-      {
-        dataValues: {
-          name: 'Waiting list',
-          description: 'The waiting list group',
-        },
-      },
-      {
-        dataValues: {
-          name: 'Tuesday at 9am',
-          description: 'The list for the Tuesday at 9 group',
-        },
-      },
-    ];
+  let sandbox;
+  let res;
 
-    let req;
-    let res;
-
-    beforeEach(() => {
-      sinon.stub(groupService, 'list');
-      res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-    });
-
-    afterEach(() => {
-      groupService.list.restore();
-    });
-
-    it('returns a list of groups', done => {
-      groupService.list.returns(Promise.resolve(fakeGroupsList));
-
-      subject.list(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(200);
-          expect(res.status().json).to.have.been.calledWith({ groups: fakeGroupsList });
-        })
-        .then(done, done.fail)
-        .catch(done);
-    });
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(streamClient, 'publish');
+    sandbox.stub(branchService, 'findById').resolves({ id: 'some-id-1' });
+    sandbox.stub(validator, 'isValidUUID').returns(true);
+    sandbox.stub(reducers, 'getGroups');
+    res = {
+      json: sandbox.spy(),
+      sendStatus: sandbox.spy(),
+    };
+    res.status = sandbox.stub().returns(res);
   });
 
-  context('when there is an error', () => {
-    let req;
-    let res;
+  afterEach(() => {
+    sandbox.restore();
+  });
 
-    beforeEach(() => {
-      sinon.stub(groupService, 'create');
-      res = { sendStatus: sinon.spy() };
-    });
-
-    afterEach(() => {
-      groupService.create.restore();
-    });
-
-    it('returns 500 and an empty body', done => {
-      groupService.create.returns(Promise.reject('Error when creating a group'));
-
-      req = {
+  describe('createGroup', () => {
+    it('puts an event on the stream and succeeds when everything is valid', () => {
+      const req = {
         params: { branchId: 'some-branch-id' },
         body: { name: 'some-name', description: 'some-description' },
       };
 
-      subject.create(req, res)
+      streamClient.publish.resolves();
+
+      return groupsController.createGroup(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(200);
+          const resJson = res.json.args[0][0];
+          expect(resJson.id).to.be.a('string');
+          expect(resJson.branchId).to.eql('some-branch-id');
+          expect(resJson.name).to.eql('some-name');
+          expect(resJson.description).to.eql('some-description');
+
+          const [eventType, eventData] = streamClient.publish.args[0];
+          expect(eventType).to.eql('group-created');
+          expect(eventData).to.eql(resJson);
+        });
+    });
+
+    it('fails when the group name is invalid', () => {
+      const req = {
+        params: { branchId: 'some-branch-id' },
+        body: { name: null, description: 'some-description' },
+      };
+
+      groupsController.createGroup(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(400);
+    });
+
+    it('fails when the group description is invalid', () => {
+      const req = {
+        params: { branchId: 'some-branch-id' },
+        body: { name: 'some-name', description: null },
+      };
+
+      groupsController.createGroup(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(400);
+    });
+
+    it('fails when the given branch does not exist', () => {
+      const req = {
+        params: { branchId: 'noooope' },
+        body: { name: 'some-name', description: 'some-description' },
+      };
+
+      branchService.findById.resolves({});
+
+      return groupsController.createGroup(req, res)
+        .then(() => {
+          expect(res.sendStatus).to.have.been.calledWith(400);
+        });
+    });
+
+    it('fails when the stream operation blows up', () => {
+      const req = {
+        params: { branchId: 'noooope' },
+        body: { name: 'some-name', description: 'some-description' },
+      };
+
+      streamClient.publish.rejects('Bummer');
+
+      return groupsController.createGroup(req, res)
         .then(() => {
           expect(res.sendStatus).to.have.been.calledWith(500);
-          expect(groupService.create).to.have.been.calledWith(req.body, req.params.branchId);
-        })
-        .then(done, done.fail)
-        .catch(done);
+        });
     });
+  });
+
+  describe('deleteGroup', () => {
+    beforeEach(() => {
+      reducers.getGroups.returns([{ id: 'some-group', branchId: 'some-branch' }]);
+    });
+
+    it('puts an event on the stream and succeeds when the group is valid', () => {
+      const req = { params: { branchId: 'some-branch', groupId: 'some-group' } };
+
+      streamClient.publish.resolves();
+
+      return groupsController.deleteGroup(req, res)
+        .then(() => {
+          expect(streamClient.publish).to.have.been.calledWith('group-removed', { id: 'some-group' });
+          expect(res.sendStatus).to.have.been.calledWith(200);
+        });
+    });
+
+    it('fails when the given group does not exist', () => {
+      const req = { params: { branchId: 'some-branch', groupId: 'non-group' } };
+
+      groupsController.deleteGroup(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
+
+    it('fails when the given branch and group do not match', () => {
+      const req = { params: { branchId: 'wrong-branch', groupId: 'some-group' } };
+
+      groupsController.deleteGroup(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
+
+    it('fails when the stream operation blows up', () => {
+      const req = { params: { branchId: 'some-branch', groupId: 'some-group' } };
+
+      streamClient.publish.rejects('Bummer');
+
+      return groupsController.deleteGroup(req, res)
+        .then(() => {
+          expect(res.sendStatus).to.have.been.calledWith(500);
+        });
+    });
+  });
+
+  describe('updateGroup', () => {
+    beforeEach(() => {
+      reducers.getGroups.returns([{ id: 'some-group-id', branchId: 'some-branch-id' }]);
+    });
+
+    it('puts an event on the stream and succeeds when everything is valid', () => {
+      const req = {
+        params: { branchId: 'some-branch-id', groupId: 'some-group-id' },
+        body: { name: 'new-name', description: 'new-description' },
+      };
+
+      streamClient.publish.resolves();
+
+      return groupsController.updateGroup(req, res)
+        .then(() => {
+          const newGroupData = {
+            id: 'some-group-id',
+            branchId: 'some-branch-id',
+            name: 'new-name',
+            description: 'new-description',
+          };
+          expect(res.status).to.have.been.calledWith(200);
+          expect(res.json).to.have.been.calledWith(newGroupData);
+
+          const [eventType, eventData] = streamClient.publish.args[0];
+          expect(eventType).to.eql('group-edited');
+          expect(eventData).to.eql(newGroupData);
+        });
+    });
+
+    it('fails when the given group does not exist', () => {
+      const req = {
+        params: { branchId: 'some-branch-id', groupId: 'non-group-id' },
+        body: { name: 'new-name', description: 'new-description' },
+      };
+
+      groupsController.updateGroup(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
+
+    it('fails when the given branch and group do not match', () => {
+      const req = {
+        params: { branchId: 'wrong-branch-id', groupId: 'some-group-id' },
+        body: { name: 'new-name', description: 'new-description' },
+      };
+
+      groupsController.updateGroup(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
+
+    it('fails when the group name is invalid', () => {
+      const req = {
+        params: { branchId: 'some-branch-id', groupId: 'some-group-id' },
+        body: { name: null, description: 'some-description' },
+      };
+
+      groupsController.updateGroup(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(400);
+    });
+
+    it('fails when the group description is invalid', () => {
+      const req = {
+        params: { branchId: 'some-branch-id', groupId: 'some-group-id' },
+        body: { name: 'some-name', description: null },
+      };
+
+      groupsController.updateGroup(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(400);
+    });
+
+    it('fails when the stream operation blows up', () => {
+      const req = {
+        params: { branchId: 'some-branch-id', groupId: 'some-group-id' },
+        body: { name: 'new-name', description: 'new-description' },
+      };
+
+      streamClient.publish.rejects('Bummer');
+
+      return groupsController.updateGroup(req, res)
+        .then(() => {
+          expect(res.sendStatus).to.have.been.calledWith(500);
+        });
+    });
+  });
+
+  describe('getBranchGroups', () => {
+    it('gets all the groups for the given branch', () => {
+      const req = { params: { branchId: 'some-branch-id' } };
+      reducers.getGroups.returns([
+        { id: '1', name: 'First', branchId: 'some-branch-id' },
+        { id: '2', name: 'Second', branchId: 'some-other-id' },
+        { id: '3', name: 'Third', branchId: 'some-branch-id' },
+      ]);
+
+      groupsController.getBranchGroups(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({
+        groups: [
+          { id: '1', name: 'First', branchId: 'some-branch-id' },
+          { id: '3', name: 'Third', branchId: 'some-branch-id' },
+        ],
+      });
+    });
+
+    it('gives a 404 when the branch does not exist');
   });
 });

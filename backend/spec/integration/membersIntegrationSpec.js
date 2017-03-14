@@ -137,8 +137,8 @@ describe('MemberIntegrationTests', () => {
             .then(branch => { integrationTestHelpers.createBranchAdmin(branch); return branch; })
             .then(integrationTestHelpers.createMembers(agent, 1))
             .then(() => Q.all([
-              integrationTestHelpers.createGroupInBranch(browserState.branch.id),
-              integrationTestHelpers.createGroupInBranch(browserState.branch.id),
+              integrationTestHelpers.createGroup(agent, browserState.branch.id),
+              integrationTestHelpers.createGroup(agent, browserState.branch.id),
             ]))
             .then(setState(browserState, 'groups'))
             .then(integrationTestHelpers.authenticateBranchAdmin(agent))

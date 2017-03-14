@@ -23,7 +23,11 @@ router.get('/', (req, res) =>
 streamClient.on('member-registered', memberActions.createMember);
 streamClient.on('member-removed', memberActions.deleteMember);
 streamClient.on('member-edited', memberActions.updateMember);
+
+streamClient.on('group-created', groupActions.createGroup);
 streamClient.on('group-removed', groupActions.deleteGroup);
+streamClient.on('group-edited', groupActions.updateGroup);
+
 router.post('/events', streamClient.listen());
 
 router.get('/login', (req, res) =>
@@ -63,8 +67,8 @@ router.post('/branches/:branchId/admins', [requireAuth, branchAuthorization], ad
 router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization], adminController.update);
 router.delete('/branches/:branchId/admins/:adminId', [requireAuth, branchAuthorization], adminController.delete);
 
-router.get('/branches/:id/groups', [requireAuth, branchAuthorization], branchesController.groupsByBranch);
-router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.create);
-router.delete('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.delete);
-router.put('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.update);
+router.get('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.getBranchGroups);
+router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.createGroup);
+router.delete('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.deleteGroup);
+router.put('/branches/:branchId/groups/:groupId', [requireAuth, branchAuthorization], groupsController.updateGroup);
 module.exports = router;
