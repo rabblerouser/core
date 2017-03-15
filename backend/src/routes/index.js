@@ -13,6 +13,7 @@ const streamClient = require('../streamClient');
 
 const memberActions = require('../actions/memberActions');
 const groupActions = require('../actions/groupActions');
+const branchActions = require('../actions/branchActions');
 
 const router = new express.Router();
 
@@ -27,6 +28,10 @@ streamClient.on('member-edited', memberActions.updateMember);
 streamClient.on('group-created', groupActions.createGroup);
 streamClient.on('group-removed', groupActions.deleteGroup);
 streamClient.on('group-edited', groupActions.updateGroup);
+
+streamClient.on('branch-created', branchActions.createBranch);
+streamClient.on('branch-removed', branchActions.deleteBranch);
+streamClient.on('branch-edited', branchActions.updateBranch);
 
 router.post('/events', streamClient.listen());
 

@@ -22,21 +22,6 @@ const transformBranch = dbResult => {
   return undefined;
 };
 
-function transformBranches(adapter) {
-  return dbResult => dbResult.map(adapter);
-}
-
-const list = (attrs = ['id', 'name', 'contact', 'notes']) => {
-  const query = {
-    attributes: attrs,
-  };
-
-  return Branch
-    .findAll(query)
-    .then(transformBranches(transformBranch))
-    .catch(handleError('[branches-list-error]', 'An error has occurred while fetching branches'));
-};
-
 function findById(id) {
   if (!id) {
     return Promise.resolve({});
@@ -49,6 +34,5 @@ function findById(id) {
 }
 
 module.exports = {
-  list,
   findById,
 };

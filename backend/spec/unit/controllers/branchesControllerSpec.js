@@ -1,24 +1,8 @@
 'use strict';
 
-const branchService = require('../../../src/services/branchService');
 const branchesController = require('../../../src/controllers/branchesController');
 const streamClient = require('../../../src/streamClient');
 const reducers = require('../../../src/reducers/rootReducer');
-
-const FAKE_BRANCHES_LIST = [
-  {
-    id: 'some-id-1',
-    name: 'Geelong',
-  },
-  {
-    id: 'some-id-2',
-    name: 'Frankston',
-  },
-  {
-    id: 'some-id-3',
-    name: 'Hawthorn',
-  },
-];
 
 describe('branchesController', () => {
   let sandbox;
@@ -28,6 +12,10 @@ describe('branchesController', () => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(streamClient, 'publish').resolves();
     sandbox.stub(reducers, 'getMembers').returns([{ id: 'irrelevant-member', branchId: 'some-other-branch' }]);
+    sandbox.stub(reducers, 'getBranches').returns([
+      { id: 'branch-1', name: 'Victoria', contact: 'For authenticated people only!' },
+      { id: 'branch-2', name: 'New South Wales', contact: 'For authenticated people only!' },
+    ]);
     res = {
       sendStatus: sinon.spy(),
       json: sinon.spy(),
@@ -157,67 +145,47 @@ describe('branchesController', () => {
     });
   });
 
-  describe('list', () => {
-    let req;
+  describe('listBranches', () => {
+    it('sends back just the branch IDs and names', () => {
+      const req = {};
 
-    beforeEach(() => {
-      sinon.stub(branchService, 'list');
-      res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-    });
+      branchesController.listBranches(req, res);
 
-    afterEach(() => {
-      branchService.list.restore();
-    });
-
-    it('responds with a list of branches', done => {
-      branchService.list.returns(Promise.resolve(FAKE_BRANCHES_LIST));
-
-      branchesController.listBranches(req, res)
-        .then(() => {
-          expect(branchService.list).to.have.been.calledWith(['id', 'name']);
-          expect(res.status).to.have.been.calledWith(200);
-          expect(res.status().json).to.have.been.calledWith({ branches: FAKE_BRANCHES_LIST });
-        })
-        .then(done, done.fail)
-        .catch(done);
-    });
-
-    describe('things went bad', () => {
-      it('should return 500 when there is an unexpected error', done => {
-        res = { sendStatus: sinon.spy() };
-        branchService.list.returns(Promise.reject('some service error'));
-
-        branchesController.listBranches(req, res)
-          .then(() => {
-            expect(res.sendStatus).to.have.been.calledWith(500);
-          })
-          .then(done, done.fail)
-          .catch(done);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({
+        branches: [
+          { id: 'branch-1', name: 'Victoria' },
+          { id: 'branch-2', name: 'New South Wales' },
+        ],
       });
     });
   });
 
   describe('branchesForAdmin', () => {
-    context('when things did not go well', () => {
-      beforeEach(() => {
-        sinon.stub(branchService, 'findById');
+    it('returns all branches for a super admin', () => {
+      const req = { user: { type: 'SUPER' } };
+
+      branchesController.branchesForAdmin(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({
+        branches: [
+          { id: 'branch-1', name: 'Victoria', contact: 'For authenticated people only!' },
+          { id: 'branch-2', name: 'New South Wales', contact: 'For authenticated people only!' },
+        ],
       });
+    });
 
-      afterEach(() => {
-        branchService.findById.restore();
-      });
+    it('returns just the one branch for a branch admin', () => {
+      const req = { user: { type: 'BRANCH', branchId: 'branch-2' } };
 
-      it('should handle errors from the service', done => {
-        branchService.findById.returns(Promise.reject('some service error'));
-        res = { sendStatus: sinon.spy() };
+      branchesController.branchesForAdmin(req, res);
 
-        const req = { user: { type: 'normal', branchId: '1' } };
-        branchesController.branchesForAdmin(req, res)
-          .then(() => {
-            expect(res.sendStatus).to.have.been.calledWith(500);
-          })
-          .then(done, done.fail)
-          .catch(done);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({
+        branches: [
+          { id: 'branch-2', name: 'New South Wales', contact: 'For authenticated people only!' },
+        ],
       });
     });
   });

@@ -1,7 +1,6 @@
 'use strict';
 
 const uuid = require('node-uuid');
-const branchService = require('../services/branchService');
 const logger = require('../lib/logger');
 const adminType = require('../security/adminType');
 const branchValidator = require('../lib/branchValidator');
@@ -9,11 +8,6 @@ const streamClient = require('../streamClient');
 const store = require('../store');
 const reducers = require('../reducers/rootReducer');
 
-function listBranches(req, res) {
-  return branchService.list(['id', 'name'])
-    .then(branches => res.status(200).json({ branches }))
-    .catch(() => res.sendStatus(500));
-}
 
 function deleteBranch(req, res) {
   const branchId = req.params.branchId;
@@ -78,31 +72,24 @@ function updateBranch(req, res) {
     });
 }
 
-function findBranches(admin) {
-  if (admin.type === adminType.super) {
-    return branchService.list();
-  }
-
-  return branchService.findById(admin.branchId)
-    .then(result => {
-      delete result.notes;
-      return [result];
-    });
+function listBranches(req, res) {
+  const branches = reducers.getBranches(store.getState()).map(branch => ({ id: branch.id, name: branch.name }));
+  res.status(200).json({ branches });
 }
 
 function branchesForAdmin(req, res) {
-  return findBranches(req.user)
-    .then(result => res.status(200).json({ branches: result }))
-    .catch(() => {
-      logger.error('[branches-for-admin]', `Error when retrieving branches for user: ${req.user ? req.user.email : 'unknown'}`);
-      res.sendStatus(500);
-    });
+  let branches = reducers.getBranches(store.getState());
+  if (req.user.type === adminType.branch) {
+    branches = [branches.find(branch => branch.id === req.user.branchId)];
+  }
+
+  res.status(200).json({ branches });
 }
 
 module.exports = {
-  listBranches,
   createBranch,
   updateBranch,
   deleteBranch,
+  listBranches,
   branchesForAdmin,
 };
