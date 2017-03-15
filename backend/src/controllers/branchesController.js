@@ -6,13 +6,11 @@ const adminType = require('../security/adminType');
 const branchValidator = require('../lib/branchValidator');
 const streamClient = require('../streamClient');
 const store = require('../store');
-const reducers = require('../reducers/rootReducer');
-
 
 function deleteBranch(req, res) {
   const branchId = req.params.branchId;
 
-  const allMembers = reducers.getMembers(store.getState());
+  const allMembers = store.getMembers();
   if (allMembers.find(member => member.branchId === branchId)) {
     logger.error(`Refusing to delete branch which still has members: ${branchId}}`);
     return res.sendStatus(400);
@@ -73,12 +71,12 @@ function updateBranch(req, res) {
 }
 
 function listBranches(req, res) {
-  const branches = reducers.getBranches(store.getState()).map(branch => ({ id: branch.id, name: branch.name }));
+  const branches = store.getBranches().map(branch => ({ id: branch.id, name: branch.name }));
   res.status(200).json({ branches });
 }
 
 function branchesForAdmin(req, res) {
-  let branches = reducers.getBranches(store.getState());
+  let branches = store.getBranches();
   if (req.user.type === adminType.branch) {
     branches = [branches.find(branch => branch.id === req.user.branchId)];
   }

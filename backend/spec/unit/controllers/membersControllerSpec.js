@@ -6,7 +6,7 @@ const inputValidator = require('../../../src/lib/inputValidator');
 const csvGenerator = require('../../../src/lib/csvGenerator');
 const branchService = require('../../../src/services/branchService');
 const streamClient = require('../../../src/streamClient');
-const reducers = require('../../../src/reducers/rootReducer');
+const store = require('../../../src/store');
 
 describe('membersController', () => {
   let sandbox;
@@ -20,8 +20,8 @@ describe('membersController', () => {
     };
     sandbox.stub(memberValidator, 'isValid');
     sandbox.stub(streamClient, 'publish');
-    sandbox.stub(reducers, 'getMembers');
-    sandbox.stub(reducers, 'getGroups');
+    sandbox.stub(store, 'getMembers');
+    sandbox.stub(store, 'getGroups');
     sandbox.stub(csvGenerator, 'generateCsv');
     sandbox.stub(inputValidator, 'isValidUUID');
     sandbox.stub(branchService, 'findById');
@@ -107,7 +107,7 @@ describe('membersController', () => {
 
   describe('editMember', () => {
     beforeEach(() => {
-      reducers.getGroups.returns([
+      store.getGroups.returns([
         { id: 'first', branchId: 'some-id-1' },
         { id: 'second', branchId: 'some-id-1' },
         { id: 'other', branchId: 'some-other-branch' },
@@ -250,7 +250,7 @@ describe('membersController', () => {
 
     it('returns only the members from the branch', () => {
       const req = { params: { branchId: 'right' } };
-      reducers.getMembers.returns([
+      store.getMembers.returns([
         { name: 'John Doe', branchId: 'right' },
         { name: 'Jess Doe', branchId: 'wrong' },
       ]);
@@ -274,7 +274,7 @@ describe('membersController', () => {
         { name: 'member-3', branchId: 'wrong' },
       ];
       const csv = 'member1\nmember2';
-      reducers.getMembers.returns(members);
+      store.getMembers.returns(members);
       csvGenerator.generateCsv.returns(csv);
 
       membersController.exportBranchMembers(req, res);

@@ -23,6 +23,4 @@ const groups = (state = initialState, action) => {
   }
 };
 
-module.exports = {
-  reducer: groups,
-};
+module.exports = groups;

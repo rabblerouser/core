@@ -2,7 +2,7 @@
 
 const branchesController = require('../../../src/controllers/branchesController');
 const streamClient = require('../../../src/streamClient');
-const reducers = require('../../../src/reducers/rootReducer');
+const store = require('../../../src/store');
 
 describe('branchesController', () => {
   let sandbox;
@@ -11,8 +11,8 @@ describe('branchesController', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(streamClient, 'publish').resolves();
-    sandbox.stub(reducers, 'getMembers').returns([{ id: 'irrelevant-member', branchId: 'some-other-branch' }]);
-    sandbox.stub(reducers, 'getBranches').returns([
+    sandbox.stub(store, 'getMembers').returns([{ id: 'irrelevant-member', branchId: 'some-other-branch' }]);
+    sandbox.stub(store, 'getBranches').returns([
       { id: 'branch-1', name: 'Victoria', contact: 'For authenticated people only!' },
       { id: 'branch-2', name: 'New South Wales', contact: 'For authenticated people only!' },
     ]);
@@ -78,7 +78,7 @@ describe('branchesController', () => {
 
     it('fails when the branch still has members', () => {
       const req = { params: { branchId: 'some-branch' } };
-      reducers.getMembers.returns([{ id: 'some-member', branchId: 'some-branch' }]);
+      store.getMembers.returns([{ id: 'some-member', branchId: 'some-branch' }]);
 
       branchesController.deleteBranch(req, res);
       expect(res.sendStatus).to.have.been.calledWith(400);

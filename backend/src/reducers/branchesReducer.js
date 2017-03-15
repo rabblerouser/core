@@ -22,6 +22,4 @@ const branches = (state = initialState, action) => {
   }
 };
 
-module.exports = {
-  reducer: branches,
-};
+module.exports = branches;

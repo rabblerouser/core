@@ -1,4 +1,4 @@
-const branches = require('../../../src/reducers/branchesReducer').reducer;
+const branches = require('../../../src/reducers/branchesReducer');
 
 describe('branchesReducer', () => {
   it('is empty by default', () => {

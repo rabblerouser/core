@@ -6,14 +6,13 @@ const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
 const streamClient = require('../streamClient');
 const store = require('../store');
-const reducers = require('../reducers/rootReducer');
 
 function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
 
 const findGroupInBranch = (groupId, branchId) => (
-  reducers.getGroups(store.getState()).find(group => group.id === groupId && group.branchId === branchId)
+  store.getGroups().find(group => group.id === groupId && group.branchId === branchId)
 );
 
 function createGroup(req, res) {
@@ -91,7 +90,7 @@ function updateGroup(req, res) {
 
 const getBranchGroups = (req, res) => {
   const branchId = req.params.branchId;
-  const groups = reducers.getGroups(store.getState()).filter(group => group.branchId === branchId);
+  const groups = store.getGroups().filter(group => group.branchId === branchId);
   res.status(200).json({ groups });
 };
 

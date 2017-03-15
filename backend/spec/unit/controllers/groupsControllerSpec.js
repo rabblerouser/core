@@ -4,7 +4,7 @@ const streamClient = require('../../../src/streamClient');
 const groupsController = require('../../../src/controllers/groupsController');
 const branchService = require('../../../src/services/branchService');
 const validator = require('../../../src/lib/inputValidator');
-const reducers = require('../../../src/reducers/rootReducer');
+const store = require('../../../src/store');
 
 describe('groupsController', () => {
   let sandbox;
@@ -15,7 +15,7 @@ describe('groupsController', () => {
     sandbox.stub(streamClient, 'publish');
     sandbox.stub(branchService, 'findById').resolves({ id: 'some-id-1' });
     sandbox.stub(validator, 'isValidUUID').returns(true);
-    sandbox.stub(reducers, 'getGroups');
+    sandbox.stub(store, 'getGroups');
     res = {
       json: sandbox.spy(),
       sendStatus: sandbox.spy(),
@@ -104,7 +104,7 @@ describe('groupsController', () => {
 
   describe('deleteGroup', () => {
     beforeEach(() => {
-      reducers.getGroups.returns([{ id: 'some-group', branchId: 'some-branch' }]);
+      store.getGroups.returns([{ id: 'some-group', branchId: 'some-branch' }]);
     });
 
     it('puts an event on the stream and succeeds when the group is valid', () => {
@@ -147,7 +147,7 @@ describe('groupsController', () => {
 
   describe('updateGroup', () => {
     beforeEach(() => {
-      reducers.getGroups.returns([{ id: 'some-group-id', branchId: 'some-branch-id' }]);
+      store.getGroups.returns([{ id: 'some-group-id', branchId: 'some-branch-id' }]);
     });
 
     it('puts an event on the stream and succeeds when everything is valid', () => {
@@ -235,7 +235,7 @@ describe('groupsController', () => {
   describe('getBranchGroups', () => {
     it('gets all the groups for the given branch', () => {
       const req = { params: { branchId: 'some-branch-id' } };
-      reducers.getGroups.returns([
+      store.getGroups.returns([
         { id: '1', name: 'First', branchId: 'some-branch-id' },
         { id: '2', name: 'Second', branchId: 'some-other-id' },
         { id: '3', name: 'Third', branchId: 'some-branch-id' },

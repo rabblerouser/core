@@ -10,7 +10,6 @@ const csvGenerator = require('../lib/csvGenerator');
 const logger = require('../lib/logger');
 const streamClient = require('../streamClient');
 const store = require('../store');
-const reducers = require('../reducers/rootReducer');
 
 function isAddressEmpty(address) {
   return !address ||
@@ -86,7 +85,7 @@ const editMember = (req, res) => {
 
   const validationErrors = memberValidator.isValid(member);
 
-  const branchGroups = reducers.getGroups(store.getState()).filter(group => group.branchId === member.branchId);
+  const branchGroups = store.getGroups().filter(group => group.branchId === member.branchId);
   const groupIds = branchGroups.map(group => group.id);
   (member.groups || []).forEach(group => {
     if (!groupIds.includes(group)) {
@@ -116,7 +115,7 @@ const getBranchMembers = branchId => {
   if (!branchId) {
     return [];
   }
-  return reducers.getMembers(store.getState()).filter(member => member.branchId === branchId);
+  return store.getMembers().filter(member => member.branchId === branchId);
 };
 
 const listBranchMembers = (req, res) => {
