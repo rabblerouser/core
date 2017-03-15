@@ -2,52 +2,28 @@
 
 Frontend for Rabble Rouser - A pluggable, extensible membership database for community organising
 
-*Note: All commands mentioned below should be run from within this directory.*
+## Read this first
+Rabble Rouser has a microservice architecture, so we provide a fully [Dockerised](https://www.docker.com/) development
+environment. If you have no idea what that means, that's ok, just know that before running any of the commands in this
+readme, you should first have run the `./go.sh` script from the root of this repository, as described in the top-level
+README for this project.
 
-## Standard setup, using the Vagrant VM
-
-This is recommended for beginners. First follow the setup instructions in the root README, then use one of the
-workflows below, depending on what you want to do:
-
-### Automated testing workflow:
-
- 1. Make your changes
- 2. `npm run test-single`
- 3. Goto #1
-
-### Manual testing workflow:
-
- 1. Start the backend (see its README for how to do that)
- 2. Make your frontend changes
- 3. `npm start`
- 4. Point your browser at `http://localhost:8080`
- 5. Kill the development server and goto #2
-
-## Advanced setup for a faster development experience
-
-File watching in a VM doesn't work very well with webpack or karma, so if you'd like a better dev experience, you can
-try working on your host machine instead (i.e. not in a VM).
-
-## Setup
- 1. Install node
- 2. `npm install` - Do this again, even if you already did it in the VM
- 3. Add `--port 8000` to the end of the `start` command in the frontend `package.json` - the VM reserves port 8080
-
-### Automated testing workflow:
+## Automated testing workflow:
 
  1. `npm run test`
  2. Make your changes
 
-The tests will automatically re-run!
+The tests will re-run whenever you make a change.
 
 ### Manual testing workflow:
 
  1. Start the backend (see its README for how to do that)
- 2. `npm start`
- 3. Point your browser at `http://localhost:8000`
+ 2. Open up a second terminal tab, run `./go.sh`, `cd frontend` again
+ 3. `npm start`
  4. Make your changes
+ 5. Point your browser at `http://localhost:8000`
 
-The page will automatically re-load with your changes!
+The page will auto-refresh whenever you make changes.
 
 ## Customising the look and feel
 
