@@ -80,7 +80,6 @@ describe('Branch View - Integration', () => {
       expect(fakeServer.requests[0].method).toBe('PUT');
       expect(fakeServer.requests[0].url).toBe('/branches/1234');
       expect(fakeServer.requests[0].requestBody).toEqual(JSON.stringify({
-        id: '1234',
         name: 'Test branch changed',
         contact: 'New contact details',
         notes: 'Some notes',
