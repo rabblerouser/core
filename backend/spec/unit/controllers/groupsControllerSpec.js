@@ -2,7 +2,6 @@
 
 const streamClient = require('../../../src/streamClient');
 const groupsController = require('../../../src/controllers/groupsController');
-const branchService = require('../../../src/services/branchService');
 const validator = require('../../../src/lib/inputValidator');
 const store = require('../../../src/store');
 
@@ -13,9 +12,9 @@ describe('groupsController', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(streamClient, 'publish');
-    sandbox.stub(branchService, 'findById').resolves({ id: 'some-id-1' });
     sandbox.stub(validator, 'isValidUUID').returns(true);
     sandbox.stub(store, 'getGroups');
+    sandbox.stub(store, 'getBranches').returns([{ id: 'some-branch-id' }, { id: 'some-other-id' }]);
     res = {
       json: sandbox.spy(),
       sendStatus: sandbox.spy(),
@@ -79,17 +78,13 @@ describe('groupsController', () => {
         body: { name: 'some-name', description: 'some-description' },
       };
 
-      branchService.findById.resolves({});
-
-      return groupsController.createGroup(req, res)
-        .then(() => {
-          expect(res.sendStatus).to.have.been.calledWith(400);
-        });
+      groupsController.createGroup(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(400);
     });
 
     it('fails when the stream operation blows up', () => {
       const req = {
-        params: { branchId: 'noooope' },
+        params: { branchId: 'some-branch-id' },
         body: { name: 'some-name', description: 'some-description' },
       };
 
@@ -252,6 +247,12 @@ describe('groupsController', () => {
       });
     });
 
-    it('gives a 404 when the branch does not exist');
+    it('gives a 404 when the branch does not exist', () => {
+      const req = { params: { branchId: 'some-wrong-id' } };
+
+      groupsController.getBranchGroups(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
   });
 });
