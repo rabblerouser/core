@@ -130,7 +130,7 @@ describe('membersController', () => {
             email: 'sherlock@holmes.co.uk',
             name: 'Sherlock Holmes',
             notes: 'Some notes',
-            id: 'abc-123',
+            id: 'member-1',
             groups: ['first', 'second'],
             address: { address: '47 Spam St', country: 'USA', postcode: '5678', state: 'NM', suburb: 'Moriarty' },
             phoneNumber: '0396291146',
