@@ -13,8 +13,8 @@ describe('branchesController', () => {
     sandbox.stub(streamClient, 'publish').resolves();
     sandbox.stub(store, 'getMembers').returns([{ id: 'irrelevant-member', branchId: 'some-other-branch' }]);
     sandbox.stub(store, 'getBranches').returns([
-      { id: 'branch-1', name: 'Victoria', contact: 'For authenticated people only!' },
-      { id: 'branch-2', name: 'New South Wales', contact: 'For authenticated people only!' },
+      { id: 'branch-1', name: 'Victoria', notes: 'For super admins only', contact: 'For authd users only!' },
+      { id: 'branch-2', name: 'New South Wales', notes: 'For super admins only', contact: 'For authd users only!' },
     ]);
     res = {
       sendStatus: sinon.spy(),
@@ -181,13 +181,13 @@ describe('branchesController', () => {
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith({
         branches: [
-          { id: 'branch-1', name: 'Victoria', contact: 'For authenticated people only!' },
-          { id: 'branch-2', name: 'New South Wales', contact: 'For authenticated people only!' },
+          { id: 'branch-1', name: 'Victoria', notes: 'For super admins only', contact: 'For authd users only!' },
+          { id: 'branch-2', name: 'New South Wales', notes: 'For super admins only', contact: 'For authd users only!' },
         ],
       });
     });
 
-    it('returns just the one branch for a branch admin', () => {
+    it('returns just the one branch for a branch admin, without the notes', () => {
       const req = { user: { type: 'BRANCH', branchId: 'branch-2' } };
 
       branchesController.branchesForAdmin(req, res);
@@ -195,7 +195,7 @@ describe('branchesController', () => {
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith({
         branches: [
-          { id: 'branch-2', name: 'New South Wales', contact: 'For authenticated people only!' },
+          { id: 'branch-2', name: 'New South Wales', contact: 'For authd users only!' },
         ],
       });
     });

@@ -88,7 +88,12 @@ function listBranches(req, res) {
 function branchesForAdmin(req, res) {
   let branches = store.getBranches();
   if (req.user.type === adminType.branch) {
-    branches = [branches.find(branch => branch.id === req.user.branchId)];
+    const adminBranch = branches.find(branch => branch.id === req.user.branchId);
+    branches = [{
+      id: adminBranch.id,
+      name: adminBranch.name,
+      contact: adminBranch.contact,
+    }];
   }
 
   res.status(200).json({ branches });
