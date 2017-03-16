@@ -65,27 +65,32 @@ describe('branchesController', () => {
 
   describe('deleteBranch', () => {
     it('puts an event on the stream when the branch exists and has no members', () => {
-      const req = { params: { branchId: 'some-branch' } };
+      const req = { params: { branchId: 'branch-1' } };
 
       return branchesController.deleteBranch(req, res)
         .then(() => {
-          expect(streamClient.publish).to.have.been.calledWith('branch-removed', { id: 'some-branch' });
+          expect(streamClient.publish).to.have.been.calledWith('branch-removed', { id: 'branch-1' });
           expect(res.sendStatus).to.have.been.calledWith(200);
         });
     });
 
-    it('fails when the branch does not exist');
+    it('fails when the branch does not exist', () => {
+      const req = { params: { branchId: 'bad-branch' } };
+
+      branchesController.deleteBranch(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
 
     it('fails when the branch still has members', () => {
-      const req = { params: { branchId: 'some-branch' } };
-      store.getMembers.returns([{ id: 'some-member', branchId: 'some-branch' }]);
+      const req = { params: { branchId: 'branch-1' } };
+      store.getMembers.returns([{ id: 'some-member', branchId: 'branch-1' }]);
 
       branchesController.deleteBranch(req, res);
       expect(res.sendStatus).to.have.been.calledWith(400);
     });
 
     it('fails when the stream client blows up', () => {
-      const req = { params: { branchId: 'some-branch' } };
+      const req = { params: { branchId: 'branch-1' } };
 
       streamClient.publish.rejects();
 
@@ -99,14 +104,14 @@ describe('branchesController', () => {
   describe('updateBranch', () => {
     it('puts an event on the stream when everything is valid', () => {
       const req = {
-        params: { branchId: 'some-branch' },
+        params: { branchId: 'branch-1' },
         body: { name: 'New name', notes: 'New notes', contact: 'New contact' },
       };
 
       return branchesController.updateBranch(req, res)
         .then(() => {
           const updatedBranch = {
-            id: 'some-branch',
+            id: 'branch-1',
             name: 'New name',
             notes: 'New notes',
             contact: 'New contact',
@@ -117,11 +122,17 @@ describe('branchesController', () => {
         });
     });
 
-    it('fails when the branch does not exist');
+    it('fails when the branch does not exist', () => {
+      const req = { params: { }, body: {} };
+
+      branchesController.updateBranch(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
 
     it('fails when the branch name is empty', () => {
       const req = {
-        params: { branchId: 'some-branch' },
+        params: { branchId: 'branch-1' },
         body: { name: '', notes: 'New notes', contact: 'New contact' },
       };
 
@@ -133,7 +144,7 @@ describe('branchesController', () => {
 
     it('fails when the stream client blows up', () => {
       const req = {
-        params: { branchId: 'some-branch' },
+        params: { branchId: 'branch-1' },
         body: { name: 'New name', notes: 'New notes', contact: 'New contact' },
       };
       streamClient.publish.rejects();
