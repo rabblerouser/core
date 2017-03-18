@@ -12,7 +12,7 @@ describe('PathAccessValidator Integration tests', () => {
     agent = request.agent(app);
 
     return integrationTestHelpers.resetDatabase()
-        .then(integrationTestHelpers.createBranch)
+        .then(() => integrationTestHelpers.createBranch(agent))
         .then(integrationTestHelpers.createBranchAdmin)
         .then(integrationTestHelpers.authenticateBranchAdmin(agent));
   });
@@ -31,10 +31,10 @@ describe('PathAccessValidator Integration tests', () => {
             .expect(401);
   });
 
-  it('should respond 200 when a super admin is trying to access data for a branch', () => integrationTestHelpers.createBranch()
+  it('should respond 200 when a super admin is trying to access data for a branch', () => integrationTestHelpers.createBranch(agent)
         .then(integrationTestHelpers.createSuperAdmin)
         .then(integrationTestHelpers.authenticateSuperAdmin(agent))
-        .then(integrationTestHelpers.createBranch)
+        .then(() => integrationTestHelpers.createBranch(agent))
         .then(aDifferentBranch => agent.get(`/branches/${aDifferentBranch.id}/members`)
             .expect(200)));
 });

@@ -7,7 +7,6 @@ const moment = require('moment');
 const models = require('../../src/models');
 
 const AdminUser = models.AdminUser;
-const Branch = models.Branch;
 const adminType = require('../../src/security/adminType');
 
 function createBranchAdmin(branch) {
@@ -36,16 +35,6 @@ function authenticateSuperAdmin(someAgent) {
             .send({ email: 'super@rabblerouser.org', password: 'super' })
             .expect(302);
   };
-}
-
-function createBranch() {
-  return Branch.create({
-    name: 'Fake Branch',
-    id: uuid.v4(),
-    notes: 'Some notes for this branch, only meant to be seen by super users',
-    conact: 'jerry@seinfield.com',
-  })
-    .then(sequelizeResult => sequelizeResult.dataValues);
 }
 
 const makeMember = branchId => ({
@@ -115,10 +104,21 @@ function createGroup(agent, branchId) {
     .then(() => group.id);
 }
 
+const createBranch = agent => {
+  const branch = {
+    name: 'Fake Branch',
+    id: uuid.v4(),
+    notes: 'Some notes for this branch',
+    conact: 'jerry@seinfield.com',
+  };
+
+  return sendEvent(agent, 'branch-created', branch)
+    .then(() => branch);
+};
+
 function resetDatabase() {
   return Promise.resolve()
-    .then(() => AdminUser.truncate({ cascade: true }))
-    .then(() => Branch.truncate({ cascade: true }));
+    .then(() => AdminUser.truncate({ cascade: true }));
 }
 
 module.exports = {

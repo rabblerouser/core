@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     name: { type: DataTypes.STRING },
     phoneNumber: { type: DataTypes.STRING },
     type: { type: DataTypes.STRING, defaultValue: adminType.branch, allowNull: false },
+    branchId: { type: DataTypes.STRING },
   }, {
     classMethods: {
       authenticate: (email, password, passportHandler) =>
@@ -30,9 +31,6 @@ module.exports = (sequelize, DataTypes) => {
           .catch(err => {
             logger.error('AdminUser Authenticate caught an error', err);
           }),
-      associate: models => {
-        AdminUser.belongsTo(models.Branch, { as: 'branch', foreignKey: 'branchId' });
-      },
     },
     instanceMethods: {
       authenticate(password) {

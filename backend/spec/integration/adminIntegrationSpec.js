@@ -80,7 +80,7 @@ describe('AdminIntegrationTests', () => {
   describe('admins', () => {
     let browserState = {};
 
-    beforeEach(() => integrationTestHelpers.createBranch()
+    beforeEach(() => integrationTestHelpers.createBranch(agent)
             .tap(branch => {
               browserState.branch = branch;
             })
@@ -175,7 +175,7 @@ describe('AdminIntegrationTests', () => {
       it('should allow only super admins to add super admins', () => {
         const specialAgent = request.agent(app);
 
-        return integrationTestHelpers.createBranch()
+        return integrationTestHelpers.createBranch(agent)
                 .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
                 .then(() => specialAgent.post('/admins')
@@ -225,7 +225,7 @@ describe('AdminIntegrationTests', () => {
       it('should allow only super admins to update super admins', () => {
         const specialAgent = request.agent(app);
 
-        return integrationTestHelpers.createBranch()
+        return integrationTestHelpers.createBranch(agent)
                 .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
                 .then(() => specialAgent.put(`/admins/${browserState.superAdmin.id}`)
@@ -253,7 +253,7 @@ describe('AdminIntegrationTests', () => {
       it('should allow only super admins to get the admins list', () => {
         const specialAgent = request.agent(app);
 
-        return integrationTestHelpers.createBranch()
+        return integrationTestHelpers.createBranch(agent)
                 .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
                 .then(() => specialAgent.get('/admins')
@@ -284,7 +284,7 @@ describe('AdminIntegrationTests', () => {
       it('should allow only super admins to update super admins', () => {
         const specialAgent = request.agent(app);
 
-        return integrationTestHelpers.createBranch()
+        return integrationTestHelpers.createBranch(agent)
                 .tap(integrationTestHelpers.createBranchAdmin)
                 .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
                 .then(() => specialAgent.delete('/admins/someId')

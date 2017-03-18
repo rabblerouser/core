@@ -70,7 +70,7 @@ describe('MemberIntegrationTests', () => {
 
   describe('Register', () => {
     beforeEach(() => integrationTestHelpers.resetDatabase()
-            .then(integrationTestHelpers.createBranch)
+            .then(() => integrationTestHelpers.createBranch(agent))
             .then(getBranchId(agent))
             .then(branchId => {
               browserState.branchId = branchId;
@@ -118,14 +118,14 @@ describe('MemberIntegrationTests', () => {
   });
 
   describe('list of members', () => {
-    it('finds a list of members for an organiser', () => integrationTestHelpers.createBranch()
+    it('finds a list of members for an organiser', () => integrationTestHelpers.createBranch(agent)
             .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.createMembers(agent, 3))
             .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then(branch => agent.get(`/branches/${branch.id}/members`))
             .then(hasMembersList));
 
-    it('only authenticated organisers can access the members list', () => integrationTestHelpers.createBranch()
+    it('only authenticated organisers can access the members list', () => integrationTestHelpers.createBranch(agent)
             .tap(integrationTestHelpers.createMembers(agent, 3))
             .then(branch => agent.get(`/branches/${branch.id}/members`)
                 .expect(302)));
@@ -134,7 +134,7 @@ describe('MemberIntegrationTests', () => {
   describe('Edit member', () => {
     beforeEach(() => (
       integrationTestHelpers.resetDatabase()
-        .then(integrationTestHelpers.createBranch)
+        .then(() => integrationTestHelpers.createBranch(agent))
         .then(setState(browserState, 'branch'))
         .then(branch => (
           integrationTestHelpers.createBranchAdmin(branch)

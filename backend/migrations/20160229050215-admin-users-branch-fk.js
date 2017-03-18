@@ -5,7 +5,6 @@ module.exports = {
     return queryInterface.addColumn('AdminUsers', 'branchId', {
             type: Sequelize.UUID,
             allowNull: true,
-            references: {model: 'Branches', key: 'id'}
         }).nodeify(done);
   },
 
