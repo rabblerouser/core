@@ -8,13 +8,13 @@
   "main": "src/app.js",
   "scripts": {
     "ci": "npm run lint && npm test",
-    "dev": "npm run prestart && nodemon index.js",
+    "dev": "nodemon index.js",
     "lint": "eslint src spec",
     "migrate": "sequelize db:migrate",
     "e2e-seed": "NODE_ENV=test node bin/e2e-seed.js",
     "pretest": "NODE_ENV=test npm run migrate && node bin/test-seed.js",
     "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 -r spec/specGlobals --recursive spec",
-    "prestart": "npm run migrate && node bin/seed.js",
+    "seed": "npm run migrate && node bin/seed.js",
     "start": "node index.js"
   },
   "repository": {
