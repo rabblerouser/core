@@ -1,9 +1,10 @@
 'use strict';
 
-const adminService = require('../../../src/services/adminService');
-const adminValidator = require('../../../src/lib/adminValidator');
-
 const adminController = require('../../../src/controllers/adminController');
+const adminValidator = require('../../../src/lib/adminValidator');
+const adminService = require('../../../src/services/adminService');
+const streamClient = require('../../../src/streamClient');
+const store = require('../../../src/store');
 
 function adminsList() {
   return [
@@ -32,121 +33,95 @@ function admin() {
 }
 
 describe('adminController', () => {
-  describe('createBranchAdmin', () => {
-    let req;
-    let res;
+  let res;
+  let sandbox;
 
-    describe('when the branch id is valid', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = {
-          params: { branchId: 1 },
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    res = {
+      sendStatus: sinon.spy(),
+      json: sinon.spy(),
+    };
+    res.status = sinon.stub().returns(res);
+    sandbox.stub(adminValidator, 'isValid').returns([]);
+    sandbox.stub(streamClient, 'publish').resolves();
+    sandbox.stub(store, 'getBranches').returns([{ id: 'some-branch' }]);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('branch admin endpoints', () => {
+    describe('createBranchAdmin', () => {
+      it('puts an event on the stream when everything is valid, with the password hashed', () => {
+        const req = {
+          params: { branchId: 'some-branch' },
           body: {
-            email: 'some-email',
             name: 'some name',
-            phone: 'some phone',
+            email: 'some@email.com',
+            phoneNumber: '98765432',
+            password: 'super secret',
           },
         };
-        sinon.stub(adminValidator, 'isValid').returns([]);
-        sinon.stub(adminService, 'create');
+
+        return adminController.createBranchAdmin(req, res)
+          .then(() => {
+            const [eventType, eventData] = streamClient.publish.args[0];
+            expect(eventType).to.eql('admin-created');
+            expect(eventData.id).to.be.a('string');
+            expect(eventData.name).to.eql('some name');
+            expect(eventData.email).to.eql('some@email.com');
+            expect(eventData.phoneNumber).to.eql('98765432');
+            expect(eventData.password.startsWith('$2a$10$')).to.eql(true);
+            expect(eventData.type).to.eql('BRANCH');
+            expect(eventData.branchId).to.eql('some-branch');
+
+            expect(res.status).to.have.been.calledWith(200);
+            const [jsonData] = res.json.args[0];
+            expect(jsonData.id).to.be.a('string');
+            expect(jsonData.name).to.eql('some name');
+            expect(jsonData.email).to.eql('some@email.com');
+            expect(jsonData.phoneNumber).to.eql('98765432');
+          });
       });
 
-      afterEach(() => {
-        adminService.create.restore();
-        adminValidator.isValid.restore();
+      it('fails if the specified branch does not exist', () => {
+        const req = { params: { branchId: 'invalid-branch' }, body: {} };
+
+        adminController.createBranchAdmin(req, res);
+        expect(res.sendStatus).to.have.been.calledWith(404);
       });
 
-      it('responds with successful update', done => {
-        adminService.create.returns(Promise.resolve(admin()));
-        adminController.createBranchAdmin(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(200);
-          expect(res.status().json).to.have.been.calledWith(admin());
-        }).then(done)
-        .catch(done);
-      });
-    });
+      it('fails when the payload is invalid', () => {
+        const req = { params: { branchId: 'some-branch' }, body: {} };
 
-    describe('when the branch id is undefined', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = {
-          params: { },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone',
-          },
-        };
-      });
+        adminValidator.isValid.returns(['ba-bow']);
 
-      it('should return a 400', () => {
         adminController.createBranchAdmin(req, res);
         expect(res.status).to.have.been.calledWith(400);
-      });
-    });
-
-    describe('when the payload provided is invalid', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = {
-          params: { branchId: 1 },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone',
-          },
-        };
-        sinon.stub(adminValidator, 'isValid').returns(['email']);
+        expect(res.json).to.have.been.calledWith({ errors: ['ba-bow'] });
       });
 
-      afterEach(() => {
-        adminValidator.isValid.restore();
-      });
+      it('fails when the stream client blows up', () => {
+        const req = { params: { branchId: 'some-branch' }, body: {} };
 
-      it('should return a 400', () => {
-        adminController.createBranchAdmin(req, res);
-        expect(res.status).to.have.been.calledWith(400);
-      });
-    });
+        streamClient.publish.rejects();
 
-    describe('when there is a general error from the service', () => {
-      beforeEach(() => {
-        res = { sendStatus: sinon.spy() };
-        req = {
-          params: { branchId: 1 },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone',
-          },
-        };
-        sinon.stub(adminValidator, 'isValid').returns([]);
-        sinon.stub(adminService, 'create');
-      });
-
-      afterEach(() => {
-        adminService.create.restore();
-        adminValidator.isValid.restore();
-      });
-
-      it('should return a 500', done => {
-        adminService.create.returns(Promise.reject('anything at all'));
-        adminController.createBranchAdmin(req, res)
-        .then(() => {
-          expect(res.sendStatus).to.have.been.calledWith(500);
-        }).then(done)
-        .catch(done);
+        return adminController.createBranchAdmin(req, res)
+          .then(() => {
+            expect(res.sendStatus).to.have.been.calledWith(500);
+          });
       });
     });
   });
 
+  describe('super admin endpoints', () => {
+    it('does not have any tests');
+  });
+
   describe('updateBranchAdmin', () => {
     let req;
-    let res;
 
     describe('when the branch id is valid and the admin id is valid', () => {
       beforeEach(() => {
@@ -299,7 +274,6 @@ describe('adminController', () => {
 
   describe('getBranchAdmins', () => {
     let req;
-    let res;
 
     beforeEach(() => {
       res = { status: sinon.stub().returns({ json: sinon.spy() }) };
