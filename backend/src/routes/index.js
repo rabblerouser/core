@@ -49,7 +49,7 @@ router.get('/logout', (req, res) =>
   req.session.destroy(() => res.redirect('/login'))
 );
 
-router.get('/admins', [requireAuth, superAdminOnly], adminController.list);
+router.get('/admins', [requireAuth, superAdminOnly], adminController.getAllAdmins);
 router.post('/admins', [requireAuth, superAdminOnly], adminController.createSuperAdmin);
 router.put('/admins/:adminId', [requireAuth, superAdminOnly], adminController.updateSuperAdmin);
 router.delete('/admins/:adminId', [requireAuth, superAdminOnly], adminController.deleteSuperAdmin);
@@ -66,10 +66,10 @@ router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], me
 router.get('/branches/:branchId/members.csv', [requireAuth, branchAuthorization], membersController.exportBranchMembers);
 router.delete('/branches/:branchId/members/:memberId', [requireAuth, branchAuthorization], membersController.deleteMember);
 
-router.get('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.forBranch);
-router.post('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.create);
-router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization], adminController.update);
-router.delete('/branches/:branchId/admins/:adminId', [requireAuth, branchAuthorization], adminController.delete);
+router.get('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.getBranchAdmins);
+router.post('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.createBranchAdmin);
+router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization], adminController.updateBranchAdmin);
+router.delete('/branches/:branchId/admins/:adminId', [requireAuth, branchAuthorization], adminController.deleteBranchAdmin);
 
 router.get('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.getBranchGroups);
 router.post('/branches/:branchId/groups', [requireAuth, branchAuthorization], groupsController.createGroup);

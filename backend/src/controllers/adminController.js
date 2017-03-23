@@ -6,7 +6,7 @@ const validator = require('../lib/inputValidator');
 const adminValidator = require('../lib/adminValidator');
 const adminType = require('../security/adminType');
 
-function deleteAdmin(req, res) {
+function deleteBranchAdmin(req, res) {
   const branchId = req.params.branchId;
   const adminId = req.params.adminId;
 
@@ -50,7 +50,7 @@ function createSuperAdmin(req, res) {
   });
 }
 
-function create(req, res) {
+function createBranchAdmin(req, res) {
   const newAdmin = parseAdmin(req);
   const branchId = req.params.branchId;
   newAdmin.branchId = branchId;
@@ -92,7 +92,7 @@ function updateSuperAdmin(req, res) {
   });
 }
 
-function update(req, res) {
+function updateBranchAdmin(req, res) {
   const branchId = req.params.branchId;
   const admin = parseAdmin(req);
   admin.branchId = branchId;
@@ -117,7 +117,7 @@ function update(req, res) {
   });
 }
 
-function forBranch(req, res) {
+function getBranchAdmins(req, res) {
   return adminService.admins(req.params.branchId)
   .then(result => res.status(200).json({ admins: result }))
   .catch(error => {
@@ -132,7 +132,7 @@ function forBranch(req, res) {
   });
 }
 
-function list(req, res) {
+function getAllAdmins(req, res) {
   return adminService.superAdmins()
   .then(result => res.status(200).json({ admins: result }))
   .catch(error => {
@@ -158,12 +158,12 @@ function deleteSuperAdmin(req, res) {
 }
 
 module.exports = {
-  deleteSuperAdmin,
-  delete: deleteAdmin,
-  create,
+  getBranchAdmins,
+  createBranchAdmin,
+  updateBranchAdmin,
+  deleteBranchAdmin,
+  getAllAdmins,
   createSuperAdmin,
+  deleteSuperAdmin,
   updateSuperAdmin,
-  update,
-  forBranch,
-  list,
 };

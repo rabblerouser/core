@@ -32,7 +32,7 @@ function admin() {
 }
 
 describe('adminController', () => {
-  describe('create', () => {
+  describe('createBranchAdmin', () => {
     let req;
     let res;
 
@@ -58,7 +58,7 @@ describe('adminController', () => {
 
       it('responds with successful update', done => {
         adminService.create.returns(Promise.resolve(admin()));
-        adminController.create(req, res)
+        adminController.createBranchAdmin(req, res)
         .then(() => {
           expect(res.status).to.have.been.calledWith(200);
           expect(res.status().json).to.have.been.calledWith(admin());
@@ -82,7 +82,7 @@ describe('adminController', () => {
       });
 
       it('should return a 400', () => {
-        adminController.create(req, res);
+        adminController.createBranchAdmin(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -107,7 +107,7 @@ describe('adminController', () => {
       });
 
       it('should return a 400', () => {
-        adminController.create(req, res);
+        adminController.createBranchAdmin(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -135,7 +135,7 @@ describe('adminController', () => {
 
       it('should return a 500', done => {
         adminService.create.returns(Promise.reject('anything at all'));
-        adminController.create(req, res)
+        adminController.createBranchAdmin(req, res)
         .then(() => {
           expect(res.sendStatus).to.have.been.calledWith(500);
         }).then(done)
@@ -144,7 +144,7 @@ describe('adminController', () => {
     });
   });
 
-  describe('update', () => {
+  describe('updateBranchAdmin', () => {
     let req;
     let res;
 
@@ -171,7 +171,7 @@ describe('adminController', () => {
 
       it('responds with successful update', done => {
         adminService.updateAdmin.returns(Promise.resolve(admin()));
-        adminController.update(req, res)
+        adminController.updateBranchAdmin(req, res)
         .then(() => {
           expect(res.status).to.have.been.calledWith(200);
           expect(res.status().json).to.have.been.calledWith(admin());
@@ -195,7 +195,7 @@ describe('adminController', () => {
       });
 
       it('should return a 400', () => {
-        adminController.update(req, res);
+        adminController.updateBranchAdmin(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -215,7 +215,7 @@ describe('adminController', () => {
       });
 
       it('should return a 400', () => {
-        adminController.update(req, res);
+        adminController.updateBranchAdmin(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -235,7 +235,7 @@ describe('adminController', () => {
       });
 
       it('should return a 400', () => {
-        adminController.update(req, res);
+        adminController.updateBranchAdmin(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -260,7 +260,7 @@ describe('adminController', () => {
       });
 
       it('should return a 400', () => {
-        adminController.update(req, res);
+        adminController.updateBranchAdmin(req, res);
         expect(res.status).to.have.been.calledWith(400);
       });
     });
@@ -288,7 +288,7 @@ describe('adminController', () => {
 
       it('should return a 500', done => {
         adminService.updateAdmin.returns(Promise.reject('anything at all'));
-        adminController.update(req, res)
+        adminController.updateBranchAdmin(req, res)
         .then(() => {
           expect(res.sendStatus).to.have.been.calledWith(500);
         }).then(done)
@@ -297,7 +297,7 @@ describe('adminController', () => {
     });
   });
 
-  describe('forBranch', () => {
+  describe('getBranchAdmins', () => {
     let req;
     let res;
 
@@ -315,7 +315,7 @@ describe('adminController', () => {
     describe('when the branch id is valid and has admins', () => {
       it('responds with a list of admins', done => {
         adminService.admins.returns(Promise.resolve(adminsList()));
-        adminController.forBranch(req, res)
+        adminController.getBranchAdmins(req, res)
         .then(() => {
           expect(res.status).to.have.been.calledWith(200);
           expect(res.status().json).to.have.been.calledWith({ admins: adminsList() });
@@ -329,7 +329,7 @@ describe('adminController', () => {
         res = { sendStatus: sinon.spy() };
 
         adminService.admins.returns(Promise.reject('invalid branch id'));
-        adminController.forBranch(req, res)
+        adminController.getBranchAdmins(req, res)
         .then(() => {
           expect(res.sendStatus).to.have.been.calledWith(400);
         }).then(done)
@@ -342,7 +342,7 @@ describe('adminController', () => {
         res = { sendStatus: sinon.spy() };
 
         adminService.admins.returns(Promise.reject('anything at all'));
-        adminController.forBranch(req, res)
+        adminController.getBranchAdmins(req, res)
         .then(() => {
           expect(res.sendStatus).to.have.been.calledWith(500);
         }).then(done)
