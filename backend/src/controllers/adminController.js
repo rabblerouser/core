@@ -1,7 +1,7 @@
 'use strict';
 
 const uuid = require('node-uuid');
-const bcrypt = require('bcryptjs');
+const hash = require('../security/hash');
 const adminService = require('../services/adminService');
 const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
@@ -28,7 +28,7 @@ const createBranchAdmin = (req, res) => {
     branchId,
   };
   const validationErrors = adminValidator.isValid(admin);
-  admin.password = bcrypt.hashSync(admin.password || '');
+  admin.password = hash(admin.password || '');
 
   if (validationErrors.length > 0) {
     logger.info('[create-new-admin-validation-error]', { errors: validationErrors });
@@ -85,7 +85,7 @@ function createSuperAdmin(req, res) {
     type: adminType.super,
   };
   const validationErrors = adminValidator.isSuperAdminValid(admin);
-  admin.password = bcrypt.hashSync(admin.password || '');
+  admin.password = hash(admin.password || '');
 
   if (validationErrors.length > 0) {
     logger.info('[create-new-admin-validation-error]', { errors: validationErrors });

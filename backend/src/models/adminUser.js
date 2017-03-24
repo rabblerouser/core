@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcryptjs');
 const uuid = require('node-uuid');
+const hash = require('../security/hash');
 const logger = require('../lib/logger');
 const adminType = require('../security/adminType');
 
@@ -40,12 +41,12 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   AdminUser.hook('beforeCreate', userAccount => {
-    userAccount.password = bcrypt.hashSync(userAccount.password);
+    userAccount.password = hash(userAccount.password);
   });
 
   AdminUser.hook('beforeUpdate', userAccount => {
     if (userAccount.changed('password')) {
-      userAccount.password = bcrypt.hashSync(userAccount.password);
+      userAccount.password = hash(userAccount.password);
     }
   });
 
