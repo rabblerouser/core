@@ -1,5 +1,6 @@
 'use strict';
 
+const bcrypt = require('bcryptjs');
 const adminController = require('../../../src/controllers/adminController');
 const adminValidator = require('../../../src/lib/adminValidator');
 const adminService = require('../../../src/services/adminService');
@@ -44,8 +45,10 @@ describe('adminController', () => {
     };
     res.status = sinon.stub().returns(res);
     sandbox.stub(adminValidator, 'isValid').returns([]);
+    sandbox.stub(adminValidator, 'isSuperAdminValid').returns([]);
     sandbox.stub(streamClient, 'publish').resolves();
     sandbox.stub(store, 'getBranches').returns([{ id: 'some-branch' }]);
+    sandbox.stub(bcrypt, 'hashSync').withArgs('super secret').returns('hashed password');
   });
 
   afterEach(() => {
@@ -73,7 +76,7 @@ describe('adminController', () => {
             expect(eventData.name).to.eql('some name');
             expect(eventData.email).to.eql('some@email.com');
             expect(eventData.phoneNumber).to.eql('98765432');
-            expect(eventData.password.startsWith('$2a$10$')).to.eql(true);
+            expect(eventData.password).to.eql('hashed password');
             expect(eventData.type).to.eql('BRANCH');
             expect(eventData.branchId).to.eql('some-branch');
 
@@ -83,6 +86,8 @@ describe('adminController', () => {
             expect(jsonData.name).to.eql('some name');
             expect(jsonData.email).to.eql('some@email.com');
             expect(jsonData.phoneNumber).to.eql('98765432');
+            expect(eventData.type).to.eql('BRANCH');
+            expect(eventData.branchId).to.eql('some-branch');
           });
       });
 
@@ -117,7 +122,54 @@ describe('adminController', () => {
   });
 
   describe('super admin endpoints', () => {
-    it('does not have any tests');
+    describe('createSuperAdmin', () => {
+      it('puts an event on the stream when everything is valid, with the password hashed', () => {
+        const req = {
+          body: { name: 'some name', email: 'some@email.com', phoneNumber: '98765432', password: 'super secret' },
+        };
+
+        return adminController.createSuperAdmin(req, res)
+          .then(() => {
+            const [eventType, eventData] = streamClient.publish.args[0];
+            expect(eventType).to.eql('admin-created');
+            expect(eventData.id).to.be.a('string');
+            expect(eventData.name).to.eql('some name');
+            expect(eventData.email).to.eql('some@email.com');
+            expect(eventData.phoneNumber).to.eql('98765432');
+            expect(eventData.password).to.eql('hashed password');
+            expect(eventData.type).to.eql('SUPER');
+
+            expect(res.status).to.have.been.calledWith(200);
+            const [jsonData] = res.json.args[0];
+            expect(jsonData.id).to.be.a('string');
+            expect(jsonData.name).to.eql('some name');
+            expect(jsonData.email).to.eql('some@email.com');
+            expect(jsonData.phoneNumber).to.eql('98765432');
+            expect(eventData.type).to.eql('SUPER');
+          });
+      });
+
+      it('fails when the payload is invalid', () => {
+        const req = { params: { branchId: 'some-branch' }, body: {} };
+
+        adminValidator.isSuperAdminValid.returns(['ba-bow']);
+
+        adminController.createSuperAdmin(req, res);
+        expect(res.status).to.have.been.calledWith(400);
+        expect(res.json).to.have.been.calledWith({ errors: ['ba-bow'] });
+      });
+
+      it('fails when the stream client blows up', () => {
+        const req = { params: { branchId: 'some-branch' }, body: {} };
+
+        streamClient.publish.rejects();
+
+        return adminController.createSuperAdmin(req, res)
+          .then(() => {
+            expect(res.sendStatus).to.have.been.calledWith(500);
+          });
+      });
+    });
   });
 
   describe('updateBranchAdmin', () => {

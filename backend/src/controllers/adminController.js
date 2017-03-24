@@ -27,7 +27,6 @@ const createBranchAdmin = (req, res) => {
     type: adminType.branch,
     branchId,
   };
-  // Important to validate *before* the password is hashed
   const validationErrors = adminValidator.isValid(admin);
   admin.password = bcrypt.hashSync(admin.password || '');
 
@@ -39,8 +38,10 @@ const createBranchAdmin = (req, res) => {
     .then(() => res.status(200).json({
       id: admin.id,
       name: admin.name,
-      phoneNumber: admin.phoneNumber,
       email: admin.email,
+      phoneNumber: admin.phoneNumber,
+      type: admin.type,
+      branchId: admin.branchId,
     }))
     .catch(error => {
       logger.error(`Failed creating a new admin user for branch: ${branchId}}`, error);
@@ -75,21 +76,34 @@ function parseAdmin(req) {
 }
 
 function createSuperAdmin(req, res) {
-  const newAdmin = parseAdmin(req);
-  newAdmin.type = adminType.super;
-  const validationErrors = adminValidator.isSuperAdminValid(newAdmin);
+  const admin = {
+    id: uuid.v4(),
+    name: req.body.name,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+    password: req.body.password || '',
+    type: adminType.super,
+  };
+  const validationErrors = adminValidator.isSuperAdminValid(admin);
+  admin.password = bcrypt.hashSync(admin.password || '');
 
   if (validationErrors.length > 0) {
     logger.info('[create-new-admin-validation-error]', { errors: validationErrors });
     return res.status(400).json({ errors: validationErrors });
   }
 
-  return adminService.create(newAdmin)
-  .then(result => res.status(200).json(result))
-  .catch(error => {
-    logger.error('Failed creating a new super admin', error);
-    return res.sendStatus(500);
-  });
+  return streamClient.publish('admin-created', admin)
+    .then(() => res.status(200).json({
+      id: admin.id,
+      name: admin.name,
+      email: admin.email,
+      phoneNumber: admin.phoneNumber,
+      type: admin.type,
+    }))
+    .catch(error => {
+      logger.error('Failed creating a new super admin', error);
+      return res.sendStatus(500);
+    });
 }
 
 function updateSuperAdmin(req, res) {
