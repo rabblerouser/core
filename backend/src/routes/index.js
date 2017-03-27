@@ -8,6 +8,7 @@ const adminController = require('../controllers/adminController');
 const branchAuthorization = require('../security/branchAccessValidator');
 const superAdminOnly = require('../security/superAdminOnlyValidator');
 const requireAuth = require('../security/authenticationRequired');
+const resourceValidators = require('../middlewares/resourceValidators');
 const login = require('../security/loginHandler');
 const streamClient = require('../streamClient');
 
@@ -48,6 +49,8 @@ router.post('/login', login);
 router.get('/logout', (req, res) =>
   req.session.destroy(() => res.redirect('/login'))
 );
+
+router.all('*/branch/:branchId*', resourceValidators.checkBranchPresence);
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.getAllAdmins);
 router.post('/admins', [requireAuth, superAdminOnly], adminController.createSuperAdmin);

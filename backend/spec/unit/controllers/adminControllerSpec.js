@@ -86,8 +86,8 @@ describe('adminController', () => {
             expect(jsonData.name).to.eql('some name');
             expect(jsonData.email).to.eql('some@email.com');
             expect(jsonData.phoneNumber).to.eql('98765432');
-            expect(eventData.type).to.eql('BRANCH');
-            expect(eventData.branchId).to.eql('some-branch');
+            expect(jsonData.type).to.eql('BRANCH');
+            expect(jsonData.branchId).to.eql('some-branch');
           });
       });
 
