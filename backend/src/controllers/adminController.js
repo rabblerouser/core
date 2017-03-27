@@ -8,15 +8,9 @@ const validator = require('../lib/inputValidator');
 const adminValidator = require('../lib/adminValidator');
 const adminType = require('../security/adminType');
 const streamClient = require('../streamClient');
-const store = require('../store');
-
-const findBranch = branchId => store.getBranches().find(branch => branch.id === branchId);
 
 const createBranchAdmin = (req, res) => {
   const branchId = req.params.branchId;
-  if (!findBranch(branchId)) {
-    return res.sendStatus(404);
-  }
 
   const admin = {
     id: uuid.v4(),

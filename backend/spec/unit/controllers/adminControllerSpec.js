@@ -5,7 +5,6 @@ const adminController = require('../../../src/controllers/adminController');
 const adminValidator = require('../../../src/lib/adminValidator');
 const adminService = require('../../../src/services/adminService');
 const streamClient = require('../../../src/streamClient');
-const store = require('../../../src/store');
 
 function adminsList() {
   return [
@@ -47,7 +46,6 @@ describe('adminController', () => {
     sandbox.stub(adminValidator, 'isValid').returns([]);
     sandbox.stub(adminValidator, 'isSuperAdminValid').returns([]);
     sandbox.stub(streamClient, 'publish').resolves();
-    sandbox.stub(store, 'getBranches').returns([{ id: 'some-branch' }]);
     sandbox.stub(bcrypt, 'hashSync').withArgs('super secret').returns('hashed password');
   });
 
@@ -89,13 +87,6 @@ describe('adminController', () => {
             expect(jsonData.type).to.eql('BRANCH');
             expect(jsonData.branchId).to.eql('some-branch');
           });
-      });
-
-      it('fails if the specified branch does not exist', () => {
-        const req = { params: { branchId: 'invalid-branch' }, body: {} };
-
-        adminController.createBranchAdmin(req, res);
-        expect(res.sendStatus).to.have.been.calledWith(404);
       });
 
       it('fails when the payload is invalid', () => {
