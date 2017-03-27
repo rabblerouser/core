@@ -6,13 +6,6 @@ const _ = require('lodash');
 const isValidBranch = name =>
   inputValidator.isValidString(name, new RegExp('[<>"%;&+]')) && name.length < 256;
 
-const superAdminPasswordRequired = {
-  name: inputValidator.isValidOptionalName,
-  email: inputValidator.isValidEmail,
-  phoneNumber: inputValidator.isValidOptionalPhoneNumber,
-  password: inputValidator.isValidPassword,
-};
-
 const noPasswordRequired = {
   name: inputValidator.isValidOptionalName,
   email: inputValidator.isValidEmail,
@@ -30,7 +23,6 @@ const passwordRequired = {
   name: inputValidator.isValidOptionalName,
   email: inputValidator.isValidEmail,
   phoneNumber: inputValidator.isValidOptionalPhoneNumber,
-  branchId: isValidBranch,
   password: inputValidator.isValidPassword,
 };
 
@@ -57,14 +49,8 @@ const isSuperAdminValidWithoutPassword = admin => {
   return _.flatten(errors);
 };
 
-const isSuperAdminValid = admin => {
-  const errors = [isValidDetails(admin, superAdminPasswordRequired)];
-  return _.flatten(errors);
-};
-
 module.exports = {
   isValid,
   isValidWithoutPassword,
-  isSuperAdminValid,
   isSuperAdminValidWithoutPassword,
 };

@@ -8,6 +8,7 @@ const adminController = require('../controllers/adminController');
 const branchAuthorization = require('../security/branchAccessValidator');
 const superAdminOnly = require('../security/superAdminOnlyValidator');
 const requireAuth = require('../security/authenticationRequired');
+const adminType = require('../security/adminType');
 const resourceValidators = require('../middlewares/resourceValidators');
 const login = require('../security/loginHandler');
 const streamClient = require('../streamClient');
@@ -53,7 +54,7 @@ router.get('/logout', (req, res) =>
 router.all('*/branch/:branchId*', resourceValidators.checkBranchPresence);
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.getAllAdmins);
-router.post('/admins', [requireAuth, superAdminOnly], adminController.createSuperAdmin);
+router.post('/admins', [requireAuth, superAdminOnly], adminController.createAdmin(adminType.super));
 router.put('/admins/:adminId', [requireAuth, superAdminOnly], adminController.updateSuperAdmin);
 router.delete('/admins/:adminId', [requireAuth, superAdminOnly], adminController.deleteSuperAdmin);
 
@@ -70,7 +71,7 @@ router.get('/branches/:branchId/members.csv', [requireAuth, branchAuthorization]
 router.delete('/branches/:branchId/members/:memberId', [requireAuth, branchAuthorization], membersController.deleteMember);
 
 router.get('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.getBranchAdmins);
-router.post('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.createBranchAdmin);
+router.post('/branches/:branchId/admins', [requireAuth, branchAuthorization], adminController.createAdmin(adminType.branch));
 router.put('/branches/:branchId/admins/:id', [requireAuth, branchAuthorization], adminController.updateBranchAdmin);
 router.delete('/branches/:branchId/admins/:adminId', [requireAuth, branchAuthorization], adminController.deleteBranchAdmin);
 

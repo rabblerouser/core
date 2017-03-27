@@ -6,28 +6,27 @@ const adminService = require('../services/adminService');
 const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
 const adminValidator = require('../lib/adminValidator');
-const adminType = require('../security/adminType');
 const streamClient = require('../streamClient');
 
-const createBranchAdmin = (req, res) => {
+const createAdmin = adminType => (req, res) => {
   const branchId = req.params.branchId;
-
   const admin = {
     id: uuid.v4(),
     name: req.body.name,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     password: req.body.password || '',
-    type: adminType.branch,
+    type: adminType,
     branchId,
   };
-  const validationErrors = adminValidator.isValid(admin);
-  admin.password = hash(admin.password || '');
 
+  const validationErrors = adminValidator.isValid(admin);
   if (validationErrors.length > 0) {
     logger.info('[create-new-admin-validation-error]', { errors: validationErrors });
     return res.status(400).json({ errors: validationErrors });
   }
+
+  admin.password = hash(admin.password || '');
   return streamClient.publish('admin-created', admin)
     .then(() => res.status(200).json({
       id: admin.id,
@@ -38,7 +37,7 @@ const createBranchAdmin = (req, res) => {
       branchId: admin.branchId,
     }))
     .catch(error => {
-      logger.error(`Failed creating a new admin user for branch: ${branchId}}`, error);
+      logger.error('Failed creating a new admin user', error);
       return res.sendStatus(500);
     });
 };
@@ -67,37 +66,6 @@ function parseAdmin(req) {
   if (req.body.phoneNumber !== undefined) { admin.phoneNumber = req.body.phoneNumber; }
   if (req.body.password !== undefined) { admin.password = req.body.password; }
   return admin;
-}
-
-function createSuperAdmin(req, res) {
-  const admin = {
-    id: uuid.v4(),
-    name: req.body.name,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-    password: req.body.password || '',
-    type: adminType.super,
-  };
-  const validationErrors = adminValidator.isSuperAdminValid(admin);
-  admin.password = hash(admin.password || '');
-
-  if (validationErrors.length > 0) {
-    logger.info('[create-new-admin-validation-error]', { errors: validationErrors });
-    return res.status(400).json({ errors: validationErrors });
-  }
-
-  return streamClient.publish('admin-created', admin)
-    .then(() => res.status(200).json({
-      id: admin.id,
-      name: admin.name,
-      email: admin.email,
-      phoneNumber: admin.phoneNumber,
-      type: admin.type,
-    }))
-    .catch(error => {
-      logger.error('Failed creating a new super admin', error);
-      return res.sendStatus(500);
-    });
 }
 
 function updateSuperAdmin(req, res) {
@@ -190,11 +158,10 @@ function deleteSuperAdmin(req, res) {
 
 module.exports = {
   getBranchAdmins,
-  createBranchAdmin,
+  createAdmin,
   updateBranchAdmin,
   deleteBranchAdmin,
   getAllAdmins,
-  createSuperAdmin,
   deleteSuperAdmin,
   updateSuperAdmin,
 };
