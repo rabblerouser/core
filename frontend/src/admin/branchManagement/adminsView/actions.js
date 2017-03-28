@@ -62,8 +62,9 @@ export const adminUpdateRequested = admin => {
   const thunk = (dispatch, getState) => {
     dispatch(clearMessages());
     const branchId = getSelectedBranchId(getState());
+    const { id, ...body } = admin;
     return (
-      axios.put(`/branches/${branchId}/admins/${admin.id}`, admin)
+      axios.put(`/branches/${branchId}/admins/${id}`, body)
       .then(() => dispatch(adminUpdated(admin)))
       .then(() => dispatch(reportSuccess('Admin successfully updated')))
       .catch(() => dispatch(reportFailure()))

@@ -23,15 +23,6 @@ function adminsList() {
   ];
 }
 
-function admin() {
-  return {
-    id: 'some-key',
-    email: 'some-email',
-    name: 'some name',
-    phone: 'some phone',
-  };
-}
-
 describe('adminController', () => {
   let res;
   let sandbox;
@@ -44,6 +35,7 @@ describe('adminController', () => {
     };
     res.status = sinon.stub().returns(res);
     sandbox.stub(adminValidator, 'isValid').returns([]);
+    sandbox.stub(adminValidator, 'isValidWithoutPassword').returns([]);
     sandbox.stub(streamClient, 'publish').resolves();
     sandbox.stub(bcrypt, 'hashSync').withArgs('super secret').returns('hashed password');
   });
@@ -129,155 +121,85 @@ describe('adminController', () => {
     });
   });
 
-  describe('updateBranchAdmin', () => {
-    let req;
+  describe('updateAdmin', () => {
+    it('puts an event on the stream when everything is valid, with the password hashed', () => {
+      const req = {
+        params: { branchId: 'some-branch', adminId: 'some-admin' },
+        body: {
+          name: 'some name',
+          email: 'some@email.com',
+          phoneNumber: '98765432',
+          password: 'super secret',
+        },
+      };
 
-    describe('when the branch id is valid and the admin id is valid', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = {
-          params: { branchId: 1, id: 'some-key' },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
+      return adminController.updateAdmin(req, res)
+        .then(() => {
+          expect(streamClient.publish).to.have.been.calledWith(
+            'admin-edited',
+            {
+              id: 'some-admin',
+              branchId: 'some-branch',
+              name: 'some name',
+              email: 'some@email.com',
+              phoneNumber: '98765432',
+              password: 'hashed password',
+            }
+          );
+          expect(res.status).to.have.been.calledWith(200);
+          expect(res.json).to.have.been.calledWith({
+            id: 'some-admin',
+            branchId: 'some-branch',
             name: 'some name',
-            phone: 'some phone',
-          },
-        };
-        sinon.stub(adminValidator, 'isValidWithoutPassword').returns([]);
-        sinon.stub(adminService, 'updateAdmin').withArgs(req.params.id);
-      });
+            email: 'some@email.com',
+            phoneNumber: '98765432',
+          });
+        });
+    });
 
-      afterEach(() => {
-        adminService.updateAdmin.restore();
-        adminValidator.isValidWithoutPassword.restore();
-      });
+    it('can update without a branchId, which super admins do not have', () => {
+      const req = { params: { adminId: 'some-admin' }, body: {} };
 
-      it('responds with successful update', done => {
-        adminService.updateAdmin.returns(Promise.resolve(admin()));
-        adminController.updateBranchAdmin(req, res)
+      return adminController.updateAdmin(req, res)
         .then(() => {
           expect(res.status).to.have.been.calledWith(200);
-          expect(res.status().json).to.have.been.calledWith(admin());
-        }).then(done)
-        .catch(done);
-      });
+          const [eventType, eventData] = streamClient.publish.args[0];
+          expect(eventType).to.eql('admin-edited');
+          expect(eventData.branchId).to.eql(undefined);
+        });
     });
 
-    describe('when the branch id is undefined', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = {
-          params: { id: 'some-key' },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone',
-          },
-        };
-      });
+    it('can update the admin without changing their password', () => {
+      const req = { params: { adminId: 'some-admin' }, body: {} };
 
-      it('should return a 400', () => {
-        adminController.updateBranchAdmin(req, res);
-        expect(res.status).to.have.been.calledWith(400);
-      });
+      return adminController.updateAdmin(req, res)
+        .then(() => {
+          expect(res.status).to.have.been.calledWith(200);
+          const [eventType, eventData] = streamClient.publish.args[0];
+          expect(eventType).to.eql('admin-edited');
+          expect(eventData.password).to.eql(undefined);
+        });
     });
 
-    describe('when the admin id is undefined', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = {
-          params: { branchId: 'some-key' },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone',
-          },
-        };
-      });
+    it('fails when the payload is invalid', () => {
+      const req = { params: { adminId: 'some-admin' }, body: { bad: 'data' } };
 
-      it('should return a 400', () => {
-        adminController.updateBranchAdmin(req, res);
-        expect(res.status).to.have.been.calledWith(400);
-      });
+      adminValidator.isValidWithoutPassword.returns(['oh no!']);
+
+      adminController.updateAdmin(req, res);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ errors: ['oh no!'] });
     });
 
-    describe('when the ad min id doesn\'t match the one in the payload', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = {
-          params: { branchId: 'some-key', id: 'some-b ad-key' },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone',
-          },
-        };
-      });
+    it('fails when the streamClient blows up', () => {
+      const req = { params: { adminId: 'some-admin' }, body: {} };
 
-      it('should return a 400', () => {
-        adminController.updateBranchAdmin(req, res);
-        expect(res.status).to.have.been.calledWith(400);
-      });
-    });
+      streamClient.publish.rejects();
 
-    describe('when the payload provided is invalid', () => {
-      beforeEach(() => {
-        res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-        req = {
-          params: { branchId: 1, id: 'some-key' },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone',
-          },
-        };
-        sinon.stub(adminValidator, 'isValidWithoutPassword').returns(['email']);
-      });
-
-      afterEach(() => {
-        adminValidator.isValidWithoutPassword.restore();
-      });
-
-      it('should return a 400', () => {
-        adminController.updateBranchAdmin(req, res);
-        expect(res.status).to.have.been.calledWith(400);
-      });
-    });
-
-    describe('when there is a general error from the service', () => {
-      beforeEach(() => {
-        res = { sendStatus: sinon.spy() };
-        req = {
-          params: { branchId: 1, id: 'some-key' },
-          body: {
-            id: 'some-key',
-            email: 'some-email',
-            name: 'some name',
-            phone: 'some phone',
-          },
-        };
-        sinon.stub(adminValidator, 'isValidWithoutPassword').returns([]);
-        sinon.stub(adminService, 'updateAdmin').withArgs(req.params.id);
-      });
-
-      afterEach(() => {
-        adminService.updateAdmin.restore();
-        adminValidator.isValidWithoutPassword.restore();
-      });
-
-      it('should return a 500', done => {
-        adminService.updateAdmin.returns(Promise.reject('anything at all'));
-        adminController.updateBranchAdmin(req, res)
+      return adminController.updateAdmin(req, res)
         .then(() => {
           expect(res.sendStatus).to.have.been.calledWith(500);
-        }).then(done)
-        .catch(done);
-      });
+        });
     });
   });
 

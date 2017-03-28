@@ -15,7 +15,7 @@ const createAdmin = adminType => (req, res) => {
     name: req.body.name,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
-    password: req.body.password || '',
+    password: req.body.password,
     type: adminType,
     branchId,
   };
@@ -42,6 +42,38 @@ const createAdmin = adminType => (req, res) => {
     });
 };
 
+const updateAdmin = (req, res) => {
+  const admin = {
+    id: req.params.adminId,
+    branchId: req.params.branchId,
+    name: req.body.name,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+    password: req.body.password,
+  };
+
+  const validationErrors = adminValidator.isValidWithoutPassword(admin);
+  if (validationErrors.length > 0) {
+    logger.info('[update-user-validation-error]', { errors: validationErrors });
+    return res.status(400).json({ errors: validationErrors });
+  }
+  if (admin.password) {
+    admin.password = hash(admin.password);
+  }
+  return streamClient.publish('admin-edited', admin)
+    .then(() => res.status(200).json({
+      id: admin.id,
+      branchId: admin.branchId,
+      name: admin.name,
+      email: admin.email,
+      phoneNumber: admin.phoneNumber,
+    }))
+    .catch(error => {
+      logger.error(`Failed updating the admin user with id:${admin.id}`, error);
+      res.sendStatus(500);
+    });
+};
+
 function deleteBranchAdmin(req, res) {
   const branchId = req.params.branchId;
   const adminId = req.params.adminId;
@@ -55,63 +87,6 @@ function deleteBranchAdmin(req, res) {
   .then(() => res.sendStatus(200))
   .catch(error => {
     logger.error(`Failed deleting the admin with id:${adminId} and branchId: ${branchId}}`, error);
-    res.sendStatus(500);
-  });
-}
-
-function parseAdmin(req) {
-  const admin = {};
-  if (req.body.name !== undefined) { admin.name = req.body.name; }
-  if (req.body.email !== undefined) { admin.email = req.body.email; }
-  if (req.body.phoneNumber !== undefined) { admin.phoneNumber = req.body.phoneNumber; }
-  if (req.body.password !== undefined) { admin.password = req.body.password; }
-  return admin;
-}
-
-function updateSuperAdmin(req, res) {
-  const admin = parseAdmin(req);
-  admin.id = req.body.id;
-
-  if (!admin.id || admin.id !== req.params.adminId) {
-    logger.info('[update-user-validation-error]', { errors: ['invalid params'] });
-    return res.status(400).json({ errors: ['invalid params'] });
-  }
-
-  const validationErrors = adminValidator.isSuperAdminValidWithoutPassword(admin);
-  if (validationErrors.length > 0) {
-    logger.info('[update-user-validation-error]', { errors: validationErrors });
-    return res.status(400).json({ errors: validationErrors });
-  }
-
-  return adminService.updateAdmin(admin)
-  .then(updatedAdmin => res.status(200).json(updatedAdmin))
-  .catch(error => {
-    logger.error(`Failed updating the admin user with id:${admin.id}`, error);
-    res.sendStatus(500);
-  });
-}
-
-function updateBranchAdmin(req, res) {
-  const branchId = req.params.branchId;
-  const admin = parseAdmin(req);
-  admin.branchId = branchId;
-  admin.id = req.body.id;
-
-  if (!admin.id || !branchId || admin.id !== req.params.id) {
-    logger.info('[update-user-validation-error]', { errors: ['invalid params'] });
-    return res.status(400).json({ errors: ['invalid params'] });
-  }
-
-  const validationErrors = adminValidator.isValidWithoutPassword(admin);
-  if (validationErrors.length > 0) {
-    logger.info('[update-user-validation-error]', { errors: validationErrors });
-    return res.status(400).json({ errors: validationErrors });
-  }
-
-  return adminService.updateAdmin(admin)
-  .then(updatedAdmin => res.status(200).json(updatedAdmin))
-  .catch(error => {
-    logger.error(`Failed updating the admin user with id:${admin.id}`, error);
     res.sendStatus(500);
   });
 }
@@ -159,9 +134,8 @@ function deleteSuperAdmin(req, res) {
 module.exports = {
   getBranchAdmins,
   createAdmin,
-  updateBranchAdmin,
+  updateAdmin,
   deleteBranchAdmin,
   getAllAdmins,
   deleteSuperAdmin,
-  updateSuperAdmin,
 };
