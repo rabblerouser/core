@@ -203,6 +203,29 @@ describe('adminController', () => {
     });
   });
 
+  describe('deleteAdmin', () => {
+    it('puts an event on the stream', () => {
+      const req = { params: { adminId: 'some-admin' } };
+
+      return adminController.deleteAdmin(req, res)
+        .then(() => {
+          expect(res.sendStatus).to.have.been.calledWith(200);
+          expect(streamClient.publish).to.have.been.calledWith('admin-removed', { id: 'some-admin' });
+        });
+    });
+
+    it('fails if the stream client blows up', () => {
+      const req = { params: { adminId: 'some-admin' } };
+
+      streamClient.publish.rejects();
+
+      return adminController.deleteAdmin(req, res)
+        .then(() => {
+          expect(res.sendStatus).to.have.been.calledWith(500);
+        });
+    });
+  });
+
   describe('getBranchAdmins', () => {
     let req;
 

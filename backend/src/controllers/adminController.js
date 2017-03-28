@@ -4,7 +4,6 @@ const uuid = require('node-uuid');
 const hash = require('../security/hash');
 const adminService = require('../services/adminService');
 const logger = require('../lib/logger');
-const validator = require('../lib/inputValidator');
 const adminValidator = require('../lib/adminValidator');
 const streamClient = require('../streamClient');
 
@@ -74,22 +73,15 @@ const updateAdmin = (req, res) => {
     });
 };
 
-function deleteBranchAdmin(req, res) {
-  const branchId = req.params.branchId;
+const deleteAdmin = (req, res) => {
   const adminId = req.params.adminId;
-
-  if (!(validator.isValidUUID(branchId) && validator.isValidUUID(adminId))) {
-    logger.error(`Failed deleting the admin with id:${adminId} and branchId: ${branchId}`);
-    return res.sendStatus(400);
-  }
-
-  return adminService.delete(adminId)
-  .then(() => res.sendStatus(200))
-  .catch(error => {
-    logger.error(`Failed deleting the admin with id:${adminId} and branchId: ${branchId}}`, error);
-    res.sendStatus(500);
-  });
-}
+  return streamClient.publish('admin-removed', { id: adminId })
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+      logger.error(`Failed deleting the admin with id:${adminId}`, error);
+      res.sendStatus(500);
+    });
+};
 
 function getBranchAdmins(req, res) {
   return adminService.admins(req.params.branchId)
@@ -115,27 +107,10 @@ function getAllAdmins(req, res) {
   });
 }
 
-function deleteSuperAdmin(req, res) {
-  const adminId = req.params.adminId;
-
-  if (!validator.isValidUUID(adminId)) {
-    logger.error(`Failed deleting the super admin with id:${adminId}`);
-    return res.sendStatus(400);
-  }
-
-  return adminService.delete(adminId)
-  .then(() => res.sendStatus(200))
-  .catch(error => {
-    logger.error(`Failed deleting the admin with id:${adminId}`, error);
-    res.sendStatus(500);
-  });
-}
-
 module.exports = {
   getBranchAdmins,
   createAdmin,
   updateAdmin,
-  deleteBranchAdmin,
+  deleteAdmin,
   getAllAdmins,
-  deleteSuperAdmin,
 };

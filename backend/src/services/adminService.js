@@ -22,18 +22,6 @@ function transformAdmins(adapter) {
   return dbResult => dbResult.map(adapter);
 }
 
-const deleteAdmin = id =>
-  AdminUser
-    .destroy({ where: { id } })
-    .then(result => {
-      if (!result) {
-        throw new Error('No records were deleted');
-      }
-
-      logger.info('[delete-admin]', `admin with id ${id} deleted`);
-    })
-    .catch(handleError('[delete-admin-failed]', `An error has occurred while deleting the admin with id: ${id}`));
-
 const superAdmins = () => {
   const query = {
     attributes: [
@@ -82,6 +70,5 @@ const admins = id => {
 
 module.exports = {
   admins,
-  delete: deleteAdmin,
   superAdmins,
 };
