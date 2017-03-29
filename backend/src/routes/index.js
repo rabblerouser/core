@@ -12,10 +12,7 @@ const adminType = require('../security/adminType');
 const resourceValidators = require('../middlewares/resourceValidators');
 const login = require('../security/loginHandler');
 const streamClient = require('../streamClient');
-
-const memberActions = require('../actions/memberActions');
-const groupActions = require('../actions/groupActions');
-const branchActions = require('../actions/branchActions');
+const store = require('../store');
 
 const router = new express.Router();
 
@@ -23,17 +20,17 @@ router.get('/', (req, res) =>
   res.render('signup')
 );
 
-streamClient.on('member-registered', memberActions.createMember);
-streamClient.on('member-removed', memberActions.deleteMember);
-streamClient.on('member-edited', memberActions.updateMember);
+streamClient.on('member-registered', store.createMember);
+streamClient.on('member-removed', store.deleteMember);
+streamClient.on('member-edited', store.updateMember);
 
-streamClient.on('group-created', groupActions.createGroup);
-streamClient.on('group-removed', groupActions.deleteGroup);
-streamClient.on('group-edited', groupActions.updateGroup);
+streamClient.on('group-created', store.createGroup);
+streamClient.on('group-removed', store.deleteGroup);
+streamClient.on('group-edited', store.updateGroup);
 
-streamClient.on('branch-created', branchActions.createBranch);
-streamClient.on('branch-removed', branchActions.deleteBranch);
-streamClient.on('branch-edited', branchActions.updateBranch);
+streamClient.on('branch-created', store.createBranch);
+streamClient.on('branch-removed', store.deleteBranch);
+streamClient.on('branch-edited', store.updateBranch);
 
 router.post('/events', streamClient.listen());
 
