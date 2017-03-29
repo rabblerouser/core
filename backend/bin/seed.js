@@ -4,30 +4,15 @@
 /* eslint import/no-extraneous-dependencies: off */
 
 // This script can be run manually via npm to prepare data for the app
-// - It inserts an Admin user into the relational DB directly
 // - It publishes a "branch-created" event onto the rabblerouser kinesis stream
+// - It publishes an "admin-created" event onto the rabblerouser kinesis stream
 // - In development, it also ensures that the kinesis stream and event S3 bucket have been created
 //   (In production, these are created by terraform before the app is deployed)
 
 const AWS = require('aws-sdk');
 const branchesController = require('../src/controllers/branchesController');
-const models = require('../src/models');
-
-const email = 'networkadmin@rabblerouser.team';
-const password = 'password';
-const type = 'SUPER';
-
-const createAdmin = () => (
-  models.AdminUser.findAll()
-    .then(adminUsers => {
-      if (adminUsers.length === 0) {
-        console.log(`No network admins exist, creating one - Username: ${email}, password: ${password}`);
-        return models.AdminUser.create({ email, password, type });
-      }
-      console.log('At least one network admin already exists.');
-      return undefined;
-    })
-);
+const adminController = require('../src/controllers/adminController');
+const adminType = require('../src/security/adminType');
 
 const createStream = () => {
   console.log('Creating kinesis stream for development');
@@ -103,6 +88,21 @@ const createDefaultBranch = () => {
     });
 };
 
+const createDefaultAdmin = () => {
+  console.log('Creating default admin');
+  const req = { params: {}, body: { email: 'superadmin@rabblerouser.team', name: 'Default Super Admin', password: 'password1234' } };
+  const res = fakeRes();
+  return adminController.createAdmin(adminType.super)(req, res)
+    .then(() => {
+      if (res.lastStatus === 200) {
+        console.log(`Default admin created - username: ${req.body.email}, password: ${req.body.password}`);
+        return Promise.resolve();
+      }
+      console.log('Failed to create default admin');
+      return Promise.reject({ status: res.lastStatus, json: res.lastJson });
+    });
+};
+
 const wait = () => {
   console.log('Waiting for a few seconds for things to be ready...');
   return new Promise(resolve => setTimeout(resolve, 5000));
@@ -110,10 +110,10 @@ const wait = () => {
 
 console.log('Running seed script');
 Promise.resolve()
-  .then(createAdmin)
   .then(createStreamAndBucket)
   .then(wait)
   .then(createDefaultBranch)
+  .then(createDefaultAdmin)
   .then(() => console.log('Seeded successfully.'))
   .catch(error => {
     console.error('Seed failed:', error);
