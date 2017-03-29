@@ -2,11 +2,13 @@ const redux = require('redux');
 const members = require('./reducers/membersReducer');
 const groups = require('./reducers/groupsReducer');
 const branches = require('./reducers/branchesReducer');
+const admins = require('./reducers/adminsReducer');
 
 const rootReducer = redux.combineReducers({
   members,
   groups,
   branches,
+  admins,
 });
 const store = redux.createStore(rootReducer);
 
@@ -34,4 +36,9 @@ module.exports = {
   createMember: member => dispatch({ type: 'CREATE_MEMBER', member }),
   deleteMember: member => dispatch({ type: 'DELETE_MEMBER', member }),
   updateMember: member => dispatch({ type: 'UPDATE_MEMBER', member }),
+
+  getAdmins: () => store.getState().admins,
+  createAdmin: admin => dispatch({ type: 'CREATE_ADMIN', admin }),
+  deleteAdmin: admin => dispatch({ type: 'DELETE_ADMIN', admin }),
+  updateAdmin: admin => dispatch({ type: 'UPDATE_ADMIN', admin }),
 };

@@ -32,6 +32,10 @@ streamClient.on('branch-created', store.createBranch);
 streamClient.on('branch-removed', store.deleteBranch);
 streamClient.on('branch-edited', store.updateBranch);
 
+streamClient.on('admin-created', store.createAdmin);
+streamClient.on('admin-removed', store.deleteAdmin);
+streamClient.on('admin-edited', store.updateAdmin);
+
 router.post('/events', streamClient.listen());
 
 router.get('/login', (req, res) =>
