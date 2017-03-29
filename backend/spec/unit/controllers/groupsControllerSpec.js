@@ -72,16 +72,6 @@ describe('groupsController', () => {
       expect(res.sendStatus).to.have.been.calledWith(400);
     });
 
-    it('fails when the given branch does not exist', () => {
-      const req = {
-        params: { branchId: 'noooope' },
-        body: { name: 'some-name', description: 'some-description' },
-      };
-
-      groupsController.createGroup(req, res);
-      expect(res.sendStatus).to.have.been.calledWith(400);
-    });
-
     it('fails when the stream operation blows up', () => {
       const req = {
         params: { branchId: 'some-branch-id' },
@@ -112,20 +102,6 @@ describe('groupsController', () => {
           expect(streamClient.publish).to.have.been.calledWith('group-removed', { id: 'some-group' });
           expect(res.sendStatus).to.have.been.calledWith(200);
         });
-    });
-
-    it('fails when the given group does not exist', () => {
-      const req = { params: { branchId: 'some-branch', groupId: 'non-group' } };
-
-      groupsController.deleteGroup(req, res);
-      expect(res.sendStatus).to.have.been.calledWith(404);
-    });
-
-    it('fails when the given branch and group do not match', () => {
-      const req = { params: { branchId: 'wrong-branch', groupId: 'some-group' } };
-
-      groupsController.deleteGroup(req, res);
-      expect(res.sendStatus).to.have.been.calledWith(404);
     });
 
     it('fails when the stream operation blows up', () => {
@@ -168,26 +144,6 @@ describe('groupsController', () => {
           expect(eventType).to.eql('group-edited');
           expect(eventData).to.eql(newGroupData);
         });
-    });
-
-    it('fails when the given group does not exist', () => {
-      const req = {
-        params: { branchId: 'some-branch-id', groupId: 'non-group-id' },
-        body: { name: 'new-name', description: 'new-description' },
-      };
-
-      groupsController.updateGroup(req, res);
-      expect(res.sendStatus).to.have.been.calledWith(404);
-    });
-
-    it('fails when the given branch and group do not match', () => {
-      const req = {
-        params: { branchId: 'wrong-branch-id', groupId: 'some-group-id' },
-        body: { name: 'new-name', description: 'new-description' },
-      };
-
-      groupsController.updateGroup(req, res);
-      expect(res.sendStatus).to.have.been.calledWith(404);
     });
 
     it('fails when the group name is invalid', () => {
@@ -245,14 +201,6 @@ describe('groupsController', () => {
           { id: '3', name: 'Third', branchId: 'some-branch-id' },
         ],
       });
-    });
-
-    it('gives a 404 when the branch does not exist', () => {
-      const req = { params: { branchId: 'some-wrong-id' } };
-
-      groupsController.getBranchGroups(req, res);
-
-      expect(res.sendStatus).to.have.been.calledWith(404);
     });
   });
 });

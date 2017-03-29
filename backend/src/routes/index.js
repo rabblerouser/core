@@ -52,7 +52,12 @@ router.get('/logout', (req, res) =>
   req.session.destroy(() => res.redirect('/login'))
 );
 
-router.all('*/branch/:branchId*', resourceValidators.checkBranchPresence);
+// These matchers/middlewares greatly reduce the need for entity existence checks in controllers
+router.all('*/branches/:branchId*', resourceValidators.checkBranchPresence);
+router.all('*/admins/:adminId*', resourceValidators.checkAdminPresence);
+router.all('*/branches/:branchId/admins/:adminId*', resourceValidators.checkBranchAdminPresence);
+router.all('*/branches/:branchId/members/:memberId*', resourceValidators.checkBranchMemberPresence);
+router.all('*/branches/:branchId/groups/:groupId*', resourceValidators.checkBranchGroupPresence);
 
 router.get('/admins', [requireAuth, superAdminOnly], adminController.getSuperAdmins);
 router.post('/admins', [requireAuth, superAdminOnly], adminController.createAdmin(adminType.super));
@@ -66,7 +71,7 @@ router.put('/branches/:branchId', [requireAuth, superAdminOnly], branchesControl
 router.delete('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.deleteBranch);
 
 router.post('/register', membersController.registerMember);
-router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.editMember);
+router.put('/branches/:branchId/members/:memberId', [requireAuth, branchAuthorization], membersController.editMember);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.listBranchMembers);
 router.get('/branches/:branchId/members.csv', [requireAuth, branchAuthorization], membersController.exportBranchMembers);
 router.delete('/branches/:branchId/members/:memberId', [requireAuth, branchAuthorization], membersController.deleteMember);

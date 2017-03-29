@@ -7,14 +7,8 @@ const branchValidator = require('../lib/branchValidator');
 const streamClient = require('../streamClient');
 const store = require('../store');
 
-const findBranch = id => store.getBranches().find(branch => branch.id === id);
-
 function deleteBranch(req, res) {
   const branchId = req.params.branchId;
-
-  if (!findBranch(branchId)) {
-    return res.sendStatus(404);
-  }
 
   const allMembers = store.getMembers();
   if (allMembers.find(member => member.branchId === branchId)) {
@@ -61,10 +55,6 @@ function updateBranch(req, res) {
     notes: req.body.notes,
     contact: req.body.contact,
   };
-
-  if (!findBranch(branch.id)) {
-    return res.sendStatus(404);
-  }
 
   const validationErrors = branchValidator.isValid(branch);
   if (validationErrors.length > 0) {

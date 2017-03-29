@@ -74,13 +74,6 @@ describe('branchesController', () => {
         });
     });
 
-    it('fails when the branch does not exist', () => {
-      const req = { params: { branchId: 'bad-branch' } };
-
-      branchesController.deleteBranch(req, res);
-      expect(res.sendStatus).to.have.been.calledWith(404);
-    });
-
     it('fails when the branch still has members', () => {
       const req = { params: { branchId: 'branch-1' } };
       store.getMembers.returns([{ id: 'some-member', branchId: 'branch-1' }]);
@@ -120,14 +113,6 @@ describe('branchesController', () => {
           expect(res.status).to.have.been.calledWith(200);
           expect(res.json).to.have.been.calledWith(updatedBranch);
         });
-    });
-
-    it('fails when the branch does not exist', () => {
-      const req = { params: { }, body: {} };
-
-      branchesController.updateBranch(req, res);
-
-      expect(res.sendStatus).to.have.been.calledWith(404);
     });
 
     it('fails when the branch name is empty', () => {
