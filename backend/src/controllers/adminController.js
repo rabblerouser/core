@@ -2,12 +2,34 @@
 
 const uuid = require('node-uuid');
 const hash = require('../security/hash');
-const adminService = require('../services/adminService');
 const logger = require('../lib/logger');
 const adminValidator = require('../lib/adminValidator');
+const adminType = require('../security/adminType');
 const streamClient = require('../streamClient');
+const store = require('../store');
 
-const createAdmin = adminType => (req, res) => {
+const mapAdmin = admin => ({
+  id: admin.id,
+  name: admin.name,
+  email: admin.email,
+  phoneNumber: admin.phoneNumber,
+});
+
+const getBranchAdmins = (req, res) => {
+  const admins = store.getAdmins()
+    .filter(admin => admin.branchId === req.params.branchId)
+    .map(mapAdmin);
+  res.status(200).json({ admins });
+};
+
+const getSuperAdmins = (req, res) => {
+  const admins = store.getAdmins()
+    .filter(admin => admin.type === adminType.super)
+    .map(mapAdmin);
+  res.status(200).json({ admins });
+};
+
+const createAdmin = type => (req, res) => {
   const branchId = req.params.branchId;
   const admin = {
     id: uuid.v4(),
@@ -15,7 +37,7 @@ const createAdmin = adminType => (req, res) => {
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
-    type: adminType,
+    type,
     branchId,
   };
 
@@ -83,34 +105,10 @@ const deleteAdmin = (req, res) => {
     });
 };
 
-function getBranchAdmins(req, res) {
-  return adminService.admins(req.params.branchId)
-  .then(result => res.status(200).json({ admins: result }))
-  .catch(error => {
-    switch (error) {
-      case 'invalid branch id' :
-        res.sendStatus(400);
-        break;
-      default:
-        res.sendStatus(500);
-        break;
-    }
-  });
-}
-
-function getAllAdmins(req, res) {
-  return adminService.superAdmins()
-  .then(result => res.status(200).json({ admins: result }))
-  .catch(error => {
-    logger.error('Error when getting super admins list', error);
-    res.sendStatus(500);
-  });
-}
-
 module.exports = {
   getBranchAdmins,
+  getSuperAdmins,
   createAdmin,
   updateAdmin,
   deleteAdmin,
-  getAllAdmins,
 };

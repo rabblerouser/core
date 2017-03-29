@@ -3,25 +3,8 @@
 const bcrypt = require('bcryptjs');
 const adminController = require('../../../src/controllers/adminController');
 const adminValidator = require('../../../src/lib/adminValidator');
-const adminService = require('../../../src/services/adminService');
 const streamClient = require('../../../src/streamClient');
-
-function adminsList() {
-  return [
-    {
-      id: 'some-key',
-      email: 'some-email',
-      name: 'some name',
-      phone: 'some phone',
-    },
-    {
-      id: 'some-key2',
-      email: 'some-email2',
-      name: 'some name',
-      phone: 'some phone',
-    },
-  ];
-}
+const store = require('../../../src/store');
 
 describe('adminController', () => {
   let res;
@@ -34,6 +17,11 @@ describe('adminController', () => {
       json: sinon.spy(),
     };
     res.status = sinon.stub().returns(res);
+    sandbox.stub(store, 'getAdmins').returns([
+      { type: 'SUPER', id: 'admin-1', name: 'Luke', email: 'luke@rbl.io', phoneNumber: '123', password: 'enc' },
+      { type: 'BRANCH', id: 'admin-2', name: 'Leia', email: 'leia@rbl.io', phoneNumber: '456', password: 'enc', branchId: 'branch-1' },
+      { type: 'BRANCH', id: 'admin-3', name: 'Han', email: 'han@rbl.io', phoneNumber: '789', password: 'enc', branchId: 'branch-2' },
+    ]);
     sandbox.stub(adminValidator, 'isValid').returns([]);
     sandbox.stub(adminValidator, 'isValidWithoutPassword').returns([]);
     sandbox.stub(streamClient, 'publish').resolves();
@@ -227,54 +215,26 @@ describe('adminController', () => {
   });
 
   describe('getBranchAdmins', () => {
-    let req;
+    it('sends back all the admins for the given branch', () => {
+      const req = { params: { branchId: 'branch-1' } };
 
-    beforeEach(() => {
-      res = { status: sinon.stub().returns({ json: sinon.spy() }) };
-      req = { params: { id: 1 } };
-      sinon.stub(adminService, 'admins').withArgs(req.params.id);
-    });
+      adminController.getBranchAdmins(req, res);
 
-    afterEach(() => {
-      adminService.admins.restore();
-    });
-
-
-    describe('when the branch id is valid and has admins', () => {
-      it('responds with a list of admins', done => {
-        adminService.admins.returns(Promise.resolve(adminsList()));
-        adminController.getBranchAdmins(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(200);
-          expect(res.status().json).to.have.been.calledWith({ admins: adminsList() });
-        }).then(done)
-        .catch(done);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({
+        admins: [{ id: 'admin-2', name: 'Leia', email: 'leia@rbl.io', phoneNumber: '456' }],
       });
     });
+  });
 
-    describe('when the branch id is invalid', () => {
-      it('should return a 400', done => {
-        res = { sendStatus: sinon.spy() };
-
-        adminService.admins.returns(Promise.reject('invalid branch id'));
-        adminController.getBranchAdmins(req, res)
-        .then(() => {
-          expect(res.sendStatus).to.have.been.calledWith(400);
-        }).then(done)
-        .catch(done);
-      });
-    });
-
-    describe('when there is a general error from the service', () => {
-      it('should return a 500', done => {
-        res = { sendStatus: sinon.spy() };
-
-        adminService.admins.returns(Promise.reject('anything at all'));
-        adminController.getBranchAdmins(req, res)
-        .then(() => {
-          expect(res.sendStatus).to.have.been.calledWith(500);
-        }).then(done)
-        .catch(done);
+  describe('getSuperAdmins', () => {
+    it('sends back all of the super admins', () => {
+      adminController.getSuperAdmins({}, res);
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({
+        admins: [
+          { id: 'admin-1', name: 'Luke', email: 'luke@rbl.io', phoneNumber: '123' },
+        ],
       });
     });
   });

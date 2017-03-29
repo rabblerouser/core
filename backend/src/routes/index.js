@@ -54,7 +54,7 @@ router.get('/logout', (req, res) =>
 
 router.all('*/branch/:branchId*', resourceValidators.checkBranchPresence);
 
-router.get('/admins', [requireAuth, superAdminOnly], adminController.getAllAdmins);
+router.get('/admins', [requireAuth, superAdminOnly], adminController.getSuperAdmins);
 router.post('/admins', [requireAuth, superAdminOnly], adminController.createAdmin(adminType.super));
 router.put('/admins/:adminId', [requireAuth, superAdminOnly], adminController.updateAdmin);
 router.delete('/admins/:adminId', [requireAuth, superAdminOnly], adminController.deleteAdmin);
