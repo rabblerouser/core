@@ -1,6 +1,6 @@
 'use strict';
 
-require('../config/passport');
+require('./security/passport');
 const errorLogger = require('./lib/logger');
 const express = require('express');
 const path = require('path');
