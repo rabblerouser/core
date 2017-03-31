@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const passport = require('passport');
 const membersController = require('../controllers/membersController');
 const branchesController = require('../controllers/branchesController');
 const groupsController = require('../controllers/groupsController');
@@ -10,7 +11,6 @@ const superAdminOnly = require('../security/superAdminOnlyValidator');
 const requireAuth = require('../security/authenticationRequired');
 const adminType = require('../security/adminType');
 const resourceValidators = require('../middlewares/resourceValidators');
-const login = require('../security/loginHandler');
 const streamClient = require('../streamClient');
 const store = require('../store');
 
@@ -47,7 +47,7 @@ router.get('/dashboard*', [requireAuth], (req, res) => {
   return res.render('admin');
 });
 
-router.post('/login', login);
+router.post('/login', passport.authenticate('local', { successRedirect: '/dashboard', failureRedirect: '/login' }));
 router.get('/logout', (req, res) =>
   req.session.destroy(() => res.redirect('/login'))
 );
