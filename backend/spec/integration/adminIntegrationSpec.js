@@ -263,28 +263,31 @@ describe('AdminIntegrationTests', () => {
       });
     });
 
-    xdescribe('list', () => {
-      it('should return a 200 when a super admins list is retrieved', () => integrationTestHelpers.createSuperAdmin(agent)
-                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-                .then(postSuperAdmin(agent, 'bal@asd.co'))
-                .then(postSuperAdmin(agent))
-                .then(() => agent.get('/admins')
-                    .expect(200)
-                    .then(response => {
-                      const theOneCreatedToAuthenticateTheRequest = 1;
-                      expect(response.body).not.to.be.null;
-                      expect(response.body.admins).not.to.be.null;
-                      expect(response.body.admins.length).to.equal(2 + theOneCreatedToAuthenticateTheRequest);
-                    })));
+    describe('list', () => {
+      it('should return a 200 when a super admins list is retrieved', () => (
+        integrationTestHelpers.createSuperAdmin(agent)
+          .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+          .then(() => integrationTestHelpers.createSuperAdmin(agent, 'someone@example.com'))
+          .then(() => integrationTestHelpers.createSuperAdmin(agent, 'someone-else@example.com'))
+          .then(() => (
+            agent.get('/admins')
+              .expect(200)
+              .then(response => {
+                expect(response.body).to.be.an('object');
+                expect(response.body.admins.length).to.equal(3);
+              })
+          ))
+      ));
 
       it('should allow only super admins to get the admins list', () => {
         const specialAgent = request.agent(app);
 
         return integrationTestHelpers.createBranch(agent)
-                .tap(integrationTestHelpers.createBranchAdmin(agent))
-                .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
-                .then(() => specialAgent.get('/admins')
-                    .expect(401));
+          .tap(integrationTestHelpers.createBranchAdmin(agent))
+          .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
+          .then(() => specialAgent.get('/admins')
+            .expect(401)
+          );
       });
     });
 
