@@ -5,7 +5,6 @@ const app = instanceUrl || require('../../src/app');
 const request = require('supertest-as-promised');
 const sample = require('lodash').sample;
 const integrationTestHelpers = require('./integrationTestHelpers.js');
-const Q = require('q');
 
 function getMembers(someAgent, state) {
   return () => (
@@ -138,7 +137,7 @@ describe('MemberIntegrationTests', () => {
         .then(setState(browserState, 'branch'))
         .then(branch => integrationTestHelpers.createBranchAdmin(agent)(branch).then(() => branch))
         .then(integrationTestHelpers.createMembers(agent, 1))
-        .then(() => Q.all([
+        .then(() => Promise.all([
           integrationTestHelpers.createGroup(agent, browserState.branch.id),
           integrationTestHelpers.createGroup(agent, browserState.branch.id),
         ]))
