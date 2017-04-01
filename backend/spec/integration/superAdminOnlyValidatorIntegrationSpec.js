@@ -14,7 +14,7 @@ describe('SuperAdminOnlyValidator Integration tests', () => {
   });
 
   it('should respond with 401 when users try to access something they are NOT entitled to see', () => integrationTestHelpers.createBranch(agent)
-        .then(integrationTestHelpers.createBranchAdmin)
+        .then(integrationTestHelpers.createBranchAdmin(agent))
         .then(integrationTestHelpers.authenticateBranchAdmin(agent))
         .then(() => agent.post('/branches')
             .set('Content-Type', 'application/json')
@@ -26,7 +26,7 @@ describe('SuperAdminOnlyValidator Integration tests', () => {
             .expect(401)));
 
   it('should respond with 200 when a super admin tries to access a superadmin only resource', () => {
-    integrationTestHelpers.createSuperAdmin()
+    integrationTestHelpers.createSuperAdmin(agent)
         .then(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => agent.post('/branches')
                 .set('Content-Type', 'application/json')

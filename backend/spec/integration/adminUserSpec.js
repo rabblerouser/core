@@ -3,7 +3,7 @@
 const integrationTestHelpers = require('./integrationTestHelpers.js');
 const AdminUser = require('../../src/models').AdminUser;
 
-describe('AdminUser', () => {
+xdescribe('AdminUser', () => {
   const email = 'orgnisr@rabblerouser.org.au';
   const password = 'orgnisr';
 

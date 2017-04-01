@@ -119,7 +119,7 @@ describe('MemberIntegrationTests', () => {
 
   describe('list of members', () => {
     it('finds a list of members for an organiser', () => integrationTestHelpers.createBranch(agent)
-            .tap(integrationTestHelpers.createBranchAdmin)
+            .tap(integrationTestHelpers.createBranchAdmin(agent))
             .tap(integrationTestHelpers.createMembers(agent, 3))
             .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then(branch => agent.get(`/branches/${branch.id}/members`))
@@ -136,10 +136,7 @@ describe('MemberIntegrationTests', () => {
       integrationTestHelpers.resetDatabase()
         .then(() => integrationTestHelpers.createBranch(agent))
         .then(setState(browserState, 'branch'))
-        .then(branch => (
-          integrationTestHelpers.createBranchAdmin(branch)
-            .then(() => branch)
-        ))
+        .then(branch => integrationTestHelpers.createBranchAdmin(agent)(branch).then(() => branch))
         .then(integrationTestHelpers.createMembers(agent, 1))
         .then(() => Q.all([
           integrationTestHelpers.createGroup(agent, browserState.branch.id),

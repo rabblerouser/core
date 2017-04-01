@@ -3,38 +3,28 @@
 const times = require('lodash').times;
 const uuid = require('node-uuid');
 const moment = require('moment');
-
-const models = require('../../src/models');
-
-const AdminUser = models.AdminUser;
+const hash = require('../../src/security/hash');
 const adminType = require('../../src/security/adminType');
-
-function createBranchAdmin(branch) {
-  return AdminUser.create({ email: 'orgnsr@rabblerouser.org', password: 'organiser', branchId: branch.id, id: uuid.v4() });
-}
-
-function createSuperAdmin() {
-  return AdminUser.create({ email: 'super@rabblerouser.org', password: 'super', type: adminType.super, id: uuid.v4() });
-}
+const store = require('../../src/store');
 
 function authenticateBranchAdmin(someAgent) {
-  return function () {
-    return someAgent
-            .post('/login')
-            .set('Content-Type', 'application/json')
-            .send({ email: 'orgnsr@rabblerouser.org', password: 'organiser' })
-            .expect(302);
-  };
+  return () => (
+    someAgent
+      .post('/login')
+      .set('Content-Type', 'application/json')
+      .send({ email: 'orgnsr@rabblerouser.org', password: 'organiser' })
+      .expect(302)
+  );
 }
 
 function authenticateSuperAdmin(someAgent) {
-  return function () {
-    return someAgent
-            .post('/login')
-            .set('Content-Type', 'application/json')
-            .send({ email: 'super@rabblerouser.org', password: 'super' })
-            .expect(302);
-  };
+  return () => (
+    someAgent
+      .post('/login')
+      .set('Content-Type', 'application/json')
+      .send({ email: 'super@rabblerouser.org', password: 'super' })
+      .expect(302)
+  );
 }
 
 const makeMember = branchId => ({
@@ -116,10 +106,19 @@ const createBranch = agent => {
     .then(() => branch);
 };
 
-function resetDatabase() {
-  return Promise.resolve()
-    .then(() => AdminUser.truncate({ cascade: true }));
-}
+const createBranchAdmin = agent => branch => {
+  const admin = { email: 'orgnsr@rabblerouser.org', password: hash('organiser'), type: adminType.branch, branchId: branch.id, id: uuid.v4() };
+  return sendEvent(agent, 'admin-created', admin)
+    .then(() => admin);
+};
+
+const createSuperAdmin = agent => {
+  const admin = { email: 'super@rabblerouser.org', password: hash('super'), type: adminType.super, id: uuid.v4() };
+  return sendEvent(agent, 'admin-created', admin)
+    .then(() => admin);
+};
+
+const resetDatabase = () => Promise.resolve(store.reset());
 
 module.exports = {
   createBranchAdmin,

@@ -5,7 +5,7 @@ const app = instanceUrl || require('../../src/app');
 const request = require('supertest-as-promised');
 const integrationTestHelpers = require('./integrationTestHelpers.js');
 
-describe('PathAccessValidator Integration tests', () => {
+xdescribe('BranchAccessValidator Integration tests', () => {
   let agent;
 
   beforeEach(() => {
