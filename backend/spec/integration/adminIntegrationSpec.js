@@ -20,16 +20,6 @@ const makeSuperAdmin = email => {
   };
 };
 
-function postSuperAdmin(someAgent, email) {
-  return function () {
-    return someAgent.post('/admins')
-        .set('Content-Type', 'application/json')
-        .set('Accept', 'application/json')
-        .send(makeSuperAdmin(email))
-        .expect(200);
-  };
-}
-
 const makeAdminUser = branch => ({
   email: 'newOrgnrr@rabblerouser.org',
   password: 'ooooooorganiser',
@@ -291,34 +281,39 @@ describe('AdminIntegrationTests', () => {
       });
     });
 
-    xdescribe('delete', () => {
-      let browserState = {};
+    describe('delete', () => {
+      let browserState;
 
-      beforeEach(() => integrationTestHelpers.createSuperAdmin(agent)
-                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-                .then(postSuperAdmin(agent))
-                .then(response => {
-                  browserState.superAdmin = response.body;
-                }));
-
-      afterEach(() => {
+      beforeEach(() => {
         browserState = {};
+        return integrationTestHelpers.createSuperAdmin(agent)
+          .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+          .then(() => integrationTestHelpers.createSuperAdmin(agent, 'supaAdmin@rabblerouser.org'))
+          .then(admin => {
+            browserState.superAdmin = admin;
+          });
       });
 
-      it('should return a 200 when a super admin is successfully created', () => agent.delete(`/admins/${browserState.superAdmin.id}`)
-                    .expect(200));
+      it('should return a 200 when a super admin is successfully created', () => (
+        agent.delete(`/admins/${browserState.superAdmin.id}`)
+          .expect(200)
+      ));
 
-      it('should return a 400 when the payload is invalid', () => agent.delete('/admins/whatevs')
-                    .expect(400));
+      it('should return a 404 when the admin does not exist', () => (
+        agent.delete('/admins/whatevs')
+          .expect(404)
+      ));
 
       it('should allow only super admins to update super admins', () => {
         const specialAgent = request.agent(app);
 
         return integrationTestHelpers.createBranch(agent)
-                .tap(integrationTestHelpers.createBranchAdmin(agent))
-                .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
-                .then(() => specialAgent.delete('/admins/someId')
-                    .expect(401));
+          .tap(integrationTestHelpers.createBranchAdmin(agent))
+          .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
+          .then(() => (
+            specialAgent.delete(`/admins/${browserState.superAdmin.id}`)
+              .expect(401)
+          ));
       });
     });
   });
