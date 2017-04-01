@@ -68,7 +68,7 @@ const makeInvalidUser = branch => {
   return admin;
 };
 
-xdescribe('AdminIntegrationTests', () => {
+describe('AdminIntegrationTests', () => {
   let agent;
 
   beforeEach(() => {
@@ -78,115 +78,139 @@ xdescribe('AdminIntegrationTests', () => {
   });
 
   describe('admins', () => {
-    let browserState = {};
+    let browserState;
 
-    beforeEach(() => integrationTestHelpers.createBranch(agent)
-            .tap(branch => {
-              browserState.branch = branch;
-            })
-            .then(integrationTestHelpers.createBranchAdmin(agent))
-            .tap(adminUser => {
-              browserState.adminUser = adminUser;
-            })
-            .then(integrationTestHelpers.authenticateBranchAdmin(agent)));
-
-    afterEach(() => {
+    beforeEach(() => {
       browserState = {};
+      return integrationTestHelpers.createBranch(agent)
+        .tap(branch => {
+          browserState.branch = branch;
+        })
+        .then(integrationTestHelpers.createBranchAdmin(agent))
+        .tap(adminUser => {
+          browserState.adminUser = adminUser;
+        })
+        .then(integrationTestHelpers.authenticateBranchAdmin(agent));
     });
 
     describe('add', () => {
-      it('should return 200 and a created user when the input is valid', () => agent.post(`/branches/${browserState.branch.id}/admins`)
-                    .set('Content-Type', 'application/json')
-                    .send(makeAdminUser(browserState.branch))
-                    .expect(200)
-                    .expect(hasAdmin));
+      it('should return 200 and a created user when the input is valid', () => (
+        agent.post(`/branches/${browserState.branch.id}/admins`)
+          .set('Content-Type', 'application/json')
+          .send(makeAdminUser(browserState.branch))
+          .expect(200)
+          .expect(hasAdmin)
+      ));
 
-      it('should return 400 if the input is null', () => agent.post(`/branches/${browserState.branch.id}/admins`)
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(null)
-                    .expect(400));
+      it('should return 400 if the input is null', () => (
+        agent.post(`/branches/${browserState.branch.id}/admins`)
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .send(null)
+          .expect(400)
+      ));
 
-      it('should return 400 if the input is incomplete', () => agent.post(`/branches/${browserState.branch.id}/admins`)
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(makeInvalidUser(browserState.branch))
-                    .expect(400));
+      it('should return 400 if the input is incomplete', () => (
+        agent.post(`/branches/${browserState.branch.id}/admins`)
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .send(makeInvalidUser(browserState.branch))
+          .expect(400)
+      ));
     });
 
     describe('delete', () => {
-      it('should return a 200 when the admin is successfully deleted', () => agent.delete(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${browserState.adminUser.dataValues.id}`)
-                .expect(200));
+      it('should return a 200 when the admin is successfully deleted', () => (
+        agent.delete(`/branches/${browserState.adminUser.branchId}/admins/${browserState.adminUser.id}`)
+          .expect(200)
+      ));
 
-      it('should return a 400 if the input data is not valid', () => agent.delete(`/branches/${browserState.adminUser.dataValues.branchId}/admins/whatevs`)
-                .expect(400));
-
-      it('should return 500 when trying to delete a admin that does not exist', () => agent.delete(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${uuid.v4()}`)
-                .expect(500));
+      it('should return 404 when trying to delete a admin that does not exist', () => (
+        agent.delete(`/branches/${browserState.adminUser.branchId}/admins/${uuid.v4()}`)
+          .expect(404)
+      ));
     });
 
     describe('update', () => {
-      it('should return 200 and an updated user when the input is valid', () => agent.put(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${browserState.adminUser.dataValues.id}`)
-                    .set('Content-Type', 'application/json')
-                    .send(makeAdminUserUpdates(browserState.adminUser))
-                    .expect(200)
-                    .expect(hasAdmin));
+      it('should return 200 and an updated user when the input is valid', () => (
+        agent.put(`/branches/${browserState.adminUser.branchId}/admins/${browserState.adminUser.id}`)
+          .set('Content-Type', 'application/json')
+          .send(makeAdminUserUpdates(browserState.adminUser))
+          .expect(200)
+          .expect(hasAdmin)
+      ));
 
-      it('should allow update without the password field in the payload', () => agent.put(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${browserState.adminUser.dataValues.id}`)
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(makeAdminUserUpdateWithoutPassword(browserState.adminUser))
-                    .expect(200)
-                    .expect(hasAdmin));
+      it('should allow update without the password field in the payload', () => (
+        agent.put(`/branches/${browserState.adminUser.branchId}/admins/${browserState.adminUser.id}`)
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .send(makeAdminUserUpdateWithoutPassword(browserState.adminUser))
+          .expect(200)
+          .expect(hasAdmin)
+      ));
 
-      it('should return 400 if the input is null', () => agent.put(`/branches/${browserState.adminUser.dataValues.branchId}/admins/${browserState.adminUser.dataValues.id}`)
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(null)
-                    .expect(400));
+      it('should return 400 if the input is null', () => (
+        agent.put(`/branches/${browserState.adminUser.branchId}/admins/${browserState.adminUser.id}`)
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .send(null)
+          .expect(400)
+      ));
 
-      it('should return 400 if the input is incomplete', () => agent.put(`/branches/${browserState.adminUser.dataValues.branchId}/admins/whatevs`)
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(makeInvalidAdminUserUpdates(browserState.adminUser))
-                    .expect(400));
+      it('should return 404 if updating an admin that does not exist', () => (
+        agent.put(`/branches/${browserState.adminUser.branchId}/admins/whatevs`)
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .send(makeInvalidAdminUserUpdates(browserState.adminUser))
+          .expect(404)
+      ));
     });
   });
 
   describe('super admins', () => {
     describe('add', () => {
-      it('should return a 200 when a super admin is successfully created', () => integrationTestHelpers.createSuperAdmin(agent)
-                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-                .then(() => agent.post('/admins')
-                        .set('Content-Type', 'application/json')
-                        .set('Accept', 'application/json')
-                        .send(makeSuperAdmin())
-                        .expect(200)
-                        .then(hasAdmin)));
+      it('should return a 200 when a super admin is successfully created', () => (
+        integrationTestHelpers.createSuperAdmin(agent)
+          .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+          .then(() => (
+            agent.post('/admins')
+              .set('Content-Type', 'application/json')
+              .set('Accept', 'application/json')
+              .send(makeSuperAdmin())
+              .expect(200)
+              .then(hasAdmin)
+          ))
+      ));
 
-      it('should return a 400 when the payload is invalid', () => integrationTestHelpers.createSuperAdmin(agent)
-                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-                .then(() => agent.post('/admins')
-                        .set('Content-Type', 'application/json')
-                        .set('Accept', 'application/json')
-                        .send({ email: 'supaAdmin@rabblerouser.org' })
-                        .expect(400)));
+      it('should return a 400 when the payload is invalid', () => (
+        integrationTestHelpers.createSuperAdmin(agent)
+          .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+          .then(() => (
+            agent.post('/admins')
+              .set('Content-Type', 'application/json')
+              .set('Accept', 'application/json')
+              .send({ email: 'supaAdmin@rabblerouser.org' })
+              .expect(400)
+          ))
+      ));
 
       it('should allow only super admins to add super admins', () => {
         const specialAgent = request.agent(app);
 
         return integrationTestHelpers.createBranch(agent)
-                .tap(integrationTestHelpers.createBranchAdmin(agent))
-                .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
-                .then(() => specialAgent.post('/admins')
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(makeSuperAdmin())
-                    .expect(401));
+          .tap(integrationTestHelpers.createBranchAdmin(agent))
+          .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
+          .then(() => (
+            specialAgent.post('/admins')
+              .set('Content-Type', 'application/json')
+              .set('Accept', 'application/json')
+              .send(makeSuperAdmin())
+              .expect(401)
+          ));
       });
     });
 
-    describe('update', () => {
+    xdescribe('update', () => {
       let browserState = {};
 
       beforeEach(() => integrationTestHelpers.createSuperAdmin(agent)
@@ -236,7 +260,7 @@ xdescribe('AdminIntegrationTests', () => {
       });
     });
 
-    describe('list', () => {
+    xdescribe('list', () => {
       it('should return a 200 when a super admins list is retrieved', () => integrationTestHelpers.createSuperAdmin(agent)
                 .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
                 .then(postSuperAdmin(agent, 'bal@asd.co'))
@@ -261,7 +285,7 @@ xdescribe('AdminIntegrationTests', () => {
       });
     });
 
-    describe('delete', () => {
+    xdescribe('delete', () => {
       let browserState = {};
 
       beforeEach(() => integrationTestHelpers.createSuperAdmin(agent)
