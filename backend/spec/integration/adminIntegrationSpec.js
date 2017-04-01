@@ -210,53 +210,56 @@ describe('AdminIntegrationTests', () => {
       });
     });
 
-    xdescribe('update', () => {
-      let browserState = {};
+    describe('update', () => {
+      let browserState;
 
-      beforeEach(() => integrationTestHelpers.createSuperAdmin(agent)
-                .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-                .then(postSuperAdmin(agent))
-                .then(response => {
-                  browserState.superAdmin = response.body;
-                }));
-
-      afterEach(() => {
+      beforeEach(() => {
         browserState = {};
+        return integrationTestHelpers.createSuperAdmin(agent)
+          .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
+          .then(() => integrationTestHelpers.createSuperAdmin(agent, 'supaAdmin@rabblerouser.org'))
+          .then(admin => {
+            browserState.superAdmin = admin;
+          });
       });
 
-      it('should return a 200 when a super admin is successfully created', () => {
+      it('should return a 200 when a super admin is successfully updated', () => {
         const withUpdates = Object.assign({}, browserState.superAdmin, { name: 'My New Name' });
 
         return agent.put(`/admins/${browserState.superAdmin.id}`)
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(withUpdates)
-                    .expect(200)
-                    .then(response => {
-                      expect(response.body).not.to.be.empty;
-                      expect(response.body.id).not.to.be.empty;
-                      expect(response.body.email).to.equal(browserState.superAdmin.email);
-                      expect(response.body.name).to.equal('My New Name');
-                    });
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .send(withUpdates)
+          .expect(200)
+          .then(response => {
+            expect(response.body).to.be.an('object');
+            expect(response.body.id).to.be.a('string');
+            expect(response.body.email).to.equal(browserState.superAdmin.email);
+            expect(response.body.name).to.equal('My New Name');
+          });
       });
 
-      it('should return a 400 when the payload is invalid', () => agent.put(`/admins/${browserState.superAdmin.id}`)
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send({ email: 'supaAdmin@rabblerouser.org' })
-                    .expect(400));
+      it('should return a 400 when the payload is invalid', () => (
+        agent.put(`/admins/${browserState.superAdmin.id}`)
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .send({ email: '   ' })
+          .expect(400)
+      ));
 
       it('should allow only super admins to update super admins', () => {
         const specialAgent = request.agent(app);
 
         return integrationTestHelpers.createBranch(agent)
-                .tap(integrationTestHelpers.createBranchAdmin(agent))
-                .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
-                .then(() => specialAgent.put(`/admins/${browserState.superAdmin.id}`)
-                    .set('Content-Type', 'application/json')
-                    .set('Accept', 'application/json')
-                    .send(makeSuperAdmin())
-                    .expect(401));
+          .tap(integrationTestHelpers.createBranchAdmin(agent))
+          .tap(integrationTestHelpers.authenticateBranchAdmin(specialAgent))
+          .then(() => (
+            specialAgent.put(`/admins/${browserState.superAdmin.id}`)
+              .set('Content-Type', 'application/json')
+              .set('Accept', 'application/json')
+              .send(makeSuperAdmin())
+              .expect(401)
+          ));
       });
     });
 

@@ -112,8 +112,9 @@ const createBranchAdmin = agent => branch => {
     .then(() => admin);
 };
 
-const createSuperAdmin = agent => {
-  const admin = { email: 'super@rabblerouser.org', password: hash('super'), type: adminType.super, id: uuid.v4() };
+const createSuperAdmin = (agent, customEmail) => {
+  const email = customEmail || 'super@rabblerouser.org';
+  const admin = { email, password: hash('super'), type: adminType.super, id: uuid.v4() };
   return sendEvent(agent, 'admin-created', admin)
     .then(() => admin);
 };
