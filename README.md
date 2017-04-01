@@ -23,9 +23,10 @@ To find out more about the Rabble Rouser project, check out our [documentation r
         ./go.sh # For Mac/Linux
         # Windows not supported yet :(
 
-4. Install/compile the project, run the tests, then start the app
+4. Install/compile the project, seed the database, run the tests, then start the app
 
         npm install
+        npm --prefix backend run seed
         npm test
         npm start
 

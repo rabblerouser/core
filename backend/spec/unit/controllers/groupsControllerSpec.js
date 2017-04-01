@@ -2,9 +2,8 @@
 
 const streamClient = require('../../../src/streamClient');
 const groupsController = require('../../../src/controllers/groupsController');
-const branchService = require('../../../src/services/branchService');
 const validator = require('../../../src/lib/inputValidator');
-const reducers = require('../../../src/reducers/rootReducer');
+const store = require('../../../src/store');
 
 describe('groupsController', () => {
   let sandbox;
@@ -13,9 +12,9 @@ describe('groupsController', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(streamClient, 'publish');
-    sandbox.stub(branchService, 'findById').resolves({ id: 'some-id-1' });
     sandbox.stub(validator, 'isValidUUID').returns(true);
-    sandbox.stub(reducers, 'getGroups');
+    sandbox.stub(store, 'getGroups');
+    sandbox.stub(store, 'getBranches').returns([{ id: 'some-branch-id' }, { id: 'some-other-id' }]);
     res = {
       json: sandbox.spy(),
       sendStatus: sandbox.spy(),
@@ -79,17 +78,13 @@ describe('groupsController', () => {
         body: { name: 'some-name', description: 'some-description' },
       };
 
-      branchService.findById.resolves({});
-
-      return groupsController.createGroup(req, res)
-        .then(() => {
-          expect(res.sendStatus).to.have.been.calledWith(400);
-        });
+      groupsController.createGroup(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(400);
     });
 
     it('fails when the stream operation blows up', () => {
       const req = {
-        params: { branchId: 'noooope' },
+        params: { branchId: 'some-branch-id' },
         body: { name: 'some-name', description: 'some-description' },
       };
 
@@ -104,7 +99,7 @@ describe('groupsController', () => {
 
   describe('deleteGroup', () => {
     beforeEach(() => {
-      reducers.getGroups.returns([{ id: 'some-group', branchId: 'some-branch' }]);
+      store.getGroups.returns([{ id: 'some-group', branchId: 'some-branch' }]);
     });
 
     it('puts an event on the stream and succeeds when the group is valid', () => {
@@ -147,7 +142,7 @@ describe('groupsController', () => {
 
   describe('updateGroup', () => {
     beforeEach(() => {
-      reducers.getGroups.returns([{ id: 'some-group-id', branchId: 'some-branch-id' }]);
+      store.getGroups.returns([{ id: 'some-group-id', branchId: 'some-branch-id' }]);
     });
 
     it('puts an event on the stream and succeeds when everything is valid', () => {
@@ -235,7 +230,7 @@ describe('groupsController', () => {
   describe('getBranchGroups', () => {
     it('gets all the groups for the given branch', () => {
       const req = { params: { branchId: 'some-branch-id' } };
-      reducers.getGroups.returns([
+      store.getGroups.returns([
         { id: '1', name: 'First', branchId: 'some-branch-id' },
         { id: '2', name: 'Second', branchId: 'some-other-id' },
         { id: '3', name: 'Third', branchId: 'some-branch-id' },
@@ -252,6 +247,12 @@ describe('groupsController', () => {
       });
     });
 
-    it('gives a 404 when the branch does not exist');
+    it('gives a 404 when the branch does not exist', () => {
+      const req = { params: { branchId: 'some-wrong-id' } };
+
+      groupsController.getBranchGroups(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
   });
 });

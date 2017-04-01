@@ -13,6 +13,7 @@ const streamClient = require('../streamClient');
 
 const memberActions = require('../actions/memberActions');
 const groupActions = require('../actions/groupActions');
+const branchActions = require('../actions/branchActions');
 
 const router = new express.Router();
 
@@ -28,6 +29,10 @@ streamClient.on('group-created', groupActions.createGroup);
 streamClient.on('group-removed', groupActions.deleteGroup);
 streamClient.on('group-edited', groupActions.updateGroup);
 
+streamClient.on('branch-created', branchActions.createBranch);
+streamClient.on('branch-removed', branchActions.deleteBranch);
+streamClient.on('branch-edited', branchActions.updateBranch);
+
 router.post('/events', streamClient.listen());
 
 router.get('/login', (req, res) =>
@@ -39,10 +44,7 @@ router.get('/dashboard*', [requireAuth], (req, res) => {
   return res.render('admin');
 });
 
-router.post('/register', membersController.registerMember);
-router.get('/branches', branchesController.list);
 router.post('/login', login);
-
 router.get('/logout', (req, res) =>
   req.session.destroy(() => res.redirect('/login'))
 );
@@ -52,11 +54,13 @@ router.post('/admins', [requireAuth, superAdminOnly], adminController.createSupe
 router.put('/admins/:adminId', [requireAuth, superAdminOnly], adminController.updateSuperAdmin);
 router.delete('/admins/:adminId', [requireAuth, superAdminOnly], adminController.deleteSuperAdmin);
 
+router.get('/branches', branchesController.listBranches);
 router.get('/admin/branches', [requireAuth], branchesController.branchesForAdmin);
-router.post('/branches', [requireAuth, superAdminOnly], branchesController.create);
-router.put('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.update);
-router.delete('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.delete);
+router.post('/branches', [requireAuth, superAdminOnly], branchesController.createBranch);
+router.put('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.updateBranch);
+router.delete('/branches/:branchId', [requireAuth, superAdminOnly], branchesController.deleteBranch);
 
+router.post('/register', membersController.registerMember);
 router.put('/branches/:branchId/members/:id', [requireAuth, branchAuthorization], membersController.editMember);
 router.get('/branches/:branchId/members', [requireAuth, branchAuthorization], membersController.listBranchMembers);
 router.get('/branches/:branchId/members.csv', [requireAuth, branchAuthorization], membersController.exportBranchMembers);

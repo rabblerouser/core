@@ -13,7 +13,7 @@ describe('SuperAdminOnlyValidator Integration tests', () => {
     return integrationTestHelpers.resetDatabase();
   });
 
-  it('should respond with 401 when users try to access something they are NOT entitled to see', () => integrationTestHelpers.createBranch()
+  it('should respond with 401 when users try to access something they are NOT entitled to see', () => integrationTestHelpers.createBranch(agent)
         .then(integrationTestHelpers.createBranchAdmin)
         .then(integrationTestHelpers.authenticateBranchAdmin(agent))
         .then(() => agent.post('/branches')

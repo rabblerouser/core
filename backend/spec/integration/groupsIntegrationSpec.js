@@ -37,7 +37,7 @@ describe('Groups Integration Test', () => {
     agent = request.agent(app);
 
     return integrationTestHelpers.resetDatabase()
-      .then(integrationTestHelpers.createBranch)
+      .then(() => integrationTestHelpers.createBranch(agent))
       .then(branch => { browserState.branch = branch; return branch; })
       .then(integrationTestHelpers.createBranchAdmin)
       .then(integrationTestHelpers.authenticateBranchAdmin(agent));

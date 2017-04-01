@@ -3,14 +3,12 @@
 const isEmpty = require('lodash').isEmpty;
 const uuid = require('node-uuid');
 const moment = require('moment');
-const branchService = require('../services/branchService');
 const memberValidator = require('../lib/memberValidator');
 const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
 const logger = require('../lib/logger');
 const streamClient = require('../streamClient');
 const store = require('../store');
-const reducers = require('../reducers/rootReducer');
 
 function isAddressEmpty(address) {
   return !address ||
@@ -40,6 +38,8 @@ function handleError(res) {
   };
 }
 
+const findBranch = id => store.getBranches().find(branch => branch.id === id);
+
 const registerMember = (req, res) => {
   const newMember = {
     id: uuid.v4(),
@@ -52,23 +52,17 @@ const registerMember = (req, res) => {
     branchId: req.body.branchId,
   };
   const validationErrors = memberValidator.isValid(newMember);
+  if (!findBranch(newMember.branchId)) {
+    validationErrors.push('Unknown branchId');
+  }
+  if (validationErrors.length > 0) {
+    logger.info('[create-new-member-validation-error]', { errors: validationErrors });
+    return res.status(400).json({ errors: validationErrors });
+  }
 
-  return branchService.findById(newMember.branchId)
-    .then(branch => {
-      if (!branch.id) {
-        validationErrors.push('Unknown branchId');
-      }
-    })
-    .then(() => {
-      if (validationErrors.length > 0) {
-        logger.info('[create-new-member-validation-error]', { errors: validationErrors });
-        return res.status(400).json({ errors: validationErrors });
-      }
-
-      return streamClient.publish('member-registered', newMember)
-        .then(() => res.status(201).json({}))
-        .catch(handleError(res));
-    });
+  return streamClient.publish('member-registered', newMember)
+    .then(() => res.status(201).json({}))
+    .catch(handleError(res));
 };
 
 const editMember = (req, res) => {
@@ -86,52 +80,56 @@ const editMember = (req, res) => {
 
   const validationErrors = memberValidator.isValid(member);
 
-  const branchGroups = reducers.getGroups(store.getState()).filter(group => group.branchId === member.branchId);
+  const branchGroups = store.getGroups().filter(group => group.branchId === member.branchId);
   const groupIds = branchGroups.map(group => group.id);
   (member.groups || []).forEach(group => {
     if (!groupIds.includes(group)) {
       validationErrors.push(`Unknown groupId ${group}`);
     }
   });
+  if (!findBranch(member.branchId)) {
+    validationErrors.push('Unknown branchId');
+  }
+  if (validationErrors.length > 0 || !member.id) {
+    logger.info('[edit-member-validation-error]', { errors: validationErrors });
+    return res.status(400).json({ errors: validationErrors });
+  }
 
-  return branchService.findById(member.branchId)
-    .then(branch => {
-      if (!branch.id) {
-        validationErrors.push('Unknown branchId');
-      }
-    })
-    .then(() => {
-      if (validationErrors.length > 0 || !member.id) {
-        logger.info('[edit-member-validation-error]', { errors: validationErrors });
-        return res.status(400).json({ errors: validationErrors });
-      }
-
-      return streamClient.publish('member-edited', member)
-        .then(() => res.status(201).json({}))
-        .catch(handleError(res));
-    });
+  return streamClient.publish('member-edited', member)
+    .then(() => res.status(201).json({}))
+    .catch(handleError(res));
 };
 
 const getBranchMembers = branchId => {
   if (!branchId) {
     return [];
   }
-  return reducers.getMembers(store.getState()).filter(member => member.branchId === branchId);
+  return store.getMembers().filter(member => member.branchId === branchId);
 };
 
 const listBranchMembers = (req, res) => {
-  const members = getBranchMembers(req.params.branchId);
-  res.status(200).json({ members });
+  const branchId = req.params.branchId;
+  if (!findBranch(branchId)) {
+    return res.sendStatus(404);
+  }
+
+  const members = getBranchMembers(branchId);
+  return res.status(200).json({ members });
 };
 
 const exportBranchMembers = (req, res) => {
+  const branchId = req.params.branchId;
+  if (!findBranch(branchId)) {
+    return res.sendStatus(404);
+  }
+
   const members = getBranchMembers(req.params.branchId);
   res.set({
     'Content-Type': 'application/csv',
     'Content-Disposition': 'attachment; filename="members.csv"',
   });
   const exportFields = ['id', 'name', 'phoneNumber', 'email', 'memberSince', 'branchId'];
-  res.send(csvGenerator.generateCsv(exportFields, members));
+  return res.send(csvGenerator.generateCsv(exportFields, members));
 };
 
 const deleteMember = (req, res) => {

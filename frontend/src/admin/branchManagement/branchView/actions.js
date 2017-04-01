@@ -61,8 +61,9 @@ export const BRANCH_UPDATE_REQUESTED = 'BRANCH_UPDATE_REQUESTED';
 export const branchUpdateRequested = branch => {
   const thunk = dispatch => {
     dispatch(clearMessages());
+    const { id, ...branchData } = branch;
     return (
-      axios.put(`/branches/${branch.id}`, branch)
+      axios.put(`/branches/${id}`, branchData)
       .then(() => dispatch(branchListRequested()))
       .then(() => dispatch(branchUpdated(branch)))
       .then(() => dispatch(reportSuccess('Branch successfully updated')))

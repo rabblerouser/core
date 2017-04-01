@@ -60,16 +60,17 @@ function setState(obj, key) {
 
 describe('MemberIntegrationTests', () => {
   let agent;
-  const browserState = {};
+  let browserState;
 
   beforeEach(() => {
     agent = request.agent(app);
+    browserState = {};
     return integrationTestHelpers.resetDatabase();
   });
 
   describe('Register', () => {
     beforeEach(() => integrationTestHelpers.resetDatabase()
-            .then(integrationTestHelpers.createBranch)
+            .then(() => integrationTestHelpers.createBranch(agent))
             .then(getBranchId(agent))
             .then(branchId => {
               browserState.branchId = branchId;
@@ -117,33 +118,38 @@ describe('MemberIntegrationTests', () => {
   });
 
   describe('list of members', () => {
-    it('finds a list of members for an organiser', () => integrationTestHelpers.createBranch()
+    it('finds a list of members for an organiser', () => integrationTestHelpers.createBranch(agent)
             .tap(integrationTestHelpers.createBranchAdmin)
             .tap(integrationTestHelpers.createMembers(agent, 3))
             .tap(integrationTestHelpers.authenticateBranchAdmin(agent))
             .then(branch => agent.get(`/branches/${branch.id}/members`))
             .then(hasMembersList));
 
-    it('only authenticated organisers can access the members list', () => integrationTestHelpers.createBranch()
+    it('only authenticated organisers can access the members list', () => integrationTestHelpers.createBranch(agent)
             .tap(integrationTestHelpers.createMembers(agent, 3))
             .then(branch => agent.get(`/branches/${branch.id}/members`)
                 .expect(302)));
   });
 
   describe('Edit member', () => {
-    beforeEach(() => integrationTestHelpers.resetDatabase()
-            .then(integrationTestHelpers.createBranch)
-            .then(setState(browserState, 'branch'))
-            .then(branch => { integrationTestHelpers.createBranchAdmin(branch); return branch; })
-            .then(integrationTestHelpers.createMembers(agent, 1))
-            .then(() => Q.all([
-              integrationTestHelpers.createGroup(agent, browserState.branch.id),
-              integrationTestHelpers.createGroup(agent, browserState.branch.id),
-            ]))
-            .then(setState(browserState, 'groups'))
-            .then(integrationTestHelpers.authenticateBranchAdmin(agent))
-            .then(getMembers(agent, browserState))
-            .then(setState(browserState, 'members')));
+    beforeEach(() => (
+      integrationTestHelpers.resetDatabase()
+        .then(() => integrationTestHelpers.createBranch(agent))
+        .then(setState(browserState, 'branch'))
+        .then(branch => (
+          integrationTestHelpers.createBranchAdmin(branch)
+            .then(() => branch)
+        ))
+        .then(integrationTestHelpers.createMembers(agent, 1))
+        .then(() => Q.all([
+          integrationTestHelpers.createGroup(agent, browserState.branch.id),
+          integrationTestHelpers.createGroup(agent, browserState.branch.id),
+        ]))
+        .then(setState(browserState, 'groups'))
+        .then(integrationTestHelpers.authenticateBranchAdmin(agent))
+        .then(getMembers(agent, browserState))
+        .then(setState(browserState, 'members'))
+    ));
 
     it('should successfully edit the member', () => {
       const member = sample(browserState.members);

@@ -1,4 +1,4 @@
-const members = require('../../../src/reducers/membersReducer').reducer;
+const members = require('../../../src/reducers/membersReducer');
 
 describe('membersReducer', () => {
   it('is empty by default', () => {

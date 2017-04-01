@@ -46,6 +46,4 @@ const members = (state = initialState, action) => {
   }
 };
 
-module.exports = {
-  reducer: members,
-};
+module.exports = members;

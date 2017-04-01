@@ -1,20 +1,20 @@
 'use strict';
 
 const uuid = require('node-uuid');
-const branchService = require('../services/branchService');
 const logger = require('../lib/logger');
 const validator = require('../lib/inputValidator');
 const streamClient = require('../streamClient');
 const store = require('../store');
-const reducers = require('../reducers/rootReducer');
 
 function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
 
 const findGroupInBranch = (groupId, branchId) => (
-  reducers.getGroups(store.getState()).find(group => group.id === groupId && group.branchId === branchId)
+  store.getGroups().find(group => group.id === groupId && group.branchId === branchId)
 );
+
+const findBranch = id => store.getBranches().find(branch => branch.id === id);
 
 function createGroup(req, res) {
   const group = {
@@ -24,26 +24,16 @@ function createGroup(req, res) {
     description: req.body.description,
   };
 
-  if (!groupDataValid(group)) {
+  if (!groupDataValid(group) || !findBranch(group.branchId)) {
     return res.sendStatus(400);
   }
 
-  return branchService.findById(group.branchId)
-    .then(branch => {
-      if (!branch.id) {
-        res.sendStatus(400);
-        throw new Error();
-      }
-    })
-    .then(() => streamClient.publish('group-created', group))
-    .then(
-      () => res.status(200).json(group),
-      error => {
-        logger.error(`Failed creating a new group: ${group}}: `, error);
-        res.sendStatus(500);
-      }
-    )
-    .catch(() => {});
+  return streamClient.publish('group-created', group)
+    .then(() => res.status(200).json(group))
+    .catch(error => {
+      logger.error(`Failed creating a new group: ${group}}: `, error);
+      res.sendStatus(500);
+    });
 }
 
 function deleteGroup(req, res) {
@@ -91,8 +81,13 @@ function updateGroup(req, res) {
 
 const getBranchGroups = (req, res) => {
   const branchId = req.params.branchId;
-  const groups = reducers.getGroups(store.getState()).filter(group => group.branchId === branchId);
-  res.status(200).json({ groups });
+
+  if (!findBranch(branchId)) {
+    return res.sendStatus(404);
+  }
+
+  const groups = store.getGroups().filter(group => group.branchId === branchId);
+  return res.status(200).json({ groups });
 };
 
 module.exports = {

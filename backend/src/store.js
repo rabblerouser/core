@@ -1,7 +1,17 @@
 const redux = require('redux');
-const rootReducer = require('./reducers/rootReducer').reducer;
+const members = require('./reducers/membersReducer');
+const groups = require('./reducers/groupsReducer');
+const branches = require('./reducers/branchesReducer');
 
+const rootReducer = redux.combineReducers({
+  members,
+  groups,
+  branches,
+});
 const store = redux.createStore(rootReducer);
+const getMembers = () => store.getState().members;
+const getGroups = () => store.getState().groups;
+const getBranches = () => store.getState().branches;
 
 // This function has two purposes:
 // 1: Bind the action creator function to the store instance, so you can just
@@ -27,5 +37,7 @@ const bindActionCreators = actionCreators => {
 
 module.exports = {
   bindActionCreators,
-  getState: store.getState,
+  getMembers,
+  getGroups,
+  getBranches,
 };

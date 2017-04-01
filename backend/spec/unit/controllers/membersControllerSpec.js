@@ -4,9 +4,8 @@ const memberValidator = require('../../../src/lib/memberValidator');
 const membersController = require('../../../src/controllers/membersController');
 const inputValidator = require('../../../src/lib/inputValidator');
 const csvGenerator = require('../../../src/lib/csvGenerator');
-const branchService = require('../../../src/services/branchService');
 const streamClient = require('../../../src/streamClient');
-const reducers = require('../../../src/reducers/rootReducer');
+const store = require('../../../src/store');
 
 describe('membersController', () => {
   let sandbox;
@@ -15,16 +14,17 @@ describe('membersController', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     res = {
-      status: sandbox.stub().returns({ json: sandbox.spy() }),
+      json: sandbox.spy(),
       sendStatus: sandbox.stub(),
     };
-    sandbox.stub(memberValidator, 'isValid');
-    sandbox.stub(streamClient, 'publish');
-    sandbox.stub(reducers, 'getMembers');
-    sandbox.stub(reducers, 'getGroups');
+    res.status = sandbox.stub().returns(res);
+    sandbox.stub(memberValidator, 'isValid').returns([]);
+    sandbox.stub(streamClient, 'publish').resolves();
+    sandbox.stub(store, 'getMembers');
+    sandbox.stub(store, 'getGroups');
+    sandbox.stub(store, 'getBranches').returns([{ id: 'some-id-1' }]);
     sandbox.stub(csvGenerator, 'generateCsv');
     sandbox.stub(inputValidator, 'isValidUUID');
-    sandbox.stub(branchService, 'findById');
   });
 
   afterEach(() => {
@@ -44,13 +44,10 @@ describe('membersController', () => {
       };
 
       const req = { body: validBody };
-      memberValidator.isValid.returns([]);
-      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
-      streamClient.publish.returns(Promise.resolve());
 
       return membersController.registerMember(req, res).then(() => {
         expect(res.status).to.have.been.calledWith(201);
-        expect(res.status().json).to.have.been.calledWith({});
+        expect(res.json).to.have.been.calledWith({});
         const [eventType, eventData] = streamClient.publish.args[0];
         expect(eventType).to.eql('member-registered');
         expect(eventData.additionalInfo).to.eql(null);
@@ -65,10 +62,8 @@ describe('membersController', () => {
     });
 
     it('sends a 500 back if the stream publish fails', () => {
-      const req = { body: {} };
-      memberValidator.isValid.returns([]);
-      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
-      streamClient.publish.returns(Promise.reject('oh noes!'));
+      const req = { body: { branchId: 'some-id-1' } };
+      streamClient.publish.rejects('oh noes!');
 
       return membersController.registerMember(req, res).then(() => {
         expect(res.sendStatus).to.have.been.calledWith(500);
@@ -76,14 +71,12 @@ describe('membersController', () => {
     });
 
     it('sends a 400 back if the request is invalid', () => {
-      const req = { body: {} };
+      const req = { body: { branchId: 'some-id-1' } };
       memberValidator.isValid.returns(['error!']);
-      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
 
-      return membersController.registerMember(req, res).then(() => {
-        expect(res.status).to.have.been.calledWith(400);
-        expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
-      });
+      membersController.registerMember(req, res);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ errors: ['error!'] });
     });
 
     it('sends a 400 back if the request is mostly valid except for the branch id', () => {
@@ -94,20 +87,16 @@ describe('membersController', () => {
           branchId: 'non-existent-branch',
         },
       };
-      memberValidator.isValid.returns([]);
-      branchService.findById.returns(Promise.resolve({}));
 
-      return membersController.registerMember(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(400);
-          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown branchId'] });
-        });
+      membersController.registerMember(req, res);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ errors: ['Unknown branchId'] });
     });
   });
 
   describe('editMember', () => {
     beforeEach(() => {
-      reducers.getGroups.returns([
+      store.getGroups.returns([
         { id: 'first', branchId: 'some-id-1' },
         { id: 'second', branchId: 'some-id-1' },
         { id: 'other', branchId: 'some-other-branch' },
@@ -124,18 +113,15 @@ describe('membersController', () => {
         branchId: 'some-id-1',
         additionalInfo: null,
         notes: 'Some notes',
-        id: 'abc-123',
+        id: 'member-1',
         groups: ['first', 'second'],
       };
 
       const req = { body: validBody };
-      memberValidator.isValid.returns([]);
-      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
-      streamClient.publish.returns(Promise.resolve());
 
       return membersController.editMember(req, res).then(() => {
         expect(res.status).to.have.been.calledWith(201);
-        expect(res.status().json).to.have.been.calledWith({});
+        expect(res.json).to.have.been.calledWith({});
         expect(streamClient.publish).to.have.been.calledWith(
           'member-edited',
           {
@@ -144,7 +130,7 @@ describe('membersController', () => {
             email: 'sherlock@holmes.co.uk',
             name: 'Sherlock Holmes',
             notes: 'Some notes',
-            id: 'abc-123',
+            id: 'member-1',
             groups: ['first', 'second'],
             address: { address: '47 Spam St', country: 'USA', postcode: '5678', state: 'NM', suburb: 'Moriarty' },
             phoneNumber: '0396291146',
@@ -154,10 +140,9 @@ describe('membersController', () => {
     });
 
     it('sends a 500 back if the stream publish fails', () => {
-      const req = { body: { id: 'hello' } };
-      memberValidator.isValid.returns([]);
-      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
-      streamClient.publish.returns(Promise.reject('oh noes!'));
+      const req = { body: { id: 'member-1', branchId: 'some-id-1' } };
+
+      streamClient.publish.rejects('oh noes!');
 
       return membersController.editMember(req, res).then(() => {
         expect(res.sendStatus).to.have.been.calledWith(500);
@@ -165,15 +150,12 @@ describe('membersController', () => {
     });
 
     it('sends a 400 back if the request is invalid', () => {
-      const req = { body: {} };
+      const req = { body: { branchId: 'some-id-1' } };
       memberValidator.isValid.returns(['error!']);
-      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
 
-      return membersController.editMember(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(400);
-          expect(res.status().json).to.have.been.calledWith({ errors: ['error!'] });
-        });
+      membersController.editMember(req, res);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ errors: ['error!'] });
     });
 
     it('sends a 400 back if the request is mostly valid except for the branch id', () => {
@@ -186,14 +168,10 @@ describe('membersController', () => {
           groups: [],
         },
       };
-      memberValidator.isValid.returns([]);
-      branchService.findById.returns(Promise.resolve({}));
 
-      return membersController.editMember(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(400);
-          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown branchId'] });
-        });
+      membersController.editMember(req, res);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ errors: ['Unknown branchId'] });
     });
 
     it('sends a 400 back if one of the given groups does not exist', () => {
@@ -206,14 +184,10 @@ describe('membersController', () => {
           groups: ['first', 'second', 'third'],
         },
       };
-      memberValidator.isValid.returns([]);
-      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
 
-      return membersController.editMember(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(400);
-          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown groupId third'] });
-        });
+      membersController.editMember(req, res);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ errors: ['Unknown groupId third'] });
     });
 
     it('sends a 400 back if one of the given groups is from a different branch', () => {
@@ -226,62 +200,62 @@ describe('membersController', () => {
           groups: ['first', 'second', 'other'],
         },
       };
-      memberValidator.isValid.returns([]);
-      branchService.findById.returns(Promise.resolve({ id: 'some-id-1' }));
 
-      return membersController.editMember(req, res)
-        .then(() => {
-          expect(res.status).to.have.been.calledWith(400);
-          expect(res.status().json).to.have.been.calledWith({ errors: ['Unknown groupId other'] });
-        });
+      membersController.editMember(req, res);
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ errors: ['Unknown groupId other'] });
     });
   });
 
   describe('listBranchMembers', () => {
-    it('returns no members if no branchId is given', () => {
-      const req = { params: {} };
+    it('sends a 404 back if the given branch does not exist', () => {
+      const req = { params: { branchId: 'non-existent-branch' } };
       membersController.listBranchMembers(req, res);
 
-      expect(res.status).to.have.been.calledWith(200);
-      expect(res.status().json).to.have.been.calledWith({
-        members: [],
-      });
+      expect(res.sendStatus).to.have.been.calledWith(404);
     });
 
     it('returns only the members from the branch', () => {
-      const req = { params: { branchId: 'right' } };
-      reducers.getMembers.returns([
-        { name: 'John Doe', branchId: 'right' },
-        { name: 'Jess Doe', branchId: 'wrong' },
+      const req = { params: { branchId: 'some-id-1' } };
+      store.getMembers.returns([
+        { name: 'John Doe', branchId: 'some-id-1' },
+        { name: 'Jess Doe', branchId: 'some-id-2' },
       ]);
 
       membersController.listBranchMembers(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
-      expect(res.status().json).to.have.been.calledWith({
-        members: [{ name: 'John Doe', branchId: 'right' }],
+      expect(res.json).to.have.been.calledWith({
+        members: [{ name: 'John Doe', branchId: 'some-id-1' }],
       });
     });
   });
 
   describe('exportBranchMembers', () => {
+    it('sends a 404 back if the given branch does not exist', () => {
+      const req = { params: { branchId: 'non-existent-branch' } };
+      membersController.exportBranchMembers(req, res);
+
+      expect(res.sendStatus).to.have.been.calledWith(404);
+    });
+
     it('gets the relevant members and transforms them to CSV', () => {
-      const req = { params: { branchId: 'right' } };
+      const req = { params: { branchId: 'some-id-1' } };
       res = { set: () => {}, send: sinon.spy() };
       const members = [
-        { name: 'member-1', branchId: 'right' },
-        { name: 'member-2', branchId: 'right' },
-        { name: 'member-3', branchId: 'wrong' },
+        { name: 'member-1', branchId: 'some-id-1' },
+        { name: 'member-2', branchId: 'some-id-1' },
+        { name: 'member-3', branchId: 'some-id-2' },
       ];
       const csv = 'member1\nmember2';
-      reducers.getMembers.returns(members);
+      store.getMembers.returns(members);
       csvGenerator.generateCsv.returns(csv);
 
       membersController.exportBranchMembers(req, res);
 
       expect(csvGenerator.generateCsv).to.have.been.calledWith(
         sinon.match.array,
-        [{ name: 'member-1', branchId: 'right' }, { name: 'member-2', branchId: 'right' }]
+        [{ name: 'member-1', branchId: 'some-id-1' }, { name: 'member-2', branchId: 'some-id-1' }]
       );
       expect(res.send).to.have.been.calledWith(csv);
     });

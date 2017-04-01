@@ -1,4 +1,4 @@
-const groups = require('../../../src/reducers/groupsReducer').reducer;
+const groups = require('../../../src/reducers/groupsReducer');
 
 describe('groupsReducer', () => {
   it('is empty by default', () => {
