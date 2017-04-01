@@ -10,10 +10,13 @@ README for this project.
 
 ## Automated testing workflow:
 
-1. **From the backend directory**: `npm test -- --watch`
-2. Make your changes
+There are unit tests and integration tests. The unit tests can be run in watch mode (i.e. the tests are re-run whenever)
+you make a change, but the integration tests cannot. So there are two different tasks for running them. A good workflow
+is (**all from the backend directory**):
 
-The tests will re-run whenever you make a change.
+1. `npm run tdd` to run just the unit tests in watch mode
+2. Make your changes and get all the unit tests to pass
+3. `npm test` to run *all* tests as a one off
 
 ## Manual testing workflow:
 

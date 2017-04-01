@@ -14,6 +14,7 @@
     "e2e-seed": "NODE_ENV=test node bin/e2e-seed.js",
     "pretest": "NODE_ENV=test npm run migrate && node bin/test-seed.js",
     "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 -r spec/specGlobals --recursive spec",
+    "tdd": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 -r spec/specGlobals --recursive spec/unit --watch",
     "seed": "npm run migrate && node bin/seed.js",
     "start": "node index.js"
   },
