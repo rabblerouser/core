@@ -10,7 +10,13 @@ const rootReducer = redux.combineReducers({
   branches,
   admins,
 });
-const store = redux.createStore(rootReducer);
+
+const store = redux.createStore((state, action) => {
+  if (action.type === '__RESET__') {
+    state = undefined;
+  }
+  return rootReducer(state, action);
+});
 
 // stream-client needs us to return promises from our event handlers
 const dispatch = action => {
@@ -22,6 +28,8 @@ const dispatch = action => {
   }
 };
 module.exports = {
+  reset: () => store.dispatch({ type: '__RESET__' }),
+
   getBranches: () => store.getState().branches,
   createBranch: branch => dispatch({ type: 'CREATE_BRANCH', branch }),
   deleteBranch: branch => dispatch({ type: 'DELETE_BRANCH', branch }),
