@@ -35,8 +35,9 @@ describe('BranchAccessValidator Integration tests', () => {
       .then(integrationTestHelpers.createSuperAdmin(agent))
       .then(integrationTestHelpers.authenticateSuperAdmin(agent))
       .then(() => integrationTestHelpers.createBranch(agent))
-      .then(aDifferentBranch => agent.get(`/branches/${aDifferentBranch.id}/members`)
-        .expect(200)
-      )
-  ));
+      .then(aDifferentBranch => (
+        agent.get(`/branches/${aDifferentBranch.id}/members`)
+          .expect(200)
+      ))
+    ));
 });
