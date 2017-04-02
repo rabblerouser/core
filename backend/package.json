@@ -50,6 +50,7 @@
     "sequelize": "^3.22.0",
     "sequelize-cli": "^2.4.0",
     "serve-favicon": "^2.3.0",
+    "session-memory-store": "^0.2.2",
     "underscore": "^1.8.3",
     "validator": "^5.2.0",
     "winston": "^2.2.0"

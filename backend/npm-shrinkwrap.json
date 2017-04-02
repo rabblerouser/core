@@ -1378,6 +1378,18 @@
       "from": "nocache@1.0.0",
       "resolved": "https://registry.npmjs.org/nocache/-/nocache-1.0.0.tgz"
     },
+    "node-cache": {
+      "version": "3.2.1",
+      "from": "node-cache@>=3.1.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/node-cache/-/node-cache-3.2.1.tgz",
+      "dependencies": {
+        "lodash": {
+          "version": "4.17.4",
+          "from": "lodash@>=4.0.0 <5.0.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz"
+        }
+      }
+    },
     "node-uuid": {
       "version": "1.4.7",
       "from": "node-uuid@>=1.4.7 <2.0.0",
@@ -1840,6 +1852,18 @@
       "version": "1.11.1",
       "from": "serve-static@>=1.11.1 <1.12.0",
       "resolved": "https://registry.npmjs.org/serve-static/-/serve-static-1.11.1.tgz"
+    },
+    "session-memory-store": {
+      "version": "0.2.2",
+      "from": "session-memory-store@latest",
+      "resolved": "https://registry.npmjs.org/session-memory-store/-/session-memory-store-0.2.2.tgz",
+      "dependencies": {
+        "lodash": {
+          "version": "2.4.2",
+          "from": "lodash@>=2.4.2 <3.0.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-2.4.2.tgz"
+        }
+      }
     },
     "set-blocking": {
       "version": "2.0.0",

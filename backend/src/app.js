@@ -13,15 +13,12 @@ const routes = require('./routes/index');
 const session = require('express-session');
 const passport = require('passport');
 const ejs = require('ejs');
-const SequelizeSessionStore = require('connect-session-sequelize')(session.Store);
-const db = require('./db/connection');
+const MemoryStore = require('session-memory-store')(session);
 const compress = require('compression');
 const config = require('./config');
 
 const app = express();
-const sessionStore = new SequelizeSessionStore({ db });
 
-sessionStore.sync();
 app.use(compress());
 app.set('views', path.join(__dirname, '../public/views'));
 app.engine('html', ejs.renderFile);
@@ -36,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitized());
 app.use(session({
   secret: config.session.secret,
-  store: sessionStore,
+  store: new MemoryStore(),
   proxy: config.session.proxy,
   resave: false,
   saveUninitialized: false,
