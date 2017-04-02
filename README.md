@@ -26,7 +26,7 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 4. Install/compile the project, seed the database, run the tests, then start the app
 
         npm install
-        npm --prefix backend run seed
+        npm run seed
         npm test
         npm start
 

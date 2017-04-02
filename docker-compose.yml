@@ -10,15 +10,12 @@ services:
       - "3000:3000"
       - "8080:8080"
     depends_on:
-      - db
       - kinesis
       - s3
     links:
       - "s3:rr-event-archive.s3"
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgres://rabble_rouser_user:rabble_rouser_password@db:5432/rabble_rouser_db
-      TEST_DATABASE_URL: postgres://rabble_rouser_user:rabble_rouser_password@test_db:5432/rabble_rouser_db
       KINESIS_ENDPOINT: http://kinesis:4567
       S3_ENDPOINT: http://s3:4569
       LISTENER_AUTH_TOKEN: secret
@@ -29,18 +26,6 @@ services:
     stdin_open: true
     user: $UID
     tty: true
-  db:
-    image: postgres
-    environment:
-      POSTGRES_USER: rabble_rouser_user
-      POSTGRES_PASSWORD: rabble_rouser_password
-      POSTGRES_DB: rabble_rouser_db
-  test_db:
-    image: postgres
-    environment:
-      POSTGRES_USER: rabble_rouser_user
-      POSTGRES_PASSWORD: rabble_rouser_password
-      POSTGRES_DB: rabble_rouser_db
   event-forwarder:
     image: rabblerouser/event-forwarder
     depends_on:

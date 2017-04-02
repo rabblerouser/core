@@ -1,8 +1,5 @@
 'use strict';
 
-/* eslint no-console: off */
-/* eslint import/no-extraneous-dependencies: off */
-
 const AWS = require('aws-sdk');
 
 const kinesis = new AWS.Kinesis({
@@ -12,7 +9,6 @@ const kinesis = new AWS.Kinesis({
   secretAccessKey: 'ALSO FAKE',
 });
 
-console.log('Running test seed script');
 console.log('Creating kinesis stream for testing');
 
 const StreamName = process.env.TEST_STREAM_NAME;
