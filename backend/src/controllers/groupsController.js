@@ -10,12 +10,6 @@ function groupDataValid(group) {
   return validator.isValidName(group.name) && validator.isValidName(group.description);
 }
 
-const findGroupInBranch = (groupId, branchId) => (
-  store.getGroups().find(group => group.id === groupId && group.branchId === branchId)
-);
-
-const findBranch = id => store.getBranches().find(branch => branch.id === id);
-
 function createGroup(req, res) {
   const group = {
     id: uuid.v4(),
@@ -24,7 +18,7 @@ function createGroup(req, res) {
     description: req.body.description,
   };
 
-  if (!groupDataValid(group) || !findBranch(group.branchId)) {
+  if (!groupDataValid(group)) {
     return res.sendStatus(400);
   }
 
@@ -40,10 +34,6 @@ function deleteGroup(req, res) {
   const branchId = req.params.branchId;
   const groupId = req.params.groupId;
 
-  if (!findGroupInBranch(groupId, branchId)) {
-    return res.sendStatus(404);
-  }
-
   return streamClient.publish('group-removed', { id: groupId })
     .then(() => res.sendStatus(200))
     .catch(error => {
@@ -55,10 +45,6 @@ function deleteGroup(req, res) {
 function updateGroup(req, res) {
   const branchId = req.params.branchId;
   const groupId = req.params.groupId;
-
-  if (!findGroupInBranch(groupId, branchId)) {
-    return res.sendStatus(404);
-  }
 
   const group = {
     id: groupId,
@@ -80,14 +66,7 @@ function updateGroup(req, res) {
 }
 
 const getBranchGroups = (req, res) => {
-  const branchId = req.params.branchId;
-
-  if (!findBranch(branchId)) {
-    return res.sendStatus(404);
-  }
-
-  const groups = store.getGroups().filter(group => group.branchId === branchId);
-  return res.status(200).json({ groups });
+  res.status(200).json({ groups: store.getGroups().filter(group => group.branchId === req.params.branchId) });
 };
 
 module.exports = {

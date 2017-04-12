@@ -5,12 +5,12 @@ const memberValidator = require('../../../src/lib/memberValidator');
 describe('memberValidator', () => {
   describe('isValid', () => {
     const validMember = {
-      branchId: 'rururu-we-ew-ew',
       name: 'Sherlock Holmes',
       email: 'sherlock@holmes.co.uk',
     };
 
     const optionalFields = {
+      branchId: 'rururu-we-ew-ew',
       additionalInfo: 'More info for you!',
       phoneNumber: '+263-64-8581786',
       notes: 'Some extra detail',
@@ -37,9 +37,8 @@ describe('memberValidator', () => {
         email: '',
         phoneNumber: '',
         name: '',
-        branchId: '',
       };
-      const expectedErrors = ['email', 'name', 'branchId'];
+      const expectedErrors = ['email', 'name'];
       expect(memberValidator.isValid(invalidMember)).to.have.members(expectedErrors);
     });
   });

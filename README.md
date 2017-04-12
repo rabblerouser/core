@@ -32,7 +32,7 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 5. Verify that the app works:
   1. Register a new member at `http://localhost:3000`
-  2. Log in at `http://localhost:3000/login`, with `networkadmin@rabblerouser.team`/`password`
+  2. Log in at `http://localhost:3000/login`, with `superadmin@rabblerouser.team`/`password1234`
 
 ## Bonus commands
 

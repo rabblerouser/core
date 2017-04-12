@@ -39,7 +39,7 @@ describe('Groups Integration Test', () => {
     return integrationTestHelpers.resetDatabase()
       .then(() => integrationTestHelpers.createBranch(agent))
       .then(branch => { browserState.branch = branch; return branch; })
-      .then(integrationTestHelpers.createBranchAdmin)
+      .then(integrationTestHelpers.createBranchAdmin(agent))
       .then(integrationTestHelpers.authenticateBranchAdmin(agent));
   });
 

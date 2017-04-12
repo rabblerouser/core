@@ -4,7 +4,6 @@ const isEmpty = require('lodash').isEmpty;
 const uuid = require('node-uuid');
 const moment = require('moment');
 const memberValidator = require('../lib/memberValidator');
-const inputValidator = require('../lib/inputValidator');
 const csvGenerator = require('../lib/csvGenerator');
 const logger = require('../lib/logger');
 const streamClient = require('../streamClient');
@@ -67,7 +66,7 @@ const registerMember = (req, res) => {
 
 const editMember = (req, res) => {
   const member = {
-    id: req.body.id,
+    id: req.params.memberId,
     name: req.body.name,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
@@ -75,21 +74,18 @@ const editMember = (req, res) => {
     additionalInfo: req.body.additionalInfo,
     notes: req.body.notes,
     groups: req.body.groups,
-    branchId: req.body.branchId,
   };
 
   const validationErrors = memberValidator.isValid(member);
 
-  const branchGroups = store.getGroups().filter(group => group.branchId === member.branchId);
+  const branchGroups = store.getGroups().filter(group => group.branchId === req.params.branchId);
   const groupIds = branchGroups.map(group => group.id);
   (member.groups || []).forEach(group => {
     if (!groupIds.includes(group)) {
       validationErrors.push(`Unknown groupId ${group}`);
     }
   });
-  if (!findBranch(member.branchId)) {
-    validationErrors.push('Unknown branchId');
-  }
+
   if (validationErrors.length > 0 || !member.id) {
     logger.info('[edit-member-validation-error]', { errors: validationErrors });
     return res.status(400).json({ errors: validationErrors });
@@ -100,45 +96,24 @@ const editMember = (req, res) => {
     .catch(handleError(res));
 };
 
-const getBranchMembers = branchId => {
-  if (!branchId) {
-    return [];
-  }
-  return store.getMembers().filter(member => member.branchId === branchId);
-};
+const getBranchMembers = branchId => store.getMembers().filter(member => member.branchId === branchId);
 
 const listBranchMembers = (req, res) => {
-  const branchId = req.params.branchId;
-  if (!findBranch(branchId)) {
-    return res.sendStatus(404);
-  }
-
-  const members = getBranchMembers(branchId);
-  return res.status(200).json({ members });
+  res.status(200).json({ members: getBranchMembers(req.params.branchId) });
 };
 
 const exportBranchMembers = (req, res) => {
-  const branchId = req.params.branchId;
-  if (!findBranch(branchId)) {
-    return res.sendStatus(404);
-  }
-
-  const members = getBranchMembers(req.params.branchId);
   res.set({
     'Content-Type': 'application/csv',
     'Content-Disposition': 'attachment; filename="members.csv"',
   });
   const exportFields = ['id', 'name', 'phoneNumber', 'email', 'memberSince', 'branchId'];
+  const members = getBranchMembers(req.params.branchId);
   return res.send(csvGenerator.generateCsv(exportFields, members));
 };
 
 const deleteMember = (req, res) => {
   const memberId = req.params.memberId;
-
-  if (!(inputValidator.isValidUUID(memberId))) {
-    logger.error(`Failed deleting the member with memberId: ${memberId}`);
-    return res.sendStatus(400);
-  }
 
   return streamClient.publish('member-removed', { id: memberId })
     .then(() => res.sendStatus(200))

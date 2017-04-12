@@ -50,20 +50,17 @@ const hasBranch = res => {
 
 describe('Branches Integration Test', () => {
   let agent;
-  let browserState = {};
+  let browserState;
 
   beforeEach(() => {
     agent = request.agent(app);
+    browserState = {};
 
     return integrationTestHelpers.resetDatabase()
         .then(() => integrationTestHelpers.createBranch(agent))
         .then(branch => { browserState.branch = branch; return branch; })
-        .then(integrationTestHelpers.createBranchAdmin)
+        .then(integrationTestHelpers.createBranchAdmin(agent))
         .then(integrationTestHelpers.authenticateBranchAdmin(agent));
-  });
-
-  afterEach(() => {
-    browserState = {};
   });
 
   it('should return a list of branches', () => (
@@ -97,14 +94,14 @@ describe('Branches Integration Test', () => {
   it('should return a list of all branches for a super admin', () => (
     integrationTestHelpers.createBranch(agent)
       .then(() => integrationTestHelpers.createBranch(agent))
-      .tap(integrationTestHelpers.createSuperAdmin)
+      .tap(integrationTestHelpers.createSuperAdmin(agent))
       .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
       .then(() => (
         agent.get('/admin/branches')
           .expect(200)
           .then(res => {
             expect(res.body.branches).not.to.eql(null);
-            expect(res.body.branches.length).to.equal(28);
+            expect(res.body.branches.length).to.equal(3);
             expect(sample(res.body.r));
           })
       ))
@@ -124,14 +121,14 @@ describe('Branches Integration Test', () => {
       .expect(200)
       .then(res => {
         expect(res.body.branches).not.to.eql(null);
-        expect(sample(res.body.branches).notes).to.be.undefined;
+        expect(sample(res.body.branches).notes).to.eql(undefined);
       })
   ));
 
   describe('delete', () => {
     it('should return a 200 when the branch is successfully deleted', () => (
       integrationTestHelpers.createBranch(agent)
-        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.createSuperAdmin(agent))
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(
           branch => agent.delete(`/branches/${branch.id}/`)
@@ -141,7 +138,7 @@ describe('Branches Integration Test', () => {
 
     it('should return 404 when trying to delete a branch that does not exist', () => (
       integrationTestHelpers.createBranch(agent)
-        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.createSuperAdmin(agent))
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(
           () => agent.delete(`/branches/${uuid.v4()}/`)
@@ -152,7 +149,7 @@ describe('Branches Integration Test', () => {
 
   describe('add', () => {
     it('should return 200 and a created branch when the input is valid', () => (
-      integrationTestHelpers.createSuperAdmin()
+      integrationTestHelpers.createSuperAdmin(agent)
         .then(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => (
           agent.post('/branches')
@@ -164,7 +161,7 @@ describe('Branches Integration Test', () => {
     ));
 
     it('should return 400 if the input is null', () => (
-      integrationTestHelpers.createSuperAdmin()
+      integrationTestHelpers.createSuperAdmin(agent)
         .then(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => (
           agent.post('/branches')
@@ -176,7 +173,7 @@ describe('Branches Integration Test', () => {
     ));
 
     it('should return 400 if the input is incomplete', () => (
-      integrationTestHelpers.createSuperAdmin()
+      integrationTestHelpers.createSuperAdmin(agent)
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => (
           agent.post('/branches')
@@ -191,7 +188,7 @@ describe('Branches Integration Test', () => {
   describe('update', () => {
     it('should return 200 and an updated branch when the input is valid', () => (
       integrationTestHelpers.createBranch(agent)
-        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.createSuperAdmin(agent))
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(branch => (
           agent.put(`/branches/${branch.id}/`)
@@ -204,7 +201,7 @@ describe('Branches Integration Test', () => {
 
     it('should allow update without the password field in the payload', () => (
       integrationTestHelpers.createBranch(agent)
-        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.createSuperAdmin(agent))
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(branch => (
           agent.put(`/branches/${branch.id}`)
@@ -218,7 +215,7 @@ describe('Branches Integration Test', () => {
 
     it('should return 400 if the input is null', () => (
       integrationTestHelpers.createBranch(agent)
-        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.createSuperAdmin(agent))
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(branch => (
           agent.put(`/branches/${branch.id}`)
@@ -231,7 +228,7 @@ describe('Branches Integration Test', () => {
 
     it('should return 400 if the input is incomplete', () => (
       integrationTestHelpers.createBranch(agent)
-        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.createSuperAdmin(agent))
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(branch => (
           agent.put(`/branches/${branch.id}`)
@@ -244,7 +241,7 @@ describe('Branches Integration Test', () => {
 
     it('should return 404 if the input is incomplete', () => (
       integrationTestHelpers.createBranch(agent)
-        .tap(integrationTestHelpers.createSuperAdmin)
+        .tap(integrationTestHelpers.createSuperAdmin(agent))
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => (
           agent.put('/branches/bad-branch-id')

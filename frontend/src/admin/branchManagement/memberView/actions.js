@@ -75,7 +75,8 @@ export const memberUpdateRequested = member => {
   const thunk = (dispatch, getState) => {
     dispatch(clearMessages());
     const branchId = getSelectedBranchId(getState());
-    return axios.put(`/branches/${branchId}/members/${member.id}`, member)
+    const { id, ...body } = member;
+    return axios.put(`/branches/${branchId}/members/${id}`, body)
       .then(() => dispatch(memberUpdated(member)))
       .then(() => dispatch(reportSuccess('Member successfully updated')))
       .catch(() => dispatch(reportFailure()));

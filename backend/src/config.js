@@ -14,6 +14,7 @@ const baseConfig = {
 };
 
 const devConfig = Object.assign({}, baseConfig, {
+  bcryptRounds: 10,
   session: Object.assign({}, baseConfig.session, {
     proxy: false,
     secureCookie: false,
@@ -28,6 +29,7 @@ const devConfig = Object.assign({}, baseConfig, {
 });
 
 const testConfig = Object.assign({}, baseConfig, {
+  bcryptRounds: 1,
   eventStream: Object.assign({}, baseConfig.eventStream, {
     kinesisEndpoint: process.env.KINESIS_ENDPOINT,
     streamName: process.env.TEST_STREAM_NAME,
@@ -36,6 +38,7 @@ const testConfig = Object.assign({}, baseConfig, {
 });
 
 const prodConfig = Object.assign({}, baseConfig, {
+  bcryptRounds: 10,
   session: Object.assign({}, baseConfig.session, {
     proxy: true,
     secureCookie: true,

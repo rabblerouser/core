@@ -2,42 +2,51 @@ const redux = require('redux');
 const members = require('./reducers/membersReducer');
 const groups = require('./reducers/groupsReducer');
 const branches = require('./reducers/branchesReducer');
+const admins = require('./reducers/adminsReducer');
 
 const rootReducer = redux.combineReducers({
   members,
   groups,
   branches,
+  admins,
 });
-const store = redux.createStore(rootReducer);
-const getMembers = () => store.getState().members;
-const getGroups = () => store.getState().groups;
-const getBranches = () => store.getState().branches;
 
-// This function has two purposes:
-// 1: Bind the action creator function to the store instance, so you can just
-//    call the action creator, rather than having to dispatch the action explicitly
-// 2: Make the action creator function return a promise, because that's what the
-//    rr-stream-client is expecting to be returned by event handler functions.
-const bindActionCreator = actionCreator => (...params) => {
+const store = redux.createStore((state, action) => {
+  if (action.type === '__RESET__') {
+    state = undefined;
+  }
+  return rootReducer(state, action);
+});
+
+// stream-client needs us to return promises from our event handlers
+const dispatch = action => {
   try {
-    store.dispatch(actionCreator(...params));
+    store.dispatch(action);
     return Promise.resolve();
   } catch (e) {
     return Promise.reject(e);
   }
 };
-
-const bindActionCreators = actionCreators => {
-  const result = {};
-  Object.keys(actionCreators).forEach(actionKey => {
-    result[actionKey] = bindActionCreator(actionCreators[actionKey]);
-  });
-  return result;
-};
-
 module.exports = {
-  bindActionCreators,
-  getMembers,
-  getGroups,
-  getBranches,
+  reset: () => store.dispatch({ type: '__RESET__' }),
+
+  getBranches: () => store.getState().branches,
+  createBranch: branch => dispatch({ type: 'CREATE_BRANCH', branch }),
+  deleteBranch: branch => dispatch({ type: 'DELETE_BRANCH', branch }),
+  updateBranch: branch => dispatch({ type: 'UPDATE_BRANCH', branch }),
+
+  getGroups: () => store.getState().groups,
+  createGroup: group => dispatch({ type: 'CREATE_GROUP', group }),
+  deleteGroup: group => dispatch({ type: 'DELETE_GROUP', group }),
+  updateGroup: group => dispatch({ type: 'UPDATE_GROUP', group }),
+
+  getMembers: () => store.getState().members,
+  createMember: member => dispatch({ type: 'CREATE_MEMBER', member }),
+  deleteMember: member => dispatch({ type: 'DELETE_MEMBER', member }),
+  updateMember: member => dispatch({ type: 'UPDATE_MEMBER', member }),
+
+  getAdmins: () => store.getState().admins,
+  createAdmin: admin => dispatch({ type: 'CREATE_ADMIN', admin }),
+  deleteAdmin: admin => dispatch({ type: 'DELETE_ADMIN', admin }),
+  updateAdmin: admin => dispatch({ type: 'UPDATE_ADMIN', admin }),
 };
