@@ -8,7 +8,7 @@
     "postinstall": "npm run build",
     "build": "npm --prefix frontend run build && bin/copy_assets.sh",
     "start": "npm --prefix backend start",
-    "seed": "npm --prefix backend seed",
+    "seed": "npm --prefix backend run seed",
     "test": "npm --prefix frontend run ci && npm --prefix backend run ci",
     "e2e": "bin/e2e.sh"
   }

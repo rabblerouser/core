@@ -7,7 +7,7 @@
   "description": "A pluggable, extensible membership database for community organising",
   "main": "src/app.js",
   "scripts": {
-    "ci": "npm run lint && npm test",
+    "ci": "npm run lint && node bin/test-seed.js && npm test",
     "dev": "nodemon index.js",
     "lint": "eslint src spec",
     "e2e-seed": "NODE_ENV=test node bin/e2e-seed.js",
