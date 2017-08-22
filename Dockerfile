@@ -1,8 +1,11 @@
 FROM node:6.10-alpine
 
-RUN mkdir -p /app
 WORKDIR /app
 COPY . /app
+
+RUN adduser -D rabblerouser
+RUN chown -R rabblerouser /app
+USER rabblerouser
 
 ENV NODE_ENV production
 RUN npm install
