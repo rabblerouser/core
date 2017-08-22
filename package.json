@@ -4,12 +4,15 @@
   "description": "A pluggable, extensible membership database for community organising",
   "license": "AGPL-3.0",
   "scripts": {
-    "install": "npm --prefix backend install && npm --prefix frontend install",
-    "postinstall": "npm run build",
+    "postinstall": "npm --prefix backend install && npm --prefix frontend install && npm run build",
     "build": "npm --prefix frontend run build && bin/copy_assets.sh",
+    "dev": "concurrently 'npm --prefix backend run dev' 'npm --prefix frontend start'",
     "start": "npm --prefix backend start",
     "seed": "npm --prefix backend run seed",
     "test": "npm --prefix frontend run ci && npm --prefix backend run ci",
     "e2e": "bin/e2e.sh"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0"
   }
 }
