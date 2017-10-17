@@ -1,2 +1,4 @@
 .git/
 e2e/
+backend/node_modules/
+frontend/node_modules/
