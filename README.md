@@ -25,10 +25,10 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 4. Install/compile the project, seed the database, run the tests, then start the app
 
-        npm install
-        npm run seed
-        npm test
-        npm start
+        yarn
+        yarn seed
+        yarn test
+        yarn start
 
 5. Verify that the app works:
   1. Register a new member at `http://localhost:3000`
@@ -38,7 +38,7 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 To run a single command inside the container, rather than interactive mode:
 ```sh
-./go.sh npm test
+./go.sh yarn test
 ```
 
 To watch container logs (e.g. for debugging):
@@ -84,7 +84,7 @@ Each of these directories also has its own README file, with more instructions f
 ## Linting
 
 We use ESLint to maintain a consistent style and detect common sources of bugs, and this is run as part of the build
-system. To run ESLint just do `npm run lint` in one of the frontend, backend, or e2e directories.
+system. To run ESLint just do `yarn lint` in one of the frontend, backend, or e2e directories.
 
 To lint just a specific file or directory:
 

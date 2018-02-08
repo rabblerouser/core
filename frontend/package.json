@@ -1,17 +1,15 @@
 {
   "name": "@rabblerouser/core-frontend",
   "version": "0.1.0",
-  "engines": {
-    "node": "6.5.0"
-  },
   "description": "Frontend for rabblerouser - A pluggable, extensible membership database for community organising",
+  "license": "AGPL-3.0",
   "scripts": {
-    "build": "webpack --progress --colors",
-    "ci": "npm run lint && npm run test-single",
-    "lint": "eslint --ext js .",
-    "start": "webpack-dev-server --hot --inline --content-base public",
-    "test": "karma start",
-    "test-single": "karma start --single-run"
+    "build": "yarn webpack --progress --colors",
+    "ci": "yarn lint && yarn test-single",
+    "lint": "yarn eslint --ext js .",
+    "start": "yarn webpack-dev-server --hot --inline --content-base public",
+    "test": "yarn karma start",
+    "test-single": "yarn karma start --single-run"
   },
   "repository": {
     "type": "git",

@@ -10,7 +10,7 @@ README for this project.
 
 ## Automated testing workflow:
 
- 1. `npm run test`
+ 1. `yarn test`
  2. Make your changes
 
 The tests will re-run whenever you make a change.
@@ -19,7 +19,7 @@ The tests will re-run whenever you make a change.
 
  1. Start the backend (see its README for how to do that)
  2. Open up a second terminal tab, run `./go.sh`, `cd frontend` again
- 3. `npm start`
+ 3. `yarn start`
  4. Make your changes
  5. Point your browser at `http://localhost:8000`
 
