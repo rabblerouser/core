@@ -1,17 +1,15 @@
 {
   "name": "@rabblerouser/core-e2e",
   "version": "0.1.0",
-  "engines": {
-    "node": "6.5.0"
-  },
   "description": "A pluggable, extensible membership database for community organising",
+  "license": "AGPL-3.0",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint .",
     "test-command": "PHANTOMJS_EXECUTABLE=phantomjs casperjs --disk-cache=true --web-security=true --log-level=warning --verbose test tmp/test-bundle.js --url=http://localhost:3000",
     "pretest": "rm -rf screenshots && webpack",
-    "ci-test": "webpack && npm run test-command",
-    "test": "npm run test-command | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
+    "ci-test": "webpack && yarn test-command",
+    "test": "yarn test-command | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
     "posttest": "rm -rf tmp"
   },
   "repository": {

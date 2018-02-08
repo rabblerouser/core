@@ -1,18 +1,16 @@
 {
   "name": "@rabblerouser/core-backend",
   "version": "0.1.0",
-  "engines": {
-    "node": "6.5.0"
-  },
   "description": "A pluggable, extensible membership database for community organising",
+  "license": "AGPL-3.0",
   "main": "src/app.js",
   "scripts": {
-    "ci": "npm run lint && node bin/test-seed.js && npm test",
-    "dev": "nodemon index.js",
-    "lint": "eslint src spec",
+    "ci": "yarn lint && node bin/test-seed.js && yarn test",
+    "dev": "yarn nodemon index.js",
+    "lint": "yarn eslint src spec",
     "e2e-seed": "NODE_ENV=test node bin/e2e-seed.js",
-    "test": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 -r spec/specGlobals --recursive spec",
-    "tdd": "NODE_ENV=test mocha --reporter dot --check-leaks --timeout 10000 -r spec/specGlobals --recursive spec/unit --watch",
+    "test": "NODE_ENV=test yarn mocha --reporter dot --check-leaks --timeout 10000 -r spec/specGlobals --recursive spec",
+    "tdd": "NODE_ENV=test yarn mocha --reporter dot --check-leaks --timeout 10000 -r spec/specGlobals --recursive spec/unit --watch",
     "seed": "node bin/seed.js && node bin/test-seed.js",
     "start": "node index.js"
   },

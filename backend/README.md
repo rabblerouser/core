@@ -14,16 +14,16 @@ There are unit tests and integration tests. The unit tests can be run in watch m
 you make a change, but the integration tests cannot. So there are two different tasks for running them. A good workflow
 is (**all from the backend directory**):
 
-1. `npm run tdd` to run just the unit tests in watch mode
+1. `yarn tdd` to run just the unit tests in watch mode
 2. Make your changes and get all the unit tests to pass
-3. `npm test` to run *all* tests as a one off
+3. `yarn test` to run *all* tests as a one off
 
 ## Manual testing workflow:
 
-1. **From the root directory**: `npm run build`
-2. **From the backend directory**: `npm run dev`
+1. **From the root directory**: `yarn build`
+2. **From the backend directory**: `yarn dev`
 3. Make your changes
 4. Point your browser at `http://localhost:3000`
 
 The server will auto-restart whenever you make backend changes. If you change any frontend code during this process,
-you'll need to `npm run build` again.
+you'll need to `yarn build` again.

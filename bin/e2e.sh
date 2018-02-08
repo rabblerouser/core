@@ -4,7 +4,7 @@ set -x
 
 export NODE_ENV=test
 
-npm start &
+yarn start &
 
 echo "Will wait for the server to be available for testing..."
 attempts=0
@@ -18,4 +18,4 @@ until $(curl --output /dev/null --silent --head --fail http://localhost:3000); d
 done
 echo "Oh hai server!"
 
-npm --prefix backend run e2e-seed && npm --prefix e2e run ci-test
+yarn --cwd backend e2e-seed && yarn --cwd e2e ci-test

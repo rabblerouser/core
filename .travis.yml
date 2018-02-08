@@ -7,9 +7,9 @@ node_js:
 services:
   - docker
 
-install: npm install
+install: yarn
 
-script: ./go.sh npm test
+script: ./go.sh yarn test
 
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then bin/docker-build-and-deploy.sh; fi

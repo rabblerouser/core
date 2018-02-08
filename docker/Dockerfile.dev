@@ -1,4 +1,4 @@
-FROM node:6.10-alpine
+FROM node:8-alpine
 RUN adduser -D rabblerouser
 
 WORKDIR /app

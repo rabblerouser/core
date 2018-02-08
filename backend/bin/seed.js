@@ -3,7 +3,7 @@
 /* eslint no-console: off */
 /* eslint import/no-extraneous-dependencies: off */
 
-// This script can be run manually via npm to prepare data for the app
+// This script can be run manually via yarn to prepare data for the app
 // - It publishes a "branch-created" event onto the rabblerouser kinesis stream
 // - It publishes an "admin-created" event onto the rabblerouser kinesis stream
 // - In development, it also ensures that the kinesis stream and event S3 bucket have been created
