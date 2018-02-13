@@ -1,8 +1,6 @@
 FROM node:6.10-alpine
 
 RUN apk add --no-cache curl
-ENTRYPOINT ["/usr/bin/curl"]
-
 RUN adduser -D rabblerouser
 
 WORKDIR /app
