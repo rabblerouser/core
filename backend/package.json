@@ -6,7 +6,7 @@
   "main": "src/app.js",
   "scripts": {
     "ci": "yarn lint && node bin/test-seed.js && yarn test",
-    "dev": "yarn nodemon index.js",
+    "dev": "yarn nodemon -L index.js",
     "lint": "yarn eslint src spec",
     "e2e-seed": "NODE_ENV=test node bin/e2e-seed.js",
     "test": "NODE_ENV=test yarn mocha --reporter dot --check-leaks --timeout 10000 -r spec/specGlobals --recursive spec",
