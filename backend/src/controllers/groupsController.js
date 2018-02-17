@@ -25,7 +25,7 @@ function createGroup(req, res) {
   return streamClient.publish('group-created', group)
     .then(() => res.status(200).json(group))
     .catch(error => {
-      logger.error(`Failed creating a new group: ${group}}: `, error);
+      logger.error(`Failed creating a new group: ${group}}, Error: ${error}`);
       res.sendStatus(500);
     });
 }
@@ -37,7 +37,7 @@ function deleteGroup(req, res) {
   return streamClient.publish('group-removed', { id: groupId })
     .then(() => res.sendStatus(200))
     .catch(error => {
-      logger.error(`Failed deleting the group with id:${groupId} and branchId: ${branchId}}`, error);
+      logger.error(`Failed deleting the group with id: ${groupId} and branchId: ${branchId}}, Error: ${error}`);
       res.sendStatus(500);
     });
 }
@@ -60,7 +60,7 @@ function updateGroup(req, res) {
   return streamClient.publish('group-edited', group)
     .then(() => res.status(200).json(group))
     .catch(error => {
-      logger.error(`Failed updating the group with id:${groupId} and branchId: ${branchId}`, error);
+      logger.error(`Failed updating the group with id: ${groupId} and branchId: ${branchId}, Error: ${error}`);
       res.sendStatus(500);
     });
 }

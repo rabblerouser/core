@@ -30,12 +30,10 @@ function parseAddress(input) {
   };
 }
 
-function handleError(res) {
-  return error => {
-    logger.error('[error-members-controller]', { error: error.toString() });
-    res.sendStatus(500);
-  };
-}
+const handleError = (msg, res) => error => {
+  logger.error(`${msg}, Error: ${error}`);
+  res.sendStatus(500);
+};
 
 const findBranch = id => store.getBranches().find(branch => branch.id === id);
 
@@ -55,13 +53,13 @@ const registerMember = (req, res) => {
     validationErrors.push('Unknown branchId');
   }
   if (validationErrors.length > 0) {
-    logger.info('[create-new-member-validation-error]', { errors: validationErrors });
+    logger.info(`Failed to validate member: ${validationErrors}`);
     return res.status(400).json({ errors: validationErrors });
   }
 
   return streamClient.publish('member-registered', newMember)
     .then(() => res.status(201).json({}))
-    .catch(handleError(res));
+    .catch(handleError('Failed to register member', res));
 };
 
 const editMember = (req, res) => {
@@ -87,13 +85,13 @@ const editMember = (req, res) => {
   });
 
   if (validationErrors.length > 0 || !member.id) {
-    logger.info('[edit-member-validation-error]', { errors: validationErrors });
+    logger.info(`Failed to validate member: ${validationErrors}`);
     return res.status(400).json({ errors: validationErrors });
   }
 
   return streamClient.publish('member-edited', member)
     .then(() => res.status(201).json({}))
-    .catch(handleError(res));
+    .catch(handleError('Failed to edit member', res));
 };
 
 const getBranchMembers = branchId => store.getMembers().filter(member => member.branchId === branchId);
@@ -117,7 +115,7 @@ const deleteMember = (req, res) => {
 
   return streamClient.publish('member-removed', { id: memberId })
     .then(() => res.sendStatus(200))
-    .catch(handleError(res));
+    .catch(handleError('Failed to delete member', res));
 };
 
 module.exports = {

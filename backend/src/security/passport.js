@@ -9,10 +9,10 @@ const store = require('../store');
 const authenticate = (email, password, done) => {
   const user = store.getAdmins().find(admin => admin.email === email);
   if (user && bcrypt.compareSync(password, user.password)) {
-    logger.info('admin-logged-in', email);
+    logger.info(`Admin logged in: ${email}`);
     done(null, user);
   } else {
-    logger.info('admin-failed-log-in', email);
+    logger.info(`Admin failed to log in: ${email}`);
     done(null, false);
   }
 };
@@ -31,6 +31,6 @@ passport.deserializeUser((id, done) => {
   if (user) {
     return done(null, user);
   }
-  logger.error('failed to deserialize', id);
+  logger.error(`Failed to deserialize user ${id}`);
   return done(null, false);
 });

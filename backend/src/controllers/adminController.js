@@ -43,7 +43,7 @@ const createAdmin = type => (req, res) => {
 
   const validationErrors = adminValidator.isValid(admin);
   if (validationErrors.length > 0) {
-    logger.info('[create-new-admin-validation-error]', { errors: validationErrors });
+    logger.info(`Admin validation failed: ${JSON.stringify(validationErrors)}`);
     return res.status(400).json({ errors: validationErrors });
   }
 
@@ -58,7 +58,7 @@ const createAdmin = type => (req, res) => {
       branchId: admin.branchId,
     }))
     .catch(error => {
-      logger.error('Failed creating a new admin user', error);
+      logger.error(`Failed creating a new admin user: ${error}`);
       return res.sendStatus(500);
     });
 };
@@ -75,7 +75,7 @@ const updateAdmin = (req, res) => {
 
   const validationErrors = adminValidator.isValidWithoutPassword(admin);
   if (validationErrors.length > 0) {
-    logger.info('[update-user-validation-error]', { errors: validationErrors });
+    logger.info(`Admin validation failed: ${validationErrors}`);
     return res.status(400).json({ errors: validationErrors });
   }
   if (admin.password) {
@@ -90,7 +90,7 @@ const updateAdmin = (req, res) => {
       phoneNumber: admin.phoneNumber,
     }))
     .catch(error => {
-      logger.error(`Failed updating the admin user with id:${admin.id}`, error);
+      logger.error(`Failed updating the admin user with id: ${admin.id}, Error: ${error}`);
       res.sendStatus(500);
     });
 };
@@ -100,7 +100,7 @@ const deleteAdmin = (req, res) => {
   return streamClient.publish('admin-removed', { id: adminId })
     .then(() => res.sendStatus(200))
     .catch(error => {
-      logger.error(`Failed deleting the admin with id:${adminId}`, error);
+      logger.error(`Failed deleting the admin with id: ${adminId}, Error: ${error}`);
       res.sendStatus(500);
     });
 };

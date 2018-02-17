@@ -25,7 +25,6 @@ const devConfig = Object.assign({}, baseConfig, {
     streamName: process.env.STREAM_NAME,
     archiveBucket: process.env.ARCHIVE_BUCKET,
   }),
-  logFormat: '[:date[iso]] :method :url :status :response-time ms - :req[header]',
 });
 
 const testConfig = Object.assign({}, baseConfig, {
@@ -47,7 +46,6 @@ const prodConfig = Object.assign({}, baseConfig, {
     streamName: process.env.STREAM_NAME,
     archiveBucket: process.env.ARCHIVE_BUCKET,
   }),
-  logFormat: '[:date[iso]] :remote-addr - :req[user] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
 });
 
 const pickConfig = () => {

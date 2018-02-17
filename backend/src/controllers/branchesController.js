@@ -21,7 +21,7 @@ function deleteBranch(req, res) {
       res.sendStatus(200);
     })
     .catch(error => {
-      logger.error(`Failed deleting the admin with branchId: ${branchId}}`, error);
+      logger.error(`Failed deleting the admin with branchId: ${branchId}}, Error: ${error}`);
       res.sendStatus(500);
     });
 }
@@ -36,14 +36,14 @@ function createBranch(req, res) {
   const validationErrors = branchValidator.isValid(branch);
 
   if (validationErrors.length > 0) {
-    logger.info('[create-new-branch-validation-error]', { errors: validationErrors });
+    logger.info(`Failed to validate branch: ${validationErrors}`);
     return res.status(400).json({ errors: validationErrors });
   }
 
   return streamClient.publish('branch-created', branch)
     .then(() => res.status(200).json(branch))
     .catch(error => {
-      logger.error('Failed creating a new branch', error);
+      logger.error(`Failed creating a new branch: ${error}`);
       return res.sendStatus(500);
     });
 }
@@ -58,14 +58,14 @@ function updateBranch(req, res) {
 
   const validationErrors = branchValidator.isValid(branch);
   if (validationErrors.length > 0) {
-    logger.info('[update-branch-validation-error]', { errors: validationErrors });
+    logger.info(`Failed to validate branch: ${validationErrors}`);
     return res.status(400).json({ errors: validationErrors });
   }
 
   return streamClient.publish('branch-edited', branch)
     .then(() => res.status(200).json(branch))
     .catch(error => {
-      logger.error(`Failed updating the branch id:${branch.id}`, error);
+      logger.error(`Failed updating the branch id: ${branch.id}, Error: ${error}`);
       res.sendStatus(500);
     });
 }
