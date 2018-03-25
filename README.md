@@ -18,7 +18,13 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
         git clone https://github.com/rabblerouser/core.git
 
-3. Start a Docker container to develop in (this also starts containers
+3. Install Docker and start its application.
+
+    * For macOS: install [Docker for
+      Mac](https://docs.docker.com/docker-for-mac/), then run the
+      Docker app.
+
+4. Start a Docker container to develop in (this also starts containers
    for dependent services):
 
         # For macOS and GNU+Linux:
@@ -26,7 +32,7 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
         # Windows not supported yet :(
 
-4. Set up the Rabble Rouser app:
+5. Set up the Rabble Rouser app:
 
         # Install/compile the project.
         yarn
@@ -40,7 +46,7 @@ To find out more about the Rabble Rouser project, check out our [documentation r
         # Start the app.
         yarn start
 
-5. Verify that the app works:
+6. Verify that the app works:
 
   1. Register a new member at `http://localhost:3000`
 
