@@ -1,4 +1,13 @@
+// backend/spec/unit/lib/memberValidatorSpec.js
+// Unit tests for ‘memberValidator’ module.
+
 'use strict';
+
+// We disable the ‘no-unused-expressions’ ESLint rule in this file
+// because we use Chai `expect()….to.be.true` and similar
+// declarations. See <URL:http://www.chaijs.com/api/bdd/>
+// and <URL:https://eslint.org/docs/rules/no-unused-expressions>.
+/* eslint no-unused-expressions: "off" */
 
 const memberValidator = require('../../../src/lib/memberValidator');
 
