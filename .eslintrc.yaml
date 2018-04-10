@@ -1,15 +1,35 @@
+# .eslintrc.yaml
+# Configuration for ESLint static code analyser for this code base.
+# Documentation: <URL:https://eslint.org/docs/user-guide/configuring>.
+
+# Base ESLint configurations from which this configuration extends.
 extends: 'airbnb'
+
+# Specify behaviour of JavaScript parser to use.
 parserOptions:
+
+  # Which additional language features should be used?
   ecmaFeatures:
+
+    # Support for experimental “object rest/spread properties”?
     experimentalObjectRestSpread: true
+
+# Specify analysis rules for this code base.
 rules:
+
+  # Enforce a maximum line length.
   max-len:
     - error
     - 120
+
+  # Require constructor names to begin with a capital letter.
   new-cap:
     - error
+    # Allow specified function names to be called without the `new` operator.
     - capIsNewExceptions:
       - Q
+
+  # Require parentheses around arrow function arguments.
   arrow-parens:
     - error
     - as-needed

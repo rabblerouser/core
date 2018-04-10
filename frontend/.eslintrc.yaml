@@ -1,4 +1,10 @@
+# frontend/.eslintrc.yaml
+# Configuration for ESLint static code analyser for front-end code.
+# Documentation: <URL:https://eslint.org/docs/user-guide/configuring>.
+
+# Base ESLint configurations from which this configuration extends.
 extends: '../.eslintrc.yaml'
+
 #Only frontend-specific stuff should go here. Inherit the rest from root.
 globals:
   customisation: true
