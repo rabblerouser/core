@@ -50,7 +50,7 @@ const adminTriesToLoginWithWrongPassword = {
 
 function adminLogin() {
   return startAtLogin()
-  .then(() => login('admin@rr.com', 'apassword'))
+  .then(() => login('admin@rr.com', 'password4321'))
   .waitForUrl(/dashboard\/admin$/);
 }
 
