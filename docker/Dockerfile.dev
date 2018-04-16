@@ -1,7 +1,7 @@
-FROM node:8-alpine
+FROM cypress/browsers:chrome65-ff57
 
-RUN apk add --no-cache curl
-RUN adduser -D rabblerouser
+RUN apt-get install -y curl
+RUN adduser rabblerouser
 
 WORKDIR /app
 

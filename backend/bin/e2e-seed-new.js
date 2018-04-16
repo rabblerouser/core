@@ -26,7 +26,7 @@ const createStream = () => {
     secretAccessKey: 'ALSO FAKE',
   });
 
-  const StreamName = process.env.STREAM_NAME;
+  const StreamName = process.env.TEST_STREAM_NAME;
   return kinesis.createStream({ StreamName, ShardCount: 1 }).promise().then(
     () => console.log(`${StreamName} created`),
     err => {
