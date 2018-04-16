@@ -1,4 +1,10 @@
 {
+  "//": [
+    "e2e/package.json",
+    "Metadata for the end-to-end test suite as an NPM package.",
+    "Documentation: <URL:https://docs.npmjs.com/files/package.json>.",
+    ""],
+
   "name": "@rabblerouser/core-e2e",
   "version": "0.1.0",
   "description": "A pluggable, extensible membership database for community organising",

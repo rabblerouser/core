@@ -1,4 +1,10 @@
 {
+  "//": [
+    "package.json",
+    "Metadata for this code base as an NPM package.",
+    "Documentation: <URL:https://docs.npmjs.com/files/package.json>.",
+    ""],
+
   "name": "@rabblerouser/core",
   "version": "0.0.0",
   "description": "A pluggable, extensible membership database for community organising",
