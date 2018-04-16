@@ -24,7 +24,6 @@ services:
       TEST_STREAM_NAME: test_rabblerouser_stream
     command: sleep 2147483647 # Sleep forever, we'll shell into the container later
     stdin_open: true
-    user: $UID
     tty: true
   event-forwarder:
     image: rabblerouser/event-forwarder

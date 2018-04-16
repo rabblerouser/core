@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "test-command": "cypress run",
     "pretest": "rm -rf screenshots && webpack",
-    "cypress:run": "cypress run",
+    "cypress:run": "cypress run --record",
     "ci-test": "webpack && yarn test-command",
     "test": "yarn test-command | grep -v 'Unsafe JavaScript attempt to access frame' | grep -v -e '^$'",
     "posttest": "rm -rf tmp"
