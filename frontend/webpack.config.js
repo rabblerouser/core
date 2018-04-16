@@ -1,16 +1,33 @@
+// frontent/webpack.config.js
+// Webpack configuration for front-end application.
+// Documentation: <URL:https://webpack.js.org/configuration/>.
+
 const webpack = require('webpack');
 
 module.exports = {
+
+  // The point or points to enter the application and start execution.
   entry: {
     signupApp: ['babel-polyfill', `${__dirname}/src/signup/SignupApp.js`],
     adminApp: ['babel-polyfill', `${__dirname}/src/admin/AdminApp.js`],
   },
+
+  // Where to generate output files.
   output: {
+    // The output directory path.
     path: `${__dirname}/public/javascript`,
+
+    // The public URL of the output directory when referenced in a browser.
     publicPath: 'javascript',
+
+    // The base filename of the generated bundle.
     filename: '[name].bundle.js',
   },
+
+  // Specifications for treatment of different modules in the project.
   module: {
+
+    // Pre-loaders to use, by module type.
     preLoaders: [
       {
         test: /\.js$/,
@@ -18,6 +35,8 @@ module.exports = {
         exclude: /node_modules/,
       },
     ],
+
+    // Normal loaders to use, by module type.
     loaders: [
       {
         test: /\.svg/,
@@ -33,9 +52,13 @@ module.exports = {
       },
     ],
   },
+
+  // Specifications for locating a module by its path.
   resolve: {
     extensions: ['', '.js'],
   },
+
+  // Webpack plug-ins to enable.
   plugins: [
     new webpack.optimize.UglifyJsPlugin({ minimize: true }),
     new webpack.DefinePlugin({
@@ -52,10 +75,20 @@ module.exports = {
       },
     }),
   ],
+
+  // Specify whether and how to generate source maps.
   devtool: 'cheap-module-eval-source-map',
+
+  // Options to change the behaviour of the dev server.
   devServer: {
+
+    // Host for the dev server to listen on.
     host: '0.0.0.0',
+
+    // Hide information about modules in CLI output?
     'hide-modules': true,
+
+    // Options for the HTTP proxy middleware.
     proxy: {
       '*': {
         target: 'http://localhost:3000',
@@ -77,7 +110,11 @@ module.exports = {
       },
     },
   },
+
+  // Configure whether to alter certain Node.js globals and modules.
   node: { fs: 'empty' },
+
+  // Options to customise the behaviour of watch mode.
   watchOptions: {
     poll: true,
   },
