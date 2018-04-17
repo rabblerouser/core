@@ -11,7 +11,7 @@ install: yarn
 
 script:
   - ./go.sh yarn test
-  - ./go.sh ./bin/e2e.sh
+  - ./go.sh e2e
 
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then bin/docker-build-and-deploy.sh; fi
