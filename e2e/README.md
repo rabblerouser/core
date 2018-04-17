@@ -8,8 +8,8 @@ End to end tests for Rabble Rouser - A pluggable, extensible membership database
  * Cypress
 
 ## Running the tests
-Running the script at `../bin/e2e.sh` is the best way to run the tests. This will also run the prep-data task which sets up the backend with required data before kicking off the tests.
-You could run `yarn ci-test` - but you'd need to ensure that there was a server running at `localhost:3000` and serving the bundle file first.
+Running the script at `../bin/e2e.sh` from your local machine is the best way to run the tests. This will also spin up the relevant containers and populate data.
+You could run `yarn ci-test` locally - but you'd need to ensure that there was a server exposed at `localhost:3000` and serving the bundle file first.
 
 Tests live in `cypress/integration`.  See `docs.cypress.io` for more usage information.
 

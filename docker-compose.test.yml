@@ -1,0 +1,15 @@
+version: '2'
+services:
+  core:
+    command: yarn start &; yarn --cwd backend e2e-seed
+    environment:
+      NODE_ENV: test
+  test:
+    image: cypress/browsers:chrome65-ff57
+    volumes:
+      - '.:/app'
+    links:
+      - core
+    command: yarn --cwd app/e2e test-command
+    depends_on:
+      - core

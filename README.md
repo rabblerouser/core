@@ -73,7 +73,7 @@ This repository is split into these sub-directories:
  * `bin`: Utility scripts, mostly for build/deploy tasks
  * `frontend`: The frontend React.js web app
  * `backend`: The backend node.js API
- * `e2e`: End-to-end tests built with casperjs (broken right now, ignore them)
+ * `e2e`: End-to-end tests built with cypress.  
 
 The frontend, backend, and E2E tests are all written in JavaScript, so each one has a `package.json` file for
 dependencies and tasks. There is also another `package.json` at the top-level of the repo, which mainly orchestrates the
