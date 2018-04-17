@@ -1,11 +1,11 @@
 'use strict';
 
 require('./security/passport');
-const errorLogger = require('./lib/logger');
+const logger = require('./lib/logger');
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
-const logger = require('morgan');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const expressSanitized = require('express-sanitized');
 const helmet = require('helmet');
@@ -26,7 +26,7 @@ app.set('view engine', 'html');
 app.use(favicon(path.join(__dirname, '../public', 'images', 'favicon.ico'), { maxAge: 100 }));
 app.use(helmet());
 if (process.env.NODE_ENV !== 'test') {
-  app.use(logger(config.logFormat));
+  app.use(morgan('[:date[iso]] :method :url :status :response-time ms'));
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  errorLogger.error('[general-application-error]', { error: error.stack });
+  logger.error(`Unhandled error: ${error.stack}`);
   res.status(error.status || 500);
   res.render('error');
   next(error);
