@@ -14,15 +14,15 @@ To find out more about the Rabble Rouser project, check out our [documentation r
   - [for Windows](https://docs.docker.com/docker-for-windows/)
   - [for Linux](https://docs.docker.com/engine/installation/linux/)
 
-2. Clone the project:
+2. Start the Docker application.
+
+   To verify that Docker is running:
+
+        docker info
+
+3. Clone the project:
 
         git clone https://github.com/rabblerouser/core.git
-
-3. Install Docker and start its application.
-
-    * For macOS: install [Docker for
-      Mac](https://docs.docker.com/docker-for-mac/), then run the
-      Docker app.
 
 4. Start a Docker container to develop in (this also starts containers
    for dependent services):
