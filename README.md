@@ -14,25 +14,44 @@ To find out more about the Rabble Rouser project, check out our [documentation r
   - [for Windows](https://docs.docker.com/docker-for-windows/)
   - [for Linux](https://docs.docker.com/engine/installation/linux/)
 
-2. Clone the project:
+2. Start the Docker application.
+
+   To verify that Docker is running:
+
+        docker info
+
+3. Clone the project:
 
         git clone https://github.com/rabblerouser/core.git
 
-3. Start a Docker container to develop in (this also starts containers for dependent services):
+4. Start a Docker container to develop in (this also starts containers
+   for dependent services):
 
-        ./go.sh # For Mac/Linux
+        # For macOS and GNU+Linux:
+        ./go.sh
+
         # Windows not supported yet :(
 
-4. Install/compile the project, seed the database, run the tests, then start the app
+5. Set up the Rabble Rouser app:
 
+        # Install/compile the project.
         yarn
+
+        # Seed the database.
         yarn seed
+
+        # Run the test suite.
         yarn test
+
+        # Start the app.
         yarn start
 
-5. Verify that the app works:
+6. Verify that the app works:
+
   1. Register a new member at `http://localhost:3000`
-  2. Log in at `http://localhost:3000/login`, with `superadmin@rabblerouser.team`/`password1234`
+
+  2. Log in at `http://localhost:3000/login`, with
+     `superadmin@rabblerouser.team`/`password1234`
 
 ## Bonus commands
 
