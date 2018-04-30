@@ -1,7 +1,10 @@
 version: '2'
 services:
   core:
-    command: yarn start &; yarn --cwd backend e2e-seed
+    command: >
+      sh -c "yarn --cwd backend
+      && yarn --cwd backend e2e-seed
+      && yarn start"
     environment:
       NODE_ENV: test
   test:
@@ -10,6 +13,8 @@ services:
       - '.:/app'
     links:
       - core
-    command: yarn --cwd app/e2e test-command
+    command: >
+        bash -c "yarn --cwd app/e2e
+        && yarn --cwd app/e2e test-command"
     depends_on:
       - core
