@@ -9,7 +9,9 @@ services:
 
 install: yarn
 
-script: ./go.sh yarn test
+script:
+  - ./go.sh yarn test
+  - ./bin/e2e.sh
 
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then bin/docker-build-and-deploy.sh; fi

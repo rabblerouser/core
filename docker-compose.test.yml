@@ -1,0 +1,19 @@
+version: '2'
+services:
+  core:
+    command: >
+      sh -c "yarn --cwd backend
+      && yarn --cwd backend e2e-seed
+      && ./bin/copy_assets.sh
+      && yarn start"
+  test:
+    image: cypress/browsers:chrome65-ff57
+    volumes:
+      - '.:/app'
+    links:
+      - core
+    command: >
+        bash -c "yarn --cwd app/e2e
+        && yarn --cwd app/e2e test-command"
+    depends_on:
+      - core
