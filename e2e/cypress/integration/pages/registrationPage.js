@@ -1,10 +1,18 @@
-// import { navigateTo,
-//   inputById,
-//   selectOptionById,
-//   buttonPressByText,
-//   innerTextByClass,
-// } from './common';
-//
+import {
+  navigateTo,
+  inputById,
+  selectOptionById,
+  buttonPressByText,
+  innerTextByClass,
+} from './common';
+
+const startAtRegistrationPage = () => navigateTo('/');
+
+module.exports = {
+  startAtRegistrationPage,
+};
+
+
 // export const startAtRegister = () => navigateTo('/');
 // export const enterContactNumber = text => inputById('primaryPhoneNumber', text);
 // export const enterMemberName = text => inputById('firstName', text);

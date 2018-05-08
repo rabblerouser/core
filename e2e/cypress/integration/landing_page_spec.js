@@ -1,7 +1,11 @@
+import {
+  startAtRegistrationPage,
+} from './pages/registrationPage';
+
 describe('Landing page', function () {
-  it('should assert that title text is correct', function () {
+  it('contains the correct heading text', function () {
     // core is the hostname for the process set in docker-compose.test.yml:core
-    cy.visit('http://core:3000');
+    startAtRegistrationPage();
     cy.title().should('include', 'Sign Up');
   });
 });
