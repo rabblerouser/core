@@ -20,7 +20,7 @@ is (**all from the backend directory**):
 
 ## Manual testing workflow:
 
-1. **From the root directory**: `yarn build`
+1. **From the root directory**: `yarn build` (and do `yarn seed` if you need to)
 2. **From the backend directory**: `yarn dev`
 3. Make your changes
 4. Point your browser at `http://localhost:3000`
