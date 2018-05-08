@@ -4,9 +4,8 @@ services:
     command: >
       sh -c "yarn --cwd backend
       && yarn --cwd backend e2e-seed
+      && ./bin/copy_assets.sh
       && yarn start"
-    environment:
-      NODE_ENV: test
   test:
     image: cypress/browsers:chrome65-ff57
     volumes:

@@ -1,7 +1,7 @@
 import { navigateTo,
   inputById,
   pageTitle,
-  buttonPressBySelector,
+  buttonPressByDataAttribute,
   selectOptionById,
   waitForInnerText,
   waitForOptionInSelectById,
@@ -26,8 +26,8 @@ export const enterPassword = password => inputById('password', password);
 // export const clickEditMember = () => buttonPressBySelector('#member-list tbody button.edit');
 // export const clickEditAdmin = () => buttonPressBySelector('#admins tbody button.edit');
 // export const clickEditBranch = () => buttonPressBySelector('#branchDetails button.edit');
-export const clickLogin = () => buttonPressBySelector('login');
-// export const clickLogout = () => elementClickByText('Logout', 'button');
+export const clickLogin = () => buttonPressByDataAttribute('login');
+export const clickLogout = () => elementClickByText('Logout', 'button');
 // export const clickNewOrganiser = () => buttonPressBySelector('#organisers button.new');
 // export const clickNewAdmin = () => buttonPressBySelector('#admins button.new');
 // export const clickNewGroup = () => buttonPressBySelector('#group-details button.new');

@@ -25,14 +25,18 @@ export function inputById(id, text) {
 // export function buttonPressByText(text) {
 //   return casper.clickLabel(text, 'button');
 // }
-//
-// export function elementClickByText(text, selector) {
-//   return casper.clickLabel(text, selector);
-// }x
-//
+
+export function elementClickByText(text, selector) {
+  cy.contains(text).click();
+}
+
 
 export function buttonPressBySelector(id) {
   cy.get(`#${id}`).click()
+}
+
+export function buttonPressByDataAttribute(text) {
+  cy.get(`[data-cy=${text}]`).click()
 }
 
 export function pageTitle() {
