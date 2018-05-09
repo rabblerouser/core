@@ -16,32 +16,42 @@ To find out more about the Rabble Rouser project, check out our [documentation r
 
 2. Clone the project:
 
-        git clone https://github.com/rabblerouser/core.git
+    ```sh
+    git clone https://github.com/rabblerouser/core.git
+    ```
 
 3. Start a Docker container to develop in (this also starts containers for dependent services):
 
-        ./go.sh # For Mac/Linux
-        # Windows not supported yet :(
+    ```sh
+    ./go.sh # For Mac/Linux
+    # Windows not supported yet :(
+    ```
 
 4. Install/compile the project, seed the database, run the tests, then start the app
 
-        yarn
-        yarn seed
-        yarn test
-        yarn start
+    ```sh 
+    yarn
+    yarn seed
+    yarn test
+    yarn start
+    ```
 
 5. Verify that the app works:
-  1. Register a new member at `http://localhost:3000`
-  2. Log in at `http://localhost:3000/login`, with `superadmin@rabblerouser.team`/`password1234`
+
+  * Register a new member at `http://localhost:3000`
+
+  * Log in at `http://localhost:3000/login`, with `superadmin@rabblerouser.team`/`password1234`
 
 ## Bonus commands
 
 To run a single command inside the container, rather than interactive mode:
+
 ```sh
 ./go.sh yarn test
 ```
 
 To watch container logs (e.g. for debugging):
+
 ```sh
 # This will show all container logs, colour-coded
 docker-compose logs -f
@@ -75,16 +85,13 @@ This repository is split into these sub-directories:
  * `backend`: The backend node.js API
  * `e2e`: End-to-end tests built with cypress.  
 
-The frontend, backend, and E2E tests are all written in JavaScript, so each one has a `package.json` file for
-dependencies and tasks. There is also another `package.json` at the top-level of the repo, which mainly orchestrates the
-tasks contained within the sub-projects.
+The frontend, backend, and E2E tests are all written in JavaScript, so each one has a `package.json` file for dependencies and tasks. There is also another `package.json` at the top-level of the repo, which mainly orchestrates the tasks contained within the sub-projects.
 
 Each of these directories also has its own README file, with more instructions for how to work on its code.
 
 ## Linting
 
-We use ESLint to maintain a consistent style and detect common sources of bugs, and this is run as part of the build
-system. To run ESLint just do `yarn lint` in one of the frontend, backend, or e2e directories.
+We use ESLint to maintain a consistent style and detect common sources of bugs, and this is run as part of the build system. To run ESLint just do `yarn lint` in one of the frontend, backend, or e2e directories.
 
 To lint just a specific file or directory:
 
@@ -95,6 +102,5 @@ You can even add `--fix` to the end of that command to automatically fix things 
 If you're not sure how to fix an ESLint error, you can look up the docs for specific rules using a URL like:
 http://eslint.org/docs/rules/arrow-parens. In this case, `arrow-parens` is the name of the rule.
 
-We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) (slightly
-modified), which encourages use of many ES6 features. If you're not up to speed on ES6, this reference may come in
+We're using the [airbnb style](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb) (slightly modified), which encourages use of many ES6 features. If you're not up to speed on ES6, this reference may come in
 handy: http://es6-features.org/.
