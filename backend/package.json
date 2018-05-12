@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/rabblerouser/core#readme",
   "dependencies": {
-    "@rabblerouser/stream-client": "^0.8.13",
+    "@rabblerouser/stream-client": "^0.8.14",
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.0",
     "compression": "^1.6.1",

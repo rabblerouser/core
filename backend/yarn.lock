@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@rabblerouser/stream-client@^0.8.13":
-  version "0.8.13"
-  resolved "https://registry.yarnpkg.com/@rabblerouser/stream-client/-/stream-client-0.8.13.tgz#9359eda418393078a0d38ff7e016af4c83db0f32"
+"@rabblerouser/stream-client@^0.8.14":
+  version "0.8.14"
+  resolved "https://registry.yarnpkg.com/@rabblerouser/stream-client/-/stream-client-0.8.14.tgz#11d4f6c5337793ce91c23c4fad2ae18df0ae4ec4"
   dependencies:
     aws-sdk "^2.7.21"
     big.js "^3.1.3"
