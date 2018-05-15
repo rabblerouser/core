@@ -10,7 +10,7 @@ README for this project.
 
 ## Automated testing workflow:
 
- 1. `yarn test`
+ 1. Go to frontend directory and do `yarn test`
  2. Make your changes
 
 The tests will re-run whenever you make a change.
@@ -21,7 +21,7 @@ The tests will re-run whenever you make a change.
  2. Open up a second terminal tab, run `./go.sh`, `cd frontend` again
  3. `yarn start`
  4. Make your changes
- 5. Point your browser at `http://localhost:8000`
+ 5. Point your browser at `http://localhost:8080`
 
 The page will auto-refresh whenever you make changes.
 
