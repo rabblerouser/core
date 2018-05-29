@@ -1,13 +1,37 @@
-# http://editorconfig.org
+# .editorconfig
+# EditorConfig settings for this code base.
+# Documentation: <URL:http://editorconfig.org/>.
+
+# Is this the top-most EditorConfig config file in the code base?
 root = true
 
+# Match all file names, unless more specific match later.
 [*]
+
+# Character to use for indentation (“tab” for U+0009, “space” for U+0020).
 indent_style = space
+
+# Number of columns for each indentation level.
 indent_size = 2
+
+# End-of-line style (“lf”, “cr”, “crlf”).
 end_of_line = lf
+
+# Text encoding name.
 charset = utf-8
+
+# Remove trailing whitespace on lines?
 trim_trailing_whitespace = true
+
+# Ensure file ends with a line break?
 insert_final_newline = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+
+# Local variables:
+# coding: utf-8
+# mode: conf
+# End:
+# vim: fileencoding=utf-8 filetype=dosini :

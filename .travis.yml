@@ -1,3 +1,7 @@
+# .travis.yml
+# Travis Continuous Integration service configuration for this code base.
+# Documentation: <URL:https://docs.travis-ci.com/user/customizing-the-build/>.
+
 sudo: required
 
 language: node_js
@@ -7,9 +11,12 @@ node_js:
 services:
   - docker
 
+# Dependencies to install.
 install: yarn
 
+# Script to perform the build.
 script: ./go.sh yarn test
 
+# Steps to perform after build success.
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then bin/docker-build-and-deploy.sh; fi

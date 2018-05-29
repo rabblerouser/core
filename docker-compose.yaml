@@ -1,5 +1,14 @@
+# docker-compose.yaml
+# Docker Compose configuration for this code base.
+# Documentation: <URL:https://docs.docker.com/compose/compose-file/>.
+
+# Version of the configuration format in this file.
 version: '2'
+
+# Services to run for this application.
 services:
+
+  # The core Rabble Rouser service.
   core:
     build:
       context: docker/
@@ -26,6 +35,8 @@ services:
     stdin_open: true
     user: $UID
     tty: true
+
+  # The Rabble Rouser event forwarder.
   event-forwarder:
     image: rabblerouser/event-forwarder
     depends_on:
@@ -36,6 +47,8 @@ services:
       LISTENER_ENDPOINT: http://core:3000/events
       LISTENER_AUTH_TOKEN: secret
       STREAM_NAME: rabblerouser_stream
+
+  # The Rabble Rouser event archiver.
   event-archiver:
     image: rabblerouser/event-archiver
     depends_on:
@@ -48,7 +61,11 @@ services:
       S3_ENDPOINT: http://s3:4569
       STREAM_NAME: rabblerouser_stream
       ARCHIVE_BUCKET: rr-event-archive
+
+  # Amazon Kinesis data analytics service.
   kinesis:
     image: instructure/kinesalite
+
+  # Amazon S3 storage service.
   s3:
     image: lphoward/fake-s3

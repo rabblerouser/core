@@ -1,4 +1,10 @@
 {
+  "//": [
+    "backend/package.json",
+    "Metadata for the back-end application as an NPM package.",
+    "Documentation: <URL:https://docs.npmjs.com/files/package.json>.",
+    ""],
+
   "name": "@rabblerouser/core-backend",
   "version": "0.1.0",
   "description": "A pluggable, extensible membership database for community organising",

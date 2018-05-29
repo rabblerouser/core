@@ -1,0 +1,8 @@
+# frontend/src/.eslintrc.yaml
+# Configuration for ESLint static code analyser for front-end code.
+# Documentation: <URL:https://eslint.org/docs/user-guide/configuring>.
+
+globals:
+  sinon: true
+env:
+  jasmine: true

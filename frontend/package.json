@@ -1,4 +1,10 @@
 {
+  "//": [
+    "frontend/package.json",
+    "Metadata for the front-end application as an NPM package.",
+    "Documentation: <URL:https://docs.npmjs.com/files/package.json>.",
+    ""],
+
   "name": "@rabblerouser/core-frontend",
   "version": "0.1.0",
   "description": "Frontend for rabblerouser - A pluggable, extensible membership database for community organising",

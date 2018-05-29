@@ -1,4 +1,0 @@
-globals:
-  sinon: true
-env:
-  jasmine: true
