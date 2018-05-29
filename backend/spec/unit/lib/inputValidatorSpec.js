@@ -1,12 +1,6 @@
-// backend/spec/unit/lib/inputValidatorSpec.js
-// Unit tests for ‘inputValidator’ module.
-
 'use strict';
 
-// We disable the ‘no-unused-expressions’ ESLint rule in this file
-// because we use Chai `expect()….to.be.true` and similar
-// declarations. See <URL:http://www.chaijs.com/api/bdd/>
-// and <URL:https://eslint.org/docs/rules/no-unused-expressions>.
+// Prevents warnings from Chai's `expect()….to.be.true` and similar
 /* eslint no-unused-expressions: "off" */
 
 const inputValidator = require('../../../src/lib/inputValidator');
