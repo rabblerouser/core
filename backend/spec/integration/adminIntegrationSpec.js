@@ -160,7 +160,7 @@ describe('AdminIntegrationTests', () => {
   describe('super admins', () => {
     describe('add', () => {
       it('should return a 200 when a super admin is successfully created', () => (
-        integrationTestHelpers.createSuperAdmin(agent)
+        integrationTestHelpers.createSuperAdmin(agent)()
           .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
           .then(() => (
             agent.post('/admins')
@@ -173,7 +173,7 @@ describe('AdminIntegrationTests', () => {
       ));
 
       it('should return a 400 when the payload is invalid', () => (
-        integrationTestHelpers.createSuperAdmin(agent)
+        integrationTestHelpers.createSuperAdmin(agent)()
           .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
           .then(() => (
             agent.post('/admins')
@@ -205,9 +205,9 @@ describe('AdminIntegrationTests', () => {
 
       beforeEach(() => {
         browserState = {};
-        return integrationTestHelpers.createSuperAdmin(agent)
+        return integrationTestHelpers.createSuperAdmin(agent)()
           .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-          .then(() => integrationTestHelpers.createSuperAdmin(agent, 'supaAdmin@rabblerouser.org'))
+          .then(integrationTestHelpers.createSuperAdmin(agent, 'supaAdmin@rabblerouser.org'))
           .then(admin => {
             browserState.superAdmin = admin;
           });
@@ -255,10 +255,10 @@ describe('AdminIntegrationTests', () => {
 
     describe('list', () => {
       it('should return a 200 when a super admins list is retrieved', () => (
-        integrationTestHelpers.createSuperAdmin(agent)
+        integrationTestHelpers.createSuperAdmin(agent)()
           .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-          .then(() => integrationTestHelpers.createSuperAdmin(agent, 'someone@example.com'))
-          .then(() => integrationTestHelpers.createSuperAdmin(agent, 'someone-else@example.com'))
+          .then(integrationTestHelpers.createSuperAdmin(agent, 'someone@example.com'))
+          .then(integrationTestHelpers.createSuperAdmin(agent, 'someone-else@example.com'))
           .then(() => (
             agent.get('/admins')
               .expect(200)
@@ -286,9 +286,9 @@ describe('AdminIntegrationTests', () => {
 
       beforeEach(() => {
         browserState = {};
-        return integrationTestHelpers.createSuperAdmin(agent)
+        return integrationTestHelpers.createSuperAdmin(agent)()
           .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
-          .then(() => integrationTestHelpers.createSuperAdmin(agent, 'supaAdmin@rabblerouser.org'))
+          .then(integrationTestHelpers.createSuperAdmin(agent, 'supaAdmin@rabblerouser.org'))
           .then(admin => {
             browserState.superAdmin = admin;
           });

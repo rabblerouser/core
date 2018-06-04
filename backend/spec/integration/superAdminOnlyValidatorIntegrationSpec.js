@@ -30,7 +30,7 @@ describe('SuperAdminOnlyValidator Integration tests', () => {
   ));
 
   it('should respond with 200 when a super admin tries to access a superadmin only resource', () => (
-    integrationTestHelpers.createSuperAdmin(agent)
+    integrationTestHelpers.createSuperAdmin(agent)()
       .then(integrationTestHelpers.authenticateSuperAdmin(agent))
       .then(() => (
         agent.post('/branches')

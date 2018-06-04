@@ -149,7 +149,7 @@ describe('Branches Integration Test', () => {
 
   describe('add', () => {
     it('should return 200 and a created branch when the input is valid', () => (
-      integrationTestHelpers.createSuperAdmin(agent)
+      integrationTestHelpers.createSuperAdmin(agent)()
         .then(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => (
           agent.post('/branches')
@@ -161,7 +161,7 @@ describe('Branches Integration Test', () => {
     ));
 
     it('should return 400 if the input is null', () => (
-      integrationTestHelpers.createSuperAdmin(agent)
+      integrationTestHelpers.createSuperAdmin(agent)()
         .then(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => (
           agent.post('/branches')
@@ -173,7 +173,7 @@ describe('Branches Integration Test', () => {
     ));
 
     it('should return 400 if the input is incomplete', () => (
-      integrationTestHelpers.createSuperAdmin(agent)
+      integrationTestHelpers.createSuperAdmin(agent)()
         .tap(integrationTestHelpers.authenticateSuperAdmin(agent))
         .then(() => (
           agent.post('/branches')

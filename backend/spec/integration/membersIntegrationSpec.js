@@ -137,10 +137,8 @@ describe('MemberIntegrationTests', () => {
         .then(setState(browserState, 'branch'))
         .then(branch => integrationTestHelpers.createBranchAdmin(agent)(branch).then(() => branch))
         .then(integrationTestHelpers.createMembers(agent, 1))
-        .then(() => Promise.all([
-          integrationTestHelpers.createGroup(agent, browserState.branch.id),
-          integrationTestHelpers.createGroup(agent, browserState.branch.id),
-        ]))
+        .then(() => integrationTestHelpers.createGroup(agent, browserState.branch.id))
+        .then(() => integrationTestHelpers.createGroup(agent, browserState.branch.id))
         .then(setState(browserState, 'groups'))
         .then(integrationTestHelpers.authenticateBranchAdmin(agent))
         .then(getMembers(agent, browserState))

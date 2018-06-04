@@ -14,6 +14,9 @@ function authenticateBranchAdmin(someAgent) {
       .set('Content-Type', 'application/json')
       .send({ email: 'orgnsr@rabblerouser.org', password: 'organiser' })
       .expect(302)
+      .then(res => {
+        expect(res.headers.location).not.to.eql('/login');
+      })
   );
 }
 
@@ -24,6 +27,9 @@ function authenticateSuperAdmin(someAgent) {
       .set('Content-Type', 'application/json')
       .send({ email: 'super@rabblerouser.org', password: 'super' })
       .expect(302)
+      .then(res => {
+        expect(res.headers.location).not.to.eql('/login');
+      })
   );
 }
 
@@ -112,7 +118,7 @@ const createBranchAdmin = agent => branch => {
     .then(() => admin);
 };
 
-const createSuperAdmin = (agent, customEmail) => {
+const createSuperAdmin = (agent, customEmail) => () => {
   const email = customEmail || 'super@rabblerouser.org';
   const admin = { email, password: hash('super'), type: adminType.super, id: uuid.v4() };
   return sendEvent(agent, 'admin-created', admin)
